@@ -1,0 +1,7 @@
+Class Name,Total ,Top-1 Error Rate,Top-5 Error Rate
+Lupine,361,0.19945,0.06371
+Orchid,4352,0.24816,0.07445
+Yellow lady's slipper,164,0.19512,0.08537
+Sunflower,498,0.25904,0.09237
+Fern,2828,0.26096,0.09795
+Total,88320,0.5932,0.32713
