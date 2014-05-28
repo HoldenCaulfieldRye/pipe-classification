@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  28 MAY 2014 12:17
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  28 MAY 2014 19:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -422,15 +422,35 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [2
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 56--57
-
+Overfull \hbox (4.64772pt too wide) in paragraph at lines 56--56
+[]\OT1/cmr/bx/n/12 Defining the prob-lem: Single-Instance Multi-Label Su-per-vi
+sed Learn-
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 58--59
-
- []
-
+Missing character: There is no â in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no ¬ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no ¬ in font cmr10!
+Missing character: There is no Â in font cmr10!
+Missing character: There is no · in font cmr10!
+Missing character: There is no Â in font cmr10!
+Missing character: There is no · in font cmr10!
+Missing character: There is no Â in font cmr10!
+Missing character: There is no · in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no ¬ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no ‚ in font cmr10!
+Missing character: There is no ¬ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no † in font cmr10!
+Missing character: There is no ’ in font cmr10!
+Missing character: There is no â in font cmr10!
+Missing character: There is no † in font cmr10!
+Missing character: There is no ’ in font cmr10!
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -446,18 +466,14 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[4
-
-]
+[4]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[5
-
-]
+[5]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -466,211 +482,24 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [6
 
-]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[7
-
-]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[8
-
-]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[9
-
-]
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 135.
-
- (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
-File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
-)
-LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 135.
-
-Overfull \hbox (13.11705pt too wide) in paragraph at lines 146--162
- [][] 
- []
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[10
-
-] <images/BeLeaf3.png, id=42, 818.05624pt x 1498.59875pt>
-File: images/BeLeaf3.png Graphic file (type png)
-
-<use images/BeLeaf3.png>
-Package pdftex.def Info: images/BeLeaf3.png used on input line 169.
-(pdftex.def)             Requested size: 91.90358pt x 168.34499pt.
-
-<images/BeLeaf2.png, id=43, 824.07875pt x 1498.59875pt>
-File: images/BeLeaf2.png Graphic file (type png)
-
-<use images/BeLeaf2.png>
-Package pdftex.def Info: images/BeLeaf2.png used on input line 170.
-(pdftex.def)             Requested size: 91.90358pt x 167.11018pt.
-
-<images/BeLeaf4.png, id=44, 824.07875pt x 1498.59875pt>
-File: images/BeLeaf4.png Graphic file (type png)
-
-<use images/BeLeaf4.png>
-Package pdftex.def Info: images/BeLeaf4.png used on input line 171.
-(pdftex.def)             Requested size: 91.90358pt x 167.11018pt.
-
-<images/prototypeScreenShot1.png, id=45, 400.49625pt x 749.80125pt>
-File: images/prototypeScreenShot1.png Graphic file (type png)
-
-<use images/prototypeScreenShot1.png>
-Package pdftex.def Info: images/prototypeScreenShot1.png used on input line 172
-.
-(pdftex.def)             Requested size: 91.90358pt x 172.05022pt.
-
-<images/prototypeScreenShot2.png, id=47, 400.49625pt x 749.80125pt>
-File: images/prototypeScreenShot2.png Graphic file (type png)
-
-<use images/prototypeScreenShot2.png>
-Package pdftex.def Info: images/prototypeScreenShot2.png used on input line 173
-.
-(pdftex.def)             Requested size: 91.90358pt x 172.05022pt.
-
-<images/prototypeScreenShot3.png, id=48, 400.49625pt x 749.80125pt>
-File: images/prototypeScreenShot3.png Graphic file (type png)
-
-<use images/prototypeScreenShot3.png>
-Package pdftex.def Info: images/prototypeScreenShot3.png used on input line 174
-.
-(pdftex.def)             Requested size: 91.90358pt x 172.05022pt.
-
-<images/release_1.png, id=49, 451.6875pt x 803.0pt>
-File: images/release_1.png Graphic file (type png)
- <use images/release_1.png>
-Package pdftex.def Info: images/release_1.png used on input line 175.
-(pdftex.def)             Requested size: 106.4139pt x 189.18288pt.
-
-<images/release_2.png, id=50, 451.6875pt x 803.0pt>
-File: images/release_2.png Graphic file (type png)
- <use images/release_2.png>
-Package pdftex.def Info: images/release_2.png used on input line 176.
-(pdftex.def)             Requested size: 106.4139pt x 189.18288pt.
-
-<images/release_3.png, id=51, 451.6875pt x 803.0pt>
-File: images/release_3.png Graphic file (type png)
- <use images/release_3.png>
-Package pdftex.def Info: images/release_3.png used on input line 177.
-(pdftex.def)             Requested size: 106.4139pt x 189.18288pt.
-
-<SystemContextDiagram.png, id=52, 1099.63765pt x 490.30235pt>
-File: SystemContextDiagram.png Graphic file (type png)
-
-<use SystemContextDiagram.png>
-Package pdftex.def Info: SystemContextDiagram.png used on input line 184.
-(pdftex.def)             Requested size: 483.69687pt x 215.66637pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <10.95> on input line 191.
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[11
-
- <./images/BeLeaf3.png> <./images/BeLeaf2.png> <./images/BeLeaf4.png> <./images
-/prototypeScreenShot1.png> <./images/prototypeScreenShot2.png> <./images/protot
-ypeScreenShot3.png> <./images/release_1.png> <./images/release_2.png> <./images
-/release_3.png>]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[12 <./SystemContextDiagram.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 208--210
-
- []
-
-Missing character: There is no â in font cmr10!
-Missing character: There is no € in font cmr10!
-Missing character: There is no ™ in font cmr10!
-
-LaTeX Warning: Citation `wordnet' on page 13 undefined on input line 211.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 211--212
-
- []
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[13
-
-]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[14
-
-] (./litSurvey.aux)
-
-LaTeX Warning: There were undefined references.
-
- ) 
+] (./litSurvey.aux) ) 
 Here is how much of TeX's memory you used:
- 5837 strings out of 494985
- 89700 string characters out of 6180356
- 162744 words of memory out of 5000000
- 8938 multiletter control sequences out of 15000+600000
- 10233 words of font info for 36 fonts, out of 8000000 for 9000
+ 5721 strings out of 494985
+ 87439 string characters out of 6180356
+ 160726 words of memory out of 5000000
+ 8841 multiletter control sequences out of 15000+600000
+ 8503 words of font info for 30 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 41i,11n,51p,1042b,284s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
-e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/t
-exmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/font
-s/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1
-/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/
-cmtt10.pfb>
-Output written on litSurvey.pdf (14 pages, 5133832 bytes).
+ 41i,11n,51p,815b,243s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+bx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pf
+b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb>
+Output written on litSurvey.pdf (6 pages, 92033 bytes).
 PDF statistics:
- 111 PDF objects out of 1000 (max. 8388607)
- 67 compressed objects within 1 object stream
+ 43 PDF objects out of 1000 (max. 8388607)
+ 29 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 51 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1 words of extra memory for PDF output out of 10000 (max. 10000000)
 

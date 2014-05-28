@@ -1,21 +1,32 @@
-\contentsline {section}{\numberline {1}Introduction}{3}
-\contentsline {subsection}{\numberline {1.1}Motivation and Objectives}{3}
-\contentsline {subsection}{\numberline {1.2}Contributions}{3}
-\contentsline {section}{\numberline {2}Background}{4}
-\contentsline {subsection}{\numberline {2.1}Deep Neural Networks}{4}
-\contentsline {subsection}{\numberline {2.2}Deep Convolutional Neural Networks}{4}
-\contentsline {subsubsection}{\numberline {2.2.1}Discriminative Models}{4}
-\contentsline {subsubsection}{\numberline {2.2.2}Generative Models}{4}
-\contentsline {subsection}{\numberline {2.3}Multi-Tagging}{4}
-\contentsline {subsection}{\numberline {2.4}Transfer Learning: learning with a restricted training set}{4}
-\contentsline {section}{\numberline {3}Design}{5}
-\contentsline {section}{\numberline {4}Implementation}{6}
-\contentsline {section}{\numberline {5}Experimentation}{7}
-\contentsline {section}{\numberline {6}Conclusions and Future Work}{8}
-\contentsline {section}{\numberline {7}From Plant Report - useful looking stuff}{10}
-\contentsline {section}{\numberline {A}appendix part 1}{14}
-\contentsline {subsection}{\numberline {A.1}appendix part 1.1}{14}
-\contentsline {subsection}{\numberline {A.2}appendix part 1.2}{14}
-\contentsline {section}{\numberline {B}appendix part 2}{14}
-\contentsline {subsection}{\numberline {B.1}appendix part 2.1}{14}
-\contentsline {subsection}{\numberline {B.2}appendix part 2.2}{14}
+\contentsline {section}{\numberline {1}Background}{3}
+\contentsline {subsection}{\numberline {1.1}Defining the problem: Single-Instance Multi-Label Supervised Learning}{3}
+\contentsline {subsubsection}{\numberline {1.1.1}Supervised Learning}{3}
+\contentsline {subsubsection}{\numberline {1.1.2}Unsupervised Learning}{3}
+\contentsline {subsubsection}{\numberline {1.1.3}Approximation vs Generalisation}{3}
+\contentsline {subsection}{\numberline {1.2}Existing Approaches}{3}
+\contentsline {subsection}{\numberline {1.3}Deep Neural Networks}{3}
+\contentsline {subsubsection}{\numberline {1.3.1}Architecture of Deep Neural Networks}{3}
+\contentsline {paragraph}{Feed-Forward Architecture}{3}
+\contentsline {paragraph}{Multilayer Peceptron}{3}
+\contentsline {subsubsection}{\numberline {1.3.2}Training}{3}
+\contentsline {paragraph}{Gradient Descent}{3}
+\contentsline {paragraph}{Backpropagation}{4}
+\contentsline {subsection}{\numberline {1.4}Deep Convolutional Neural Networks}{4}
+\contentsline {subsubsection}{\numberline {1.4.1}Translation Invariance}{4}
+\contentsline {subsubsection}{\numberline {1.4.2}Recent Architecture Improvements}{4}
+\contentsline {subsection}{\numberline {1.5}Deep Belief Nets: a generative model}{5}
+\contentsline {subsection}{\numberline {1.6}Multi-Instance Multi-Label Learning}{5}
+\contentsline {subsection}{\numberline {1.7}Transfer Learning: learning with a restricted training set}{5}
+\contentsline {section}{\numberline {2}Progress}{6}
+\contentsline {subsection}{\numberline {2.1}Data: pipe weld images}{6}
+\contentsline {subsubsection}{\numberline {2.1.1}Visual Inspection}{6}
+\contentsline {subsubsection}{\numberline {2.1.2}Analysis}{6}
+\contentsline {paragraph}{ANOVA}{6}
+\contentsline {paragraph}{t-SNE}{6}
+\contentsline {subsection}{\numberline {2.2}Cuda-Convnet}{6}
+\contentsline {subsubsection}{\numberline {2.2.1}Test Run}{6}
+\contentsline {subsection}{\numberline {2.3}Transfer Learning}{6}
+\contentsline {subsection}{\numberline {2.4}Further Work}{6}
+\contentsline {subsubsection}{\numberline {2.4.1}Caffe}{6}
+\contentsline {subsubsection}{\numberline {2.4.2}Theano}{6}
+\contentsline {subsubsection}{\numberline {2.4.3}Hidden Markov Model}{6}
