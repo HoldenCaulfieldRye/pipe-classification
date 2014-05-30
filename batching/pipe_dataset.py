@@ -214,9 +214,11 @@ def find(root, pattern):
 
 
 # Parses a given .xml file, searching for the fields given by the list
-# returns a dictionary of those fields, and their values in the file
+# returns a dictionary of those fields, and their values in the file.
 def get_info(fname,label_data_fields,metadata_file_ext):
-    fname = os.path.splitext(fname)[0] + metadata_file_ext
+    # metadata_file_ext is the file extension (eg .xml) for the data
+    # file 
+    fname = os.path.splitext(fname)[0] + metadata_file_ext # eg 'n012453' + '.xml'
     tree = ET.parse(fname)
     root = tree.getroot()
     return_dict = {}
