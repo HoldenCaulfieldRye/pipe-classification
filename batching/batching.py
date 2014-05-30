@@ -4,7 +4,7 @@ import cPickle as pickle
 from dict2xml import *
 from joblib import Parallel
 from joblib import delayed
-import pipe_dataset
+import xml.etree.ElementTree as ET
 
 
 def get_a_batch_data_array():
@@ -42,6 +42,19 @@ def get_all_pipe_labels(data_dir):
 
 
 #### STEP 2: LEAVE OUT BAD REDBOX DATA  ##############################
+
+# Parses a given .xml file, searching for the fields given by the list
+# returns a dictionary of those fields, and their values in the file.
+def get_info(fname,label_data_fields,metadata_file_ext):
+    # metadata_file_ext is the file extension (eg .xml) for the data
+    # file 
+    fname = os.path.splitext(fname)[0] + metadata_file_ext # eg 'n012453' + '.xml'
+    tree = ET.parse(fname)
+    root = tree.getroot()
+    return_dict = {}
+    for label_data_field in label_data_fields:
+        return_dict[label_data_field] = root.find(label_data_field).text
+    return return_dict
 
 def cleave_out_bad_data(data_dir):
     ''' creates 2 dirs, fills one with images in cwd having 
@@ -130,10 +143,8 @@ def generate_xml_for(filename, path):
                 data['labels'][18] = 1
             elif label == 'WaterContaminationRisk\r\n':
                 data['labels'][19] = 1
-            else: print 'label %s in file %s not recognised' % 
-                        (label, filename)
-
-            if 1 in [data['labels'][i] for i in [19,17,15,13,]]
+            else: print 'label %s in file %s not recognised'%(label, filename)
+            if 1 in [data['labels'][i] for i in [19,18,17,15,14,13]]:
                 data['bad_joint'] = 1
     with open(xmlname,'w') as xmlfile:
         xmlfile = dict2xml(data)
@@ -181,20 +192,21 @@ if __name__ == "__main__":
         bad_data_dir = os.getcwd()+'/bad_data/'
         os.mkdir(good_data_dir)
         os.mkdir(bad_data_dir)
-        good_or_bad_training_case('100002.dat',data_dir,good_data_dir,bad_data_dir)
-        good_or_bad_training_case('100003.dat',data_dir,good_data_dir,bad_data_dir)
-        good_or_bad_training_case('100004.dat',data_dir,good_data_dir,bad_data_dir)
-        good_or_bad_training_case('100005.dat',data_dir,good_data_dir,bad_data_dir)        
-        good_or_bad_training_case('100006.dat',data_dir,good_data_dir,bad_data_dir)
-        good_or_bad_training_case('100007.dat',data_dir,good_data_dir,bad_data_dir)
-        good_or_bad_training_case('100008.dat',data_dir,good_data_dir,bad_data_dir)
-        good_or_bad_training_case('100009.dat',data_dir,good_data_dir,bad_data_dir)
-        good_or_bad_training_case('100010.dat',data_dir,good_data_dir,bad_data_dir)
-        good_or_bad_training_case('100011.dat',data_dir,good_data_dir,bad_data_dir)
-        if os.listdir(good_data_dir) == ['10000.dat','10000.dat','10000.dat','10000.dat','10000.dat','10000.dat','10000.dat','10000.dat']
-        and os.listdir(bad_data_dir) == ['100004.dat','100009.dat']:
+        good_or_bad_training_case('100002.dat',good_data_dir,bad_data_dir,bad_data_dir)
+        good_or_bad_training_case('100003.dat',good_data_dir,bad_data_dir,bad_data_dir)
+        good_or_bad_training_case('100004.dat',good_data_dir,bad_data_dir,bad_data_dir)
+        good_or_bad_training_case('100005.dat',good_data_dir,bad_data_dir,bad_data_dir)        
+        good_or_bad_training_case('100006.dat',good_data_dir,bad_data_dir,bad_data_dir)
+        good_or_bad_training_case('100007.dat',good_data_dir,bad_data_dir,bad_data_dir)
+        good_or_bad_training_case('100008.dat',good_data_dir,bad_data_dir,bad_data_dir)
+        good_or_bad_training_case('100009.dat',good_data_dir,bad_data_dir,bad_data_dir)
+        good_or_bad_training_case('100010.dat',good_data_dir,bad_data_dir,bad_data_dir)
+        good_or_bad_training_case('100011.dat',good_data_dir,bad_data_dir,bad_data_dir)
+        if os.listdir(good_data_dir) == ['10000.dat','10000.dat','10000.dat','10000.dat','10000.dat','10000.dat','10000.dat','10000.dat'] and os.listdir(bad_data_dir) == ['100004.dat','100009.dat']:
             print 'test passed'
         else: print 'test failed.\nbad_data_dir contains:',os.listdir(bad_data_dir),'\nshould contain:',['100004.dat','100009.dat']
+        os.remove(good_data_dir)
+        os.remove(bad_data_dir)
 
     elif sys.argv[1] == 'test_generate_xml_for':
         generate_xml_for('100002.dat',
@@ -205,6 +217,6 @@ if __name__ == "__main__":
                  'bad_joint':0}: 
             print '1 test passed, but make more!'
         else: 
-            print 'test failed.\n dict:', d, '\nshould be:',{'labels':np.array([0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0]),int),'bad_joint':0}
+            print 'test failed.\n dict:', d, '\nshould be:',{'labels':np.array([0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0],int),'bad_joint':0}
 
     else: print 'arg not recognised'
