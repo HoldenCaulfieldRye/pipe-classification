@@ -9,12 +9,12 @@ import shutil
 
 def get_a_batch_data_array():
   ''' loads an array of labels in the format expected by cuda-
-    convnet, from a hard-coded location which on graphic02 
-    corresponds to a suitable data file. (batches.meta?) '''
+  convnet, from a hard-coded location which on graphic02 
+  corresponds to a suitable data file. (batches.meta?) '''
 
 def get_a_pipe_data_list(data_dir):
   ''' loads the 10002.data file provided by ControlPoint and stores
-    its contents in a list, to be returned. '''
+  its contents in a list, to be returned. '''
   os.chdir(os.cwd()+data_dir)
 
 
@@ -22,8 +22,8 @@ def get_a_pipe_data_list(data_dir):
 
 def get_all_pipe_labels(data_dir):
   ''' looks into all .dat files in data_dir, and if find a new 
-    label, add it to the list. stores final list as binary pickle 
-    file.'''
+  label, add it to the list. stores final list as binary pickle 
+  file.'''
   path = data_dir
   whichBox = data_dir.split('/')[-1]
   d = {'labels': []}
@@ -53,27 +53,24 @@ def cleave_out_bad_data(data_dir):
   bad_data_dir = os.getcwd()+'/bad_data/'
   os.mkdir(good_data_dir)
   os.mkdir(bad_data_dir)
+  dirlist = os.listdir(data_dir)
 
-    # parallelisation tingz
-    job_server = pp.Server()
-    job1 = job_server.submit(cleave_out_bad_data_aux,
-                             (data_dir,good_data_dir,bad_data_dir,),
-                             (os.listdir,endswith,),
-                             ("os",))
+  # parallelisation tingz
+  job_server = pp.Server()
+  job1 = job_server.submit(cleave_out, (data_dir,dirlist,), (endswithdat,), (,))
 
-    # cleave_out_bad_data_aux(data_dir,good_data_dir,bad_data_dir)
+  # cleave_out_bad_data_aux(data_dir,good_data_dir,bad_data_dir)
 
-def cleave_out_bad_data_aux(data_dir,good_data_dir,bad_data_dir):
+def cleave_out(data_dir,dirlist):
   ''' helper function for parallelisation. '''
-  [good_or_bad_training_case(filename,data_dir,good_data_dir,
-                             bad_data_dir) 
-   for filename in os.listdir(data_dir) if endswithdat(filename,'.dat')]
+  [good_or_bad_training_case(filename,data_dir) for filename in 
+   dirlist if endswithdat(filename)]
 
 def endswithdat(filename):
   if filename.endswith('.dat'): return True
   return False 
   
-def good_or_bad_training_case(filename,data_dir,good_data_dir,bad_data_dir):
+def good_or_bad_training_case(filename,data_dir):
   ''' if file is .dat, see whether it contains a bad-training-case 
     label, if so create symlink to the .jpg (and the xml, the dat?) 
     inside bad_data_dir, otherwise inside good_data_dir. '''
@@ -82,8 +79,8 @@ def good_or_bad_training_case(filename,data_dir,good_data_dir,bad_data_dir):
   with open(fullname) as f:
     content = f.readlines()
     if 'NoPhotoOfJoint\r\n' in content or 'PoorPhoto\r\n' in content:
-      os.symlink(fullname,bad_data_dir+rootname+'.jpg')
-    else: os.symlink(fullname,good_data_dir+rootname+'.jpg')
+      os.symlink(fullname,data_dir+'/bad_data/'+rootname+'.jpg')
+    else: os.symlink(fullname,good_data_dir+'/good_data/'+rootname+'.jpg')
 
 # Parses a given .xml file, searching for the fields given by the
 # list returns a dictionary of those fields, and their values in the
@@ -95,9 +92,9 @@ def get_info(fname,label_data_fields,metadata_file_ext):
   tree = ET.parse(fname)
   root = tree.getroot()
   return_dict = {}
-for label_data_field in label_data_fields:
-  return_dict[label_data_field] = root.find(label_data_field).text
-return return_dict
+  for label_data_field in label_data_fields:
+    return_dict[label_data_field] = root.find(label_data_field).text
+  return return_dict
 
 
 #### STEP 3: CREATE XML DATA FILES IN CUDACONVNET FORMAT  ############
@@ -234,17 +231,17 @@ if __name__ == "__main__":
   if sys.argv[1] == 'get_all_pipe_labels':
     get_all_pipe_labels(sys.argv[2])
 
-    elif sys.argv[1] == 'cleave_out_bad_data':
-      cleave_out_bad_data(sys.argv[2])
+  elif sys.argv[1] == 'cleave_out_bad_data':
+    cleave_out_bad_data(sys.argv[2])
 
-    elif sys.argv[1] == 'generate_xml_labels_from_pipe_data':
-      generate_xml_labels_from_pipe_data(sys.argv[2])
+  elif sys.argv[1] == 'generate_xml_labels_from_pipe_data':
+    generate_xml_labels_from_pipe_data(sys.argv[2])
 
-    elif sys.argv[1] == 'test_cleave_out_bad_data':
-      test_cleave_out_bad_data()
+  elif sys.argv[1] == 'test_cleave_out_bad_data':
+    test_cleave_out_bad_data()
 
-    elif sys.argv[1] == 'test_generate_xml_for':
-      test_generate_xml_for()
+  elif sys.argv[1] == 'test_generate_xml_for':
+    test_generate_xml_for()
 
-    else: print 'arg not recognised'
+  else: print 'arg not recognised'
 
