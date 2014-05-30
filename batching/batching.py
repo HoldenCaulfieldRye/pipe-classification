@@ -21,7 +21,8 @@ def get_all_pipe_labels(data_dir):
     d = {'labels': []}
     for filename in os.listdir(path):
         if not filename.endswith('.dat'): continue
-        with open('100002.dat') as f:
+        fullname = os.path.join(path, filename)
+        with open(fullname) as f:
             content = f.readlines()
             for label in content:
                 if label not in d['labels']:
