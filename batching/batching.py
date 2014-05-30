@@ -5,6 +5,7 @@ from dict2xml import *
 from joblib import Parallel
 from joblib import delayed
 import xml.etree.ElementTree as ET
+import shutil
 
 
 def get_a_batch_data_array():
@@ -78,7 +79,7 @@ def good_or_bad_training_case(filename,data_dir,good_data_dir,bad_data_dir):
     label, if so create symlink to the .jpg (and the xml, the dat?) 
     inside bad_data_dir, otherwise inside good_data_dir. '''
     if not filename.endswith('.dat'): return
-    fullname = os.path.join(path, filename)
+    fullname = os.path.join(data_dir, filename)
     rootname = os.path.splitext(filename)[0]
     with open(fullname) as f:
         content = f.readlines()
@@ -93,7 +94,7 @@ def good_or_bad_training_case(filename,data_dir,good_data_dir,bad_data_dir):
 def generate_xml_labels_from_pipe_data(data_dir):
     ''' creates .xml's from all .dat files in data_dir. '''
     [generate_xml_for(filename, data_dir) for filename in os.listdir(data_dir)]
-            
+    
 def generate_xml_for(filename, path):
     if not filename.endswith('.dat'): return
     rootname = os.path.splitext(filename)[0]
@@ -169,11 +170,52 @@ def generate_batches_from_pipe_data(data_dir, label_options):
 
     # for now, keep label simple: good or bad weld
 
-    # call a modified version of _collect_filenames_and_labels() from dataset.py, one that searches for .data files (and doesn't throw error if no xml's found)
+    # call a modified version of _collect_filenames_and_labels() from 
+    # dataset.py, one that searches for .data files (and doesn't throw
+    # error if no xml's found)
 
-    # alternatively! convert .data files to xml in same format as for plant, and let john's scripts do the hard work.
+    # alternatively! convert .data files to xml in same format as for 
+    # plant, and let john's scripts do the hard work.
 
 
+#### TEST FUNCTIONS ##################################################
+
+def test_cleave_out_bad_data():
+    data_dir = '/data/ad6813/pipe-data/Redbox'
+    os.chdir(data_dir)
+    good_data_dir = os.getcwd()+'/good_data/'
+    bad_data_dir = os.getcwd()+'/bad_data/'
+    os.mkdir(good_data_dir)
+    os.mkdir(bad_data_dir)
+    good_or_bad_training_case('100002.dat',data_dir,bad_data_dir,bad_data_dir)
+    good_or_bad_training_case('100003.dat',data_dir,bad_data_dir,bad_data_dir)
+    good_or_bad_training_case('100004.dat',data_dir,bad_data_dir,bad_data_dir)
+    good_or_bad_training_case('100005.dat',data_dir,bad_data_dir,bad_data_dir)        
+    good_or_bad_training_case('100006.dat',data_dir,bad_data_dir,bad_data_dir)
+    good_or_bad_training_case('100007.dat',data_dir,bad_data_dir,bad_data_dir)
+    good_or_bad_training_case('100008.dat',data_dir,bad_data_dir,bad_data_dir)
+    good_or_bad_training_case('100009.dat',data_dir,bad_data_dir,bad_data_dir)
+    good_or_bad_training_case('100010.dat',data_dir,bad_data_dir,bad_data_dir)
+    good_or_bad_training_case('100011.dat',data_dir,bad_data_dir,bad_data_dir)
+    if os.listdir(good_data_dir) == ['10000.dat','10000.dat','10000.dat','10000.dat','10000.dat','10000.dat','10000.dat','10000.dat'] and os.listdir(bad_data_dir) == ['100004.dat','100009.dat']: print 'test passed'
+    else: print 'test failed.\nbad_data_dir contains:',os.listdir(bad_data_dir),'\nshould contain:',['100004.dat','100009.dat']
+    shutil.rmtree(good_data_dir)
+    shutil.rmtree(bad_data_dir)
+
+def test_generate_xml_for():
+    generate_xml_for('100002.dat',
+                     '/data/ad6813/pipe-data/Redbox/')
+    d = pipe_dataset.get_info('100002.jpg',['labels'],'.xml')
+    if d == {'labels':np.array(
+            [0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0],int),
+             'bad_joint':0}: 
+        print '1 test passed, but make more!'
+    else: 
+        print 'test failed.\n dict:', d, '\nshould be:',{'labels':np.array([0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0],int),'bad_joint':0}
+
+
+
+#### SCRIPT ##########################################################
 
 if __name__ == "__main__":
     import sys
@@ -187,36 +229,10 @@ if __name__ == "__main__":
         generate_xml_labels_from_pipe_data(sys.argv[2])
 
     elif sys.argv[1] == 'test_cleave_out_bad_data':
-        os.chdir('/data/ad6813/pipe-data/Redbox')
-        good_data_dir = os.getcwd()+'/good_data/'
-        bad_data_dir = os.getcwd()+'/bad_data/'
-        os.mkdir(good_data_dir)
-        os.mkdir(bad_data_dir)
-        good_or_bad_training_case('100002.dat',good_data_dir,bad_data_dir,bad_data_dir)
-        good_or_bad_training_case('100003.dat',good_data_dir,bad_data_dir,bad_data_dir)
-        good_or_bad_training_case('100004.dat',good_data_dir,bad_data_dir,bad_data_dir)
-        good_or_bad_training_case('100005.dat',good_data_dir,bad_data_dir,bad_data_dir)        
-        good_or_bad_training_case('100006.dat',good_data_dir,bad_data_dir,bad_data_dir)
-        good_or_bad_training_case('100007.dat',good_data_dir,bad_data_dir,bad_data_dir)
-        good_or_bad_training_case('100008.dat',good_data_dir,bad_data_dir,bad_data_dir)
-        good_or_bad_training_case('100009.dat',good_data_dir,bad_data_dir,bad_data_dir)
-        good_or_bad_training_case('100010.dat',good_data_dir,bad_data_dir,bad_data_dir)
-        good_or_bad_training_case('100011.dat',good_data_dir,bad_data_dir,bad_data_dir)
-        if os.listdir(good_data_dir) == ['10000.dat','10000.dat','10000.dat','10000.dat','10000.dat','10000.dat','10000.dat','10000.dat'] and os.listdir(bad_data_dir) == ['100004.dat','100009.dat']:
-            print 'test passed'
-        else: print 'test failed.\nbad_data_dir contains:',os.listdir(bad_data_dir),'\nshould contain:',['100004.dat','100009.dat']
-        os.remove(good_data_dir)
-        os.remove(bad_data_dir)
+        test_cleave_out_bad_data()
 
     elif sys.argv[1] == 'test_generate_xml_for':
-        generate_xml_for('100002.dat',
-                         '/data/ad6813/pipe-data/Redbox/')
-        d = pipe_dataset.get_info('100002.jpg',['labels'],'.xml')
-        if d == {'labels':np.array(
-                [0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0],int),
-                 'bad_joint':0}: 
-            print '1 test passed, but make more!'
-        else: 
-            print 'test failed.\n dict:', d, '\nshould be:',{'labels':np.array([0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0],int),'bad_joint':0}
+        test_generate_xml_for()
 
     else: print 'arg not recognised'
+
