@@ -14,7 +14,7 @@ def get_a_pipe_data_list(data_dir):
     its contents in a list, to be returned. '''
     os.chdir(os.cwd()+data_dir)
 
-def get_all_pipe_labels(data_dir):
+def get_all_pipe_labels(data_dir, whichBox='RedBox'):
     ''' looks into all .dat files in data_dir, and if find a new label
     , add it to the list. stores final list as binary pickle file.'''
     path = data_dir
@@ -28,7 +28,7 @@ def get_all_pipe_labels(data_dir):
                 if label not in d['labels']:
                     d['labels'].append(label)
     d['no_labels'] = len(d['labels'])
-    pickle.dump(d, open('labels.pickle', 'wb'))
+    pickle.dump(d, open('labels.pickle'+'_'+whichBox, 'wb'))
 
 def generate_xml_labels_from_pipe_data(data_dir):
     ''' creates .xml's from all .dat files in data_dir. '''
