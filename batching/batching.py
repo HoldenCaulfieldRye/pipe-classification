@@ -36,11 +36,37 @@ def get_all_pipe_labels(data_dir):
 
 def generate_xml_labels_from_pipe_data(data_dir):
     ''' creates .xml's from all .dat files in data_dir. '''
-    path = os.getcwd()+data_dir
-    for filename in os.listdir(path):
-        if not filename.endswith('.dat'): continue
-        # fullname = os.path.join(path, filename)
-        dat = np.array(open(filename,'r'))
+    [generate_xml_for(filename, data_dir) for filename in os.listdir(data_dir)]
+            
+def generate_xml_for(filename, path):
+    if not filename.endswith('.dat'): continue
+    fullname = os.path.join(path, filename)
+    with open(fullname) as f:
+        content = f.readlines()
+        for label in content:
+            if label == 'FittingProximity\r\n':
+            elif label == 'InadequateOrIncorrectClamping\r\n':
+            elif label == 'JointMisaligned':
+            elif label == 'NoClampUsed\r\n':
+            elif label == 'NoGroundSheet\r\n':
+            elif label == 'NoInsertionDepthMarkings\r\n':
+            elif label == 'NoPhotoOfJoint\r\n':
+            elif label == 'NoVisibleEvidenceOfScrapingOrPeeling\r\n':
+            elif label == 'NoVisibleHatchMarkings\r\n':
+            elif label == 'Other\r\n':
+            elif label == 'PhotoDoesNotShowEnoughOfClamps\r\n':
+            elif label == 'PhotoDoesNotShowEnoughOfScrapeZones\r\n':
+            elif label == 'PoorPhoto\r\n':
+            elif label == 'SoilContaminationHighRisk\r\n':
+            elif label == 'SoilContaminationLowRisk\r\n':
+            elif label == 'SoilContaminationRisk\r\n':
+            elif label == 'UnsuitableScrapingOrPeeling\r\n':
+            elif label == 'WaterContaminationHighRisk\r\n':
+            elif label == 'WaterContaminationLowRisk\r\n':
+            elif label == 'WaterContaminationRisk\r\n':
+            else: print 'label %s in file %s not recognised' % 
+                        (label, filename)
+
 
 def generate_batches_from_pipe_data(data_dir, label_options):
     ''' generates data batches and batches.meta files in the format 
@@ -69,4 +95,7 @@ if __name__ == "__main__":
     import sys
     if sys.argv[1] == 'get_all_pipe_labels':
         get_all_pipe_labels(sys.argv[2])
+    if sys.argv[1] == 'generate_xml_labels_from_pipe_data':
+        generate_xml_labels_from_pipe_data(sys.argv[2])
+       
     else: print 'arg not recognised'
