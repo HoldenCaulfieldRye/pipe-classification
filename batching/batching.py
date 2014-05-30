@@ -14,10 +14,11 @@ def get_a_pipe_data_list(data_dir):
     its contents in a list, to be returned. '''
     os.chdir(os.cwd()+data_dir)
 
-def get_all_pipe_labels(data_dir, whichBox='RedBox'):
+def get_all_pipe_labels(data_dir):
     ''' looks into all .dat files in data_dir, and if find a new label
     , add it to the list. stores final list as binary pickle file.'''
     path = data_dir
+    whichBox = data_dir.split('/')[-1]
     d = {'labels': []}
     for filename in os.listdir(path):
         if not filename.endswith('.dat'): continue
@@ -28,8 +29,10 @@ def get_all_pipe_labels(data_dir, whichBox='RedBox'):
                 if label not in d['labels']:
                     print label
                     d['labels'].append(label)
+    d['labels'].sort()
     d['no_labels'] = len(d['labels'])
-    pickle.dump(d, open('labels.pickle'+'_'+whichBox, 'wb'))
+    pickle.dump(d, open('labels'+whichBox+'.pickle', 'wb'))
+    print 'saved pickle file in', os.getcwd()
 
 def generate_xml_labels_from_pipe_data(data_dir):
     ''' creates .xml's from all .dat files in data_dir. '''
@@ -66,3 +69,4 @@ if __name__ == "__main__":
     import sys
     if sys.argv[1] == 'get_all_pipe_labels':
         get_all_pipe_labels(sys.argv[2])
+    else: print 'arg not recognised'
