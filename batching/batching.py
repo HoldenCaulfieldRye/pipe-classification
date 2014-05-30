@@ -57,3 +57,10 @@ def generate_batches_from_pipe_data(data_dir, label_options):
     # call a modified version of _collect_filenames_and_labels() from dataset.py, one that searches for .data files (and doesn't throw error if no xml's found)
 
     # alternatively! convert .data files to xml in same format as for plant, and let john's scripts do the hard work.
+
+
+
+if __name__ == "__main__":
+    import sys
+    if sys.argv[1] == 'get_all_pipe_labels':
+        get_all_pipe_labels(sys.argv[2])
