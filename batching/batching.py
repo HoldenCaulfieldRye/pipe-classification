@@ -2,16 +2,15 @@ import numpy as np
 import os
 import cPickle as pickle
 from dict2xml import *
-from joblib import Parallel
-from joblib import delayed
+import pp
 import xml.etree.ElementTree as ET
 import shutil
 
 
 def get_a_batch_data_array():
     ''' loads an array of labels in the format expected by cuda-
-    convnet, from a hard-coded location which on graphic02 corresponds
-    to a suitable data file. (batches.meta?) '''
+    convnet, from a hard-coded location which on graphic02 
+    corresponds to a suitable data file. (batches.meta?) '''
 
 def get_a_pipe_data_list(data_dir):
     ''' loads the 10002.data file provided by ControlPoint and stores
@@ -22,8 +21,9 @@ def get_a_pipe_data_list(data_dir):
 #### STEP 1: GET LABELS ##############################################
 
 def get_all_pipe_labels(data_dir):
-    ''' looks into all .dat files in data_dir, and if find a new label
-    , add it to the list. stores final list as binary pickle file.'''
+    ''' looks into all .dat files in data_dir, and if find a new 
+    label, add it to the list. stores final list as binary pickle 
+    file.'''
     path = data_dir
     whichBox = data_dir.split('/')[-1]
     d = {'labels': []}
@@ -42,20 +42,7 @@ def get_all_pipe_labels(data_dir):
     print 'saved pickle file in', os.getcwd()
 
 
-#### STEP 2: LEAVE OUT BAD REDBOX DATA  ##############################
-
-# Parses a given .xml file, searching for the fields given by the list
-# returns a dictionary of those fields, and their values in the file.
-def get_info(fname,label_data_fields,metadata_file_ext):
-    # metadata_file_ext is the file extension (eg .xml) for the data
-    # file 
-    fname = os.path.splitext(fname)[0] + metadata_file_ext # eg 'n012453' + '.xml'
-    tree = ET.parse(fname)
-    root = tree.getroot()
-    return_dict = {}
-    for label_data_field in label_data_fields:
-        return_dict[label_data_field] = root.find(label_data_field).text
-    return return_dict
+#### STEP 2: LEAVE OUT BAD REDBOX DATA  #############################
 
 def cleave_out_bad_data(data_dir):
     ''' creates 2 dirs, fills one with images in cwd having 
@@ -66,19 +53,26 @@ def cleave_out_bad_data(data_dir):
     bad_data_dir = os.getcwd()+'/bad_data/'
     os.mkdir(good_data_dir)
     os.mkdir(bad_data_dir)
-    cleave_out_bad_data_aux(data_dir,good_data_dir,bad_data_dir)
+
+    # parallelisation tingz
+    job_server = pp.Server()
+    job1 = job_server.submit(cleave_out_bad_data_aux,
+                             (data_dir,good_data_dir,bad_data_dir,),
+                             (os.listdir,endswith,),
+                             ("os",))
+
+    # cleave_out_bad_data_aux(data_dir,good_data_dir,bad_data_dir)
 
 def cleave_out_bad_data_aux(data_dir,good_data_dir,bad_data_dir):
     ''' helper function for parallelisation. '''
     [good_or_bad_training_case(filename,data_dir,good_data_dir,
                                bad_data_dir) 
-     for filename in os.listdir(data_dir)]
+     for filename in os.listdir(data_dir) if filename.endswith('.dat')]
 
 def good_or_bad_training_case(filename,data_dir,good_data_dir,bad_data_dir):
     ''' if file is .dat, see whether it contains a bad-training-case 
     label, if so create symlink to the .jpg (and the xml, the dat?) 
     inside bad_data_dir, otherwise inside good_data_dir. '''
-    if not filename.endswith('.dat'): return
     fullname = os.path.join(data_dir, filename)
     rootname = os.path.splitext(filename)[0]
     with open(fullname) as f:
@@ -87,6 +81,20 @@ def good_or_bad_training_case(filename,data_dir,good_data_dir,bad_data_dir):
             os.symlink(fullname,bad_data_dir+rootname+'.jpg')
         else: os.symlink(fullname,good_data_dir+rootname+'.jpg')
 
+# Parses a given .xml file, searching for the fields given by the
+# list returns a dictionary of those fields, and their values in the
+# file.
+def get_info(fname,label_data_fields,metadata_file_ext):
+    # metadata_file_ext is the file extension (eg .xml) for the data
+    # file 
+    fname = os.path.splitext(fname)[0] + metadata_file_ext # eg 'n012453' + '.xml'
+    tree = ET.parse(fname)
+    root = tree.getroot()
+    return_dict = {}
+    for label_data_field in label_data_fields:
+        return_dict[label_data_field] = root.find(label_data_field).text
+    return return_dict
+        
 
 #### STEP 3: CREATE XML DATA FILES IN CUDACONVNET FORMAT  ############
 #### FOR TEST RUN AND FOR SERIOUS RUN                     ############
