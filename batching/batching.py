@@ -57,7 +57,7 @@ def cleave_out_bad_data(data_dir):
 
   # parallelisation tingz
   job_server = pp.Server()
-  job1 = job_server.submit(cleave_out, (data_dir,dirlist,), (endswithdat,), (,))
+  job1 = job_server.submit(cleave_out, (data_dir,dirlist,), (endswithdat,))
 
   # cleave_out_bad_data_aux(data_dir,good_data_dir,bad_data_dir)
 
