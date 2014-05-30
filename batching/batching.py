@@ -26,6 +26,7 @@ def get_all_pipe_labels(data_dir, whichBox='RedBox'):
             content = f.readlines()
             for label in content:
                 if label not in d['labels']:
+                    print label
                     d['labels'].append(label)
     d['no_labels'] = len(d['labels'])
     pickle.dump(d, open('labels.pickle'+'_'+whichBox, 'wb'))
