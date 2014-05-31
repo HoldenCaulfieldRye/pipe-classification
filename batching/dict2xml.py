@@ -38,5 +38,7 @@ class dict2xml(object):
 
 if __name__ == '__main__':
     example = {'auftrag':{"kommiauftragsnr":2103839, "anliefertermin":"2009-11-25", "prioritaet": 7,"ort": u"Huecksenwagen","positionen": [{"menge": 12, "artnr": "14640/XL", "posnr": 1},],"versandeinweisungen": [{"guid": "2103839-XalE", "bezeichner": "avisierung48h","anweisung": "48h vor Anlieferung unter 0900-LOGISTIK avisieren"},]}}
+
+    # build() gets called here. example is of type dict
     xml = dict2xml(example)
     xml.display()

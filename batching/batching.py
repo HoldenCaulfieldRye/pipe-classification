@@ -2,6 +2,7 @@ import numpy as np
 import os
 import cPickle as pickle
 from dict2xml import *
+import xml.dom
 from joblib import Parallel, delayed
 import xml.etree.ElementTree as ET
 import shutil
@@ -122,6 +123,7 @@ def generate_xml_for(filename, path):
   xmlname = os.path.join(path, rootname+'.xml')
   with open(fullname) as f:
     content = f.readlines()
+    print 'content:', content
     data = {'labels':np.zeros(20,int),'bad_joint':np.zeros(1,int)}
     for label in content:
       if label == 'FittingProximity\r\n':
@@ -167,8 +169,18 @@ def generate_xml_for(filename, path):
       else: print 'label %s in file %s not recognised'%(label, filename)
       if 1 in [data['labels'][i] for i in [19,18,17,15,14,13]]:
         data['bad_joint'] = 1
-        with open(xmlname,'w') as xmlfile:
-          xmlfile = dict2xml(data)
+    print 'done with dict:', data
+
+    # PROBLEM: HOW TO SAVE XML FILE?
+    # use Node.writexml() on the root node of your XML DOM tree.
+
+    xmlfile = dict2xml(data)
+    xmlfile.root.writexml(open(xmlname,'w'), indent="  ", addindent="  ",
+                     newl='\n')
+    xmlfile.root.unlink()
+    # xmlfile = open(xmlname,'w')
+    # xmlfile = dict2xml(data)
+    # xmlfile.close()
 
 
 #### STEP 4: GENERATE BATCHES ########################################
@@ -225,7 +237,7 @@ def test_cleave_out_bad_data():
 def test_generate_xml_for():
   generate_xml_for('100002.dat',
                    '/data/ad6813/pipe-data/Redbox/')
-  d = pipe_dataset.get_info('100002.jpg',['labels'],'.xml')
+  d = get_info('100002.jpg',['labels'],'.xml')
   if d == {'labels':np.array(
       [0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0],int),
            'bad_joint':0}: 
