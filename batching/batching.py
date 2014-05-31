@@ -55,7 +55,8 @@ def cleave_out_bad_data(data_dir):
   os.mkdir(good_data_dir)
   os.mkdir(bad_data_dir)
   dirlist = os.listdir(data_dir)
-  cleave_out_seq(data_dir,dirlist)
+  print 'looking through %i files...' % (len(dirlist))
+  cleave_out_par(data_dir,dirlist)
 
 def cleave_out_par(data_dir,dirlist):
   ''' helper function for parallelisation. '''
@@ -84,7 +85,11 @@ def good_or_bad_train_case(filename,data_dir):
   rootname = os.path.splitext(filename)[0]
   f = open(fullname)
   content = f.readlines()
-  if 'NoPhotoOfJoint\r\n' in content or 'PoorPhoto\r\n' in content:
+  if 'NoPhotoOfJoint\r\n' in content:
+    print 'found bad'
+    os.symlink(fullname,data_dir+'/bad_data/'+rootname+'.jpg')
+  elif 'PoorPhoto\r\n' in content:
+    print 'found bad'
     os.symlink(fullname,data_dir+'/bad_data/'+rootname+'.jpg')
   else: os.symlink(fullname,data_dir+'/good_data/'+rootname+'.jpg')
 
