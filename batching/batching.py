@@ -2,9 +2,10 @@ import numpy as np
 import os
 import cPickle as pickle
 from dict2xml import *
-import pp
+from joblib import Parallel, delayed
 import xml.etree.ElementTree as ET
 import shutil
+import time
 
 
 def get_a_batch_data_array():
@@ -54,33 +55,38 @@ def cleave_out_bad_data(data_dir):
   os.mkdir(good_data_dir)
   os.mkdir(bad_data_dir)
   dirlist = os.listdir(data_dir)
+  cleave_out_seq(data_dir,dirlist)
 
-  # parallelisation tingz
-  job_server = pp.Server()
-  job1 = job_server.submit(cleave_out, (data_dir,dirlist,), (endswithdat,))
-
-  # cleave_out_bad_data_aux(data_dir,good_data_dir,bad_data_dir)
-
-def cleave_out(data_dir,dirlist):
+def cleave_out_par(data_dir,dirlist):
   ''' helper function for parallelisation. '''
-  [good_or_bad_training_case(filename,data_dir) for filename in 
+  t = time.clock()
+  Parallel(n_jobs=-1)(delayed(good_or_bad_train_case)(filename,
+                                                         data_dir) 
+                      for filename in dirlist if endswithdat(filename))
+  print time.clock() - t, 'seconds to process cleave_out_par()'
+
+def cleave_out_seq(data_dir,dirlist):
+  ''' helper function for parallelisation. '''
+  t = time.clock()
+  [good_or_bad_train_case(filename,data_dir) for filename in 
    dirlist if endswithdat(filename)]
+  print time.clock() - t, 'seconds to process cleave_out_seq()'
 
 def endswithdat(filename):
   if filename.endswith('.dat'): return True
   return False 
   
-def good_or_bad_training_case(filename,data_dir):
+def good_or_bad_train_case(filename,data_dir):
   ''' if file is .dat, see whether it contains a bad-training-case 
     label, if so create symlink to the .jpg (and the xml, the dat?) 
     inside bad_data_dir, otherwise inside good_data_dir. '''
   fullname = os.path.join(data_dir, filename)
   rootname = os.path.splitext(filename)[0]
-  with open(fullname) as f:
-    content = f.readlines()
-    if 'NoPhotoOfJoint\r\n' in content or 'PoorPhoto\r\n' in content:
-      os.symlink(fullname,data_dir+'/bad_data/'+rootname+'.jpg')
-    else: os.symlink(fullname,good_data_dir+'/good_data/'+rootname+'.jpg')
+  f = open(fullname)
+  content = f.readlines()
+  if 'NoPhotoOfJoint\r\n' in content or 'PoorPhoto\r\n' in content:
+    os.symlink(fullname,data_dir+'/bad_data/'+rootname+'.jpg')
+  else: os.symlink(fullname,data_dir+'/good_data/'+rootname+'.jpg')
 
 # Parses a given .xml file, searching for the fields given by the
 # list returns a dictionary of those fields, and their values in the
@@ -196,16 +202,16 @@ def test_cleave_out_bad_data():
   bad_data_dir = os.getcwd()+'/bad_data/'
   os.mkdir(good_data_dir)
   os.mkdir(bad_data_dir)
-  good_or_bad_training_case('100002.dat',data_dir,bad_data_dir,bad_data_dir)
-  good_or_bad_training_case('100003.dat',data_dir,bad_data_dir,bad_data_dir)
-  good_or_bad_training_case('100004.dat',data_dir,bad_data_dir,bad_data_dir)
-  good_or_bad_training_case('100005.dat',data_dir,bad_data_dir,bad_data_dir)        
-  good_or_bad_training_case('100006.dat',data_dir,bad_data_dir,bad_data_dir)
-  good_or_bad_training_case('100007.dat',data_dir,bad_data_dir,bad_data_dir)
-  good_or_bad_training_case('100008.dat',data_dir,bad_data_dir,bad_data_dir)
-  good_or_bad_training_case('100009.dat',data_dir,bad_data_dir,bad_data_dir)
-  good_or_bad_training_case('100010.dat',data_dir,bad_data_dir,bad_data_dir)
-  good_or_bad_training_case('100011.dat',data_dir,bad_data_dir,bad_data_dir)
+  good_or_bad_train_case('100002.dat',data_dir,bad_data_dir,bad_data_dir)
+  good_or_bad_train_case('100003.dat',data_dir,bad_data_dir,bad_data_dir)
+  good_or_bad_train_case('100004.dat',data_dir,bad_data_dir,bad_data_dir)
+  good_or_bad_train_case('100005.dat',data_dir,bad_data_dir,bad_data_dir)        
+  good_or_bad_train_case('100006.dat',data_dir,bad_data_dir,bad_data_dir)
+  good_or_bad_train_case('100007.dat',data_dir,bad_data_dir,bad_data_dir)
+  good_or_bad_train_case('100008.dat',data_dir,bad_data_dir,bad_data_dir)
+  good_or_bad_train_case('100009.dat',data_dir,bad_data_dir,bad_data_dir)
+  good_or_bad_train_case('100010.dat',data_dir,bad_data_dir,bad_data_dir)
+  good_or_bad_train_case('100011.dat',data_dir,bad_data_dir,bad_data_dir)
   if os.listdir(good_data_dir) == ['10000.dat','10000.dat','10000.dat','10000.dat','10000.dat','10000.dat','10000.dat','10000.dat'] and os.listdir(bad_data_dir) == ['100004.dat','100009.dat']: print 'test passed'
   else: print 'test failed.\nbad_data_dir contains:',os.listdir(bad_data_dir),'\nshould contain:',['100004.dat','100009.dat']
   shutil.rmtree(good_data_dir)
