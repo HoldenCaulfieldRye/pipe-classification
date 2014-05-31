@@ -147,18 +147,22 @@ def _collect_filenames_and_labels(cfg):
     return np.array(filenames_and_labels)
 
 
+# sys.argv[1]: options.cfg path
 def console():
+  # cfg: dict with data from [dataset] section of options.cfg
   cfg = get_options(sys.argv[1], 'dataset')
+
+  # ?
   random_seed(int(cfg.get('seed', '42')))
 
-    collector = resolve(
-      cfg.get('collector', 'noccn.dataset._collect_filenames_and_labels'))
-    filenames_and_labels = collector(cfg)
-    creator = resolve(cfg.get('creator', 'noccn.dataset.BatchCreator'))
-    create = creator(
-      batch_size=int(cfg.get('batch-size', 1000)),
-      channels=int(cfg.get('channels', 3)),
-      size=eval(cfg.get('size', '(64, 64)')),
-      output_path=cfg.get('output-path', '/tmp/noccn-dataset'),
+  collector = resolve(cfg.get('collector', 
+                       'noccn.dataset._collect_filenames_and_labels'))
+  filenames_and_labels = collector(cfg)
+  creator = resolve(cfg.get('creator', 'noccn.dataset.BatchCreator'))
+  create = creator(
+    batch_size=int(cfg.get('batch-size', 1000)),
+    channels=int(cfg.get('channels', 3)),
+    size=eval(cfg.get('size', '(64, 64)')),
+    output_path=cfg.get('output-path', '/tmp/noccn-dataset'),
     )
-    create(filenames_and_labels)
+  create(filenames_and_labels)
