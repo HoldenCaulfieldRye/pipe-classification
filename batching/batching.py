@@ -56,7 +56,7 @@ def cleave_out_bad_data(data_dir):
   os.mkdir(bad_data_dir)
   dirlist = os.listdir(data_dir)
   print 'looking through %i files...' % (len(dirlist))
-  cleave_out_par(data_dir,dirlist)
+  cleave_out_seq(data_dir,dirlist)
 
 def cleave_out_par(data_dir,dirlist):
   ''' helper function for parallelisation. '''
