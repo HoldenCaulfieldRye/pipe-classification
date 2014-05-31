@@ -178,7 +178,7 @@ def generate_xml_for(filename, path):
     # dict2xml(data) ?
 
     xmlfile = open(xmlname, 'wb') # 'w' instead?
-    dict2xml(data).writexml(xmlfile) 
+    dict2xml(data).doc.writexml(xmlfile) 
 
     # xmlfile.root.writexml(open(xmlname,'w'), indent="  ", addindent="  ",
     #                  newl='\n')
