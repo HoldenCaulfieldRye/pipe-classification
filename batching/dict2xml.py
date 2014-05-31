@@ -1,18 +1,21 @@
 from xml.dom.minidom import Document
 import copy
 
+
 class dict2xml(object): # bit.ly/1u0zMeR
     doc     = Document()
-    # dict2xml has an attribute, doc, which is a Document object.
+    # dict2xml has an attribute, doc, of type Document.
     # Document class: bit.ly/1u0EOYR
 
     def __init__(self, structure):
         if len(structure) == 1:
             rootName    = str(structure.keys()[0])
+            print 'want to create new attrib %s'%(rootName)
             self.root   = self.doc.createElement(rootName)
-
             self.doc.appendChild(self.root)
             self.build(self.root, structure[rootName])
+        else:
+          print 'weird, len(structure)==%i so not doing anything'%(len(structure))
 
     def build(self, father, structure):
         if type(structure) == dict:
