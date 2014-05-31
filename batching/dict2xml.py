@@ -4,15 +4,18 @@ import copy
 class dict2xml(object):
     doc     = Document()
 
+    # structure is the arg passed to initialise a dict2xml object.
+    # it is the dict (but can also be a list).
     def __init__(self, structure):
+        # print '__init__ called with structure:', structure
         if len(structure) == 1:
             rootName    = str(structure.keys()[0])
             self.root   = self.doc.createElement(rootName)
-
             self.doc.appendChild(self.root)
             self.build(self.root, structure[rootName])
 
     def build(self, father, structure):
+        # print 'build called with father: %s, structure: %s'%(father, structure)
         if type(structure) == dict:
             for k in structure:
                 tag = self.doc.createElement(k)
@@ -39,6 +42,6 @@ class dict2xml(object):
 if __name__ == '__main__':
     example = {'auftrag':{"kommiauftragsnr":2103839, "anliefertermin":"2009-11-25", "prioritaet": 7,"ort": u"Huecksenwagen","positionen": [{"menge": 12, "artnr": "14640/XL", "posnr": 1},],"versandeinweisungen": [{"guid": "2103839-XalE", "bezeichner": "avisierung48h","anweisung": "48h vor Anlieferung unter 0900-LOGISTIK avisieren"},]}}
 
-    # build() gets called here. example is of type dict
+    # __init__ gets called here. structure param is assigned example
     xml = dict2xml(example)
     xml.display()
