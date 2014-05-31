@@ -2,6 +2,7 @@ import numpy as np
 import os
 import cPickle as pickle
 from dict2xml import *
+import xml.dom
 from joblib import Parallel, delayed
 import xml.etree.ElementTree as ET
 import shutil
@@ -122,6 +123,7 @@ def generate_xml_for(filename, path):
   xmlname = os.path.join(path, rootname+'.xml')
   with open(fullname) as f:
     content = f.readlines()
+    print 'content:', content
     data = {'labels':np.zeros(20,int),'bad_joint':np.zeros(1,int)}
     for label in content:
       if label == 'FittingProximity\r\n':
@@ -167,8 +169,22 @@ def generate_xml_for(filename, path):
       else: print 'label %s in file %s not recognised'%(label, filename)
       if 1 in [data['labels'][i] for i in [19,18,17,15,14,13]]:
         data['bad_joint'] = 1
-        with open(xmlname,'w') as xmlfile:
-          xmlfile = dict2xml(data)
+    print 'dict ready:', data, ''
+    # come_back = os.getcwd()
+    # os.chdir(path)
+    xmlfile = open(xmlname, 'wb') # 'w' instead?
+    xmlcontents = dict2xml(data)
+    print 'xml ready:', xmlcontents.doc.toprettyxml(indent="  "), ''
+    xmlcontents.doc.writexml(xmlfile) 
+    xmlfile.close()
+    print 'saved: %s'%(xmlname)
+    # os.chdir(come_back)
+
+    # PROBLEM: HOW TO SAVE XML FILE?
+    # use Node.writexml() on the root node of your XML DOM tree.
+
+    # problem: what is the root node of the xml dom tree of 
+    # dict2xml(data) ?
 
 
 #### STEP 4: GENERATE BATCHES ########################################
@@ -225,10 +241,9 @@ def test_cleave_out_bad_data():
 def test_generate_xml_for():
   generate_xml_for('100002.dat',
                    '/data/ad6813/pipe-data/Redbox/')
-  d = pipe_dataset.get_info('100002.jpg',['labels'],'.xml')
-  if d == {'labels':np.array(
-      [0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0],int),
-           'bad_joint':0}: 
+  d = get_info('100002.jpg',['labels'],'.xml')
+  if d == {'bad_joint':0,'labels':np.array(
+      [0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0],int)}: 
     print '1 test passed, but make more!'
   else: 
     print 'test failed.\n dict:', d, '\nshould be:',{'labels':np.array([0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0],int),'bad_joint':0}
