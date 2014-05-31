@@ -174,10 +174,16 @@ def generate_xml_for(filename, path):
     # PROBLEM: HOW TO SAVE XML FILE?
     # use Node.writexml() on the root node of your XML DOM tree.
 
-    xmlfile = dict2xml(data)
-    xmlfile.root.writexml(open(xmlname,'w'), indent="  ", addindent="  ",
-                     newl='\n')
-    xmlfile.root.unlink()
+    # problem: what is the root node of the xml dom tree of 
+    # dict2xml(data) ?
+
+    xmlfile = open(xmlname, 'wb') # 'w' instead?
+    dict2xml(data).writexml(xmlfile) 
+
+    # xmlfile.root.writexml(open(xmlname,'w'), indent="  ", addindent="  ",
+    #                  newl='\n')
+    # xmlfile.root.unlink()
+
     # xmlfile = open(xmlname,'w')
     # xmlfile = dict2xml(data)
     # xmlfile.close()
@@ -238,9 +244,8 @@ def test_generate_xml_for():
   generate_xml_for('100002.dat',
                    '/data/ad6813/pipe-data/Redbox/')
   d = get_info('100002.jpg',['labels'],'.xml')
-  if d == {'labels':np.array(
-      [0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0],int),
-           'bad_joint':0}: 
+  if d == {'bad_joint':0,'labels':np.array(
+      [0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0],int)}: 
     print '1 test passed, but make more!'
   else: 
     print 'test failed.\n dict:', d, '\nshould be:',{'labels':np.array([0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0],int),'bad_joint':0}
