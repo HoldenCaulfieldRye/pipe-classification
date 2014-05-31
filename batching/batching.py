@@ -21,7 +21,7 @@ def get_a_pipe_data_list(data_dir):
 
 #### STEP 1: GET LABELS ##############################################
 
-def get_all_pipe_labels(data_dir):
+def get_all_pipe_labels(data_dir,save=True):
   ''' looks into all .dat files in data_dir, and if find a new 
   label, add it to the list. stores final list as binary pickle 
   file.'''
@@ -37,10 +37,11 @@ def get_all_pipe_labels(data_dir):
         if label not in d['labels']:
           print label
           d['labels'].append(label)
-          d['labels'].sort()
-          d['no_labels'] = len(d['labels'])
-          pickle.dump(d, open('labels'+whichBox+'.pickle', 'wb'))
-          print 'saved pickle file in', os.getcwd()
+  if save==True:
+    d['labels'].sort()
+    d['no_labels'] = len(d['labels'])
+    pickle.dump(d, open('labels'+whichBox+'.pickle', 'wb'))
+    print 'saved pickle file in', os.getcwd()
 
 
 #### STEP 2: LEAVE OUT BAD REDBOX DATA  #############################
@@ -85,13 +86,12 @@ def good_or_bad_train_case(filename,data_dir):
   rootname = os.path.splitext(filename)[0]
   f = open(fullname)
   content = f.readlines()
-  if 'NoPhotoOfJoint\r\n' in content:
-    print 'found bad'
+  if 'NoPhotoOfJoint\r\n' in content or 'PoorPhoto\r\n' in content:
     os.symlink(fullname,data_dir+'/bad_data/'+rootname+'.jpg')
-  elif 'PoorPhoto\r\n' in content:
-    print 'found bad'
-    os.symlink(fullname,data_dir+'/bad_data/'+rootname+'.jpg')
-  else: os.symlink(fullname,data_dir+'/good_data/'+rootname+'.jpg')
+    os.symlink(fullname,data_dir+'/bad_data/'+rootname+'.dat')
+  else: 
+    os.symlink(fullname,data_dir+'/good_data/'+rootname+'.jpg')
+    os.symlink(fullname,data_dir+'/good_data/'+rootname+'.dat')
 
 # Parses a given .xml file, searching for the fields given by the
 # list returns a dictionary of those fields, and their values in the
@@ -244,6 +244,9 @@ if __name__ == "__main__":
 
   elif sys.argv[1] == 'cleave_out_bad_data':
     cleave_out_bad_data(sys.argv[2])
+
+  elif sys.argv[1] == 'doublecheck_cleave':
+    get_all_pipe_labels('/data/ad6813/pipe-data/Redbox/good_data/',False)
 
   elif sys.argv[1] == 'generate_xml_labels_from_pipe_data':
     generate_xml_labels_from_pipe_data(sys.argv[2])
