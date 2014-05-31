@@ -1,8 +1,10 @@
 from xml.dom.minidom import Document
 import copy
 
-class dict2xml(object):
+class dict2xml(object): # bit.ly/1u0zMeR
     doc     = Document()
+    # dict2xml has an attribute, doc, which is a Document object.
+    # Document class: bit.ly/1u0EOYR
 
     # structure is the arg passed to initialise a dict2xml object.
     # it is the dict (but can also be a list).
