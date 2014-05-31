@@ -169,24 +169,22 @@ def generate_xml_for(filename, path):
       else: print 'label %s in file %s not recognised'%(label, filename)
       if 1 in [data['labels'][i] for i in [19,18,17,15,14,13]]:
         data['bad_joint'] = 1
-    print 'done with dict:', data
+    print 'dict ready:', data, ''
+    # come_back = os.getcwd()
+    # os.chdir(path)
+    xmlfile = open(xmlname, 'wb') # 'w' instead?
+    xmlcontents = dict2xml(data)
+    print 'xml ready:', xmlcontents.doc.toprettyxml(indent="  "), ''
+    xmlcontents.doc.writexml(xmlfile) 
+    xmlfile.close()
+    print 'saved: %s'%(xmlname)
+    # os.chdir(come_back)
 
     # PROBLEM: HOW TO SAVE XML FILE?
     # use Node.writexml() on the root node of your XML DOM tree.
 
     # problem: what is the root node of the xml dom tree of 
     # dict2xml(data) ?
-
-    xmlfile = open(xmlname, 'wb') # 'w' instead?
-    dict2xml(data).doc.writexml(xmlfile) 
-
-    # xmlfile.root.writexml(open(xmlname,'w'), indent="  ", addindent="  ",
-    #                  newl='\n')
-    # xmlfile.root.unlink()
-
-    # xmlfile = open(xmlname,'w')
-    # xmlfile = dict2xml(data)
-    # xmlfile.close()
 
 
 #### STEP 4: GENERATE BATCHES ########################################
