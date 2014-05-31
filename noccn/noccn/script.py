@@ -13,6 +13,7 @@ from ccn import gpumodel
 # filename: options.cfg ?
 def get_options(filename, section):
     parser = ConfigParser()
+    # creates a dict with a key for each section in [] in the cfg file?
     parser.read(filename)
     dirname = os.path.abspath(os.path.dirname(filename))
     options = {}
