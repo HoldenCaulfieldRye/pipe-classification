@@ -34,11 +34,11 @@ class BatchCreator(object):
     self.output_path = output_path
     self.n_jobs = n_jobs
 
-        if not os.path.exists(output_path):
-          os.mkdir(output_path)
+    if not os.path.exists(output_path):
+      os.mkdir(output_path)
 
-        self.more_meta = more_meta or {}
-        vars(self).update(**kwargs)  # O_o
+      self.more_meta = more_meta or {}
+      vars(self).update(**kwargs)  # O_o
 
     def dot(self, d='.'):
       sys.stdout.write(d)
@@ -49,16 +49,16 @@ class BatchCreator(object):
       ids_and_names = []
       batch_size = self.batch_size
 
-        rows = Parallel(n_jobs=self.n_jobs)(
-          delayed(_process_item)(self, name)
-          for name, label in names_and_labels
+      rows = Parallel(n_jobs=self.n_jobs)(
+        delayed(_process_item)(self, name)
+        for name, label in names_and_labels
         )
 
-        names_and_labels = [v for (v, row) in zip(names_and_labels, rows)
-                            if row is not None]
-        for id, (name, label) in enumerate(names_and_labels):
-          ids_and_names.append((id, name))
-          data = np.vstack([r for r in rows if r is not None])
+      names_and_labels = [v for (v, row) in zip(names_and_labels, rows)
+                          if row is not None]
+      for id, (name, label) in enumerate(names_and_labels):
+        ids_and_names.append((id, name))
+        data = np.vstack([r for r in rows if r is not None])
 
         if shuffle:
           from sklearn.utils import shuffle as skshuffle
@@ -75,11 +75,11 @@ class BatchCreator(object):
           batch = {'data': None, 'labels': [], 'metadata': []}
           batch_end = batch_start + batch_size
 
-            batch['data'] = data[batch_start:batch_end, :].T
-            batch['labels'] = labels[batch_start:batch_end]
-            batch['ids'] = ids[batch_start:batch_end]
-            batches.append(batch)
-            self.dot()
+          batch['data'] = data[batch_start:batch_end, :].T
+          batch['labels'] = labels[batch_start:batch_end]
+          batch['ids'] = ids[batch_start:batch_end]
+          batches.append(batch)
+          self.dot()
 
         for i, batch in enumerate(batches):
           path = os.path.join(self.output_path, 'data_batch_%s' % (i + 1))
@@ -106,13 +106,13 @@ class BatchCreator(object):
 
     def preprocess(self, im):
       """Takes an instance of what self.load returned and returns an
-        array.
-        """
-        im = ImageOps.fit(im, self.size, Image.ANTIALIAS)
-        im_data = np.array(im)
-        im_data = im_data.T.reshape(self.channels, -1).reshape(-1)
-        im_data = im_data.astype(np.single)
-        return im_data
+      array.
+      """
+      im = ImageOps.fit(im, self.size, Image.ANTIALIAS)
+      im_data = np.array(im)
+      im_data = im_data.T.reshape(self.channels, -1).reshape(-1)
+      im_data = im_data.astype(np.single)
+      return im_data
 
     def process_item(self, name):
       try:
@@ -137,12 +137,13 @@ def find(root, pattern):
 
 
 def _collect_filenames_and_labels(cfg):
-  path = cfg['input-path']
+  path = cfg['input-path'] # given under [dataset] in options.cfg
   pattern = cfg.get('pattern', '*.jpg')
   filenames_and_labels = []
   for fname in find(path, pattern):
     label = os.path.basename(os.path.split(fname)[-2])
     filenames_and_labels.append((fname, label))
+    # batches need to be randomly sampled!
     random.shuffle(filenames_and_labels)
     return np.array(filenames_and_labels)
 
@@ -156,7 +157,7 @@ def console():
   random_seed(int(cfg.get('seed', '42')))
 
   collector = resolve(cfg.get('collector', 
-                       'noccn.dataset._collect_filenames_and_labels'))
+                              'noccn.dataset._collect_filenames_and_labels'))
   filenames_and_labels = collector(cfg)
   creator = resolve(cfg.get('creator', 'noccn.dataset.BatchCreator'))
   create = creator(
