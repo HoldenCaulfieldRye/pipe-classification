@@ -309,5 +309,8 @@ def console():
 
 
 # Boilerplate for running the appropriate function.
+# what command line args you should pass:
+# sys.argv[1]: options.cfg full path
+# sys.argv[2]: name of the part of cfg file you are interested in
 if __name__ == "__main__":
     console()
