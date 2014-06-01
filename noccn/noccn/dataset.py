@@ -140,7 +140,9 @@ def _collect_filenames_and_labels(cfg):
   path = cfg['input-path'] # given under [dataset] in options.cfg
   pattern = cfg.get('pattern', '*.jpg')
   filenames_and_labels = []
-  for fname in find(path, pattern):
+
+  # for every jpg in the input-path dir:
+  for fname in find(path, pattern): # fname is entire file path
     label = os.path.basename(os.path.split(fname)[-2])
     filenames_and_labels.append((fname, label))
     # batches need to be randomly sampled!
