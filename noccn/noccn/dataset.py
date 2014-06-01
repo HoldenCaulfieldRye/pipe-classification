@@ -73,14 +73,12 @@ class BatchCreator(object):
         names_and_labels, ids_and_names, data = skshuffle(
           names_and_labels, ids_and_names, data)
 
-      # 
       labels_sorted = sorted(set(p[1] for p in names_and_labels))
       labels = [labels_sorted.index(label)
                 for name, label in names_and_labels]
       ids = [id for (id, fname) in ids_and_names]
 
-
-      data = self.preprocess_data(data)
+      data = self.preprocess_data(data) # does nothing
 
       for batch_start in range(0, len(names_and_labels), batch_size):
         batch = {'data': None, 'labels': [], 'metadata': []}
