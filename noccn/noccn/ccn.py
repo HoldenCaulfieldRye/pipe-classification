@@ -2,7 +2,8 @@ import sys, os, inspect
 
 
 def add_path():
-    path_from_main = os.path.join(os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe()))), "../../cuda_convnet")
+    path_from_main = "/homes/ad6813/Git/pipe-classification/cuda_convnet"
+    # print path_from_main
     if os.path.isdir(path_from_main):
         sys.path.append(path_from_main)
     path_from_folder = "./cuda_convnet"
