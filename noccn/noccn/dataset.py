@@ -1,3 +1,5 @@
+# label is directory name!
+
 import cPickle as pickle
 from fnmatch import fnmatch
 import operator
@@ -20,6 +22,7 @@ from ccn import mongoHelperFunctions
 import xml.etree.ElementTree as ET # can be speeded up using lxml possibly
 
 N_JOBS = -1
+SIZE = (256, 256)
 
 
 # Wrapper function which runs the process_item from
@@ -29,6 +32,7 @@ def _process_item(creator, name):
   return creator.process_item(name)
 
 
+# PLANT
 # Yields chunks of a specified size n of a list until it
 # is empty.  Chunks are not guaranteed to be of size n
 # if the list is not a multiple of the chunk size
@@ -44,13 +48,16 @@ def chunks(l, n):
 # It also takes care of super set meta data, to allow
 # for combining disparate classes at a later stage.
 class BatchCreator(object):
-  def __init__(self, batch_size=1000, channels=3, size=(256,256), output_path=None, 
-                n_jobs=N_JOBS, super_batch_meta=None, component=None, **kwargs):
+  def __init__(self, batch_size=1000, channels=3, size=SIZE, 
+               output_path=None, n_jobs=N_JOBS, super_batch_meta=None,
+               component=None, **kwargs):
+    # PLANT
     if output_path is None:
       print 'A valid output-path is required in the options file'
       sys.exit(1)
     self.setup_output_path(output_path)
-    self.setup_super_meta(super_batch_meta)
+    self.setup_super_meta(super_batch_meta) # never used it seems
+
     self.batch_size = batch_size
     self.channels = channels
     self.size = size
@@ -59,6 +66,7 @@ class BatchCreator(object):
     vars(self).update(**kwargs)
 
 
+  # PLANT
   # Creates the output folder if it does not 
   # already exist, sets output path state
   def setup_output_path(self, output_path):    
@@ -75,7 +83,7 @@ class BatchCreator(object):
         super_meta_file = open(self.super_meta_filename,'rb')
         self.super_meta = pickle.load(super_meta_file)
         super_meta_file.close()
-      else:
+      else: # have been doing this always
         self.super_meta = { 'insert_list':{}, 'labels':{'super_labels':[]} }
 
 
@@ -264,9 +272,9 @@ def _collect_filenames_and_labels(cfg):
   return np.array(filenames_and_labels)
 
 
-################################################################################
+######################################################################
 # Console interpreter
-################################################################################
+######################################################################
 def write_stats_to_file(path,labels):
   counter = collections.Counter(labels)
   stats_file = open(os.path.join(path, 'batch_stats.txt'), 'wb')
@@ -300,7 +308,7 @@ def console():
     channels=int(cfg.get('channels', 3)),
     size=eval(cfg.get('size', '(256, 256)')),
     output_path=cfg.get('output-path', None),
-    super_batch_meta=cfg.get('super-meta-path', None),
+    super_batch_meta=cfg.get('super-meta-path', None), 
     component=filter_component,
   )
   create(filenames_and_labels)
