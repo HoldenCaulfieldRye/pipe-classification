@@ -1,7 +1,7 @@
 import numpy as np
 import os
 import cPickle as pickle
-from dict2xml import *
+# from dict2xml import *
 import xml.dom
 from joblib import Parallel, delayed
 import xml.etree.ElementTree as ET
@@ -41,7 +41,7 @@ def get_all_pipe_labels(data_dir,save=True):
   if save==True:
     d['labels'].sort()
     d['no_labels'] = len(d['labels'])
-    pickle.dump(d, open('labels'+whichBox+'.pickle', 'wb'))
+    pickle.dump(d, open('labels_'+whichBox+'.pickle', 'wb'))
     print 'saved pickle file in', os.getcwd()
 
 
@@ -172,11 +172,11 @@ def generate_xml_for(filename, path):
     print 'dict ready:', data, ''
     # come_back = os.getcwd()
     # os.chdir(path)
-    xmlfile = open(xmlname, 'wb') # 'w' instead?
-    xmlcontents = dict2xml(data)
-    print 'xml ready:', xmlcontents.doc.toprettyxml(indent="  "), ''
-    xmlcontents.doc.writexml(xmlfile) 
-    xmlfile.close()
+    # xmlfile = open(xmlname, 'wb') # 'w' instead?
+    # xmlcontents = dict2xml(data)
+    # print 'xml ready:', xmlcontents.doc.toprettyxml(indent="  "), ''
+    # xmlcontents.doc.writexml(xmlfile) 
+    # xmlfile.close()
     print 'saved: %s'%(xmlname)
     # os.chdir(come_back)
 
