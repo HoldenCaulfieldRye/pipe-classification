@@ -259,6 +259,8 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
   print 'badcase_freq: %0.2f' = float(badcase_count) / case_count
   print 'tagless_freq: %0.2f' = float(tagless_count) / case_count
 
+  print [case_count, badcase_count, tagless_count]
+
 #### STEP 5: GENERATE BATCHES ########################################
 
 def generate_batches_from_pipe_data(data_dir, label_options):
@@ -340,7 +342,7 @@ def test_move_to_dirs():
   f.close(f6)
 
   # run move_to_dirs on it
-  move_to_dirs_aux(path_from,path_to,labels,True)
+  summary_stats = move_to_dirs_aux(path_from,path_to,labels,True)
   
   # assimilate: subdir creation
   to_dirlist = os.listdir(path_to)
@@ -353,8 +355,28 @@ def test_move_to_dirs():
   noClamp_dirlist = os.listdir(path_to+'/'+to_dirlist[0])
   semiClamp_dirlist = os.listdir(path_to+'/'+to_dirlist[1])
   yesClamp_dirlist = os.listdir(path_to+'/'+to_dirlist[2])
-  if [noClamp_dirlist, semiClamp_dirlist, yesClamp_dirlist] == [['f3','f5','f6'],['f2','f5','f6'],['f1','f2']]
+  result_should_be = np.array(['f3','f5','f6'],['f2','f5','f6'],['f1','f2'])
+  if noClamp_dirlist == ['f3','f5','f6']:
+    print 'noClamp subdir populating: OK'
+  else: 
+    print 'noClamp subdir populating INCORRECT'
+    print 'is: %s\nshould be: %s'%(noClamp_dirlist,['f3','f5','f6'])
+  if semiClamp_dirlist == ['f2','f5','f6']:
+    print 'semiClamp subdir populating: OK'
+  else: 
+    print 'semiClamp subdir populating INCORRECT'
+    print 'is: %s\nshould be: %s'%(semiClamp_dirlist,['f2','f5','f6'])
+  if yesClamp_dirlist == ['f1','f2']:
+    print 'yesClamp subdir populating: OK'
+  else: 
+    print 'yesClamp subdir populating INCORRECT'
+    print 'is: %s\nshould be: %s'%(yesClamp_dirlist,['f1','f2'])
   
+  # assimilate: summary stats
+  if summary_stats[0] == 8: print 'summary stats, case_count: OK'
+  if summary_stats[1] == 2: print 'summary stats, badcase_count: OK'
+  if summary_stats[2] == 0: print 'summary stats, tagless_count: OK'
+
   # delete everything created by the test
   shutil.rmtree(path_from)
   shutil.rmtree(path_to)
