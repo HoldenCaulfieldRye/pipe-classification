@@ -269,7 +269,7 @@ def _collect_filenames_and_labels(cfg):
 # Searches through a given directory for all of the .jpg and .xml
 # files within it.  Parsing the contents according to the options.cfg
 # The options.cfg is located in /models/XYZ/options.cfg
-def _collect_filenames_and_labels(cfg):
+def _collect_filenames_and_labels_PLANT(cfg):
   path = cfg['input-path']
   pattern = cfg.get('pattern', '*.jpg')
   metadata_file_ext = cfg.get('meta_data_file_ext', '.xml')
