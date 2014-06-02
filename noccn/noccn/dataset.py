@@ -18,7 +18,7 @@ from joblib import delayed
 from script import get_options
 from script import random_seed
 from script import resolve
-from ccn import mongoHelperFunctions
+# from ccn import mongoHelperFunctions
 # This is used to parse the xml files
 import xml.etree.ElementTree as ET # can be speeded up using lxml possibly
 
@@ -246,6 +246,26 @@ def get_info(fname,label_data_fields,metadata_file_ext):
   return return_dict
 
 
+# returns nparray of (jpg_file_path, label) tuples, where labels are
+# taken from directory name in which jpg found
+def _collect_filenames_and_labels(cfg):
+  path = cfg['input-path'] # given under [dataset] in options.cfg
+  pattern = cfg.get('pattern', '*.jpg')
+  filenames_and_labels = []
+
+  # for every jpg in the input-path dir:
+  for fname in find(path, pattern): # fname is entire file path
+    # label is directory name!
+    # so there must be multiple directories. works because find() 
+    # steps into dirs inside root dir
+    label = os.path.basename(os.path.split(fname)[-2])
+    filenames_and_labels.append((fname, label))
+  # batches need to be randomly sampled!
+  random.shuffle(filenames_and_labels)
+  return np.array(filenames_and_labels)
+
+
+# PLANT
 # Searches through a given directory for all of the .jpg and .xml
 # files within it.  Parsing the contents according to the options.cfg
 # The options.cfg is located in /models/XYZ/options.cfg
