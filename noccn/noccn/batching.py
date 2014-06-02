@@ -202,10 +202,12 @@ def move_to_dirs(args):
       move_to_dirs_aux(args[2], args[3], args[4], True)
     else: print 'arg not recognised'
    
-def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):'''move_dir: where raw data is.
-    to_dir: where to store labeled subdirs.'
-    labels: a string of the labels to lookup, separated by commas.
-    lastLabelIsDefault: true iif last label is the default one, eg for which no flag has been raised.'''
+def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
+  '''move_dir: where raw data is.
+  to_dir: where to store labeled subdirs.
+  labels: a string of the labels to lookup, separated by commas.
+  lastLabelIsDefault: true iif last label is the default one, eg for
+  which no flag has been raised.'''
   labels = labels.split(',') # all labels to train on
   list_dir = os.listdir(from_dir) # names of all elements in directory
   img_flags = [] # image's labels to train on
@@ -214,6 +216,8 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):'''move
   badcase_count = 0 # number of images with multiple flags to train on
 
   # create label subdirs
+  if not os.path.exists(to_dir):
+    os.mkdir(to_dir)
   for label in labels:
     os.mkdir(to_dir+'/'+label.strip())
 
@@ -237,8 +241,8 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):'''move
       # not be batched
       if not img_flags: 
         if lastLabelIsDefault:
-          os.symlink(fullname,from_dir+'/'+default+rootname+'.jpg')
-          os.symlink(fullname,from_dir+'/'+default+rootname+'.dat')
+          os.symlink(fullname,to_dir+'/'+default+rootname+'.jpg')
+          os.symlink(fullname,to_dir+'/'+default+rootname+'.dat')
         else: tagless_count += 1
       else:
         # if image has multiple flags, it will appear in each flag
@@ -248,8 +252,8 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):'''move
           badcase_count += len(img_flags)-1
           case_count += len(img_flags)-1
         for flag in img_flags:
-            os.symlink(fullname,from_dir+'/'+flag+rootname+'.jpg')
-            os.symlink(fullname,from_dir+'/'+flag+rootname+'.dat')
+            os.symlink(fullname,to_dir+'/'+flag+rootname+'.jpg')
+            os.symlink(fullname,to_dir+'/'+flag+rootname+'.dat')
 
   print 'move_to_dir complete. summary stats:'
   print 'badcase_freq: %0.2f' = float(badcase_count) / case_count
@@ -315,13 +319,46 @@ def test_generate_xml_for():
   else: 
     print 'test failed.\n dict:', d, '\nshould be:',{'labels':np.array([0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0],int),'bad_joint':0}
 
-def test_move_to_dirs(from_dir):
-  '''WARNING: this test is hard-coded for graphic02 and pipe 
-  classification. modify the code for other cases.'''
-  os.mkdir('temp')
-  shutil.copy('/data/ad6813/pipe-data/Redbox/100002.dat',
-              os.getcwd()+'/temp/100002.dat')
+def test_move_to_dirs():
+  labels = 'NoClampUsed,PhotoDoesNotShowEnoughOfClamps,ClampDetected'
+  os.mkdir('temp_from')
+  path_from = os.getcwd()+'/temp_from'
+  path_to = os.getcwd()+'/temp_to'
+
+  # create data files for the test
+  f1 = open(path_from+'1.dat', 'a').write('JointMisaligned\r\nNoInsertionDepthMarkings\r\n')
+  f2 = open(path_from+'2.dat', 'a').write('')
+  f3 = open(path_from+'3.dat', 'a').write('FittingProximity\r\nNoClampUsed\r\n')
+  f4 = open(path_from+'4.dat', 'a').write('PhotoDoesNotShowEnoughOfClamps\r\n')
+  f5 = open(path_from+'5.dat', 'a').write('NoClampUsed\r\nPhotoDoesNotShowEnoughOfClamps\r\n')
+  f6 = open(path_from+'6.dat', 'a').write('NoClampUsed\r\n\NoGroundSheetr\nPhotoDoesNotShowEnoughOfClamps\r\n')
+  f.close(f1)
+  f.close(f2)
+  f.close(f3)
+  f.close(f4)
+  f.close(f5)
+  f.close(f6)
+
+  # run move_to_dirs on it
+  move_to_dirs_aux(path_from,path_to,labels,True)
   
+  # assimilate: subdir creation
+  to_dirlist = os.listdir(path_to)
+  if to_dirlist == ['NoClampUsed','PhotoDoesNotShowEnoughOfClamps','ClampDetected']: print 'labelled subdir creation: OK'
+  else: 
+    print 'labelled subdir creation INCORRECT'
+    print 'dir_to: %s' % (to_dirlist)
+
+  # assimilate: subdir populating
+  noClamp_dirlist = os.listdir(path_to+'/'+to_dirlist[0])
+  semiClamp_dirlist = os.listdir(path_to+'/'+to_dirlist[1])
+  yesClamp_dirlist = os.listdir(path_to+'/'+to_dirlist[2])
+  if [noClamp_dirlist, semiClamp_dirlist, yesClamp_dirlist] == [['f3','f5','f6'],['f2','f5','f6'],['f1','f2']]
+  
+  # delete everything created by the test
+  shutil.rmtree(path_from)
+  shutil.rmtree(path_to)
+
 
 #### SCRIPT ##########################################################
 
@@ -351,6 +388,8 @@ if __name__ == "__main__":
     test_generate_xml_for()
 
   elif sys.argv[1] == 'test_move_to_dirs':
+    print '''WARNING: this test cannot make sure that the labels you 
+          enter at command line will match those in data files.'''
     test_move_to_dirs()
 
   else: print 'arg not recognised'
