@@ -1,7 +1,7 @@
 import numpy as np
 import os
 import cPickle as pickle
-from dict2xml import *
+# from dict2xml import *
 import xml.dom
 from joblib import Parallel, delayed
 import xml.etree.ElementTree as ET
@@ -41,7 +41,7 @@ def get_all_pipe_labels(data_dir,save=True):
   if save==True:
     d['labels'].sort()
     d['no_labels'] = len(d['labels'])
-    pickle.dump(d, open('labels'+whichBox+'.pickle', 'wb'))
+    pickle.dump(d, open('labels_'+whichBox+'.pickle', 'wb'))
     print 'saved pickle file in', os.getcwd()
 
 
@@ -172,11 +172,11 @@ def generate_xml_for(filename, path):
     print 'dict ready:', data, ''
     # come_back = os.getcwd()
     # os.chdir(path)
-    xmlfile = open(xmlname, 'wb') # 'w' instead?
-    xmlcontents = dict2xml(data)
-    print 'xml ready:', xmlcontents.doc.toprettyxml(indent="  "), ''
-    xmlcontents.doc.writexml(xmlfile) 
-    xmlfile.close()
+    # xmlfile = open(xmlname, 'wb') # 'w' instead?
+    # xmlcontents = dict2xml(data)
+    # print 'xml ready:', xmlcontents.doc.toprettyxml(indent="  "), ''
+    # xmlcontents.doc.writexml(xmlfile) 
+    # xmlfile.close()
     print 'saved: %s'%(xmlname)
     # os.chdir(come_back)
 
@@ -187,31 +187,102 @@ def generate_xml_for(filename, path):
     # dict2xml(data) ?
 
 
-#### STEP 4: GENERATE BATCHES ########################################
+#### STEP 4: STORE IMGS IN DIRS TO PREPARE FOR BATCHING  #############
+
+def move_to_dirs(args):
+  print 'sys.argv[2] should be dir where raw data is'
+  print 'sys.argv[3] should be dir in which to store labeled subdirs'
+  print 'sys.argv[4] should be a string of the labels to lookup, separated by commas'
+  print 'sys.argv[5] indicates whether last label exists or is the default one, eg for which no flag has been raised. if left blank, assume last label does exist.'
+  print 'CAREFUL: make sure your labels are spelled correctly! if they don\'t match those in data files, training cases won\'t be picked up correctly.'
+  try: args[5]
+  except: move_to_dirs_aux(args[2], args[3], args[4])
+  else: 
+    if args[5] == 'last_label_is_default':
+      move_to_dirs_aux(args[2], args[3], args[4], True)
+    else: print 'arg not recognised'
+   
+def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
+  '''move_dir: where raw data is.
+  to_dir: where to store labeled subdirs.
+  labels: a string of the labels to lookup, separated by commas.
+  lastLabelIsDefault: true iif last label is the default one, eg for
+  which no flag has been raised.'''
+  labels = labels.split(',') # all labels to train on
+  list_dir = os.listdir(from_dir) # names of all elements in directory
+  img_flags = [] # image's labels to train on
+  case_count = 0 # number of training cases
+  tagless_count = 0 # n
+  badcase_count = 0 # number of images with multiple flags to train on
+
+  # create label subdirs
+  if not os.path.exists(to_dir):
+    os.mkdir(to_dir)
+  for label in labels:
+    os.mkdir(to_dir+'/'+label.strip())
+
+  # don't look up last label if it's a default one; it won't exist
+  if lastLabelIsDefault: 
+    default = labels[-1]
+    del labels[-1]
+
+  # create symlinks to images in appropriate dirs
+  for filename in list_dir:
+    if not filename.endswith('.dat'): continue
+    case_count += 1
+    fullname = os.path.join(from_dir, filename)
+    rootname = os.path.splitext(filename)[0]
+    with open(fullname) as f:
+      content = [line.strip() for line in f.readlines()] 
+      img_flags = [label for label in labels if label in content]
+
+      # if last label is a normal label, images with no labels will
+      # not be batched
+      if not img_flags: 
+        if lastLabelIsDefault:
+          os.symlink(fullname,to_dir+'/'+default+'/'+rootname+'.jpg')
+        else: tagless_count += 1
+      else:
+        # if image has multiple flags, it will appear in each flag
+        # subdir, each time with only one label. this is very bad for
+        # training, so hopefully such cases are very rare.'
+        if len(img_flags)>1: 
+          badcase_count += len(img_flags)-1
+          case_count += len(img_flags)-1
+        for flag in img_flags:
+            os.symlink(fullname,to_dir+'/'+flag+'/'+rootname+'.jpg')
+
+  print 'types of case_count, badcase_count, tagless_count: %s, %s, %s'%(type(case_count), type(badcase_count), type(tagless_count))
+  print 'move_to_dir complete. summary stats:'
+  print 'badcase_freq: %0.2f' % (float(badcase_count) / case_count)
+  print 'tagless_freq: %0.2f' % (float(tagless_count) / case_count)
+
+  return case_count, badcase_count, tagless_count
+
+#### STEP 5: GENERATE BATCHES ########################################
 
 def generate_batches_from_pipe_data(data_dir, label_options):
   ''' generates data batches and batches.meta files in the format 
-    expected by cuda-convnet, from a data format provided by 
-    ControlPoint, from the location given by data_dir. label_options 
-    indicates which labels to create: simple good/bad, or one for each
-    characteristic. '''
+  expected by cuda-convnet, from a data format provided by 
+  ControlPoint, from the location given by data_dir. label_options 
+  indicates which labels to create: simple good/bad, or one for each
+  characteristic. '''
 
-    # 1) what should batch size be? needs to be optimal given:
-    #    a) krizhevsky's gpu code
-    #    b) size of the image (256x256, 224x224, or more?)
-    #    c) data augmentation (if any) cpu time
-    # 2) what should image size be? 
-    # 3) does batches.meta contain the labels? or do these need to appear 
-    #    inside each batch?
+  # 1) what should batch size be? needs to be optimal given:
+  #    a) krizhevsky's gpu code
+  #    b) size of the image (256x256, 224x224, or more?)
+  #    c) data augmentation (if any) cpu time
+  # 2) what should image size be? 
+  # 3) does batches.meta contain the labels? or do these need to appear 
 
-    # for now, keep label simple: good or bad weld
+  # CAN IT WORK WITH SYMLINKS?
 
-    # call a modified version of _collect_filenames_and_labels() from 
-    # dataset.py, one that searches for .data files (and doesn't throw
-    # error if no xml's found)
+  # call a modified version of _collect_filenames_and_labels() from 
+  # dataset.py, one that searches for .data files (and doesn't throw
+  # error if no xml's found)
 
-    # alternatively! convert .data files to xml in same format as for 
-    # plant, and let john's scripts do the hard work.
+  # alternatively! convert .data files to xml in same format as for 
+  # plant, and let john's scripts do the hard work.
 
 
 #### TEST FUNCTIONS ##################################################
@@ -248,6 +319,73 @@ def test_generate_xml_for():
   else: 
     print 'test failed.\n dict:', d, '\nshould be:',{'labels':np.array([0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0],int),'bad_joint':0}
 
+def test_move_to_dirs():
+  labels = 'NoClampUsed,PhotoDoesNotShowEnoughOfClamps,ClampDetected'
+  os.mkdir('temp_from')
+  path_from = os.getcwd()+'/temp_from'
+  path_to = os.getcwd()+'/temp_to'
+
+  # create data files for the test
+  base = os.getcwd()
+  os.chdir(path_from)
+  f1 = open('1.dat', 'a')
+  f1.write('JointMisaligned\r\nNoInsertionDepthMarkings\r\n')
+  f2 = open('2.dat', 'a')
+  f2.write('')
+  f3 = open('3.dat', 'a')
+  f3.write('FittingProximity\r\nNoClampUsed\r\n')
+  f4 = open('4.dat', 'a')
+  f4.write('PhotoDoesNotShowEnoughOfClamps\r\n')
+  f5 = open('5.dat', 'a')
+  f5.write('NoClampUsed\r\nPhotoDoesNotShowEnoughOfClamps\r\n')
+  f6 = open('6.dat', 'a')
+  f6.write('NoClampUsed\r\n\NoGroundSheetr\nPhotoDoesNotShowEnoughOfClamps\r\n')
+  f1.close()
+  f2.close()
+  f3.close()
+  f4.close()
+  f5.close()
+  f6.close()
+  os.chdir(base)
+
+  # run move_to_dirs on it
+  summary_stats = move_to_dirs_aux(path_from,path_to,labels,True)
+  
+  # assimilate: subdir creation
+  to_dirlist = os.listdir(path_to)
+  if to_dirlist == ['NoClampUsed','PhotoDoesNotShowEnoughOfClamps','ClampDetected']: print 'labelled subdir creation: OK'
+  else: 
+    print 'labelled subdir creation INCORRECT'
+    print 'to_dir: %s' % (to_dirlist)
+
+  # assimilate: subdir populating
+  noClamp_dirlist = os.listdir(path_to+'/'+to_dirlist[0])
+  semiClamp_dirlist = os.listdir(path_to+'/'+to_dirlist[1])
+  yesClamp_dirlist = os.listdir(path_to+'/'+to_dirlist[2])
+  if noClamp_dirlist == ['3.jpg','5.jpg','6.jpg']:
+    print 'noClamp subdir populating: OK'
+  else: 
+    print 'noClamp subdir populating INCORRECT'
+    print 'is: %s\nshould be: %s'%(noClamp_dirlist,['3.jpg','5.jpg','6.jpg'])
+  if semiClamp_dirlist == ['4.jpg','5.jpg','6.jpg']:
+    print 'semiClamp subdir populating: OK'
+  else: 
+    print 'semiClamp subdir populating INCORRECT'
+    print 'is: %s\nshould be: %s'%(semiClamp_dirlist,['2.jpg','5.jpg','6.jpg'])
+  if yesClamp_dirlist == ['1.jpg','2.jpg']:
+    print 'yesClamp subdir populating: OK'
+  else: 
+    print 'yesClamp subdir populating INCORRECT'
+    print 'is: %s\nshould be: %s'%(yesClamp_dirlist,['1.jpg','2.jpg'])
+  
+  # assimilate: summary stats
+  if summary_stats[0] == 8: print 'summary stats, case_count: OK'
+  if summary_stats[1] == 2: print 'summary stats, badcase_count: OK'
+  if summary_stats[2] == 0: print 'summary stats, tagless_count: OK'
+
+  # delete everything created by the test
+  shutil.rmtree(path_from)
+  shutil.rmtree(path_to)
 
 
 #### SCRIPT ##########################################################
@@ -266,11 +404,21 @@ if __name__ == "__main__":
   elif sys.argv[1] == 'generate_xml_labels_from_pipe_data':
     generate_xml_labels_from_pipe_data(sys.argv[2])
 
+  elif sys.argv[1] == 'move_to_dirs':
+    move_to_dirs(sys.argv)
+
+##### tests ##########################################################
+
   elif sys.argv[1] == 'test_cleave_out_bad_data':
     test_cleave_out_bad_data()
 
   elif sys.argv[1] == 'test_generate_xml_for':
     test_generate_xml_for()
+
+  elif sys.argv[1] == 'test_move_to_dirs':
+    print '''WARNING: this test cannot make sure that the labels you 
+          enter at command line will match those in data files.'''
+    test_move_to_dirs()
 
   else: print 'arg not recognised'
 
