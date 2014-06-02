@@ -2,7 +2,7 @@ import numpy as np
 import os
 import cPickle as pickle
 # from dict2xml import *
-oimport xml.dom
+import xml.dom
 from joblib import Parallel, delayed
 import xml.etree.ElementTree as ET
 import shutil
@@ -230,11 +230,10 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
   for filename in list_dir:
     if not filename.endswith('.dat'): continue
     case_count += 1
-    fullname = os.path.join(path, filename)
+    fullname = os.path.join(from_dir, filename)
     rootname = os.path.splitext(filename)[0]
     with open(fullname) as f:
-      content = f.readlines().strip()
-      content = [line.strip() for line in content]
+      content = [line.strip() for line in f.readlines()] 
       img_flags = [label for label in labels if label in content]
 
       # if last label is a normal label, images with no labels will
@@ -252,19 +251,20 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
           badcase_count += len(img_flags)-1
           case_count += len(img_flags)-1
         for flag in img_flags:
-            os.symlink(fullname,to_dir+'/'+flag+rootname+'.jpg')
-            os.symlink(fullname,to_dir+'/'+flag+rootname+'.dat')
+            os.symlink(fullname,to_dir+'/'+flag+'/'+rootname+'.jpg')
+            os.symlink(fullname,to_dir+'/'+flag+'/'+rootname+'.dat')
 
+  print 'types of case_count, badcase_count, tagless_count: %s, %s, %s'%(type(case_count), type(badcase_count), type(tagless_count))
   print 'move_to_dir complete. summary stats:'
-  print 'badcase_freq: %0.2f' = float(badcase_count) / case_count
-  print 'tagless_freq: %0.2f' = float(tagless_count) / case_count
+  print 'badcase_freq: %0.2f' % (float(badcase_count) / case_count)
+  print 'tagless_freq: %0.2f' % (float(tagless_count) / case_count)
 
-  print [case_count, badcase_count, tagless_count]
+  return case_count, badcase_count, tagless_count
 
 #### STEP 5: GENERATE BATCHES ########################################
 
 def generate_batches_from_pipe_data(data_dir, label_options):
-''' generates data batches and batches.meta files in the format 
+  ''' generates data batches and batches.meta files in the format 
   expected by cuda-convnet, from a data format provided by 
   ControlPoint, from the location given by data_dir. label_options 
   indicates which labels to create: simple good/bad, or one for each
@@ -328,18 +328,27 @@ def test_move_to_dirs():
   path_to = os.getcwd()+'/temp_to'
 
   # create data files for the test
-  f1 = open(path_from+'1.dat', 'a').write('JointMisaligned\r\nNoInsertionDepthMarkings\r\n')
-  f2 = open(path_from+'2.dat', 'a').write('')
-  f3 = open(path_from+'3.dat', 'a').write('FittingProximity\r\nNoClampUsed\r\n')
-  f4 = open(path_from+'4.dat', 'a').write('PhotoDoesNotShowEnoughOfClamps\r\n')
-  f5 = open(path_from+'5.dat', 'a').write('NoClampUsed\r\nPhotoDoesNotShowEnoughOfClamps\r\n')
-  f6 = open(path_from+'6.dat', 'a').write('NoClampUsed\r\n\NoGroundSheetr\nPhotoDoesNotShowEnoughOfClamps\r\n')
-  f.close(f1)
-  f.close(f2)
-  f.close(f3)
-  f.close(f4)
-  f.close(f5)
-  f.close(f6)
+  base = os.getcwd()
+  os.chdir(path_from)
+  f1 = open('1.dat', 'a')
+  f1.write('JointMisaligned\r\nNoInsertionDepthMarkings\r\n')
+  f2 = open('2.dat', 'a')
+  f2.write('')
+  f3 = open('3.dat', 'a')
+  f3.write('FittingProximity\r\nNoClampUsed\r\n')
+  f4 = open('4.dat', 'a')
+  f4.write('PhotoDoesNotShowEnoughOfClamps\r\n')
+  f5 = open('5.dat', 'a')
+  f5.write('NoClampUsed\r\nPhotoDoesNotShowEnoughOfClamps\r\n')
+  f6 = open('6.dat', 'a')
+  f6.write('NoClampUsed\r\n\NoGroundSheetr\nPhotoDoesNotShowEnoughOfClamps\r\n')
+  f1.close()
+  f2.close()
+  f3.close()
+  f4.close()
+  f5.close()
+  f6.close()
+  os.chdir(base)
 
   # run move_to_dirs on it
   summary_stats = move_to_dirs_aux(path_from,path_to,labels,True)
@@ -349,28 +358,27 @@ def test_move_to_dirs():
   if to_dirlist == ['NoClampUsed','PhotoDoesNotShowEnoughOfClamps','ClampDetected']: print 'labelled subdir creation: OK'
   else: 
     print 'labelled subdir creation INCORRECT'
-    print 'dir_to: %s' % (to_dirlist)
+    print 'to_dir: %s' % (to_dirlist)
 
   # assimilate: subdir populating
   noClamp_dirlist = os.listdir(path_to+'/'+to_dirlist[0])
   semiClamp_dirlist = os.listdir(path_to+'/'+to_dirlist[1])
   yesClamp_dirlist = os.listdir(path_to+'/'+to_dirlist[2])
-  result_should_be = np.array(['f3','f5','f6'],['f2','f5','f6'],['f1','f2'])
-  if noClamp_dirlist == ['f3','f5','f6']:
+  if noClamp_dirlist == ['3.jpg','3.dat','5.jpg','5.dat','6.jpg','6.dat']:
     print 'noClamp subdir populating: OK'
   else: 
     print 'noClamp subdir populating INCORRECT'
-    print 'is: %s\nshould be: %s'%(noClamp_dirlist,['f3','f5','f6'])
-  if semiClamp_dirlist == ['f2','f5','f6']:
+    print 'is: %s\nshould be: %s'%(noClamp_dirlist,['3.jpg','3.dat','5.jpg','5.dat','6.jpg','6.dat'])
+  if semiClamp_dirlist == ['4.jpg','4.dat','5','5.jpg','5.dat','6.jpg','6.dat']:
     print 'semiClamp subdir populating: OK'
   else: 
     print 'semiClamp subdir populating INCORRECT'
-    print 'is: %s\nshould be: %s'%(semiClamp_dirlist,['f2','f5','f6'])
-  if yesClamp_dirlist == ['f1','f2']:
+    print 'is: %s\nshould be: %s'%(semiClamp_dirlist,['2.jpg','2.dat','5.jpg','5.dat','6.jpg','6.dat'])
+  if yesClamp_dirlist == ['1.jpg','1.dat','2.jpg','2.dat']:
     print 'yesClamp subdir populating: OK'
   else: 
     print 'yesClamp subdir populating INCORRECT'
-    print 'is: %s\nshould be: %s'%(yesClamp_dirlist,['f1','f2'])
+    print 'is: %s\nshould be: %s'%(yesClamp_dirlist,['1.jpg','1.dat','2.jpg','2.dat'])
   
   # assimilate: summary stats
   if summary_stats[0] == 8: print 'summary stats, case_count: OK'
@@ -378,8 +386,8 @@ def test_move_to_dirs():
   if summary_stats[2] == 0: print 'summary stats, tagless_count: OK'
 
   # delete everything created by the test
-  shutil.rmtree(path_from)
-  shutil.rmtree(path_to)
+  # shutil.rmtree(path_from)
+  # shutil.rmtree(path_to)
 
 
 #### SCRIPT ##########################################################
