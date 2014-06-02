@@ -59,7 +59,7 @@ class BatchCreator(object):
     self.setup_output_path(output_path)
     self.setup_super_meta(super_batch_meta) # never used it seems
 
-    # lower down, also self.super_meta attrib, dict of dicts
+    # lower down, also self.super_meta, dict of dicts
     self.batch_size = batch_size
     self.channels = channels
     self.size = size
@@ -102,12 +102,16 @@ class BatchCreator(object):
       new_super = sorted(set(p for p in self.super_meta['labels']['super_labels' ]))
       self.super_meta['labels']['super_labels' ] = new_super
 
-      self.super_meta['labels'][self.component] = sorted_labels
+      if self.component is not None:
+        self.super_meta['labels'][self.component] = sorted_labels
+
+      # super_meta['labels'] is a dict
       for key in self.super_meta['labels']:
-        if key != 'super_labels':
+        if key != 'super_labels': 
+          # this code is only for key == self.component
           index = 0
           insert_list = []
-          for label in self.super_meta['labels']['super_labels' ]:
+          for label in self.super_meta['labels']['super_labels']:
             if label in self.super_meta['labels'][key]:
               index += 1
               continue
@@ -176,11 +180,15 @@ class BatchCreator(object):
       if data.shape[0] < self.batch_size:
         print 'Batch size too small, continuing to next batch'
         continue
-      labels = np.array([labels_sorted.index(label) for ((name, label), row) 
-                         in zip(names_and_labels, rows) if row is not None]).reshape((1,-1))
-      batch = {'data': data.T, 'labels':labels, 'metadata': []}  # data.T!! so dims are get_data_dimsxbatchSize
+      labels = np.array([labels_sorted.index(label) 
+                         for ((name, label), row) 
+                         in zip(names_and_labels, rows) 
+                         if row is not None]).reshape((1,-1))
+      # data.T! so dims are get_data_dimsxbatchSize
+      batch = {'data': data.T, 'labels':labels, 'metadata': []}  
       self.take_batch_mean(batch_num,batch['data'])
-      with open(os.path.join(self.output_path,'data_batch_%s'%batch_num),'wb') as f:
+      with open(os.path.join(self.output_path,
+                             'data_batch_%s'%batch_num),'wb') as f:
         pickle.dump(batch, f, -1)
         batch_num += 1
         f.close()
