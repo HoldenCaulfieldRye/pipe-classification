@@ -240,8 +240,7 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
       # not be batched
       if not img_flags: 
         if lastLabelIsDefault:
-          os.symlink(fullname,to_dir+'/'+default+rootname+'.jpg')
-          os.symlink(fullname,to_dir+'/'+default+rootname+'.dat')
+          os.symlink(fullname,to_dir+'/'+default+'/'+rootname+'.jpg')
         else: tagless_count += 1
       else:
         # if image has multiple flags, it will appear in each flag
@@ -252,7 +251,6 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
           case_count += len(img_flags)-1
         for flag in img_flags:
             os.symlink(fullname,to_dir+'/'+flag+'/'+rootname+'.jpg')
-            os.symlink(fullname,to_dir+'/'+flag+'/'+rootname+'.dat')
 
   print 'types of case_count, badcase_count, tagless_count: %s, %s, %s'%(type(case_count), type(badcase_count), type(tagless_count))
   print 'move_to_dir complete. summary stats:'
@@ -364,21 +362,21 @@ def test_move_to_dirs():
   noClamp_dirlist = os.listdir(path_to+'/'+to_dirlist[0])
   semiClamp_dirlist = os.listdir(path_to+'/'+to_dirlist[1])
   yesClamp_dirlist = os.listdir(path_to+'/'+to_dirlist[2])
-  if noClamp_dirlist == ['3.jpg','3.dat','5.jpg','5.dat','6.jpg','6.dat']:
+  if noClamp_dirlist == ['3.jpg','5.jpg','6.jpg']:
     print 'noClamp subdir populating: OK'
   else: 
     print 'noClamp subdir populating INCORRECT'
-    print 'is: %s\nshould be: %s'%(noClamp_dirlist,['3.jpg','3.dat','5.jpg','5.dat','6.jpg','6.dat'])
-  if semiClamp_dirlist == ['4.jpg','4.dat','5','5.jpg','5.dat','6.jpg','6.dat']:
+    print 'is: %s\nshould be: %s'%(noClamp_dirlist,['3.jpg','5.jpg','6.jpg'])
+  if semiClamp_dirlist == ['4.jpg','5.jpg','6.jpg']:
     print 'semiClamp subdir populating: OK'
   else: 
     print 'semiClamp subdir populating INCORRECT'
-    print 'is: %s\nshould be: %s'%(semiClamp_dirlist,['2.jpg','2.dat','5.jpg','5.dat','6.jpg','6.dat'])
-  if yesClamp_dirlist == ['1.jpg','1.dat','2.jpg','2.dat']:
+    print 'is: %s\nshould be: %s'%(semiClamp_dirlist,['2.jpg','5.jpg','6.jpg'])
+  if yesClamp_dirlist == ['1.jpg','2.jpg']:
     print 'yesClamp subdir populating: OK'
   else: 
     print 'yesClamp subdir populating INCORRECT'
-    print 'is: %s\nshould be: %s'%(yesClamp_dirlist,['1.jpg','1.dat','2.jpg','2.dat'])
+    print 'is: %s\nshould be: %s'%(yesClamp_dirlist,['1.jpg','2.jpg'])
   
   # assimilate: summary stats
   if summary_stats[0] == 8: print 'summary stats, case_count: OK'
@@ -386,8 +384,8 @@ def test_move_to_dirs():
   if summary_stats[2] == 0: print 'summary stats, tagless_count: OK'
 
   # delete everything created by the test
-  # shutil.rmtree(path_from)
-  # shutil.rmtree(path_to)
+  shutil.rmtree(path_from)
+  shutil.rmtree(path_to)
 
 
 #### SCRIPT ##########################################################
