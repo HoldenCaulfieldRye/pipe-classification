@@ -1,3 +1,4 @@
+# why not use BatchCreator.component for each pipe characteristic?
 # label is directory name!
 
 import cPickle as pickle
@@ -58,6 +59,7 @@ class BatchCreator(object):
     self.setup_output_path(output_path)
     self.setup_super_meta(super_batch_meta) # never used it seems
 
+    # lower down, also self.super_meta attrib, dict of dicts
     self.batch_size = batch_size
     self.channels = channels
     self.size = size
@@ -94,9 +96,12 @@ class BatchCreator(object):
   # combined into a single super array.
   def update_super_meta(self, sorted_labels):
     if self.super_meta_filename is not None:
+
+      # add sorted_labels to super_meta, then remove duplicates
       self.super_meta['labels']['super_labels' ] += sorted_labels
       new_super = sorted(set(p for p in self.super_meta['labels']['super_labels' ]))
       self.super_meta['labels']['super_labels' ] = new_super
+
       self.super_meta['labels'][self.component] = sorted_labels
       for key in self.super_meta['labels']:
         if key != 'super_labels':
