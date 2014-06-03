@@ -4,6 +4,7 @@ import cPickle as pickle
 # from dict2xml import *
 import xml.dom
 from joblib import Parallel, delayed
+from PIL import Image
 import xml.etree.ElementTree as ET
 import shutil
 import time
@@ -232,7 +233,7 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
     case_count += 1
     fullname_dat = os.path.join(from_dir, filename)
     rootname = os.path.splitext(filename)[0]
-    fullname_img = os.path.splitext(fullname_dat)[0]+'.jpg'
+    fullname_jpg = os.path.splitext(fullname_dat)[0]+'.jpg'
     with open(fullname_dat) as f:
       content = [line.strip() for line in f.readlines()] 
       img_flags = [label for label in labels if label in content]
@@ -347,6 +348,10 @@ def test_move_to_dirs():
   f4.close()
   f5.close()
   f6.close()
+  for img_name in xrange(1,7):
+    name = os.getcwd()+'/'+str(img_name)+'.jpg'
+    shutil.copy('/data/ad6813/pipe-data/Redbox/100002.jpg',name)
+    print 'copied a real jpg to %s'%(name)
   os.chdir(base)
 
   # run move_to_dirs on it
@@ -384,9 +389,18 @@ def test_move_to_dirs():
   if summary_stats[1] == 2: print 'summary stats, badcase_count: OK'
   if summary_stats[2] == 0: print 'summary stats, tagless_count: OK'
 
+  # make sure symlinked files are images
+  try:
+    img_link = path_to+'/'+to_dirlist[0]+'/'+noClamp_dirlist[0]
+    if not os.path.islink(img_link): print '%s is not a link'%(img_link)
+    img_name = os.readlink(img_link)
+    Image.open(img_name).convert("RGB")
+    print 'A file in one of the label subdirs links to a jpg image: OK'
+  except: print 'ERROR: %s does not link to a jpg'%(img_link)
+
   # delete everything created by the test
-  shutil.rmtree(path_from)
-  shutil.rmtree(path_to)
+  # shutil.rmtree(path_from)
+  # shutil.rmtree(path_to)
 
 
 #### SCRIPT ##########################################################
