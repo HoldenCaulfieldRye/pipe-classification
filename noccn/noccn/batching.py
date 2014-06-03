@@ -400,8 +400,8 @@ def test_move_to_dirs():
   except: print 'ERROR: %s does not link to a jpg'%(img_link)
 
   # delete everything created by the test
-  # shutil.rmtree(path_from)
-  # shutil.rmtree(path_to)
+  shutil.rmtree(path_from)
+  shutil.rmtree(path_to)
 
 
 #### SCRIPT ##########################################################
