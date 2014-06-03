@@ -73,7 +73,12 @@ class BatchCreator(object):
   # already exist, sets output path state
   def setup_output_path(self, output_path):    
     if not os.path.exists(output_path):
-      os.mkdir(output_path)
+      try:
+        os.mkdir(output_path)
+      except:
+        first_dir = os.path.dirname(output_path)
+        os.mkdir(first_dir)
+        os.mkdir(output_path)
     self.output_path = output_path
 
 
@@ -204,7 +209,12 @@ class BatchCreator(object):
   # size, converts it to a numpy array with 1D.  In row
   # major order, with [R G B] in that order.
   def preprocess(self, im):
-    im = ImageOps.fit(im, self.size, Image.ANTIALIAS)
+    try:
+      im = ImageOps.fit(im, self.size, Image.ANTIALIAS)
+      print "Image successfully resized"
+    except:
+      print "Could not resize image"
+      return None
     im_data = np.array(im)
     im_data = im_data.T.reshape(self.channels, -1).reshape(-1)
     im_data = im_data.astype(np.single)
@@ -214,7 +224,9 @@ class BatchCreator(object):
   # Try to process each image.  If it fails return None.
   def process_item(self, name):
     try:
+      print "try to load image..."
       data = self.load(name)
+      print "Image successfully loaded"
       data = self.preprocess(data)
       return data
     except:
@@ -222,9 +234,9 @@ class BatchCreator(object):
       return None
 
 
-################################################################################
+######################################################################
 # XML Parsing Specific Functions
-################################################################################
+######################################################################
 # Searches through a given directory for files matching the pattern,
 # and returns those files
 def find(root, pattern):
