@@ -400,8 +400,8 @@ def test_move_to_dirs():
   except: print 'ERROR: %s does not link to a jpg'%(img_link)
 
   # delete everything created by the test
-  # shutil.rmtree(path_from)
-  # shutil.rmtree(path_to)
+  shutil.rmtree(path_from)
+  shutil.rmtree(path_to)
 
 
 #### SCRIPT ##########################################################
@@ -420,6 +420,7 @@ if __name__ == "__main__":
   elif sys.argv[1] == 'generate_xml_labels_from_pipe_data':
     generate_xml_labels_from_pipe_data(sys.argv[2])
 
+  # commad used: python batching.py move_to_dirs /data/ad6813/pipe-data/Redbox/raw_data/dump /data/ad6813/pipe-data/Redbox/raw_data/clamp_detection NoClampUsed,PhotoDoesNotShowEnoughOfClamps,ClampDetected last_label_is_default
   elif sys.argv[1] == 'move_to_dirs':
     move_to_dirs(sys.argv)
 
