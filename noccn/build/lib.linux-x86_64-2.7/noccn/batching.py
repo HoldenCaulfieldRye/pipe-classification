@@ -4,6 +4,7 @@ import cPickle as pickle
 # from dict2xml import *
 import xml.dom
 from joblib import Parallel, delayed
+from PIL import Image
 import xml.etree.ElementTree as ET
 import shutil
 import time
@@ -190,10 +191,11 @@ def generate_xml_for(filename, path):
 #### STEP 4: STORE IMGS IN DIRS TO PREPARE FOR BATCHING  #############
 
 def move_to_dirs(args):
+  print 'you know what, this should be made into a ccn script, with arguments specified in options.cfg'
   print 'sys.argv[2] should be dir where raw data is'
   print 'sys.argv[3] should be dir in which to store labeled subdirs'
   print 'sys.argv[4] should be a string of the labels to lookup, separated by commas'
-  print 'sys.argv[5] indicates whether last label exists or is the default one, eg for which no flag has been raised. if left blank, assume last label does exist.'
+  print 'sys.argv[5] indicates that last label is the default one, eg for which no flag has been raised, if last_label_is_default is the arg value.'
   print 'CAREFUL: make sure your labels are spelled correctly! if they don\'t match those in data files, training cases won\'t be picked up correctly.'
   try: args[5]
   except: move_to_dirs_aux(args[2], args[3], args[4])
@@ -230,9 +232,10 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
   for filename in list_dir:
     if not filename.endswith('.dat'): continue
     case_count += 1
-    fullname = os.path.join(from_dir, filename)
+    fullname_dat = os.path.join(from_dir, filename)
     rootname = os.path.splitext(filename)[0]
-    with open(fullname) as f:
+    fullname_jpg = os.path.splitext(fullname_dat)[0]+'.jpg'
+    with open(fullname_dat) as f:
       content = [line.strip() for line in f.readlines()] 
       img_flags = [label for label in labels if label in content]
 
@@ -240,7 +243,7 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
       # not be batched
       if not img_flags: 
         if lastLabelIsDefault:
-          os.symlink(fullname,to_dir+'/'+default+'/'+rootname+'.jpg')
+          os.symlink(fullname_jpg,to_dir+'/'+default+'/'+rootname+'.jpg')
         else: tagless_count += 1
       else:
         # if image has multiple flags, it will appear in each flag
@@ -250,7 +253,7 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
           badcase_count += len(img_flags)-1
           case_count += len(img_flags)-1
         for flag in img_flags:
-            os.symlink(fullname,to_dir+'/'+flag+'/'+rootname+'.jpg')
+            os.symlink(fullname_jpg,to_dir+'/'+flag+'/'+rootname+'.jpg')
 
   print 'types of case_count, badcase_count, tagless_count: %s, %s, %s'%(type(case_count), type(badcase_count), type(tagless_count))
   print 'move_to_dir complete. summary stats:'
@@ -346,6 +349,10 @@ def test_move_to_dirs():
   f4.close()
   f5.close()
   f6.close()
+  for img_name in xrange(1,7):
+    name = os.getcwd()+'/'+str(img_name)+'.jpg'
+    shutil.copy('/data/ad6813/pipe-data/Redbox/100002.jpg',name)
+    print 'copied a real jpg to %s'%(name)
   os.chdir(base)
 
   # run move_to_dirs on it
@@ -383,9 +390,18 @@ def test_move_to_dirs():
   if summary_stats[1] == 2: print 'summary stats, badcase_count: OK'
   if summary_stats[2] == 0: print 'summary stats, tagless_count: OK'
 
+  # make sure symlinked files are images
+  try:
+    img_link = path_to+'/'+to_dirlist[0]+'/'+noClamp_dirlist[0]
+    if not os.path.islink(img_link): print '%s is not a link'%(img_link)
+    img_name = os.readlink(img_link)
+    Image.open(img_name).convert("RGB")
+    print 'A file in one of the label subdirs links to a jpg image: OK'
+  except: print 'ERROR: %s does not link to a jpg'%(img_link)
+
   # delete everything created by the test
-  shutil.rmtree(path_from)
-  shutil.rmtree(path_to)
+  # shutil.rmtree(path_from)
+  # shutil.rmtree(path_to)
 
 
 #### SCRIPT ##########################################################

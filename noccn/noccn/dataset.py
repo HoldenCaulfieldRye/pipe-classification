@@ -200,9 +200,9 @@ class BatchCreator(object):
         f.close()
     print 'Batch processing complete'
 
-
-  def are_files_symlinks(self, all_names_labels):
-    
+  def are_files_symlinks(self, all_names_and_labels):
+    if os.path.islink(all_names_and_labels[0][0]): return True
+    else: return False
 
   # Loads an image, and converts it to RGB format
   def load(self, name):
@@ -228,8 +228,7 @@ class BatchCreator(object):
   # Try to process each image.  If it fails return None.
   def process_item(self, name, symlink=False):
     try:
-      if symlink==True:
-        name = os.readlink(name)
+      if symlink==True: name = os.readlink(name)
       data = self.load(name)
     except:
       print 'Error: could not load image'
