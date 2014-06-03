@@ -191,10 +191,11 @@ def generate_xml_for(filename, path):
 #### STEP 4: STORE IMGS IN DIRS TO PREPARE FOR BATCHING  #############
 
 def move_to_dirs(args):
+  print 'you know what, this should be made into a ccn script, with arguments specified in options.cfg'
   print 'sys.argv[2] should be dir where raw data is'
   print 'sys.argv[3] should be dir in which to store labeled subdirs'
   print 'sys.argv[4] should be a string of the labels to lookup, separated by commas'
-  print 'sys.argv[5] indicates whether last label exists or is the default one, eg for which no flag has been raised. if left blank, assume last label does exist.'
+  print 'sys.argv[5] indicates that last label is the default one, eg for which no flag has been raised, if last_label_is_default is the arg value.'
   print 'CAREFUL: make sure your labels are spelled correctly! if they don\'t match those in data files, training cases won\'t be picked up correctly.'
   try: args[5]
   except: move_to_dirs_aux(args[2], args[3], args[4])
