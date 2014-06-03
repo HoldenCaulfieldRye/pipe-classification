@@ -29,8 +29,8 @@ SIZE = (256, 256)
 # Wrapper function which runs the process_item from
 # a given instance of the BatchCreator class on an item.
 # This is used for parallelizing the data.
-def _process_item(creator, name):
-  return creator.process_item(name)
+def _process_item(creator, name, symlink=False):
+  return creator.process_item(name, symlink)
 
 
 # PLANT
@@ -164,7 +164,6 @@ class BatchCreator(object):
       print 'Batch file backed_up'
       f.close()
 
-
   # The main method, goes through all the files, and batches it
   # while keeping track of the meta-data and super-meta data file
   # as specified in the configuration file.
@@ -174,12 +173,14 @@ class BatchCreator(object):
     self.update_super_meta(labels_sorted)
     self.setup_batch_meta(labels_sorted)
     self.setup_batch_means(len(all_names_and_labels))
+    # Determine whether files are symlinks or not
+    symlink = self.are_files_symlinks(all_names_and_labels)
     # Setup loop variables
     batch_num = 1
     for names_and_labels in list(chunks(all_names_and_labels,self.batch_size)):
       print 'Generating data_batch_%i'%(batch_num)
       rows = Parallel(n_jobs=self.n_jobs)(
-                      delayed(_process_item)(self, name)
+                      delayed(_process_item)(self, name, symlink)
                       for name, label in names_and_labels)
       data = np.vstack([r for r in rows if r is not None])
       if data.shape[0] < self.batch_size:
@@ -199,6 +200,9 @@ class BatchCreator(object):
         f.close()
     print 'Batch processing complete'
 
+  def are_files_symlinks(self, all_names_labels):
+    if os.path.islink(all_names_labels[0][0]): return True
+    else: return False
 
   # Loads an image, and converts it to RGB format
   def load(self, name):
@@ -211,7 +215,7 @@ class BatchCreator(object):
   def preprocess(self, im):
     try:
       im = ImageOps.fit(im, self.size, Image.ANTIALIAS)
-      print "Image successfully resized"
+      # print "Image successfully resized"
     except:
       print "Could not resize image"
       return None
@@ -222,16 +226,19 @@ class BatchCreator(object):
 
 
   # Try to process each image.  If it fails return None.
-  def process_item(self, name):
+  def process_item(self, name, symlink=False):
     try:
-      print "try to load image..."
+      if symlink==True: name = os.readlink(name)
       data = self.load(name)
-      print "Image successfully loaded"
-      data = self.preprocess(data)
-      return data
     except:
-      print "Error processing batch, could not parse %s" % (name)
+      print 'Error: could not load image'
       return None
+    try:
+      data = self.preprocess(data)
+    except:
+      print 'Error: could not preprocess image'
+      return None
+    return data
 
 
 ######################################################################
