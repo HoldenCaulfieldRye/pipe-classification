@@ -200,8 +200,8 @@ class BatchCreator(object):
         f.close()
     print 'Batch processing complete'
 
-  def are_files_symlinks(self, all_names_labels):
-    if os.path.islink(all_names_labels[0][0]): return True
+  def are_files_symlinks(self, all_names_and_labels):
+    if os.path.islink(all_names_and_labels[0][0]): return True
     else: return False
 
   # Loads an image, and converts it to RGB format
