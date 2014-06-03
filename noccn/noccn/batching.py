@@ -230,9 +230,10 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
   for filename in list_dir:
     if not filename.endswith('.dat'): continue
     case_count += 1
-    fullname = os.path.join(from_dir, filename)
+    fullname_dat = os.path.join(from_dir, filename)
     rootname = os.path.splitext(filename)[0]
-    with open(fullname) as f:
+    fullname_img = os.path.splitext(fullname_dat)[0]+'.jpg'
+    with open(fullname_dat) as f:
       content = [line.strip() for line in f.readlines()] 
       img_flags = [label for label in labels if label in content]
 
@@ -240,7 +241,7 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
       # not be batched
       if not img_flags: 
         if lastLabelIsDefault:
-          os.symlink(fullname,to_dir+'/'+default+'/'+rootname+'.jpg')
+          os.symlink(fullname_jpg,to_dir+'/'+default+'/'+rootname+'.jpg')
         else: tagless_count += 1
       else:
         # if image has multiple flags, it will appear in each flag
@@ -250,7 +251,7 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
           badcase_count += len(img_flags)-1
           case_count += len(img_flags)-1
         for flag in img_flags:
-            os.symlink(fullname,to_dir+'/'+flag+'/'+rootname+'.jpg')
+            os.symlink(fullname_jpg,to_dir+'/'+flag+'/'+rootname+'.jpg')
 
   print 'types of case_count, badcase_count, tagless_count: %s, %s, %s'%(type(case_count), type(badcase_count), type(tagless_count))
   print 'move_to_dir complete. summary stats:'
