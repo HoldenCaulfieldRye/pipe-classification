@@ -12,3 +12,11 @@ for python to find .so files, need their location to be added to LD_LIBRARY_PATH
 also, you must run this program in a bash terminal.
 in bashrc, set:
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+
+
+
+import pretrained net
+=====================
+
+under your options.cfg file, under [train], set 
+f = /path/to/pretrained/net 
