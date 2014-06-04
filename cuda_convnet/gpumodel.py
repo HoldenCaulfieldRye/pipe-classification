@@ -327,7 +327,8 @@ class IGPUModel:
         try:
             load_dic = None
             options = op.parse()
-            if options["load_file"].value_given:
+            # import weights ie pretrained model!
+            if options["load_file"].value_given: 
                 load_dic = IGPUModel.load_checkpoint(options["load_file"].value)
                 old_op = load_dic["op"]
                 old_op.merge_from(op)
