@@ -112,7 +112,7 @@ def make_model(model_cls, section, cfg_filename=None):
         )
     random_seed(int(cfg.get('seed', '42')))
 
-    model = model_cls(op, load_dic)
+    model = model_cls(op, load_dic) # load_dic is the network params?
     update_attrs_from_cfg(model, cfg, 'convnet')
     update_attrs_from_cfg(model.train_data_provider, cfg, 'dataprovider')
     update_attrs_from_cfg(model.test_data_provider, cfg, 'dataprovider') 
