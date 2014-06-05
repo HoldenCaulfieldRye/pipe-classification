@@ -1,0 +1,205 @@
+nohup: ignoring input
+Initialized data layer 'data', producing 196608 outputs
+Initialized data layer 'labels', producing 1 outputs
+Initialized convolutional layer 'conv1', producing 63x63 48-channel output
+Initialized max-pooling layer 'pool1', producing 31x31 48-channel output
+Initialized cross-map response-normalization layer 'rnorm1', producing 31x31 48-channel output
+Initialized convolutional layer 'conv2', producing 31x31 128-channel output
+Initialized max-pooling layer 'pool2', producing 15x15 128-channel output
+Initialized cross-map response-normalization layer 'rnorm2', producing 15x15 128-channel output
+Initialized convolutional layer 'conv3', producing 15x15 192-channel output
+Initialized convolutional layer 'conv4', producing 15x15 192-channel output
+Initialized convolutional layer 'conv5', producing 15x15 128-channel output
+Initialized max-pooling layer 'pool5', producing 7x7 128-channel output
+Initialized fully-connected layer 'fc6', producing 4096 outputs
+Initialized fully-connected layer 'fc7', producing 4096 outputs
+Initialized fully-connected layer 'fc8', producing 3 outputs
+Initialized softmax layer 'probs', producing 3 outputs
+Initialized logistic regression cost 'logprob'
+Initialized neuron layer 'conv1_neuron', producing 190512 outputs
+Initialized neuron layer 'conv2_neuron', producing 123008 outputs
+Initialized neuron layer 'conv3_neuron', producing 43200 outputs
+Initialized neuron layer 'conv4_neuron', producing 43200 outputs
+Initialized neuron layer 'conv5_neuron', producing 28800 outputs
+Initialized neuron layer 'fc6_neuron', producing 4096 outputs
+Initialized neuron layer 'fc7_neuron', producing 4096 outputs
+=========================
+Importing _ConvNet C++ module
+=========================
+Training ConvNet
+Always write savepoints, regardless of test err improvement: 0     [DEFAULT]
+Check gradients and quit?                                  : 0     [DEFAULT]
+Compress checkpoints?                                      : 0     [DEFAULT]
+Conserve GPU memory (slower)?                              : 0     [DEFAULT]
+Convert given conv layers to unshared local                :       
+Cropped DP: crop border size                               : 32    
+Cropped DP: logreg layer name (for --multiview-test)       :       [DEFAULT]
+Cropped DP: test on multiple patches?                      : 0     [DEFAULT]
+Cropped Step: crop border step                             : 1     [DEFAULT]
+Data batch range: testing                                  : 801-886 
+Data batch range: training                                 : 1-800 
+Data path                                                  : /data2/ad6813/pipe-data/Redbox/batches/clamp_detection 
+Data provider                                              : basic-leaf256 
+GPU override                                               : -1    [DEFAULT]
+Layer definition file                                      : /homes/ad6813/Git/pipe-classification/models/decaf-net/zero_init/05-06-2014/layers_decaf.cfg 
+Layer parameter file                                       : /homes/ad6813/Git/pipe-classification/models/decaf-net/zero_init/05-06-2014/params_decaf.cfg 
+Load file                                                  :       [DEFAULT]
+Maximum save file size (MB)                                : 0     [DEFAULT]
+Minibatch size                                             : 128   [DEFAULT]
+Number of GPUs                                             : 1     [DEFAULT]
+Number of epochs                                           : 50000 [DEFAULT]
+Save path                                                  : /data2/ad6813/my-nets/saves 
+Test and quit?                                             : 0     [DEFAULT]
+Test on more than one batch at a time?                     : 10    
+Test on one batch at a time?                               : 1     [DEFAULT]
+Testing frequency                                          : 200   
+Unshare weight matrices in given layers                    :       
+=========================
+Running on CUDA device(s) -2
+Current time: Thu Jun  5 14:57:19 2014
+Saving checkpoints to /data2/ad6813/my-nets/saves/ConvNet__2014-06-05_14.57.14
+=========================
+1.1... logprob:  1.088662, 0.441406 (1.414 sec)
+1.2... logprob:  0.972150, 0.294271 (1.440 sec)
+1.3... logprob:  0.770114, 0.218750 (1.419 sec)
+1.4... logprob:  0.706806, 0.278646 (1.400 sec)
+1.5... logprob:  0.688989, 0.312500 (1.425 sec)
+1.6... logprob:  0.680518, 0.291667 (1.390 sec)
+1.7... logprob:  0.588443, 0.270833 (1.419 sec)
+1.8... logprob:  0.756665, 0.269531 (1.392 sec)
+1.9... logprob:  0.630596, 0.270833 (1.401 sec)
+1.10... logprob:  0.636652, 0.240885 (1.405 sec)
+1.11... logprob:  0.548199, 0.252604 (1.438 sec)
+1.12... logprob:  0.842014, 0.312500 (1.388 sec)
+1.13... logprob:  0.685563, 0.270833 (1.415 sec)
+1.14... logprob:  0.736772, 0.282552 (1.397 sec)
+1.15... logprob:  0.732633, 0.253906 (1.404 sec)
+1.16... logprob:  0.708493, 0.294271 (1.402 sec)
+1.17... logprob:  0.764650, 0.286458 (1.383 sec)
+1.18... logprob:  0.542724, 0.235677 (1.396 sec)
+1.19... logprob:  0.544228, 0.263021 (1.384 sec)
+1.20... logprob:  0.790181, 0.300781 (1.395 sec)
+1.21... logprob:  0.735788, 0.305990 (1.390 sec)
+1.22... logprob:  0.795916, 0.307292 (1.403 sec)
+1.23... logprob:  0.783956, 0.332031 (1.404 sec)
+1.24... logprob:  0.632011, 0.286458 (1.411 sec)
+1.25... logprob:  0.523579, 0.242187 (1.395 sec)
+1.26... logprob:  0.698145, 0.315104 (1.438 sec)
+1.27... logprob:  0.603981, 0.292969 (1.383 sec)
+1.28... logprob:  0.719232, 0.325521 (1.405 sec)
+1.29... logprob:  0.632137, 0.274740 (1.417 sec)
+1.30... logprob:  0.682710, 0.285156 (1.406 sec)
+1.31... logprob:  0.756860, 0.324219 (1.396 sec)
+1.32... logprob:  0.696053, 0.303385 (1.381 sec)
+1.33... logprob:  0.686802, 0.283854 (1.441 sec)
+1.34... logprob:  0.683874, 0.266927 (1.379 sec)
+1.35... logprob:  0.594833, 0.272135 (1.389 sec)
+1.36... logprob:  0.668375, 0.283854 (1.397 sec)
+1.37... logprob:  0.689926, 0.299479 (1.393 sec)
+1.38... logprob:  0.608130, 0.261719 (1.384 sec)
+1.39... logprob:  0.707578, 0.309896 (1.425 sec)
+1.40... logprob:  0.632475, 0.279948 (1.402 sec)
+1.41... logprob:  0.628042, 0.273437 (1.414 sec)
+1.42... logprob:  0.628957, 0.276042 (1.412 sec)
+1.43... logprob:  0.690858, 0.292969 (1.401 sec)
+1.44... logprob:  0.704980, 0.307292 (1.426 sec)
+1.45... logprob:  0.611470, 0.274740 (1.386 sec)
+1.46... logprob:  0.799858, 0.339844 (1.391 sec)
+1.47... logprob:  0.554702, 0.223958 (1.386 sec)
+1.48... logprob:  0.646146, 0.285156 (1.420 sec)
+1.49... logprob:  0.734275, 0.320312 (1.406 sec)
+1.50... logprob:  0.634535, 0.266927 (1.414 sec)
+1.51... logprob:  0.727836, 0.291667 (1.414 sec)
+1.52... logprob:  0.779621, 0.321615 (1.389 sec)
+1.53... logprob:  0.508582, 0.212240 (1.442 sec)
+1.54... logprob:  0.651601, 0.268229 (1.378 sec)
+1.55... logprob:  0.601453, 0.252604 (1.389 sec)
+1.56... logprob:  0.698766, 0.295573 (1.390 sec)
+1.57... logprob:  0.750642, 0.341146 (1.421 sec)
+1.58... logprob:  0.670877, 0.269531 (1.397 sec)
+1.59... logprob:  0.542282, 0.230469 (1.460 sec)
+1.60... logprob:  0.720262, 0.324219 (1.435 sec)
+1.61... logprob:  0.640616, 0.300781 (1.421 sec)
+1.62... logprob:  0.649841, 0.303385 (1.451 sec)
+1.63... logprob:  0.577868, 0.264323 (1.424 sec)
+1.64... logprob:  0.709060, 0.305990 (1.399 sec)
+1.65... logprob:  0.619576, 0.319010 (1.391 sec)
+1.66... logprob:  0.632264, 0.277344 (1.441 sec)
+1.67... logprob:  0.552077, 0.242187 (1.382 sec)
+1.68... logprob:  0.557181, 0.250000 (1.389 sec)
+1.69... logprob:  0.743076, 0.289063 (1.416 sec)
+1.70... logprob:  0.649582, 0.286458 (1.421 sec)
+1.71... logprob:  0.637362, 0.312500 (1.453 sec)
+1.72... logprob:  0.767942, 0.322917 (1.397 sec)
+1.73... logprob:  0.655524, 0.260417 (1.417 sec)
+1.74... logprob:  0.707296, 0.334635 (1.410 sec)
+1.75... logprob:  0.535726, 0.266927 (1.409 sec)
+1.76... logprob:  0.647964, 0.261719 (1.430 sec)
+1.77... logprob:  0.569593, 0.229167 (1.420 sec)
+1.78... logprob:  0.689622, 0.312500 (1.449 sec)
+1.79... logprob:  0.650433, 0.317708 (1.394 sec)
+1.80... logprob:  0.741766, 0.308594 (1.411 sec)
+1.81... logprob:  0.647849, 0.286458 (1.413 sec)
+1.82... logprob:  0.457809, 0.203125 (1.413 sec)
+1.83... logprob:  0.725955, 0.313802 (1.396 sec)
+1.84... logprob:  0.641868, 0.268229 (1.457 sec)
+1.85... logprob:  0.661011, 0.294271 (1.409 sec)
+1.86... logprob:  0.585183, 0.263021 (1.414 sec)
+1.87... logprob:  0.802492, 0.350260 (1.409 sec)
+1.88... logprob:  0.727670, 0.312500 (1.404 sec)
+1.89... logprob:  0.657050, 0.322917 (1.425 sec)
+1.90... logprob:  0.671345, 0.281250 (1.386 sec)
+1.91... logprob:  0.600943, 0.253906 (1.384 sec)
+1.92... logprob:  0.722627, 0.302083 (1.391 sec)
+1.93... logprob:  0.696319, 0.296875 (1.392 sec)
+1.94... logprob:  0.654137, 0.279948 (1.388 sec)
+1.95... logprob:  0.633281, 0.261719 (1.393 sec)
+1.96... logprob:  0.748427, 0.320312 (1.400 sec)
+1.97... logprob:  0.616943, 0.270833 (1.382 sec)
+1.98... logprob:  0.636601, 0.255208 (1.432 sec)
+1.99... logprob:  0.699144, 0.317708 (1.398 sec)
+1.100... logprob:  0.561027, 0.248698 (1.393 sec)
+1.101... logprob:  0.563942, 0.231771 (1.437 sec)
+1.102... logprob:  0.723829, 0.337240 (1.385 sec)
+1.103... logprob:  0.734835, 0.316406 (1.390 sec)
+1.104... logprob:  0.527519, 0.229167 (1.393 sec)
+1.105... logprob:  0.931383, 0.406250 (1.379 sec)
+1.106... logprob:  0.555085, 0.227865 (1.380 sec)
+1.107... logprob:  0.507183, 0.222656 (1.434 sec)
+1.108... logprob:  0.783816, 0.303385 (1.388 sec)
+1.109... logprob:  0.577640, 0.257812 (1.398 sec)
+1.110... logprob:  0.769047, 0.350260 (1.389 sec)
+1.111... logprob:  0.683110, 0.282552 (1.387 sec)
+1.112... logprob:  0.594493, 0.273437 (1.392 sec)
+1.113... logprob:  0.646157, 0.287760 (1.393 sec)
+1.114... logprob:  0.767671, 0.339844 (1.444 sec)
+1.115... logprob:  0.776999, 0.322917 (1.415 sec)
+1.116... logprob:  0.676343, 0.270833 (1.389 sec)
+1.117... logprob:  0.703826, 0.291667 (1.437 sec)
+1.118... logprob:  0.655674, 0.260417 (1.382 sec)
+1.119... logprob:  0.614316, 0.278646 (1.392 sec)
+1.120... logprob:  0.707648, 0.296875 (1.395 sec)
+1.121... logprob:  0.592690, 0.264323 (1.392 sec)
+1.122... logprob:  0.698598, 0.303385 (1.445 sec)
+1.123... logprob:  0.705548, 0.302083 (1.391 sec)
+1.124... logprob:  0.652128, 0.266927 (1.392 sec)
+1.125... logprob:  0.664434, 0.282552 (1.399 sec)
+1.126... logprob:  0.697598, 0.333333 (1.384 sec)
+1.127... logprob:  0.686029, 0.298177 (1.390 sec)
+1.128... logprob:  0.676697, 0.308594 (1.418 sec)
+1.129... logprob:  0.856018, 0.341146 (1.425 sec)
+1.130... logprob:  0.624678, 0.290365 (1.418 sec)
+1.131... logprob:  0.653051, 0.290365 (1.413 sec)
+1.132... logprob:  0.707125, 0.305990 (1.431 sec)
+1.133... logprob:  0.504472, 0.213542 (1.394 sec)
+1.134... logprob:  0.626079, 0.248698 (1.398 sec)
+1.135... logprob:  0.658090, 0.282552 (1.398 sec)
+1.136... logprob:  0.848966, 0.360677 (1.394 sec)
+1.137... logprob:  0.656569, 0.302083 (1.391 sec)
+1.138... logprob:  0.611402, 0.283854 (1.442 sec)
+1.139... logprob:  0.613728, 0.265625 (1.395 sec)
+1.140... logprob:  0.688806, 0.296875 (1.412 sec)
+1.141... logprob:  0.794827, 0.343750 (1.442 sec)
+1.142... logprob:  0.686941, 0.289062 (1.395 sec)
+1.143... logprob:  0.608648, 0.278646 (1.424 sec)
+1.144...
