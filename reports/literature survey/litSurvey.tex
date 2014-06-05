@@ -58,14 +58,55 @@ This project aims to automate the classification of pipe weld images with deep n
 
 \subsection{Defining the problem: Single-Instance Multi-Label Supervised Learning}
 
-Given an instance space X and a set of class labels Y, learn a function f : X -> P(Y) from a given dataset {(x1,y1),(x2,y2), ..., (xn,yn)}, where xi € X is an instance and yi € 
+The problem of learning to classify pipe weld images from a labelled dataset is a single-instance, multi-label, supervised learning classification problem: Given an instance space X and a set of class labels Y, learn a function f : X -> P(Y) from a given dataset {(x1,y1),(x2,y2), ..., (xn,yn)}, where xi € X is an instance and yi = (yi1, ..., yip) € P(Y) are the known labels of xi.
 
-The problem of learning to classify pipe weld images from a labelled dataset is a single-instance, multi-label, supervised learning classification problem. Indeed, the final classification of whether a pipe weld is accepted or rejected depends on the presence or absence of a number of characteristics (note that the term 'characteristic' is to be distinguished from feature and class, and could be defined as a component of a multidimensional class called the pipe weld). Formally, let X denote the instance space and Y = Y1 x Y2 x ... x Yp = {0,1}\^p the set of p characteristics. Then the task is to learn a function f : X -> Y from a given data set {(x1, Y1), (x2, Y2), · · · , (xm, Ym)}, where xi € X is an instance and yi € Y the known characteristics of xi.
+This differs from the traditional supervised learning classification task in the sense that the output is not a single label, but a vector of labels. This makes the classification task more complex, but it also introduces an error vector rather than an error scalar into the learning task (which may provide a more informative error gradient to propagate across the parameters of the model). 
 
-This differs from the traditional supervised learning classification task of learning a function f : X → Y where Y = {e1, ... , ep} i.e. the standard normal vectors of R\^p. In other words, a traditional supervised learning classification task has one tag per instance, whereas in this case there can be a number of present characteristics. 
+This also differs from the albeit similar task of Multi-Instance Multi-Label learning\cite{MIML}, where each training case {x(i)1 ,x(i) 2 , · · · ,x(i) ni } contains ni>=1, i.e. may contain multiple instances from the instance space X, each of which are associated to a label, resulting in a label vector {y(i) 1 , y(i) 2 , · · · , y(i) li }.
 
-This also differs from the Multi-Instance Multi-Label supervised learning task of learning a function f : X\^2 → Y\^2, i.e. where any number of class instances can appear in one case-to-classify. 
+\paragraph{Practical Definition of the Problem}
 
+Practically speaking, the reason for why this task involves a vector of labels is because the quality of a pipe weld is assessed not on one, but 17 characteristics. 
+
+\begin{table}[h]
+   \centering
+    \begin{tabular}{|l|c|}
+    \hline
+    Characteristic                 & Penalty Value  \\ \hline
+    No Ground Sheet  & ~  5 \\
+    No Insertion Depth Markings  & ~ 5 \\
+    No Visible Hatch Markings  & ~ 5 \\
+    Other  & ~  5 \\
+    Photo Does Not Show Enough Of Clamps  & ~ 5 \\
+    Photo Does Not Show Enough Of Scrape Zones  & ~ 5 \\
+    Fitting Proximity  & ~  15 \\
+    Soil Contamination Low Risk  & ~ 15 \\
+    Unsuitable Scraping Or Peeling  & ~ 15 \\
+    Water Contamination Low Risk  & ~ 15 \\
+    Joint Misaligned  & ~  35 \\
+    Inadequate Or Incorrect Clamping  & ~ 50 \\
+    No Clamp Used  & ~  50 \\
+    No Visible Evidence Of Scraping Or Peeling  & ~ 50 \\
+    Soil Contamination High Risk  & ~ 50 \\
+    Water Contamination HighRisk  & ~ 50 \\
+    Unsuitable Photo  & ~ 100 \\
+    \hline
+    \end{tabular}
+    \caption {Code Coverage for Request Server}
+\end{table} 
+
+\paragraph{Practical Background}
+
+At this point, it may help to explain the procedure through which these welds are made, and how pictures of them are taken. The situation is that of fitting two disjoint polyethylene pipes with electrofusion joints \cite{pipe-jointing}, in the context of gas or water infrastructure. Since the jointing is done by hand, in an industry affected with alleged "poor quality workmanship", and is most often followed by burial of the pipe under the ground, poor joints occur with relative frequency \cite{poor-quality}. Since a contamination can cost up to £100,000 \cite{contamination-cost}, there exists a strong case for putting in place protocols to reduce the likelihood of such an event. ControlPoint currently has one in place in which, following the welding of a joint, the on-site worker sends one or more photos, at arm's length, of the completed joint. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.22\linewidth]{images/.png}
+	\includegraphics[width=0.22\linewidth]{images/.png}
+	\caption{Evolution of the App}
+\end{figure}
+
+These images are then manually inspected at the ControlPoint headquarters and checked for the presence of the adverse characteristics listed above. The joint is accepted and counted as finished if the number of penalty points is sufficiently low (the threshold varies from an installation contractor to the next, but 50 and above is generally considered as unacceptable). Although these characteristics are all outer observations of the pipe fitting, they have shown to be very good indicators of the quality of the weld \cite{outer-characteristics-good}. Manual inspection of the pipes is not only expensive, but also delaying: as images are queued for inspection, so is the completion of a pipe fitting. Contractors are often under tight operational time constraints in order to keep the shutting off of gas or water access to a minimum, so the protocol can be a significant impediment. Automated, immediate classification would therefore bring strong benefits.
 
 
 \subsubsection{Supervised Learning}
@@ -217,9 +258,36 @@ I don't think much work has been done on combining neural networks with hidden m
   \emph{DeCAF: A Deep Convolutional Activation Feature for Generic Visual Recognition}\\
   arXiv preprint arXiv:1310.1531, 2013
 
+\bibitem{MIML}
+ Zhou, Zhi-Hua and Zhang, Min-Ling,
+  \emph{Multi-Instance Multi-Label Learning with Application to Scene Classification}\\
+  Advances in Neural Information Processing Systems 19, Proceedings of the Twentieth Annual Conference on Neural Information Processing Systems, Vancouver, British Columbia, Canada, December 4-7, 2006
+
 \bibitem{f-measure}
  Joan Pastor-Pellicer, Francisco Zamora-Martinez, Salvador Espana-Boquera and Maria Jose Castro-Bleda,
   \emph{F-Measure as the Error Function to Train Neural Networks}\\
+
+\bibitem{pipe-jointing}
+ Fusion Group - ControlPoint LLP,
+ \emph{Company Description}\\
+ URL: \url{http://www.fusionprovida.com/companies/control-point}, last accessed 5th June 2014. 
+
+\bibitem{contamination-cost}
+ Fusion Group - ControlPoint LLP,
+ \emph{Company Description}\\
+ URL: \url{http://www.fusionprovida.com/companies/control-point}, last accessed 5th June 2014. 
+  
+\bibitem{poor-quality}
+ Fusion Group - ControlPoint LLP,
+ \emph{Company Description}\\
+ URL: \url{http://www.fusionprovida.com/companies/control-point}, last accessed 5th June 2014. 
+  
+\bibitem{outer-characteristics-good}
+ Fusion Group - ControlPoint LLP,
+ \emph{Company Description}\\
+ URL: \url{http://www.fusionprovida.com/companies/control-point}, last accessed 5th June 2014. 
+  
+  
 
 \end{thebibliography}
 

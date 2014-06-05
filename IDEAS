@@ -1,0 +1,63 @@
+
+TO DO
+=====
+
+Find more graphic machines:
+- train a net on each of them
+
+
+Decrease learning rate:
+- see if this can reduce choppiness
+
+
+Import DeCAF:
+- freeze backprop on conv layers
+- try tight fc, even proportion training cases
+
+
+No_Params > No_Images:
+- is there any point
+- better to train with all class labels, or to reduce?
+  intuition: better to 'explain' everything in the image
+- count no_params in each layer
+
+  
+Ccn-show:
+- is zero_init really learning anything?
+
+
+F-measure:
+- modify cost function to account for imbalanced classes
+
+
+Data Augmentation:
+- normal
+- full rotation
+- blind spots (cf blind spots paper)
+
+
+InitW:
+- SGD tricks
+
+
+Smart Preprocessing:
+- blurring if only colour matters
+- greyscale if only shape matter
+
+
+Error vectors vs Error scalars:
+- a vector of errors => more precise backprop
+- each label expxlains a different part of the image
+
+
+
+MUST READS
+==========
+
+Image Blind Spots - Intriguing ppties of neural networks, Szegedy et al.
+
+SGD tricks 1
+
+SGD tricks 2
+
+
