@@ -92,6 +92,13 @@ Or maybe deep belief nets have never been applied to multi-instance multi-label 
 \pagebreak
 \subsection{Deep Convolutional Neural Networks}
 
+CITATION BELOW!
+\it{"Convolutional neural network is a specific artificial neural network topology that is inspired by biological visual cortex and tailored for computer vision tasks by Yann LeCun in early 1990s. See http://deeplearning.net/tutorial/lenet.html for introduction.
+The convolutional neural network implemented in ccv is based on Alex Krizhevsky’s ground-breaking work presented in:
+ImageNet Classification with Deep Convolutional Neural Networks, Alex Krizhevsky, Ilya Sutskever, and Geoffrey E. Hinton, NIPS 2012
+The parameters are modified based on Matthew D. Zeiler’s work presented in:
+Visualizing and Understanding Convolutional Networks, Matthew D. Zeiler, and Rob Fergus, Arxiv 1311.2901 (Nov 2013)."}
+
 \subsubsection{Translation Invariance}
 
 \subsubsection{Recent Architecture Improvements}
@@ -118,10 +125,54 @@ There are 227,730 640x480 'RedBox' images. There are 1280x960 'BlueBox' images. 
 \paragraph{t-SNE}
 
 \subsection{Cuda-Convnet}
+
+Cuda-Convnet is a GPU implementation of a deep convolutional neural network implemented in CUDA/C++. It was written by Alex Krizhevsky to train the net that set ground-breaking records at the ILSVRC 2012 competition, and subsequently open-sourced. However, parts of his work are missing and his open source repository is not sufficient to reproduce his network (see test run for how this was dealt with).
+
 \subsubsection{Test Run}
+
+Use Alex Krizhevsky's GPU implementation. Use Daniel Nouri's noccn scripts. Download the file containing serialized code for Yangqing's decaf\cite{decaf} network parameters, reverse engineer it using Daniel Nouri's skynet configuration files. Write batching script for decaf-net's image dimensions. Write data augmentation scripts to reduce overfit.  Write c++ code to import the decaf parameters to initialise the weights of a new network, to re-initialise the weights of the fully connected layers, to train only the fully connected layers, keeping the lower layers 'frozen'.
+
+888 batches of 128 images each. Used 10\% of the data for testing - so trained on 102,400 images.
+
+\paragraph{DeCAF}
+
+By Yangqinq Jia and University of California, Berkeley. \it{"As the underlying architecture for our feature we adopt the deep convolutional neural network architecture proposed by Krizhevsky et al. (2012), which won the ImageNet Large Scale Visual Recognition Challenge 2012 (Berg
+et al., 2012) with a top-1 validation error rate of 40.7\%. 3 We chose this model due to its performance on a difficult 1000-way classification task, hypothesizing that the activa- tions of the neurons in its late hidden layers might serve as very strong features for a variety of object recognition tasks. Its inputs are the mean-centered raw RGB pixel intensity values of a 224×224 image. These values are forward propagated through 5 convolutional layers (with pooling and ReLU non-linearities applied along the way) and 3 fully-connected layers to determine its final neuron activ- ities: a distribution over the task’s 1000 object categories. Our instance of the model attains an error rate of 42.9\% on the ILSVRC-2012 validation set – 2.2\% shy of the 40.7\% achieved by (Krizhevsky et al., 2012).
+We refer to Krizhevsky et al. (2012) for a detailed discus- sion of the architecture and training protocol, which we closely followed with the exception of two small differ- ences in the input data. First, we ignore the image’s orig-
+inal aspect ratio and warp it to 256 × 256, rather than re- sizing and cropping to preserve the proportions. Secondly, we did not perform the data augmentation trick of adding random multiples of the principle components of the RGB pixel values throughout the dataset, proposed as a way of capturing invariance to changes in illumination and color.}
+
+
+\paragraph{Network Architecture}
+
+Don't want to saturate neurons. Need a standard deviation of weight initialisations proportional to the square root of the fan-in. Convolutional layers have a much smaller fan-in than, say, fully connected layers, so the standard deviation needs to be much lower.
+
+Use dropout of 0.5 in each fully connected layer, so add twice as many outputs. Go from 4096 to 8192. Actually no, keep it at 4096. Furthermore, reduce the number of neurons in each fully connected layer, because don't have as many classes to classify. Just need a few abstract features. The last layer has number of neurons fixed to number of classes. So actually, maybe reduce the number of neurons only in the 2nd fully connected one, but not the first: this is like having a few very abstract features, which are combinations of a very high number of less abstract features.
+
 \subsection{Transfer Learning}
 
 \subsection{Further Work}
+
+\paragraph{Tweak Architecture}
+
+Change proportion of data used as training data.
+Change fan-in for the fully connected layers.
+Change dropout rate (probably don't need to).
+Does number of classes to classify influences network hyper-parameters, other than number of neurons in top layer?
+Maybe reduce the number of neurons in each fully connected layer even more so, because don't have as many classes to classify. Just need a few abstract features. The last layer has number of neurons fixed to number of classes. So actually, maybe reduce the number of neurons only in the 2nd fully connected one, but not the first: this is like having a few very abstract features, which are combinations of a very high number of less abstract features.
+
+\paragraph{Tweak Training}
+
+I'm training a CNN to recognise 3 classes, but 91\% of my data is of the same class. Is there anything I should alter in the way I train?
+
+For example, should I make the proportions of each class in my validation batches even (1/3, 1/3, 1/3)? Because the thing is, weights are only saved when new validation error is lower than lowest validation error until now. But if this validation error is computed over hardly any examples of the other 2 classes, how can it be a good indicator that the network is on its way to learning good features?﻿
+
+\paragraph{Significantly Alter Architecture}
+
+Hidden Markov for pipe type. Whether the joint is a T-joint or not alters the way the image has to be assessed for each of the flags. In other words, whether or not the joint is a T-joint modifies the visual features that have to be picked up by the neural network for classification.
+Unless I'm mistaken, we do not have data for each image about whether or not it is a T-joint.
+At first, I had found that a bit disappointing, But I've just been thinking, this might be a very exciting research opportunity: there's a (powerful and super cool) type of machine learning model called a Hidden Markov model, where unknown states can be learned. In this case, the unknown state would "whether or not joint is a T-joint". Knowing this state should in theory help the network to improve classification, because it could indicate to it that a slightly different set of visual features need to be used for classification.
+I don't think much work has been done on combining neural networks with hidden markov models - and I don't know whether it's possible. But I'd like to mention it in my first report as a potential research path (unless Jack thinks it's a bad idea!). Hence why I wanted to be sure about the terminology for these different joints!
+
 
 \subsubsection{Caffe}
 
@@ -132,4 +183,16 @@ There are 227,730 640x480 'RedBox' images. There are 1280x960 'BlueBox' images. 
 It might be interesting to explore hidden markov models because the data has obvious hidden states which humans benefit from learning: pipe welds can be T welds and standard welds, and this alters where scratch marks need to be seen.
 
 \clearpage
+
+\begin{thebibliography}{1}
+
+% Example: \bibitem{One}
+% a better way of doing it: a .bib file or something. bit.ly/1kqg2Qe
+
+\bibitem{decaf}
+ Donahue, Jeff and Jia, Yangqing and Vinyals, Oriol and Hoffman, Judy and Zhang, Ning and Tzeng, Eric and Darrell, Trevor,
+  \emph{DeCAF: A Deep Convolutional Activation Feature for Generic Visual Recognition}\\
+  arXiv preprint arXiv:1310.1531, 2013
+
+\end{thebibliography}
 \end{document}

@@ -25,8 +25,12 @@
 \contentsline {paragraph}{t-SNE}{6}
 \contentsline {subsection}{\numberline {2.2}Cuda-Convnet}{6}
 \contentsline {subsubsection}{\numberline {2.2.1}Test Run}{6}
-\contentsline {subsection}{\numberline {2.3}Transfer Learning}{6}
-\contentsline {subsection}{\numberline {2.4}Further Work}{6}
-\contentsline {subsubsection}{\numberline {2.4.1}Caffe}{6}
-\contentsline {subsubsection}{\numberline {2.4.2}Theano}{6}
-\contentsline {subsubsection}{\numberline {2.4.3}Hidden Markov Model}{6}
+\contentsline {paragraph}{DeCAF}{6}
+\contentsline {paragraph}{Network Architecture}{6}
+\contentsline {subsection}{\numberline {2.3}Transfer Learning}{7}
+\contentsline {subsection}{\numberline {2.4}Further Work}{7}
+\contentsline {paragraph}{Tweak Architecture}{7}
+\contentsline {paragraph}{Significantly Alter Architecture}{7}
+\contentsline {subsubsection}{\numberline {2.4.1}Caffe}{7}
+\contentsline {subsubsection}{\numberline {2.4.2}Theano}{7}
+\contentsline {subsubsection}{\numberline {2.4.3}Hidden Markov Model}{7}
