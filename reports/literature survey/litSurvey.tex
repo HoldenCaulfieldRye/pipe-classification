@@ -38,12 +38,15 @@
 
 \maketitle
 
+\begin{abstract}
+
 \abstract
 {
 \par Automatic image classification experienced a breakthrough in 2012 with the advent of GPU implementations of deep neural networks. Since then, state-of-the-art has centred around improving these deep neural networks. The following is a literature survey of papers relevant to the task of learning to automatically multi-tag images of pipe welds, from a restrictive number of training cases, and with high-level knowledge of some abstract features. It is therefore divided into 5 sections: foundations of machine learning with neural networks, deep convolutional neural networks (including deep belief networks), multi-tag learning, learning with few training examples, and incorporating knowledge of the structure of the data into the network architecture to optimise learning.\\
 
 \par In terms of progress, a deep convolutional neural network, pretrained on 10 million images from ImageNet, has been trained on 150,000 pipe weld images for the simplest possible task of discriminating 'good' pipe weld from 'bad' pipe welds. A classification error rate of ??\% has been attained. Although this figure is encouraging, it corresponds to a much simpler formulation of the task: the objective of this project is to achieve multi-tagging for 23 characteristics, some of which require considerable human training.  Include a separate section on progress that describes: the activities and accomplishments of the project to date; any problems or obstacles that might have cropped up and how those problems or obstacles are being dealt with; and plans for the next phases of the project.
 }
+\end{abstract}
 
 \clearpage
 \tableofcontents
@@ -51,7 +54,7 @@
 \clearpage
 \section{Background}
 
-This project aims to automate the classification of pipe weld images with deep neural networks. Classification is a  machine learning task and deep neural networks are a class of machine learning tools, so we will start with fundamental concepts in machine learning and go through major refinements in neural network architectures to finish with the state-of-the-art machine learning model for image classification: convolutional deep belief nets. The last two sections focus on two challenges specific to the pipe weld image classification task: multi-tagging and learning features from a restricted training set.
+This project aims to automate the classification of pipe weld images with deep neural networks. We will start with fundamental concepts in machine learning, then go on to explain the architecture of a deep convolutional neural network with restricted linear units, and finally explain how the network is trained with stochastic gradient descent, backpropagation and dropout. The last sections focus on three challenges specific to the pipe weld image classification task: multi-tagging, learning features from a restricted training set, and class imbalance.
 
 \subsection{Defining the problem: Single-Instance Multi-Label Supervised Learning}
 
@@ -67,30 +70,18 @@ This also differs from the Multi-Instance Multi-Label supervised learning task o
 
 \subsubsection{Supervised Learning}
 
-\subsubsection{Unsupervised Learning}
-
 \subsubsection{Approximation vs Generalisation}
 
-\subsection{Existing Approaches}
 
-This section is divided into the most successful known approaches to tackling the problem, starting with the most successful, and finishing with an oft-times superior contender (which is inferior in this case): discriminative deep neural networks, hidden markov models, gaussian mixture models, and generative deep neural networks. 
-
-Or maybe deep belief nets have never been applied to multi-instance multi-label learning before and this project is a chance to explore their performance.
-
-\subsection{Deep Neural Networks}
-
-\subsubsection{Architecture of Deep Neural Networks}
+\subsection{Architecture of a Deep Convolutional Neural Network with Rectified Linear Units and Dropout}
 
 \paragraph{Feed-Forward Architecture}
 
-\paragraph{Multilayer Peceptron}
+\paragraph{Deep Neural Networks: the Multilayer Peceptron}
 
-\subsubsection{Training}
-\paragraph{Gradient Descent}
-\paragraph{Backpropagation}
+\paragraph{Convolutions}
 
-\pagebreak
-\subsection{Deep Convolutional Neural Networks}
+\subparagraph{Translation Invariance}
 
 CITATION BELOW!
 \it{"Convolutional neural network is a specific artificial neural network topology that is inspired by biological visual cortex and tailored for computer vision tasks by Yann LeCun in early 1990s. See http://deeplearning.net/tutorial/lenet.html for introduction.
@@ -99,17 +90,25 @@ ImageNet Classification with Deep Convolutional Neural Networks, Alex Krizhevsky
 The parameters are modified based on Matthew D. Zeiler’s work presented in:
 Visualizing and Understanding Convolutional Networks, Matthew D. Zeiler, and Rob Fergus, Arxiv 1311.2901 (Nov 2013)."}
 
-\subsubsection{Translation Invariance}
-
-\subsubsection{Recent Architecture Improvements}
-
-\pagebreak
-\subsection{Deep Belief Nets: a generative model}
+\paragraph{Rectified Linear Units}
 
 
-\subsection{Multi-Instance Multi-Label Learning}
 
-\subsection{Transfer Learning: learning with a restricted training set}
+\subsection{Training}
+\paragraph{Gradient Descent}
+\paragraph{Backpropagation}
+\paragraph{Dropout}
+
+
+\subsection{Challenges specific to the Pipe Weld Classification Task}
+
+\subsubsection{Multi-Instance Multi-Label Learning}
+
+\subsubsection{Transfer Learning: learning with a restricted training set}
+
+\subsubsection{Class Imbalance}
+
+\clearpage
 
 
 
@@ -124,7 +123,7 @@ There are 227,730 640x480 'RedBox' images. There are 1280x960 'BlueBox' images. 
 \paragraph{ANOVA}
 \paragraph{t-SNE}
 
-\subsection{Cuda-Convnet}
+\subsection{Implementation: Cuda-Convnet}
 
 Cuda-Convnet is a GPU implementation of a deep convolutional neural network implemented in CUDA/C++. It was written by Alex Krizhevsky to train the net that set ground-breaking records at the ILSVRC 2012 competition, and subsequently open-sourced. However, parts of his work are missing and his open source repository is not sufficient to reproduce his network (see test run for how this was dealt with).
 
@@ -148,9 +147,14 @@ Don't want to saturate neurons. Need a standard deviation of weight initialisati
 
 Use dropout of 0.5 in each fully connected layer, so add twice as many outputs. Go from 4096 to 8192. Actually no, keep it at 4096. Furthermore, reduce the number of neurons in each fully connected layer, because don't have as many classes to classify. Just need a few abstract features. The last layer has number of neurons fixed to number of classes. So actually, maybe reduce the number of neurons only in the 2nd fully connected one, but not the first: this is like having a few very abstract features, which are combinations of a very high number of less abstract features.
 
-\subsection{Transfer Learning}
 
 \subsection{Further Work}
+
+Directions for further work can be divided into three sections: improving the current model i.e. with small changes, and modifying the model i.e. with significant changes, and finally improving the implementation with more flexible, higher performing APIs.
+
+\subsubsection{Improve Current Model}
+
+Improving the current model consists in optimising the hyperparameters of the model.
 
 \paragraph{Tweak Architecture}
 
@@ -164,9 +168,27 @@ Maybe reduce the number of neurons in each fully connected layer even more so, b
 
 I'm training a CNN to recognise 3 classes, but 91\% of my data is of the same class. Is there anything I should alter in the way I train?
 
-For example, should I make the proportions of each class in my validation batches even (1/3, 1/3, 1/3)? Because the thing is, weights are only saved when new validation error is lower than lowest validation error until now. But if this validation error is computed over hardly any examples of the other 2 classes, how can it be a good indicator that the network is on its way to learning good features?﻿
+For example, should I make the proportions of each class in my validation batches even (1/3, 1/3, 1/3)? Because the thing is, weights are only saved when new validation error is lower than lowest validation error until now. But if this validation error is computed over hardly any examples of the other 2 classes, how can it be a good indicator that the network is on its way to learning good features?﻿\\
 
-\paragraph{Significantly Alter Architecture}
+See the plot for training: over 39 epochs, there is no progress, weight updates look random. This is a bad sign.
+
+If one views the problem as picking a direction to walk along in the error surface, it looks like the algorithm is stuck at the stage of randomly trying directions, heading down one a little bit, but deciding that it is not a good direction and starting from scratch. This is either due to the correct direction not being computed, or the correct direction not being correctly recognised.
+
+Maybe dropout is too high: dropout makes the logprob over time more spiky because it's like training lots of models concurrently, so there is never much focus on a particular model. Maybe the dropout rate should be reduced.
+
+Maybe the 2 other classes don't appear often enough, so it's impossible to learn anything: this can apparently be solved by choosing a different error function to minimise: the F-score\cite{f-measure}. However, The F-Measure is proposed as an alternative to the MSE - but can it be used as an alternative to cross entropy? I have a softmax output layer, so all ouput neuron values are between 0 and 1, which drastically reduces the range of the MSE. Would that be the same for F-Measure? Is there a way of making the range of the F-Measure wide for a softmax output layer? 
+
+Starting from 39.415, the test frequency was raised from 20 batches to 200 batches. The idea here is to let the weights run along a longer path before evaluating whether this is a good direction (more depth in the search).
+
+
+
+\subsubsection{Modify Model}
+
+\paragraph{Transfer Learning}
+
+\paragraph{Hidden Markov Model}
+
+It might be interesting to explore hidden markov models because the data has obvious hidden states which humans benefit from learning: pipe welds can be T welds and standard welds, and this alters where scratch marks need to be seen.
 
 Hidden Markov for pipe type. Whether the joint is a T-joint or not alters the way the image has to be assessed for each of the flags. In other words, whether or not the joint is a T-joint modifies the visual features that have to be picked up by the neural network for classification.
 Unless I'm mistaken, we do not have data for each image about whether or not it is a T-joint.
@@ -174,25 +196,32 @@ At first, I had found that a bit disappointing, But I've just been thinking, thi
 I don't think much work has been done on combining neural networks with hidden markov models - and I don't know whether it's possible. But I'd like to mention it in my first report as a potential research path (unless Jack thinks it's a bad idea!). Hence why I wanted to be sure about the terminology for these different joints!
 
 
-\subsubsection{Caffe}
+\subsubsection{Improve Implementation}
 
-\subsubsection{Theano}
+\paragraph{Caffe}
 
-\subsubsection{Hidden Markov Model}
+\paragraph{Theano}
 
-It might be interesting to explore hidden markov models because the data has obvious hidden states which humans benefit from learning: pipe welds can be T welds and standard welds, and this alters where scratch marks need to be seen.
+\paragraph{Torch}
 
 \clearpage
 
-\begin{thebibliography}{1}
 
+
+\clearpage
+\begin{thebibliography}{1}
 % Example: \bibitem{One}
 % a better way of doing it: a .bib file or something. bit.ly/1kqg2Qe
-
 \bibitem{decaf}
  Donahue, Jeff and Jia, Yangqing and Vinyals, Oriol and Hoffman, Judy and Zhang, Ning and Tzeng, Eric and Darrell, Trevor,
   \emph{DeCAF: A Deep Convolutional Activation Feature for Generic Visual Recognition}\\
   arXiv preprint arXiv:1310.1531, 2013
 
+\bibitem{f-measure}
+ Joan Pastor-Pellicer, Francisco Zamora-Martinez, Salvador Espana-Boquera and Maria Jose Castro-Bleda,
+  \emph{F-Measure as the Error Function to Train Neural Networks}\\
+
 \end{thebibliography}
+
+
 \end{document}
