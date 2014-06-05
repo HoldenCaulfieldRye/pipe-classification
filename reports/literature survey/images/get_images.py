@@ -1,7 +1,6 @@
 import os, json
 
-if __name__ == '__main__':
-
+def find_them(return_dict):
   back = os.getcwd()
   img_dir = raw_input('path to images? ')
   os.chdir(img_dir)
@@ -26,9 +25,19 @@ if __name__ == '__main__':
         images['perfect'].append(filename)
 
       if all(len(images[key]) for key in images.keys()):
-        print 'brrreaking gash'
         break
 
-  os.chdir(back)
-  json.dump(images, open('images.txt','w'))
-  
+  if return_dict:
+    return images
+  else:
+    os.chdir(back)
+    json.dump(images, open('images.txt','w'))
+    
+
+if __name__ == '__main__':
+
+  return_dict = raw_input("return dict or save it to txt? [R/S] ")
+  if return_dict == 'R': return_dict = True
+  else: return_dict = False
+
+  return find_them(return_dict)
