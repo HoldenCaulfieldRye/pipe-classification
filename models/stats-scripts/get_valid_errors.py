@@ -38,7 +38,7 @@ if __name__ == '__main__':
 
   if txt_it:
     data = open(os.getcwd()+'/'+rootname+'.txt','w')
-    data.writelines(["%s\n" % num for num in pretty_print])
+    data.writelines(["%i\t%s\n" % (x,num) for x,num in enumerate(pretty_print)])
     data.close()
 
   if pickle_it or txt_it:
