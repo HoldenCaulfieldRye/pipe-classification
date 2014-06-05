@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  4 JUN 2014 15:09
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  5 JUN 2014 12:42
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -489,6 +489,11 @@ Missing character: There is no ™ in font cmti10!
 Missing character: There is no â in font cmti10!
 Missing character: There is no € in font cmti10!
 Missing character: There is no “ in font cmti10!
+Missing character: There is no â in font cmti10!
+Missing character: There is no € in font cmti10!
+Missing character: There is no ™ in font cmti10!
+Missing character: There is no Ã in font cmti10!
+Missing character: There is no — in font cmti10!
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -499,6 +504,10 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [6
 
 ]
+Missing character: There is no ï in font cmti10!
+Missing character: There is no » in font cmti10!
+Missing character: There is no ¿ in font cmti10!
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -518,18 +527,18 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 Here is how much of TeX's memory you used:
  5724 strings out of 494985
  87467 string characters out of 6180356
- 161729 words of memory out of 5000000
+ 162729 words of memory out of 5000000
  8843 multiletter control sequences out of 15000+600000
  8849 words of font info for 31 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 41i,11n,51p,815b,243s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,11n,51p,825b,243s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
 /cm/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
 bx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pf
 b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/
 texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on litSurvey.pdf (8 pages, 124358 bytes).
+Output written on litSurvey.pdf (8 pages, 125683 bytes).
 PDF statistics:
  55 PDF objects out of 1000 (max. 8388607)
  38 compressed objects within 1 object stream

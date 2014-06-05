@@ -30,6 +30,7 @@
 \contentsline {subsection}{\numberline {2.3}Transfer Learning}{7}
 \contentsline {subsection}{\numberline {2.4}Further Work}{7}
 \contentsline {paragraph}{Tweak Architecture}{7}
+\contentsline {paragraph}{Tweak Training}{7}
 \contentsline {paragraph}{Significantly Alter Architecture}{7}
 \contentsline {subsubsection}{\numberline {2.4.1}Caffe}{7}
 \contentsline {subsubsection}{\numberline {2.4.2}Theano}{7}
