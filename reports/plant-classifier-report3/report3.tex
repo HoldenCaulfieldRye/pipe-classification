@@ -61,6 +61,7 @@ This report describes the creation of an iOS app for recognising plant species b
 Overall, the project presented ambitious goals - since, to our knowledge, no app for recognising plants in natural scenery exists - but the goals were met: our app can classify 259 plant species with 29\% top-5 accuracy, and is currently being downloaded and used by iOS users on Apple's App store.
 
 \clearpage
+
 \section{Specification}
 
 \subsection{Original Specification}
@@ -214,6 +215,7 @@ There was one major, unforeseen issue in Sprint 1 which caused a significant imp
 
 
 \clearpage
+
 \section{System Architecture}
 
 The specification presented two essential features for our architecture: an iOS app and a `Worker' server capable of classifying images sent to it. In particular, the Worker server needed to have a powerful GPU to support NVIDIA's CUDA platform \cite{nvidiacuda}. To help us complete our project, the Computing Support Group provided us with a dedicated lab machine with a powerful GPU.
@@ -234,6 +236,7 @@ Upon receiving an image from the iOS application, the Request server modifies ou
 \end{figure}
 
 \clearpage
+
 
 \section{Product Design}
 
@@ -256,6 +259,7 @@ The design of the product will determine the user's experience of using our soft
 \end{figure}
 
 \clearpage
+
 \section{Methodology}
 
 \subsection{Division Of Work}
@@ -458,6 +462,7 @@ The overall coverage is given by taking the arithmetic mean across the sections.
 
 \clearpage
 
+
 \section{Implementation}
 
 %What were the intellectual and/or technical problems that had to be solved? What techniques did you consider using for solving the problem? Which did you choose and why?
@@ -615,6 +620,7 @@ We experimented with two flavours of architecture.  The first was a single large
 	\caption{Some random predictions of previously unseen plant images}
         \label{fig:ml_preds}
 \end{figure}
+
 
 \section{Final Product}
 
@@ -793,6 +799,7 @@ Overall, we will certainly classify this project as a success. We all feel that 
 
 \clearpage
 \appendix
+
 \section{Code Coverage Reports}
 
 \subsection{Plant Classification Coverage Report}
@@ -826,6 +833,7 @@ Overall, we will certainly classify this project as a success. We all feel that 
 \end{description}
 \clearpage
 \begin{landscape}
+
 
 \section{Logbook}
 
@@ -988,4 +996,5 @@ Started to make insertions into Report2.
 \lstinputlisting{./../log.txt}
 \clearpage
 \end{landscape}
+
 \end{document}
