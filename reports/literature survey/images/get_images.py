@@ -2,6 +2,9 @@ import os, json
 
 if __name__ == '__main__':
 
+  back = os.getcwd()
+  img_dir = raw_input('path to images? ')
+  os.chdir(img_dir)
   dirlist = os.listdir(os.getcwd())
 
   images = {'soilcontam':[], 'watercontam':[], 'poor':[], 'perfect':[], 'noclamp':[]}
@@ -26,5 +29,6 @@ if __name__ == '__main__':
         print 'brrreaking gash'
         break
 
+  os.chdir(back)
   json.dump(images, open('images.txt','w'))
   
