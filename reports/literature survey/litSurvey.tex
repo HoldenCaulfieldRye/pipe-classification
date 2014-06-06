@@ -395,22 +395,6 @@ There is a wide number of potential explanations for this:
 - the learning rates are too high (the minimum gets 'overshot' even when the direction of partial derivatives is correct)
 - 
 
-
-\paragraph{DeCAF}
-
-By Yangqinq Jia and University of California, Berkeley. \it{"As the underlying architecture for our feature we adopt the deep convolutional neural network architecture proposed by Krizhevsky et al. (2012), which won the ImageNet Large Scale Visual Recognition Challenge 2012 (Berg
-et al., 2012) with a top-1 validation error rate of 40.7\%. 3 We chose this model due to its performance on a difficult 1000-way classification task, hypothesizing that the activa- tions of the neurons in its late hidden layers might serve as very strong features for a variety of object recognition tasks. Its inputs are the mean-centered raw RGB pixel intensity values of a 224×224 image. These values are forward propagated through 5 convolutional layers (with pooling and ReLU non-linearities applied along the way) and 3 fully-connected layers to determine its final neuron activ- ities: a distribution over the task’s 1000 object categories. Our instance of the model attains an error rate of 42.9\% on the ILSVRC-2012 validation set – 2.2\% shy of the 40.7\% achieved by (Krizhevsky et al., 2012).
-We refer to Krizhevsky et al. (2012) for a detailed discus- sion of the architecture and training protocol, which we closely followed with the exception of two small differ- ences in the input data. First, we ignore the image’s orig-
-inal aspect ratio and warp it to 256 × 256, rather than re- sizing and cropping to preserve the proportions. Secondly, we did not perform the data augmentation trick of adding random multiples of the principle components of the RGB pixel values throughout the dataset, proposed as a way of capturing invariance to changes in illumination and color.}
-
-
-\paragraph{Network Architecture}
-
-Don't want to saturate neurons. Need a standard deviation of weight initialisations proportional to the square root of the fan-in. Convolutional layers have a much smaller fan-in than, say, fully connected layers, so the standard deviation needs to be much lower.
-
-Use dropout of 0.5 in each fully connected layer, so add twice as many outputs. Go from 4096 to 8192. Actually no, keep it at 4096. Furthermore, reduce the number of neurons in each fully connected layer, because don't have as many classes to classify. Just need a few abstract features. The last layer has number of neurons fixed to number of classes. So actually, maybe reduce the number of neurons only in the 2nd fully connected one, but not the first: this is like having a few very abstract features, which are combinations of a very high number of less abstract features.
-
-
 \subsection{Further Work}
 
 Directions for further work can be divided into three sections: improving the current model i.e. with small changes, and modifying the model i.e. with significant changes, and finally improving the implementation with more flexible, higher performing APIs.
