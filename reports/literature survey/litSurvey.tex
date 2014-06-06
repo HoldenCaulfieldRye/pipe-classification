@@ -13,10 +13,19 @@
 \usepackage{longtable}
 \usepackage{pdflscape}
 \usepackage{indentfirst}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+
+% \bibliography{mybib}
 
 \definecolor{Green}{rgb}{0.6,1,0.6}
 \definecolor{Amber}{rgb}{1,1,0.4}
 \definecolor{Red}{rgb}{1,0.6,0.6}
+
+\def\changemargin#1#2{\list{}{\rightmargin#2\leftmargin#1}\item[]}
+\let\endchangemargin=\endlist 
 
 \setlength\parindent{24pt}
 
@@ -54,19 +63,15 @@
 \clearpage
 \section{Background}
 
-This project aims to automate the classification of pipe weld images with deep neural networks. We will start with fundamental concepts in machine learning, then go on to explain the architecture of a deep convolutional neural network with restricted linear units, and finally explain how the network is trained with stochastic gradient descent, backpropagation and dropout. The last sections focus on three challenges specific to the pipe weld image classification task: multi-tagging, learning features from a restricted training set, and class imbalance.
+This project aims to automate the classification of pipe weld images with deep neural networks. After explaining and formalising the problem, we will explain fundamental concepts in machine learning, then go on to explain the architecture of a deep convolutional neural network with restricted linear units, and finally explain how the network is trained with stochastic gradient descent, backpropagation and dropout. The last sections focus on three challenges specific to the pipe weld image classification task: multi-tagging, learning features from a restricted training set, and class imbalance.
 
-\subsection{Defining the problem: Single-Instance Multi-Label Supervised Learning}
+\subsection{Defining the Problem}
 
-The problem of learning to classify pipe weld images from a labelled dataset is a single-instance, multi-label, supervised learning classification problem: Given an instance space X and a set of class labels Y, learn a function f : X -> P(Y) from a given dataset {(x1,y1),(x2,y2), ..., (xn,yn)}, where xi € X is an instance and yi = (yi1, ..., yip) € P(Y) are the known labels of xi.
+The problem consists in building a classifier of pipe weld images capable of detecting the presence of multiple characteristics in each image. 
 
-This differs from the traditional supervised learning classification task in the sense that the output is not a single label, but a vector of labels. This makes the classification task more complex, but it also introduces an error vector rather than an error scalar into the learning task (which may provide a more informative error gradient to propagate across the parameters of the model). 
+\subsubsection{Explaining the Problem}
 
-This also differs from the albeit similar task of Multi-Instance Multi-Label learning\cite{MIML}, where each training case {x(i)1 ,x(i) 2 , · · · ,x(i) ni } contains ni>=1, i.e. may contain multiple instances from the instance space X, each of which are associated to a label, resulting in a label vector {y(i) 1 , y(i) 2 , · · · , y(i) li }.
-
-\paragraph{Practical Definition of the Problem}
-
-Practically speaking, the reason for why this task involves a vector of labels is because the quality of a pipe weld is assessed not on one, but 17 characteristics. 
+Practically speaking, the reason for why this task involves multiple tags per image is because the quality of a pipe weld is assessed not on one, but 17 characteristics, as shown below.
 
 \begin{table}[h]
    \centering
@@ -95,30 +100,128 @@ Practically speaking, the reason for why this task involves a vector of labels i
     \caption {Code Coverage for Request Server}
 \end{table} 
 
-\paragraph{Practical Background}
-
 At this point, it may help to explain the procedure through which these welds are made, and how pictures of them are taken. The situation is that of fitting two disjoint polyethylene pipes with electrofusion joints \cite{pipe-jointing}, in the context of gas or water infrastructure. Since the jointing is done by hand, in an industry affected with alleged "poor quality workmanship", and is most often followed by burial of the pipe under the ground, poor joints occur with relative frequency \cite{poor-quality}. Since a contamination can cost up to £100,000 \cite{contamination-cost}, there exists a strong case for putting in place protocols to reduce the likelihood of such an event. ControlPoint currently has one in place in which, following the welding of a joint, the on-site worker sends one or more photos, at arm's length, of the completed joint. 
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.22\linewidth]{images/.png}
-	\includegraphics[width=0.22\linewidth]{images/.png}
-	\caption{Evolution of the App}
+	\includegraphics[width=0.3\linewidth]{images/soilcontam2.jpg}
+	\includegraphics[width=0.3\linewidth]{images/watercontam1.jpg}
+	\includegraphics[width=0.3\linewidth]{images/perfect2.jpg}
+	\caption{soil contamination risk (left), water contamination risk (centre), no risk (right)}
 \end{figure}
 
 These images are then manually inspected at the ControlPoint headquarters and checked for the presence of the adverse characteristics listed above. The joint is accepted and counted as finished if the number of penalty points is sufficiently low (the threshold varies from an installation contractor to the next, but 50 and above is generally considered as unacceptable). Although these characteristics are all outer observations of the pipe fitting, they have shown to be very good indicators of the quality of the weld \cite{outer-characteristics-good}. Manual inspection of the pipes is not only expensive, but also delaying: as images are queued for inspection, so is the completion of a pipe fitting. Contractors are often under tight operational time constraints in order to keep the shutting off of gas or water access to a minimum, so the protocol can be a significant impediment. Automated, immediate classification would therefore bring strong benefits.
 
+\subsubsection{Formalising the problem: Multi-Instance Multi-Label Supervised Learning}
+
+The problem of learning to classify pipe weld images from a labelled dataset is a Multi-Instance Multi-Label (MIML) supervised learning classification problem \cite{MIML}: \\
+
+%\begin{changemargin}{1cm}{1cm}  
+\indent Given an instance space $\mathcal{X}$, a set of class labels $\mathcal{Y}$, a dataset $\{(X_{1},Y_{1}),(X_{2},Y_{2}), ..., (X_{n},Y_{n})\}$,\\ 
+\indent learn a function $f : 2^{\mathcal{X}} \rightarrow 2^{\mathcal{Y}}$ where\\  
+\indent \indent $X_{i} \subseteq \mathcal{X}$ is a set of instances $\{x_{1}^{(i)}, x_{2}^{(i)}, ..., x_{p_{i}}^{(i)}\}$\\   
+\indent \indent $Y_{	i} \subseteq \mathcal{Y}$ is the set of classes $\{y_{1}^{(i)}, y_{2}^{(i)}, ..., y_{p_{i}}^{(i)}\}$ such that $x_{j}^{(i)}$ is an instance of class $y_{j}^{(i)}$ 
+\indent \indent $p_{i}$ is the number of class instances (i.e.\ labels) present in $X_{i}$.\\
+%\end{changemargin}
+
+
+$This differs from the traditional supervised learning classification task, formally given by$: \\ 
+
+\indent Given an instance space $\mathcal{X}$, a set of class labels $\mathcal{Y}$, a dataset $\{(x_{1},y_{1}),(x_{2},y_{2}), ..., (x_{n},y_{n})\}$,\\ 
+\indent learn a function $f : \mathcal{X} \rightarrow \mathcal{Y}$ where\\  
+\indent \indent $x_{i} \in \mathcal{X}$ is an instance \\   
+\indent \indent $y_{	i} \in \mathcal{Y}$ is the class of which $x_{i}$ is an instance.\\
+
+In the case of MIML, not only are there multiple instances present in each case, but the number of instances is unknown. MIML has been used in the image classification literature when one wishes to identify all objects which are present in the image \cite{MIML}. Although in this case, the motivation is to look out for a specific set of pipe weld visual characteristics, the problem is actually conceptually the same; the number of identifiable classes is simply lower.
 
 \subsubsection{Supervised Learning}
 
+Learning in the case of classification consists in using the dataset $\mathcal{D}$ to find a hypothesis function $f^{h}$ which best approximates the unknown function $f^{*} : 2^{\mathcal{X}} \rightarrow 2^{\mathcal{Y}}$ which would perfectly classify any subset of the instance space $\mathcal{X}$. Supervised learning arises when $f^{*}(x)$ is known for every instance in the dataset, i.e.\ when the dataset is labelled and of the form $\{(x_{1},f^{*}(x_{1})),(x_{2},f^{*}(x_{2})), ..., (x_{n},f^{*}(x_{n}))\}$. This means that $|\mathcal{D}|$ points of $f^{*}$ are known, and can be used to fit $f^{h}$ to them, using an appropriate cost function $\mathcal{C}$. $\mathcal{D}$ is therefore referred to as the \textit{training set}. 
+
+Formally, supervised learning therefore consists in finding
+
+\begin{equation}
+\label{myequation}
+  f^{h} = \operatornamewithlimits{argmin}\limits_{\mathcal{F}}\operatorname{\mathcal{C}}(\mathcal{D})
+\end{equation}
+  
+where $\mathcal{F}$ is the chosen function space in which to search for $f^{h}$ . \\
+
 \subsubsection{Approximation vs Generalisation}
 
+It is important to note that supervised learning does not consist in merely finding the function which best fits the training set - the availability of numerous universal approximating function classes (such as the set of all finite order polynomials) make this a relatively simple task. The crux of supervised learning is to find a hypothesis function which fits the training set well \textit{and} would fit well to any subset of the instance space. In other words, approximation and generalisation are the two optimisation criteria for supervised learning, and both need to be incorporated into the cost function.\\
 
-\subsection{Architecture of a Deep Convolutional Neural Network with Rectified Linear Units and Dropout}
+\subsection{Architecture of a Deep Convolutional Neural Network with Rectified Linear Units}
+
+Learning a hypothesis function $f^{h}$ comes down to searching a function space for the function which Choosing a deep convolutional neural network with rectified linear units as a classifier means restricting the space of hypothesis functions 
 
 \paragraph{Feed-Forward Architecture}
 
+A feed-forward neural network is a graph where nodes represent neurons, and edges represent synapses. Data travels from one end of the network to the other via the edges. Each neuron's output is the result of some operation on the data it receives.\\
+
 \paragraph{Deep Neural Networks: the Multilayer Peceptron}
+
+The graph is made up of several layers. The top layer is the output layer, where each neuron represents a class known by the classifier. The output value of neuron k is the probability that the candidate being fed into the network is a member of class k. The other layers are called hidden layers, because they are not entirely under the programmer's control: the programmer doesn't hard-code what they do, but rather leaves it under the learning algorithm's control. What often ends up happening is that the hidden layers become feature detectors. Moreover, a higher hidden layer ends up detecting the presence of features which combine, build upon and complexify the features detected in the layer below. The top layer can be viewed as doing the same, where a class specification is a specific combination of very complex features.\\
+
+With deep neural nets, the bottom layer is the input layer, where each neuron takes as input a component of the data vector. So the number of input neurons is the dimensionality of the data. Our input vector will contain at least as many dimensions as there are pixels in the image to recognise. It might also have neurons for GPS data, or for multiple images if the user is multi-querying. The dimensionality is going to be high!\\
+
+Deep neural nets are a good strategy for learning features because they can learn non-linear patterns. Features are typically complex patterns, and complex patterns are typically non-linear. It was mathematically proven in 1969 that a peceptron cannot learn a non-linear pattern.\\
+
+
+\paragraph{Models of Neurons}
+
+Linear Neuron:
+	-> y = b + sum(i=1:n) {x[i]*w[i]}
+	-> y: output
+	-> b: bias
+	-> x: inputs
+	-> w: weights
+        -> n: number of input neurons ie neurons sending their output to the given neuron
+
+Binary Threshold Neuron:
+	-> y = 1 if M <= b + sum(i=1:n) {x[i]*w[i]}
+	       0 otherwise
+	-> M is the threshold
+	-> y takes a hard decision, just like biological neurons
+		-> so y produces spikes
+	-> x[i] is the truth value of a relevant proposition
+	-> a way of combining information from many (possibly unreliable) sources of information
+        -> n: number of input neurons ie neurons sending their output to the given neuron
+
+Rectified Linear Neuron:
+	-> y = max{ 0 ; b+sum(i=1:n){x[i]*w[i]} }
+                -> b can be negative!
+	-> semi soft, semi hard decision making
+		-> below certain threshold I jump to certainty, but above that my confidence is incremental
+		-> doesn't produce spikes like a biological neuron
+		-> may produce zero flow, and only ever increases flow gradually
+
+
+Logistic aka Sigmoid Neuron:
+	-> y = 1 / (1 + exp(-z))
+	   z = b + sum(i=0; i<n; i++) {x[i]*w[i]}
+	-> uses logistic function, logistic(z)
+	-> most commonly used
+		-> fully differentiable
+		-> bijection between ]-infinity; +infinity[ and [0;1]
+		-> y(0) = 0.5
+		-> gets harder and harder to convince me further
+         -> computationally expensive
+                -> cuda-convnet uses rectified linear neurons instead for that reason
+
+Stochastic Binary Neuron:
+	-> P(y=1) = 1 / (1 + exp(-z))
+	     P(y=0) = 1 - P(y=1)
+	-> y is a Bernouilli random variable whose prob mass function is given by logistic value
+	-> the number of spikes produced per time frame follows a Poisson distribution, the parameter of which is deterministic
+		-> parameter is a function of logistic value
+
+Softmax Neuron
+Equation
+y[j] = exp(z[j])/(sum(k=1:n) {exp(z[k])}) 
+this enforces sum(j=1:n) {y[j]} = 1
+conveniently,   dy/dz = y(1-y)
+
 
 \paragraph{Convolutions}
 
