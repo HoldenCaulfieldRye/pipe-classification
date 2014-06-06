@@ -243,15 +243,15 @@ Intuitively, having a hidden layer feed into another hidden layer above enables 
 Mathematically, it was proved in 1989 that MLPs are universal approximators \cite{MLP-univ-approx}; hidden layers therefore increase the size of the function space, and solve the initial limitation faced by perceptrons.\\
 
 
-\paragraph{Deep Convolutional Neural Networks: for Translation Invariance}
+\paragraph{Deep Convolutional Neural Networks: for translation invariance}
 
-A convolutional neural network uses a specific network topology that is inspired by the biological visual cortex and tailored for computer vision tasks by Yann LeCun in early 1990s. The convolutional neural network implemented in ccv is based on Alex Krizhevsky’s ground-breaking work presented in:
-ImageNet Classification with Deep Convolutional Neural Networks, Alex Krizhevsky, Ilya Sutskever, and Geoffrey E. Hinton, NIPS 2012
-The parameters are modified based on Matthew D. Zeiler’s work presented in:
-Visualizing and Understanding Convolutional Networks, Matthew D. Zeiler, and Rob Fergus, Arxiv 1311.2901 (Nov 2013)."}
+A convolutional neural network uses a specific network topology that is inspired by the biological visual cortex and tailored for computer vision tasks, because it achieves translation invariance of the features. Consider the following image of a geranium: a good feature to classify this image would be the blue flower. This feature appears all across the image; therefore, if the network can learn it, it should then sweep the entire image to look for it. A convolutional layer implements this: it is divided into groups of neurons (called \textit{kernels}), where all of the neurons in a kernel are set to the same parameter values, but are 'wired' to different pixel windows across the image. As a result, one feature can be detected anywhere on the image, and the information of where on the image this feature was detected is contained in the output of the kernel. Below is a representation of LeNet5, a deep convolutional neural network used to classify handwritten characters.
 
-\paragraph{Rectified Linear Units}
-
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.6]{images/lenet5.png}
+	\caption{LeNet7 architecture: each square is a kernel}
+\end{figure}
 
 
 \subsection{Training}
@@ -262,6 +262,25 @@ the supervised training of deep neural networks relies on the derivative of the 
 As mentioned above, learning is not a mere approximation problem because the hypothesis function must generalise well to any subset of the instance space. Approximation and generalisation are incorporated into the training of deep neural networks (as well as other models \cite{train&test}) by separating the labelled dataset into a training set, a validation set and a test set. The partial derivatives are computed from the error over the training set, but the function that is learned is the one that minimises the error over the validation set, and its performance is measured on the test set. The distinction between training and validation sets is what prevents the function from overfitting the training data: if the function begins to overfit, the error on the validation set will increase and training will be stopped. The distinction between the test set and the validation set is to obtain a stochastically impartial measure of performance: since the function is chosen to minimise the error over the validation set, there could be some non-negligible overfit to the validation set which can only be reflected by assessing the function's performance on yet another set.
 
 \paragraph{Backpropagation}
+
+This supervised learning algorithm is used to train deep feed-forward neural networks. Its aim is to find values for all the weights in the network that minimise the network's prediction error (you need labeled data to compute prediction error, hence why it only works with supervised learning). As a 1st step, it efficiently estimates the partial derivative of the error with respect to every weight (ie "how much would the error increase by if I were to slightly increase the value of this weight?"). As a 2nd step, it uses these partial derivative estimates to update ie learn the weight values.
+
+\subparagraph{Compute Error-Weight Partial Derivatives}
+This might seem straightforward: tweak the value of one weight, see how the error changes, and you've got your partial derivative with respect to that weight.  That would be called randomly perturbing weights.
+But computing the error means feeding a training case through the entire network. You also need a statistically significant estimate, so you'd have to measure the error with many (typically 100) cases. You'd have to do all of that, one weight at a time (otherwise you don't know which of the weights you've simultaneously tweaked are responsible for what proportion of the error). With cuda-convnet, 60 million weights.
+Geoffrey Hinton and others realised in the 80s that instead of randomly perturbing weights, you can randomly perturb the output of neurons (one by one), and use the error-neuronOutput partial derivatives to compute all of the error-weight partial derivatives (using the chain rule in calculus). In a 2-layer network of a+b neurons for example, you have a*b weights, so the efficiency gain is significant. This is the algorithm's achievement.
+That's backpropagation stage 1.
+
+\subparagraph{Update Weight Values (With Gradient Descent)}
+At every learning iteration, backpropagation computes these slopes, and uses the values to update the weights. It stops updating weights once all slopes are zero (ie no small change in the value of any weight will reduce the error). That's gradient descent.
+To get the intuition for learning in general, and gradient descent specifically: given K weights and an error function, picture the K+1 dimensional space (or rather picture it for K=2!) where the vertical dimension is where the error is plotted, and all of the other dimensions are where weight values are plotted. Now picture the surface that is obtained as the weight vector spans all of its possible values. (for K=2, picture the surface as plain ground with bumps and craters here and there).
+Learning is simply about finding the lowest point on that surface, ie finding the weights that minimise the error.
+Graphically, backpropagation stops once the bottom of a crater has been met. But we have no idea whether this crater is the deepest one. Worse even, by default (we'll have to check whether this is also the case with cuda-convnet) the first crater to be met is the final one. Backprop doesn't explore elsewhere to see if a deeper crater can be found.
+If we're lucky, the error function has only one crater. Either that, or the initial weights - the ones the network began training with - are somewhere on the slope of the deepest crater.
+So the initial weights are crucial.
+(And gradient descent seems pretty naive).
+
+
 \paragraph{Dropout}
 
 
