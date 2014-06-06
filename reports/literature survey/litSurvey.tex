@@ -395,67 +395,8 @@ There is a wide number of potential explanations for this:
 - the learning rates are too high (the minimum gets 'overshot' even when the direction of partial derivatives is correct)
 - 
 
-\subsection{Further Work}
+\\ \\
 
-Directions for further work can be divided into three sections: improving the current model i.e. with small changes, and modifying the model i.e. with significant changes, and finally improving the implementation with more flexible, higher performing APIs.
-
-\subsubsection{Improve Current Model}
-
-Improving the current model consists in optimising the hyperparameters of the model.
-
-\paragraph{Tweak Architecture}
-
-Change proportion of data used as training data.
-Change fan-in for the fully connected layers.
-Change dropout rate (probably don't need to).
-Does number of classes to classify influences network hyper-parameters, other than number of neurons in top layer?
-Maybe reduce the number of neurons in each fully connected layer even more so, because don't have as many classes to classify. Just need a few abstract features. The last layer has number of neurons fixed to number of classes. So actually, maybe reduce the number of neurons only in the 2nd fully connected one, but not the first: this is like having a few very abstract features, which are combinations of a very high number of less abstract features.
-
-\paragraph{Tweak Training}
-
-I'm training a CNN to recognise 3 classes, but 91\% of my data is of the same class. Is there anything I should alter in the way I train?
-
-For example, should I make the proportions of each class in my validation batches even (1/3, 1/3, 1/3)? Because the thing is, weights are only saved when new validation error is lower than lowest validation error until now. But if this validation error is computed over hardly any examples of the other 2 classes, how can it be a good indicator that the network is on its way to learning good features?﻿\\
-
-See the plot for training: over 39 epochs, there is no progress, weight updates look random. This is a bad sign.
-
-If one views the problem as picking a direction to walk along in the error surface, it looks like the algorithm is stuck at the stage of randomly trying directions, heading down one a little bit, but deciding that it is not a good direction and starting from scratch. This is either due to the correct direction not being computed, or the correct direction not being correctly recognised.
-
-Maybe dropout is too high: dropout makes the logprob over time more spiky because it's like training lots of models concurrently, so there is never much focus on a particular model. Maybe the dropout rate should be reduced.
-
-Maybe the 2 other classes don't appear often enough, so it's impossible to learn anything: this can apparently be solved by choosing a different error function to minimise: the F-score\cite{f-measure}. However, The F-Measure is proposed as an alternative to the MSE - but can it be used as an alternative to cross entropy? I have a softmax output layer, so all ouput neuron values are between 0 and 1, which drastically reduces the range of the MSE. Would that be the same for F-Measure? Is there a way of making the range of the F-Measure wide for a softmax output layer? 
-
-Starting from 39.415, the test frequency was raised from 20 batches to 200 batches. The idea here is to let the weights run along a longer path before evaluating whether this is a good direction (more depth in the search).
-
-
-
-\subsubsection{Modify Model}
-
-\paragraph{Transfer Learning}
-
-\paragraph{Hidden Markov Model}
-
-It might be interesting to explore hidden markov models because the data has obvious hidden states which humans benefit from learning: pipe welds can be T welds and standard welds, and this alters where scratch marks need to be seen.
-
-Hidden Markov for pipe type. Whether the joint is a T-joint or not alters the way the image has to be assessed for each of the flags. In other words, whether or not the joint is a T-joint modifies the visual features that have to be picked up by the neural network for classification.
-Unless I'm mistaken, we do not have data for each image about whether or not it is a T-joint.
-At first, I had found that a bit disappointing, But I've just been thinking, this might be a very exciting research opportunity: there's a (powerful and super cool) type of machine learning model called a Hidden Markov model, where unknown states can be learned. In this case, the unknown state would "whether or not joint is a T-joint". Knowing this state should in theory help the network to improve classification, because it could indicate to it that a slightly different set of visual features need to be used for classification.
-I don't think much work has been done on combining neural networks with hidden markov models - and I don't know whether it's possible. But I'd like to mention it in my first report as a potential research path (unless Jack thinks it's a bad idea!). Hence why I wanted to be sure about the terminology for these different joints!
-
-
-\subsubsection{Improve Implementation}
-
-\paragraph{Caffe}
-
-\paragraph{Theano}
-
-\paragraph{Torch}
-
-\clearpage
-
-
-
-\clearpage
 \begin{thebibliography}{1}
 % Example: \bibitem{One}
 % a better way of doing it: a .bib file or something. bit.ly/1kqg2Qe
