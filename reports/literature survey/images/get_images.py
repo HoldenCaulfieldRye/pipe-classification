@@ -29,7 +29,7 @@ def all_labels(dirlist):
       lines = f.readlines()
       lines = [line.strip() for line in lines]
       if lines == []:
-        images['perfect'].append()
+        images['perfect'].append(filename)
       for line in lines:
         if line not in images.keys():
           images[line] = []
