@@ -100,7 +100,7 @@ Practically speaking, the reason for why this task involves multiple tags per im
     \caption {Code Coverage for Request Server}
 \end{table} 
 
-At this point, it may help to explain the procedure through which these welds are made, and how pictures of them are taken. The situation is that of fitting two disjoint polyethylene pipes with electrofusion joints \cite{pipe-jointing}, in the context of gas or water infrastructure. Since the jointing is done by hand, in an industry affected with alleged "poor quality workmanship", and is most often followed by burial of the pipe under the ground, poor joints occur with relative frequency \cite{poor-quality}. Since a contamination can cost up to £100,000 \cite{contamination-cost}, there exists a strong case for putting in place protocols to reduce the likelihood of such an event. ControlPoint currently has one in place in which, following the welding of a joint, the on-site worker sends one or more photos, at arm's length, of the completed joint. 
+At this point, it may help to explain the procedure through which these welds are made, and how pictures of them are taken. The situation is that of fitting two disjoint polyethylene pipes with electrofusion joints \cite{control-point}, in the context of gas or water infrastructure. Since the jointing is done by hand, in an industry affected with alleged "poor quality workmanship", and is most often followed by burial of the pipe under the ground, poor joints occur with relative frequency \cite{control-point}. Since a contamination can cost up to £100,000 \cite{control-point}, there exists a strong case for putting in place protocols to reduce the likelihood of such an event. ControlPoint currently has one in place in which, following the welding of a joint, the on-site worker sends one or more photos, at arm's length, of the completed joint. 
 
 \begin{figure}[h!]
 	\centering
@@ -110,7 +110,7 @@ At this point, it may help to explain the procedure through which these welds ar
 	\caption{soil contamination risk (left), water contamination risk (centre), no risk (right)}
 \end{figure}
 
-These images are then manually inspected at the ControlPoint headquarters and checked for the presence of the adverse characteristics listed above. The joint is accepted and counted as finished if the number of penalty points is sufficiently low (the threshold varies from an installation contractor to the next, but 50 and above is generally considered as unacceptable). Although these characteristics are all outer observations of the pipe fitting, they have shown to be very good indicators of the quality of the weld \cite{outer-characteristics-good}. Manual inspection of the pipes is not only expensive, but also delaying: as images are queued for inspection, so is the completion of a pipe fitting. Contractors are often under tight operational time constraints in order to keep the shutting off of gas or water access to a minimum, so the protocol can be a significant impediment. Automated, immediate classification would therefore bring strong benefits.
+These images are then manually inspected at the ControlPoint headquarters and checked for the presence of the adverse characteristics listed above. The joint is accepted and counted as finished if the number of penalty points is sufficiently low (the threshold varies from an installation contractor to the next, but 50 and above is generally considered as unacceptable). Although these characteristics are all outer observations of the pipe fitting, they have shown to be very good indicators of the quality of the weld \cite{control-point}. Manual inspection of the pipes is not only expensive, but also delaying: as images are queued for inspection, so is the completion of a pipe fitting. Contractors are often under tight operational time constraints in order to keep the shutting off of gas or water access to a minimum, so the protocol can be a significant impediment. Automated, immediate classification would therefore bring strong benefits.
 
 \subsubsection{Formalising the problem: Multi-Instance Multi-Label Supervised Learning}
 
@@ -125,7 +125,7 @@ The problem of learning to classify pipe weld images from a labelled dataset is 
 %\end{changemargin}
 
 
-$This differs from the traditional supervised learning classification task, formally given by$: \\ 
+This differs from the traditional supervised learning classification task, formally given by: \\ 
 
 \indent Given an instance space $\mathcal{X}$, a set of class labels $\mathcal{Y}$, a dataset $\{(x_{1},y_{1}),(x_{2},y_{2}), ..., (x_{n},y_{n})\}$,\\ 
 \indent learn a function $f : \mathcal{X} \rightarrow \mathcal{Y}$ where\\  
@@ -136,49 +136,44 @@ In the case of MIML, not only are there multiple instances present in each case,
 
 \subsubsection{Supervised Learning}
 
-Learning in the case of classification consists in using the dataset $\mathcal{D}$ to find a hypothesis function $f^{h}$ which best approximates the unknown function $f^{*} : 2^{\mathcal{X}} \rightarrow 2^{\mathcal{Y}}$ which would perfectly classify any subset of the instance space $\mathcal{X}$. Supervised learning arises when $f^{*}(x)$ is known for every instance in the dataset, i.e.\ when the dataset is labelled and of the form $\{(x_{1},f^{*}(x_{1})),(x_{2},f^{*}(x_{2})), ..., (x_{n},f^{*}(x_{n}))\}$. This means that $|\mathcal{D}|$ points of $f^{*}$ are known, and can be used to fit $f^{h}$ to them, using an appropriate cost function $\mathcal{C}$. $\mathcal{D}$ is therefore referred to as the \textit{training set}. 
+Learning in the case of classification consists in using the dataset $\mathcal{D}$ to find the hypothesis function $f^{h}$ that best approximates the unknown function $f^{*} : 2^{\mathcal{X}} \rightarrow 2^{\mathcal{Y}}$ which would perfectly classify any subset of the instance space $\mathcal{X}$. Supervised learning arises when $f^{*}(x)$ is known for every instance in the dataset, i.e.\ when the dataset is labelled and of the form $\{(x_{1},f^{*}(x_{1})),(x_{2},f^{*}(x_{2})), ..., (x_{n},f^{*}(x_{n}))\}$. This means that $|\mathcal{D}|$ points of $f^{*}$ are known, and can be used to fit $f^{h}$ to them, using an appropriate cost function $\mathcal{C}$. $\mathcal{D}$ is therefore referred to as the \textit{training set}. 
 
 Formally, supervised learning therefore consists in finding
 
 \begin{equation}
-\label{myequation}
+\label{learning: optimisation equation}
   f^{h} = \operatornamewithlimits{argmin}\limits_{\mathcal{F}}\operatorname{\mathcal{C}}(\mathcal{D})
 \end{equation}
   
-where $\mathcal{F}$ is the chosen function space in which to search for $f^{h}$ . \\
+where $\mathcal{F}$ is the chosen target function space in which to search for $f^{h}$ . \\
 
 \subsubsection{Approximation vs Generalisation}
 
-It is important to note that supervised learning does not consist in merely finding the function which best fits the training set - the availability of numerous universal approximating function classes (such as the set of all finite order polynomials) make this a relatively simple task. The crux of supervised learning is to find a hypothesis function which fits the training set well \textit{and} would fit well to any subset of the instance space. In other words, approximation and generalisation are the two optimisation criteria for supervised learning, and both need to be incorporated into the cost function.\\
+It is important to note that supervised learning does not consist in merely finding the function which best fits the training set - the availability of numerous universal approximating function classes (such as the set of all finite order polynomials) would make this a relatively simple task \cite{univ-approx}. The crux of supervised learning is to find a hypothesis function which fits the training set well \textit{and} would fit well to any subset of the instance space. In other words, approximation and generalisation are the two optimisation criteria for supervised learning, and both need to be incorporated into the cost function.\\
 
-\subsection{Architecture of a Deep Convolutional Neural Network with Rectified Linear Units}
+\subsection{Architecture of a Deep Convolutional Neural Network with Rectified Linear Neurons}
 
-Learning a hypothesis function $f^{h}$ comes down to searching a function space for the function which Choosing a deep convolutional neural network with rectified linear units as a classifier means restricting the space of hypothesis functions 
-
-\paragraph{Feed-Forward Architecture}
-
-A feed-forward neural network is a graph where nodes represent neurons, and edges represent synapses. Data travels from one end of the network to the other via the edges. Each neuron's output is the result of some operation on the data it receives.\\
-
-\paragraph{Deep Neural Networks: the Multilayer Peceptron}
-
-The graph is made up of several layers. The top layer is the output layer, where each neuron represents a class known by the classifier. The output value of neuron k is the probability that the candidate being fed into the network is a member of class k. The other layers are called hidden layers, because they are not entirely under the programmer's control: the programmer doesn't hard-code what they do, but rather leaves it under the learning algorithm's control. What often ends up happening is that the hidden layers become feature detectors. Moreover, a higher hidden layer ends up detecting the presence of features which combine, build upon and complexify the features detected in the layer below. The top layer can be viewed as doing the same, where a class specification is a specific combination of very complex features.\\
-
-With deep neural nets, the bottom layer is the input layer, where each neuron takes as input a component of the data vector. So the number of input neurons is the dimensionality of the data. Our input vector will contain at least as many dimensions as there are pixels in the image to recognise. It might also have neurons for GPS data, or for multiple images if the user is multi-querying. The dimensionality is going to be high!\\
-
-Deep neural nets are a good strategy for learning features because they can learn non-linear patterns. Features are typically complex patterns, and complex patterns are typically non-linear. It was mathematically proven in 1969 that a peceptron cannot learn a non-linear pattern.\\
+Learning a hypothesis function $f^{h}$ comes down to searching a target function space for the function which minimises the cost function. A function space is defined by a parametrised function equation, and a parameter space. Choosing a deep convolutional neural network with rectified linear neurons sets the parametrised function equation. By explaining the architecture of such a neural network, this subsection justifies the chosen function equation. As for the parameter space, it is $\mathbb{R^{P}}$ (where P is the number of parameters in the network); its continuity must be noted as this enables the use of gradient descent as the optimisation algorithm (as is discussed later). \\
 
 
-\paragraph{Models of Neurons}
+\subsubsection{Models of Neurons}
 
-Linear Neuron:
-	-> y = b + sum(i=1:n) {x[i]*w[i]}
-	-> y: output
-	-> b: bias
-	-> x: inputs
-	-> w: weights
-        -> n: number of input neurons ie neurons sending their output to the given neuron
+Before we consider the neural network architecture as a whole, let us start with the building block of a neural network: the neuron. Two types of neuron models are used in current state-of-the-art implementations of deep convolutional neural networks: the rectified linear unit and the softmax unit (note that the terms "neuron" and "unit" are used interchangeably). In order to bring out their specific characteristics, we shall first consider two other compatible neuron models: the binary threshold neuron, which is the most intuitive, and the hyperbolic tangent neuron, which is the most analytically appealing. It may also help to know what is being modelled, so a very brief look at a biological neuron shall first be given.
 
-Binary Threshold Neuron:
+\paragraph{Multipolar Biological Neuron}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/Biological_Neuron.png}
+	\caption{a multipolar biological neuron}
+\end{figure}
+
+A multipolar neuron receives electric charges from neighbouring incoming neurons through its dendritic branches, and sends electric charges to its neighbouring outgoing neurons through its axon. Neurons connect at synapses, which is where the tip of the telodendria of one neuron is in close vicinity of the dendritic branch of another neuron. Because a single axon feeds into all of the telodendria but mutiple dendritic branches feed into the axon hillock, a neuron receives multiple inputs and sends out a single output. A plausible mathematical representation of such a neuron is therefore a function 
+
+\paragraph{Binary Threshold Neuron}
+\begin{equation}
+\label{•}
+\end{equation}
 	-> y = 1 if M <= b + sum(i=1:n) {x[i]*w[i]}
 	       0 otherwise
 	-> M is the threshold
@@ -188,16 +183,10 @@ Binary Threshold Neuron:
 	-> a way of combining information from many (possibly unreliable) sources of information
         -> n: number of input neurons ie neurons sending their output to the given neuron
 
-Rectified Linear Neuron:
-	-> y = max{ 0 ; b+sum(i=1:n){x[i]*w[i]} }
-                -> b can be negative!
-	-> semi soft, semi hard decision making
-		-> below certain threshold I jump to certainty, but above that my confidence is incremental
-		-> doesn't produce spikes like a biological neuron
-		-> may produce zero flow, and only ever increases flow gradually
-
-
-Logistic aka Sigmoid Neuron:
+\paragraph{Logistic Sigmoid Neuron}
+\begin{equation}
+\label{}
+\end{equation}
 	-> y = 1 / (1 + exp(-z))
 	   z = b + sum(i=0; i<n; i++) {x[i]*w[i]}
 	-> uses logistic function, logistic(z)
@@ -208,19 +197,59 @@ Logistic aka Sigmoid Neuron:
 		-> gets harder and harder to convince me further
          -> computationally expensive
                 -> cuda-convnet uses rectified linear neurons instead for that reason
+                
+\paragraph{Rectified Linear Neuron}
+\begin{equation}
+\label{}
+\end{equation}
+	-> y = max{ 0 ; b+sum(i=1:n){x[i]*w[i]} }
+                -> b can be negative!
+	-> semi soft, semi hard decision making
+		-> below certain threshold I jump to certainty, but above that my confidence is incremental
+		-> doesn't produce spikes like a biological neuron
+		-> may produce zero flow, and only ever increases flow gradually
 
-Stochastic Binary Neuron:
-	-> P(y=1) = 1 / (1 + exp(-z))
-	     P(y=0) = 1 - P(y=1)
-	-> y is a Bernouilli random variable whose prob mass function is given by logistic value
-	-> the number of spikes produced per time frame follows a Poisson distribution, the parameter of which is deterministic
-		-> parameter is a function of logistic value
-
-Softmax Neuron
+\paragraph{Softmax Neuron}
+\begin{equation}
+\label{}
+\end{equation}
 Equation
 y[j] = exp(z[j])/(sum(k=1:n) {exp(z[k])}) 
 this enforces sum(j=1:n) {y[j]} = 1
 conveniently,   dy/dz = y(1-y)
+
+
+\subsubsection{Feed-Forward Architecture}
+
+A feed-forward neural network is a representation of a function in the form of a directed acyclic graph, so this graph can be interpreted both biologically and mathematically. A node represents a neuron as well as an activation function $f$, an edge represents a synapse as well as the composition of two activation functions $f \circ g$, and an edge weight represents the strength of the connection between two neurons as well as a parameter of $f$. The figure below (taken from \cite{DL-book}) illustrates this.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/NN_math_rep.png}
+	\caption{graphical representation of $y = x*sin(a*x+b)$ and of a feed-forward neural network}
+\end{figure}
+
+The architecture is feed-forward in the sense that data travels in one direction, from one layer to the other. This defines an input layer (at the bottom) and an output layer (at the top) and enables the representation of a mathematical function.\\
+
+In the case of classification, the output layer is made up of $|\mathcal{Y}|$ softmax neurons, one for each class.
+
+
+
+\paragraph{Shallow Feed-Forward Neural Networks: the Perceptron}
+
+A feed-forward neural net is called a perceptron if there exist no layers between the input and output layers. The first neural networks, introduced in the 1960s \cite{DL-book}, were of this kind. This architecture severely reduces the function space: for example, with $g_{1}: x \rightarrow sin(s)$, $g_{2}: x,y \rightarrow x*y$, $g_{3}: x,y \rightarrow x+y$ as activation functions (i.e.\ neurons), it cannot represent $f(x) \rightarrow x*sin(a*x+b)$ mentioned above \cite{DL-book}. This was generalised and proved in \textit{Perceptrons: an Introduction to Computation Geometry} by Minsky and Papert (1969) and lead to a move away from artificial neural networks for machine learning by the academic community throughout the 1970s: the so-called "AI Winter" \cite{Russel & Norvig}.
+
+\paragraph{Deep Feed-Forward Neural Networks: the Multilayer Perceptron}
+
+The official name for a deep neural network is Multilayer Perceptron (MLP), and can be represented by a directed acyclic graph made up of more than an input and an output layer. These other layers are called hidden layers, because the "roles" of the neurons within them are not set from the start, but learned throughout training. When training is successful, each neuron becomes a feature detector. At this point, it is important to note that feature learning is what sets machine learning with MLPs apart from most other machine learning techniques, in which features are specified by the programmer \cite{DL-book}. It is therefore a strong candidate for classification tasks where features are too numerous, complex or abstract to be hand-coded - which is arguably the case with pipe weld images.\\ 
+
+Intuitively, having these hidden layers feed into the one above enables the learning of complex, abstract features,  as a higher hidden layer can learn features which combine, build upon and complexify the features detected in the layer below. The neurons of the output layer can be viewed as using information about features in the input to determine the output value. In the case of classification, where each output neuron corresponds to a class doing the same, where a class specification is a specific combination of very complex features.\\
+
+With deep neural nets, the bottom layer is the input layer, where each neuron takes as input a component of the data vector. So the number of input neurons is the dimensionality of the data. Our input vector will contain at least as many dimensions as there are pixels in the image to recognise. It might also have neurons for GPS data, or for multiple images if the user is multi-querying. The dimensionality is going to be high!\\
+
+Minsky and Papert later showed that MLPs are universal approximators: mathematically, hidden layers therefore increase the size of the function space, and solve the initial limitation faced by perceptrons.\\
+
+
 
 
 \paragraph{Convolutions}
@@ -240,6 +269,11 @@ Visualizing and Understanding Convolutional Networks, Matthew D. Zeiler, and Rob
 
 \subsection{Training}
 \paragraph{Gradient Descent}
+
+the supervised training of deep neural networks relies on the derivative of the error function with respect to the network's parameters, the parameter space needs to be continues, and is therefore $\mathbb{R^{P}}$ (where P is the number of parameters in the network).
+
+As mentioned above, learning is not a mere approximation problem because the hypothesis function must generalise well to any subset of the instance space. Approximation and generalisation are incorporated into the training of deep neural networks (as well as other models \cite{train&test}) by separating the labelled dataset into a training set, a validation set and a test set. The partial derivatives are computed from the error over the training set, but the function that is learned is the one that minimises the error over the validation set, and its performance is measured on the test set. The distinction between training and validation sets is what prevents the function from overfitting the training data: if the function begins to overfit, the error on the validation set will increase and training will be stopped. The distinction between the test set and the validation set is to obtain a stochastically impartial measure of performance: since the function is chosen to minimise the error over the validation set, there could be some non-negligible overfit to the validation set which can only be reflected by assessing the function's performance on yet another set.
+
 \paragraph{Backpropagation}
 \paragraph{Dropout}
 
@@ -267,25 +301,25 @@ There are 227,730 640x480 'RedBox' images. There are 1280x960 'BlueBox' images. 
     \begin{tabular}{|l|c|}
     \hline
     Characteristic                 & Count  \\ \hline
-    No Ground Sheet  & ~  30015 \\
-    No Insertion Depth Markings  & ~ 17667 \\
-    No Visible Hatch Markings  & ~ 28155 \\
+    No Ground Sheet  & ~  30,015 \\
+    No Insertion Depth Markings  & ~ 17,667 \\
+    No Visible Hatch Markings  & ~ 28,155 \\
     Other  & ~  251 \\
-    Photo Does Not Show Enough Of Clamps  & ~ 5059 \\
-    Photo Does Not Show Enough Of Scrape Zones  & ~ 21272 \\
-    Fitting Proximity  & ~  1233 \\
+    Photo Does Not Show Enough Of Clamps  & ~ 5,059 \\
+    Photo Does Not Show Enough Of Scrape Zones  & ~ 21,272 \\
+    Fitting Proximity  & ~  1,233 \\
     Soil Contamination Low Risk  & ~ 10 \\
-    Unsuitable Scraping Or Peeling  & ~ 2125 \\
+    Unsuitable Scraping Or Peeling  & ~ 2,125 \\
     Water Contamination Low Risk  & ~ 3 \\
     Joint Misaligned  & ~  391 \\
-    Inadequate Or Incorrect Clamping  & ~ 1401 \\
-    No Clamp Used  & ~  8041 \\
-    No Visible Evidence Of Scraping Or Peeling  & ~ 25499 \\
-    Soil Contamination High Risk  & ~ 6541 \\
-    Water Contamination High Risk  & ~ 1927 \\
+    Inadequate Or Incorrect Clamping  & ~ 1,401 \\
+    No Clamp Used  & ~  8,041 \\
+    No Visible Evidence Of Scraping Or Peeling  & ~ 25,499 \\
+    Soil Contamination High Risk  & ~ 6,541 \\
+    Water Contamination High Risk  & ~ 1,927 \\
     Unsuitable Photo  & ~ 2 \\
      \hline
-    Perfect (no flag)  & ~ 49039 \\
+    Perfect (no flag)  & ~ 49,039 \\
     \hline
     \end{tabular}
     \caption {Count of Redbox images with given label}
@@ -387,40 +421,45 @@ I don't think much work has been done on combining neural networks with hidden m
 % Example: \bibitem{One}
 % a better way of doing it: a .bib file or something. bit.ly/1kqg2Qe
 \bibitem{decaf}
- Donahue, Jeff and Jia, Yangqing and Vinyals, Oriol and Hoffman, Judy and Zhang, Ning and Tzeng, Eric and Darrell, Trevor,
+ Donahue, Jeff; Jia, Yangqing; Vinyals, Oriol; Hoffman, Judy; Zhang, Ning; Tzeng, Eric; Darrell, Trevor;
   \emph{DeCAF: A Deep Convolutional Activation Feature for Generic Visual Recognition}\\
   arXiv preprint arXiv:1310.1531, 2013
 
 \bibitem{MIML}
- Zhou, Zhi-Hua and Zhang, Min-Ling,
+ Zhou, Zhi-Hua; Zhang, Min-Ling;
   \emph{Multi-Instance Multi-Label Learning with Application to Scene Classification}\\
-  Advances in Neural Information Processing Systems 19, Proceedings of the Twentieth Annual Conference on Neural Information Processing Systems, Vancouver, British Columbia, Canada, December 4-7, 2006
+  Advances in Neural Information Processing Systems 19, 
+  Proceedings of the Twentieth Annual Conference on Neural Information Processing Systems, 
+  Vancouver, British Columbia, Canada, 
+  December 4-7, 2006
 
 \bibitem{f-measure}
- Joan Pastor-Pellicer, Francisco Zamora-Martinez, Salvador Espana-Boquera and Maria Jose Castro-Bleda,
+ Pastor-Pellicer, Joan; Zamora-Martinez, Francisco; Espana-Boquera, Salvador; Castro-Bleda, Maria Jose;
   \emph{F-Measure as the Error Function to Train Neural Networks}\\
 
-\bibitem{pipe-jointing}
+\bibitem{control-point}
  Fusion Group - ControlPoint LLP,
  \emph{Company Description}\\
  URL: \url{http://www.fusionprovida.com/companies/control-point}, last accessed 5th June 2014. 
+  
+\bibitem{univ-approx}
+ Barron, Andrew R.,
+ \emph{Universal Approximation Bounds for Superpositions of a Sigmoidal Function}\\
+ IEEE Transactions on Information Theory, 
+ Vol. 39, No. 3
+ May 1993
 
-\bibitem{contamination-cost}
- Fusion Group - ControlPoint LLP,
- \emph{Company Description}\\
- URL: \url{http://www.fusionprovida.com/companies/control-point}, last accessed 5th June 2014. 
-  
-\bibitem{poor-quality}
- Fusion Group - ControlPoint LLP,
- \emph{Company Description}\\
- URL: \url{http://www.fusionprovida.com/companies/control-point}, last accessed 5th June 2014. 
-  
-\bibitem{outer-characteristics-good}
- Fusion Group - ControlPoint LLP,
- \emph{Company Description}\\
- URL: \url{http://www.fusionprovida.com/companies/control-point}, last accessed 5th June 2014. 
-  
-  
+\bibitem{DL-book}
+ Bengio, Yoshua;
+ \emph{Learning Deep Architectures for AI}\\
+ Foundations and Trends in Machine Learning, 
+ Vol. 2, No. 1 (2009) 1-127
+ 2009
+
+\bibitem{Russel & Norvig}
+ Russell, Stuart J; Norvig, Peter;
+ \emph{ Artificial Intelligence: A Modern Approach}\\
+ 2003
 
 \end{thebibliography}
 
