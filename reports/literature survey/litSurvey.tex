@@ -158,7 +158,7 @@ Learning a hypothesis function $f^{h}$ comes down to searching a target function
 
 \subsubsection{Models of Neurons}
 
-Before we consider the neural network architecture as a whole, let us start with the building block of a neural network: the neuron. Two types of neuron models are used in current state-of-the-art implementations of deep convolutional neural networks: the rectified linear unit and the softmax unit (note that the terms "neuron" and "unit" are used interchangeably). In order to bring out their specific characteristics, we shall first consider two other compatible neuron models: the binary threshold neuron, which is the most intuitive, and the hyperbolic tangent neuron, which is the most analytically appealing. It may also help to know what is being modelled, so a very brief look at a biological neuron shall first be given.
+Before we consider the neural network architecture as a whole, let us start with the building block of a neural network: the neuron (mathematically referred to as the \textit{activation function}). Two types of neuron models are used in current state-of-the-art implementations of deep convolutional neural networks: the rectified linear unit and the softmax unit (note that the terms "neuron" and "unit" are used interchangeably). In order to bring out their specific characteristics, we shall first consider two other compatible neuron models: the binary threshold neuron, which is the most intuitive, and the hyperbolic tangent neuron, which is the most analytically appealing. It may also help to know what is being modelled, so a very brief look at a biological neuron shall first be given.
 
 \paragraph{Multipolar Biological Neuron}
 
@@ -168,55 +168,54 @@ Before we consider the neural network architecture as a whole, let us start with
 	\caption{a multipolar biological neuron}
 \end{figure}
 
-A multipolar neuron receives electric charges from neighbouring incoming neurons through its dendritic branches, and sends electric charges to its neighbouring outgoing neurons through its axon. Neurons connect at synapses, which is where the tip of the telodendria of one neuron is in close vicinity of the dendritic branch of another neuron. Because a single axon feeds into all of the telodendria but mutiple dendritic branches feed into the axon hillock, a neuron receives multiple inputs and sends out a single output. A plausible mathematical representation of such a neuron is therefore a function 
+A multipolar neuron receives electric charges from neighbouring incoming neurons through its dendritic branches, and sends electric charges to its neighbouring outgoing neurons through its axon. Neurons connect at synapses, which is where the tip of the telodendria of one neuron is in close vicinity of the dendritic branch of another neuron. Because a single axon feeds into all of the telodendria but mutiple dendritic branches feed into the axon hillock, a neuron receives multiple inputs and sends out a single output. Similarly, all of the neuron models below are functions from a multidimensional space to a unidimensional one.\\
 
 \paragraph{Binary Threshold Neuron}
 \begin{equation}
-\label{•}
-\end{equation}
-	-> y = 1 if M <= b + sum(i=1:n) {x[i]*w[i]}
-	       0 otherwise
-	-> M is the threshold
-	-> y takes a hard decision, just like biological neurons
-		-> so y produces spikes
-	-> x[i] is the truth value of a relevant proposition
-	-> a way of combining information from many (possibly unreliable) sources of information
-        -> n: number of input neurons ie neurons sending their output to the given neuron
+y = \begin{cases} 1 & \mbox{if } M <= b + \sum\limits_{i=1}^k x_{i}\cdot w_{i}  \text{ , where } M \text{ is a threshold parameter} \\ 
+				  0 & \mbox{otherwise} \end{cases}
+\end{equation} \\
 
-\paragraph{Logistic Sigmoid Neuron}
+Intuitively, $y$ takes a hard decision, just like biological neurons: either a charge is sent, or it isn't. $y$ can be seen as producing spikes, $x_{i}$ as the indicator value of some feature, and $w_[i]$ as a parameter of the function that indicates how important $x_{i}$ is in determining $y$. Although this model is closer than most most to reality, the function is not differentiable, which makes it impossible to use greedy local optimisation learning algorithms - such as gradient descent - which need to compute derivatives involving the activation functions.
+
+\paragraph{Logistic Sigmoid Neuron} 
 \begin{equation}
-\label{}
+\label{sigmoid neuron}
+y = \frac{1}{1 + \exp(-z)} \text{, where } z = \sum\limits_{i=1}^k x_{i}\cdot w_{i}
 \end{equation}
-	-> y = 1 / (1 + exp(-z))
-	   z = b + sum(i=0; i<n; i++) {x[i]*w[i]}
-	-> uses logistic function, logistic(z)
-	-> most commonly used
-		-> fully differentiable
-		-> bijection between ]-infinity; +infinity[ and [0;1]
-		-> y(0) = 0.5
-		-> gets harder and harder to convince me further
-         -> computationally expensive
-                -> cuda-convnet uses rectified linear neurons instead for that reason
+
+Like the binary threshold neuron, the output domain of this neuron is bounded by 0 and 1. But this time, the function is fully differentiable. Moreover, it is nonlinear, which helps to increase performance \cite{DL-book}. To see why, the graph plot below lends itself to the following intuition: if the input x is the amount of evidence for the components of the feature that the neuron detects, and y is the evidence for the feature itself, then the marginal evidence for the feature is decreasing with the amount of evidence for its components (in absolute value terms). 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/sigmoid.png}
+	\caption{single-input logistic sigmoid neuron}
+\end{figure}
+
+This is like saying that to completely convince y of the total presence or absence of the feature, a lot of evidence is required. However, if there is not much evidence for either case, then y is more lenient. 
+A disadvantage of this neuron model is that it is computationally expensive to compute.
                 
 \paragraph{Rectified Linear Neuron}
 \begin{equation}
-\label{}
+\label{relu}
+y = \max\{0, b + \sum\limits_{i=1}^k x_{i}\cdot w_{i}\}
 \end{equation}
-	-> y = max{ 0 ; b+sum(i=1:n){x[i]*w[i]} }
-                -> b can be negative!
-	-> semi soft, semi hard decision making
-		-> below certain threshold I jump to certainty, but above that my confidence is incremental
-		-> doesn't produce spikes like a biological neuron
-		-> may produce zero flow, and only ever increases flow gradually
+
+As can be seen in the graph plot below, the rectified linear neuron is neither fully differentiable (not at $0$), nor bounded above. Moreover, it only has two slopes, so its derivative with respect to $x_{i}$ can only be one of two values: $0$ or $w_{i}$. Although this may come as a strong downgrade in sophistication compared to the logistic sigmoid neuron, it is so much more efficient to compute (both its value and its partial derivatives) that it enables much larger network implementations\cite{krizhevsky}. Until now, this has more than offset the per-neuron information loss - and saturation risks - of the rectifier versus the sigmoid unit \cite{rectifier}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/rectifier.png}
+	\caption{single-input rectified linear neuron}
+\end{figure}
 
 \paragraph{Softmax Neuron}
 \begin{equation}
 \label{}
+y_{j} = \frac{\exp(z_{j})}{\sum\limits_{i=1}^k\exp(z_{i})} \text{, where } z_{j} = \sum\limits_{i=1}^k x_{i}\cdot w_{i,j}
 \end{equation}
-Equation
-y[j] = exp(z[j])/(sum(k=1:n) {exp(z[k])}) 
-this enforces sum(j=1:n) {y[j]} = 1
-conveniently,   dy/dz = y(1-y)
+
+The equation of a softmax neuron needs to be understood in the context of a layer of $k$ such neurons within a neural network: therefore, the notation $y_{j}$ corresponds to the output of the $j^{th}$ softmax neuron, and $w_{i,j}$ corresponds to the weight of $x_{i}$ as in input for the $j^{th}$ softmax neuron. A layer of softmax neurons distinguishes itself from others in that neighbouring neurons interact with each other: as can be seen from the equation, the input vectors of all the softmax neurons $z_{1}, z_{2}, ..., z_{k}$ serve to enforce $\sum\limits_{i=1}^k y_{i} = 1$. In other words, the vector $(y_{1}, y_{2}, ..., y_{k})$ defines a probability mass function. This makes the softmax layer ideal for classification: neuron $j$ can be made to represent the probability that the input is an instance of class $j$. Another attractive aspect of the softmax neuron is that its derivative is quick to compute: it is given by $\frac{dy}{dz} = \frac{y}{1-y}$.
 
 
 \subsubsection{Feed-Forward Architecture}
@@ -231,34 +230,22 @@ A feed-forward neural network is a representation of a function in the form of a
 
 The architecture is feed-forward in the sense that data travels in one direction, from one layer to the other. This defines an input layer (at the bottom) and an output layer (at the top) and enables the representation of a mathematical function.\\
 
-In the case of classification, the output layer is made up of $|\mathcal{Y}|$ softmax neurons, one for each class.
-
-
-
 \paragraph{Shallow Feed-Forward Neural Networks: the Perceptron}
 
 A feed-forward neural net is called a perceptron if there exist no layers between the input and output layers. The first neural networks, introduced in the 1960s \cite{DL-book}, were of this kind. This architecture severely reduces the function space: for example, with $g_{1}: x \rightarrow sin(s)$, $g_{2}: x,y \rightarrow x*y$, $g_{3}: x,y \rightarrow x+y$ as activation functions (i.e.\ neurons), it cannot represent $f(x) \rightarrow x*sin(a*x+b)$ mentioned above \cite{DL-book}. This was generalised and proved in \textit{Perceptrons: an Introduction to Computation Geometry} by Minsky and Papert (1969) and lead to a move away from artificial neural networks for machine learning by the academic community throughout the 1970s: the so-called "AI Winter" \cite{Russel & Norvig}.
 
 \paragraph{Deep Feed-Forward Neural Networks: the Multilayer Perceptron}
 
-The official name for a deep neural network is Multilayer Perceptron (MLP), and can be represented by a directed acyclic graph made up of more than an input and an output layer. These other layers are called hidden layers, because the "roles" of the neurons within them are not set from the start, but learned throughout training. When training is successful, each neuron becomes a feature detector. At this point, it is important to note that feature learning is what sets machine learning with MLPs apart from most other machine learning techniques, in which features are specified by the programmer \cite{DL-book}. It is therefore a strong candidate for classification tasks where features are too numerous, complex or abstract to be hand-coded - which is arguably the case with pipe weld images.\\ 
+The official name for a deep neural network is Multilayer Perceptron (MLP), and can be represented by a directed acyclic graph made up of more than two layers (i.e.\ not just an input and an output layer). These other layers are called hidden layers, because the "roles" of the neurons within them are not set from the start, but learned throughout training. When training is successful, each neuron becomes a feature detector. At this point, it is important to note that feature learning is what sets machine learning with MLPs apart from most other machine learning techniques, in which features are specified by the programmer \cite{DL-book}. It is therefore a strong candidate for classification tasks where features are too numerous, complex or abstract to be hand-coded - which is arguably the case with pipe weld images.\\ 
 
-Intuitively, having these hidden layers feed into the one above enables the learning of complex, abstract features,  as a higher hidden layer can learn features which combine, build upon and complexify the features detected in the layer below. The neurons of the output layer can be viewed as using information about features in the input to determine the output value. In the case of classification, where each output neuron corresponds to a class doing the same, where a class specification is a specific combination of very complex features.\\
+Intuitively, having a hidden layer feed into another hidden layer above enables the learning of complex, abstract features, as a higher hidden layer can learn features which combine, build upon and complexify the features detected in the layer below. The neurons of the output layer can be viewed as using information about features in the input to determine the output value. In the case of classification, where each output neuron corresponds to the probability of membership of a specific class, the neuron can be seen as using information about the most abstract features (i.e.\ those closest to defining the entire object) to determine the probability of a certain class membership. \\
 
-With deep neural nets, the bottom layer is the input layer, where each neuron takes as input a component of the data vector. So the number of input neurons is the dimensionality of the data. Our input vector will contain at least as many dimensions as there are pixels in the image to recognise. It might also have neurons for GPS data, or for multiple images if the user is multi-querying. The dimensionality is going to be high!\\
-
-Minsky and Papert later showed that MLPs are universal approximators: mathematically, hidden layers therefore increase the size of the function space, and solve the initial limitation faced by perceptrons.\\
+Mathematically, it was proved in 1989 that MLPs are universal approximators \cite{MLP-univ-approx}; hidden layers therefore increase the size of the function space, and solve the initial limitation faced by perceptrons.\\
 
 
+\paragraph{Deep Convolutional Neural Networks: for Translation Invariance}
 
-
-\paragraph{Convolutions}
-
-\subparagraph{Translation Invariance}
-
-CITATION BELOW!
-\it{"Convolutional neural network is a specific artificial neural network topology that is inspired by biological visual cortex and tailored for computer vision tasks by Yann LeCun in early 1990s. See http://deeplearning.net/tutorial/lenet.html for introduction.
-The convolutional neural network implemented in ccv is based on Alex Krizhevsky’s ground-breaking work presented in:
+A convolutional neural network uses a specific network topology that is inspired by the biological visual cortex and tailored for computer vision tasks by Yann LeCun in early 1990s. The convolutional neural network implemented in ccv is based on Alex Krizhevsky’s ground-breaking work presented in:
 ImageNet Classification with Deep Convolutional Neural Networks, Alex Krizhevsky, Ilya Sutskever, and Geoffrey E. Hinton, NIPS 2012
 The parameters are modified based on Matthew D. Zeiler’s work presented in:
 Visualizing and Understanding Convolutional Networks, Matthew D. Zeiler, and Rob Fergus, Arxiv 1311.2901 (Nov 2013)."}
@@ -458,9 +445,24 @@ I don't think much work has been done on combining neural networks with hidden m
 
 \bibitem{Russel & Norvig}
  Russell, Stuart J; Norvig, Peter;
- \emph{ Artificial Intelligence: A Modern Approach}\\
+ \emph{Artificial Intelligence: A Modern Approach}\\
  2003
 
+\bibitem{krizhevsky}
+ Krizhevsky, Alex; Sutskever, Ilya; Hinton, Geoffrey E.;
+ \emph{ImageNet Classification with Deep Convolutional Neural Networks}\\
+ 2012
+
+\bibitem{rectifier}
+ Glorot, Xavier; Bordes, Antoine; Bengio, Yoshua;
+ \emph{Deep Sparse Rectifier Neural Networks}\\
+ 2013
+
+\bibitem{MLP-univ-approx}
+ Hornik, Kur; Stinchcombe, Maxwell; White, Halber;
+ \emph{Multilayer Feed-Forward Networks are Universal Approximators}\\
+ 1989
+ 
 \end{thebibliography}
 
 
