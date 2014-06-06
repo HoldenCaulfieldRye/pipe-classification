@@ -19,29 +19,25 @@
 \contentsline {subsubsection}{\numberline {1.3.1}Compute Error-Weight Partial Derivatives}{9}
 \contentsline {subsubsection}{\numberline {1.3.2}Update Weight Values (with Gradient Descent)}{9}
 \contentsline {paragraph}{Training, Validation and Test Sets}{9}
-\contentsline {paragraph}{Dropout}{10}
 \contentsline {subsection}{\numberline {1.4}Challenges specific to the Pipe Weld Classification Task}{10}
-\contentsline {subsubsection}{\numberline {1.4.1}Multi-Instance Multi-Label Learning}{10}
-\contentsline {subsubsection}{\numberline {1.4.2}Transfer Learning: learning with a restricted training set}{10}
-\contentsline {subsubsection}{\numberline {1.4.3}Class Imbalance}{10}
-\contentsline {section}{\numberline {2}Progress}{11}
-\contentsline {subsection}{\numberline {2.1}Data: pipe weld images}{11}
-\contentsline {subsubsection}{\numberline {2.1.1}Visual Inspection}{11}
-\contentsline {subsubsection}{\numberline {2.1.2}Analysis}{11}
-\contentsline {paragraph}{ANOVA}{11}
-\contentsline {paragraph}{t-SNE}{11}
-\contentsline {subsection}{\numberline {2.2}Implementation: Cuda-Convnet}{11}
-\contentsline {subsubsection}{\numberline {2.2.1}Test Run}{11}
-\contentsline {paragraph}{DeCAF}{12}
-\contentsline {paragraph}{Network Architecture}{12}
-\contentsline {subsection}{\numberline {2.3}Further Work}{12}
-\contentsline {subsubsection}{\numberline {2.3.1}Improve Current Model}{12}
-\contentsline {paragraph}{Tweak Architecture}{12}
-\contentsline {paragraph}{Tweak Training}{12}
-\contentsline {subsubsection}{\numberline {2.3.2}Modify Model}{13}
-\contentsline {paragraph}{Transfer Learning}{13}
-\contentsline {paragraph}{Hidden Markov Model}{13}
-\contentsline {subsubsection}{\numberline {2.3.3}Improve Implementation}{13}
-\contentsline {paragraph}{Caffe}{13}
-\contentsline {paragraph}{Theano}{13}
-\contentsline {paragraph}{Torch}{13}
+\contentsline {subsubsection}{\numberline {1.4.1}Data Overview}{10}
+\contentsline {subsubsection}{\numberline {1.4.2}Multi-Tagging}{10}
+\contentsline {subsubsection}{\numberline {1.4.3}Domain Change}{10}
+\contentsline {subsubsection}{\numberline {1.4.4}Small Dataset Size}{11}
+\contentsline {subsubsection}{\numberline {1.4.5}Class Imbalance}{12}
+\contentsline {section}{\numberline {2}Progress}{12}
+\contentsline {subsection}{\numberline {2.1}Implementation: Cuda-Convnet}{12}
+\contentsline {subsubsection}{\numberline {2.1.1}Test Run}{12}
+\contentsline {paragraph}{DeCAF}{13}
+\contentsline {paragraph}{Network Architecture}{13}
+\contentsline {subsection}{\numberline {2.2}Further Work}{14}
+\contentsline {subsubsection}{\numberline {2.2.1}Improve Current Model}{14}
+\contentsline {paragraph}{Tweak Architecture}{14}
+\contentsline {paragraph}{Tweak Training}{14}
+\contentsline {subsubsection}{\numberline {2.2.2}Modify Model}{14}
+\contentsline {paragraph}{Transfer Learning}{14}
+\contentsline {paragraph}{Hidden Markov Model}{15}
+\contentsline {subsubsection}{\numberline {2.2.3}Improve Implementation}{15}
+\contentsline {paragraph}{Caffe}{15}
+\contentsline {paragraph}{Theano}{15}
+\contentsline {paragraph}{Torch}{15}
