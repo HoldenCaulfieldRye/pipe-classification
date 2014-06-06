@@ -88,7 +88,7 @@ Practically speaking, the reason for why this task involves a vector of labels i
     No Clamp Used  & ~  50 \\
     No Visible Evidence Of Scraping Or Peeling  & ~ 50 \\
     Soil Contamination High Risk  & ~ 50 \\
-    Water Contamination HighRisk  & ~ 50 \\
+    Water Contamination High Risk  & ~ 50 \\
     Unsuitable Photo  & ~ 100 \\
     \hline
     \end{tabular}
@@ -158,6 +158,36 @@ Visualizing and Understanding Convolutional Networks, Matthew D. Zeiler, and Rob
 
 \subsection{Data: pipe weld images}
 There are 227,730 640x480 'RedBox' images. There are 1280x960 'BlueBox' images. They all have xx tags.
+
+\begin{table}[h]
+   \centering
+    \begin{tabular}{|l|c|}
+    \hline
+    Characteristic                 & Count  \\ \hline
+    No Ground Sheet  & ~  30015 \\
+    No Insertion Depth Markings  & ~ 17667 \\
+    No Visible Hatch Markings  & ~ 28155 \\
+    Other  & ~  251 \\
+    Photo Does Not Show Enough Of Clamps  & ~ 5059 \\
+    Photo Does Not Show Enough Of Scrape Zones  & ~ 21272 \\
+    Fitting Proximity  & ~  1233 \\
+    Soil Contamination Low Risk  & ~ 10 \\
+    Unsuitable Scraping Or Peeling  & ~ 2125 \\
+    Water Contamination Low Risk  & ~ 3 \\
+    Joint Misaligned  & ~  391 \\
+    Inadequate Or Incorrect Clamping  & ~ 1401 \\
+    No Clamp Used  & ~  8041 \\
+    No Visible Evidence Of Scraping Or Peeling  & ~ 25499 \\
+    Soil Contamination High Risk  & ~ 6541 \\
+    Water Contamination High Risk  & ~ 1927 \\
+    Unsuitable Photo  & ~ 2 \\
+     \hline
+    Perfect (no flag)  & ~ 49039 \\
+    \hline
+    \end{tabular}
+    \caption {Count of Redbox images with given label}
+\end{table} 
+
 
 \subsubsection{Visual Inspection}
 \subsubsection{Analysis}
