@@ -16,7 +16,9 @@
 \usepackage{mathtools}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{fancyhdr}
+
+\usepackage{tikz}
+\usetikzlibrary{matrix,chains,positioning,decorations.pathreplacing,arrows,calc}
 
 % \bibliography{mybib}
 
@@ -254,34 +256,48 @@ A convolutional neural network uses a specific network topology that is inspired
 \end{figure}
 
 
-\subsection{Training}
-\paragraph{Gradient Descent}
+\subsection{Training: Backpropagation}
 
-the supervised training of deep neural networks relies on the derivative of the error function with respect to the network's parameters, the parameter space needs to be continues, and is therefore $\mathbb{R^{P}}$ (where P is the number of parameters in the network).
+Now that the architecture of a deep CNN has been explained, the question remains of how to train it. Mathematically: now that the function space has been explained, the question remains of how this space is searched. In the case of feed-forward neural networks and supervised learning, this is done with gradient descent, a local (therefore greedy) optimisation algorithm. Gradient descent relies on the partial derivatives of the error (a.k.a\ cost) function with respect to each parameter of the network; the backpropagation algorithm is an implementation of gradient descent which efficiently computes these values.
+  
+\subsubsection{Compute Error-Weight Partial Derivatives}
 
-As mentioned above, learning is not a mere approximation problem because the hypothesis function must generalise well to any subset of the instance space. Approximation and generalisation are incorporated into the training of deep neural networks (as well as other models \cite{train&test}) by separating the labelled dataset into a training set, a validation set and a test set. The partial derivatives are computed from the error over the training set, but the function that is learned is the one that minimises the error over the validation set, and its performance is measured on the test set. The distinction between training and validation sets is what prevents the function from overfitting the training data: if the function begins to overfit, the error on the validation set will increase and training will be stopped. The distinction between the test set and the validation set is to obtain a stochastically impartial measure of performance: since the function is chosen to minimise the error over the validation set, there could be some non-negligible overfit to the validation set which can only be reflected by assessing the function's performance on yet another set.
+Let $t$ be the target output (with classification, this is the label) and let $y = (y_{1}, y_{2}, ..., y_{P})$ be actual value of the output layer on a training case. (Note that classification is assumed here: there are multiple output neurons, one for each class).
 
-\paragraph{Backpropagation}
+The error is given by 
+\begin{equation}
+E = \mathcal{C}(t-y)
+\end{equation}
 
-This supervised learning algorithm is used to train deep feed-forward neural networks. Its aim is to find values for all the weights in the network that minimise the network's prediction error (you need labeled data to compute prediction error, hence why it only works with supervised learning). As a 1st step, it efficiently estimates the partial derivative of the error with respect to every weight (ie "how much would the error increase by if I were to slightly increase the value of this weight?"). As a 2nd step, it uses these partial derivative estimates to update ie learn the weight values.
+where $\mathcal{C}$ is the chosen cost function. The error-weight partial derivatives are given by
 
-\subparagraph{Compute Error-Weight Partial Derivatives}
-This might seem straightforward: tweak the value of one weight, see how the error changes, and you've got your partial derivative with respect to that weight.  That would be called randomly perturbing weights.
-But computing the error means feeding a training case through the entire network. You also need a statistically significant estimate, so you'd have to measure the error with many (typically 100) cases. You'd have to do all of that, one weight at a time (otherwise you don't know which of the weights you've simultaneously tweaked are responsible for what proportion of the error). With cuda-convnet, 60 million weights.
-Geoffrey Hinton and others realised in the 80s that instead of randomly perturbing weights, you can randomly perturb the output of neurons (one by one), and use the error-neuronOutput partial derivatives to compute all of the error-weight partial derivatives (using the chain rule in calculus). In a 2-layer network of a+b neurons for example, you have a*b weights, so the efficiency gain is significant. This is the algorithm's achievement.
-That's backpropagation stage 1.
+\begin{equation}
+\frac{\partial{E}}{\partial{w_{ij}}} = \frac{\partial{E}}{\partial{y_{i}}} \cdot \frac{\partial{y_{i}}}{\partial{net}} \cdot \frac{\partial{net}}{\partial{w_{ij}}}
+\end{equation}
 
-\subparagraph{Update Weight Values (With Gradient Descent)}
-At every learning iteration, backpropagation computes these slopes, and uses the values to update the weights. It stops updating weights once all slopes are zero (ie no small change in the value of any weight will reduce the error). That's gradient descent.
-To get the intuition for learning in general, and gradient descent specifically: given K weights and an error function, picture the K+1 dimensional space (or rather picture it for K=2!) where the vertical dimension is where the error is plotted, and all of the other dimensions are where weight values are plotted. Now picture the surface that is obtained as the weight vector spans all of its possible values. (for K=2, picture the surface as plain ground with bumps and craters here and there).
-Learning is simply about finding the lowest point on that surface, ie finding the weights that minimise the error.
-Graphically, backpropagation stops once the bottom of a crater has been met. But we have no idea whether this crater is the deepest one. Worse even, by default (we'll have to check whether this is also the case with cuda-convnet) the first crater to be met is the final one. Backprop doesn't explore elsewhere to see if a deeper crater can be found.
-If we're lucky, the error function has only one crater. Either that, or the initial weights - the ones the network began training with - are somewhere on the slope of the deepest crater.
-So the initial weights are crucial.
-(And gradient descent seems pretty naive).
+Since in general, a derivative $\frac{\partial{f}}{\partial{x}}$ is numerically obtained by perturbing $x$ and taking the change in $f(x)$, the advantage with this formula is that instead of individually perturbing each weight $w_{ij}$, only the unit outputs $y_{i}$ are perturbed. In a neural network with $k$ fully connected layers and $n$ units per layer, this amounts to $\Theta(k \cdot n)$ unit perturbations instead of $\Theta(k \cdot n^{2})$ weight perturbations (note that the bound on weight perturbations is no longer tight if we drop the assumption of fully connected layers).
+
+\subsubsection{Update Weight Values (with Gradient Descent)}
+
+The learning rule is given by $w_{i,t+1} = w_{i,t+1} + \tau \cdot \frac{\partial{E}}{\partial{w_{i,t}}}$
+
+Visually, this means that weight values move in the direction the will reduce the error quickest, i.e.\ the direction of steepest descent on the error surface is taken. Notice that given the learning rule, gradient descent converges (i.e.\ $w_{i,t+1}$ equals $w_{i,t+1}$) when the partial derivative reaches zero. This corresponds to a local minimum on the error surface. In the figure below, two potential training sessions are illustrated. The minima attained in each cases are not the same. This illustrates a strong shortcoming with backpropagation: parameter values can get stuck in poor local minima.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.4]{images/local_minima.png}
+	\caption{an error surface with poor local minima}
+\end{figure}
 
 
-\paragraph{Dropout}
+% \paragraph{cost functions}
+% MSE, cross-entropy for softmax
+
+\paragraph{Training, Validation and Test Sets}
+
+As mentioned previously, learning is not a mere approximation problem because the hypothesis function must generalise well to any subset of the instance space. Approximation and generalisation are incorporated into the training of deep neural networks (as well as other models \cite{train&test}) by separating the labelled dataset into a training set, a validation set and a test set. The partial derivatives are computed from the error over the training set, but the function that is learned is the one that minimises the error over the validation set, and its performance is measured on the test set. The distinction between training and validation sets is what prevents the function from overfitting the training data: if the function begins to overfit, the error on the validation set will increase and training will be stopped. The distinction between the test set and the validation set is to obtain a stochastically impartial measure of performance: since the function is chosen to minimise the error over the validation set, there could be some non-negligible overfit to the validation set which can only be reflected by assessing the function's performance on yet another set.
+
+% \paragraph{Dropout}
 
 
 \subsection{Challenges specific to the Pipe Weld Classification Task}
