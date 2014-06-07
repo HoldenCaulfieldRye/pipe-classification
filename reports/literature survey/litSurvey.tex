@@ -51,11 +51,10 @@
 
 \begin{abstract}
 
-\abstract
 {
-\par Automatic image classification experienced a breakthrough in 2012 with the advent of GPU implementations of deep neural networks. Since then, state-of-the-art has centred around improving these deep neural networks. The following is a literature survey of papers relevant to the task of learning to automatically multi-tag images of pipe welds, from a restrictive number of training cases, and with high-level knowledge of some abstract features. It is therefore divided into 5 sections: foundations of machine learning with neural networks, deep convolutional neural networks (including deep belief networks), multi-tag learning, learning with few training examples, and incorporating knowledge of the structure of the data into the network architecture to optimise learning.\\
+Automatic image classification experienced a breakthrough in 2012 with the advent of GPU implementations of deep neural networks. Since then, state-of-the-art has centred around improving these deep neural networks. The following is a literature survey of papers relevant to the task of learning to automatically multi-tag images of pipe welds, from a restrictive number of training cases, and with high-level knowledge of some abstract features. It is therefore divided into 5 sections: foundations of machine learning with neural networks, deep convolutional neural networks (including deep belief networks), multi-tag learning, learning with few training examples, and incorporating knowledge of the structure of the data into the network architecture to optimise learning.\\
 
-\par In terms of progress, a deep convolutional neural network, pretrained on 10 million images from ImageNet, has been trained on 150,000 pipe weld images for the simplest possible task of discriminating 'good' pipe weld from 'bad' pipe welds. A classification error rate of ??\% has been attained. Although this figure is encouraging, it corresponds to a much simpler formulation of the task: the objective of this project is to achieve multi-tagging for 23 characteristics, some of which require considerable human training.  Include a separate section on progress that describes: the activities and accomplishments of the project to date; any problems or obstacles that might have cropped up and how those problems or obstacles are being dealt with; and plans for the next phases of the project.
+In terms of progress, several instances of large-scale neural networks have been trained on a simplifed task: that of detecting clamps in Redbox images. None of them have shown signs of parameter convergence, suggesting that the classification task is particularly challenging. Potential reasons are discussed; the next steps of the project are to test them.
 }
 \end{abstract}
 
@@ -373,7 +372,7 @@ classes. Moreover, one would need to ensure that the range of the error is as la
 
 \section{Progress}
 
-Following the installation of an open source API for a GPU implementation of a CNN, the pre-processing of the data, and the implementation of data handlers for feeding data into the CUDA code, several instances of large-scale CNNs have been trained on a simplifed task: that of detecting clamps in the image. 
+Following the installation of an open source API for a GPU implementation of a CNN, the pre-processing of the data, and the implementation of data handlers for feeding data into the CUDA code, several instances of large-scale CNNs have been trained on a simplifed task: that of detecting clamps in Redbox images. 
 
 \subsection{Implementation: Cuda-Convnet}
 
@@ -381,7 +380,7 @@ Cuda-Convnet is a GPU implementation of a deep convolutional neural network impl
 
 \subsubsection{Test Run}
 
-As mentioned above, several large-scale CNNs have been trained on the clamp detection task. The purpose of these models is to set a benchmark for the difficulty of the classification task, by taking several out-of-the-box network configurations: namely, those found on open source projects or detailed in papers \cite{krizhevsky},\cite{transfer-learning}, \cite{decaf}. \\
+As mentioned above, several large-scale CNNs have been trained on the clamp detection task using the Redbox data only. The purpose of these models is to set a benchmark for the difficulty of the classification task, by taking several out-of-the-box network configurations: namely, those found on open source projects or detailed in papers \cite{krizhevsky},\cite{transfer-learning}, \cite{decaf}. \\
 
 The classification task is a challenging one: indeed, none of the training sessions have shown any signs of parameter convergence, as the below plot of the validation error over batch iterations can show. 
 
@@ -391,11 +390,17 @@ The classification task is a challenging one: indeed, none of the training sessi
 	\caption{validation error rate over batch training iterations}
 \end{figure}
 
-There is a wide number of potential explanations for this:
-- the learning rates are too high (the minimum gets 'overshot' even when the direction of partial derivatives is correct)
-- 
+There is a wide number of potential explanations for this indirected 'choppiness' in the error rate:
+\begin{itemize}
+\item The learning rates are too high (the minimum gets 'overshot' even when the direction of partial derivatives is correct)
+\item The dropout rate is too high (dropout is a technique which consists in randomly dropping out neurons from the net at every iteration to prevent overfit - but it also means that a different model is tested every time)
+\item The number of parameters is too high (the out-of-the-box implementation contains millions of parameters, which is more than than the number of training cases, so collinearities between the parameters cannot even be broken, and most of them are rendered useless)
+\item Class imbalance (not enough information about the clampless classes to be able to learn feature for them)
+\item Mis-labeled data (at the time of human tagging of these images, tags were left out) \ldots
+\end{itemize}
+ 
 
-\\ \\
+The first four explanations are either easy to remedy or interesting to research (particularly the implementation of a wide-ranging, fully differentiable F-Measure, or the import of a pre-trained network). However, if the data is heavily mis-labeled, there may be little that can be done to make this learning task feasible. The next step therefore consists in determining how well-labeled the data is, by way of manual visual inspection on a random (therefore hopefully representative) sample of the training data. \\ \\
 
 \begin{thebibliography}{1}
 % Example: \bibitem{One}
