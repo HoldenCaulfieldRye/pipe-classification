@@ -2,6 +2,12 @@
 TO DO
 =====
 
+VISUAL INSPECTION OF DATA
+- once downsized to 256x256!!
+
+Full understanding of cfg file contents:
+- eg increasing that learning rate was a big mistake
+
 Find more graphic machines:
 - train a net on each of them
 
