@@ -51,11 +51,10 @@
 
 \begin{abstract}
 
-\abstract
 {
-\par Automatic image classification experienced a breakthrough in 2012 with the advent of GPU implementations of deep neural networks. Since then, state-of-the-art has centred around improving these deep neural networks. The following is a literature survey of papers relevant to the task of learning to automatically multi-tag images of pipe welds, from a restrictive number of training cases, and with high-level knowledge of some abstract features. It is therefore divided into 5 sections: foundations of machine learning with neural networks, deep convolutional neural networks (including deep belief networks), multi-tag learning, learning with few training examples, and incorporating knowledge of the structure of the data into the network architecture to optimise learning.\\
+Automatic image classification experienced a breakthrough in 2012 with the advent of GPU implementations of deep neural networks. Since then, state-of-the-art has centred around improving these deep neural networks. The following is a literature survey of papers relevant to the task of learning to automatically multi-tag images of pipe welds, from a restrictive number of training cases, and with high-level knowledge of some abstract features. It is therefore divided into 5 sections: foundations of machine learning with neural networks, deep convolutional neural networks (including deep belief networks), multi-tag learning, learning with few training examples, and incorporating knowledge of the structure of the data into the network architecture to optimise learning.\\
 
-\par In terms of progress, a deep convolutional neural network, pretrained on 10 million images from ImageNet, has been trained on 150,000 pipe weld images for the simplest possible task of discriminating 'good' pipe weld from 'bad' pipe welds. A classification error rate of ??\% has been attained. Although this figure is encouraging, it corresponds to a much simpler formulation of the task: the objective of this project is to achieve multi-tagging for 23 characteristics, some of which require considerable human training.  Include a separate section on progress that describes: the activities and accomplishments of the project to date; any problems or obstacles that might have cropped up and how those problems or obstacles are being dealt with; and plans for the next phases of the project.
+In terms of progress, several instances of large-scale neural networks have been trained on a simplifed task: that of detecting clamps in Redbox images. None of them have shown signs of parameter convergence, suggesting that the classification task is particularly challenging. Potential reasons are discussed; the next steps of the project are to test them.
 }
 \end{abstract}
 
@@ -285,7 +284,7 @@ Visually, this means that weight values move in the direction the will reduce th
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.4]{images/local_minima.png}
+	\includegraphics[scale=0.8]{images/local_minima.png}
 	\caption{an error surface with poor local minima}
 \end{figure}
 
@@ -302,21 +301,16 @@ As mentioned previously, learning is not a mere approximation problem because th
 
 \subsection{Challenges specific to the Pipe Weld Classification Task}
 
-\subsubsection{Multi-Instance Multi-Label Learning}
+A number of significant challenges have arisen from this task: multi-tagging, domain change, small dataset size (by deep learning standards) and class imbalance. Before going into them, an overview of the data is given below. \\
 
-\subsubsection{Transfer Learning: learning with a restricted training set}
+\subsubsection{Data Overview}
+% \subsubsection{Visual Inspection}
+% \subsubsection{Analysis}
+% \paragraph{ANOVA}
+% \paragraph{t-SNE}
 
-\subsubsection{Class Imbalance}
 
-\clearpage
-
-
-
-\clearpage
-\section{Progress}
-
-\subsection{Data: pipe weld images}
-There are 227,730 640x480 'RedBox' images. There are 1280x960 'BlueBox' images. They all have xx tags.
+ControlPoint recently upgraded the photographical equipment with which photos are taken (from 'Redbox' equipment to 'Bluebox' equipment), which means that the resolution and finishing of the photos has been altered. There are 113,865 640x480 'RedBox' images. There are 13,790 1280x960 'BlueBox' images. Label frequencies for the Redbox images are given below.
 
 \begin{table}[h]
    \centering
@@ -341,104 +335,73 @@ There are 227,730 640x480 'RedBox' images. There are 1280x960 'BlueBox' images. 
     Water Contamination High Risk  & ~ 1,927 \\
     Unsuitable Photo  & ~ 2 \\
      \hline
-    Perfect (no flag)  & ~ 49,039 \\
+    Perfect (no labels)  & ~ 49,039 \\
     \hline
     \end{tabular}
     \caption {Count of Redbox images with given label}
 \end{table} 
 
+\subsubsection{Multi-Tagging}:
 
-\subsubsection{Visual Inspection}
-\subsubsection{Analysis}
-\paragraph{ANOVA}
-\paragraph{t-SNE}
+As mentioned earlier, training images contain varying numbers of class instances; this uncertainty complexifies the training task.
+
+\subsubsection{Domain Change}:
+
+Domain change can be lethal to machine vision algorithms: for example, a feature learned (at the pixel level) from the 640x480 Redbox images could end up being out of scale for the 1280x960 Bluebox images. However, this simple example is not relevant to a CNN implementation, since the largest networks can only manage 256x256 images, so Bluebox and Redbox images will both be downsized to identical resolutions. However, more worrying is the difference in image sharpness between Redbox and Bluebox images, as can be seen below. It remains to be seen how a CNN could be made to deal with this type of domain change.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.34]{images/perfect3.jpg}
+	\includegraphics[scale=0.17]{images/niceBluebox_100974.jpg}
+	\caption{left: a Redbox photo - right: a Bluebox photo}
+\end{figure}
+
+Nevertheless, evidence has been found to suggest that deep neural networks are robust to it: an experiment run by Donahue et al on the \textit{Office} dataset \cite{office}, consisting of images of the same products taken with three different types of photographical equipment (professional studio equipment, digital SLR, webcam) found that their implementation of a deep convolutional neural network produced similar feature representations of two images of the same object even when the two images were taken with different equipment, but that this was not the case when using SURF, the currently best performing set of hand-coded features on the \textit{Office} dataset \cite{surf}. \\
+
+\subsubsection{Small Dataset Size}
+
+Alex Krizhevsky's record-breaking CNN was trained on 1 million images \cite{krizhevsky}. Such a large dataset enabled the training of a 60-million parameter neural network, without leading to overfit. In this case, there are 'only' 127,000, and 43\% of them are images of "perfect" welds, meaning that these are label-less. Training a similarly sized network leads to overfit, but training a smaller network could prevent the network from learning sufficiently abstract and complex features for the task at hand. A solution to consider is that of transfer learning \cite{transfer-learning}, which consists in importing a net which has been pretrained in a similar task with vast amounts of data, and to use it as a feature extractor. This would bring the major advantage that a large network architecture can be used, but the number of free parameters can be reduced to fit the size of the training set by "freezing" backpropagation on the lower layers of the network. Intuitively, it would make sense to freeze the lower (convolutional) layers and to re-train the higher ones, since low-level features (such as edges and corners) are likely to be similar across any object recognition task, but the way in which these features are combined are specific to the objects to detect.
+
+\subsubsection{Class Imbalance}
+
+The dataset suffers from a similar adverse characteristic to that of medical datasets: pathology observations are significantly less frequent that healthy observations. This can make mini-batch training of the network especially difficult. Consider the simple case of training a neural network to learn the following labels: No Clamp Used, Photo Does Not Show Enough Of Clamps, Clamp Detected (this label is not in the list, but can be constructed as the default label). Only 8\% of the Redbox images contain the first label, and only 5\% contain the second label, so if the partial derivatives of the error are computed over a batch of 128 images (as is the case with the best implementations \cite{krizhevsky},\cite{transfer-learning}, \cite{decaf}), one can only expect a handful of them to contain either of the first two labels. Intuively, one may ask: how could I learn to recognise something if I'm hardly ever shown it?\\
+
+One possible solution would be to use a different cost function: the F-measure \cite{f-measure}, which is known to deal with these circumstances. Although the F-measure has been adapted to into a fully differentiable cost function (which is mandatory for gradient descent), there currently exists no generalisation of it for the case of $n \ge 2$
+classes. Moreover, one would need to ensure that the range of the error is as large as possible for a softmax activation unit, whose own output range is merely $[0;1]$. \\ \\
+
+
+\section{Progress}
+
+Following the installation of an open source API for a GPU implementation of a CNN, the pre-processing of the data, and the implementation of data handlers for feeding data into the CUDA code, several instances of large-scale CNNs have been trained on a simplifed task: that of detecting clamps in Redbox images. 
 
 \subsection{Implementation: Cuda-Convnet}
 
-Cuda-Convnet is a GPU implementation of a deep convolutional neural network implemented in CUDA/C++. It was written by Alex Krizhevsky to train the net that set ground-breaking records at the ILSVRC 2012 competition, and subsequently open-sourced. However, parts of his work are missing and his open source repository is not sufficient to reproduce his network (see test run for how this was dealt with).
+Cuda-Convnet is a GPU implementation of a deep convolutional neural network implemented in CUDA/C++. It was written by Alex Krizhevsky to train the net that set ground-breaking records at the ILSVRC 2012 competition, and subsequently open-sourced. However, parts of his work are missing and his open source repository is not sufficient to reproduce his network. In order to do so, data batching scripts were written for turning raw .jpg images and separate .dat files into pickled python objects each containing 128 stacked jpg values in matrix format with RGB values split across, and a dictionary of labels and metadata for the network. \\
 
 \subsubsection{Test Run}
 
-Use Alex Krizhevsky's GPU implementation. Use Daniel Nouri's noccn scripts. Download the file containing serialized code for Yangqing's decaf\cite{decaf} network parameters, reverse engineer it using Daniel Nouri's skynet configuration files. Write batching script for decaf-net's image dimensions. Write data augmentation scripts to reduce overfit.  Write c++ code to import the decaf parameters to initialise the weights of a new network, to re-initialise the weights of the fully connected layers, to train only the fully connected layers, keeping the lower layers 'frozen'.
+As mentioned above, several large-scale CNNs have been trained on the clamp detection task using the Redbox data only. The purpose of these models is to set a benchmark for the difficulty of the classification task, by taking several out-of-the-box network configurations: namely, those found on open source projects or detailed in papers \cite{krizhevsky},\cite{transfer-learning}, \cite{decaf}. \\
 
-888 batches of 128 images each. Used 10\% of the data for testing - so trained on 102,400 images.
+The classification task is a challenging one: indeed, none of the training sessions have shown any signs of parameter convergence, as the below plot of the validation error over batch iterations can show. 
 
-\paragraph{DeCAF}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/logprob.png}
+	\caption{validation error rate over batch training iterations}
+\end{figure}
 
-By Yangqinq Jia and University of California, Berkeley. \it{"As the underlying architecture for our feature we adopt the deep convolutional neural network architecture proposed by Krizhevsky et al. (2012), which won the ImageNet Large Scale Visual Recognition Challenge 2012 (Berg
-et al., 2012) with a top-1 validation error rate of 40.7\%. 3 We chose this model due to its performance on a difficult 1000-way classification task, hypothesizing that the activa- tions of the neurons in its late hidden layers might serve as very strong features for a variety of object recognition tasks. Its inputs are the mean-centered raw RGB pixel intensity values of a 224×224 image. These values are forward propagated through 5 convolutional layers (with pooling and ReLU non-linearities applied along the way) and 3 fully-connected layers to determine its final neuron activ- ities: a distribution over the task’s 1000 object categories. Our instance of the model attains an error rate of 42.9\% on the ILSVRC-2012 validation set – 2.2\% shy of the 40.7\% achieved by (Krizhevsky et al., 2012).
-We refer to Krizhevsky et al. (2012) for a detailed discus- sion of the architecture and training protocol, which we closely followed with the exception of two small differ- ences in the input data. First, we ignore the image’s orig-
-inal aspect ratio and warp it to 256 × 256, rather than re- sizing and cropping to preserve the proportions. Secondly, we did not perform the data augmentation trick of adding random multiples of the principle components of the RGB pixel values throughout the dataset, proposed as a way of capturing invariance to changes in illumination and color.}
+There is a wide number of potential explanations for this indirected 'choppiness' in the error rate:
+\begin{itemize}
+\item The learning rates are too high (the minimum gets 'overshot' even when the direction of partial derivatives is correct)
+\item The dropout rate is too high (dropout is a technique which consists in randomly dropping out neurons from the net at every iteration to prevent overfit - but it also means that a different model is tested every time)
+\item The number of parameters is too high (the out-of-the-box implementation contains millions of parameters, which is more than than the number of training cases, so collinearities between the parameters cannot even be broken, and most of them are rendered useless)
+\item Class imbalance (not enough information about the clampless classes to be able to learn feature for them)
+\item Mis-labeled data (at the time of human tagging of these images, tags were left out) \ldots
+\end{itemize}
+ 
 
+The first four explanations are either easy to remedy or interesting to research (particularly the implementation of a wide-ranging, fully differentiable F-Measure, or the import of a pre-trained network). However, if the data is heavily mis-labeled, there may be little that can be done to make this learning task feasible. The next step therefore consists in determining how well-labeled the data is, by way of manual visual inspection on a random (therefore hopefully representative) sample of the training data. \\ \\
 
-\paragraph{Network Architecture}
-
-Don't want to saturate neurons. Need a standard deviation of weight initialisations proportional to the square root of the fan-in. Convolutional layers have a much smaller fan-in than, say, fully connected layers, so the standard deviation needs to be much lower.
-
-Use dropout of 0.5 in each fully connected layer, so add twice as many outputs. Go from 4096 to 8192. Actually no, keep it at 4096. Furthermore, reduce the number of neurons in each fully connected layer, because don't have as many classes to classify. Just need a few abstract features. The last layer has number of neurons fixed to number of classes. So actually, maybe reduce the number of neurons only in the 2nd fully connected one, but not the first: this is like having a few very abstract features, which are combinations of a very high number of less abstract features.
-
-
-\subsection{Further Work}
-
-Directions for further work can be divided into three sections: improving the current model i.e. with small changes, and modifying the model i.e. with significant changes, and finally improving the implementation with more flexible, higher performing APIs.
-
-\subsubsection{Improve Current Model}
-
-Improving the current model consists in optimising the hyperparameters of the model.
-
-\paragraph{Tweak Architecture}
-
-Change proportion of data used as training data.
-Change fan-in for the fully connected layers.
-Change dropout rate (probably don't need to).
-Does number of classes to classify influences network hyper-parameters, other than number of neurons in top layer?
-Maybe reduce the number of neurons in each fully connected layer even more so, because don't have as many classes to classify. Just need a few abstract features. The last layer has number of neurons fixed to number of classes. So actually, maybe reduce the number of neurons only in the 2nd fully connected one, but not the first: this is like having a few very abstract features, which are combinations of a very high number of less abstract features.
-
-\paragraph{Tweak Training}
-
-I'm training a CNN to recognise 3 classes, but 91\% of my data is of the same class. Is there anything I should alter in the way I train?
-
-For example, should I make the proportions of each class in my validation batches even (1/3, 1/3, 1/3)? Because the thing is, weights are only saved when new validation error is lower than lowest validation error until now. But if this validation error is computed over hardly any examples of the other 2 classes, how can it be a good indicator that the network is on its way to learning good features?﻿\\
-
-See the plot for training: over 39 epochs, there is no progress, weight updates look random. This is a bad sign.
-
-If one views the problem as picking a direction to walk along in the error surface, it looks like the algorithm is stuck at the stage of randomly trying directions, heading down one a little bit, but deciding that it is not a good direction and starting from scratch. This is either due to the correct direction not being computed, or the correct direction not being correctly recognised.
-
-Maybe dropout is too high: dropout makes the logprob over time more spiky because it's like training lots of models concurrently, so there is never much focus on a particular model. Maybe the dropout rate should be reduced.
-
-Maybe the 2 other classes don't appear often enough, so it's impossible to learn anything: this can apparently be solved by choosing a different error function to minimise: the F-score\cite{f-measure}. However, The F-Measure is proposed as an alternative to the MSE - but can it be used as an alternative to cross entropy? I have a softmax output layer, so all ouput neuron values are between 0 and 1, which drastically reduces the range of the MSE. Would that be the same for F-Measure? Is there a way of making the range of the F-Measure wide for a softmax output layer? 
-
-Starting from 39.415, the test frequency was raised from 20 batches to 200 batches. The idea here is to let the weights run along a longer path before evaluating whether this is a good direction (more depth in the search).
-
-
-
-\subsubsection{Modify Model}
-
-\paragraph{Transfer Learning}
-
-\paragraph{Hidden Markov Model}
-
-It might be interesting to explore hidden markov models because the data has obvious hidden states which humans benefit from learning: pipe welds can be T welds and standard welds, and this alters where scratch marks need to be seen.
-
-Hidden Markov for pipe type. Whether the joint is a T-joint or not alters the way the image has to be assessed for each of the flags. In other words, whether or not the joint is a T-joint modifies the visual features that have to be picked up by the neural network for classification.
-Unless I'm mistaken, we do not have data for each image about whether or not it is a T-joint.
-At first, I had found that a bit disappointing, But I've just been thinking, this might be a very exciting research opportunity: there's a (powerful and super cool) type of machine learning model called a Hidden Markov model, where unknown states can be learned. In this case, the unknown state would "whether or not joint is a T-joint". Knowing this state should in theory help the network to improve classification, because it could indicate to it that a slightly different set of visual features need to be used for classification.
-I don't think much work has been done on combining neural networks with hidden markov models - and I don't know whether it's possible. But I'd like to mention it in my first report as a potential research path (unless Jack thinks it's a bad idea!). Hence why I wanted to be sure about the terminology for these different joints!
-
-
-\subsubsection{Improve Implementation}
-
-\paragraph{Caffe}
-
-\paragraph{Theano}
-
-\paragraph{Torch}
-
-\clearpage
-
-
-
-\clearpage
 \begin{thebibliography}{1}
 % Example: \bibitem{One}
 % a better way of doing it: a .bib file or something. bit.ly/1kqg2Qe
@@ -497,7 +460,31 @@ I don't think much work has been done on combining neural networks with hidden m
  Hornik, Kur; Stinchcombe, Maxwell; White, Halber;
  \emph{Multilayer Feed-Forward Networks are Universal Approximators}\\
  1989
+
+\bibitem{office}
+ Saenko, K., Kulis, B., Fritz, M., and Darrell, T.;
+ \emph{Adapting visual category models to new domains}\\
+ ECCV, 2010
+
+\bibitem{surf}
+ Bay, H., Tuytelaars, T., and Gool, L. Van;
+ \emph{SURF: Speeded up robust features}\\
+ ECCV, 2006
+
+\bibitem{transfer-learning}
+ Sermanet, Pierre; Eigen, David; Zhang, Xiang; Mathieu, Michael; Fergus, Rob; LeCun, Yann;
+ \emph{OverFeat: Integrated Recognition, Localization and Detection using Convolutional Networks}\\
+ arXiv:1312.6229
+  
+\bibitem{f-measure}
+ Joan Pastor-Pellicer, Francisco Zamora-Martínez, Salvador España-Boquera, María José Castro-Bleda;
+ \emph{F-Measure as the Error Function to Train Neural Networks}\\
+ Advances in Computational Intelligence
+ Volume 7902, 2013, pp 376-384
  
+\bibitem{cuda-convnet}  
+ URL: \url{https://code.google.com/p/cuda-convnet/}, last accessed 6th June 2014.
+
 \end{thebibliography}
 
 
