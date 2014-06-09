@@ -6,8 +6,10 @@ import xml.dom
 from joblib import Parallel, delayed
 from PIL import Image
 import xml.etree.ElementTree as ET
+import json
 import shutil
 import time
+
 
 
 #### STEP 1: GET LABELS ##############################################
@@ -36,7 +38,18 @@ def get_all_pipe_labels(data_dir,save=True):
 
 
 def get_label_dict(data_dir):
-  
+  path = data_dir
+  whichBox = data_dir.split('/')[-1]
+  d = {}
+  for filename in os.listdir(path):
+    if not filename.endswith('.dat'): continue
+    fullname = os.path.join(path, filename)
+    with open(fullname) as f:
+      content = f.readlines()
+      for label in content:
+        if label not in d.keys(): d[label] = []
+        d[label].append(filename)
+  json.dump(d, open('label_dict_'+whichBox+'.txt','w'))      
 
 
 #### STEP 2: LEAVE OUT BAD REDBOX DATA  #############################
@@ -418,6 +431,9 @@ if __name__ == "__main__":
   # and then ~/.local/bin/ccn-make-batches models/clamp_detection/options.cfg > models/clamp_detection/make_batches.out
   elif sys.argv[1] == 'move_to_dirs':
     move_to_dirs(sys.argv)
+
+  elif sys.argv[1] == 'get_label_dict':
+    get_label_dict(sys.argv[2])
 
 ##### tests ##########################################################
 
