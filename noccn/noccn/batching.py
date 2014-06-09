@@ -10,17 +10,6 @@ import shutil
 import time
 
 
-def get_a_batch_data_array():
-  ''' loads an array of labels in the format expected by cuda-
-  convnet, from a hard-coded location which on graphic02 
-  corresponds to a suitable data file. (batches.meta?) '''
-
-def get_a_pipe_data_list(data_dir):
-  ''' loads the 10002.data file provided by ControlPoint and stores
-  its contents in a list, to be returned. '''
-  os.chdir(os.cwd()+data_dir)
-
-
 #### STEP 1: GET LABELS ##############################################
 
 def get_all_pipe_labels(data_dir,save=True):
@@ -44,6 +33,10 @@ def get_all_pipe_labels(data_dir,save=True):
     d['no_labels'] = len(d['labels'])
     pickle.dump(d, open('labels_'+whichBox+'.pickle', 'wb'))
     print 'saved pickle file in', os.getcwd()
+
+
+def get_label_dict(data_dir):
+  
 
 
 #### STEP 2: LEAVE OUT BAD REDBOX DATA  #############################
