@@ -1,3 +1,5 @@
+# this is the original dataset.py file found on dnouri's noccn repo.
+
 # label is directory name!
 
 import cPickle
