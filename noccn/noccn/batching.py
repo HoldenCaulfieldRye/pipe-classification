@@ -6,7 +6,7 @@ import xml.dom
 from joblib import Parallel, delayed
 from PIL import Image
 import xml.etree.ElementTree as ET
-import json
+import json, random
 import shutil
 import time
 
@@ -39,17 +39,57 @@ def get_all_pipe_labels(data_dir,save=True):
 
 def get_label_dict(data_dir):
   path = data_dir
-  whichBox = data_dir.split('/')[-1]
-  d = {}
+  d = {'Perfect: []'}
   for filename in os.listdir(path):
     if not filename.endswith('.dat'): continue
     fullname = os.path.join(path, filename)
     with open(fullname) as f:
       content = f.readlines()
-      for label in content:
-        if label not in d.keys(): d[label] = []
-        d[label].append(filename)
-  json.dump(d, open('label_dict_'+whichBox+'.txt','w'))      
+      if content == []:
+        d['Perfect'].append(filename)
+      else:
+        for label in content:
+          if label not in d.keys(): d[label] = []
+          d[label].append(filename)
+  return d
+
+
+#### STEP 1.2: VISUALLY INSPECT RANDOM SAMPLES OF DATA ##############
+
+def sample_images(data_dir):
+  sample_size = int(raw_input('How many images of each label do you want? '))
+  d = get_label_dict(data_dir)
+  d_small = {}
+  for label in d.keys():
+    if sample_size > len(d[label]):
+      print 'there are only %i images with label %s'%(len(d[label]),label)
+      d_small[label] = d[label]
+    else: d_small[label] = random.sample(d[label], sample_size)
+  whichBox = data_dir.split('/')[-3]
+  json.dump(d, open('label_dict_sample_'+whichBox+'.txt','w'))      
+  return d_small
+
+def visual_inspect(data_dir, sample_size):
+  d = sample_images(data_dir, sample_size)
+
+  if data_dir[-1] not '/': sample_dir = data_dir+'/'+'visual_inspect'
+  else: sample_dir = data_dir+'visual_inspect'
+
+  if os.path.isdir(sample_dir):
+    rm = raw_input("images samples for inspection already found. delete? (Y/N) ")
+    if rm == 'Y': shutil.rmtree(sample_dir)
+    else: 
+      index = 1
+      sample_dir += str(index)
+      while os.path.isdir(sample_dir): 
+        index += 1
+        sample_dir = list(sample_dir)[-1] = str(index)
+        sample_dir = "".join(sample_dir)
+
+  for label in d.keys():
+    inspect = raw_input("want to inspect photos with %s?"%(label))
+    if inspect == True:
+      os.mkdir
 
 
 #### STEP 2: LEAVE OUT BAD REDBOX DATA  #############################
@@ -417,6 +457,12 @@ if __name__ == "__main__":
   if sys.argv[1] == 'get_all_pipe_labels':
     get_all_pipe_labels(sys.argv[2])
 
+  elif sys.argv[1] == 'get_label_dict':
+    get_label_dict(sys.argv[2])
+
+  elif sys.argv[1] == 'sample_images':
+    sample_images(sys.argv[2])
+
   elif sys.argv[1] == 'cleave_out_bad_data':
     cleave_out_bad_data(sys.argv[2])
 
@@ -431,9 +477,6 @@ if __name__ == "__main__":
   # and then ~/.local/bin/ccn-make-batches models/clamp_detection/options.cfg > models/clamp_detection/make_batches.out
   elif sys.argv[1] == 'move_to_dirs':
     move_to_dirs(sys.argv)
-
-  elif sys.argv[1] == 'get_label_dict':
-    get_label_dict(sys.argv[2])
 
 ##### tests ##########################################################
 
