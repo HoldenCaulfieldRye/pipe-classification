@@ -39,7 +39,8 @@ def get_all_pipe_labels(data_dir,save=True):
 
 def get_label_dict(data_dir):
   path = data_dir
-  d = {'Perfect: []'}
+  d = {'Perfect': []}
+  print 'generating dict of label:files from %s...'%(data_dir)
   for filename in os.listdir(path):
     if not filename.endswith('.dat'): continue
     fullname = os.path.join(path, filename)
@@ -61,6 +62,7 @@ def sample_images(data_dir):
   d = get_label_dict(data_dir)
   d_small = {}
   for label in d.keys():
+    d_small[label] = []
     if sample_size > len(d[label]):
       print 'there are only %i images with label %s'%(len(d[label]),label)
       d_small[label] = d[label]
@@ -70,14 +72,14 @@ def sample_images(data_dir):
   return d_small
 
 
-def visual_inspect(data_dir, sample_size):
-  d = sample_images(data_dir, sample_size)
+def visual_inspect(data_dir):
+  d = sample_images(data_dir)
 
-  if data_dir[-1] not '/': data_dir = data_dir+'/'
-  sample_dir = os.getcwd()+'visual_inspect/'
+  if list(data_dir)[-1] is not '/': data_dir = data_dir+'/'
+  sample_dir = os.getcwd()+'/visual_inspect/'+data_dir.split('/')[-4]+'/'
 
   if os.path.isdir(sample_dir):
-    rm = raw_input("images samples for inspection already found. delete? (Y/N) ")
+    rm = raw_input("image samples for inspection already found. delete? (Y/N) ")
     if rm == 'Y': 
       shutil.rmtree(sample_dir)
       os.mkdir(sample_dir)
@@ -467,6 +469,9 @@ if __name__ == "__main__":
 
   elif sys.argv[1] == 'sample_images':
     sample_images(sys.argv[2])
+
+  elif sys.argv[1] == 'visual_inspect':
+    visual_inspect(sys.argv[2])
 
   elif sys.argv[1] == 'cleave_out_bad_data':
     cleave_out_bad_data(sys.argv[2])
