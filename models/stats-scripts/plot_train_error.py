@@ -4,7 +4,7 @@ import sys, os
 if __name__ == '__main__':
 
   train_path = raw_input('path to train_output file? ')
-  if not train_path.endswith('/'): train_path = train_path+'/'
+  cfg_dir, train_output_fname = os.path.split(os.path.normpath(train_path))
 
   time_series = []
   pretty_print = []
@@ -22,13 +22,8 @@ if __name__ == '__main__':
       elif '===Test output===' in line: prev_testoutput = True
       continue
 
-  if pickle_it:
-    pickle.dump(time_series, open(os.getcwd()+'/'+rootname+'.pickle','w'))
+  data = open(cfg_dir+'/time_series.txt','w')
+  data.writelines(["%i\t%s\n" % (x,num) for x,num in enumerate(pretty_print)])
+  data.close()
+  print 'time_series.txt saved to %s'%(cfg_dir)
 
-  if txt_it:
-    data = open(train_path+'/'+rootname+'.txt','w')
-    data.writelines(["%i\t%s\n" % (x,num) for x,num in enumerate(pretty_print)])
-    data.close()
-
-  if pickle_it or txt_it:
-    print 'file(s) saved to pwd ie %s'%os.getcwd()
