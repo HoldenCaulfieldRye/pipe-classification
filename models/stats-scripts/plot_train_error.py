@@ -1,9 +1,9 @@
 import cPickle as pickle
-import sys, os
+import sys, os, shutil
 
 if __name__ == '__main__':
 
-  train_path = raw_input('path to train_output file? ')
+  train_path = sys.argv[1]
   cfg_dir, train_output_fname = os.path.split(os.path.normpath(train_path))
 
   time_series = []
@@ -22,8 +22,11 @@ if __name__ == '__main__':
       elif '===Test output===' in line: prev_testoutput = True
       continue
 
-  data = open(cfg_dir+'/time_series.txt','w')
+  data = open(os.getcwd()+'/time_series.txt','w')
   data.writelines(["%i\t%s\n" % (x,num) for x,num in enumerate(pretty_print)])
   data.close()
-  print 'time_series.txt saved to %s'%(cfg_dir)
+
+  os.system("gnuplot plot_train_error.gp")
+  shutil.move(os.getcwd()+"/train_error_time_series.png",cfg_dir+"/train_error_time_series.png")
+  os.remove(os.getcwd()+"/time_series.txt")
 
