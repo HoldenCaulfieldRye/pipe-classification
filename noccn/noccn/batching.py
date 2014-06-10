@@ -69,27 +69,32 @@ def sample_images(data_dir):
   json.dump(d, open('label_dict_sample_'+whichBox+'.txt','w'))      
   return d_small
 
+
 def visual_inspect(data_dir, sample_size):
   d = sample_images(data_dir, sample_size)
 
-  if data_dir[-1] not '/': sample_dir = data_dir+'/'+'visual_inspect'
-  else: sample_dir = data_dir+'visual_inspect'
+  if data_dir[-1] not '/': data_dir = data_dir+'/'
+  sample_dir = os.getcwd()+'visual_inspect/'
 
   if os.path.isdir(sample_dir):
     rm = raw_input("images samples for inspection already found. delete? (Y/N) ")
-    if rm == 'Y': shutil.rmtree(sample_dir)
-    else: 
-      index = 1
-      sample_dir += str(index)
-      while os.path.isdir(sample_dir): 
-        index += 1
-        sample_dir = list(sample_dir)[-1] = str(index)
-        sample_dir = "".join(sample_dir)
+    if rm == 'Y': 
+      shutil.rmtree(sample_dir)
+      os.mkdir(sample_dir)
+  else:
+    os.mkdir(sample_dir)
+  os.chdir(sample_dir)
 
   for label in d.keys():
-    inspect = raw_input("want to inspect photos with %s?"%(label))
-    if inspect == True:
-      os.mkdir
+    inspect = raw_input("want to sample photos with %s? (Y/N)"%(label))
+    if inspect == 'Y':
+      if not os.path.isdir(sample_dir+label): os.mkdir(sample_dir+label)
+      os.chdir(sample_dir+label)
+      for filename in d[label]:
+        if os.path.isfile(sample_dir+label+filename):
+          print "have already sampled %s before"%(filename)
+        else: 
+          shutil.copyfile(data_dir+filename,sample_dir+label+filename)
 
 
 #### STEP 2: LEAVE OUT BAD REDBOX DATA  #############################
