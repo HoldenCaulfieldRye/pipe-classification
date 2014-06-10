@@ -47,11 +47,11 @@ def get_label_dict(data_dir):
     with open(fullname) as f:
       content = f.readlines()
       if content == []:
-        d['Perfect'].append(filename)
+        d['Perfect'].append(filename.split('.')[0]+'.jpg')
       else:
         for label in content:
           if label not in d.keys(): d[label] = []
-          d[label].append(filename)
+          d[label].append(filename.split('.')[0]+'.jpg')
   return d
 
 
@@ -78,6 +78,10 @@ def visual_inspect(data_dir):
   if list(data_dir)[-1] is not '/': data_dir = data_dir+'/'
   sample_dir = os.getcwd()+'/visual_inspect/'+data_dir.split('/')[-4]+'/'
 
+  if os.path.isdir(os.getcwd()+'/visual_inspect'):
+    os.chdir('visual_inspect')
+  else: os.mkdir('visual_inspect')
+
   if os.path.isdir(sample_dir):
     rm = raw_input("image samples for inspection already found. delete? (Y/N) ")
     if rm == 'Y': 
@@ -88,15 +92,14 @@ def visual_inspect(data_dir):
   os.chdir(sample_dir)
 
   for label in d.keys():
-    inspect = raw_input("want to sample photos with %s? (Y/N)"%(label))
+    inspect = raw_input("want to sample photos with %s? (Y/N) "%(label))
     if inspect == 'Y':
       if not os.path.isdir(sample_dir+label): os.mkdir(sample_dir+label)
-      os.chdir(sample_dir+label)
       for filename in d[label]:
-        if os.path.isfile(sample_dir+label+filename):
+        if os.path.isfile(sample_dir+label+'/'+filename):
           print "have already sampled %s before"%(filename)
         else: 
-          shutil.copyfile(data_dir+filename,sample_dir+label+filename)
+          shutil.copyfile(data_dir+filename,sample_dir+label+'/'+filename)
 
 
 #### STEP 2: LEAVE OUT BAD REDBOX DATA  #############################
