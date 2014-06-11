@@ -26,7 +26,7 @@ if __name__ == '__main__':
   data.writelines(["%i\t%s\n" % (x,num) for x,num in enumerate(pretty_print)])
   data.close()
 
-  os.system("gnuplot plot_train_error.gp")
-  shutil.move(os.getcwd()+"/train_error_time_series.png",cfg_dir+"/train_error_time_series.png")
+  os.system("gnuplot plot_test_error.gp")
+  shutil.move(os.getcwd()+"/test_error_time_series.png",cfg_dir+"/test_error_time_series.png")
   os.remove(os.getcwd()+"/time_series.txt")
 
