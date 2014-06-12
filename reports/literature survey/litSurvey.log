@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  7 JUN 2014 00:57
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  11 JUN 2014 18:27
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -958,18 +958,19 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [8 <./images/NN_math_rep.png>]
-<images/local_minima.png, id=56, 423.38174pt x 220.4235pt>
-File: images/local_minima.png Graphic file (type png)
-
-<use images/local_minima.png>
-Package pdftex.def Info: images/local_minima.png used on input line 287.
-(pdftex.def)             Requested size: 338.70586pt x 176.33902pt.
+Overfull \hbox (5.91814pt too wide) in paragraph at lines 315--315
+ []\OT1/cmr/m/n/10.95 Hidden 
+ []
 
 
-LaTeX Warning: `!h' float specifier changed to `!ht'.
+Overfull \hbox (6.83067pt too wide) in paragraph at lines 316--316
+ []\OT1/cmr/m/n/10.95 Output 
+ []
 
 
-LaTeX Warning: Citation `train&test' on page 9 undefined on input line 297.
+Overfull \hbox (3.76157pt too wide) in paragraph at lines 345--346
+ \OT1/cmr/bx/n/10.95 Prop-a-gat-ing the Gra-di-ent[] [] 
+ []
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -978,25 +979,15 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [9 <./images/lenet5.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 304--305
+<images/local_minima.png, id=59, 423.38174pt x 220.4235pt>
+File: images/local_minima.png Graphic file (type png)
 
- []
+<use images/local_minima.png>
+Package pdftex.def Info: images/local_minima.png used on input line 355.
+(pdftex.def)             Requested size: 338.70586pt x 176.33902pt.
 
 
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-<images/perfect3.jpg, id=60, 642.4pt x 481.8pt>
-File: images/perfect3.jpg Graphic file (type jpg)
- <use images/perfect3.jpg>
-Package pdftex.def Info: images/perfect3.jpg used on input line 354.
-(pdftex.def)             Requested size: 218.4131pt x 163.80983pt.
-
-<images/niceBluebox_100974.jpg, id=61, 1284.8pt x 963.6pt>
-File: images/niceBluebox_100974.jpg Graphic file (type jpg)
-
-<use images/niceBluebox_100974.jpg>
-Package pdftex.def Info: images/niceBluebox_100974.jpg used on input line 355.
-(pdftex.def)             Requested size: 218.4131pt x 163.80983pt.
+LaTeX Warning: Citation `train&test' on page 10 undefined on input line 365.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1005,7 +996,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [10 <./images/local_minima.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 359--360
+Underfull \hbox (badness 10000) in paragraph at lines 372--373
 
  []
 
@@ -1015,28 +1006,35 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[11 <./images/perfect3.jpg> <./images/niceBluebox_100974.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 367--368
+[11] <images/perfect3.jpg, id=66, 642.4pt x 481.8pt>
+File: images/perfect3.jpg Graphic file (type jpg)
+ <use images/perfect3.jpg>
+Package pdftex.def Info: images/perfect3.jpg used on input line 422.
+(pdftex.def)             Requested size: 218.4131pt x 163.80983pt.
+
+<images/niceBluebox_100974.jpg, id=67, 1284.8pt x 963.6pt>
+File: images/niceBluebox_100974.jpg Graphic file (type jpg)
+
+<use images/niceBluebox_100974.jpg>
+Package pdftex.def Info: images/niceBluebox_100974.jpg used on input line 423.
+(pdftex.def)             Requested size: 218.4131pt x 163.80983pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 427--428
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 369--371
+Underfull \hbox (badness 10000) in paragraph at lines 435--436
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 369--371
+Underfull \hbox (badness 10000) in paragraph at lines 437--439
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 379--380
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 383--384
+Underfull \hbox (badness 10000) in paragraph at lines 437--439
 
  []
 
@@ -1046,27 +1044,39 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[12] <images/logprob.png, id=71, 614.295pt x 432.61626pt>
+[12 <./images/perfect3.jpg> <./images/niceBluebox_100974.jpg>]
+Underfull \hbox (badness 10000) in paragraph at lines 447--448
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 451--452
+
+ []
+
+<images/logprob.png, id=71, 614.295pt x 432.61626pt>
 File: images/logprob.png Graphic file (type png)
-
-<use images/logprob.png>
-Package pdftex.def Info: images/logprob.png used on input line 389.
+ <use images/logprob.png>
+Package pdftex.def Info: images/logprob.png used on input line 457.
 (pdftex.def)             Requested size: 307.14674pt x 216.3076pt.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 395.
 
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 463.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 395.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 463.
 
-Underfull \hbox (badness 10000) in paragraph at lines 403--404
+Underfull \hbox (badness 10000) in paragraph at lines 471--472
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 403--404
+Underfull \hbox (badness 10000) in paragraph at lines 471--472
 
  []
 
@@ -1076,11 +1086,18 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[13 <./images/logprob.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 422--424
+[13]
+Underfull \hbox (badness 10000) in paragraph at lines 490--492
 
  []
 
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[14 <./images/logprob.png>]
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ­ in font cmr10!
 Missing character: There is no Ã in font cmr10!
@@ -1090,12 +1107,13 @@ Missing character: There is no ­ in font cmr10!
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no © in font cmr10!
 
+
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[14] (./litSurvey.aux)
+[15] (./litSurvey.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -1104,13 +1122,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 15840 strings out of 494985
- 286570 string characters out of 6180356
- 346701 words of memory out of 5000000
- 18683 multiletter control sequences out of 15000+600000
+ 16180 strings out of 494985
+ 293803 string characters out of 6180356
+ 352006 words of memory out of 5000000
+ 19023 multiletter control sequences out of 15000+600000
  12174 words of font info for 46 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 48i,11n,61p,1315b,303s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,14n,71p,1315b,837s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texl
@@ -1125,10 +1143,10 @@ y10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on litSurvey.pdf (14 pages, 1149406 bytes).
+Output written on litSurvey.pdf (15 pages, 1151472 bytes).
 PDF statistics:
- 128 PDF objects out of 1000 (max. 8388607)
- 82 compressed objects within 1 object stream
+ 131 PDF objects out of 1000 (max. 8388607)
+ 84 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  73 words of extra memory for PDF output out of 10000 (max. 10000000)
 
