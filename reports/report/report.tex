@@ -303,7 +303,15 @@ The rules for propagating the gradient backwards through a network are:
 \item to \textbf{stop at an edge} $w_{ij}$: $grad \leftarrow grad \cdot y_{i}$ \\
 \end{itemize}
 
-So for example, given the figure below:
+Note that 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.28]{images/gradient_propagates.png}
+	\caption{(CHANGE NOTATION to reflect one above with $\textbf{y}_L$ for top layer) Feed-Forward Neural Network with one Hidden Layer}
+\end{figure}
+
+So for example, given the figure above:
 \begin{itemize}
 \renewcommand\labelitemi{--}
 \item for $\frac{\partial{E}}{\partial{w_{57}}}$: initialise, propagate through $y_{7}$, then stop at $w_{57}$:
@@ -312,24 +320,15 @@ So for example, given the figure below:
  $\mathcal{C}'(y_{7}) \cdot \psi'(z_7) \cdot w_{57} \cdot \psi'(z_5) \cdot y_2$ \\
 \end{itemize}
 
-
 % took this out of eq above to reduce clutter, but you might need it later on
 %\begin{equation}
 %\frac{\partial{E}}{\partial{w_{22}}} = \frac{\partial{\mathcal{C}(y_{1})}}{\partial{w_{22}}} = %\frac{\partial{\mathcal{C}(\psi(\sum\limits_{i=1}^k x_{2i}\cdot w_{2i}))}}{\partial{w_{22}}} = \frac{d \mathcal{C}(y_{1})}{dy_{1}} \cdot \frac{d \psi(z_{11})}{dz_{11}} \cdot \frac{\partial{(\sum\limits_{i=1}^k x_{2i}\cdot w_{2i})}}{\partial{w_{22}}}
 %\end{equation}
 
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.4]{images/gradient_propagates.png}
-	\caption{(CHANGE NOTATION to reflect one above with $\textbf{y}_L$ for top layer) Feed-Forward Neural Network with one Hidden Layer}
-\end{figure}
-
-\subsubsection{Update Weight Values (with Gradient Descent)}
+\subsubsection{Update Weight Values (with Stochastic Gradient Descent)}
 
 The learning rule is given by $w_{i,t+1} = w_{i,t+1} + \tau \cdot \frac{\partial{E}}{\partial{w_{i,t}}}$
-
-Visually, this means that weight values move in the direction the will reduce the error quickest, i.e.\ the direction of steepest descent on the error surface is taken. Notice that given the learning rule, gradient descent converges (i.e.\ $w_{i,t+1}$ equals $w_{i,t+1}$) when the partial derivative reaches zero. This corresponds to a local minimum on the error surface. In the figure below, two potential training sessions are illustrated. The minima attained in each cases are not the same. This illustrates a strong shortcoming with backpropagation: parameter values can get stuck in poor local minima.
 
 \begin{figure}[h!]
 	\centering
@@ -337,16 +336,30 @@ Visually, this means that weight values move in the direction the will reduce th
 	\caption{an error surface with poor local minima}
 \end{figure}
 
+Visually, this means that weight values move in the direction the will reduce the error quickest, i.e.\ the direction of steepest descent on the error surface is taken. Notice that given the learning rule, gradient descent converges (i.e.\ $w_{i,t+1}$ equals $w_{i,t+1}$) when the partial derivative reaches zero. This corresponds to a local minimum on the error surface. In the figure below, two potential training sessions are illustrated. The minima attained in each cases are not the same. This illustrates a strong shortcoming with backpropagation: parameter values can get stuck in poor local minima.
 
-% \paragraph{cost functions}
-% MSE, cross-entropy for softmax
 
-\paragraph{Training, Validation and Test Sets}
+\paragraph{Cost Functions}
+\subparagraph{MSE} 
+\subparagraph{Cross-Entropy for Softmax}
+
+\paragraph{Mini-batch Training for Noisy Gradient Estimates}
+
+Mini-batch training deals with the noisy gradient estimates that are obtained if one considers the learning task as stochastic: data is sampled with noise, a sample of class instances must be averaged to glean class-level information from it. Explain stochastic gradient descent with some fancy statistics (unbiased, consistent estimator).
+
+\paragraph{Decaying Learning Rate for Convergence}
+
+
+\paragraph{Cross Validation for Generalisation}
 
 As mentioned previously, learning is not a mere approximation problem because the hypothesis function must generalise well to any subset of the instance space. Approximation and generalisation are incorporated into the training of deep neural networks (as well as other models \cite{train&test}) by separating the labelled dataset into a training set, a validation set and a test set. The partial derivatives are computed from the error over the training set, but the function that is learned is the one that minimises the error over the validation set, and its performance is measured on the test set. The distinction between training and validation sets is what prevents the function from overfitting the training data: if the function begins to overfit, the error on the validation set will increase and training will be stopped. The distinction between the test set and the validation set is to obtain a stochastically impartial measure of performance: since the function is chosen to minimise the error over the validation set, there could be some non-negligible overfit to the validation set which can only be reflected by assessing the function's performance on yet another set.
 
-% \paragraph{Dropout}
+\paragraph{Dropout for Generalisation}
 
+
+\subsubsection{Local vs Global Optimisation}
+
+Random matrix theory for pseudo-global optimisation of CNNs with randomised weights!
 
 \subsection{Challenges specific to the Pipe Weld Classification Task}
 
@@ -497,29 +510,6 @@ this is just \cite{istanbul} a sentence \cite{plantclef}	showing \cite{mocha} ho
 \end{table}
 
 \clearpage
-
-\begin{figure}[h!]
-	\centering
-	%\includegraphics[width=0.22\linewidth]{BeLeaf1.png}
-	\includegraphics[width=0.19\linewidth]{images/BeLeaf3.png}
-	\includegraphics[width=0.19\linewidth]{images/BeLeaf2.png}
-	\includegraphics[width=0.19\linewidth]{images/BeLeaf4.png}\\
-	\includegraphics[width=0.19\linewidth]{images/prototypeScreenShot1.png}
-	\includegraphics[width=0.19\linewidth]{images/prototypeScreenShot2.png}	
-	\includegraphics[width=0.19\linewidth]{images/prototypeScreenShot3.png}\\
-	\includegraphics[width=0.22\linewidth]{images/release_1.png}
-	\includegraphics[width=0.22\linewidth]{images/release_2.png}
-	\includegraphics[width=0.22\linewidth]{images/release_3.png}
-	\caption{Evolution of the App}
-\end{figure}
-
-\begin{figure}[h!]
-  \centering
-  %\includegraphics[width=0.22\linewidth]{BeLeaf1.png}
-  \includegraphics[width=1\linewidth]{images/SystemContextDiagram.png}
-  \caption{System Context Diagram}
-  \label{fig:systemcontextdiagram}
-\end{figure}
 
 \begin{table}[h]
    \centering

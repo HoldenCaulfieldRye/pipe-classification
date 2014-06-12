@@ -1,0 +1,192 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage[margin=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{color, colortbl}
+\usepackage{cite}
+\usepackage{url}
+\usepackage{float}
+\usepackage{arydshln}
+\usepackage{pdfpages}
+\usepackage{csvsimple}
+\usepackage{listings}
+\usepackage{algpseudocode}
+\usepackage{longtable}
+\usepackage{pdflscape}
+\usepackage{indentfirst}
+\usepackage{mathtools}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{tikz}
+
+\definecolor{Green}{rgb}{0.6,1,0.6}
+\definecolor{Amber}{rgb}{1,1,0.4}
+\definecolor{Red}{rgb}{1,0.6,0.6}
+
+\setlength\parindent{24pt}
+
+\usepackage{fancyhdr}
+\pagestyle{fancyplain}
+\fancyhf{}
+\lhead{\fancyplain{}{M.Sc.\ Individual Project Report}}
+\rhead{\fancyplain{}{\today}}
+\cfoot{\fancyplain{}{\thepage}}
+
+\title{Some Intuition about Activation Functions in Feed-Forward Neural Networks}
+\author{Dalyac Alexandre\\
+       ad6813@ic.ac.uk\\ \\
+       \small{Supervisors: Prof Murray Shanahan and Mr Jack Kelly}\\
+       \small{Course: CO541, Imperial College London}
+}
+
+\begin{document}
+
+\maketitle
+
+\abstract
+{
+Everyone thought it was great to use differentiable, symmetric, \textbf{non-linear} activation functions in feed-forward neural networks, until Alex Krizhevsky \cite{krizhevsky} found that Rectifier Linear Units, despite being not entirely differentiable, nor symmetric, and most of all, piece-wise linear, were computationally cheaper and worth the trade-off with their more sophisticated counterparts. Here are just a few thoughts on why we might care about the shape of the sigmoid and hyperbolic tangent functions, what the implications of using ReLUs are, and possible ways of applying these insights for better learning strategies.
+}
+
+\clearpage
+
+\section{Models of Neurons}
+
+Consider the building block of a neural network: the neuron (mathematically referred to as the \textit{activation function}). Two types of neuron models are used in current state-of-the-art implementations of deep convolutional neural networks: the rectified linear unit and the softmax unit (note that the terms "neuron" and "unit" are used interchangeably). In order to bring out their specific characteristics, we shall first consider two other compatible neuron models: the binary threshold neuron, which is the most intuitive, and the logistic sigmoid neuron, which is the most analytically appealing. It may also help to know what is being modelled, so a very brief look at a biological neuron shall first be given.
+
+\paragraph{Multipolar Biological Neuron}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/Biological_Neuron.png}
+	\caption{a multipolar biological neuron}
+\end{figure}
+
+A multipolar neuron receives electric charges from neighbouring incoming neurons through its dendritic branches, and sends electric charges to its neighbouring outgoing neurons through its axon. Neurons connect at synapses, which is where the tip of the telodendria of one neuron is in close vicinity of the dendritic branch of another neuron. Because a single axon feeds into all of the telodendria but mutiple dendritic branches feed into the axon hillock, a neuron receives multiple inputs and sends out a single output. Similarly, all of the neuron models below are functions from a multidimensional space to a unidimensional one.\\
+
+\paragraph{Binary Threshold Neuron}
+\begin{equation}
+y = \begin{cases} 1 & \mbox{if } M <= b + \sum\limits_{i=1}^k x_{i}\cdot w_{i}  \text{ , where } M \text{ is a threshold parameter} \\ 
+				  0 & \mbox{otherwise} \end{cases}
+\end{equation} \\
+
+Intuitively, $y$ takes a hard decision, just like biological neurons: either a charge is sent, or it isn't. $y$ can be seen as producing spikes, $x_{i}$ as the indicator value of some feature, and $w_[i]$ as a parameter of the function that indicates how important $x_{i}$ is in determining $y$. Although this model is closer than most most to reality, the function is not differentiable, which makes it impossible to use greedy local optimisation learning algorithms - such as gradient descent - which need to compute derivatives involving the activation functions.
+
+\paragraph{Logistic Sigmoid Neuron} 
+\begin{equation}
+\label{sigmoid neuron}
+y = \frac{1}{1 + \exp(-z)} \text{, where } z = b + \sum\limits_{i=1}^k x_{i}\cdot w_{i}
+\end{equation}
+
+Like the binary threshold neuron, the output domain of this neuron is bounded by 0 and 1. But this time, the function is fully differentiable. Moreover, it is nonlinear, which helps to increase performance \cite{DL-book}. To see why, the graph plot below lends itself to the following intuition: if the input x is the amount of evidence for the components of the feature that the neuron detects, and y is the evidence for the feature itself, then the marginal evidence for the feature is decreasing with the amount of evidence for its components (in absolute value terms). 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/sigmoid.png}
+	\caption{single-input logistic sigmoid neuron}
+\end{figure}
+
+This is like saying that to completely convince y of the total presence or absence of the feature, a lot of evidence is required. However, if there is not much evidence for either case, then y is more lenient. 
+A disadvantage of this neuron model is that it is computationally expensive to compute.
+                
+\paragraph{Rectified Linear Neuron}
+\begin{equation}
+\label{relu}
+y = \max\{0, b + \sum\limits_{i=1}^k x_{i}\cdot w_{i}\}
+\end{equation}
+
+As can be seen in the graph plot below, the rectified linear neuron is neither fully differentiable (not at $0$), nor bounded above. Moreover, it only has two slopes, so its derivative with respect to $x_{i}$ can only be one of two values: $0$ or $w_{i}$. Although this may come as a strong downgrade in sophistication compared to the logistic sigmoid neuron, it is so much more efficient to compute (both its value and its partial derivatives) that it enables much larger network implementations\cite{krizhevsky}. Until now, this has more than offset the per-neuron information loss - and saturation risks - of the rectifier versus the sigmoid unit \cite{rectifier}.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/rectifier.png}
+	\caption{single-input rectified linear neuron}
+\end{figure}
+
+\paragraph{Softmax Neuron}
+\begin{equation}
+\label{}
+y_{j} = \frac{e^{z_{j}}}{\sum\limits_{i=1}^k e^{z_{i}}} \text{, where } z_{j} = b_{j} + \sum\limits_{i=1}^k x_{i}\cdot w_{i,j}
+\end{equation}
+
+The equation of a softmax neuron needs to be understood in the context of a layer of $k$ such neurons within a neural network: therefore, the notation $y_{j}$ corresponds to the output of the $j^{th}$ softmax neuron, and $w_{i,j}$ corresponds to the weight of $x_{i}$ as in input for the $j^{th}$ softmax neuron. A layer of softmax neurons distinguishes itself from others in that neighbouring neurons interact with each other: as can be seen from the equation, the input vectors of all the softmax neurons $z_{1}, z_{2}, ..., z_{k}$ serve to enforce $\sum\limits_{i=1}^k y_{i} = 1$. In other words, the vector $(y_{1}, y_{2}, ..., y_{k})$ defines a probability mass function. This makes the softmax layer ideal for classification: neuron $j$ can be made to represent the probability that the input is an instance of class $j$. Another attractive aspect of the softmax neuron is that its derivative is quick to compute: it is given by $\frac{dy}{dz} = \frac{y}{1-y}$.
+
+
+\section{Training: Backpropagation}
+
+Now that the architecture of a deep CNN has been explained, the question remains of how to train it. Mathematically: now that the function space has been explained, the question remains of how this space is searched. In the case of feed-forward neural networks and supervised learning, this is done with gradient descent, a local (therefore greedy) optimisation algorithm. Gradient descent relies on the partial derivatives of the error (a.k.a\ cost) function with respect to each parameter of the network; the backpropagation algorithm is an implementation of gradient descent which efficiently computes these values.
+  
+\subsubsection{Compute Error-Weight Partial Derivatives}
+
+Let $t$ be the target output (with classification, this is the label) and let $y = (y_{1}, y_{2}, ..., y_{P})$ be actual value of the output layer on a training case. (Note that classification is assumed here: there are multiple output neurons, one for each class).
+
+The error is given by 
+\begin{equation}
+E = \mathcal{C}(\textbf{t}-\textbf{y})
+\end{equation}
+
+where $\mathcal{C}$ is the chosen cost function. The error-weight partial derivatives are given by
+
+\begin{equation}
+\frac{\partial{E}}{\partial{w_{ij}}} = \frac{\partial{E}}{\partial{y_{i}}} \cdot \frac{\partial{y_{i}}}{\partial{net}} \cdot \frac{\partial{net}}{\partial{w_{ij}}}
+\end{equation}
+
+Since in general, a derivative $\frac{\partial{f}}{\partial{x}}$ is numerically obtained by perturbing $x$ and taking the change in $f(x)$, the advantage with this formula is that instead of individually perturbing each weight $w_{ij}$, only the unit outputs $y_{i}$ are perturbed. In a neural network with $k$ fully connected layers and $n$ units per layer, this amounts to $\Theta(k \cdot n)$ unit perturbations instead of $\Theta(k \cdot n^{2})$ weight perturbations (note that the bound on weight perturbations is no longer tight if we drop the assumption of fully connected layers).
+
+\paragraph{How Gradient Propagates}
+
+It is important for intuition to realise how the gradient propagates through a network - especially since a single piece of information - the error - is supposed to adjust up to millions of parameters, which could be considered as a bit of a stretch. Let us note that in the case of classification, the error is not a scalar, but a vector of size equal to the number of classes, so it carries more than "one piece" of information. \\
+
+With the following notation:
+\begin{itemize}
+\renewcommand\labelitemi{--}
+\item $y_{j}$, the output of unit (a.k.a\ neuron) $j$, but also used to refer to the unit $j$ itself
+\item $w_{ij}$, the weight of the edge connecting lower-layer neuron $y_{i}$ to upper-layer neuron $y_{j}$
+\item $z_{j} := b+ \langle x,w \rangle = b + \sum\limits_{i=1}^k x_{i}\cdot w_{ij}$, the input vector for $y_{j}$ -- therefore $y_{j} = \psi(z_{j})$ \\
+\end{itemize}
+
+The rules for propagating the gradient backwards through a network are:
+\begin{itemize}
+\renewcommand\labelitemi{--}
+\item to \textbf{initialise}: $grad \leftarrow \mathcal{C}'(y_{L})$, where $y_{L}$ is the output unit
+\item to \textbf{propagate through a unit} $y_{j}$: $grad \leftarrow grad \cdot \psi'(z_{j})$
+\item to \textbf{propagate through an edge} $w_{ij}$: $grad \leftarrow grad \cdot w_{ij}$
+\item to \textbf{stop at an edge} $w_{ij}$: $grad \leftarrow grad \cdot y_{i}$ \\
+\end{itemize}
+
+Note that 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.28]{images/gradient_propagates.png}
+	\caption{(CHANGE NOTATION to reflect one above with $\textbf{y}_L$ for top layer) Feed-Forward Neural Network with one Hidden Layer}
+\end{figure}
+
+So for example, given the figure above:
+\begin{itemize}
+\renewcommand\labelitemi{--}
+\item for $\frac{\partial{E}}{\partial{w_{57}}}$: initialise, propagate through $y_{7}$, then stop at $w_{57}$:
+ $ \mathcal{C}'(y_{7}) \cdot \psi'(z_7) \cdot y_5$ 
+\item for $\frac{\partial{E}}{\partial{w_{25}}}$: initialise, propagate through $y_{7}$, $w_{57}$, $y_{5}$ then stop at $w_{25}$:
+ $\mathcal{C}'(y_{7}) \cdot \psi'(z_7) \cdot w_{57} \cdot \psi'(z_5) \cdot y_2$ \\
+\end{itemize}
+
+% took this out of eq above to reduce clutter, but you might need it later on
+%\begin{equation}
+%\frac{\partial{E}}{\partial{w_{22}}} = \frac{\partial{\mathcal{C}(y_{1})}}{\partial{w_{22}}} = %\frac{\partial{\mathcal{C}(\psi(\sum\limits_{i=1}^k x_{2i}\cdot w_{2i}))}}{\partial{w_{22}}} = \frac{d \mathcal{C}(y_{1})}{dy_{1}} \cdot \frac{d \psi(z_{11})}{dz_{11}} \cdot \frac{\partial{(\sum\limits_{i=1}^k x_{2i}\cdot w_{2i})}}{\partial{w_{22}}}
+%\end{equation}
+
+
+\subsubsection{Update Weight Values (with Stochastic Gradient Descent)}
+
+The learning rule is given by $w_{i,t+1} = w_{i,t+1} + \tau \cdot \frac{\partial{E}}{\partial{w_{i,t}}}$
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.8]{images/local_minima.png}
+	\caption{an error surface with poor local minima}
+\end{figure}
+
+Visually, this means that weight values move in the direction the will reduce the error quickest, i.e.\ the direction of steepest descent on the error surface is taken. Notice that given the learning rule, gradient descent converges (i.e.\ $w_{i,t+1}$ equals $w_{i,t+1}$) when the partial derivative reaches zero. This corresponds to a local minimum on the error surface. In the figure below, two potential training sessions are illustrated. The minima attained in each cases are not the same. This illustrates a strong shortcoming with backpropagation: parameter values can get stuck in poor local minima.
+
+
+\end{document}

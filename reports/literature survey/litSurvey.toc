@@ -17,15 +17,15 @@
 \contentsline {paragraph}{Deep Convolutional Neural Networks: for translation invariance}{8}
 \contentsline {subsection}{\numberline {1.3}Training: Backpropagation}{9}
 \contentsline {subsubsection}{\numberline {1.3.1}Compute Error-Weight Partial Derivatives}{9}
-\contentsline {paragraph}{Propagating the Gradient}{10}
-\contentsline {subsubsection}{\numberline {1.3.2}Update Weight Values (with Gradient Descent)}{10}
+\contentsline {paragraph}{Propagating the Gradient}{9}
+\contentsline {subsubsection}{\numberline {1.3.2}Update Weight Values (with Gradient Descent)}{9}
 \contentsline {paragraph}{Training, Validation and Test Sets}{10}
-\contentsline {subsection}{\numberline {1.4}Challenges specific to the Pipe Weld Classification Task}{11}
-\contentsline {subsubsection}{\numberline {1.4.1}Data Overview}{11}
-\contentsline {subsubsection}{\numberline {1.4.2}Multi-Tagging}{11}
-\contentsline {subsubsection}{\numberline {1.4.3}Domain Change}{11}
+\contentsline {subsection}{\numberline {1.4}Challenges specific to the Pipe Weld Classification Task}{10}
+\contentsline {subsubsection}{\numberline {1.4.1}Data Overview}{10}
+\contentsline {subsubsection}{\numberline {1.4.2}Multi-Tagging}{10}
+\contentsline {subsubsection}{\numberline {1.4.3}Domain Change}{10}
 \contentsline {subsubsection}{\numberline {1.4.4}Small Dataset Size}{12}
 \contentsline {subsubsection}{\numberline {1.4.5}Class Imbalance}{12}
-\contentsline {section}{\numberline {2}Progress}{13}
-\contentsline {subsection}{\numberline {2.1}Implementation: Cuda-Convnet}{13}
+\contentsline {section}{\numberline {2}Progress}{12}
+\contentsline {subsection}{\numberline {2.1}Implementation: Cuda-Convnet}{12}
 \contentsline {subsubsection}{\numberline {2.1.1}Test Run}{13}
