@@ -25,18 +25,10 @@
 \setlength\parindent{24pt}
 
 \usepackage{fancyhdr}
-\pagestyle{fancyplain}
-\fancyhf{}
-\lhead{\fancyplain{}{M.Sc.\ Individual Project Report}}
-\rhead{\fancyplain{}{\today}}
-\cfoot{\fancyplain{}{\thepage}}
+
 
 \title{Some Intuition about Activation Functions in Feed-Forward Neural Networks}
-\author{Dalyac Alexandre\\
-       ad6813@ic.ac.uk\\ \\
-       \small{Supervisors: Prof Murray Shanahan and Mr Jack Kelly}\\
-       \small{Course: CO541, Imperial College London}
-}
+
 
 \begin{document}
 
@@ -44,40 +36,30 @@
 
 \abstract
 {
-Everyone thought it was great to use differentiable, symmetric, \textbf{non-linear} activation functions in feed-forward neural networks, until Alex Krizhevsky \cite{krizhevsky} found that Rectifier Linear Units, despite being not entirely differentiable, nor symmetric, and most of all, piece-wise linear, were computationally cheaper and worth the trade-off with their more sophisticated counterparts. Here are just a few thoughts on why we might care about the shape of the sigmoid and hyperbolic tangent functions, what the implications of using ReLUs are, and possible ways of applying these insights for better learning strategies.
+Everyone thought it was great to use differentiable, symmetric, non-linear activation functions in feed-forward neural networks, until Alex Krizhevsky \cite{krizhevsky} found that Rectifier Linear Units, despite being not entirely differentiable, nor symmetric, and most of all, piece-wise linear, were computationally cheaper and worth the trade-off with their more sophisticated counterparts. Here are just a few thoughts on why we might care about the shape of the sigmoid and hyperbolic tangent functions, what the implications of using ReLUs are, and possible ways of applying these insights for better learning strategies.
 }
 
 \clearpage
 
 \section{Models of Neurons}
 
-Consider the building block of a neural network: the neuron (mathematically referred to as the \textit{activation function}). Two types of neuron models are used in current state-of-the-art implementations of deep convolutional neural networks: the rectified linear unit and the softmax unit (note that the terms "neuron" and "unit" are used interchangeably). In order to bring out their specific characteristics, we shall first consider two other compatible neuron models: the binary threshold neuron, which is the most intuitive, and the logistic sigmoid neuron, which is the most analytically appealing. It may also help to know what is being modelled, so a very brief look at a biological neuron shall first be given.
-
-\paragraph{Multipolar Biological Neuron}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.3]{images/Biological_Neuron.png}
-	\caption{a multipolar biological neuron}
-\end{figure}
-
-A multipolar neuron receives electric charges from neighbouring incoming neurons through its dendritic branches, and sends electric charges to its neighbouring outgoing neurons through its axon. Neurons connect at synapses, which is where the tip of the telodendria of one neuron is in close vicinity of the dendritic branch of another neuron. Because a single axon feeds into all of the telodendria but mutiple dendritic branches feed into the axon hillock, a neuron receives multiple inputs and sends out a single output. Similarly, all of the neuron models below are functions from a multidimensional space to a unidimensional one.\\
+The rectified linear unit is the building block for current state-of-the-art implementations of deep convolutional neural networks. In order to bring out its specific characteristics, we shall first consider two other compatible neuron models: the binary threshold neuron, which is the most intuitive, and the logistic sigmoid neuron, which is the most analytically appealing. \\
 
 \paragraph{Binary Threshold Neuron}
 \begin{equation}
 y = \begin{cases} 1 & \mbox{if } M <= b + \sum\limits_{i=1}^k x_{i}\cdot w_{i}  \text{ , where } M \text{ is a threshold parameter} \\ 
 				  0 & \mbox{otherwise} \end{cases}
-\end{equation} \\
+\end{equation}
 
-Intuitively, $y$ takes a hard decision, just like biological neurons: either a charge is sent, or it isn't. $y$ can be seen as producing spikes, $x_{i}$ as the indicator value of some feature, and $w_[i]$ as a parameter of the function that indicates how important $x_{i}$ is in determining $y$. Although this model is closer than most most to reality, the function is not differentiable, which makes it impossible to use greedy local optimisation learning algorithms - such as gradient descent - which need to compute derivatives involving the activation functions.
+Intuitively, $y$ takes a hard decision, just like biological neurons: either a charge is sent, or it isn't. $y$ can be seen as producing spikes, $x_i$ as the indicator value of some feature, and $w_i$ as a parameter of the function that indicates how important $x_i$ is in determining $y$. Although this model is closer than most most to reality, the function is not differentiable, which makes it impossible to use greedy local optimisation learning algorithms - such as gradient descent - which need to compute derivatives involving the activation functions.
 
 \paragraph{Logistic Sigmoid Neuron} 
 \begin{equation}
 \label{sigmoid neuron}
-y = \frac{1}{1 + \exp(-z)} \text{, where } z = b + \sum\limits_{i=1}^k x_{i}\cdot w_{i}
+y = \frac{1}{1 + e^{-z}} \text{, where } z = b + \sum\limits_{i=1}^k x_{i}\cdot w_{i}
 \end{equation}
 
-Like the binary threshold neuron, the output domain of this neuron is bounded by 0 and 1. But this time, the function is fully differentiable. Moreover, it is nonlinear, which helps to increase performance \cite{DL-book}. To see why, the graph plot below lends itself to the following intuition: if the input x is the amount of evidence for the components of the feature that the neuron detects, and y is the evidence for the feature itself, then the marginal evidence for the feature is decreasing with the amount of evidence for its components (in absolute value terms). 
+Like the binary threshold neuron, the output domain of this neuron is bounded by 0 and 1. But this time, the function is fully differentiable. Moreover, it is non-linear, which helps to increase performance \cite{DL-book}. To see why, the graph plot below lends itself to the following intuition: if the input x is the amount of evidence for the components of the feature that the neuron detects, and y is the evidence for the feature itself, then the marginal evidence for the feature is decreasing with the amount of evidence for its components (in absolute value terms). 
 
 \begin{figure}[h!]
 	\centering
@@ -188,5 +170,90 @@ The learning rule is given by $w_{i,t+1} = w_{i,t+1} + \tau \cdot \frac{\partial
 
 Visually, this means that weight values move in the direction the will reduce the error quickest, i.e.\ the direction of steepest descent on the error surface is taken. Notice that given the learning rule, gradient descent converges (i.e.\ $w_{i,t+1}$ equals $w_{i,t+1}$) when the partial derivative reaches zero. This corresponds to a local minimum on the error surface. In the figure below, two potential training sessions are illustrated. The minima attained in each cases are not the same. This illustrates a strong shortcoming with backpropagation: parameter values can get stuck in poor local minima.
 
+
+\begin{thebibliography}{1}
+% Example: \bibitem{One}
+% a better way of doing it: a .bib file or something. bit.ly/1kqg2Qe
+\bibitem{decaf}
+ Donahue, Jeff; Jia, Yangqing; Vinyals, Oriol; Hoffman, Judy; Zhang, Ning; Tzeng, Eric; Darrell, Trevor;
+  \emph{DeCAF: A Deep Convolutional Activation Feature for Generic Visual Recognition}\\
+  arXiv preprint arXiv:1310.1531, 2013
+
+\bibitem{MIML}
+ Zhou, Zhi-Hua; Zhang, Min-Ling;
+  \emph{Multi-Instance Multi-Label Learning with Application to Scene Classification}\\
+  Advances in Neural Information Processing Systems 19, 
+  Proceedings of the Twentieth Annual Conference on Neural Information Processing Systems, 
+  Vancouver, British Columbia, Canada, 
+  December 4-7, 2006
+
+\bibitem{f-measure}
+ Pastor-Pellicer, Joan; Zamora-Martinez, Francisco; Espana-Boquera, Salvador; Castro-Bleda, Maria Jose;
+  \emph{F-Measure as the Error Function to Train Neural Networks}\\
+
+\bibitem{control-point}
+ Fusion Group - ControlPoint LLP,
+ \emph{Company Description}\\
+ URL: \url{http://www.fusionprovida.com/companies/control-point}, last accessed 5th June 2014. 
+  
+\bibitem{univ-approx}
+ Barron, Andrew R.,
+ \emph{Universal Approximation Bounds for Superpositions of a Sigmoidal Function}\\
+ IEEE Transactions on Information Theory, 
+ Vol. 39, No. 3
+ May 1993
+
+\bibitem{DL-book}
+ Bengio, Yoshua;
+ \emph{Learning Deep Architectures for AI}\\
+ Foundations and Trends in Machine Learning, 
+ Vol. 2, No. 1 (2009) 1-127
+ 2009
+
+\bibitem{Russel & Norvig}
+ Russell, Stuart J; Norvig, Peter;
+ \emph{Artificial Intelligence: A Modern Approach}\\
+ 2003
+
+\bibitem{krizhevsky}
+ Krizhevsky, Alex; Sutskever, Ilya; Hinton, Geoffrey E.;
+ \emph{ImageNet Classification with Deep Convolutional Neural Networks}\\
+ 2012
+
+\bibitem{rectifier}
+ Glorot, Xavier; Bordes, Antoine; Bengio, Yoshua;
+ \emph{Deep Sparse Rectifier Neural Networks}\\
+ 2013
+
+\bibitem{MLP-univ-approx}
+ Hornik, Kur; Stinchcombe, Maxwell; White, Halber;
+ \emph{Multilayer Feed-Forward Networks are Universal Approximators}\\
+ 1989
+
+\bibitem{office}
+ Saenko, K., Kulis, B., Fritz, M., and Darrell, T.;
+ \emph{Adapting visual category models to new domains}\\
+ ECCV, 2010
+
+\bibitem{surf}
+ Bay, H., Tuytelaars, T., and Gool, L. Van;
+ \emph{SURF: Speeded up robust features}\\
+ ECCV, 2006
+
+\bibitem{transfer-learning}
+ Sermanet, Pierre; Eigen, David; Zhang, Xiang; Mathieu, Michael; Fergus, Rob; LeCun, Yann;
+ \emph{OverFeat: Integrated Recognition, Localization and Detection using Convolutional Networks}\\
+ arXiv:1312.6229
+  
+\bibitem{f-measure}
+ Joan Pastor-Pellicer, Francisco Zamora-Martínez, Salvador España-Boquera, María José Castro-Bleda;
+ \emph{F-Measure as the Error Function to Train Neural Networks}\\
+ Advances in Computational Intelligence
+ Volume 7902, 2013, pp 376-384
+ 
+\bibitem{cuda-convnet}  
+ URL: \url{https://code.google.com/p/cuda-convnet/}, last accessed 6th June 2014.
+
+\end{thebibliography}
 
 \end{document}
