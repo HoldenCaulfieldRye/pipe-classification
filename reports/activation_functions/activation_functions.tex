@@ -59,15 +59,17 @@ Intuitively, $y$ takes a hard decision, just like biological neurons: either a c
 y = \frac{1}{1 + e^{-z}} \text{, where } z = b + \sum\limits_{i=1}^k x_{i}\cdot w_{i}
 \end{equation}
 
-Like the binary threshold neuron, the output domain of this neuron is bounded by 0 and 1. But this time, the function is fully differentiable. Moreover, it is non-linear, which helps to increase performance \cite{DL-book}. To see why, the graph plot below lends itself to the following intuition: if the input x is the amount of evidence for the components of the feature that the neuron detects, and y is the evidence for the feature itself, then the marginal evidence for the feature is decreasing with the amount of evidence for its components (in absolute value terms). 
+Like the binary threshold neuron, the output domain of this neuron is bounded by 0 and 1. But this time, the function is fully differentiable. Moreover, it is non-linear, which helps to increase performance \cite{DL-book}.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.3]{images/sigmoid.png}
-	\caption{single-input logistic sigmoid neuron}
+	\caption{Single-Input Logistic Sigmoid Neuron}
 \end{figure}
+ 
+To see why, the graph plot below lends itself to the following intuition: consider the neuron as a feature detector, where the input x is the amount of evidence for a certain feature, and y is the probability that the feature is present. y is strictly increasing in x, because every extra amount of evidence for the feature increases the probability of its presence. y is bounded above by 1 and 0, because it is a probability. Interestingly, the slope of y is highest in absolute value around $x=0.5$, and tends towards 0 as x departs from 0.5 in either direction. This is like saying: if I'm clueless as to whether the feature is present or not, any evidence in favour of presence or absence will push me easily in that direction; however, the more you want to convince me of it, the higher the required evidence gets.
 
-This is like saying that to completely convince y of the total presence or absence of the feature, a lot of evidence is required. However, if there is not much evidence for either case, then y is more lenient. 
+
 A disadvantage of this neuron model is that it is computationally expensive to compute.
                 
 \paragraph{Rectified Linear Neuron}
@@ -76,12 +78,13 @@ A disadvantage of this neuron model is that it is computationally expensive to c
 y = \max\{0, b + \sum\limits_{i=1}^k x_{i}\cdot w_{i}\}
 \end{equation}
 
-As can be seen in the graph plot below, the rectified linear neuron is neither fully differentiable (not at $0$), nor bounded above. Moreover, it only has two slopes, so its derivative with respect to $x_{i}$ can only be one of two values: $0$ or $w_{i}$. Although this may come as a strong downgrade in sophistication compared to the logistic sigmoid neuron, it is so much more efficient to compute (both its value and its partial derivatives) that it enables much larger network implementations\cite{krizhevsky}. Until now, this has more than offset the per-neuron information loss - and saturation risks - of the rectifier versus the sigmoid unit \cite{rectifier}.
+As can be seen in the graph plot below, the rectified linear neuron is neither fully differentiable (not at $0$), nor bounded above. 
+Moreover, it only has two slopes, so its derivative with respect to $x_{i}$ can only be one of two values: $0$ or $w_{i}$. Although this may come as a strong downgrade in sophistication compared to the logistic sigmoid neuron, it is so much more efficient to compute (both its value and its partial derivatives) that it enables much larger network implementations\cite{krizhevsky}. Until now, this has more than offset the per-neuron information loss - and saturation risks - of the rectifier versus the sigmoid unit \cite{rectifier}.
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.3]{images/rectifier.png}
-	\caption{single-input rectified linear neuron}
+	\includegraphics[scale=0.5]{images/ReLU.png}
+	\caption{Single-Input Rectified Linear Neuron}
 \end{figure}
 
 \paragraph{Softmax Neuron}
