@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  13 JUN 2014 16:51
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  13 JUN 2014 18:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -582,7 +582,35 @@ File: pgfmodulematrix.code.tex 2010/08/24  (rcs-revision 1.4)
 (/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/libraries/tikzlibrarytopat
 hs.code.tex
 File: tikzlibrarytopaths.code.tex 2008/06/17 v2.10 (rcs-revision 1.2)
-))) (/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
+))) (/usr/share/texlive/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2013/02/03 v1.1-62 Sub-captions (AR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2013/05/02 v3.3-89 Customizing captions (AR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2013/05/02 v1.6-88 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 57.
+\captionmargin=\dimen189
+\captionmargin@=\dimen190
+\captionwidth=\dimen191
+\caption@tempdima=\dimen192
+\caption@indent=\dimen193
+\caption@parindent=\dimen194
+\caption@hangindent=\dimen195
+)
+\c@ContinuedFloat=\count161
+Package caption Info: float package is loaded.
+Package caption Info: listings package is loaded.
+Package caption Info: longtable package is loaded.
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/ltcaption.sty
+Package: ltcaption 2013/02/03 v1.3-62 longtable captions (AR)
+))
+\c@subfigure=\count162
+\c@subtable=\count163
+)
+(/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty
 \fancy@headwidth=\skip60
 \f@ncyO@elh=\skip61
 \f@ncyO@erh=\skip62
@@ -600,18 +628,18 @@ LaTeX Warning: Label `f-measure' multiply defined.
 )
 \openout1 = `activation_functions.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 33.
-LaTeX Font Info:    ... okay on input line 33.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 34.
+LaTeX Font Info:    ... okay on input line 34.
 
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
@@ -649,16 +677,16 @@ LaTeX Font Info:    ... okay on input line 33.
 
 (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count161
-\scratchdimen=\dimen189
+\scratchcounter=\count164
+\scratchdimen=\dimen196
 \scratchbox=\box48
-\nofMPsegments=\count162
-\nofMParguments=\count163
+\nofMPsegments=\count165
+\nofMParguments=\count166
 \everyMPshowfont=\toks38
-\MPscratchCnt=\count164
-\MPscratchDim=\dimen190
-\MPnumerator=\count165
-\makeMPintoPDFobject=\count166
+\MPscratchCnt=\count167
+\MPscratchDim=\dimen197
+\MPnumerator=\count168
+\makeMPintoPDFobject=\count169
 \everyMPtoPDFconversion=\toks39
 ) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
@@ -705,15 +733,17 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
 \AtBeginShipoutBox=\box49
-\c@lstlisting=\count167
+\c@lstlisting=\count170
 
 ABD: EveryShipout initializing macros
-LaTeX Font Info:    Try loading font information for U+msa on input line 35.
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    Try loading font information for U+msa on input line 36.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 35.
+LaTeX Font Info:    Try loading font information for U+msb on input line 36.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -724,67 +754,97 @@ LaTeX Warning: No \author given.
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 46--47
+Underfull \hbox (badness 10000) in paragraph at lines 47--48
 
  []
 
-<images/sigmoid.png, id=13, 602.25pt x 401.5pt>
-File: images/sigmoid.png Graphic file (type png)
- <use images/sigmoid.png>
-Package pdftex.def Info: images/sigmoid.png used on input line 66.
-(pdftex.def)             Requested size: 180.67639pt x 120.45091pt.
+<images/logistic.png, id=13, 578.16pt x 433.62pt>
+File: images/logistic.png Graphic file (type png)
+ <use images/logistic.png>
+Package pdftex.def Info: images/logistic.png used on input line 69.
+(pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
+
+<images/logistic-derivative.png, id=15, 578.16pt x 433.62pt>
+File: images/logistic-derivative.png Graphic file (type png)
+
+<use images/logistic-derivative.png>
+Package pdftex.def Info: images/logistic-derivative.png used on input line 74.
+(pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 81--82
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 89--90
+
+ []
 
 [2
 
- <./images/sigmoid.png>] <images/ReLU.png, id=26, 578.16pt x 433.62pt>
+ <./images/logistic.png> <./images/logistic-derivative.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 91--92
+
+ []
+
+<images/ReLU.png, id=28, 578.16pt x 433.62pt>
 File: images/ReLU.png Graphic file (type png)
-
-<use images/ReLU.png>
-Package pdftex.def Info: images/ReLU.png used on input line 86.
+ <use images/ReLU.png>
+Package pdftex.def Info: images/ReLU.png used on input line 103.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
- [3 <./images/ReLU.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 122--123
+
+Underfull \hbox (badness 10000) in paragraph at lines 116--117
+
+ []
+
+[3 <./images/ReLU.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 123--124
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 129--130
+Underfull \hbox (badness 10000) in paragraph at lines 132--133
 
  []
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 138--139
-
- []
-
-<images/gradient_propagates.png, id=32, 562.1pt x 532.99126pt>
+<images/gradient_propagates.png, id=33, 562.1pt x 532.99126pt>
 File: images/gradient_propagates.png Graphic file (type png)
 
 <use images/gradient_propagates.png>
-Package pdftex.def Info: images/gradient_propagates.png used on input line 145.
+Package pdftex.def Info: images/gradient_propagates.png used on input line 139.
 
 (pdftex.def)             Requested size: 157.38692pt x 149.23653pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 154--156
+Underfull \hbox (badness 10000) in paragraph at lines 148--150
 
  []
 
-<images/local_minima.png, id=33, 423.38174pt x 220.4235pt>
+<images/local_minima.png, id=34, 423.38174pt x 220.4235pt>
 File: images/local_minima.png Graphic file (type png)
 
 <use images/local_minima.png>
-Package pdftex.def Info: images/local_minima.png used on input line 170.
+Package pdftex.def Info: images/local_minima.png used on input line 159.
 (pdftex.def)             Requested size: 338.70586pt x 176.33902pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
+<images/ReLU_train_fast.png, id=35, 836.12375pt x 669.50125pt>
+File: images/ReLU_train_fast.png Graphic file (type png)
+
+<use images/ReLU_train_fast.png>
+Package pdftex.def Info: images/ReLU_train_fast.png used on input line 170.
+(pdftex.def)             Requested size: 250.83905pt x 200.85191pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 [4 <./images/gradient_propagates.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 194--196
+Underfull \hbox (badness 10000) in paragraph at lines 191--193
 
  []
 
-[5 <./images/local_minima.png>]
+[5 <./images/local_minima.png> <./images/ReLU_train_fast.png>]
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ­ in font cmr10!
 Missing character: There is no Ã in font cmr10!
@@ -793,19 +853,20 @@ Missing character: There is no Ã in font cmr10!
 Missing character: There is no ­ in font cmr10!
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no © in font cmr10!
- [6] (./activation_functions.aux)
+ [6]
+(./activation_functions.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 14996 strings out of 494985
- 261287 string characters out of 6180356
- 323484 words of memory out of 5000000
- 17879 multiletter control sequences out of 15000+600000
- 14806 words of font info for 57 fonts, out of 8000000 for 9000
+ 16111 strings out of 494985
+ 281738 string characters out of 6180356
+ 344177 words of memory out of 5000000
+ 18982 multiletter control sequences out of 15000+600000
+ 14187 words of font info for 55 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 48i,10n,51p,994b,266s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,10n,51p,816b,485s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texl
@@ -821,10 +882,10 @@ r5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><
 hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/te
 xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on activation_functions.pdf (6 pages, 477390 bytes).
+Output written on activation_functions.pdf (6 pages, 534477 bytes).
 PDF statistics:
- 97 PDF objects out of 1000 (max. 8388607)
+ 100 PDF objects out of 1000 (max. 8388607)
  66 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 33 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 43 words of extra memory for PDF output out of 10000 (max. 10000000)
 
