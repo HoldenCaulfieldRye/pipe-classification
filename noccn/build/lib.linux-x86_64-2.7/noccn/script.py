@@ -10,8 +10,10 @@ from ccn import data
 from ccn import gpumodel
 
 
+# filename: options.cfg ?
 def get_options(filename, section):
     parser = ConfigParser()
+    # creates a dict with a key for each section in [] in the cfg file?
     parser.read(filename)
     dirname = os.path.abspath(os.path.dirname(filename))
     options = {}
@@ -48,6 +50,16 @@ def put_options(options_parser, opts_dict):
             option.set_value(value)
 
 
+def overwrite_options(opts_dict, old_op):
+    for o in old_op.get_options_list():
+        overwrite_value = opts_dict.get(o.prefixed_letter[2:])
+        if overwrite_value is not None:
+            #print 'Overwriting %s '%(o.name),
+            #print `o.value` + ' with ' + `overwrite_value`
+            o.value = overwrite_value
+    return old_op        
+
+
 def resolve(dotted):
     module, name = dotted.rsplit('.', 1)
     return getattr(__import__(module, globals(), locals(), [name], -1), name)
@@ -65,6 +77,7 @@ def handle_options(parser, section, cfg_filename):
 
     put_options(parser, opts_dict)
     op, load_dic = gpumodel.IGPUModel.parse_options(parser)
+    op = overwrite_options(opts_dict,op)
     return op, load_dic, opts_dict
 
 
@@ -99,7 +112,7 @@ def make_model(model_cls, section, cfg_filename=None):
         )
     random_seed(int(cfg.get('seed', '42')))
 
-    model = model_cls(op, load_dic)
+    model = model_cls(op, load_dic) # load_dic is the network params?
     update_attrs_from_cfg(model, cfg, 'convnet')
     update_attrs_from_cfg(model.train_data_provider, cfg, 'dataprovider')
     update_attrs_from_cfg(model.test_data_provider, cfg, 'dataprovider') 

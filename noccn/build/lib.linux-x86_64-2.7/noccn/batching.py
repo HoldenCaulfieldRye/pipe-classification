@@ -6,19 +6,10 @@ import xml.dom
 from joblib import Parallel, delayed
 from PIL import Image
 import xml.etree.ElementTree as ET
+import json, random
 import shutil
 import time
 
-
-def get_a_batch_data_array():
-  ''' loads an array of labels in the format expected by cuda-
-  convnet, from a hard-coded location which on graphic02 
-  corresponds to a suitable data file. (batches.meta?) '''
-
-def get_a_pipe_data_list(data_dir):
-  ''' loads the 10002.data file provided by ControlPoint and stores
-  its contents in a list, to be returned. '''
-  os.chdir(os.cwd()+data_dir)
 
 
 #### STEP 1: GET LABELS ##############################################
@@ -44,6 +35,71 @@ def get_all_pipe_labels(data_dir,save=True):
     d['no_labels'] = len(d['labels'])
     pickle.dump(d, open('labels_'+whichBox+'.pickle', 'wb'))
     print 'saved pickle file in', os.getcwd()
+
+
+def get_label_dict(data_dir):
+  path = data_dir
+  d = {'Perfect': []}
+  print 'generating dict of label:files from %s...'%(data_dir)
+  for filename in os.listdir(path):
+    if not filename.endswith('.dat'): continue
+    fullname = os.path.join(path, filename)
+    with open(fullname) as f:
+      content = f.readlines()
+      if content == []:
+        d['Perfect'].append(filename.split('.')[0]+'.jpg')
+      else:
+        for label in content:
+          if label not in d.keys(): d[label] = []
+          d[label].append(filename.split('.')[0]+'.jpg')
+  return d
+
+
+#### STEP 1.2: VISUALLY INSPECT RANDOM SAMPLES OF DATA ##############
+
+def sample_images(data_dir):
+  sample_size = int(raw_input('How many images of each label do you want? '))
+  d = get_label_dict(data_dir)
+  d_small = {}
+  for label in d.keys():
+    d_small[label] = []
+    if sample_size > len(d[label]):
+      print 'there are only %i images with label %s'%(len(d[label]),label)
+      d_small[label] = d[label]
+    else: d_small[label] = random.sample(d[label], sample_size)
+  whichBox = data_dir.split('/')[-3]
+  json.dump(d, open('label_dict_sample_'+whichBox+'.txt','w'))      
+  return d_small
+
+
+def visual_inspect(data_dir):
+  d = sample_images(data_dir)
+
+  if list(data_dir)[-1] is not '/': data_dir = data_dir+'/'
+  sample_dir = os.getcwd()+'/visual_inspect/'+data_dir.split('/')[-4]+'/'
+
+  if os.path.isdir(os.getcwd()+'/visual_inspect'):
+    os.chdir('visual_inspect')
+  else: os.mkdir('visual_inspect')
+
+  if os.path.isdir(sample_dir):
+    rm = raw_input("image samples for inspection already found. delete? (Y/N) ")
+    if rm == 'Y': 
+      shutil.rmtree(sample_dir)
+      os.mkdir(sample_dir)
+  else:
+    os.mkdir(sample_dir)
+  os.chdir(sample_dir)
+
+  for label in d.keys():
+    inspect = raw_input("want to sample photos with %s? (Y/N) "%(label))
+    if inspect == 'Y':
+      if not os.path.isdir(sample_dir+label): os.mkdir(sample_dir+label)
+      for filename in d[label]:
+        if os.path.isfile(sample_dir+label+'/'+filename):
+          print "have already sampled %s before"%(filename)
+        else: 
+          shutil.copyfile(data_dir+filename,sample_dir+label+'/'+filename)
 
 
 #### STEP 2: LEAVE OUT BAD REDBOX DATA  #############################
@@ -411,6 +467,15 @@ if __name__ == "__main__":
   if sys.argv[1] == 'get_all_pipe_labels':
     get_all_pipe_labels(sys.argv[2])
 
+  elif sys.argv[1] == 'get_label_dict':
+    get_label_dict(sys.argv[2])
+
+  elif sys.argv[1] == 'sample_images':
+    sample_images(sys.argv[2])
+
+  elif sys.argv[1] == 'visual_inspect':
+    visual_inspect(sys.argv[2])
+
   elif sys.argv[1] == 'cleave_out_bad_data':
     cleave_out_bad_data(sys.argv[2])
 
@@ -420,7 +485,9 @@ if __name__ == "__main__":
   elif sys.argv[1] == 'generate_xml_labels_from_pipe_data':
     generate_xml_labels_from_pipe_data(sys.argv[2])
 
-  # commad used: python batching.py move_to_dirs /data/ad6813/pipe-data/Redbox/raw_data/dump /data/ad6813/pipe-data/Redbox/raw_data/clamp_detection NoClampUsed,PhotoDoesNotShowEnoughOfClamps,ClampDetected last_label_is_default
+  # command used: python batching.py move_to_dirs /data2/ad6813/pipe-data/Redbox/raw_data/dump /data2/ad6813/pipe-data/Redbox/raw_data/clamp_detection NoClampUsed,PhotoDoesNotShowEnoughOfClamps,ClampDetected last_label_is_default
+
+  # and then ~/.local/bin/ccn-make-batches models/clamp_detection/options.cfg > models/clamp_detection/make_batches.out
   elif sys.argv[1] == 'move_to_dirs':
     move_to_dirs(sys.argv)
 
