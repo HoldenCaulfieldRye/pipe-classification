@@ -1,0 +1,4 @@
+skynet layers-imagenet.cfg with zero learning rate
+set test-freq in options.cfg to maximum, so that the same test set is used every time
+changing test-freq to 5, all I want to do is test that the training is working properly. with 0 learning rate, should get identical error
+to get max test-range, need test-many not >0 and test-one false
