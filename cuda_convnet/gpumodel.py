@@ -238,6 +238,7 @@ class IGPUModel:
             self.start_batch(data, train=False)
             load_next = not self.test_one and ((self.test_many < 0 and data[1] < self.test_batch_range[-1]) or (number_tested < self.test_many))
             if load_next: # load next batch
+                print 'loading a %i-th test batch'%(number_tested)
                 next_data = self.get_next_batch(train=False)
                 number_tested += 1
             test_outputs += [self.finish_batch()]
