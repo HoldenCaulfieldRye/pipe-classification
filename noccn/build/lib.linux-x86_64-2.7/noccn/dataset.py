@@ -1,3 +1,5 @@
+# This dataset.py file is modified to work on ControlPoint data.
+
 # why not use BatchCreator.component for each pipe characteristic?
 # label is directory name!
 
