@@ -4,7 +4,6 @@ noccn/__init__.py
 noccn/batching.py
 noccn/ccn.py
 noccn/dataset.py
-noccn/multitag_collector.py
 noccn/noccn_dataset.py
 noccn/predict.py
 noccn/script.py
