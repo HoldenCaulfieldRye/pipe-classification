@@ -2,32 +2,96 @@
 \@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Motivation and Objectives}{3}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Contributions}{3}}
+\citation{control-point}
+\citation{control-point}
+\citation{control-point}
+\citation{control-point}
 \@writefile{toc}{\contentsline {section}{\numberline {2}Background}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Deep Neural Networks}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Deep Convolutional Neural Networks}{4}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Discriminative Models}{4}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Generative Models}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Multi-Tagging}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Transfer Learning: learning with a restricted training set}{4}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Design}{5}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Implementation}{6}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Experimentation}{7}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Defining the Problem}{4}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}Explaining the Problem}{4}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Code Coverage for Request Server}}{4}}
+\citation{MIML}
+\citation{MIML}
+\citation{univ-approx}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces soil contamination risk (left), water contamination risk (centre), no risk (right)}}{5}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.2}Formalising the problem: Multi-Instance Multi-Label Supervised Learning}{5}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.3}Supervised Learning}{5}}
+\newlabel{learning: optimisation equation}{{1}{5}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.4}Approximation vs Generalisation}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Architecture of a Deep Convolutional Neural Network with Rectified Linear Neurons}{6}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Models of Neurons}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces a multipolar biological neuron}}{6}}
+\@writefile{toc}{\contentsline {paragraph}{Multipolar Biological Neuron}{6}}
+\citation{DL-book}
+\citation{krizhevsky}
+\citation{rectifier}
+\@writefile{toc}{\contentsline {paragraph}{Binary Threshold Neuron}{7}}
+\@writefile{toc}{\contentsline {paragraph}{Logistic Sigmoid Neuron}{7}}
+\newlabel{sigmoid neuron}{{3}{7}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces single-input logistic sigmoid neuron}}{7}}
+\@writefile{toc}{\contentsline {paragraph}{Rectified Linear Neuron}{7}}
+\newlabel{relu}{{4}{7}}
+\@writefile{toc}{\contentsline {paragraph}{Softmax Neuron}{7}}
+\citation{DL-book}
+\citation{DL-book}
+\citation{DL-book}
+\citation{Russel&Norvig}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces single-input rectified linear neuron}}{8}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Feed-Forward Architecture}{8}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces graphical representation of $y = x*sin(a*x+b)$ and of a feed-forward neural network}}{8}}
+\@writefile{toc}{\contentsline {paragraph}{Shallow Feed-Forward Neural Networks: the Perceptron}{8}}
+\citation{DL-book}
+\citation{MLP-univ-approx}
+\@writefile{toc}{\contentsline {paragraph}{Deep Feed-Forward Neural Networks: the Multilayer Perceptron}{9}}
+\@writefile{toc}{\contentsline {paragraph}{Deep Convolutional Neural Networks: for translation invariance}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces LeNet7 architecture: each square is a kernel}}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Training: Backpropagation}{9}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.1}Compute Error-Weight Partial Derivatives}{10}}
+\@writefile{toc}{\contentsline {paragraph}{How Gradient Propagates}{10}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces (CHANGE NOTATION to reflect one above with $\textbf  {y}_L$ for top layer) Feed-Forward Neural Network with one Hidden Layer}}{10}}
+\citation{train&test}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.2}Update Weight Values (with Stochastic Gradient Descent)}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces an error surface with poor local minima}}{11}}
+\@writefile{toc}{\contentsline {paragraph}{Cost Functions}{11}}
+\@writefile{toc}{\contentsline {subparagraph}{MSE}{11}}
+\@writefile{toc}{\contentsline {subparagraph}{Cross-Entropy for Softmax}{11}}
+\@writefile{toc}{\contentsline {paragraph}{Mini-batch Training for Noisy Gradient Estimates}{11}}
+\@writefile{toc}{\contentsline {paragraph}{Decaying Learning Rate for Convergence}{11}}
+\@writefile{toc}{\contentsline {paragraph}{Cross Validation for Generalisation}{11}}
+\citation{office}
+\citation{surf}
+\@writefile{toc}{\contentsline {paragraph}{Dropout for Generalisation}{12}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.3.3}Local vs Global Optimisation}{12}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Challenges specific to the Pipe Weld Classification Task}{12}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.1}Data Overview}{12}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Count of Redbox images with given label}}{12}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.2}Multi-Tagging}{12}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.3}Domain Change}{12}}
+\citation{krizhevsky}
+\citation{transfer-learning}
+\citation{krizhevsky}
+\citation{transfer-learning}
+\citation{decaf}
+\citation{f-measure}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces left: a Redbox photo - right: a Bluebox photo}}{13}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.4}Small Dataset Size}{13}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.4.5}Class Imbalance}{13}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Design}{14}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Implementation}{15}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experimentation}{16}}
 \citation{istanbul}
 \citation{plantclef}
 \citation{mocha}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions and Future Work}{8}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions and Future Work}{17}}
 \bibcite{istanbul}{1}
 \bibcite{plantclef}{2}
 \bibcite{mocha}{3}
-\@writefile{toc}{\contentsline {section}{\numberline {7}From Plant Report - useful looking stuff}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Evolution of the App}}{11}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces System Context Diagram}}{12}}
-\newlabel{fig:systemcontextdiagram}{{2}{12}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Code Coverage for Request Server}}{12}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}From Plant Report - useful looking stuff}{19}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Code Coverage for Request Server}}{20}}
 \citation{wordnet}
-\@writefile{toc}{\contentsline {section}{\numberline {A}appendix part 1}{14}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}appendix part 1.1}{14}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}appendix part 1.2}{14}}
-\@writefile{toc}{\contentsline {section}{\numberline {B}appendix part 2}{14}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}appendix part 2.1}{14}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}appendix part 2.2}{14}}
+\@writefile{toc}{\contentsline {section}{\numberline {A}appendix part 1}{22}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}appendix part 1.1}{22}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}appendix part 1.2}{22}}
+\@writefile{toc}{\contentsline {section}{\numberline {B}appendix part 2}{22}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}appendix part 2.1}{22}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}appendix part 2.2}{22}}
