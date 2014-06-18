@@ -41,6 +41,14 @@ def parse(content):
   return error      
 
 
+def matplot(cfg_dir):
+  x = np.array(range(len(error)))
+  ytrain = np.array([train for (train,test) in error])
+  ytest = np.array([test for (train,test) in error])
+  plt.plot(x, ytrain)
+  plt.plot(x, ytest)
+  
+
 if __name__ == '__main__':
 
   train_path = sys.argv[1]
@@ -50,5 +58,6 @@ if __name__ == '__main__':
     content = f.readlines()
     error = parse(content)
 
-  write_data_to_txt(error)
+  matplot(cfg_dir, error)
+
   # gnuplot(cfg_dir)
