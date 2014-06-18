@@ -1,33 +1,97 @@
 \relax 
-\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Motivation and Objectives}{3}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Contributions}{3}}
-\@writefile{toc}{\contentsline {section}{\numberline {2}Background}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Deep Neural Networks}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Deep Convolutional Neural Networks}{4}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.1}Discriminative Models}{4}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.2.2}Generative Models}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Multi-Tagging}{4}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Transfer Learning: learning with a restricted training set}{4}}
-\@writefile{toc}{\contentsline {section}{\numberline {3}Design}{5}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Implementation}{6}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Experimentation}{7}}
-\citation{istanbul}
-\citation{plantclef}
-\citation{mocha}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions and Future Work}{8}}
-\bibcite{istanbul}{1}
-\bibcite{plantclef}{2}
-\bibcite{mocha}{3}
-\@writefile{toc}{\contentsline {section}{\numberline {7}From Plant Report - useful looking stuff}{10}}
-\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Evolution of the App}}{11}}
-\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces System Context Diagram}}{12}}
-\newlabel{fig:systemcontextdiagram}{{2}{12}}
-\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Code Coverage for Request Server}}{12}}
-\citation{wordnet}
-\@writefile{toc}{\contentsline {section}{\numberline {A}appendix part 1}{14}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.1}appendix part 1.1}{14}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {A.2}appendix part 1.2}{14}}
-\@writefile{toc}{\contentsline {section}{\numberline {B}appendix part 2}{14}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.1}appendix part 2.1}{14}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {B.2}appendix part 2.2}{14}}
+\citation{control-point}
+\citation{control-point}
+\citation{control-point}
+\citation{control-point}
+\@writefile{toc}{\contentsline {section}{\numberline {1}Background}{3}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Defining the Problem}{3}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.1.1}Explaining the Problem}{3}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces Code Coverage for Request Server}}{3}}
+\citation{MIML}
+\citation{MIML}
+\citation{univ-approx}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces soil contamination risk (left), water contamination risk (centre), no risk (right)}}{4}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.1.2}Formalising the problem: Multi-Instance Multi-Label Supervised Learning}{4}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.1.3}Supervised Learning}{4}}
+\newlabel{learning: optimisation equation}{{1}{4}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.1.4}Approximation vs Generalisation}{5}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Architecture of a Deep Convolutional Neural Network with Rectified Linear Neurons}{5}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.1}Models of Neurons}{5}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces a multipolar biological neuron}}{5}}
+\@writefile{toc}{\contentsline {paragraph}{Multipolar Biological Neuron}{5}}
+\citation{DL-book}
+\citation{krizhevsky}
+\citation{rectifier}
+\@writefile{toc}{\contentsline {paragraph}{Binary Threshold Neuron}{6}}
+\@writefile{toc}{\contentsline {paragraph}{Logistic Sigmoid Neuron}{6}}
+\newlabel{sigmoid neuron}{{3}{6}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces single-input logistic sigmoid neuron}}{6}}
+\@writefile{toc}{\contentsline {paragraph}{Rectified Linear Neuron}{6}}
+\newlabel{relu}{{4}{6}}
+\citation{DL-book}
+\citation{DL-book}
+\citation{DL-book}
+\citation{Russel&Norvig}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces single-input rectified linear neuron}}{7}}
+\@writefile{toc}{\contentsline {paragraph}{Softmax Neuron}{7}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.2.2}Feed-Forward Architecture}{7}}
+\@writefile{toc}{\contentsline {paragraph}{Shallow Feed-Forward Neural Networks: the Perceptron}{7}}
+\citation{DL-book}
+\citation{MLP-univ-approx}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces graphical representation of $y = x*sin(a*x+b)$ and of a feed-forward neural network}}{8}}
+\@writefile{toc}{\contentsline {paragraph}{Deep Feed-Forward Neural Networks: the Multilayer Perceptron}{8}}
+\@writefile{toc}{\contentsline {paragraph}{Deep Convolutional Neural Networks: for translation invariance}{8}}
+\citation{train&test}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces LeNet7 architecture: each square is a kernel}}{9}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Training: Backpropagation}{9}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.3.1}Compute Error-Weight Partial Derivatives}{9}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.3.2}Update Weight Values (with Gradient Descent)}{9}}
+\@writefile{toc}{\contentsline {paragraph}{Training, Validation and Test Sets}{9}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces an error surface with poor local minima}}{10}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}Challenges specific to the Pipe Weld Classification Task}{10}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.1}Data Overview}{10}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.2}Multi-Tagging}{10}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.3}Domain Change}{10}}
+\citation{office}
+\citation{surf}
+\citation{krizhevsky}
+\citation{transfer-learning}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Count of Redbox images with given label}}{11}}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces left: a Redbox photo - right: a Bluebox photo}}{11}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.4}Small Dataset Size}{11}}
+\citation{krizhevsky}
+\citation{transfer-learning}
+\citation{decaf}
+\citation{f-measure}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.4.5}Class Imbalance}{12}}
+\@writefile{toc}{\contentsline {section}{\numberline {2}Progress}{12}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Implementation: Cuda-Convnet}{12}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.1.1}Test Run}{12}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Design}{13}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Implementation}{14}}
+\citation{krizhevsky}
+\citation{transfer-learning}
+\citation{decaf}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Experimentation}{15}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Cuda-Convnet}{15}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.1}Test Runs}{15}}
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces validation error rate over batch training iterations}}{15}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.2}Increase Test Error Precision}{16}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces test and validation error rates for clamp detection after fixing a large test range}}{16}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.1.3}Reduce Learning Rate}{17}}
+\bibcite{decaf}{1}
+\bibcite{MIML}{2}
+\bibcite{f-measure}{3}
+\bibcite{control-point}{4}
+\bibcite{univ-approx}{5}
+\bibcite{DL-book}{6}
+\bibcite{Russel & Norvig}{7}
+\bibcite{krizhevsky}{8}
+\bibcite{rectifier}{9}
+\bibcite{MLP-univ-approx}{10}
+\bibcite{office}{11}
+\bibcite{surf}{12}
+\bibcite{transfer-learning}{13}
+\bibcite{f-measure}{14}
+\bibcite{cuda-convnet}{15}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Conclusions and Future Work}{18}}
