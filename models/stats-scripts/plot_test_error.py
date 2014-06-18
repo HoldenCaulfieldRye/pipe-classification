@@ -24,39 +24,35 @@ if __name__ == '__main__':
         prev_testoutput = False
       elif '===Test output===' in line: prev_testoutput = True
       continue
-
-
-    # get testing frequency
-    test_freq = None
-    for line in content:
-      if line.startswith("Testing Frequency"):
-        if test_freq not None:
-          if line.strip().split(' ')[-1] not test_freq:
-            print '''multiple test freqs found! time series will be 
-            wrong, need to refine your code'''
-            break
-        test_freq = line.strip().split(' ')[-1]
-        
       
     # get train error time averaged over two test error computations
     train_series = []
-    for idx in len(content):
+    for idx in xrange(len(content)):
       if content[idx].startswith("Testing "):
-        if not content[idx].startswith("Testing Frequency"):
-          l = [line.strip().split(' ')[3].split(',')[0] 
-               for line in content[idx-2-test_freq:idx-2]]
-          avg_train_error = reduce(lambda x,y: x+y, l) / len(l)
-          train_series.append(avg_train_error)
+        if content[idx].startswith("Testing frequency"):
+          test_freq = int(content[idx].strip().split(' ')[-1])
+          print "test_freq changed to %i"%(test_freq)
+        else:
+          # print 'taking values from %i to %i'%(idx-2-test_freq,idx-1)
+          # for j in range(idx-2-test_freq,idx-1): print content[j]
+          # for i in range(idx-1-test_freq,idx-1):
+          #   print len(content[i].strip().split(' ')) #[3]
 
-    assert len(pretty_print) == len(train_series)
+          l = [float(content[i].strip().split(' ')[3].split(',')[0]) 
+               for i in range(idx-test_freq-1,idx-1)]
+          avg_train_error = reduce(lambda x,y: x+y, l) / len(l)
+          train_series.append(str(avg_train_error))
+
+    assert len(test_series) == len(train_series)
     pretty_print = zip(train_series, test_series)
 
   data = open(os.getcwd()+'/time_series.txt','w')
   data.writelines(["%i\t%s\t%s\n" % (x,train,test)
                    for x,(train,test) in enumerate(pretty_print)])
+  print "wrote txt data to %s"%(os.getcwd()+'/time_series.txt')
   data.close()
 
-  os.system("gnuplot plot_test_error.gp")
-  shutil.move(os.getcwd()+"/test_error_time_series.png",cfg_dir+"/test_error_time_series.png")
-  os.remove(os.getcwd()+"/time_series.txt")
+  # os.system("gnuplot plot_test_error.gp")
+  # shutil.move(os.getcwd()+"/test_error_time_series.png",cfg_dir+"/test_error_time_series.png")
+  # os.remove(os.getcwd()+"/time_series.txt")
 
