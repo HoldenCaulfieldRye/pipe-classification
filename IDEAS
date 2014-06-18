@@ -3,11 +3,6 @@ TO DO
 
 VISUAL INSPECTION OF DATA
 - once downsized to 256x256!!
-- and of the batches!!
-
-
-Plot train as well as test error
-
 
 Full understanding of cfg file contents:
 - eg increasing that learning rate was a big mistake

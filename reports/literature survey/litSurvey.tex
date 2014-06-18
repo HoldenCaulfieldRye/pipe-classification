@@ -16,8 +16,8 @@
 \usepackage{mathtools}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{tikz}
 
+\usepackage{tikz}
 \usetikzlibrary{matrix,chains,positioning,decorations.pathreplacing,arrows,calc}
 
 % \bibliography{mybib}
@@ -275,11 +275,6 @@ where $\mathcal{C}$ is the chosen cost function. The error-weight partial deriva
 \end{equation}
 
 Since in general, a derivative $\frac{\partial{f}}{\partial{x}}$ is numerically obtained by perturbing $x$ and taking the change in $f(x)$, the advantage with this formula is that instead of individually perturbing each weight $w_{ij}$, only the unit outputs $y_{i}$ are perturbed. In a neural network with $k$ fully connected layers and $n$ units per layer, this amounts to $\Theta(k \cdot n)$ unit perturbations instead of $\Theta(k \cdot n^{2})$ weight perturbations (note that the bound on weight perturbations is no longer tight if we drop the assumption of fully connected layers).
-
-\paragraph{Propagating the Gradient}
-
-
-
 
 \subsubsection{Update Weight Values (with Gradient Descent)}
 
