@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  13 JUN 2014 18:53
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  14 JUN 2014 21:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -798,12 +798,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 116--117
  []
 
 [3 <./images/ReLU.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 123--124
+Underfull \hbox (badness 10000) in paragraph at lines 124--125
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 132--133
+Underfull \hbox (badness 10000) in paragraph at lines 133--134
 
  []
 
@@ -882,7 +882,7 @@ r5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><
 hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/te
 xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on activation_functions.pdf (6 pages, 534477 bytes).
+Output written on activation_functions.pdf (6 pages, 534304 bytes).
 PDF statistics:
  100 PDF objects out of 1000 (max. 8388607)
  66 compressed objects within 1 object stream
