@@ -4,12 +4,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 from math import ceil
 
-
-def gnuplot(cfg_dir):
-  os.system("gnuplot plot_test_error.gp")
-  shutil.move(os.getcwd()+"/test_error_time_series.png",cfg_dir+"/test_error_time_series.png")
-  os.remove(os.getcwd()+"/time_series.txt")
-
   
 def write_data_to_txt(error):  
   data = open(os.getcwd()+'/time_series.txt','w')
