@@ -2,48 +2,20 @@
 \contentsline {subsection}{\numberline {1.1}Motivation and Objectives}{3}
 \contentsline {subsection}{\numberline {1.2}Contributions}{3}
 \contentsline {section}{\numberline {2}Background}{4}
-\contentsline {subsection}{\numberline {2.1}Defining the Problem}{4}
-\contentsline {subsubsection}{\numberline {2.1.1}Explaining the Problem}{4}
-\contentsline {subsubsection}{\numberline {2.1.2}Formalising the problem: Multi-Instance Multi-Label Supervised Learning}{5}
-\contentsline {subsubsection}{\numberline {2.1.3}Supervised Learning}{5}
-\contentsline {subsubsection}{\numberline {2.1.4}Approximation vs Generalisation}{5}
-\contentsline {subsection}{\numberline {2.2}Architecture of a Deep Convolutional Neural Network with Rectified Linear Neurons}{6}
-\contentsline {subsubsection}{\numberline {2.2.1}Models of Neurons}{6}
-\contentsline {paragraph}{Multipolar Biological Neuron}{6}
-\contentsline {paragraph}{Binary Threshold Neuron}{7}
-\contentsline {paragraph}{Logistic Sigmoid Neuron}{7}
-\contentsline {paragraph}{Rectified Linear Neuron}{7}
-\contentsline {paragraph}{Softmax Neuron}{7}
-\contentsline {subsubsection}{\numberline {2.2.2}Feed-Forward Architecture}{8}
-\contentsline {paragraph}{Shallow Feed-Forward Neural Networks: the Perceptron}{8}
-\contentsline {paragraph}{Deep Feed-Forward Neural Networks: the Multilayer Perceptron}{9}
-\contentsline {paragraph}{Deep Convolutional Neural Networks: for translation invariance}{9}
-\contentsline {subsection}{\numberline {2.3}Training: Backpropagation}{9}
-\contentsline {subsubsection}{\numberline {2.3.1}Compute Error-Weight Partial Derivatives}{10}
-\contentsline {paragraph}{How Gradient Propagates}{10}
-\contentsline {subsubsection}{\numberline {2.3.2}Update Weight Values (with Stochastic Gradient Descent)}{11}
-\contentsline {paragraph}{Cost Functions}{11}
-\contentsline {subparagraph}{MSE}{11}
-\contentsline {subparagraph}{Cross-Entropy for Softmax}{11}
-\contentsline {paragraph}{Mini-batch Training for Noisy Gradient Estimates}{11}
-\contentsline {paragraph}{Decaying Learning Rate for Convergence}{11}
-\contentsline {paragraph}{Cross Validation for Generalisation}{11}
-\contentsline {paragraph}{Dropout for Generalisation}{12}
-\contentsline {subsubsection}{\numberline {2.3.3}Local vs Global Optimisation}{12}
-\contentsline {subsection}{\numberline {2.4}Challenges specific to the Pipe Weld Classification Task}{12}
-\contentsline {subsubsection}{\numberline {2.4.1}Data Overview}{12}
-\contentsline {subsubsection}{\numberline {2.4.2}Multi-Tagging}{12}
-\contentsline {subsubsection}{\numberline {2.4.3}Domain Change}{12}
-\contentsline {subsubsection}{\numberline {2.4.4}Small Dataset Size}{13}
-\contentsline {subsubsection}{\numberline {2.4.5}Class Imbalance}{13}
-\contentsline {section}{\numberline {3}Design}{14}
-\contentsline {section}{\numberline {4}Implementation}{15}
-\contentsline {section}{\numberline {5}Experimentation}{16}
-\contentsline {section}{\numberline {6}Conclusions and Future Work}{17}
-\contentsline {section}{\numberline {7}From Plant Report - useful looking stuff}{19}
-\contentsline {section}{\numberline {A}appendix part 1}{22}
-\contentsline {subsection}{\numberline {A.1}appendix part 1.1}{22}
-\contentsline {subsection}{\numberline {A.2}appendix part 1.2}{22}
-\contentsline {section}{\numberline {B}appendix part 2}{22}
-\contentsline {subsection}{\numberline {B.1}appendix part 2.1}{22}
-\contentsline {subsection}{\numberline {B.2}appendix part 2.2}{22}
+\contentsline {subsection}{\numberline {2.1}Deep Neural Networks}{4}
+\contentsline {subsection}{\numberline {2.2}Deep Convolutional Neural Networks}{4}
+\contentsline {subsubsection}{\numberline {2.2.1}Discriminative Models}{4}
+\contentsline {subsubsection}{\numberline {2.2.2}Generative Models}{4}
+\contentsline {subsection}{\numberline {2.3}Multi-Tagging}{4}
+\contentsline {subsection}{\numberline {2.4}Transfer Learning: learning with a restricted training set}{4}
+\contentsline {section}{\numberline {3}Design}{5}
+\contentsline {section}{\numberline {4}Implementation}{6}
+\contentsline {section}{\numberline {5}Experimentation}{7}
+\contentsline {section}{\numberline {6}Conclusions and Future Work}{8}
+\contentsline {section}{\numberline {7}From Plant Report - useful looking stuff}{10}
+\contentsline {section}{\numberline {A}appendix part 1}{14}
+\contentsline {subsection}{\numberline {A.1}appendix part 1.1}{14}
+\contentsline {subsection}{\numberline {A.2}appendix part 1.2}{14}
+\contentsline {section}{\numberline {B}appendix part 2}{14}
+\contentsline {subsection}{\numberline {B.1}appendix part 2.1}{14}
+\contentsline {subsection}{\numberline {B.2}appendix part 2.2}{14}
