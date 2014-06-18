@@ -6,7 +6,6 @@ if __name__ == '__main__':
   train_path = sys.argv[1]
   cfg_dir, train_output_fname = os.path.split(os.path.normpath(train_path))
 
-  time_series = []
   pretty_print = []
   prev_testoutput = False
   with open(train_path) as f:
@@ -19,7 +18,6 @@ if __name__ == '__main__':
         strnum = strnum.split('  ')[-1]
         num = float(strnum)
         pretty_print.append(strnum)
-        time_series.append(num)
         prev_testoutput = False
       elif '===Test output===' in line: prev_testoutput = True
       continue
