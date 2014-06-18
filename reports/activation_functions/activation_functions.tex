@@ -111,7 +111,7 @@ It may seem almost staggering that an unbounded activation function can be used 
 
 The parameters (a.k.a\ weights) of feed-forward neural networks in the context of supervised learning are trained with backpropagation, which makes use of gradient descent: a weight $w$ is adjusted by $\tau \cdot \frac{\partial{E}}{\partial{w}}$, which is a multiple of the error, and this multiple is determined by the weights and neurons that lie in the paths from the weight to a neuron of the output layer. The choice of activation function will modify the formula for a weight update, so the comparison between the logistic unit and the ReLU extends to training.
 
-\paragraph{How the Gradient Propagates}
+\subsubsection{How the Gradient Propagates}
 
 It may be of interest to know how the gradient propagates through a network - especially since a single vector of information - the error - is supposed to adjust up to millions of parameters, which could be considered as a bit of a stretch.\\
 
@@ -149,26 +149,16 @@ So for example, given the figure above:
  $\mathcal{C}'(y_{7}) \cdot \psi'(z_7) \cdot w_{57} \cdot \psi'(z_5) \cdot y_2$ \\
 \end{itemize}
 
-
-\subsubsection{Update Weight Values (with Stochastic Gradient Descent)}
-
-The learning rule is given by $w_{i,t+1} = w_{i,t+1} + \tau \cdot \frac{\partial{E}}{\partial{w_{i,t}}}$
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.8]{images/local_minima.png}
-	\caption{an error surface with poor local minima}
-\end{figure}
-
-Visually, this means that weight values move in the direction the will reduce the error quickest, i.e.\ the direction of steepest descent on the error surface is taken. Notice that given the learning rule, gradient descent converges (i.e.\ $w_{i,t+1}$ equals $w_{i,t+1}$) when the partial derivative reaches zero. This corresponds to a local minimum on the error surface. In the figure below, two potential training sessions are illustrated. The minima attained in each cases are not the same. This illustrates a strong shortcoming with backpropagation: parameter values can get stuck in poor local minima.
-
+Notice that if $y_7$ is 
 
 \subsubsection{ReLUs Train Faster}
+
+Networks consisting of ReLUs have empirically trained faster than those consisting of sigmoid units. This may be because if a sigmoid unit is in its saturated environment, its weights are harder 
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.3]{images/ReLU_train_fast.png}
-	\caption{an error surface with poor local minima}
+	\caption{Training AlexNet (Krizhevsky et al 2012)}
 \end{figure}
 
 \begin{thebibliography}{1}
