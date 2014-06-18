@@ -1,12 +1,15 @@
 import cPickle as pickle
 import sys, os, shutil, re
+import numpy as np
+import matplotlib.pyplot as plt
+
 
 if __name__ == '__main__':
 
   train_path = sys.argv[1]
   cfg_dir, train_output_fname = os.path.split(os.path.normpath(train_path))
 
-  pretty_print = []
+  test_series = []
   prev_testoutput = False
   with open(train_path) as f:
     content = f.readlines()
@@ -17,7 +20,7 @@ if __name__ == '__main__':
         strnum = line.split(',')[0]
         strnum = strnum.split('  ')[-1]
         num = float(strnum)
-        pretty_print.append(strnum)
+        test_series.append(strnum)
         prev_testoutput = False
       elif '===Test output===' in line: prev_testoutput = True
       continue
@@ -37,17 +40,20 @@ if __name__ == '__main__':
       
     # get train error time averaged over two test error computations
     train_series = []
-    next_trainoutput = False
     for idx in len(content):
       if content[idx].startswith("Testing "):
         if not content[idx].startswith("Testing Frequency"):
-          l = [float(line.strip().split(' ')[3].split(',')[0]) 
+          l = [line.strip().split(' ')[3].split(',')[0] 
                for line in content[idx-2-test_freq:idx-2]]
           avg_train_error = reduce(lambda x,y: x+y, l) / len(l)
           train_series.append(avg_train_error)
-          
+
+    assert len(pretty_print) == len(train_series)
+    pretty_print = zip(train_series, test_series)
+
   data = open(os.getcwd()+'/time_series.txt','w')
-  data.writelines(["%i\t%s\n" % (x,num) for x,num in enumerate(pretty_print)])
+  data.writelines(["%i\t%s\t%s\n" % (x,train,test)
+                   for x,(train,test) in enumerate(pretty_print)])
   data.close()
 
   os.system("gnuplot plot_test_error.gp")
