@@ -41,12 +41,19 @@ def parse(content):
   return error      
 
 
-def matplot(cfg_dir):
+def matplot(cfg_dir, error):
   x = np.array(range(len(error)))
   ytrain = np.array([train for (train,test) in error])
   ytest = np.array([test for (train,test) in error])
   plt.plot(x, ytrain)
   plt.plot(x, ytest)
+  plt.xlabel('minibatch passes')
+  plt.ylabel('error rate')
+  # plt.title('Single-Input Logistic Sigmoid Neuron')
+  plt.grid(True)
+  plt.savefig(cfg_dir+"/plot_time_series_error_rates.png")
+  # plt.show()
+
   
 
 if __name__ == '__main__':
