@@ -33,11 +33,6 @@ if __name__ == '__main__':
           test_freq = int(content[idx].strip().split(' ')[-1])
           print "test_freq changed to %i"%(test_freq)
         else:
-          # print 'taking values from %i to %i'%(idx-2-test_freq,idx-1)
-          # for j in range(idx-2-test_freq,idx-1): print content[j]
-          # for i in range(idx-1-test_freq,idx-1):
-          #   print len(content[i].strip().split(' ')) #[3]
-
           l = [float(content[i].strip().split(' ')[3].split(',')[0]) 
                for i in range(idx-test_freq-1,idx-1)]
           avg_train_error = reduce(lambda x,y: x+y, l) / len(l)
