@@ -1,32 +1,63 @@
 import cPickle as pickle
-import sys, os, shutil
+import sys, os, shutil, re
+import numpy as np
+import matplotlib.pyplot as plt
+from math import ceil
+
+
+def gnuplot(cfg_dir):
+  os.system("gnuplot plot_test_error.gp")
+  shutil.move(os.getcwd()+"/test_error_time_series.png",cfg_dir+"/test_error_time_series.png")
+  os.remove(os.getcwd()+"/time_series.txt")
+
+  
+def write_data_to_txt(error):  
+  data = open(os.getcwd()+'/time_series.txt','w')
+  data.writelines(["%i\t%.5f \t%.5f\n" % (x,train,test)
+                   for x,(train,test) in enumerate(error)])
+  print "wrote txt data to %s"%(os.getcwd()+'/time_series.txt')
+  data.close()
+
+  
+def parse(content):
+  error = []
+  test_error = 1 # blank would be better for matplotlib
+  for idx in xrange(len(content)):
+
+    if content[idx].startswith("Testing "):
+
+      if content[idx].startswith("Testing frequency"):
+        test_freq = int(content[idx].strip().split(' ')[-1])
+        print "test_freq changed to %i"%(test_freq)
+
+      else:
+        for i in range(idx-test_freq-1,idx-1):
+          error.append((float(content[i].strip().split(' ')[3].split(',')[0]),
+                        test_error))
+
+    if "===Test output===" in content[idx]:
+      test_error = float(content[idx+1].split(',')[0].split('  ')[-1])
+
+  return error      
+
+
+def matplot(cfg_dir):
+  x = np.array(range(len(error)))
+  ytrain = np.array([train for (train,test) in error])
+  ytest = np.array([test for (train,test) in error])
+  plt.plot(x, ytrain)
+  plt.plot(x, ytest)
+  
 
 if __name__ == '__main__':
 
   train_path = sys.argv[1]
   cfg_dir, train_output_fname = os.path.split(os.path.normpath(train_path))
 
-  time_series = []
-  pretty_print = []
-  prev_testoutput = False
   with open(train_path) as f:
     content = f.readlines()
-    for line in content:
-      if prev_testoutput:
-        strnum = line.split(',')[0]
-        strnum = strnum.split('  ')[-1]
-        num = float(strnum)
-        pretty_print.append(strnum)
-        time_series.append(num)
-        prev_testoutput = False
-      elif '===Test output===' in line: prev_testoutput = True
-      continue
+    error = parse(content)
 
-  data = open(os.getcwd()+'/time_series.txt','w')
-  data.writelines(["%i\t%s\n" % (x,num) for x,num in enumerate(pretty_print)])
-  data.close()
+  matplot(cfg_dir, error)
 
-  os.system("gnuplot plot_test_error.gp")
-  shutil.move(os.getcwd()+"/test_error_time_series.png",cfg_dir+"/test_error_time_series.png")
-  os.remove(os.getcwd()+"/time_series.txt")
-
+  # gnuplot(cfg_dir)
