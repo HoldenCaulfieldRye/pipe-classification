@@ -28,25 +28,42 @@ def parse(content):
 
       else:
         for i in range(idx-test_freq-1,idx-1):
-          error.append((float(content[i].strip().split(' ')[3].split(',')[0]),
-                        test_error))
-
+          try:
+            assert content[i].strip().split(' ')[-1] == 'sec)'
+            error.append((float(content[i].strip().split(' ')[3].split(',')[0]),test_error))
+          except:
+            print 'ERROR: the following line was supposed to contain a train error:\n',content[i]
+            print 'So assume training was interrupted, so breaking'
+            break
+            
     if "===Test output===" in content[idx]:
       test_error = float(content[idx+1].split(',')[0].split('  ')[-1])
 
   return error      
 
 
-def matplot(cfg_dir, error, num_epochs=-1):
-  if num_epochs == -1:
-    end = len(error)
+def matplot(cfg_dir, error, start=-1, end=-1):
+  
+  if end == start == -1:
+    start, end = 0, len(error)
     print 'plotting entire training data'
+    
+  elif start == -1:
+    start = 0
+    print 'plotting from epoch %i to %i'%(start,end)
+    end *= 800
+    
+  elif end == -1:
+    print 'plotting from epoch %i to the end'%(start)
+    start, end = start*800, len(error)
+
   else:
-    end = num_epochs*800
-    print 'plotting %i epochs' % (num_epochs)
-  x = np.array(range(len(error[:end])))
-  ytrain = np.array([train for (train,test) in error[:end]])
-  ytest = np.array([test for (train,test) in error[:end]])
+    print 'plotting from epoch %i to %i'%(start,end)
+    start, end = start*800, end*800
+    
+  x = np.array(range(len(error[start:end])))
+  ytrain = np.array([train for (train,test) in error[start:end]])
+  ytest = np.array([test for (train,test) in error[start:end]])
   plt.plot(x, ytrain, label='training error')
   plt.plot(x, ytest, label='validation error')
   plt.legend(loc='upper left')
@@ -61,6 +78,8 @@ def matplot(cfg_dir, error, num_epochs=-1):
 
 if __name__ == '__main__':
 
+  print "'--start-epoch=' or '--end-epoch=' accepted"
+
   train_path = sys.argv[1]
   cfg_dir, train_output_fname = os.path.split(os.path.normpath(train_path))
 
@@ -68,9 +87,14 @@ if __name__ == '__main__':
     content = f.readlines()
     error = parse(content)
 
-  try:
-    matplot(cfg_dir, error, int(sys.argv[2]))
-  except:
-    matplot(cfg_dir, error)
+  # can specify
+  start,end = -1,-1
+  for arg in sys.argv:
+    if arg.startswith("--start-epoch="):
+      start = int(arg.split('=')[-1])
+    if arg.startswith("--end-epoch="):
+      end = int(arg.split('=')[-1])
+  
+  matplot(cfg_dir, error, start, end)
     
   # gnuplot(cfg_dir)
