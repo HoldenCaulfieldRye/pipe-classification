@@ -243,10 +243,11 @@ class IGPUModel:
                 next_data = self.get_next_batch(train=False)
                 number_tested += 1
             test_outputs += [self.finish_batch()]
-            if self.test_only or not self.test_one: # Print the individual batch results for safety
-                if self.test_many > 0:
-                    print "%i/%i\t"%(number_tested,self.test_many),
-                print "batch %d: %s" % (data[1], str(test_outputs[-1]))
+            # don't print individual batch results because takes up too much space
+            # if self.test_only or not self.test_one: # Print the individual batch results for safety
+            #     if self.test_many > 0:
+            #         print "%i/%i\t"%(number_tested,self.test_many),
+            #     print "batch %d: %s" % (data[1], str(test_outputs[-1]))
             if not load_next:
                 break
             sys.stdout.flush()
