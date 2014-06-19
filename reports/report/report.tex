@@ -406,7 +406,7 @@ Cuda-Convnet is a GPU implementation of a deep convolutional neural network impl
 
 \subsubsection{Test Runs}
 
-The first large-scale CNNs to be trained achieved poor and confusing results.
+The first large-scale CNNs to be trained achieved encouraging results. LOOK THROUGH ENTIRE DOCUMENT, when talking about this training, the classification validation error achieved was 11\%, not 40\%! It may also be good to get a test error.
 
 They were trained on the clamp detection task using the Redbox data only. The purpose of these models is to set a benchmark for the difficulty of the classification task, by taking several out-of-the-box network configurations: namely, those found on open source projects or detailed in papers \cite{krizhevsky},\cite{transfer-learning}, \cite{decaf}. \\
 
@@ -417,6 +417,12 @@ The classification task is a challenging one: indeed, none of the training sessi
 	\includegraphics[scale=0.5]{images/logprob.png}
 	\caption{validation error rate over batch training iterations}
 \end{figure}
+
+The error being shown is the negative of the log probability of the likelihood function:
+\begin{equation}
+\frac{1}{n}\sum\limits_{i=1}^n ln(f(W|x_i))
+\end{equation}
+Where f is the cost function I think. So in this case it is the cross entropy I think. \\
 
 There is a wide number of potential explanations for this indirected 'choppiness' in the error rate:
 \begin{itemize}
@@ -452,6 +458,16 @@ I guess another possibility is that I'm zigzagging in a very tight bowl, but see
 Francis Quintal Lauzon: I trained on much larger (though highly correlated) dataset so I never trained for 44 epochs.  I did use learning rate of the same magnitude you are using and still, reducing it after a plateau does help (in my experience).  If you are using momentum, you also might want to reset any momentum to zero after facing a plateau (this might helps as well).﻿\\
 
 
+\paragraph{Volatility of Training Error}
+
+Another striking aspect is how volatile the training error is, even when the test error is stable. This could be interpreted as the network's parameters having converged to values that make it good on certain batches, and bad on others. What is curious is that this would suggest that the contents of some batches are very different from one another (unless one considers the paper "Intriguing Properties of Neural Networks"). Therefore, it might be interesting to look at these batches in detail. \\
+
+top performing batches: 280, 543, (195, 185, 177, 157, 156, 147, 143, 82, 67, 53, 19, 18 and others)
+worst performing batches: 152, (302, 162, 105, 87, 60, 39, 736, 710, 643, 631 and others)
+280, 543 achieve 0.18-0.22, the others are in the 0.20s. 152 achieves 0.7-0.8 error, the others achieve in the 0.60s. \\
+
+I think the determining characteristic is either mis-labelled proportion, or visual type of image.
+
 \subsubsection{Alter Momentum}
 
 What is momentum for?
@@ -483,7 +499,7 @@ Because Francis Quintal Lauzon says so. But does he mean to reduce it once you'r
 
 The training error decreases a little on average (would be good to assert this statistically). Once again, because momentum is not 	distorting direction of descent.
 
-The test error stops to jitter completely. So the tiny pulses observed during convergence (i.e. between 5000 batches and 35000) were caused by momentum. I guess it's the result of going upslope a bit just in case there's a better minimum nearby. Could be interesting to put a stupidly high momentum like 1.5 to double check that jittering indeed gets even bigger. Who knows, this might settle the network in another minimum.
+The test error stops to jitter completely. So the tiny pulses observed during convergence (i.e. between 5000 batches and 35000) were caused by momentum. I guess it's the result of going upslope a bit just in case there's a better minimum nearby. Could be interesting to put a stupidly high momentum like 1.5 to double check that jittering indeed gets even bigger. Who knows, this might settle the network in another minimum. 
 
 
 \subsubsection{Reduce Learning Rate}
