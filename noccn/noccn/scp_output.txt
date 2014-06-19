@@ -1,0 +1,6 @@
+nohup: ignoring input
+nohup: failed to run command ‘scp_graphic02_here.sh’: No such file or directory
+nohup: ignoring input
+nohup scp_graphic02_here.sh "upload" >> scp_output.txt 2>&1 &
+is the way to execute this
+copying batches from graphic02 to local data storage...
