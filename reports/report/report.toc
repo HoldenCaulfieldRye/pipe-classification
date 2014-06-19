@@ -34,5 +34,12 @@
 \contentsline {subsection}{\numberline {5.1}Cuda-Convnet}{15}
 \contentsline {subsubsection}{\numberline {5.1.1}Test Runs}{15}
 \contentsline {subsubsection}{\numberline {5.1.2}Increase Test Error Precision}{16}
-\contentsline {subsubsection}{\numberline {5.1.3}Reduce Learning Rate}{17}
-\contentsline {section}{\numberline {6}Conclusions and Future Work}{18}
+\contentsline {subsubsection}{\numberline {5.1.3}Alter Momentum}{17}
+\contentsline {paragraph}{Increase}{17}
+\contentsline {paragraph}{Decrease}{17}
+\contentsline {subsubsection}{\numberline {5.1.4}Reduce Learning Rate}{18}
+\contentsline {subsubsection}{\numberline {5.1.5}Tackle Tight Bowl Zig-zagging}{18}
+\contentsline {subsubsection}{\numberline {5.1.6}Transfer Learning}{18}
+\contentsline {subsubsection}{\numberline {5.1.7}Theano}{18}
+\contentsline {subsubsection}{\numberline {5.1.8}Data Augmentation}{18}
+\contentsline {section}{\numberline {6}Conclusions and Future Work}{19}
