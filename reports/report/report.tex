@@ -1,21 +1,22 @@
 \documentclass[a4paper,11pt]{article}
-\usepackage[margin=2cm]{geometry}
-\usepackage{graphicx}
-\usepackage{color, colortbl}
-\usepackage{cite}
-\usepackage{url}
-\usepackage{float}
-\usepackage{arydshln}
-\usepackage{pdfpages}
-\usepackage{csvsimple}
-\usepackage{listings}
 \usepackage{algpseudocode}
-\usepackage{longtable}
-\usepackage{pdflscape}
-\usepackage{indentfirst}
-\usepackage{mathtools}
 \usepackage{amsmath}
 \usepackage{amssymb}
+\usepackage{arydshln}
+\usepackage{cite}
+\usepackage{color, colortbl}
+\usepackage{csvsimple}
+\usepackage{float}
+\usepackage{graphicx}
+\usepackage{indentfirst}
+\usepackage{listings}
+\usepackage{longtable}
+\usepackage[margin=2cm]{geometry}
+\usepackage{mathtools}
+\usepackage{pdfpages}
+\usepackage{pdflscape}
+\usepackage{url}
+\usepackage{verbatim}
 
 \usepackage{tikz}
 \usetikzlibrary{matrix,chains,positioning,decorations.pathreplacing,arrows,calc}
@@ -444,7 +445,7 @@ By computing the test error on a large and unchanging sample of images, one obta
 	\caption{test and validation error rates for clamp detection after fixing a large test range}
 \end{figure}
 
-I trained AlexNet on 100k images of 3 different classes with class imbalance (1 class takes up 90\% of data), ~40\% mis-labelling, and a very small learning rate (0.0001). The emerging periodicity of the training error corresponds to the number of batches, so it looks like the parameters have stopped changing, ie the network has reached a local minimum. Why does no overfitting take place? There is not much data compared to capacity of the network, there is a weight decay of 0.0005,  there is no dropout. Since overfitting hasn't been reached, maybe this is a poor local minimum?﻿\\
+I trained AlexNet on 100k images of 3 different classes with class imbalance (1 class takes up 90\% of data), ~40\% mis-labelling, and a very small learning rate (0.0001). The emerging periodicity of the training error corresponds to the number of batches, so it looks like the parameters have stopped changing, ie the network has reached a local minimum (flesh out the intuition for why periodicity implies convergence, just going around in the same circle). Why does no overfitting take place? There is not much data compared to capacity of the network, there is a weight decay of 0.0005,  there is no dropout. Since overfitting hasn't been reached, maybe this is a poor local minimum?﻿\\
 
 Francis Quintal Lauzon: I would tend to think learning was indeed stuck, though I would not go so far as to suggest this is caused by a local minimum.
 Indeed, I have sometimes seen long plateaus followed by sudden steep drop in error.  One way I see this is learning with a given learning rate and reducing the learning rate when validation error (or rather, a smoothed version of the validation error) stops going down.  This suggest than rather being stuck at a local minima, learning is simply blundering around some minimum, may be because of a combination of the local shape of the cost surface and learning steps too large. \\
@@ -462,11 +463,60 @@ Francis Quintal Lauzon: I trained on much larger (though highly correlated) data
 
 Another striking aspect is how volatile the training error is, even when the test error is stable. This could be interpreted as the network's parameters having converged to values that make it good on certain batches, and bad on others. What is curious is that this would suggest that the contents of some batches are very different from one another (unless one considers the paper "Intriguing Properties of Neural Networks"). Therefore, it might be interesting to look at these batches in detail. \\
 
+
+
+\paragraph{Stuck in Sampling-Induced, "fake" Corner Minimum}
+
+I trained a neural network to detect clamps in the images. It very quickly converged to logprob 0.4, i.e. 10\% classification error, as can be seen in attachment.
+
+But what is surprising is that the training error remains in the neighbourhood of the test error, without converging to zero and without the network overfitting (should converge to zero since neural networks are 'good' universal approximators).
+
+I played around with momentum and the learning rate, which typically help to deal with plateaus, tight bowls, and poor local minima. (you can see it on the graph, the test error jitters a bit more, and then becomes completely constant, and the amplitude of the training error varies a bit). It didn't help.
+
+The reason for why the network converges quickly to logprob 0.4 minimum, and stays there, without ever overfitting, is because severe class imbalance has introduced a "fake" minimum in a "corner" of the error surface. (By error surface, I mean error on the z axis, and parameter values on all the other axes). This local minimum is very hard to get out of because it's quite deep (you get 10\% error rate - it might even be the global minimum), and it's far away from where the "real" minima are. \\
+
+To find evidence to support this claim, we can use the periodicity in the training error to verify the claim that the network is stuck in this deep, fake, corner minimum: take the batches that consistently score very high train error, take those that consistently score very low, and look at the images. Between the top scoring ones and the low scoring ones, is there a significant different in the proportion of "clamp detected" images? Or is there a significant difference in something else (eg unsuitable photos, mis-labelling)?
+
+Intuitively, the network goes like "wait a second, if I output 'clamp detected' every time, then I get 10\% error, that's awesome, let's just do that."
+
+sutop is a list of the absolute best performing batches in terms of training error
+top is a list of top performing
+worst is a list of worst
+suworst is a list of absolute worst
 top performing batches: 280, 543, (195, 185, 177, 157, 156, 147, 143, 82, 67, 53, 19, 18 and others)
 worst performing batches: 152, (302, 162, 105, 87, 60, 39, 736, 710, 643, 631 and others)
 280, 543 achieve 0.18-0.22, the others are in the 0.20s. 152 achieves 0.7-0.8 error, the others achieve in the 0.60s. \\
 
-I think the determining characteristic is either mis-labelled proportion, or visual type of image.
+%\begin{comment}
+\begin{table}[h]
+   \centering
+    \begin{tabular}{|l|c|c|c|}
+    \hline
+    Training Error   & ~  "Clamp Detected"  & ~ "No Clamps"        & ~ "Clamps Not Sufficiently Visible" \\ \hline
+    18-22\%          & ~  0.96484375        & ~  0.0234375         & ~  0.01171875 \\
+    20-29\%          & ~  0.94161184        & ~  0.03371711        & ~  0.02467105 \\
+    60-69\%          & ~  0.81534091        & ~  0.10795455        & ~  0.07670455 \\
+    70-82\%          & ~  0.765625          & ~  0.15625           & ~     0.078125   \\
+    \hline
+    \end{tabular}
+    \caption {Class Proportions Across Batches that Score Different Training Errors}
+\end{table} 
+%\end{comment}
+
+\begin{table}[h]
+   \centering
+    \begin{tabular}{|l|c|}
+    \hline
+    Characteristic                 & Count  \\ \hline
+    Perfect (no labels)  & ~ 49,039 \\
+    \hline
+    \end{tabular}
+    \caption {Count of Redbox images with given label}
+\end{table} 
+
+This suggests that the only thing that determines error is proportion of non-"clamp detected" cases. this is very strong evidence that the net has learned to output "clamp detected" all the time.
+
+Do you think I should try and find completely foolproof evidence? Like running dummy input through the network?
 
 \subsubsection{Alter Momentum}
 
@@ -504,7 +554,8 @@ The test error stops to jitter completely. So the tiny pulses observed during co
 
 \subsubsection{Reduce Learning Rate}
 
-train_output.txt contains data to plot this. Good to put it in to show that you have checked everything meticulously, and to show that it's evidence for the hypothesis of stuck in corner solution.
+$train_output.txt$ contains data to plot this. Good to put it in to show that you have checked everything meticulously, and to show that it's evidence for the hypothesis of stuck in corner solution.
+
 
 
 \subsubsection{Tackle Tight Bowl Zig-zagging}
@@ -518,6 +569,12 @@ train_output.txt contains data to plot this. Good to put it in to show that you 
 
 \clearpage
 \section{Conclusions and Future Work}
+
+The realisation that weird sampling can heavily dent the approximation of the error surface has raised questions:
+
+How does the training set provide an approximation of the true error surface? Since it can introduce dangerous minima, does that mean that, formally, it does not always provide an extrema-conserving approximation of the true error surface? Theoretically, what are the conditions for obtaining an extrema-conserving approximation (i.e. that doesn't introduce fake minima)? Practically, can we perform transformations on the cost function, or do stuff to our data (sampling), to limit the introduction of fake minima? 
+
+Could we answer these questions if, instead of facing the usual problem of having a training set sampled from an unknown distribution, we ran a completely artificial experiment where we start with a known distribution? That way, we know the true error surface, and as we draw samples from the distribution, we can look at how each one approximates the true error surface, how it introduces bad minima? 
 
 
 
