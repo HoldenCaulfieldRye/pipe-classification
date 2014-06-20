@@ -20,19 +20,43 @@ def parse_command(sysargv):
   return sutop, top, worst, suworst
 
 
-def unpickle(listoflists):
-  return [[pickle.load(open('data_batch_'+num)) for num in imglist]
-          for imglist in listoflists]
+def unpickle(fnum):
+  # pickle_label = open('batches.meta')
+  return pickle.load(open('data_batch_'+fnum))
 
 
-def get_stats(batch_dir, sutop=None, top=None, worst=None, suworst=None):
-    os.chdir(get_dir)
+def unflatten(batch):
+  batch['data'] = batch['data'].reshape(batch['data'].shape[1],
+                                        256, 256, 3) # shape[1]?
+  batch['data'] = np.require(batch['data'],
+                             dtype=np.uint8, requirements='W')
+  return batch
 
-    listoflists = unpickle([sutop, top, worst, suworst])
-    listoflists = unflatten()
+
+def get_stats(batch_dir, dictlists):
+  label_frequency = {}
+  os.chdir(batch_dir)
+
+  for imglist in dictlists.keys():
+    dictlists[imglist] = [unpickle(fnum) for fnum
+                          in dictlists[imglist]]
+    # dictlists[imglist] = [unflatten(batch) for batch in imglist]
+    label_frequency[imglist] = np.zeros(len(imglist[0]['labels']))
+    for batch in label_frequency[imglist]:
+      for label in batch['labels']:
+        # assume batch['labels'][i] € {0,1,2,..,numclasses}
+        label_frequency[imglist][label] += 1
+    label_frequency[imglist] /= sum(label_frequency[imglist])
+
+  return label_frequency
+
+
+def store_imgs(dictlists, visual_inspect_dir=os.getcwd()):
+  # create dirs in tree structure
+  for root in dictlists:
+    os.mkdir(visual_inspect_dir+'/'+root)
     
-    # pickle_label = open('batches.meta')
-
+  
 
 
   
@@ -40,8 +64,16 @@ if __name__ == '__main__':
 
   print "eg: python batch_stats --dir=/data/batches --sutop==1,2 --top=3,4 --worst=5,6 --suworst=7,8"
 
-  sutop, top, worst, suworst = parse_command(sys.argv)
+  dictlists = {}
+  dictlists['sutop'], dictlists['top'], dictlists['worst'], dictlists['suworst'] = parse_command(sys.argv)
   
-  print "check: batch_dir: %s, sutop: %s, top: %s, worst: %s, suworst: %s"%(batch_dir,sutop,top,worst,suworst)
+  print "check: batch_dir: %s, sutop: %s, top: %s, worst: %s, suworst: %s"%(batch_dir,dictlists['sutop'],dictlists['top'], dictlists['worst'], dictlists['suworst'])
     
-  get_stats(batch_dir, sutop, top, worst, suworst)
+  label_frequency = get_stats(batch_dir, dictlists)
+  print "batch perf\t| clamp detected\t| no clamp\t| semi clamp"
+  print "sutop\t| %s"  % (label_frequency['sutop'])
+  print "top\t| %s"    % (label_frequency['top'])
+  print "worst\t| %s"  % (label_frequency['worst'])
+  print "suworst\t| %s"% (label_frequency['suworst'])
+
+  store_imgs(dictlists)
