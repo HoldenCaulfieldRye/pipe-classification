@@ -5,7 +5,7 @@ def parse_command(sysargv):
   for param in [sutop, top, worst, suworst]:
     param = None
     
-  batch_dir = sys.argv[1]
+  batch_dir = os.path.abspath(sys.argv[1])
   for arg in sys.argv[2:]:
     if arg.startswith("--sutop="):
       sutop = arg.split('=')[-1].split(',')
@@ -43,7 +43,7 @@ def get_stats(batch_dir, dictlists):
     label_frequency[imglist] = np.zeros(len(imglist[0]['labels']))
     for batch in label_frequency[imglist]:
       for label in batch['labels']:
-        # assume batch['labels'][i] € {0,1,2,..,numclasses}
+        # assume batch['labels'][i] in {0,1,2,..,numclasses}
         label_frequency[imglist][label] += 1
     label_frequency[imglist] /= sum(label_frequency[imglist])
 
