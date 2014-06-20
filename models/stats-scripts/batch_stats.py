@@ -20,10 +20,18 @@ def parse_command(sysargv):
   return sutop, top, worst, suworst
 
 
+def unpickle(listoflists):
+  return [[pickle.load(open('data_batch_'+num)) for num in imglist]
+          for imglist in listoflists]
+
+
 def get_stats(batch_dir, sutop=None, top=None, worst=None, suworst=None):
     os.chdir(get_dir)
-    pickle_label = open('batches.meta')
-    pickle_imgs = open(data_filename)
+
+    listoflists = unpickle([sutop, top, worst, suworst])
+    listoflists = unflatten()
+    
+    # pickle_label = open('batches.meta')
 
 
 
