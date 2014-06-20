@@ -1,9 +1,10 @@
+import numpy as np
+import cPickle as pickle
 import sys, os
 
 
 def parse_command(sysargv):
-  for param in [sutop, top, worst, suworst]:
-    param = None
+  sutop, top, worst, suworst = [[] for dummy in range(4)]
     
   batch_dir = os.path.abspath(sys.argv[1])
   for arg in sys.argv[2:]:
@@ -36,15 +37,18 @@ def get_stats(batch_dir, dictlists):
   label_frequency = {}
   os.chdir(batch_dir)
 
+  meta = pickle.load(open('batches.meta'))
+  num_classes = len(meta['label_names'])
+
   for imglist in dictlists.keys():
     dictlists[imglist] = [unpickle(fnum) for fnum
                           in dictlists[imglist]]
     # dictlists[imglist] = [unflatten(batch) for batch in imglist]
-    label_frequency[imglist] = np.zeros(len(imglist[0]['labels']))
-    for batch in label_frequency[imglist]:
-      for label in batch['labels']:
-        # assume batch['labels'][i] in {0,1,2,..,numclasses}
-        label_frequency[imglist][label] += 1
+    label_frequency[imglist] = np.zeros(num_classes)
+    for batch in dictlists[imglist]:
+      for i in range(len(batch['labels'][0])):
+        # assume batch['labels'][0][i] in {0,1,2,..,numclasses}
+        label_frequency[imglist][batch['labels'][0][i]] += 1
     label_frequency[imglist] /= sum(label_frequency[imglist])
 
   return label_frequency
@@ -70,10 +74,10 @@ if __name__ == '__main__':
     
   label_frequency = get_stats(batch_dir, dictlists)
 
-  print "batch perf\t| clamp detected\t| no clamp\t| semi clamp"
-  print "sutop\t| %s"  % (label_frequency['sutop'])
-  print "top\t| %s"    % (label_frequency['top'])
-  print "worst\t| %s"  % (label_frequency['worst'])
-  print "suworst\t| %s"% (label_frequency['suworst'])
+  print "batch perf | clamp yes    | no clamp | semi clamp"
+  print "sutop\t   | %s"  % (label_frequency['sutop'])
+  print "top\t   | %s"    % (label_frequency['top'])
+  print "worst\t   | %s"  % (label_frequency['worst'])
+  print "suworst\t   | %s"% (label_frequency['suworst'])
 
   # store_imgs(dictlists)
