@@ -4,7 +4,7 @@ import sys, os
 
 
 def parse_command(sysargv):
-  sutop, top, worst, suworst = [None for dummy in range(4)]
+  sutop, top, worst, suworst = [[] for dummy in range(4)]
     
   batch_dir = os.path.abspath(sys.argv[1])
   for arg in sys.argv[2:]:
@@ -74,10 +74,10 @@ if __name__ == '__main__':
     
   label_frequency = get_stats(batch_dir, dictlists)
 
-  print "batch perf\t| clamp detected\t| no clamp\t| semi clamp"
-  print "sutop\t| %s"  % (label_frequency['sutop'])
-  print "top\t| %s"    % (label_frequency['top'])
-  print "worst\t| %s"  % (label_frequency['worst'])
-  print "suworst\t| %s"% (label_frequency['suworst'])
+  print "batch perf | clamp yes    | no clamp | semi clamp"
+  print "sutop\t   | %s"  % (label_frequency['sutop'])
+  print "top\t   | %s"    % (label_frequency['top'])
+  print "worst\t   | %s"  % (label_frequency['worst'])
+  print "suworst\t   | %s"% (label_frequency['suworst'])
 
   # store_imgs(dictlists)
