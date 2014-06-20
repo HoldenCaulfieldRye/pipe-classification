@@ -4,20 +4,19 @@ import sys, os
 def parse_command(sysargv):
   for param in [sutop, top, worst, suworst]:
     param = None
+    
+  batch_dir = sys.argv[1]
+  for arg in sys.argv[2:]:
+    if arg.startswith("--sutop="):
+      sutop = arg.split('=')[-1].split(',')
+    if arg.startswith("--top="):
+      top = arg.split('=')[-1].split(',')
+    if arg.startswith("--worst="):
+      worst = arg.split('=')[-1].split(',')
+    if arg.startswith("--suworst="):
+      suworst = arg.split('=')[-1].split(',')
 
-  for arg in sys.argv:
-  if arg.startswith("--dir="):
-    batch_dir = arg.split('=')[-1].split(',')
-  if arg.startswith("--sutop="):
-    sutop = arg.split('=')[-1].split(',')
-  if arg.startswith("--top="):
-    top = arg.split('=')[-1].split(',')
-  if arg.startswith("--worst="):
-    worst = arg.split('=')[-1].split(',')
-  if arg.startswith("--suworst="):
-    suworst = arg.split('=')[-1].split(',')
-
-  return sutop, top, worst, suworst
+  return batch_dir, [sutop, top, worst, suworst]
 
 
 def unpickle(fnum):
@@ -62,18 +61,19 @@ def store_imgs(dictlists, visual_inspect_dir=os.getcwd()):
   
 if __name__ == '__main__':
 
-  print "eg: python batch_stats --dir=/data/batches --sutop==1,2 --top=3,4 --worst=5,6 --suworst=7,8"
+  print "eg: python batch_stats.py /data/batches --sutop==1,2 --top=3,4 --worst=5,6 --suworst=7,8"
 
   dictlists = {}
-  dictlists['sutop'], dictlists['top'], dictlists['worst'], dictlists['suworst'] = parse_command(sys.argv)
+  batch_dir, [dictlists['sutop'], dictlists['top'], dictlists['worst'], dictlists['suworst']] = parse_command(sys.argv)
   
   print "check: batch_dir: %s, sutop: %s, top: %s, worst: %s, suworst: %s"%(batch_dir,dictlists['sutop'],dictlists['top'], dictlists['worst'], dictlists['suworst'])
     
   label_frequency = get_stats(batch_dir, dictlists)
+
   print "batch perf\t| clamp detected\t| no clamp\t| semi clamp"
   print "sutop\t| %s"  % (label_frequency['sutop'])
   print "top\t| %s"    % (label_frequency['top'])
   print "worst\t| %s"  % (label_frequency['worst'])
   print "suworst\t| %s"% (label_frequency['suworst'])
 
-  store_imgs(dictlists)
+  # store_imgs(dictlists)
