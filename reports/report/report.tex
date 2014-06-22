@@ -371,19 +371,6 @@ One possible solution would be to use a different cost function: the F-measure \
 classes. Moreover, one would need to ensure that the range of the error is as large as possible for a softmax activation unit, whose own output range is merely $[0;1]$. \\ \\
 
 
-\section{Progress}
-
-Following the installation of an open source API for a GPU implementation of a CNN, the pre-processing of the data, and the implementation of data handlers for feeding data into the CUDA code, several instances of large-scale CNNs have been trained on a simplifed task: that of detecting clamps in Redbox images. 
-
-\subsection{Implementation: Cuda-Convnet}
-
-\subsubsection{Test Run}
-
-As mentioned above, several 
- 
-
-The first four explanations are either easy to remedy or interesting to research (particularly the implementation of a wide-ranging, fully differentiable F-Measure, or the import of a pre-trained network). However, if the data is heavily mis-labeled, there may be little that can be done to make this learning task feasible. The next step therefore consists in determining how well-labeled the data is, by way of manual visual inspection on a random (therefore hopefully representative) sample of the training data. \\ \\
-
 
 
 \clearpage
@@ -395,28 +382,33 @@ The first four explanations are either easy to remedy or interesting to research
 \clearpage
 \section{Implementation}
 
+\subsection{Cuda-Convnet}
+
+Cuda-Convnet is a GPU implementation of a deep convolutional neural network implemented in CUDA/C++. It was written by Alex Krizhevsky to train the net that set ground-breaking records at the ILSVRC 2012 competition, and subsequently open-sourced. However, parts of his work are missing and his open source repository is not sufficient to reproduce his network. In order to do so, data batching scripts were written for turning raw .jpg images and separate .dat files into pickled python objects each containing 128 stacked jpg values in matrix format with RGB values split across, and a dictionary of labels and metadata for the network. \\
+
+\subsubsection{Theano}
 
 
 
 \clearpage
 \section{Experimentation}
 
-\subsection{Cuda-Convnet}
+A number of unexpected challenges arose throughout the implementation of the learning task. This section is divided into challenge subsections, as they appeared chronologically, and how they were dealt with.
 
-Cuda-Convnet is a GPU implementation of a deep convolutional neural network implemented in CUDA/C++. It was written by Alex Krizhevsky to train the net that set ground-breaking records at the ILSVRC 2012 competition, and subsequently open-sourced. However, parts of his work are missing and his open source repository is not sufficient to reproduce his network. In order to do so, data batching scripts were written for turning raw .jpg images and separate .dat files into pickled python objects each containing 128 stacked jpg values in matrix format with RGB values split across, and a dictionary of labels and metadata for the network. \\
+\subsection{Non-Converging Error Rates}
 
-\subsubsection{Test Runs}
-
-The first large-scale CNNs to be trained achieved encouraging results. LOOK THROUGH ENTIRE DOCUMENT, when talking about this training, the classification validation error achieved was 11\%, not 40\%! It may also be good to get a test error.
+The first large-scale CNNs to be trained showed confusing results. LOOK THROUGH ENTIRE DOCUMENT, when talking about this training, the classification validation error achieved was 11\%, not 40\%! It may also be good to get a test error.
 
 They were trained on the clamp detection task using the Redbox data only. The purpose of these models is to set a benchmark for the difficulty of the classification task, by taking several out-of-the-box network configurations: namely, those found on open source projects or detailed in papers \cite{krizhevsky},\cite{transfer-learning}, \cite{decaf}. \\
 
-The classification task is a challenging one: indeed, none of the training sessions have shown any signs of parameter convergence, as the below plot of the validation error over batch iterations can show. 
+The classification task is a challenging one: indeed, none of the training sessions have shown any signs of parameter convergence, as the below plot of the training and validation errors over batch iterations can show. These results are very confusing: backpropagation is guaranteed to converge [cite! go into more detail about this! include the proof in your background!], and yet both training and validation errors seem stuck in volatile periodicity.
+
+You should also justify why you are not bothering with the test error!
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.5]{images/logprob.png}
-	\caption{validation error rate over batch training iterations}
+	\includegraphics[scale=0.5]{images/test_run.png}
+	\caption{Test Run Training Results}
 \end{figure}
 
 The error being shown is the negative of the log probability of the likelihood function:
@@ -425,19 +417,20 @@ The error being shown is the negative of the log probability of the likelihood f
 \end{equation}
 Where f is the cost function I think. So in this case it is the cross entropy I think. \\
 
-There is a wide number of potential explanations for this indirected 'choppiness' in the error rate:
+A number of potential explanations for the volatile periodic error rates were considered:
 \begin{itemize}
 \item The learning rates are too high (the minimum gets 'overshot' even when the direction of partial derivatives is correct)
 \item The dropout rate is too high (dropout is a technique which consists in randomly dropping out neurons from the net at every iteration to prevent overfit - but it also means that a different model is tested every time)
 \item The number of parameters is too high (the out-of-the-box implementation contains millions of parameters, which is more than than the number of training cases, so collinearities between the parameters cannot even be broken, and most of them are rendered useless)
 \item Class imbalance (not enough information about the clampless classes to be able to learn feature for them)
 \item Mis-labeled data (at the time of human tagging of these images, tags were left out) \ldots
+\item The error rates are not computed correctly \ldots
 \end{itemize}
 
 
-\subsubsection{Increase Test Error Precision}
+\paragraph{Increase Test Error Precision}
 
-By computing the test error on a large and unchanging sample of images, one obtains more precise estimates.
+By computing the test error on a large and unchanging sample of images, one obtains more precise estimates, and convergence can clearly be seen.
 
 \begin{figure}[h!]
 	\centering
@@ -461,8 +454,45 @@ Francis Quintal Lauzon: I trained on much larger (though highly correlated) data
 
 \paragraph{Volatility of Training Error}
 
-Another striking aspect is how volatile the training error is, even when the test error is stable. This could be interpreted as the network's parameters having converged to values that make it good on certain batches, and bad on others. What is curious is that this would suggest that the contents of some batches are very different from one another (unless one considers the paper "Intriguing Properties of Neural Networks"). Therefore, it might be interesting to look at these batches in detail. \\
+Another striking aspect is how volatile the training error is, even when the test error is stable. That the training error is computed correctly was checked by training an out-of-the-box net on a well-documented task: MNIST. Therefore, it was established that in this setup, the training error is indeed volatile and periodic despite the validation error converging, and that an explanation must exist. This could be interpreted as the network's parameters having converged to values that make it good on certain batches, and bad on others. What is curious is that this would suggest that the contents of some batches are very different from one another (unless one considers the paper "Intriguing Properties of Neural Networks"). Therefore, it might be interesting to look at these batches in detail. \\
 
+\paragraph{Alter Momentum}
+
+What is momentum for?
+
+the intuition (maybe wrong): if a smaller learning rate and zero momentum could help you deal with a plateau, it means that moving in very small steps is better. but if a plateau is a continuous flat surface, then surely a smaller step will take you longer to reach the other side? 
+on the other hand, if you're in a very tight and stretched bowl, or if there's a very narrow ditch surrounded by a plateau, then the smaller step will help?﻿
+
+\subparagraph{Increase}
+
+Is that used to get past the local minimum? Or is it used to rush past a plateau?
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/raise_momentum.png}
+	\caption{test and validation error rates for clamp detection after raising momentum}
+\end{figure}
+
+Barely noticeable change in train error: still periodic, slightly different shape of period. Slight increase in test error though. Can interpret that weight updates are slightly less optimal since they don't follow the direction given by the gradients, since there's this extra momentum factor, which is bigger.
+
+\subparagraph{Decrease}
+
+Because Francis Quintal Lauzon says so. But does he mean to reduce it once you're done with the plateau?
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/change_momentum.png}
+	\caption{test and validation error rates for clamp detection after setting momentum to zero}
+\end{figure}
+
+The training error decreases a little on average (would be good to assert this statistically). Once again, because momentum is not 	distorting direction of descent.
+
+The test error stops to jitter completely. So the tiny pulses observed during convergence (i.e. between 5000 batches and 35000) were caused by momentum. I guess it's the result of going upslope a bit just in case there's a better minimum nearby. Could be interesting to put a stupidly high momentum like 1.5 to double check that jittering indeed gets even bigger. Who knows, this might settle the network in another minimum. 
+
+
+\paragraph{Reduce Learning Rate}
+
+$train_output.txt$ contains data to plot this. Good to put it in to show that you have checked everything meticulously, and to show that it's evidence for the hypothesis of stuck in corner solution.
 
 
 \paragraph{Stuck in Sampling-Induced, "fake" Corner Minimum}
@@ -492,79 +522,43 @@ worst performing batches: 152, (302, 162, 105, 87, 60, 39, 736, 710, 643, 631 an
    \centering
     \begin{tabular}{|l|c|c|c|}
     \hline
-    Training Error   & ~  "Clamp Detected"  & ~ "No Clamps"        & ~ "Clamps Not Sufficiently Visible" \\ \hline
+    Training Error   & ~  "Clamps Detected"  & ~ "No Clamps"        & ~ "Clamps Not Sufficiently Visible" \\ \hline
     18-22\%          & ~  0.96484375        & ~  0.0234375         & ~  0.01171875 \\
     20-29\%          & ~  0.94161184        & ~  0.03371711        & ~  0.02467105 \\
     60-69\%          & ~  0.81534091        & ~  0.10795455        & ~  0.07670455 \\
-    70-82\%          & ~  0.765625          & ~  0.15625           & ~     0.078125   \\
+    70-82\%          & ~  0.765625          & ~  0.15625           & ~  0.078125   \\
     \hline
     \end{tabular}
     \caption {Class Proportions Across Batches that Score Different Training Errors}
 \end{table} 
 %\end{comment}
 
-\begin{table}[h]
-   \centering
-    \begin{tabular}{|l|c|}
-    \hline
-    Characteristic                 & Count  \\ \hline
-    Perfect (no labels)  & ~ 49,039 \\
-    \hline
-    \end{tabular}
-    \caption {Count of Redbox images with given label}
-\end{table} 
+Would be nice to add the plot of the errors and point to which batches the spikes correspond to\\
 
 This suggests that the only thing that determines error is proportion of non-"clamp detected" cases. this is very strong evidence that the net has learned to output "clamp detected" all the time.
 
 Do you think I should try and find completely foolproof evidence? Like running dummy input through the network?
 
-\subsubsection{Alter Momentum}
 
-What is momentum for?
+\subsection{Class Imbalance}
 
-the intuition (maybe wrong): if a smaller learning rate and zero momentum could help you deal with a plateau, it means that moving in very small steps is better. but if a plateau is a continuous flat surface, then surely a smaller step will take you longer to reach the other side? 
-on the other hand, if you're in a very tight and stretched bowl, or if there's a very narrow ditch surrounded by a plateau, then the smaller step will help?﻿
+Three approaches were taken to tackle class imbalance, the first ones being simplest to implement, the last ones most sophisticated and information-preserving.
 
-\paragraph{Increase}
+\paragraph{Subset of Training Set}
 
-Is that used to get past the local minimum? Or is it used to rush past a plateau?
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/raise_momentum.png}
-	\caption{test and validation error rates for clamp detection after raising momentum}
-\end{figure}
-
-Barely noticeable change in train error: still periodic, slightly different shape of period. Slight increase in test error though. Can interpret that weight updates are slightly less optimal since they don't follow the direction given by the gradients, since there's this extra momentum factor, which is bigger.
-
-\paragraph{Decrease}
-
-Because Francis Quintal Lauzon says so. But does he mean to reduce it once you're done with the plateau?
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/change_momentum.png}
-	\caption{test and validation error rates for clamp detection after setting momentum to zero}
-\end{figure}
-
-The training error decreases a little on average (would be good to assert this statistically). Once again, because momentum is not 	distorting direction of descent.
-
-The test error stops to jitter completely. So the tiny pulses observed during convergence (i.e. between 5000 batches and 35000) were caused by momentum. I guess it's the result of going upslope a bit just in case there's a better minimum nearby. Could be interesting to put a stupidly high momentum like 1.5 to double check that jittering indeed gets even bigger. Who knows, this might settle the network in another minimum. 
-
-
-\subsubsection{Reduce Learning Rate}
-
-$train_output.txt$ contains data to plot this. Good to put it in to show that you have checked everything meticulously, and to show that it's evidence for the hypothesis of stuck in corner solution.
+CNNs were trained on all of the "No Clamps" or "Clamps Not Sufficiently Visible" images, and a random sample containing 15\% of the "Clamps Detected" images, in order to obtain an acceptably balanced dataset. This fix was easiest to implement and served as a benchmark for the more sophisticated subsequent approaches. Naturally, one would also expect this approach to be least effective: 85\% of the training data was lost, data which could intuitively serve not to teach the network to distinguish classes, but to learn features that are good encoders of pipe weld images, from which an effective discriminative setup of the parameters could ensue. \\
 
 
 
-\subsubsection{Tackle Tight Bowl Zig-zagging}
+\paragraph{Partial Data Augmentation}
 
-\subsubsection{Transfer Learning}
+\paragraph{F Measure}
 
-\subsubsection{Theano}
+\subsection{Tight Bowl Zig-zagging}
 
-\subsubsection{Data Augmentation}
+\subsection{Transfer Learning}
+
+
 
 
 \clearpage

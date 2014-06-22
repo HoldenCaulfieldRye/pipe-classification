@@ -25,23 +25,23 @@
 \contentsline {subsubsection}{\numberline {1.4.3}Domain Change}{10}
 \contentsline {subsubsection}{\numberline {1.4.4}Small Dataset Size}{11}
 \contentsline {subsubsection}{\numberline {1.4.5}Class Imbalance}{12}
-\contentsline {section}{\numberline {2}Progress}{12}
-\contentsline {subsection}{\numberline {2.1}Implementation: Cuda-Convnet}{12}
-\contentsline {subsubsection}{\numberline {2.1.1}Test Run}{12}
-\contentsline {section}{\numberline {3}Design}{13}
-\contentsline {section}{\numberline {4}Implementation}{14}
-\contentsline {section}{\numberline {5}Experimentation}{15}
-\contentsline {subsection}{\numberline {5.1}Cuda-Convnet}{15}
-\contentsline {subsubsection}{\numberline {5.1.1}Test Runs}{15}
-\contentsline {subsubsection}{\numberline {5.1.2}Increase Test Error Precision}{16}
+\contentsline {section}{\numberline {2}Design}{13}
+\contentsline {section}{\numberline {3}Implementation}{14}
+\contentsline {subsection}{\numberline {3.1}Cuda-Convnet}{14}
+\contentsline {subsubsection}{\numberline {3.1.1}Theano}{14}
+\contentsline {section}{\numberline {4}Experimentation}{15}
+\contentsline {subsection}{\numberline {4.1}Non-Converging Error Rates}{15}
+\contentsline {paragraph}{Increase Test Error Precision}{16}
 \contentsline {paragraph}{Volatility of Training Error}{17}
-\contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{17}
-\contentsline {subsubsection}{\numberline {5.1.3}Alter Momentum}{18}
-\contentsline {paragraph}{Increase}{18}
-\contentsline {paragraph}{Decrease}{18}
-\contentsline {subsubsection}{\numberline {5.1.4}Reduce Learning Rate}{19}
-\contentsline {subsubsection}{\numberline {5.1.5}Tackle Tight Bowl Zig-zagging}{19}
-\contentsline {subsubsection}{\numberline {5.1.6}Transfer Learning}{19}
-\contentsline {subsubsection}{\numberline {5.1.7}Theano}{19}
-\contentsline {subsubsection}{\numberline {5.1.8}Data Augmentation}{19}
-\contentsline {section}{\numberline {6}Conclusions and Future Work}{20}
+\contentsline {paragraph}{Alter Momentum}{17}
+\contentsline {subparagraph}{Increase}{17}
+\contentsline {subparagraph}{Decrease}{18}
+\contentsline {paragraph}{Reduce Learning Rate}{18}
+\contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{18}
+\contentsline {subsection}{\numberline {4.2}Class Imbalance}{19}
+\contentsline {paragraph}{Subset of Training Set}{19}
+\contentsline {paragraph}{Partial Data Augmentation}{19}
+\contentsline {paragraph}{F Measure}{19}
+\contentsline {subsection}{\numberline {4.3}Tight Bowl Zig-zagging}{19}
+\contentsline {subsection}{\numberline {4.4}Transfer Learning}{19}
+\contentsline {section}{\numberline {5}Conclusions and Future Work}{20}
