@@ -560,6 +560,10 @@ CNNs were trained on all of the "No Clamps" or "Clamps Not Sufficiently Visible"
 
 
 
+\subsection{Image Preprocessing}
+
+blurring if only colour matters, grey-scale if only shape matters, filter from ControlPoint.
+
 
 \clearpage
 \section{Conclusions and Future Work}
@@ -570,6 +574,7 @@ How does the training set provide an approximation of the true error surface? Si
 
 Could we answer these questions if, instead of facing the usual problem of having a training set sampled from an unknown distribution, we ran a completely artificial experiment where we start with a known distribution? That way, we know the true error surface, and as we draw samples from the distribution, we can look at how each one approximates the true error surface, how it introduces bad minima? 
 
+How does mis-labelling alter the error surface? Intuitively, it would seem that it lifts up the true minima only, making the false minima even more attractive (e.g.\ "labelling is so bad it's too confusing, there's just nothing to distinguish them, so I might as well go for the blind strategy of outputting clamp detected all the time").
 
 
 \begin{thebibliography}{1}
