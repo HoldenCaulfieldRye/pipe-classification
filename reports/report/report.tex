@@ -382,12 +382,24 @@ classes. Moreover, one would need to ensure that the range of the error is as la
 \clearpage
 \section{Implementation}
 
+The implementation quickly ran into unforeseen challenges which required experimentation to overcome. Therefore, this section is a mere overview of the hardware and software used to implement the design. How these were used is explained in the next section. \\
+
+\subsection{Hardware}
+
+CUDA-enabled GPU. How many teraflops? Which operations are parallelised? 
+First a GTX GeForce 780 with 4GB RAM, then a Titan Black etc. 
+
 \subsection{Cuda-Convnet}
 
 Cuda-Convnet is a GPU implementation of a deep convolutional neural network implemented in CUDA/C++. It was written by Alex Krizhevsky to train the net that set ground-breaking records at the ILSVRC 2012 competition, and subsequently open-sourced. However, parts of his work are missing and his open source repository is not sufficient to reproduce his network. In order to do so, data batching scripts were written for turning raw .jpg images and separate .dat files into pickled python objects each containing 128 stacked jpg values in matrix format with RGB values split across, and a dictionary of labels and metadata for the network. \\
 
 \subsubsection{Theano}
 
+python wrappers for CUDA, LISA. Uses some of Krizhevsky's cuda-convnet code. \\
+
+Greater flexibility than cuda-convnet, which is monolithic to some extent. \\
+
+symbolic programming - completely new to me, took time. \\
 
 
 \clearpage
@@ -395,7 +407,9 @@ Cuda-Convnet is a GPU implementation of a deep convolutional neural network impl
 
 A number of unexpected challenges arose throughout the implementation of the learning task. This section is divided into challenge subsections, as they appeared chronologically, and how they were dealt with.
 
-\subsection{Non-Converging Error Rates}
+
+
+\subsubsection{Non-Converging Error Rates}
 
 The first large-scale CNNs to be trained showed confusing results. LOOK THROUGH ENTIRE DOCUMENT, when talking about this training, the classification validation error achieved was 11\%, not 40\%! It may also be good to get a test error.
 
@@ -540,7 +554,7 @@ This suggests that the only thing that determines error is proportion of non-"cl
 Do you think I should try and find completely foolproof evidence? Like running dummy input through the network?
 
 
-\subsection{Class Imbalance}
+\subsubsection{Class Imbalance}
 
 Three approaches were taken to tackle class imbalance, the first ones being simplest to implement, the last ones most sophisticated and information-preserving.
 

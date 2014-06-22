@@ -44,4 +44,5 @@
 \contentsline {paragraph}{F Measure}{19}
 \contentsline {subsection}{\numberline {4.3}Tight Bowl Zig-zagging}{19}
 \contentsline {subsection}{\numberline {4.4}Transfer Learning}{19}
+\contentsline {subsection}{\numberline {4.5}Image Preprocessing}{19}
 \contentsline {section}{\numberline {5}Conclusions and Future Work}{20}
