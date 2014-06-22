@@ -405,8 +405,11 @@ symbolic programming - completely new to me, took time. \\
 \clearpage
 \section{Experimentation}
 
-A number of unexpected challenges arose throughout the implementation of the learning task. This section is divided into challenge subsections, as they appeared chronologically, and how they were dealt with.
+As mentioned in the previously, a number of unexpected challenges arose throughout the implementation of the learning tasks. This section is therefore divided into task subsections, each of which contain challenge subsubsections, describing how they were dealt with.
 
+\subsection{Task 1: Clamp Detection}
+
+Clamp detection was suggested by ControlPoint as a simple test run for training a CNN on their dataset. It was a standard single-tag task with few classes, so implementation was not as difficult as multi-tag, and the detection task in itself was deemed simple since clamps are large objects which would be easy to see. Moreover, four significant obstacles arose: non-converging error rates, class imbalance, data complexity, and mis-labelling.\\
 
 
 \subsubsection{Non-Converging Error Rates}
@@ -465,8 +468,6 @@ I guess another possibility is that I'm zigzagging in a very tight bowl, but see
 
 Francis Quintal Lauzon: I trained on much larger (though highly correlated) dataset so I never trained for 44 epochs.  I did use learning rate of the same magnitude you are using and still, reducing it after a plateau does help (in my experience).  If you are using momentum, you also might want to reset any momentum to zero after facing a plateau (this might helps as well).﻿\\
 
-
-\paragraph{Volatility of Training Error}
 
 Another striking aspect is how volatile the training error is, even when the test error is stable. That the training error is computed correctly was checked by training an out-of-the-box net on a well-documented task: MNIST. Therefore, it was established that in this setup, the training error is indeed volatile and periodic despite the validation error converging, and that an explanation must exist. This could be interpreted as the network's parameters having converged to values that make it good on certain batches, and bad on others. What is curious is that this would suggest that the contents of some batches are very different from one another (unless one considers the paper "Intriguing Properties of Neural Networks"). Therefore, it might be interesting to look at these batches in detail. \\
 
@@ -563,20 +564,30 @@ Three approaches were taken to tackle class imbalance, the first ones being simp
 CNNs were trained on all of the "No Clamps" or "Clamps Not Sufficiently Visible" images, and a random sample containing 15\% of the "Clamps Detected" images, in order to obtain an acceptably balanced dataset. This fix was easiest to implement and served as a benchmark for the more sophisticated subsequent approaches. Naturally, one would also expect this approach to be least effective: 85\% of the training data was lost, data which could intuitively serve not to teach the network to distinguish classes, but to learn features that are good encoders of pipe weld images, from which an effective discriminative setup of the parameters could ensue. \\
 
 
+\subsubsection{Data Complexity}
+
+Several weeks into training, it was discovered by visual inspection and extended communication with ControlPoint staff that there existed 6 completely different types of clamps -- one for each different type of pipe joint [insert photos of different clamp types here]. It was also discovered that in a significant number of cases the glint of a clamp was sufficient to judge it present, and that in other cases the presence of clamps in certain areas of the pipes did not count as clamp presence [have images to illustrate this point]. This makes learning very difficult, as a class can be pictured as a disjoint set of subclasses, some of which fine-grained, and that one subclass could trigger a false positive of another class.\\
+
+The solution was to train a classifier capable of recognising the type of joint having been welded, using the small subset of data which contained joint-type labels, in order to try and tag the remaining dataset. The advantage of knowing the joint-type is that we can isolate clamp types, and train a classifier on s single type of clamp. That way, the learning task is simplified, and one is able to focus on the other challenges. \\
+
 
 \paragraph{Partial Data Augmentation}
 
 \paragraph{F Measure}
 
-\subsection{Tight Bowl Zig-zagging}
+\subsection{Task 2: Clamp Detector}
 
-\subsection{Transfer Learning}
+\subsubsection{Small Dataset: Transfer Learning}
 
+Use transfer learning to make up for the lack of training examples. \\
 
+\subsection{Task 3: Full Multi-Tagging Pipe Weld Classification Task}
 
-\subsection{Image Preprocessing}
+\subsubsection{Tight Bowl Zig-zagging}
 
-blurring if only colour matters, grey-scale if only shape matters, filter from ControlPoint.
+\subsubsection{Image Preprocessing}
+
+blurring if only colour matters, grey-scale if only shape matters, filter from ControlPoint. \\
 
 
 \clearpage
