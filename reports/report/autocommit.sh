@@ -1,0 +1,9 @@
+#!/bin/bash
+
+if ps -ef | grep "texmaker report.tex" ; then
+    git commit -a -m "auto-commit progress on report"
+    git push origin master
+    exit 0
+else
+    exit 0
+fi
