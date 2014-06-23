@@ -320,28 +320,30 @@ ControlPoint recently upgraded the photographical equipment with which photos ar
 
 \begin{table}[h]
    \centering
-    \begin{tabular}{|l|c|}
+    \begin{tabular}{|l|c|c|}
     \hline
-    Characteristic                 & Count  \\ \hline
-    No Ground Sheet  & ~  30,015 \\
-    No Insertion Depth Markings  & ~ 17,667 \\
-    No Visible Hatch Markings  & ~ 28,155 \\
-    Other  & ~  251 \\
-    Photo Does Not Show Enough Of Clamps  & ~ 5,059 \\
-    Photo Does Not Show Enough Of Scrape Zones  & ~ 21,272 \\
-    Fitting Proximity  & ~  1,233 \\
-    Soil Contamination Low Risk  & ~ 10 \\
-    Unsuitable Scraping Or Peeling  & ~ 2,125 \\
-    Water Contamination Low Risk  & ~ 3 \\
-    Joint Misaligned  & ~  391 \\
-    Inadequate Or Incorrect Clamping  & ~ 1,401 \\
-    No Clamp Used  & ~  8,041 \\
-    No Visible Evidence Of Scraping Or Peeling  & ~ 25,499 \\
-    Soil Contamination High Risk  & ~ 6,541 \\
-    Water Contamination High Risk  & ~ 1,927 \\
-    Unsuitable Photo  & ~ 2 \\
+    Characteristic                              & ~ Redbox Count  & ~ Bluebox Count \\ \hline
+    Fitting Proximity                           & ~  1,233        & ~ 32      \\
+    Inadequate Or Incorrect Clamping            & ~ 1,401         & ~ 83      \\
+    Joint Misaligned                            & ~ 391           & ~ 35      \\
+    No Clamp Used                               & ~ 8,041         & ~ 1,571   \\
+    No Ground Sheet                             & ~  30,015       & ~ 5,541   \\
+    No Insertion Depth Markings                 & ~ 17,667        & ~ 897     \\
+    No Visible Evidence Of Scraping Or Peeling  & ~ 25,499        & ~ 1,410   \\
+    No Visible Hatch Markings                   & ~ 28,155        & ~ 3,793   \\
+    Other                                       & ~  251          & ~ 103     \\
+    Photo Does Not Show Enough Of Clamps        & ~ 5,059         & ~ 363     \\
+    Photo Does Not Show Enough Of Scrape Zones  & ~ 21,272        & ~ 2,545   \\
+    Soil Contamination High Risk                & ~ 6,541         & ~ 3       \\
+    Soil Contamination Low Risk                 & ~ 10            & ~ N/A     \\
+    Soil Contamination Risk                     & ~ ?             & ~ 529     \\
+    Unsuitable Photo                            & ~ 2             & ~ N/A     \\
+    Unsuitable Scraping Or Peeling              & ~ 2,125         & ~ 292     \\
+    Water Contamination High Risk               & ~ 1,927         & ~ 9       \\
+    Water Contamination Low Risk                & ~ 3             & ~ 7       \\
+	Water Contamination Risk                    & ~ ?             & ~ 296     \\
      \hline
-    Perfect (no labels)  & ~ 49,039 \\
+    Perfect (no labels)                         & ~ 49,039        & ~ 4,182   \\
     \hline
     \end{tabular}
     \caption {Count of Redbox images with given label}
@@ -380,8 +382,8 @@ classes. Moreover, one would need to ensure that the range of the error is as la
 
 \clearpage
 
-\clearpage
 \section{Task 1: Generic Clamp Detection}
+
 
 \subsection{Motivations}
 
@@ -463,7 +465,7 @@ They were trained on the clamp detection task using the Redbox data only. The pu
 
 The classification task is a challenging one: indeed, none of the training sessions have shown any signs of parameter convergence, as the below plot of the training and validation errors over batch iterations can show. These results are very confusing: backpropagation is guaranteed to converge [cite! go into more detail about this! include the proof in your background!], and yet both training and validation errors seem stuck in volatile periodicity.
 
-You should also justify why you are not bothering with the test error!
+You should also justify why you are not bothering with the test error! Because test error optimum is obtained at validation error optimum; test error is merely a truly impartial measure of performance. A bunch of research contents itself with validation error when merely iterating through various models. 
 
 \begin{figure}[h!]
 	\centering
@@ -636,6 +638,17 @@ To generate additional labels that help with learning tasks and create commercia
 \subsection{Design}
 
 \subsection{Implementation}
+
+\subsubsection{Caffe}
+
+Caffe is a framework for convolutional neural network algorithms, created by Yangqing Jia, and is in active development by the Berkeley Vision and Learning Center. It was chosen in order to implement transfer learning, or pretraining. Not like standard unsupervised pretraining, since this time, training was supervised, but on another dataset. So end result is pretty much the same, though it would be interesting to compare the two approaches. (unsupervised pretraining on ImageNet vs supervised pretraining on ImageNet). \\
+ 
+The network pretrained on ImageNet is licensed for academic research, and is for non-commercial use only. Therefore, if ControlPoint wishes to make commercial use of a network whose weights were initialised from it, it would have to pretrain its own net on a dataset on which there are no such licensing restrictions. \\
+
+
+
+
+
 
 \subsubsection{Training the Joint-Type Classifier}
 
