@@ -320,26 +320,26 @@ ControlPoint recently upgraded the photographical equipment with which photos ar
 
 \begin{table}[h]
    \centering
-    \begin{tabular}{|l|c|}
+    \begin{tabular}{|l|c|c|}
     \hline
-    Characteristic                 & Count  \\ \hline
-    No Ground Sheet  & ~  30,015 \\
-    No Insertion Depth Markings  & ~ 17,667 \\
-    No Visible Hatch Markings  & ~ 28,155 \\
-    Other  & ~  251 \\
-    Photo Does Not Show Enough Of Clamps  & ~ 5,059 \\
-    Photo Does Not Show Enough Of Scrape Zones  & ~ 21,272 \\
-    Fitting Proximity  & ~  1,233 \\
-    Soil Contamination Low Risk  & ~ 10 \\
-    Unsuitable Scraping Or Peeling  & ~ 2,125 \\
-    Water Contamination Low Risk  & ~ 3 \\
-    Joint Misaligned  & ~  391 \\
-    Inadequate Or Incorrect Clamping  & ~ 1,401 \\
-    No Clamp Used  & ~  8,041 \\
-    No Visible Evidence Of Scraping Or Peeling  & ~ 25,499 \\
-    Soil Contamination High Risk  & ~ 6,541 \\
-    Water Contamination High Risk  & ~ 1,927 \\
-    Unsuitable Photo  & ~ 2 \\
+    Characteristic                              & ~ Redbox Count  & ~ Bluebox Count \\ \hline
+    No Ground Sheet                             & ~  30,015       & ~ 5,541   \\
+    No Insertion Depth Markings                 & ~ 17,667        & ~ 897     \\
+    No Visible Hatch Markings                   & ~ 28,155        & ~ 3,793   \\
+    Other                                       & ~  251          & ~ 103     \\
+    Photo Does Not Show Enough Of Clamps        & ~ 5,059         & ~ 363     \\
+    Photo Does Not Show Enough Of Scrape Zones  & ~ 21,272        & ~ 2,545   \\
+    Fitting Proximity                           & ~  1,233        & ~ 32      \\
+    Soil Contamination Low Risk                 & ~ 10            & ~ N/A     \\
+    Unsuitable Scraping Or Peeling              & ~ 2,125         & ~ 292     \\
+    Water Contamination Low Risk                & ~ 3             & ~ 7       \\
+    Joint Misaligned                            & ~ 391           & ~ 35      \\
+    Inadequate Or Incorrect Clamping            & ~ 1,401         & ~ 83      \\
+    No Clamp Used                               & ~ 8,041         & ~ 1,571   \\
+    No Visible Evidence Of Scraping Or Peeling  & ~ 25,499        & ~ 1,410   \\
+    Soil Contamination High Risk                & ~ 6,541         & ~ 3       \\
+    Water Contamination High Risk               & ~ 1,927         & ~ 9       \\
+    Unsuitable Photo                            & ~ 2             & ~ N/A     \\
      \hline
     Perfect (no labels)  & ~ 49,039 \\
     \hline
@@ -380,7 +380,6 @@ classes. Moreover, one would need to ensure that the range of the error is as la
 
 \clearpage
 
-\clearpage
 \section{Task 1: Generic Clamp Detection}
 
 
