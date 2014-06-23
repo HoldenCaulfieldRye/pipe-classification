@@ -439,7 +439,7 @@ Worse still, sometimes the presence of clamps "doesn't count": these are cases f
 	\includegraphics[width=0.35\linewidth]{images/clamp_confuse_2.jpg}
 	\includegraphics[width=0.26\linewidth]{images/clamp_confuse_3.jpg}
 	\includegraphics[width=0.35\linewidth]{images/clamp_confuse_1.jpg}
-	\caption{Straight Coupler with Clamps}
+	\caption{Clamps of different shape}
 \end{figure}
 
 This makes learning very difficult, as a class can be pictured as a disjoint set of subclasses, some of which fine-grained, and that one subclass could trigger a false positive of another class.\\
