@@ -1,1 +1,1 @@
-0,10,20,30,40,50 * * * * ./autocommit.sh >/dev/null 2>&1
+0,10,20,30,40,50 * * * * /home/alex/Git/pipe-classification/reports/report/autocommit.sh >> /home/alex/Git/pipe-classification/reports/report/cron_output.txt 2>&1

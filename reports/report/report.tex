@@ -96,7 +96,7 @@ Practically speaking, the reason for why this task involves multiple tags per im
     No Visible Evidence Of Scraping Or Peeling  & ~ 50 \\
     Soil Contamination High Risk  & ~ 50 \\
     Water Contamination High Risk  & ~ 50 \\
-    Unsuitable Photo  & ~ 100 \\de
+    Unsuitable Photo  & ~ 100 \\
     \hline
     \end{tabular}
     \caption {Code Coverage for Request Server}
@@ -563,6 +563,15 @@ Three approaches were taken to tackle class imbalance, the first ones being simp
 
 CNNs were trained on all of the "No Clamps" or "Clamps Not Sufficiently Visible" images, and a random sample containing 15\% of the "Clamps Detected" images, in order to obtain an acceptably balanced dataset. This fix was easiest to implement and served as a benchmark for the more sophisticated subsequent approaches. Naturally, one would also expect this approach to be least effective: 85\% of the training data was lost, data which could intuitively serve not to teach the network to distinguish classes, but to learn features that are good encoders of pipe weld images, from which an effective discriminative setup of the parameters could ensue. \\
 
+\paragraph{Partial Data Augmentation}
+
+\paragraph{F Measure}
+
+
+
+\subsection{Task 2: Clamp Detector}
+
+This task arose as a result of data complexity, which is therefore featured as a first challenge below. \\
 
 \subsubsection{Data Complexity}
 
@@ -570,12 +579,6 @@ Several weeks into training, it was discovered by visual inspection and extended
 
 The solution was to train a classifier capable of recognising the type of joint having been welded, using the small subset of data which contained joint-type labels, in order to try and tag the remaining dataset. The advantage of knowing the joint-type is that we can isolate clamp types, and train a classifier on s single type of clamp. That way, the learning task is simplified, and one is able to focus on the other challenges. \\
 
-
-\paragraph{Partial Data Augmentation}
-
-\paragraph{F Measure}
-
-\subsection{Task 2: Clamp Detector}
 
 \subsubsection{Small Dataset: Transfer Learning}
 
