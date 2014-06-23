@@ -601,7 +601,15 @@ This suggests that the only thing that determines error is proportion of non-"cl
 	\caption{test and validation error rates for clamp detection after setting momentum to zero}
 \end{figure}
 
+It can also be interesting to notice that no meaningful features are learned: for example, the filters learned at the lowest convoltional layer in optimised networks usually resemble edge or contrast detectors: in this case, they look noisy. 
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/good_filters.png}
+	\caption{filters learned from a successfully optimised lowest convolutional layer}
+	\includegraphics[scale=0.5]{images/bad_filters.png}
+	\caption{filters learned at lowest convolutional layer of this network}
+\end{figure}
 
 \subsubsection{Class Imbalance}
 
