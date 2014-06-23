@@ -593,10 +593,23 @@ worst performing batches: 152, (302, 162, 105, 87, 60, 39, 736, 710, 643, 631 an
 
 Would be nice to add the plot of the errors and point to which batches the spikes correspond to. \\
 
-This suggests that the only thing that determines error is proportion of non-"clamp detected" cases. this is very strong evidence that the net has learned to output "clamp detected" all the time. \\
+This suggests that the only thing that determines error is proportion of non-"clamp detected" cases. this is strong evidence that the net has learned to output "clamp detected" all the time. More evidence can be obtained by looking at which mis-classifications occur: ten mis-classification results such as the one below were processed, and in all cases the mis-classifications were the same: "Clamp Detected" was wrongly output, with maximum confidence.\\
 
-Do you think I should try and find completely foolproof evidence? Like running dummy input through the network? \\
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/preds9.png}
+	\caption{test and validation error rates for clamp detection after setting momentum to zero}
+\end{figure}
 
+It can also be interesting to notice that no meaningful features are learned: for example, the filters learned at the lowest convolutional layer in optimised networks usually resemble edge or contrast detectors: in this case, they look noisy. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/good_filters.png} % need to crop to get side by side
+	\caption{filters learned from a successfully optimised lowest convolutional layer} 
+	\includegraphics[scale=0.5]{images/bad_filters.png}  % need to crop to get side by side
+	\caption{filters learned at lowest convolutional layer of this network}
+\end{figure}
 
 \subsubsection{Class Imbalance}
 
