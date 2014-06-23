@@ -383,13 +383,13 @@ classes. Moreover, one would need to ensure that the range of the error is as la
 \clearpage
 \section{Task 1: Generic Clamp Detection}
 
-\subsection{Motivations: Assumed Simplicity}
+\subsection{Motivations}
 
 Clamp detection was suggested by ControlPoint as a simple test run for training a CNN on their dataset. It was a standard single-tag task with few classes, so implementation was not as difficult as multi-tag, and the detection task in itself was deemed simple since clamps are large objects which would be easy to see. Moreover, four significant obstacles arose: non-converging error rates, class imbalance, data complexity, and mis-labelling.\\
 
-\subsection{Design: AlexNet}
+\subsection{Design}
 
-\subsubsection{Overview}
+\subsubsection{AlexNet: State-of-the-art Benchmark}
 
 Winner of ILSVRC 2012 by far. Decent out-of-the-box benchmark for rapid evaluation of data complexity. \\
 Trained on a bigger dataset, so expected overfit to occur quickly. \\
@@ -415,18 +415,18 @@ Why do conv layers 3 and 4 not have it? \\
 \paragraph{Softmax Output Layer}
 
 
-\subsection{Implementation: Out-of-the-box API}
+\subsection{Implementation}
 
-\subsubsection{Cuda-Convnet}
+\subsubsection{Cuda-Convnet: An Out-of-the-box API}
 
 Cuda-Convnet is a GPU implementation of a deep convolutional neural network implemented in CUDA/C++. It was written by Alex Krizhevsky to train the net that set ground-breaking records at the ILSVRC 2012 competition, and subsequently open-sourced. However, parts of his work are missing and his open source repository is not sufficient to reproduce his network. In order to do so, data batching scripts were written for turning raw .jpg images and separate .dat files into pickled python objects each containing 128 stacked jpg values in matrix format with RGB values split across, and a dictionary of labels and metadata for the network. \\
 
-\subsubsection{Hardware}
+\subsubsection{Hardware: NVidia GeForce GTX 780}
 
 CUDA-enabled GPU. How many teraflops? Which operations are parallelised? 
-First a GTX GeForce 780 with 4GB RAM. 
+First a GeForce GTX 780 with 4GB RAM. 
 
-\subsubsection{Summary}
+\subsubsection{Summary: Considerable Unforeseen Challenges}
 
 DOES THIS SUBSUBSECTION REALLY BELONG HERE? yes I would say so, but may need to be edited so that it just mentions how tough the task turned out to be, and that the obstacles which were discovered lead to devising a new task, that of joint-type classification. Perhaps also mention that unsupervised learning was considered to deal with the mis-labelled data, the reasons for why this was put aside (discussions with ControlPoint), but that it would make for interesting further research? Maybe it should be renamed to summary, and be included as final subsubsection of every implementation subsection? \\
 
@@ -435,7 +435,7 @@ Several weeks into training, it was discovered by visual inspection and extended
 The solution was to train a classifier capable of recognising the type of joint having been welded, using the small subset of data which contained joint-type labels, in order to try and tag the remaining dataset. The advantage of knowing the joint-type is that we can isolate clamp types, and train a classifier on s single type of clamp. That way, the learning task is simplified, and one is able to focus on the other challenges. \\
 
 
-\subsection{Experimentation: Non-Converging Error Rates and Class Imbalance}
+\subsection{Experimentation}
 
 \subsubsection{Non-Converging Error Rates}
 
@@ -600,6 +600,8 @@ CNNs were trained on all of the "No Clamps" or "Clamps Not Sufficiently Visible"
 
 \subsection{Motivations}
 
+To generate additional labels that help with learning tasks and create commercial value for ControlPoint. \\
+
 \subsection{Design}
 
 \subsection{Implementation}
@@ -628,6 +630,8 @@ Use transfer learning to make up for the lack of training examples. \\
 
 \subsection{Implementation}
 
+\subsubsection{Summary}
+
 \subsubsection{Theano}
 
 python wrappers for CUDA, LISA. Uses some of Krizhevsky's cuda-convnet code. \\
@@ -644,26 +648,11 @@ Moving from the GTX 780 to a Titan Black with ... \\
 
 \subsection{Experimentation}
 
-
-
-
-\clearpage
-
-\subsection{Motivations}
-
-\subsection{Design}
-
-\subsection{Implementation}
-
-\subsubsection{Summary}
-
-\subsection{Experimentation}
-
 \subsubsection{Tight Bowl Zig-zagging}
 
 \subsubsection{Image Preprocessing}
 
-blurring if only colour matters, grey-scale if only shape matters, filter from ControlPoint. \\
+Blurring if only colour matters, grey-scale if only shape matters, filter from ControlPoint. \\
 
 
 \clearpage

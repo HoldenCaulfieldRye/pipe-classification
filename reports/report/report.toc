@@ -27,9 +27,9 @@
 \contentsline {subsubsection}{\numberline {2.4.4}Small Dataset Size}{13}
 \contentsline {subsubsection}{\numberline {2.4.5}Class Imbalance}{13}
 \contentsline {section}{\numberline {3}Task 1: Generic Clamp Detection}{14}
-\contentsline {subsection}{\numberline {3.1}Motivations: Assumed Simplicity}{14}
-\contentsline {subsection}{\numberline {3.2}Design: AlexNet}{14}
-\contentsline {subsubsection}{\numberline {3.2.1}Overview}{14}
+\contentsline {subsection}{\numberline {3.1}Motivations}{14}
+\contentsline {subsection}{\numberline {3.2}Design}{14}
+\contentsline {subsubsection}{\numberline {3.2.1}AlexNet: State-of-the-art Benchmark}{14}
 \contentsline {subsubsection}{\numberline {3.2.2}Network Architecture: Large-Scale Convolutional Neural Network}{14}
 \contentsline {paragraph}{Convolutional Layer}{14}
 \contentsline {subparagraph}{Convolution}{14}
@@ -37,11 +37,11 @@
 \contentsline {subparagraph}{Normalisation}{14}
 \contentsline {paragraph}{Fully Connected Layer}{14}
 \contentsline {paragraph}{Softmax Output Layer}{14}
-\contentsline {subsection}{\numberline {3.3}Implementation: Out-of-the-box API}{14}
-\contentsline {subsubsection}{\numberline {3.3.1}Cuda-Convnet}{14}
-\contentsline {subsubsection}{\numberline {3.3.2}Hardware}{14}
-\contentsline {subsubsection}{\numberline {3.3.3}Summary}{15}
-\contentsline {subsection}{\numberline {3.4}Experimentation: Non-Converging Error Rates and Class Imbalance}{15}
+\contentsline {subsection}{\numberline {3.3}Implementation}{14}
+\contentsline {subsubsection}{\numberline {3.3.1}Cuda-Convnet: An Out-of-the-box API}{14}
+\contentsline {subsubsection}{\numberline {3.3.2}Hardware: NVidia GeForce GTX 780}{14}
+\contentsline {subsubsection}{\numberline {3.3.3}Summary: Considerable Unforeseen Challenges}{15}
+\contentsline {subsection}{\numberline {3.4}Experimentation}{15}
 \contentsline {subsubsection}{\numberline {3.4.1}Non-Converging Error Rates}{15}
 \contentsline {paragraph}{Increase Test Error Precision}{16}
 \contentsline {paragraph}{Alter Momentum}{17}
@@ -67,14 +67,10 @@
 \contentsline {subsection}{\numberline {5.1}Motivations}{22}
 \contentsline {subsection}{\numberline {5.2}Design}{22}
 \contentsline {subsection}{\numberline {5.3}Implementation}{22}
-\contentsline {subsubsection}{\numberline {5.3.1}Theano}{22}
-\contentsline {subsubsection}{\numberline {5.3.2}Hardware}{22}
+\contentsline {subsubsection}{\numberline {5.3.1}Summary}{22}
+\contentsline {subsubsection}{\numberline {5.3.2}Theano}{22}
+\contentsline {subsubsection}{\numberline {5.3.3}Hardware}{22}
 \contentsline {subsection}{\numberline {5.4}Experimentation}{22}
-\contentsline {subsection}{\numberline {5.5}Motivations}{23}
-\contentsline {subsection}{\numberline {5.6}Design}{23}
-\contentsline {subsection}{\numberline {5.7}Implementation}{23}
-\contentsline {subsubsection}{\numberline {5.7.1}Summary}{23}
-\contentsline {subsection}{\numberline {5.8}Experimentation}{23}
-\contentsline {subsubsection}{\numberline {5.8.1}Tight Bowl Zig-zagging}{23}
-\contentsline {subsubsection}{\numberline {5.8.2}Image Preprocessing}{23}
-\contentsline {section}{\numberline {6}Conclusions and Future Work}{24}
+\contentsline {subsubsection}{\numberline {5.4.1}Tight Bowl Zig-zagging}{22}
+\contentsline {subsubsection}{\numberline {5.4.2}Image Preprocessing}{22}
+\contentsline {section}{\numberline {6}Conclusions and Future Work}{23}

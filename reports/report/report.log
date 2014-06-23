@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  23 JUN 2014 14:26
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  23 JUN 2014 14:36
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1261,7 +1261,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [20]
-Underfull \hbox (badness 10000) in paragraph at lines 619--620
+Underfull \hbox (badness 10000) in paragraph at lines 603--604
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 621--622
 
  []
 
@@ -1274,22 +1279,27 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [21
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 633--634
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 635--636
-
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 637--638
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 642--644
+Underfull \hbox (badness 10000) in paragraph at lines 639--640
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 641--642
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 646--648
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 655--656
 
  []
 
@@ -1302,7 +1312,27 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [22
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 666--667
+Underfull \hbox (badness 10000) in paragraph at lines 663--664
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 665--666
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 667--668
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 669--670
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 689--691
 
  []
 
@@ -1313,39 +1343,6 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [23
-
-]
-Underfull \hbox (badness 10000) in paragraph at lines 674--675
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 676--677
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 678--679
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 680--681
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 700--702
-
- []
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[24
 
 ]
 Missing character: There is no Ã in font cmr10!
@@ -1363,7 +1360,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[25] (./report.aux)
+[24] (./report.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -1393,10 +1390,10 @@ y10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on report.pdf (25 pages, 1348066 bytes).
+Output written on report.pdf (24 pages, 1347414 bytes).
 PDF statistics:
- 171 PDF objects out of 1000 (max. 8388607)
- 106 compressed objects within 2 object streams
+ 167 PDF objects out of 1000 (max. 8388607)
+ 103 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  88 words of extra memory for PDF output out of 10000 (max. 10000000)
 
