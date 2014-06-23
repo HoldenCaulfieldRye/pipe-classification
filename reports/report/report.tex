@@ -430,16 +430,22 @@ First a GeForce GTX 780 with 4GB RAM.
 
 DOES THIS SUBSUBSECTION REALLY BELONG HERE? yes I would say so, but may need to be edited so that it just mentions how tough the task turned out to be, and that the obstacles which were discovered lead to devising a new task, that of joint-type classification. Perhaps also mention that unsupervised learning was considered to deal with the mis-labelled data, the reasons for why this was put aside (discussions with ControlPoint), but that it would make for interesting further research? Maybe it should be renamed to summary, and be included as final subsubsection of every implementation subsection? \\
 
-Several weeks into training, it was discovered by visual inspection and extended communication with ControlPoint staff that there existed 6 completely different types of clamps -- one for each different type of pipe joint [insert photos of different clamp types here]. It was also discovered that in the case of tapping-T joints, for the Redbox images, the glint of a slim portion of a clamp is sufficient to judge it present. \\
-
-Worse still, sometimes the presence of clamps "doesn't count": these are cases for which the purpose of the clamp is other than to secure the welding. Therefore, if such a clamp is present, but the clamp that serves to secure the weld is absent, then the image is assigned the "No Clamps" label. For example, a "tree" is used on a specific joint-type, in which case is to hold the pipe in place, but not to secure the welding. As can be seen, a "tree" looks a lot like the clamp used for another joint-type, the straight coupler!
+Several weeks into training, it was discovered that in the case of tapping-T joints, for the Redbox images, the glint of a slim portion of a clamp is sufficient to judge it present. \\
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.35\linewidth]{images/clamp_confuse_1.jpg}
-	\includegraphics[width=0.35\linewidth]{images/clamp_confuse_2.jpg}
-	\includegraphics[width=0.26\linewidth]{images/clamp_confuse_3.jpg}
-	\caption{soil contamination risk (left), water contamination risk (centre), no risk (right)}
+	\includegraphics[width=0.35\linewidth]{images/tapping-T.jpg}
+	\caption{The clamp wraps around under the pipe - the glint of a metal rod gives it away}
+\end{figure}
+
+Worse still, sometimes the presence of clamps "doesn't count": these are cases for which the purpose of the clamp is other than to secure the welding. Therefore, if such a clamp is present, but the clamp that serves to secure the weld is absent, then the image is assigned the "No Clamps" label. For example, bottom left, a clamp can clearly be seen, but it's not a weld clamp. So this image should have a "No Clamps" flag raised (sadly, it doesn't). Bottom right: the thin metallic clamp that is fastened on the vertical pipe is not the clamp we're interested in. The glint from the thin metallic rod going along the thick, horizontal pipe tells us that a tapping-T clamp is present, even though that clamp is hidden underneath the pipe. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.35\linewidth]{images/truly_confusing_1.jpg}
+	\caption{This clamp is not a weld clamp}
+	\includegraphics[width=0.35\linewidth]{images/truly_confusing_2.jpg}
+	\caption{The clamp on the vertical rod is not a weld clamp}
 \end{figure}
 
 This makes learning very difficult, as a class can be pictured as a disjoint set of subclasses, some of which fine-grained, and that one subclass could trigger a false positive of another class.\\
