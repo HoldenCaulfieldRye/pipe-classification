@@ -426,7 +426,7 @@ Cuda-Convnet is a GPU implementation of a deep convolutional neural network impl
 CUDA-enabled GPU. How many teraflops? Which operations are parallelised? 
 First a GeForce GTX 780 with 4GB RAM. 
 
-\subsubsection{Summary}
+\subsubsection{Summary: Considerable Unforeseen Challenges}
 
 DOES THIS SUBSUBSECTION REALLY BELONG HERE? yes I would say so, but may need to be edited so that it just mentions how tough the task turned out to be, and that the obstacles which were discovered lead to devising a new task, that of joint-type classification. Perhaps also mention that unsupervised learning was considered to deal with the mis-labelled data, the reasons for why this was put aside (discussions with ControlPoint), but that it would make for interesting further research? Maybe it should be renamed to summary, and be included as final subsubsection of every implementation subsection? \\
 
@@ -435,7 +435,7 @@ Several weeks into training, it was discovered by visual inspection and extended
 The solution was to train a classifier capable of recognising the type of joint having been welded, using the small subset of data which contained joint-type labels, in order to try and tag the remaining dataset. The advantage of knowing the joint-type is that we can isolate clamp types, and train a classifier on s single type of clamp. That way, the learning task is simplified, and one is able to focus on the other challenges. \\
 
 
-\subsection{Experimentation: Non-Converging Error Rates and Class Imbalance}
+\subsection{Experimentation}
 
 \subsubsection{Non-Converging Error Rates}
 
@@ -630,6 +630,8 @@ Use transfer learning to make up for the lack of training examples. \\
 
 \subsection{Implementation}
 
+\subsubsection{Summary}
+
 \subsubsection{Theano}
 
 python wrappers for CUDA, LISA. Uses some of Krizhevsky's cuda-convnet code. \\
@@ -646,26 +648,11 @@ Moving from the GTX 780 to a Titan Black with ... \\
 
 \subsection{Experimentation}
 
-
-
-
-\clearpage
-
-\subsection{Motivations}
-
-\subsection{Design}
-
-\subsection{Implementation}
-
-\subsubsection{Summary}
-
-\subsection{Experimentation}
-
 \subsubsection{Tight Bowl Zig-zagging}
 
 \subsubsection{Image Preprocessing}
 
-blurring if only colour matters, grey-scale if only shape matters, filter from ControlPoint. \\
+Blurring if only colour matters, grey-scale if only shape matters, filter from ControlPoint. \\
 
 
 \clearpage
