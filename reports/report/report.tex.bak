@@ -383,6 +383,7 @@ classes. Moreover, one would need to ensure that the range of the error is as la
 \clearpage
 \section{Task 1: Generic Clamp Detection}
 
+
 \subsection{Motivations}
 
 Clamp detection was suggested by ControlPoint as a simple test run for training a CNN on their dataset. It was a standard single-tag task with few classes, so implementation was not as difficult as multi-tag, and the detection task in itself was deemed simple since clamps are large objects which would be easy to see. Moreover, four significant obstacles arose: non-converging error rates, class imbalance, data complexity, and mis-labelling.\\
@@ -463,7 +464,7 @@ They were trained on the clamp detection task using the Redbox data only. The pu
 
 The classification task is a challenging one: indeed, none of the training sessions have shown any signs of parameter convergence, as the below plot of the training and validation errors over batch iterations can show. These results are very confusing: backpropagation is guaranteed to converge [cite! go into more detail about this! include the proof in your background!], and yet both training and validation errors seem stuck in volatile periodicity.
 
-You should also justify why you are not bothering with the test error!
+You should also justify why you are not bothering with the test error! Because test error optimum is obtained at validation error optimum; test error is merely a truly impartial measure of performance. A bunch of research contents itself with validation error when merely iterating through various models. 
 
 \begin{figure}[h!]
 	\centering
@@ -601,13 +602,13 @@ This suggests that the only thing that determines error is proportion of non-"cl
 	\caption{test and validation error rates for clamp detection after setting momentum to zero}
 \end{figure}
 
-It can also be interesting to notice that no meaningful features are learned: for example, the filters learned at the lowest convoltional layer in optimised networks usually resemble edge or contrast detectors: in this case, they look noisy. 
+It can also be interesting to notice that no meaningful features are learned: for example, the filters learned at the lowest convolutional layer in optimised networks usually resemble edge or contrast detectors: in this case, they look noisy. 
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.5]{images/good_filters.png}
-	\caption{filters learned from a successfully optimised lowest convolutional layer}
-	\includegraphics[scale=0.5]{images/bad_filters.png}
+	\includegraphics[scale=0.5]{images/good_filters.png} % need to crop to get side by side
+	\caption{filters learned from a successfully optimised lowest convolutional layer} 
+	\includegraphics[scale=0.5]{images/bad_filters.png}  % need to crop to get side by side
 	\caption{filters learned at lowest convolutional layer of this network}
 \end{figure}
 
@@ -636,6 +637,17 @@ To generate additional labels that help with learning tasks and create commercia
 \subsection{Design}
 
 \subsection{Implementation}
+
+\subsubsection{Caffe}
+
+Caffe is a framework for convolutional neural network algorithms, created by Yangqing Jia, and is in active development by the Berkeley Vision and Learning Center. It was chosen in order to implement transfer learning, or pretraining. Not like standard unsupervised pretraining, since this time, training was supervised, but on another dataset. So end result is pretty much the same, though it would be interesting to compare the two approaches. (unsupervised pretraining on ImageNet vs supervised pretraining on ImageNet). \\
+ 
+The network pretrained on ImageNet is licensed for academic research, and is for non-commercial use only. Therefore, if ControlPoint wishes to make commercial use of a network whose weights were initialised from it, it would have to pretrain its own net on a dataset on which there are no such licensing restrictions. \\
+
+
+
+
+
 
 \subsubsection{Training the Joint-Type Classifier}
 
