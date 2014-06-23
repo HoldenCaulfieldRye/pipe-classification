@@ -63,6 +63,11 @@ In terms of progress, several instances of large-scale neural networks have been
 \tableofcontents
 
 \clearpage
+
+\section{Introduction}
+
+The background goes through the essential material regarding machine learning with feed-forward neural networks. Since this project was experimental from an early phase, the rest of the report is divided into chapters each of which go over the conceptual motivations, the design and the implementation of a main experiment. \\
+
 \section{Background}
 
 This project aims to automate the classification of pipe weld images with deep neural networks. After explaining and formalising the problem, we will explain fundamental concepts in machine learning, then go on to explain the architecture of a deep convolutional neural network with restricted linear units, and finally explain how the network is trained with stochastic gradient descent, backpropagation and dropout. The last sections focus on three challenges specific to the pipe weld image classification task: multi-tagging, learning features from a restricted training set, and class imbalance.
@@ -374,47 +379,67 @@ classes. Moreover, one would need to ensure that the range of the error is as la
 
 
 \clearpage
-\section{Design}
-
-
-
 
 \clearpage
-\section{Implementation}
+\section{Task 1: Generic Clamp Detection}
 
-The implementation quickly ran into unforeseen challenges which required experimentation to overcome. Therefore, this section is a mere overview of the hardware and software used to implement the design. How these were used is explained in the next section. \\
-
-\subsection{Hardware}
-
-CUDA-enabled GPU. How many teraflops? Which operations are parallelised? 
-First a GTX GeForce 780 with 4GB RAM, then a Titan Black etc. 
-
-\subsection{Cuda-Convnet}
-
-Cuda-Convnet is a GPU implementation of a deep convolutional neural network implemented in CUDA/C++. It was written by Alex Krizhevsky to train the net that set ground-breaking records at the ILSVRC 2012 competition, and subsequently open-sourced. However, parts of his work are missing and his open source repository is not sufficient to reproduce his network. In order to do so, data batching scripts were written for turning raw .jpg images and separate .dat files into pickled python objects each containing 128 stacked jpg values in matrix format with RGB values split across, and a dictionary of labels and metadata for the network. \\
-
-\subsubsection{Theano}
-
-python wrappers for CUDA, LISA. Uses some of Krizhevsky's cuda-convnet code. \\
-
-Greater flexibility than cuda-convnet, which is monolithic to some extent. \\
-
-symbolic programming - completely new to me, took time. \\
-
-
-\clearpage
-\section{Experimentation}
-
-As mentioned in the previously, a number of unexpected challenges arose throughout the implementation of the learning tasks. This section is therefore divided into task subsections, each of which contain challenge subsubsections, describing how they were dealt with.
-
-\subsection{Task 1: Clamp Detection}
+\subsection{Motivations: Assumed Simplicity}
 
 Clamp detection was suggested by ControlPoint as a simple test run for training a CNN on their dataset. It was a standard single-tag task with few classes, so implementation was not as difficult as multi-tag, and the detection task in itself was deemed simple since clamps are large objects which would be easy to see. Moreover, four significant obstacles arose: non-converging error rates, class imbalance, data complexity, and mis-labelling.\\
 
+\subsection{Design: AlexNet}
+
+\subsubsection{Overview}
+
+Winner of ILSVRC 2012 by far. Decent out-of-the-box benchmark for rapid evaluation of data complexity. \\
+Trained on a bigger dataset, so expected overfit to occur quickly. \\
+
+\subsubsection{Network Architecture: Large-Scale Convolutional Neural Network}
+
+find the image for AlexNet with the maps and kernels and stuff.
+
+\paragraph{Convolutional Layer}
+
+\subparagraph{Convolution}
+
+\subparagraph{Pooling}
+
+Why do conv layers 3 and 4 not have it? \\
+
+\subparagraph{Normalisation}
+
+Why do conv layers 3 and 4 not have it? \\
+
+\paragraph{Fully Connected Layer}
+
+\paragraph{Softmax Output Layer}
+
+
+\subsection{Implementation: Out-of-the-box API}
+
+\subsubsection{Cuda-Convnet}
+
+Cuda-Convnet is a GPU implementation of a deep convolutional neural network implemented in CUDA/C++. It was written by Alex Krizhevsky to train the net that set ground-breaking records at the ILSVRC 2012 competition, and subsequently open-sourced. However, parts of his work are missing and his open source repository is not sufficient to reproduce his network. In order to do so, data batching scripts were written for turning raw .jpg images and separate .dat files into pickled python objects each containing 128 stacked jpg values in matrix format with RGB values split across, and a dictionary of labels and metadata for the network. \\
+
+\subsubsection{Hardware}
+
+CUDA-enabled GPU. How many teraflops? Which operations are parallelised? 
+First a GTX GeForce 780 with 4GB RAM. 
+
+\subsubsection{Summary}
+
+DOES THIS SUBSUBSECTION REALLY BELONG HERE? yes I would say so, but may need to be edited so that it just mentions how tough the task turned out to be, and that the obstacles which were discovered lead to devising a new task, that of joint-type classification. Perhaps also mention that unsupervised learning was considered to deal with the mis-labelled data, the reasons for why this was put aside (discussions with ControlPoint), but that it would make for interesting further research? Maybe it should be renamed to summary, and be included as final subsubsection of every implementation subsection? \\
+
+Several weeks into training, it was discovered by visual inspection and extended communication with ControlPoint staff that there existed 6 completely different types of clamps -- one for each different type of pipe joint [insert photos of different clamp types here]. It was also discovered that in a significant number of cases the glint of a clamp was sufficient to judge it present, and that in other cases the presence of clamps in certain areas of the pipes did not count as clamp presence [have images to illustrate this point]. This makes learning very difficult, as a class can be pictured as a disjoint set of subclasses, some of which fine-grained, and that one subclass could trigger a false positive of another class.\\
+
+The solution was to train a classifier capable of recognising the type of joint having been welded, using the small subset of data which contained joint-type labels, in order to try and tag the remaining dataset. The advantage of knowing the joint-type is that we can isolate clamp types, and train a classifier on s single type of clamp. That way, the learning task is simplified, and one is able to focus on the other challenges. \\
+
+
+\subsection{Experimentation: Non-Converging Error Rates and Class Imbalance}
 
 \subsubsection{Non-Converging Error Rates}
 
-The first large-scale CNNs to be trained showed confusing results. LOOK THROUGH ENTIRE DOCUMENT, when talking about this training, the classification validation error achieved was 11\%, not 40\%! It may also be good to get a test error.
+The training produced confusing results. LOOK THROUGH ENTIRE DOCUMENT, when talking about this training, the classification validation error achieved was 11\%, not 40\%! It may also be good to get a test error.
 
 They were trained on the clamp detection task using the Redbox data only. The purpose of these models is to set a benchmark for the difficulty of the classification task, by taking several out-of-the-box network configurations: namely, those found on open source projects or detailed in papers \cite{krizhevsky},\cite{transfer-learning}, \cite{decaf}. \\
 
@@ -548,14 +573,16 @@ worst performing batches: 152, (302, 162, 105, 87, 60, 39, 736, 710, 643, 631 an
 \end{table} 
 %\end{comment}
 
-Would be nice to add the plot of the errors and point to which batches the spikes correspond to\\
+Would be nice to add the plot of the errors and point to which batches the spikes correspond to. \\
 
-This suggests that the only thing that determines error is proportion of non-"clamp detected" cases. this is very strong evidence that the net has learned to output "clamp detected" all the time.
+This suggests that the only thing that determines error is proportion of non-"clamp detected" cases. this is very strong evidence that the net has learned to output "clamp detected" all the time. \\
 
-Do you think I should try and find completely foolproof evidence? Like running dummy input through the network?
+Do you think I should try and find completely foolproof evidence? Like running dummy input through the network? \\
 
 
 \subsubsection{Class Imbalance}
+
+SHOULD I REALLY IMPLEMENT THIS? So much work just on the first task which was supposed to be preliminary... \\
 
 Three approaches were taken to tackle class imbalance, the first ones being simplest to implement, the last ones most sophisticated and information-preserving.
 
@@ -568,23 +595,69 @@ CNNs were trained on all of the "No Clamps" or "Clamps Not Sufficiently Visible"
 \paragraph{F Measure}
 
 
+\clearpage
+\section{Task 2: Joint-Type Classification}
 
-\subsection{Task 2: Clamp Detector}
+\subsection{Motivations}
 
-This task arose as a result of data complexity, which is therefore featured as a first challenge below. \\
+\subsection{Design}
 
-\subsubsection{Data Complexity}
+\subsection{Implementation}
 
-Several weeks into training, it was discovered by visual inspection and extended communication with ControlPoint staff that there existed 6 completely different types of clamps -- one for each different type of pipe joint [insert photos of different clamp types here]. It was also discovered that in a significant number of cases the glint of a clamp was sufficient to judge it present, and that in other cases the presence of clamps in certain areas of the pipes did not count as clamp presence [have images to illustrate this point]. This makes learning very difficult, as a class can be pictured as a disjoint set of subclasses, some of which fine-grained, and that one subclass could trigger a false positive of another class.\\
+\subsubsection{Training the Joint-Type Classifier}
 
-The solution was to train a classifier capable of recognising the type of joint having been welded, using the small subset of data which contained joint-type labels, in order to try and tag the remaining dataset. The advantage of knowing the joint-type is that we can isolate clamp types, and train a classifier on s single type of clamp. That way, the learning task is simplified, and one is able to focus on the other challenges. \\
+\subsubsection{Applying the Joint-Type Classifier to Specific Clamp Detection}
 
+\subsubsection{Summary}
 
-\subsubsection{Small Dataset: Transfer Learning}
+\subsection{Experimentation}
+
+\subsubsection{Overfit Problem: Small Dataset}
+
+\subsubsection{Overfit Solution: Transfer Learning}
 
 Use transfer learning to make up for the lack of training examples. \\
 
-\subsection{Task 3: Full Multi-Tagging Pipe Weld Classification Task}
+
+\clearpage
+\section{Task 3: Full Multi-Tagging Pipe Weld Classification Task}
+
+\subsection{Motivations}
+
+\subsection{Design}
+
+\subsection{Implementation}
+
+\subsubsection{Theano}
+
+python wrappers for CUDA, LISA. Uses some of Krizhevsky's cuda-convnet code. \\
+
+Greater flexibility than cuda-convnet, which is monolithic to some extent. \\
+
+symbolic programming - completely new to me, took time. \\
+
+
+\subsubsection{Hardware}
+
+CUDA-enabled GPU. How many teraflops? Which operations are parallelised? 
+Moving from the GTX 780 to a Titan Black with ... \\
+
+\subsection{Experimentation}
+
+
+
+
+\clearpage
+
+\subsection{Motivations}
+
+\subsection{Design}
+
+\subsection{Implementation}
+
+\subsubsection{Summary}
+
+\subsection{Experimentation}
 
 \subsubsection{Tight Bowl Zig-zagging}
 
@@ -598,11 +671,13 @@ blurring if only colour matters, grey-scale if only shape matters, filter from C
 
 The realisation that weird sampling can heavily dent the approximation of the error surface has raised questions:
 
-How does the training set provide an approximation of the true error surface? Since it can introduce dangerous minima, does that mean that, formally, it does not always provide an extrema-conserving approximation of the true error surface? Theoretically, what are the conditions for obtaining an extrema-conserving approximation (i.e. that doesn't introduce fake minima)? Practically, can we perform transformations on the cost function, or do stuff to our data (sampling), to limit the introduction of fake minima? 
+How does the training set provide an approximation of the true error surface? Since it can introduce dangerous minima, does that mean that, formally, it does not always provide an extrema-conserving approximation of the true error surface? Theoretically, what are the conditions for obtaining an extrema-conserving approximation (i.e. that doesn't introduce fake minima)? Practically, can we perform transformations on the cost function, or do stuff to our data (sampling), to limit the introduction of fake minima?  \\
 
-Could we answer these questions if, instead of facing the usual problem of having a training set sampled from an unknown distribution, we ran a completely artificial experiment where we start with a known distribution? That way, we know the true error surface, and as we draw samples from the distribution, we can look at how each one approximates the true error surface, how it introduces bad minima? 
+Could we answer these questions if, instead of facing the usual problem of having a training set sampled from an unknown distribution, we ran a completely artificial experiment where we start with a known distribution? That way, we know the true error surface, and as we draw samples from the distribution, we can look at how each one approximates the true error surface, how it introduces bad minima? \\
 
-How does mis-labelling alter the error surface? Intuitively, it would seem that it lifts up the true minima only, making the false minima even more attractive (e.g.\ "labelling is so bad it's too confusing, there's just nothing to distinguish them, so I might as well go for the blind strategy of outputting clamp detected all the time").
+How does mis-labelling alter the error surface? Intuitively, it would seem that it lifts up the true minima only, making the false minima even more attractive (e.g.\ "labelling is so bad it's too confusing, there's just nothing to distinguish them, so I might as well go for the blind strategy of outputting clamp detected all the time"). \\
+
+Unsupervised Learning to correct mis-labelling, with encouragements to create clusters initialised by those resulting from supervised learning (maybe could only work well with many false negatives, few false positives, as is the case here?). \\ 
 
 
 \begin{thebibliography}{1}
