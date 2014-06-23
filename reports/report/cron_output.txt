@@ -1,2 +1,2 @@
-alex      6377  5378  1 12:12 pts/4    00:02:19 texmaker report.tex
-alex      9336  9334  0 14:30 ?        00:00:00 grep texmaker report.tex
+alex      6377  5378  1 12:12 pts/4    00:02:42 texmaker report.tex
+alex      9527  9525  0 14:40 ?        00:00:00 grep texmaker report.tex

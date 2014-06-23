@@ -383,13 +383,13 @@ classes. Moreover, one would need to ensure that the range of the error is as la
 \clearpage
 \section{Task 1: Generic Clamp Detection}
 
-\subsection{Motivations: Assumed Simplicity}
+\subsection{Motivations}
 
 Clamp detection was suggested by ControlPoint as a simple test run for training a CNN on their dataset. It was a standard single-tag task with few classes, so implementation was not as difficult as multi-tag, and the detection task in itself was deemed simple since clamps are large objects which would be easy to see. Moreover, four significant obstacles arose: non-converging error rates, class imbalance, data complexity, and mis-labelling.\\
 
-\subsection{Design: AlexNet}
+\subsection{Design}
 
-\subsubsection{Overview}
+\subsubsection{AlexNet: State-of-the-art Benchmark}
 
 Winner of ILSVRC 2012 by far. Decent out-of-the-box benchmark for rapid evaluation of data complexity. \\
 Trained on a bigger dataset, so expected overfit to occur quickly. \\
@@ -415,16 +415,16 @@ Why do conv layers 3 and 4 not have it? \\
 \paragraph{Softmax Output Layer}
 
 
-\subsection{Implementation: Out-of-the-box API}
+\subsection{Implementation}
 
-\subsubsection{Cuda-Convnet}
+\subsubsection{Cuda-Convnet: An Out-of-the-box API}
 
 Cuda-Convnet is a GPU implementation of a deep convolutional neural network implemented in CUDA/C++. It was written by Alex Krizhevsky to train the net that set ground-breaking records at the ILSVRC 2012 competition, and subsequently open-sourced. However, parts of his work are missing and his open source repository is not sufficient to reproduce his network. In order to do so, data batching scripts were written for turning raw .jpg images and separate .dat files into pickled python objects each containing 128 stacked jpg values in matrix format with RGB values split across, and a dictionary of labels and metadata for the network. \\
 
-\subsubsection{Hardware}
+\subsubsection{Hardware: NVidia GeForce GTX 780}
 
 CUDA-enabled GPU. How many teraflops? Which operations are parallelised? 
-First a GTX GeForce 780 with 4GB RAM. 
+First a GeForce GTX 780 with 4GB RAM. 
 
 \subsubsection{Summary}
 
@@ -600,20 +600,29 @@ CNNs were trained on all of the "No Clamps" or "Clamps Not Sufficiently Visible"
 
 \subsection{Motivations}
 
+To generate additional labels that help with learning tasks and create commercial value for ControlPoint. \\
+
 \subsection{Design}
 
 \subsection{Implementation}
-
-\subsubsection{Summary}
-
-\subsection{Experimentation}
 
 \subsubsection{Training the Joint-Type Classifier}
 
 \subsubsection{Applying the Joint-Type Classifier to Specific Clamp Detection}
 
+\subsubsection{Summary}
+
+\subsection{Experimentation}
+
+\subsubsection{Overfit Problem: Small Dataset}
+
+\subsubsection{Overfit Solution: Transfer Learning}
+
+Use transfer learning to make up for the lack of training examples. \\
+
+
 \clearpage
-\section{Task 3: }
+\section{Task 3: Full Multi-Tagging Pipe Weld Classification Task}
 
 \subsection{Motivations}
 
@@ -642,29 +651,15 @@ Moving from the GTX 780 to a Titan Black with ... \\
 
 \clearpage
 
-\subsection{Task 1: Clamp Detection}
+\subsection{Motivations}
 
+\subsection{Design}
 
+\subsection{Implementation}
 
+\subsubsection{Summary}
 
-\subsection{Task 2: Clamp Detector}
-
-This task arose as a result of data complexity, which is therefore featured as a first challenge below. \\
-
-\subsubsection{Data Complexity}
-
-
-
-\paragraph{First Run}
-
-You are writing this text, you will not save it; within 10 minutes time it should be saved, and at 20 past or 30 past, it should be committed and pushed to github. wow, notice this means you will go for up to 19 minutes without a remote backup. I guess that's ok.
-
-
-\subsubsection{Small Dataset: Transfer Learning}
-
-Use transfer learning to make up for the lack of training examples. \\
-
-\subsection{Task 3: Full Multi-Tagging Pipe Weld Classification Task}
+\subsection{Experimentation}
 
 \subsubsection{Tight Bowl Zig-zagging}
 
