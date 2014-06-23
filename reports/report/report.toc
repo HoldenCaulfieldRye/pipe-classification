@@ -44,12 +44,12 @@
 \contentsline {subsection}{\numberline {3.4}Experimentation}{15}
 \contentsline {subsubsection}{\numberline {3.4.1}Non-Converging Error Rates}{15}
 \contentsline {paragraph}{Increase Test Error Precision}{16}
-\contentsline {paragraph}{Alter Momentum}{17}
-\contentsline {subparagraph}{Increase}{17}
+\contentsline {paragraph}{Alter Momentum}{18}
+\contentsline {subparagraph}{Increase}{18}
 \contentsline {subparagraph}{Decrease}{18}
 \contentsline {paragraph}{Reduce Learning Rate}{18}
-\contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{19}
-\contentsline {subsubsection}{\numberline {3.4.2}Class Imbalance}{19}
+\contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{18}
+\contentsline {subsubsection}{\numberline {3.4.2}Class Imbalance}{20}
 \contentsline {paragraph}{Subset of Training Set}{20}
 \contentsline {paragraph}{Partial Data Augmentation}{20}
 \contentsline {paragraph}{F Measure}{20}

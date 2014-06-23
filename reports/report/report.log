@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  23 JUN 2014 14:36
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  23 JUN 2014 19:43
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1094,156 +1094,164 @@ Underfull \hbox (badness 10000) in paragraph at lines 433--434
 
  []
 
+<images/clamp_confuse_1.jpg, id=78, 963.6pt x 540.51938pt>
+File: images/clamp_confuse_1.jpg Graphic file (type jpg)
 
-Underfull \hbox (badness 10000) in paragraph at lines 435--436
+<use images/clamp_confuse_1.jpg>
+Package pdftex.def Info: images/clamp_confuse_1.jpg used on input line 439.
+(pdftex.def)             Requested size: 169.29684pt x 94.96344pt.
+
+<images/clamp_confuse_2.jpg, id=79, 963.6pt x 540.51938pt>
+File: images/clamp_confuse_2.jpg Graphic file (type jpg)
+
+<use images/clamp_confuse_2.jpg>
+Package pdftex.def Info: images/clamp_confuse_2.jpg used on input line 440.
+(pdftex.def)             Requested size: 169.29684pt x 94.96344pt.
+
+<images/clamp_confuse_3.jpg, id=80, 963.6pt x 722.7pt>
+File: images/clamp_confuse_3.jpg Graphic file (type jpg)
+
+<use images/clamp_confuse_3.jpg>
+Package pdftex.def Info: images/clamp_confuse_3.jpg used on input line 441.
+(pdftex.def)             Requested size: 125.75851pt x 94.31819pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 445--446
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 444--445
+Underfull \hbox (badness 10000) in paragraph at lines 447--448
 
  []
 
-<images/test_run.png, id=78, 578.16pt x 433.62pt>
+
+Underfull \hbox (badness 10000) in paragraph at lines 456--457
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[15 <./images/clamp_confuse_1.jpg> <./images/clamp_confuse_2.jpg> <./images/cla
+mp_confuse_3.jpg>] <images/test_run.png, id=84, 578.16pt x 433.62pt>
 File: images/test_run.png Graphic file (type png)
- <use images/test_run.png>
-Package pdftex.def Info: images/test_run.png used on input line 452.
+
+<use images/test_run.png>
+Package pdftex.def Info: images/test_run.png used on input line 464.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 459--461
+Underfull \hbox (badness 10000) in paragraph at lines 471--473
 
  []
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 464.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 476.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 464.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 476.
 
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[15] <images/increase_test_precision.png, id=82, 578.16pt x 433.62pt>
+<images/increase_test_precision.png, id=85, 578.16pt x 433.62pt>
 File: images/increase_test_precision.png Graphic file (type png)
 
 <use images/increase_test_precision.png>
 Package pdftex.def Info: images/increase_test_precision.png used on input line 
-479.
-(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
-Missing character: There is no ï in font cmr10!
-Missing character: There is no » in font cmr10!
-Missing character: There is no ¿ in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 483--484
-
- []
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[16 <./images/test_run.png> <./images/increase_test_precision.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 485--487
-
- []
-
-Missing character: There is no ï in font cmr10!
-Missing character: There is no » in font cmr10!
-Missing character: There is no ¿ in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 492--493
-
- []
-
-Missing character: There is no ï in font cmr10!
-Missing character: There is no » in font cmr10!
-Missing character: There is no ¿ in font cmr10!
-
-Underfull \hbox (badness 10000) in paragraph at lines 494--495
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 497--498
-
- []
-
-Missing character: There is no ï in font cmr10!
-Missing character: There is no » in font cmr10!
-Missing character: There is no ¿ in font cmr10!
-<images/raise_momentum.png, id=88, 578.16pt x 433.62pt>
-File: images/raise_momentum.png Graphic file (type png)
-
-<use images/raise_momentum.png>
-Package pdftex.def Info: images/raise_momentum.png used on input line 512.
+491.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-<images/change_momentum.png, id=89, 578.16pt x 433.62pt>
+Missing character: There is no ï in font cmr10!
+Missing character: There is no » in font cmr10!
+Missing character: There is no ¿ in font cmr10!
+
+Underfull \hbox (badness 10000) in paragraph at lines 495--496
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[16 <./images/test_run.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 497--499
+
+ []
+
+Missing character: There is no ï in font cmr10!
+Missing character: There is no » in font cmr10!
+Missing character: There is no ¿ in font cmr10!
+
+Underfull \hbox (badness 10000) in paragraph at lines 504--505
+
+ []
+
+Missing character: There is no ï in font cmr10!
+Missing character: There is no » in font cmr10!
+Missing character: There is no ¿ in font cmr10!
+
+Underfull \hbox (badness 10000) in paragraph at lines 506--507
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 509--510
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[17 <./images/increase_test_precision.png>]
+Missing character: There is no ï in font cmr10!
+Missing character: There is no » in font cmr10!
+Missing character: There is no ¿ in font cmr10!
+
+<images/raise_momentum.png, id=94, 578.16pt x 433.62pt>
+File: images/raise_momentum.png Graphic file (type png)
+
+<use images/raise_momentum.png>
+Package pdftex.def Info: images/raise_momentum.png used on input line 524.
+(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
+
+<images/change_momentum.png, id=95, 578.16pt x 433.62pt>
 File: images/change_momentum.png Graphic file (type png)
 
 <use images/change_momentum.png>
-Package pdftex.def Info: images/change_momentum.png used on input line 524.
+Package pdftex.def Info: images/change_momentum.png used on input line 536.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[17]
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[18 <./images/raise_momentum.png> <./images/change_momentum.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 546--547
+[18 <./images/raise_momentum.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 558--559
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 552--559
+Underfull \hbox (badness 10000) in paragraph at lines 564--571
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 576--577
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 578--579
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 580--581
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 585--586
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 591--592
+Underfull \hbox (badness 10000) in paragraph at lines 588--589
 
  []
 
@@ -1253,7 +1261,26 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[19]
+[19 <./images/change_momentum.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 590--591
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 592--593
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 597--598
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 603--604
+
+ []
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1261,12 +1288,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [20]
-Underfull \hbox (badness 10000) in paragraph at lines 603--604
+Underfull \hbox (badness 10000) in paragraph at lines 615--616
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 621--622
+Underfull \hbox (badness 10000) in paragraph at lines 633--634
 
  []
 
@@ -1279,27 +1306,27 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [21
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 637--638
+Underfull \hbox (badness 10000) in paragraph at lines 649--650
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 639--640
+Underfull \hbox (badness 10000) in paragraph at lines 651--652
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 641--642
+Underfull \hbox (badness 10000) in paragraph at lines 653--654
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 646--648
+Underfull \hbox (badness 10000) in paragraph at lines 658--660
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 655--656
+Underfull \hbox (badness 10000) in paragraph at lines 667--668
 
  []
 
@@ -1312,27 +1339,27 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [22
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 663--664
+Underfull \hbox (badness 10000) in paragraph at lines 675--676
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 665--666
+Underfull \hbox (badness 10000) in paragraph at lines 677--678
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 667--668
+Underfull \hbox (badness 10000) in paragraph at lines 679--680
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 669--670
+Underfull \hbox (badness 10000) in paragraph at lines 681--682
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 689--691
+Underfull \hbox (badness 10000) in paragraph at lines 701--703
 
  []
 
@@ -1369,10 +1396,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 15855 strings out of 494985
- 287082 string characters out of 6180356
+ 15870 strings out of 494985
+ 287508 string characters out of 6180356
  351101 words of memory out of 5000000
- 18693 multiletter control sequences out of 15000+600000
+ 18705 multiletter control sequences out of 15000+600000
  12174 words of font info for 46 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  48i,12n,61p,1312b,303s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1390,10 +1417,10 @@ y10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on report.pdf (24 pages, 1347414 bytes).
+Output written on report.pdf (24 pages, 1840317 bytes).
 PDF statistics:
- 167 PDF objects out of 1000 (max. 8388607)
+ 170 PDF objects out of 1000 (max. 8388607)
  103 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 88 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 103 words of extra memory for PDF output out of 10000 (max. 10000000)
 
