@@ -1,46 +1,76 @@
-\contentsline {section}{\numberline {1}Background}{3}
-\contentsline {subsection}{\numberline {1.1}Defining the Problem}{3}
-\contentsline {subsubsection}{\numberline {1.1.1}Explaining the Problem}{3}
-\contentsline {subsubsection}{\numberline {1.1.2}Formalising the problem: Multi-Instance Multi-Label Supervised Learning}{4}
-\contentsline {subsubsection}{\numberline {1.1.3}Supervised Learning}{4}
-\contentsline {subsubsection}{\numberline {1.1.4}Approximation vs Generalisation}{5}
-\contentsline {subsection}{\numberline {1.2}Architecture of a Deep Convolutional Neural Network with Rectified Linear Neurons}{5}
-\contentsline {subsubsection}{\numberline {1.2.1}Models of Neurons}{5}
-\contentsline {paragraph}{Multipolar Biological Neuron}{5}
-\contentsline {paragraph}{Binary Threshold Neuron}{6}
-\contentsline {paragraph}{Logistic Sigmoid Neuron}{6}
-\contentsline {paragraph}{Rectified Linear Neuron}{6}
-\contentsline {paragraph}{Softmax Neuron}{7}
-\contentsline {subsubsection}{\numberline {1.2.2}Feed-Forward Architecture}{7}
-\contentsline {paragraph}{Shallow Feed-Forward Neural Networks: the Perceptron}{7}
-\contentsline {paragraph}{Deep Feed-Forward Neural Networks: the Multilayer Perceptron}{8}
-\contentsline {paragraph}{Deep Convolutional Neural Networks: for translation invariance}{8}
-\contentsline {subsection}{\numberline {1.3}Training: Backpropagation}{9}
-\contentsline {subsubsection}{\numberline {1.3.1}Compute Error-Weight Partial Derivatives}{9}
-\contentsline {subsubsection}{\numberline {1.3.2}Update Weight Values (with Gradient Descent)}{9}
-\contentsline {paragraph}{Training, Validation and Test Sets}{9}
-\contentsline {subsection}{\numberline {1.4}Challenges specific to the Pipe Weld Classification Task}{10}
-\contentsline {subsubsection}{\numberline {1.4.1}Data Overview}{10}
-\contentsline {subsubsection}{\numberline {1.4.2}Multi-Tagging}{10}
-\contentsline {subsubsection}{\numberline {1.4.3}Domain Change}{10}
-\contentsline {subsubsection}{\numberline {1.4.4}Small Dataset Size}{11}
-\contentsline {subsubsection}{\numberline {1.4.5}Class Imbalance}{12}
-\contentsline {section}{\numberline {2}Progress}{12}
-\contentsline {subsection}{\numberline {2.1}Implementation: Cuda-Convnet}{12}
-\contentsline {subsubsection}{\numberline {2.1.1}Test Run}{12}
-\contentsline {section}{\numberline {3}Design}{13}
-\contentsline {section}{\numberline {4}Implementation}{14}
-\contentsline {section}{\numberline {5}Experimentation}{15}
-\contentsline {subsection}{\numberline {5.1}Cuda-Convnet}{15}
-\contentsline {subsubsection}{\numberline {5.1.1}Test Runs}{15}
-\contentsline {subsubsection}{\numberline {5.1.2}Increase Test Error Precision}{16}
-\contentsline {paragraph}{Volatility of Training Error}{17}
-\contentsline {subsubsection}{\numberline {5.1.3}Alter Momentum}{17}
-\contentsline {paragraph}{Increase}{17}
-\contentsline {paragraph}{Decrease}{18}
-\contentsline {subsubsection}{\numberline {5.1.4}Reduce Learning Rate}{18}
-\contentsline {subsubsection}{\numberline {5.1.5}Tackle Tight Bowl Zig-zagging}{18}
-\contentsline {subsubsection}{\numberline {5.1.6}Transfer Learning}{18}
-\contentsline {subsubsection}{\numberline {5.1.7}Theano}{18}
-\contentsline {subsubsection}{\numberline {5.1.8}Data Augmentation}{18}
-\contentsline {section}{\numberline {6}Conclusions and Future Work}{19}
+\contentsline {section}{\numberline {1}Introduction}{4}
+\contentsline {section}{\numberline {2}Background}{4}
+\contentsline {subsection}{\numberline {2.1}Defining the Problem}{4}
+\contentsline {subsubsection}{\numberline {2.1.1}Explaining the Problem}{4}
+\contentsline {subsubsection}{\numberline {2.1.2}Formalising the problem: Multi-Instance Multi-Label Supervised Learning}{5}
+\contentsline {subsubsection}{\numberline {2.1.3}Supervised Learning}{5}
+\contentsline {subsubsection}{\numberline {2.1.4}Approximation vs Generalisation}{6}
+\contentsline {subsection}{\numberline {2.2}Architecture of a Deep Convolutional Neural Network with Rectified Linear Neurons}{6}
+\contentsline {subsubsection}{\numberline {2.2.1}Models of Neurons}{6}
+\contentsline {paragraph}{Multipolar Biological Neuron}{6}
+\contentsline {paragraph}{Binary Threshold Neuron}{7}
+\contentsline {paragraph}{Logistic Sigmoid Neuron}{7}
+\contentsline {paragraph}{Rectified Linear Neuron}{7}
+\contentsline {paragraph}{Softmax Neuron}{8}
+\contentsline {subsubsection}{\numberline {2.2.2}Feed-Forward Architecture}{8}
+\contentsline {paragraph}{Shallow Feed-Forward Neural Networks: the Perceptron}{9}
+\contentsline {paragraph}{Deep Feed-Forward Neural Networks: the Multilayer Perceptron}{9}
+\contentsline {paragraph}{Deep Convolutional Neural Networks: for translation invariance}{9}
+\contentsline {subsection}{\numberline {2.3}Training: Backpropagation}{10}
+\contentsline {subsubsection}{\numberline {2.3.1}Compute Error-Weight Partial Derivatives}{10}
+\contentsline {subsubsection}{\numberline {2.3.2}Update Weight Values (with Gradient Descent)}{10}
+\contentsline {paragraph}{Training, Validation and Test Sets}{11}
+\contentsline {subsection}{\numberline {2.4}Challenges specific to the Pipe Weld Classification Task}{11}
+\contentsline {subsubsection}{\numberline {2.4.1}Data Overview}{11}
+\contentsline {subsubsection}{\numberline {2.4.2}Multi-Tagging}{11}
+\contentsline {subsubsection}{\numberline {2.4.3}Domain Change}{12}
+\contentsline {subsubsection}{\numberline {2.4.4}Small Dataset Size}{13}
+\contentsline {subsubsection}{\numberline {2.4.5}Class Imbalance}{13}
+\contentsline {section}{\numberline {3}Task 1: Generic Clamp Detection}{14}
+\contentsline {subsection}{\numberline {3.1}Motivations}{14}
+\contentsline {subsection}{\numberline {3.2}Design}{14}
+\contentsline {subsubsection}{\numberline {3.2.1}AlexNet: State-of-the-art Benchmark}{14}
+\contentsline {subsubsection}{\numberline {3.2.2}Network Architecture: Large-Scale Convolutional Neural Network}{14}
+\contentsline {paragraph}{Convolutional Layer}{14}
+\contentsline {subparagraph}{Convolution}{14}
+\contentsline {subparagraph}{Pooling}{14}
+\contentsline {subparagraph}{Normalisation}{14}
+\contentsline {paragraph}{Fully Connected Layer}{14}
+\contentsline {paragraph}{Softmax Output Layer}{14}
+\contentsline {subsection}{\numberline {3.3}Implementation}{14}
+\contentsline {subsubsection}{\numberline {3.3.1}Cuda-Convnet: An Out-of-the-box API}{14}
+\contentsline {subsubsection}{\numberline {3.3.2}Hardware: NVidia GeForce GTX 780}{14}
+\contentsline {subsubsection}{\numberline {3.3.3}Summary: Considerable Unforeseen Challenges}{15}
+\contentsline {subsection}{\numberline {3.4}Experimentation}{15}
+\contentsline {subsubsection}{\numberline {3.4.1}Non-Converging Error Rates}{15}
+\contentsline {paragraph}{Increase Test Error Precision}{16}
+\contentsline {paragraph}{Alter Momentum}{17}
+\contentsline {subparagraph}{Increase}{17}
+\contentsline {subparagraph}{Decrease}{18}
+\contentsline {paragraph}{Reduce Learning Rate}{18}
+\contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{19}
+\contentsline {subsubsection}{\numberline {3.4.2}Class Imbalance}{19}
+\contentsline {paragraph}{Subset of Training Set}{20}
+\contentsline {paragraph}{Partial Data Augmentation}{20}
+\contentsline {paragraph}{F Measure}{20}
+\contentsline {section}{\numberline {4}Task 2: Joint-Type Classification}{21}
+\contentsline {subsection}{\numberline {4.1}Motivations}{21}
+\contentsline {subsection}{\numberline {4.2}Design}{21}
+\contentsline {subsection}{\numberline {4.3}Implementation}{21}
+\contentsline {subsubsection}{\numberline {4.3.1}Training the Joint-Type Classifier}{21}
+\contentsline {subsubsection}{\numberline {4.3.2}Applying the Joint-Type Classifier to Specific Clamp Detection}{21}
+\contentsline {subsubsection}{\numberline {4.3.3}Summary}{21}
+\contentsline {subsection}{\numberline {4.4}Experimentation}{21}
+\contentsline {subsubsection}{\numberline {4.4.1}Overfit Problem: Small Dataset}{21}
+\contentsline {subsubsection}{\numberline {4.4.2}Overfit Solution: Transfer Learning}{21}
+\contentsline {section}{\numberline {5}Task 3: Full Multi-Tagging Pipe Weld Classification Task}{22}
+\contentsline {subsection}{\numberline {5.1}Motivations}{22}
+\contentsline {subsection}{\numberline {5.2}Design}{22}
+\contentsline {subsection}{\numberline {5.3}Implementation}{22}
+\contentsline {subsubsection}{\numberline {5.3.1}Summary}{22}
+\contentsline {subsubsection}{\numberline {5.3.2}Theano}{22}
+\contentsline {subsubsection}{\numberline {5.3.3}Hardware}{22}
+\contentsline {subsection}{\numberline {5.4}Experimentation}{22}
+\contentsline {subsubsection}{\numberline {5.4.1}Tight Bowl Zig-zagging}{22}
+\contentsline {subsubsection}{\numberline {5.4.2}Image Preprocessing}{22}
+\contentsline {section}{\numberline {6}Conclusions and Future Work}{23}
