@@ -1,1 +1,1 @@
-alex     13480  5378  3 19:31 pts/4    00:00:17 texmaker report.tex
+alex     13480  5378  3 19:31 pts/4    00:00:44 texmaker report.tex
