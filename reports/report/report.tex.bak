@@ -434,7 +434,13 @@ Several weeks into training, it was discovered by visual inspection and extended
 
 Worse still, sometimes the presence of clamps "doesn't count": these are cases for which the purpose of the clamp is other than to secure the welding. Therefore, if such a clamp is present, but the clamp that serves to secure the weld is absent, then the image is assigned the "No Clamps" label. For example, a "tree" is used on a specific joint-type, in which case is to hold the pipe in place, but not to secure the welding. As can be seen, a "tree" looks a lot like the clamp used for another joint-type, the straight coupler!
 
-
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.35\linewidth]{images/clamp_confuse_2.jpg}
+	\includegraphics[width=0.26\linewidth]{images/clamp_confuse_3.jpg}
+	\includegraphics[width=0.35\linewidth]{images/clamp_confuse_1.jpg}
+	\caption{Straight Coupler with Clamps}
+\end{figure}
 
 This makes learning very difficult, as a class can be pictured as a disjoint set of subclasses, some of which fine-grained, and that one subclass could trigger a false positive of another class.\\
 
