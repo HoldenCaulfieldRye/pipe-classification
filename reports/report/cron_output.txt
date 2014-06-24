@@ -89,3 +89,15 @@ alex     16423 16369  0 Jun23 pts/15   00:01:15 texmaker report.tex
 To git@github.com:HoldenCaulfieldRye/pipe-classification.git
    916cd88..87882e9  master -> master
 alex     23369  5378  3 04:20 pts/4    00:00:22 texmaker report.tex
+[master e8792f3] auto-commit progress on report
+ 7 files changed, 94 insertions(+), 75 deletions(-)
+ rewrite reports/report/report.synctex.gz (85%)
+To git@github.com:HoldenCaulfieldRye/pipe-classification.git
+ ! [rejected]        master -> master (fetch first)
+error: failed to push some refs to 'git@github.com:HoldenCaulfieldRye/pipe-classification.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.
+alex     23445  5378  2 04:45 pts/4    00:00:08 texmaker report.tex
