@@ -117,32 +117,38 @@ if __name__ == '__main__':
 
   print "'--start-epoch=' or '--end-epoch=' accepted"
 
-  train_path = sys.argv[1]
-  cfg_dir, train_output_fname = os.path.split(os.path.normpath(train_path))
+  try: 
+    os.environ['DISPLAY']
 
-  with open(train_path) as f:
-    content = f.readlines()
-    error, saved_net = parse(content)
+  except: 
+    print 'ERROR: X11 forwarding not enabled, cannot run script'
 
-  # can specify
-  start,end = -1,-1
-  for arg in sys.argv:
-    if arg.startswith("--start-epoch="):
-      start = int(arg.split('=')[-1])
-    if arg.startswith("--end-epoch="):
-      end = int(arg.split('=')[-1])
-  
-  matplot(cfg_dir, error, start, end)
- 
-  # ideal would be get layer names from cfg, and prompt for which ones
-  # user wants
-  
-  if raw_input('create filters_conv1.png? ') == 'Y':
-    make_filters(saved_net, 'conv1', cfg_dir)
+  else:
+    train_path = sys.argv[1]
+    cfg_dir, train_output_fname = os.path.split(os.path.normpath(train_path))
 
-  if raw_input('random preds[0-9].png? ') == 'Y':
-    make_preds(saved_net, cfg_dir)
-  
-  if raw_input('fail preds[0-9].png? ') == 'Y':
-    make_preds(saved_net, cfg_dir, True)
+    with open(train_path) as f:
+      content = f.readlines()
+      error, saved_net = parse(content)
+
+    # can specify
+    start,end = -1,-1
+    for arg in sys.argv:
+      if arg.startswith("--start-epoch="):
+        start = int(arg.split('=')[-1])
+      if arg.startswith("--end-epoch="):
+        end = int(arg.split('=')[-1])
+
+    matplot(cfg_dir, error, start, end)
+
+    # ideal would be get layer names from cfg, and prompt for which ones
+    # user wants
+    if raw_input('create filters_conv1.png? ') == 'Y':
+      make_filters(saved_net, 'conv1', cfg_dir)
+
+    if raw_input('random preds[0-9].png? ') == 'Y':
+      make_preds(saved_net, cfg_dir)
+    if raw_input('fail preds[0-9].png? ') == 'Y':
+      make_preds(saved_net, cfg_dir, True)
+
 
