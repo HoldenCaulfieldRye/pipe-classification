@@ -363,6 +363,7 @@ def random_delete(data_dir, ratio):
 
 # D is for dict, d is for directory
 def random_delete_aux(d,D):
+  D[d]['deleted'] = random.sample(os.listdir(d))
   return D
 
 #### STEP 6: GENERATE BATCHES ########################################
