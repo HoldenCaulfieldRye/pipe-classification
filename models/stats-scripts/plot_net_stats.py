@@ -1,6 +1,8 @@
 import cPickle as pickle
 import sys, os, shutil, re
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from math import ceil
 from subprocess import call
@@ -127,44 +129,44 @@ if __name__ == '__main__':
 
   print "'--start-epoch=' or '--end-epoch=' accepted"
 
-  try: 
-    os.environ['DISPLAY']
+  # try: 
+  #   os.environ['DISPLAY']
 
-  except: 
-    print 'ERROR: X11 forwarding not enabled, cannot run script'
+  # except: 
+  #   print 'ERROR: X11 forwarding not enabled, cannot run script'
 
-  else:
-    train_path = sys.argv[1]
-    cfg_dir, train_output_fname = os.path.split(os.path.normpath(train_path))
+  # else:
+  train_path = sys.argv[1]
+  cfg_dir, train_output_fname = os.path.split(os.path.normpath(train_path))
 
-    # to get absolute path of cfg_dir, not relative
-    back = os.getcwd()
-    os.chdir(cfg_dir)
-    cfg_dir = os.getcwd()
-    os.chdir(back)
-    
-    with open(train_path) as f:
-      content = f.readlines()
-      error, saved_net = parse(content)
+  # to get absolute path of cfg_dir, not relative
+  back = os.getcwd()
+  os.chdir(cfg_dir)
+  cfg_dir = os.getcwd()
+  os.chdir(back)
 
-    # can specify
-    start,end = -1,-1
-    for arg in sys.argv:
-      if arg.startswith("--start-epoch="):
-        start = int(arg.split('=')[-1])
-      if arg.startswith("--end-epoch="):
-        end = int(arg.split('=')[-1])
+  with open(train_path) as f:
+    content = f.readlines()
+    error, saved_net = parse(content)
 
-    matplot(cfg_dir, error, start, end)
+  # can specify
+  start,end = -1,-1
+  for arg in sys.argv:
+    if arg.startswith("--start-epoch="):
+      start = int(arg.split('=')[-1])
+    if arg.startswith("--end-epoch="):
+      end = int(arg.split('=')[-1])
 
-    # ideal would be get layer names from cfg, and prompt for which ones
-    # user wants
-    if raw_input('create filters_conv1.png? ') == 'Y':
-      make_filters(saved_net, 'conv1', cfg_dir)
+  matplot(cfg_dir, error, start, end)
 
-    if raw_input('random preds[0-9].png? ') == 'Y':
-      make_preds(saved_net, cfg_dir)
-    if raw_input('fail preds[0-9].png? ') == 'Y':
-      make_preds(saved_net, cfg_dir, True)
+  # ideal would be get layer names from cfg, and prompt for which ones
+  # user wants
+  if raw_input('create filters_conv1.png? ') == 'Y':
+    make_filters(saved_net, 'conv1', cfg_dir)
+
+  if raw_input('random preds[0-9].png? ') == 'Y':
+    make_preds(saved_net, cfg_dir)
+  if raw_input('fail preds[0-9].png? ') == 'Y':
+    make_preds(saved_net, cfg_dir, True)
 
 
