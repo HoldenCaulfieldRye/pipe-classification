@@ -55,7 +55,7 @@ def get_label_dict(data_dir):
   return d
 
 
-#### STEP 1.2: VISUALLY INSPECT RANDOM SAMPLES OF DATA ##############
+#### STEP 2: VISUALLY INSPECT RANDOM SAMPLES OF DATA ##############
 
 def sample_images(data_dir):
   sample_size = int(raw_input('How many images of each label do you want? '))
@@ -102,7 +102,7 @@ def visual_inspect(data_dir):
           shutil.copyfile(data_dir+filename,sample_dir+label+'/'+filename)
 
 
-#### STEP 2: LEAVE OUT BAD REDBOX DATA  #############################
+#### STEP 3: (SKIP) LEAVE OUT BAD REDBOX DATA  #######################
 
 def cleave_out_bad_data(data_dir):
   ''' creates 2 dirs, fills one with images in cwd having 
@@ -166,8 +166,8 @@ def get_info(fname,label_data_fields,metadata_file_ext):
   return return_dict
 
 
-#### STEP 3: CREATE XML DATA FILES IN CUDACONVNET FORMAT  ############
-#### FOR TEST RUN AND FOR SERIOUS RUN                     ############
+#### STEP 4: (SKIP) CREATE XML DATA FILES IN CUDACONVNET FORMAT  #####
+#### FOR TEST RUN AND FOR SERIOUS RUN                            #####
 
 def generate_xml_labels_from_pipe_data(data_dir):
   ''' creates .xml's from all .dat files in data_dir. '''
@@ -244,7 +244,7 @@ def generate_xml_for(filename, path):
     # dict2xml(data) ?
 
 
-#### STEP 4: STORE IMGS IN DIRS TO PREPARE FOR BATCHING  #############
+#### STEP 5: STORE IMGS IN DIRS TO PREPARE FOR BATCHING  #############
 
 def move_to_dirs(args):
   print 'you know what, this should be made into a ccn script, with arguments specified in options.cfg'
@@ -318,7 +318,48 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
 
   return case_count, badcase_count, tagless_count
 
-#### STEP 5: GENERATE BATCHES ########################################
+
+#### STEP 5.1: RANDOM DELETE FOR BALANCED CLASSES ####################
+
+def random_delete(data_dir, ratio):
+  ''' randomly deletes as few images from outnumbering class dirs as
+      possible such that #biggest/#smallest == ratio. '''
+
+  if ratio < 1: 
+    print 'Error: ratio must be >=1.'
+    exit
+    
+  # D is for dict, d is for directory
+  D = {}
+  os.chdir(data_dir)
+  dirs = [os.path.join(data_dir,o) for o in os.listdir(data_dir) 
+          if os.path.isdir(os.path.join(data_dir,o))]
+  
+  print 'the directories are: %s'%(dirs)
+
+  for d in dirs:
+    D[d] = {}
+    D[d]['total'] = len(os.listdir(d))
+    print '%s has %i images'%(d,D[d]['total'])
+
+  dirs = [(d,num) for (d,D[d]) in D.keys()]
+  dirs = sorted(dirs, key = lambda x: x[1])
+
+  print '%s is smallest class with %i images'%(dirs[0][0],dirs[0][1])
+  for d in D.keys():
+    D[d]['remove'] = D[d]['total']-(ratio*dirs[0][1])
+    print '%s has %i images so %i will be randomly removed'%(d, D[d]['total'], D[d]['remove'])
+    D = random_remove(d,D)
+
+# remember which files were deleted! (to make easy to bring missing 
+# ones back in later)
+
+
+# D is for dict, d is for directory
+def random_remove(d,D):
+
+
+#### STEP 6: GENERATE BATCHES ########################################
 
 def generate_batches_from_pipe_data(data_dir, label_options):
   ''' generates data batches and batches.meta files in the format 
@@ -487,7 +528,7 @@ if __name__ == "__main__":
 
   # command used: python batching.py move_to_dirs /data2/ad6813/pipe-data/Redbox/raw_data/dump /data2/ad6813/pipe-data/Redbox/raw_data/clamp_detection NoClampUsed,PhotoDoesNotShowEnoughOfClamps,ClampDetected last_label_is_default
 
-  # and then ~/.local/bin/ccn-make-batches models/clamp_detection/options.cfg > models/clamp_detection/make_batches.out
+  # and then nohup ~/.local/bin/ccn-make-batches models/clamp_detection/options.cfg >> models/clamp_detection/make_batches.out 2>&1 &
   elif sys.argv[1] == 'move_to_dirs':
     move_to_dirs(sys.argv)
 
