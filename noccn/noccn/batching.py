@@ -322,6 +322,8 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
 
 #### STEP 5.1: RANDOM DELETE FOR BALANCED CLASSES ####################
 
+# careful! if you deleted links and now wish to add some back, make 
+# sure json dump gets updated/overwritten correctly 
 def random_delete(data_dir, ratio):
   ''' randomly deletes as few images from outnumbering class dirs as
       possible such that #biggest/#smallest == ratio. '''
@@ -351,20 +353,23 @@ def random_delete(data_dir, ratio):
   for d in D.keys():
     D[d]['remove'] = max(0,int(D[d]['total']-(ratio*dirs[0][1])))
     print '%s has %i images so %i will be randomly removed'%(d, D[d]['total'], D[d]['remove'])
-    D = random_delete_aux(data_dir,d,D)
+    if D[d]['remove'] > 0 :
+      D = random_delete_aux(data_dir,d,D)
 
   if dump == 'Y': json.dump(D, open(data_dir+'/random_remove_dict.txt','w'))
   return D
 
-# remember which files were deleted! (to make easy to bring missing 
-# ones back in later)
-
 
 # D is for dict, d is for directory
-def random_delete_aux(data_dir,d,D):
+def random_delete_aux(data_dir,d,D,delete_hard=False):
   D[d]['deleted'] = random.sample(os.listdir(ojoin(data_dir,d)),D[d]['remove'])
   print 'successfully condemned images from %s'%(d)
+  back = os.getcwd()
+  os.chdir(ojoin(data_dir,d))
+  for link in D[d]['deleted']: os.remove(link)
+  os.chdir(back)
   return D
+
 
 #### STEP 6: GENERATE BATCHES ########################################
 
@@ -538,6 +543,10 @@ if __name__ == "__main__":
   # and then nohup ~/.local/bin/ccn-make-batches models/clamp_detection/options.cfg >> models/clamp_detection/make_batches.out 2>&1 &
   elif sys.argv[1] == 'move_to_dirs':
     move_to_dirs(sys.argv)
+
+  elif sys.argv[1] == 'random_delete':
+    random_delete(sys.argv[2], float(sys.argv[3]))
+  
 
 ##### tests ##########################################################
 
