@@ -328,6 +328,9 @@ def random_delete(data_dir, ratio):
   if ratio < 1: 
     print 'Error: ratio must be >=1.'
     exit
+
+  data_dir = os.path.abspath(data_dir)
+  dump = raw_input('Do you want a json dump in %s of which files were randomly deleted?(Y/any) '%(data_dir))
     
   # D is for dict, d is for directory
   D = {}
@@ -350,6 +353,9 @@ def random_delete(data_dir, ratio):
     D[d]['remove'] = D[d]['total']-(ratio*dirs[0][1])
     print '%s has %i images so %i will be randomly removed'%(d, D[d]['total'], D[d]['remove'])
     D = random_remove(d,D)
+
+  if dump == 'Y': json.dump(D, open(data_dir+'/'+,'w'))
+  return D
 
 # remember which files were deleted! (to make easy to bring missing 
 # ones back in later)
