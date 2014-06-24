@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  23 JUN 2014 23:33
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  24 JUN 2014 01:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1300,6 +1300,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 618--619
  []
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 620--621
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 624--625
 
  []
@@ -1319,12 +1324,14 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [21 <./images/preds9.png> <./images/good_filters.png> <./images/bad_filters.png
 >]
-Underfull \hbox (badness 10000) in paragraph at lines 636--637
 
- []
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
-
-Underfull \hbox (badness 10000) in paragraph at lines 644--645
+[22]
+Underfull \hbox (badness 10000) in paragraph at lines 638--639
 
  []
 
@@ -1334,40 +1341,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 646--647
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 665--666
+Underfull \hbox (badness 10000) in paragraph at lines 648--649
 
  []
 
 
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[22
-
-]
-Underfull \hbox (badness 10000) in paragraph at lines 681--682
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 683--684
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 685--686
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 690--692
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 699--700
+Underfull \hbox (badness 10000) in paragraph at lines 667--668
 
  []
 
@@ -1380,11 +1359,39 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [23
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 707--708
+Underfull \hbox (badness 10000) in paragraph at lines 683--684
 
  []
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 685--686
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 687--688
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 692--694
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 701--702
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[24
+
+]
 Underfull \hbox (badness 10000) in paragraph at lines 709--710
 
  []
@@ -1400,7 +1407,12 @@ Underfull \hbox (badness 10000) in paragraph at lines 713--714
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 733--735
+Underfull \hbox (badness 10000) in paragraph at lines 715--716
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 735--737
 
  []
 
@@ -1410,7 +1422,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[24
+[25
 
 ]
 Missing character: There is no Ã in font cmr10!
@@ -1428,7 +1440,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[25] (./report.aux)
+[26] (./report.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -1439,7 +1451,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  15885 strings out of 494985
  287844 string characters out of 6180356
- 351101 words of memory out of 5000000
+ 351100 words of memory out of 5000000
  18717 multiletter control sequences out of 15000+600000
  12174 words of font info for 46 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
@@ -1458,10 +1470,10 @@ y10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
 ></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr
 /share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share
 /texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on report.pdf (25 pages, 1743469 bytes).
+Output written on report.pdf (26 pages, 1744471 bytes).
 PDF statistics:
- 180 PDF objects out of 1000 (max. 8388607)
- 106 compressed objects within 2 object streams
+ 183 PDF objects out of 1000 (max. 8388607)
+ 108 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  118 words of extra memory for PDF output out of 10000 (max. 10000000)
 
