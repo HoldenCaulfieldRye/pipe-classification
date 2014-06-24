@@ -615,13 +615,15 @@ It can also be interesting to notice that no meaningful features are learned: fo
 
 \subsubsection{Class Imbalance}
 
-SHOULD I REALLY IMPLEMENT THIS? So much work just on the first task which was supposed to be preliminary... \\
+SHOULD I REALLY IMPLEMENT THIS? So much work just on the first task which was supposed to be preliminary... yes but you might as well do it now, you haven't got much else to do, since ControlPoint need to get round to sending me the extra metadata. Moreover, to get their confidence, you need to deliver good results. Transfer Learning is what I'm talking about boy. \\
 
-Three approaches were taken to tackle class imbalance, the first ones being simplest to implement, the last ones most sophisticated and information-preserving.
+Three approaches were taken to tackle class imbalance, the first ones being simplest to implement, the last ones most sophisticated and information-preserving. \\
 
 \paragraph{Subset of Training Set}
 
 CNNs were trained on all of the "No Clamps" or "Clamps Not Sufficiently Visible" images, and a random sample containing 15\% of the "Clamps Detected" images, in order to obtain an acceptably balanced dataset. This fix was easiest to implement and served as a benchmark for the more sophisticated subsequent approaches. Naturally, one would also expect this approach to be least effective: 85\% of the training data was lost, data which could intuitively serve not to teach the network to distinguish classes, but to learn features that are good encoders of pipe weld images, from which an effective discriminative setup of the parameters could ensue. \\
+
+Note that the two minority classes were merged: because it is suspected that there is barely any semantic difference between them (will have to draw random samples to verify this), and because this reduces the number of majority class instances to remove, since it makes it easier to reach a good balance ratio.
 
 \paragraph{Partial Data Augmentation}
 
