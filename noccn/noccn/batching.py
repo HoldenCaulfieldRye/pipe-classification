@@ -1,6 +1,6 @@
 import numpy as np
 import os
-from os.path import basename as bname
+from os.path import join as ojoin
 import cPickle as pickle
 # from dict2xml import *
 import xml.dom
@@ -336,23 +336,22 @@ def random_delete(data_dir, ratio):
   # D is for dict, d is for directory
   D = {}
   os.chdir(data_dir)
-  dirs = [os.path.join(data_dir,o) for o in os.listdir(data_dir) 
-          if os.path.isdir(os.path.join(data_dir,o))]
+  dirs = [d for d in os.listdir(data_dir) if os.path.isdir(ojoin(data_dir,d))]
   
   print 'the directories are: %s'%(dirs)
 
   for d in dirs:
     D[d] = {}
-    D[d]['total'] = len(os.listdir(d))
+    D[d]['total'] = len(os.listdir(ojoin(data_dir,d)))
 
   dirs = [(d,D[d]['total']) for d in D.keys()]
   dirs = sorted(dirs, key = lambda x: x[1])
 
-  print '%s is smallest class with %i images'%(bname(dirs[0][0]),dirs[0][1])
+  print '%s is smallest class with %i images'%(dirs[0][0],dirs[0][1])
   for d in D.keys():
-    D[d]['remove'] = max(0,D[d]['total']-(ratio*dirs[0][1]))
-    print '%s has %i images so %i will be randomly removed'%(bname(d), D[d]['total'], D[d]['remove'])
-    D = random_delete_aux(d,D)
+    D[d]['remove'] = max(0,int(D[d]['total']-(ratio*dirs[0][1])))
+    print '%s has %i images so %i will be randomly removed'%(d, D[d]['total'], D[d]['remove'])
+    D = random_delete_aux(data_dir,d,D)
 
   if dump == 'Y': json.dump(D, open(data_dir+'/random_remove_dict.txt','w'))
   return D
@@ -362,8 +361,9 @@ def random_delete(data_dir, ratio):
 
 
 # D is for dict, d is for directory
-def random_delete_aux(d,D):
-  D[d]['deleted'] = random.sample(os.listdir(d))
+def random_delete_aux(data_dir,d,D):
+  D[d]['deleted'] = random.sample(os.listdir(ojoin(data_dir,d)),D[d]['remove'])
+  print 'successfully condemned images from %s'%(d)
   return D
 
 #### STEP 6: GENERATE BATCHES ########################################
