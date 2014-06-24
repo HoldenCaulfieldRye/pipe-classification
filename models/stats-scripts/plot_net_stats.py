@@ -117,28 +117,30 @@ if __name__ == '__main__':
 
   print "'--start-epoch=' or '--end-epoch=' accepted"
 
-  train_path = sys.argv[1]
-  cfg_dir, train_output_fname = os.path.split(os.path.normpath(train_path))
-
-  with open(train_path) as f:
-    content = f.readlines()
-    error, saved_net = parse(content)
-
-  # can specify
-  start,end = -1,-1
-  for arg in sys.argv:
-    if arg.startswith("--start-epoch="):
-      start = int(arg.split('=')[-1])
-    if arg.startswith("--end-epoch="):
-      end = int(arg.split('=')[-1])
-  
-  matplot(cfg_dir, error, start, end)
- 
   try: 
     os.environ['DISPLAY']
+
   except: 
-    print 'WARNING: X11 forwarding not enabled, cannot run shownet here'
+    print 'ERROR: X11 forwarding not enabled, cannot run script'
+
   else:
+    train_path = sys.argv[1]
+    cfg_dir, train_output_fname = os.path.split(os.path.normpath(train_path))
+
+    with open(train_path) as f:
+      content = f.readlines()
+      error, saved_net = parse(content)
+
+    # can specify
+    start,end = -1,-1
+    for arg in sys.argv:
+      if arg.startswith("--start-epoch="):
+        start = int(arg.split('=')[-1])
+      if arg.startswith("--end-epoch="):
+        end = int(arg.split('=')[-1])
+
+    matplot(cfg_dir, error, start, end)
+
     # ideal would be get layer names from cfg, and prompt for which ones
     # user wants
     if raw_input('create filters_conv1.png? ') == 'Y':
