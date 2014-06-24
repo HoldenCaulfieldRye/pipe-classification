@@ -134,15 +134,19 @@ if __name__ == '__main__':
   
   matplot(cfg_dir, error, start, end)
  
-  # ideal would be get layer names from cfg, and prompt for which ones
-  # user wants
-  
-  if raw_input('create filters_conv1.png? ') == 'Y':
-    make_filters(saved_net, 'conv1', cfg_dir)
+  try: 
+    os.environ['DISPLAY']
+  except: 
+    print 'WARNING: X11 forwarding not enabled, cannot run shownet here'
+  else:
+    # ideal would be get layer names from cfg, and prompt for which ones
+    # user wants
+    if raw_input('create filters_conv1.png? ') == 'Y':
+      make_filters(saved_net, 'conv1', cfg_dir)
 
-  if raw_input('random preds[0-9].png? ') == 'Y':
-    make_preds(saved_net, cfg_dir)
-  
-  if raw_input('fail preds[0-9].png? ') == 'Y':
-    make_preds(saved_net, cfg_dir, True)
+    if raw_input('random preds[0-9].png? ') == 'Y':
+      make_preds(saved_net, cfg_dir)
+    if raw_input('fail preds[0-9].png? ') == 'Y':
+      make_preds(saved_net, cfg_dir, True)
+
 
