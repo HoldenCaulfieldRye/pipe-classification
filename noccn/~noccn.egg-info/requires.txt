@@ -1,9 +1,0 @@
-joblib
-
-[docs]
-Sphinx
-
-[testing]
-mock
-pytest
-pytest-cov

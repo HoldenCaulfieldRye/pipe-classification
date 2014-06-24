@@ -1,0 +1,9 @@
+Krizhevsky/skynet/decaf config, with even smaller learning rate, and smaller momentum
+train error converged before overfit. let's get momentum back up to 0.9 like skynet, and nothing else
+(momentum used to be at 0.5 on conv1-fc6, 0.9 for the other 2)
+changed momentum at 40.690
+also changed test-range from 871-886 to 851-886
+increasing momentum worsened validation error. bringing it to zero now, in case it's overshooting the minimum. not changing learning rate yet
+this momentum set-to-zero takes effect from 48.35
+CAREFUL with the epoch.batchnum values, when you restart training, they don't start where you left off, but where weights were last saved
+divided learning rate by 10, set momentum back to 0.9, training resumes at line 101526 in train_output.txt
