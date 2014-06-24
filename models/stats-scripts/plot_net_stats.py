@@ -87,8 +87,11 @@ def make_filters(saved_net,layer_name,cfg_dir):
   back = os.getcwd()
   os.chdir('../../cuda_convnet')
   command = "python shownet.py -f "+saved_net+" --show-filter="+layer_name
+  print 'about to call command: %s'%(command)
   call(command.split(), shell=False)
-  shutil.move('filters.png',cfg_dir+'/filters'+layer_name+'.png')
+  rename = cfg_dir+'/filters'+layer_name+'.png'
+  print 'moving filters.png to %s'%(rename)
+  shutil.move('filters.png', rename)
   os.chdir(back)
 
 
