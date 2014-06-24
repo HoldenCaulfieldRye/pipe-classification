@@ -79,13 +79,14 @@ def matplot(cfg_dir, error, start=-1, end=-1):
   # plt.title('Single-Input Logistic Sigmoid Neuron')
   plt.grid(True)
   plt.savefig(cfg_dir+"/plot_time_series_error_rates.png")
+  print 'error time series plot saved in cfg_dir'
   # plt.show()
 
 
 def make_filters(saved_net,layer_name,cfg_dir):
-  # very dirty
   back = os.getcwd()
   os.chdir('../../cuda_convnet')
+  # dirty I know
   command = "python shownet.py -f "+saved_net+" --show-filter="+layer_name
   print 'about to call command: %s'%(command)
   call(command.split(), shell=False)
@@ -99,7 +100,8 @@ def make_preds(saved_net, cfg_dir, fail=False):
   back = os.getcwd()
   os.chdir('../../cuda_convnet')
 
-  if fail==True: 
+  if fail==True:
+    # dirty I know    
     command = "python shownet.py -f "+saved_net+" --show-preds=probs --only-errors=1"
     call(command.split(), shell=False)
     fail = 'fail_'
@@ -110,9 +112,12 @@ def make_preds(saved_net, cfg_dir, fail=False):
     fail = ''
 
   preds_num = 0
+  preds_dir = cfg_dir+'/preds'
+  if not os.path.isdir(preds_dir):
+    os.mkdir(preds_dir)
   while os.path.isfile('preds'+str(preds_num)+'.png'):
     shutil.move('preds'+str(preds_num)+'.png',
-                cfg_dir+'/'+fail+'preds'+str(preds_num)+'.png')
+                preds_dir+'/'+fail+'preds'+str(preds_num)+'.png')
     preds_num += 1
 
   os.chdir(back)
