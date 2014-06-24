@@ -1,0 +1,7 @@
+      [console_scripts]
+      ccn-predict = noccn.predict:console
+      ccn-train = noccn.train:console
+      ccn-show = noccn.show:console
+      ccn-make-batches = noccn.dataset:console
+      ccn-tag = noccn.tag:console
+      

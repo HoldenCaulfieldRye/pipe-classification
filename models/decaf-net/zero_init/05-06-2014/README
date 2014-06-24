@@ -1,2 +1,0 @@
-Krizhevsky/skynet/decaf configuration, with no dropout
-Krizhevsky/skynet/decaf configuration, with no dropout - also realised epsW epsB are the learning rates! I had increased them in last one. now 10x lower

@@ -1,0 +1,13 @@
+Metadata-Version: 1.1
+Name: noccn
+Version: 0.1-dev
+Summary: Utilities for Alex Krizhevsky's cuda-convnet
+Home-page: https://github.com/dnouri/noccn
+Author: Daniel Nouri
+Author-email: daniel.nouri@gmail.com
+License: MIT
+Description: 
+        
+        
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha

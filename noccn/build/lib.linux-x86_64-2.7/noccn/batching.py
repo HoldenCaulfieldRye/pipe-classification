@@ -1,24 +1,16 @@
 import numpy as np
 import os
+from os.path import join as ojoin
 import cPickle as pickle
 # from dict2xml import *
 import xml.dom
 from joblib import Parallel, delayed
 from PIL import Image
 import xml.etree.ElementTree as ET
+import json, random
 import shutil
 import time
 
-
-def get_a_batch_data_array():
-  ''' loads an array of labels in the format expected by cuda-
-  convnet, from a hard-coded location which on graphic02 
-  corresponds to a suitable data file. (batches.meta?) '''
-
-def get_a_pipe_data_list(data_dir):
-  ''' loads the 10002.data file provided by ControlPoint and stores
-  its contents in a list, to be returned. '''
-  os.chdir(os.cwd()+data_dir)
 
 
 #### STEP 1: GET LABELS ##############################################
@@ -46,7 +38,72 @@ def get_all_pipe_labels(data_dir,save=True):
     print 'saved pickle file in', os.getcwd()
 
 
-#### STEP 2: LEAVE OUT BAD REDBOX DATA  #############################
+def get_label_dict(data_dir):
+  path = data_dir
+  d = {'Perfect': []}
+  print 'generating dict of label:files from %s...'%(data_dir)
+  for filename in os.listdir(path):
+    if not filename.endswith('.dat'): continue
+    fullname = os.path.join(path, filename)
+    with open(fullname) as f:
+      content = f.readlines()
+      if content == []:
+        d['Perfect'].append(filename.split('.')[0]+'.jpg')
+      else:
+        for label in content:
+          if label not in d.keys(): d[label] = []
+          d[label].append(filename.split('.')[0]+'.jpg')
+  return d
+
+
+#### STEP 2: VISUALLY INSPECT RANDOM SAMPLES OF DATA ##############
+
+def sample_images(data_dir):
+  sample_size = int(raw_input('How many images of each label do you want? '))
+  d = get_label_dict(data_dir)
+  d_small = {}
+  for label in d.keys():
+    d_small[label] = []
+    if sample_size > len(d[label]):
+      print 'there are only %i images with label %s'%(len(d[label]),label)
+      d_small[label] = d[label]
+    else: d_small[label] = random.sample(d[label], sample_size)
+  whichBox = data_dir.split('/')[-3]
+  json.dump(d, open('label_dict_sample_'+whichBox+'.txt','w'))      
+  return d_small
+
+
+def visual_inspect(data_dir):
+  d = sample_images(data_dir)
+
+  if list(data_dir)[-1] is not '/': data_dir = data_dir+'/'
+  sample_dir = os.getcwd()+'/visual_inspect/'+data_dir.split('/')[-4]+'/'
+
+  if os.path.isdir(os.getcwd()+'/visual_inspect'):
+    os.chdir('visual_inspect')
+  else: os.mkdir('visual_inspect')
+
+  if os.path.isdir(sample_dir):
+    rm = raw_input("image samples for inspection already found. delete? (Y/N) ")
+    if rm == 'Y': 
+      shutil.rmtree(sample_dir)
+      os.mkdir(sample_dir)
+  else:
+    os.mkdir(sample_dir)
+  os.chdir(sample_dir)
+
+  for label in d.keys():
+    inspect = raw_input("want to sample photos with %s? (Y/N) "%(label))
+    if inspect == 'Y':
+      if not os.path.isdir(sample_dir+label): os.mkdir(sample_dir+label)
+      for filename in d[label]:
+        if os.path.isfile(sample_dir+label+'/'+filename):
+          print "have already sampled %s before"%(filename)
+        else: 
+          shutil.copyfile(data_dir+filename,sample_dir+label+'/'+filename)
+
+
+#### STEP 3: (SKIP) LEAVE OUT BAD REDBOX DATA  #######################
 
 def cleave_out_bad_data(data_dir):
   ''' creates 2 dirs, fills one with images in cwd having 
@@ -110,8 +167,8 @@ def get_info(fname,label_data_fields,metadata_file_ext):
   return return_dict
 
 
-#### STEP 3: CREATE XML DATA FILES IN CUDACONVNET FORMAT  ############
-#### FOR TEST RUN AND FOR SERIOUS RUN                     ############
+#### STEP 4: (SKIP) CREATE XML DATA FILES IN CUDACONVNET FORMAT  #####
+#### FOR TEST RUN AND FOR SERIOUS RUN                            #####
 
 def generate_xml_labels_from_pipe_data(data_dir):
   ''' creates .xml's from all .dat files in data_dir. '''
@@ -188,7 +245,7 @@ def generate_xml_for(filename, path):
     # dict2xml(data) ?
 
 
-#### STEP 4: STORE IMGS IN DIRS TO PREPARE FOR BATCHING  #############
+#### STEP 5: STORE IMGS IN DIRS TO PREPARE FOR BATCHING  #############
 
 def move_to_dirs(args):
   print 'you know what, this should be made into a ccn script, with arguments specified in options.cfg'
@@ -262,7 +319,59 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
 
   return case_count, badcase_count, tagless_count
 
-#### STEP 5: GENERATE BATCHES ########################################
+
+#### STEP 5.1: RANDOM DELETE FOR BALANCED CLASSES ####################
+
+# careful! if you deleted links and now wish to add some back, make 
+# sure json dump gets updated/overwritten correctly 
+def random_delete(data_dir, ratio):
+  ''' randomly deletes as few images from outnumbering class dirs as
+      possible such that #biggest/#smallest == ratio. '''
+
+  if ratio < 1: 
+    print 'Error: ratio must be >=1.'
+    exit
+
+  data_dir = os.path.abspath(data_dir)
+  dump = raw_input('Do you want a json dump in %s of which files were randomly deleted?(Y/any) '%(data_dir))
+    
+  # D is for dict, d is for directory
+  D = {}
+  os.chdir(data_dir)
+  dirs = [d for d in os.listdir(data_dir) if os.path.isdir(ojoin(data_dir,d))]
+  
+  print 'the directories are: %s'%(dirs)
+
+  for d in dirs:
+    D[d] = {}
+    D[d]['total'] = len(os.listdir(ojoin(data_dir,d)))
+
+  dirs = [(d,D[d]['total']) for d in D.keys()]
+  dirs = sorted(dirs, key = lambda x: x[1])
+
+  print '%s is smallest class with %i images'%(dirs[0][0],dirs[0][1])
+  for d in D.keys():
+    D[d]['remove'] = max(0,int(D[d]['total']-(ratio*dirs[0][1])))
+    print '%s has %i images so %i will be randomly removed'%(d, D[d]['total'], D[d]['remove'])
+    if D[d]['remove'] > 0 :
+      D = random_delete_aux(data_dir,d,D)
+
+  if dump == 'Y': json.dump(D, open(data_dir+'/random_remove_dict.txt','w'))
+  return D
+
+
+# D is for dict, d is for directory
+def random_delete_aux(data_dir,d,D,delete_hard=False):
+  D[d]['deleted'] = random.sample(os.listdir(ojoin(data_dir,d)),D[d]['remove'])
+  print 'successfully condemned images from %s'%(d)
+  back = os.getcwd()
+  os.chdir(ojoin(data_dir,d))
+  for link in D[d]['deleted']: os.remove(link)
+  os.chdir(back)
+  return D
+
+
+#### STEP 6: GENERATE BATCHES ########################################
 
 def generate_batches_from_pipe_data(data_dir, label_options):
   ''' generates data batches and batches.meta files in the format 
@@ -411,6 +520,15 @@ if __name__ == "__main__":
   if sys.argv[1] == 'get_all_pipe_labels':
     get_all_pipe_labels(sys.argv[2])
 
+  elif sys.argv[1] == 'get_label_dict':
+    get_label_dict(sys.argv[2])
+
+  elif sys.argv[1] == 'sample_images':
+    sample_images(sys.argv[2])
+
+  elif sys.argv[1] == 'visual_inspect':
+    visual_inspect(sys.argv[2])
+
   elif sys.argv[1] == 'cleave_out_bad_data':
     cleave_out_bad_data(sys.argv[2])
 
@@ -420,9 +538,15 @@ if __name__ == "__main__":
   elif sys.argv[1] == 'generate_xml_labels_from_pipe_data':
     generate_xml_labels_from_pipe_data(sys.argv[2])
 
-  # commad used: python batching.py move_to_dirs /data/ad6813/pipe-data/Redbox/raw_data/dump /data/ad6813/pipe-data/Redbox/raw_data/clamp_detection NoClampUsed,PhotoDoesNotShowEnoughOfClamps,ClampDetected last_label_is_default
+  # command used: python batching.py move_to_dirs /data2/ad6813/pipe-data/Redbox/raw_data/dump /data2/ad6813/pipe-data/Redbox/raw_data/clamp_detection NoClampUsed,PhotoDoesNotShowEnoughOfClamps,ClampDetected last_label_is_default
+
+  # and then nohup ~/.local/bin/ccn-make-batches models/clamp_detection/options.cfg >> models/clamp_detection/make_batches.out 2>&1 &
   elif sys.argv[1] == 'move_to_dirs':
     move_to_dirs(sys.argv)
+
+  elif sys.argv[1] == 'random_delete':
+    random_delete(sys.argv[2], float(sys.argv[3]))
+  
 
 ##### tests ##########################################################
 
