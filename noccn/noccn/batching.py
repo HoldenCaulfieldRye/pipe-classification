@@ -1,5 +1,6 @@
 import numpy as np
 import os
+from os.path import basename as bname
 import cPickle as pickle
 # from dict2xml import *
 import xml.dom
@@ -343,18 +344,17 @@ def random_delete(data_dir, ratio):
   for d in dirs:
     D[d] = {}
     D[d]['total'] = len(os.listdir(d))
-    print '%s has %i images'%(d,D[d]['total'])
 
-  dirs = [(d,num) for (d,D[d]) in D.keys()]
+  dirs = [(d,D[d]['total']) for d in D.keys()]
   dirs = sorted(dirs, key = lambda x: x[1])
 
-  print '%s is smallest class with %i images'%(dirs[0][0],dirs[0][1])
+  print '%s is smallest class with %i images'%(bname(dirs[0][0]),dirs[0][1])
   for d in D.keys():
-    D[d]['remove'] = D[d]['total']-(ratio*dirs[0][1])
-    print '%s has %i images so %i will be randomly removed'%(d, D[d]['total'], D[d]['remove'])
-    D = random_remove(d,D)
+    D[d]['remove'] = max(0,D[d]['total']-(ratio*dirs[0][1]))
+    print '%s has %i images so %i will be randomly removed'%(bname(d), D[d]['total'], D[d]['remove'])
+    D = random_delete_aux(d,D)
 
-  if dump == 'Y': json.dump(D, open(data_dir+'/'+,'w'))
+  if dump == 'Y': json.dump(D, open(data_dir+'/random_remove_dict.txt','w'))
   return D
 
 # remember which files were deleted! (to make easy to bring missing 
@@ -362,8 +362,8 @@ def random_delete(data_dir, ratio):
 
 
 # D is for dict, d is for directory
-def random_remove(d,D):
-
+def random_delete_aux(d,D):
+  return D
 
 #### STEP 6: GENERATE BATCHES ########################################
 
