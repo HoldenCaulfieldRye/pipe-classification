@@ -41,7 +41,7 @@ try:
     from scipy import ndimage
     import matplotlib.pylab as pl
 except:
-    print "This script requires the matplotlib python library (Ubuntu/Fedora package name python-matplotlib). Please install it."
+    print "(shownet.py) This script requires the matplotlib python library (Ubuntu/Fedora package name python-matplotlib). Please install it."
     sys.exit(1)
 
 class ShowNetError(Exception):
