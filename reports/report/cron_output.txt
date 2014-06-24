@@ -123,3 +123,13 @@ hint: to the same ref. You may want to first integrate the remote changes
 hint: (e.g., 'git pull ...') before pushing again.
 hint: See the 'Note about fast-forwards' in 'git push --help' for details.
 alex     23445  5378  0 04:45 pts/4    00:00:08 texmaker report.tex
+[master 8976dae] auto-commit progress on report
+ 1 file changed, 11 insertions(+)
+To git@github.com:HoldenCaulfieldRye/pipe-classification.git
+ ! [rejected]        master -> master (fetch first)
+error: failed to push some refs to 'git@github.com:HoldenCaulfieldRye/pipe-classification.git'
+hint: Updates were rejected because the remote contains work that you do
+hint: not have locally. This is usually caused by another repository pushing
+hint: to the same ref. You may want to first integrate the remote changes
+hint: (e.g., 'git pull ...') before pushing again.
+hint: See the 'Note about fast-forwards' in 'git push --help' for details.

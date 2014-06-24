@@ -477,7 +477,7 @@ The error being shown is the negative of the log probability of the likelihood f
 \begin{equation}
 \frac{1}{n}\sum\limits_{i=1}^n ln(f(W|x_i))
 \end{equation}
-Where f is the cost function I think. So in this case it is the cross entropy I think. \\
+Where f is the cost function I think. So in this case it is the cross entropy I think. (Verify this, provide intuition).\\
 
 A number of potential explanations for the volatile periodic error rates were considered:
 \begin{itemize}
@@ -625,7 +625,7 @@ CNNs were trained on all of the "No Clamps" or "Clamps Not Sufficiently Visible"
 
 Note that the two minority classes were merged: because it is suspected that there is barely any semantic difference between them (will have to draw random samples to verify this), and because this reduces the number of majority class instances to remove, since it makes it easier to reach a good balance ratio. \\
 
-Moreover, Bluebox images were chosen this time round, in order to limit the impact of mis-labelling and photographically poor images on training, and to limit the number of possible explanations for poor performance if that were to occur. According to ControlPoint the mis-labelling rate greatly decreased through time; since Bluebox images are the most recent, one would hope the mis-labelling rate would be lowest. However, this heavily reduced the amount of training data, requiring transfer learning to come into play.\\
+Moreover, Bluebox images were chosen this time round, in order to limit the impact of mis-labelling and photographically poor images on training, and to limit the number of possible explanations for poor performance if that were to occur. According to ControlPoint the mis-labelling rate greatly decreased through time; since Bluebox images are the most recent, one would hope the mis-labelling rate would be lowest. However, this heavily reduced the amount of training data, requiring transfer learning to come into play. Still, just as a benchmark -- for the record -- randomly initialised AlexNets were trained from the ground up. \\
 
 Since there is a tradeoff between class balance and dataset size, two different balance ratios were tested: 40\%/60\% for a dataset of and 33\%/66\%. \\ 
 
