@@ -86,7 +86,8 @@ def make_filters(saved_net,layer_name,cfg_dir):
   # very dirty
   back = os.getcwd()
   os.chdir('../../cuda_convnet')
-  call('python','shownet.py','-f',saved_net,'--show-filters='+layer_name)
+  command = "python shownet.py -f "+saved_net+" --show-filter="+layer_name
+  call(command.split(), shell=False)
   shutil.move('filters.png',cfg_dir+'/filters'+layer_name+'.png')
   os.chdir(back)
 
@@ -96,8 +97,8 @@ def make_preds(saved_net, cfg_dir, fail=False):
   os.chdir('../../cuda_convnet')
 
   if fail==True: 
-    call('python','shownet.py','-f',saved_net,'--show-preds=probs', 
-         '--only-errors=1')
+    command = "python shownet.py -f "+saved_net+" --show-preds=probs --only-errors=1"
+    call(command.split(), shell=False)
     fail = 'fail_'
 
   else: 
