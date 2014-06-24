@@ -89,7 +89,7 @@ def make_filters(saved_net,layer_name,cfg_dir):
   command = "python shownet.py -f "+saved_net+" --show-filter="+layer_name
   print 'about to call command: %s'%(command)
   call(command.split(), shell=False)
-  rename = cfg_dir+'/filters'+layer_name+'.png'
+  rename = cfg_dir+'/filters_'+layer_name+'.png'
   print 'moving filters.png to %s'%(rename)
   shutil.move('filters.png', rename)
   os.chdir(back)
@@ -131,6 +131,12 @@ if __name__ == '__main__':
     train_path = sys.argv[1]
     cfg_dir, train_output_fname = os.path.split(os.path.normpath(train_path))
 
+    # to get absolute path of cfg_dir, not relative
+    back = os.getcwd()
+    os.chdir(cfg_dir)
+    cfg_dir = os.getcwd()
+    os.chdir(back)
+    
     with open(train_path) as f:
       content = f.readlines()
       error, saved_net = parse(content)
