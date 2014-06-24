@@ -105,7 +105,8 @@ def make_preds(saved_net, cfg_dir, fail=False):
     fail = 'fail_'
 
   else: 
-    call('python','shownet.py','-f',saved_net,'--show-preds=probs')
+    command = "python shownet.py -f "+saved_net+" --show-preds=probs"
+    call(command.split(), shell=False)
     fail = ''
 
   preds_num = 0
