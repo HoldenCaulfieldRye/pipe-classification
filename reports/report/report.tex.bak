@@ -320,28 +320,30 @@ ControlPoint recently upgraded the photographical equipment with which photos ar
 
 \begin{table}[h]
    \centering
-    \begin{tabular}{|l|c|}
+    \begin{tabular}{|l|c|c|}
     \hline
-    Characteristic                 & Count  \\ \hline
-    No Ground Sheet  & ~  30,015 \\
-    No Insertion Depth Markings  & ~ 17,667 \\
-    No Visible Hatch Markings  & ~ 28,155 \\
-    Other  & ~  251 \\
-    Photo Does Not Show Enough Of Clamps  & ~ 5,059 \\
-    Photo Does Not Show Enough Of Scrape Zones  & ~ 21,272 \\
-    Fitting Proximity  & ~  1,233 \\
-    Soil Contamination Low Risk  & ~ 10 \\
-    Unsuitable Scraping Or Peeling  & ~ 2,125 \\
-    Water Contamination Low Risk  & ~ 3 \\
-    Joint Misaligned  & ~  391 \\
-    Inadequate Or Incorrect Clamping  & ~ 1,401 \\
-    No Clamp Used  & ~  8,041 \\
-    No Visible Evidence Of Scraping Or Peeling  & ~ 25,499 \\
-    Soil Contamination High Risk  & ~ 6,541 \\
-    Water Contamination High Risk  & ~ 1,927 \\
-    Unsuitable Photo  & ~ 2 \\
+    Characteristic                              & ~ Redbox Count  & ~ Bluebox Count \\ \hline
+    Fitting Proximity                           & ~  1,233        & ~ 32      \\
+    Inadequate Or Incorrect Clamping            & ~ 1,401         & ~ 83      \\
+    Joint Misaligned                            & ~ 391           & ~ 35      \\
+    No Clamp Used                               & ~ 8,041         & ~ 1,571   \\
+    No Ground Sheet                             & ~  30,015       & ~ 5,541   \\
+    No Insertion Depth Markings                 & ~ 17,667        & ~ 897     \\
+    No Visible Evidence Of Scraping Or Peeling  & ~ 25,499        & ~ 1,410   \\
+    No Visible Hatch Markings                   & ~ 28,155        & ~ 3,793   \\
+    Other                                       & ~  251          & ~ 103     \\
+    Photo Does Not Show Enough Of Clamps        & ~ 5,059         & ~ 363     \\
+    Photo Does Not Show Enough Of Scrape Zones  & ~ 21,272        & ~ 2,545   \\
+    Soil Contamination High Risk                & ~ 6,541         & ~ 3       \\
+    Soil Contamination Low Risk                 & ~ 10            & ~ N/A     \\
+    Soil Contamination Risk                     & ~ ?             & ~ 529     \\
+    Unsuitable Photo                            & ~ 2             & ~ N/A     \\
+    Unsuitable Scraping Or Peeling              & ~ 2,125         & ~ 292     \\
+    Water Contamination High Risk               & ~ 1,927         & ~ 9       \\
+    Water Contamination Low Risk                & ~ 3             & ~ 7       \\
+	Water Contamination Risk                    & ~ ?             & ~ 296     \\
      \hline
-    Perfect (no labels)  & ~ 49,039 \\
+    Perfect (no labels)                         & ~ 49,039        & ~ 4,182   \\
     \hline
     \end{tabular}
     \caption {Count of Redbox images with given label}
@@ -380,8 +382,8 @@ classes. Moreover, one would need to ensure that the range of the error is as la
 
 \clearpage
 
-\clearpage
 \section{Task 1: Generic Clamp Detection}
+
 
 \subsection{Motivations}
 
@@ -430,7 +432,25 @@ First a GeForce GTX 780 with 4GB RAM.
 
 DOES THIS SUBSUBSECTION REALLY BELONG HERE? yes I would say so, but may need to be edited so that it just mentions how tough the task turned out to be, and that the obstacles which were discovered lead to devising a new task, that of joint-type classification. Perhaps also mention that unsupervised learning was considered to deal with the mis-labelled data, the reasons for why this was put aside (discussions with ControlPoint), but that it would make for interesting further research? Maybe it should be renamed to summary, and be included as final subsubsection of every implementation subsection? \\
 
-Several weeks into training, it was discovered by visual inspection and extended communication with ControlPoint staff that there existed 6 completely different types of clamps -- one for each different type of pipe joint [insert photos of different clamp types here]. It was also discovered that in a significant number of cases the glint of a clamp was sufficient to judge it present, and that in other cases the presence of clamps in certain areas of the pipes did not count as clamp presence [have images to illustrate this point]. This makes learning very difficult, as a class can be pictured as a disjoint set of subclasses, some of which fine-grained, and that one subclass could trigger a false positive of another class.\\
+Several weeks into training, it was discovered that in the case of tapping-T joints, for the Redbox images, the glint of a slim portion of a clamp is sufficient to judge it present. \\
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.35\linewidth]{images/tapping-T.jpg}
+	\caption{The clamp wraps around under the pipe - the glint of a metal rod gives it away}
+\end{figure}
+
+Worse still, sometimes the presence of clamps "doesn't count": these are cases for which the purpose of the clamp is other than to secure the welding. Therefore, if such a clamp is present, but the clamp that serves to secure the weld is absent, then the image is assigned the "No Clamps" label. For example, bottom left, a clamp can clearly be seen, but it's not a weld clamp. So this image should have a "No Clamps" flag raised (sadly, it doesn't). Bottom right: the thin metallic clamp that is fastened on the vertical pipe is not the clamp we're interested in. The glint from the thin metallic rod going along the thick, horizontal pipe tells us that a tapping-T clamp is present, even though that clamp is hidden underneath the pipe. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.35\linewidth]{images/truly_confusing_1.jpg}
+	\caption{This clamp is not a weld clamp}
+	\includegraphics[width=0.35\linewidth]{images/truly_confusing_2.jpg}
+	\caption{The clamp on the vertical rod is not a weld clamp}
+\end{figure}
+
+This makes learning very difficult, as a class can be pictured as a disjoint set of subclasses, some of which fine-grained, and that one subclass could trigger a false positive of another class.\\
 
 The solution was to train a classifier capable of recognising the type of joint having been welded, using the small subset of data which contained joint-type labels, in order to try and tag the remaining dataset. The advantage of knowing the joint-type is that we can isolate clamp types, and train a classifier on s single type of clamp. That way, the learning task is simplified, and one is able to focus on the other challenges. \\
 
@@ -445,7 +465,7 @@ They were trained on the clamp detection task using the Redbox data only. The pu
 
 The classification task is a challenging one: indeed, none of the training sessions have shown any signs of parameter convergence, as the below plot of the training and validation errors over batch iterations can show. These results are very confusing: backpropagation is guaranteed to converge [cite! go into more detail about this! include the proof in your background!], and yet both training and validation errors seem stuck in volatile periodicity.
 
-You should also justify why you are not bothering with the test error!
+You should also justify why you are not bothering with the test error! Because test error optimum is obtained at validation error optimum; test error is merely a truly impartial measure of performance. A bunch of research contents itself with validation error when merely iterating through various models. 
 
 \begin{figure}[h!]
 	\centering
@@ -575,20 +595,35 @@ worst performing batches: 152, (302, 162, 105, 87, 60, 39, 736, 710, 643, 631 an
 
 Would be nice to add the plot of the errors and point to which batches the spikes correspond to. \\
 
-This suggests that the only thing that determines error is proportion of non-"clamp detected" cases. this is very strong evidence that the net has learned to output "clamp detected" all the time. \\
+This suggests that the only thing that determines error is proportion of non-"clamp detected" cases. this is strong evidence that the net has learned to output "clamp detected" all the time. More evidence can be obtained by looking at which mis-classifications occur: ten mis-classification results such as the one below were processed, and in all cases the mis-classifications were the same: "Clamp Detected" was wrongly output, with maximum confidence.\\
 
-Do you think I should try and find completely foolproof evidence? Like running dummy input through the network? \\
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/preds9.png}
+	\caption{test and validation error rates for clamp detection after setting momentum to zero}
+\end{figure}
 
+It can also be interesting to notice that no meaningful features are learned: for example, the filters learned at the lowest convolutional layer in optimised networks usually resemble edge or contrast detectors: in this case, they look noisy. 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/good_filters.png} % need to crop to get side by side
+	\caption{filters learned from a successfully optimised lowest convolutional layer} 
+	\includegraphics[scale=0.5]{images/bad_filters.png}  % need to crop to get side by side
+	\caption{filters learned at lowest convolutional layer of this network}
+\end{figure}
 
 \subsubsection{Class Imbalance}
 
-SHOULD I REALLY IMPLEMENT THIS? So much work just on the first task which was supposed to be preliminary... \\
+SHOULD I REALLY IMPLEMENT THIS? So much work just on the first task which was supposed to be preliminary... yes but you might as well do it now, you haven't got much else to do, since ControlPoint need to get round to sending me the extra metadata. Moreover, to get their confidence, you need to deliver good results. Transfer Learning is what I'm talking about boy. \\
 
 Three approaches were taken to tackle class imbalance, the first ones being simplest to implement, the last ones most sophisticated and information-preserving.
 
 \paragraph{Subset of Training Set}
 
 CNNs were trained on all of the "No Clamps" or "Clamps Not Sufficiently Visible" images, and a random sample containing 15\% of the "Clamps Detected" images, in order to obtain an acceptably balanced dataset. This fix was easiest to implement and served as a benchmark for the more sophisticated subsequent approaches. Naturally, one would also expect this approach to be least effective: 85\% of the training data was lost, data which could intuitively serve not to teach the network to distinguish classes, but to learn features that are good encoders of pipe weld images, from which an effective discriminative setup of the parameters could ensue. \\
+
+
 
 \paragraph{Partial Data Augmentation}
 
@@ -605,6 +640,17 @@ To generate additional labels that help with learning tasks and create commercia
 \subsection{Design}
 
 \subsection{Implementation}
+
+\subsubsection{Caffe}
+
+Caffe is a framework for convolutional neural network algorithms, created by Yangqing Jia, and is in active development by the Berkeley Vision and Learning Center. It was chosen in order to implement transfer learning, or pretraining. Not like standard unsupervised pretraining, since this time, training was supervised, but on another dataset. So end result is pretty much the same, though it would be interesting to compare the two approaches. (unsupervised pretraining on ImageNet vs supervised pretraining on ImageNet). \\
+ 
+The network pretrained on ImageNet is licensed for academic research, and is for non-commercial use only. Therefore, if ControlPoint wishes to make commercial use of a network whose weights were initialised from it, it would have to pretrain its own net on a dataset on which there are no such licensing restrictions. \\
+
+
+
+
+
 
 \subsubsection{Training the Joint-Type Classifier}
 
