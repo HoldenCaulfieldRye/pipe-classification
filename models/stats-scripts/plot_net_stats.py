@@ -37,8 +37,8 @@ def parse(content):
             assert content[i].strip().split(' ')[-1] == 'sec)'
             error.append((float(content[i].strip().split(' ')[3].split(',')[0]),test_error))
           except:
-            print 'ERROR: the following line was supposed to contain a train error:\n',content[i]
-            print 'So assume training was interrupted, so breaking'
+            # print 'ERROR: the following line was supposed to contain a train error:\n',content[i]
+            # print 'So assume training was interrupted, so breaking'
             break
             
     if "===Test output===" in content[idx]:
