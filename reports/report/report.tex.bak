@@ -477,7 +477,7 @@ The error being shown is the negative of the log probability of the likelihood f
 \begin{equation}
 \frac{1}{n}\sum\limits_{i=1}^n ln(f(W|x_i))
 \end{equation}
-Where f is the cost function I think. So in this case it is the cross entropy I think. \\
+Where f is the cost function I think. So in this case it is the cross entropy I think. (Verify this, provide intuition).\\
 
 A number of potential explanations for the volatile periodic error rates were considered:
 \begin{itemize}
