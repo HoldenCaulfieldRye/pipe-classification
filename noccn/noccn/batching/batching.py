@@ -317,7 +317,50 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
   print 'badcase_freq: %0.2f' % (float(badcase_count) / case_count)
   print 'tagless_freq: %0.2f' % (float(tagless_count) / case_count)
 
+  merge_classes(to_dir, labels)
+  rename_classes(to_dir)
+
   return case_count, badcase_count, tagless_count
+
+
+def merge_classes(to_dir, labels):
+  ''' once move_to_dirs is done, may wish to merge classes. '''
+  more = 'Y'
+  while more == 'Y':
+    if raw_input('Merge (more) classes? (Y/N) ') == 'Y':
+      merge = []
+      while len(merge) is not 2:
+        print "Name two class numbers from below, separated by ' ':"
+        for elem in zip(range(len(labels)),labels): print elem
+        merge = [int(elem) for elem in raw_input('Merge: ').split()]
+        if not all([idx in range(len(labels)) for idx in merge]): merge = []
+
+      print 'moving files...'
+      for fname in os.listdir(to_dir+'/'+merge[1]):
+        shutil.move(to_dir+'/'+merge[1]+'/'+fname,to_dir+'/'+merge[0]+'/'+fname)
+      new_label = raw_input('name of merged class? ')
+      os.rename(to_dir+'/'+merge[0], to_dir+'/'+new_label)
+
+      # update labels
+      labels = [label for label in labels if label not in merge]
+      labels.append(new_label)
+
+    else: more = False
+
+def rename_classes(to_dir):
+  ''' once move_to_dirs is done, may wish to rename classes (eg so 
+  they can fit in preds). '''
+  more = 'Y'
+  while more == 'Y':
+    if raw_input('Rename (another) class? (Y/N) ') == 'Y':
+      rename = ''
+      while rename == '':
+        print "Name a class number from below:"
+        for elem in zip(range(len(labels)),labels): print elem
+        idx = int(raw_input())
+        if rename not in labels: rename = ''
+      new_name = raw_input('Rename to: ')
+      os.rename(to_dir+'/'+rename, to_dir+'/'+new_name)
 
 
 #### STEP 5.1: RANDOM DELETE FOR BALANCED CLASSES ####################
@@ -543,6 +586,7 @@ if __name__ == "__main__":
   # and then nohup ~/.local/bin/ccn-make-batches models/clamp_detection/options.cfg >> models/clamp_detection/make_batches.out 2>&1 &
   elif sys.argv[1] == 'move_to_dirs':
     move_to_dirs(sys.argv)
+    print 'WARNING: this script is BAD for multi-tagging'
 
   elif sys.argv[1] == 'random_delete':
     random_delete(sys.argv[2], float(sys.argv[3]))
@@ -563,3 +607,4 @@ if __name__ == "__main__":
 
   else: print 'arg not recognised'
 
+  
