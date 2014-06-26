@@ -367,15 +367,48 @@ def rename_classes(to_dir, labels):
 
 #### STEP 5.1: RANDOM DELETE FOR BALANCED CLASSES ####################
 
+def random_delete(data_dir, min_ratio, max_ratio, num_nets):
+  ''' given a data directory containing subdirs to each class, a range
+  of imbalance ratios to cover, and a number of nets to train, creates
+  num_nets directories, each holding a subdir for each class, with 
+  max_ratio as imbalance for net_0, ..., min_ratio as imbalance for 
+  net_num_nets. '''
+
+  if min_ratio < 1 or max_ratio < 1: 
+    print 'Error: ratios must be >=1.'
+    exit
+
+  # using cool log calculus, compute la raison de la suite 
+  # geometrique donnant les ratios a obtenir pour chaque net.
+  step = compute_step(min_ratio, max_ratio, num_nets)
+
+  # move contents of data_dir to a new subdir, 'all'
+  all_names = os.listdir(data_dir)
+  os.mkdir(ojoin(data_dir,'all'))
+  for fname in all_names:
+    shutil.move(ojoin(data_dir,link), ojoin(data_dir,'all',fname))
+
+  # recursively make subdirs for each net, preserving strict set 
+  # inclusion from net[i] to net[i+1]
+  nets = ['all'] + ['net_'+str(i) for i in range(num_nets)])
+  random_delete_recursive(ratio=1, idx=0, data_dir, step, nets):
+  print 'NOTE: net_0 has highest imbalance ratio.'
+
+
+def random_delete_recursive(ratio, idx, data_dir, step, nets):
+  os.mkdir(ojoin(data_dir,nets[i+1]))
+  shutil.copytree(ojoin(data_dir, nets[i]), 
+                  ojoin(data_dir, nets[i+1]), symlinks=True)
+  random_delete_aux(ojoin(data_dir, next_net[i+1]), ratio)
+  if i+1 is in range(len(nets)):
+    random_delete_recursive(ratio*step, step, nets, i+1)
+
+
 # careful! if you deleted links and now wish to add some back, make 
 # sure json dump gets updated/overwritten correctly 
-def random_delete(data_dir, ratio):
+def random_delete_aux(data_dir, ratio):
   ''' randomly deletes as few images from outnumbering class dirs as
       possible such that #biggest/#smallest == ratio. '''
-
-  if ratio < 1: 
-    print 'Error: ratio must be >=1.'
-    exit
 
   data_dir = os.path.abspath(data_dir)
   dump = raw_input('Do you want a json dump in %s of which files were randomly deleted?(Y/any) '%(data_dir))
