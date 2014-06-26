@@ -317,16 +317,22 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
   print 'badcase_freq: %0.2f' % (float(badcase_count) / case_count)
   print 'tagless_freq: %0.2f' % (float(tagless_count) / case_count)
 
-  merge_classes(to_dir, labels)
-  rename_classes(to_dir)
+  labels.append(default)
+  labels = merge_classes(to_dir, labels)
+  rename_classes(to_dir, labels)
 
   return case_count, badcase_count, tagless_count
 
+def update_labels(labels, merge, new_label):
+  labels = [label for label in labels if label not in [labels[i] for i in merge]]
+  labels.append(new_label)
+  return labels
 
 def merge_classes(to_dir, labels):
   ''' once move_to_dirs is done, may wish to merge classes. '''
   more = 'Y'
   while more == 'Y':
+    print '%s' % (', '.join(map(str,labels)))
     if raw_input('Merge (more) classes? (Y/N) ') == 'Y':
       merge = []
       while len(merge) is not 2:
@@ -336,18 +342,16 @@ def merge_classes(to_dir, labels):
         if not all([idx in range(len(labels)) for idx in merge]): merge = []
 
       print 'moving files...'
-      for fname in os.listdir(to_dir+'/'+merge[1]):
-        shutil.move(to_dir+'/'+merge[1]+'/'+fname,to_dir+'/'+merge[0]+'/'+fname)
+      for fname in os.listdir(to_dir+'/'+labels[merge[1]]):
+        shutil.move(to_dir+'/'+labels[merge[1]]+'/'+fname,to_dir+'/'+labels[merge[0]]+'/'+fname)
       new_label = raw_input('name of merged class? ')
-      os.rename(to_dir+'/'+merge[0], to_dir+'/'+new_label)
-
-      # update labels
-      labels = [label for label in labels if label not in merge]
-      labels.append(new_label)
+      os.rename(to_dir+'/'+labels[merge[0]], to_dir+'/'+new_label)
+      labels = update_labels(labels, merge, new_label)
 
     else: more = False
+  return labels
 
-def rename_classes(to_dir):
+def rename_classes(to_dir, labels):
   ''' once move_to_dirs is done, may wish to rename classes (eg so 
   they can fit in preds). '''
   more = 'Y'
@@ -361,7 +365,7 @@ def rename_classes(to_dir):
         if rename not in labels: rename = ''
       new_name = raw_input('Rename to: ')
       os.rename(to_dir+'/'+rename, to_dir+'/'+new_name)
-
+      update_labels(labels, merge, new_name)
 
 #### STEP 5.1: RANDOM DELETE FOR BALANCED CLASSES ####################
 
@@ -503,7 +507,7 @@ def test_move_to_dirs():
   f6.close()
   for img_name in xrange(1,7):
     name = os.getcwd()+'/'+str(img_name)+'.jpg'
-    shutil.copy('/data/ad6813/pipe-data/Redbox/100002.jpg',name)
+    shutil.copy('/data2/ad6813/pipe-data/Redbox/raw_data/dump/100002.jpg',name)
     print 'copied a real jpg to %s'%(name)
   os.chdir(base)
 
