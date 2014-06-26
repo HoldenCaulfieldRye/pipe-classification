@@ -311,7 +311,6 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
         for flag in img_flags:
             os.symlink(fullname_jpg,to_dir+'/'+flag+'/'+rootname+'.jpg')
 
-  print 'types of case_count, badcase_count, tagless_count: %s, %s, %s'%(type(case_count), type(badcase_count), type(tagless_count))
   print 'move_to_dir complete. summary stats:'
   print 'badcase_freq: %0.2f' % (float(badcase_count) / case_count)
   print 'tagless_freq: %0.2f' % (float(tagless_count) / case_count)
@@ -339,10 +338,13 @@ def merge_classes(to_dir, labels):
         merge = [int(elem) for elem in raw_input("Name two class numbers from above, separated by ' ': ").split()]
 
       print 'moving files...'
-      for fname in os.listdir(to_dir+'/'+labels[merge[1]]):
-        shutil.move(to_dir+'/'+labels[merge[1]]+'/'+fname,to_dir+'/'+labels[merge[0]]+'/'+fname)
+      for fname in os.listdir(ojoin(to_dir,labels[merge[1]])):
+        shutil.move(ojoin(to_dir,labels[merge[1]],fname),
+                      ojoin(to_dir,labels[merge[0]]))
       new_label = raw_input('name of merged class? ')
-      os.rename(to_dir+'/'+labels[merge[0]], to_dir+'/'+new_label)
+      os.rmdir(ojoin(to_dir,labels[merge[1]]))
+      os.rename(ojoin(to_dir,labels[merge[0]]), 
+                ojoin(to_dir,new_label))
       labels = update_labels(labels, merge, new_label)
 
     else: more = False
@@ -359,7 +361,8 @@ def rename_classes(to_dir, labels):
         for elem in zip(range(len(labels)),labels): print elem
         rename = [int(elem) for elem in raw_input("Name a class number from above: ").split()]
       new_name = raw_input('Rename to: ')
-      os.rename(to_dir+'/'+labels[rename[0]], to_dir+'/'+new_name)
+      os.rename(ojoin(to_dir,labels[rename[0]]), 
+                ojoin(to_dir,new_name))
       labels = update_labels(labels, rename, new_name)
     else: more = 'N'
     return labels
@@ -382,25 +385,27 @@ def random_delete(data_dir, min_ratio, max_ratio, num_nets):
   step = compute_step(min_ratio, max_ratio, num_nets)
 
   # move contents of data_dir to a new subdir, 'all'
+  if os.path.isdir(ojoin(data_dir,'all')):
+    shutil.rmtree(ojoin(data_dir,'all'))
   all_names = os.listdir(data_dir)
-  os.mkdir(ojoin(data_dir,'all'))
-  for fname in all_names:
-    shutil.move(ojoin(data_dir,link), ojoin(data_dir,'all',fname))
+  shutil.copytree(data_dir, ojoin(data_dir,'all'))
 
   # recursively make subdirs for each net, preserving strict set 
   # inclusion from net[i] to net[i+1]
-  nets = ['all'] + ['net_'+str(i) for i in range(num_nets)])
-  random_delete_recursive(ratio=1, idx=0, data_dir, step, nets):
+  nets = ['all'] + ['net_'+str(i) for i in range(num_nets)]
+  random_delete_recursive(data_dir, step, nets, ratio=2, i=0)
   print 'NOTE: net_0 has highest imbalance ratio.'
 
 
-def random_delete_recursive(ratio, idx, data_dir, step, nets):
-  os.mkdir(ojoin(data_dir,nets[i+1]))
+def random_delete_recursive(data_dir, step, nets, ratio, i):
+#  os.mkdir(ojoin(data_dir,nets[i+1]))
+  if os.path.isdir(ojoin(data_dir,nets[i+1])):
+    shutil.rmtree(ojoin(data_dir,nets[i+1]))
   shutil.copytree(ojoin(data_dir, nets[i]), 
                   ojoin(data_dir, nets[i+1]), symlinks=True)
-  random_delete_aux(ojoin(data_dir, next_net[i+1]), ratio)
-  if i+1 is in range(len(nets)):
-    random_delete_recursive(ratio*step, step, nets, i+1)
+  random_delete_aux(ojoin(data_dir, nets[i+1]), ratio)
+  if i+1 in range(len(nets)):
+    random_delete_recursive(data_dir, step, nets, float(ratio)/step, i+1)
 
 
 # careful! if you deleted links and now wish to add some back, make 
@@ -620,7 +625,7 @@ if __name__ == "__main__":
   elif sys.argv[1] == 'generate_xml_labels_from_pipe_data':
     generate_xml_labels_from_pipe_data(sys.argv[2])
 
-  # command used: python batching.py move_to_dirs /data2/ad6813/pipe-data/Redbox/raw_data/dump /data2/ad6813/pipe-data/Redbox/raw_data/clamp_detection NoClampUsed,PhotoDoesNotShowEnoughOfClamps,ClampDetected last_label_is_default
+  # command used: python batching.py move_to_dirs /data2/ad6813/pipe-data/Bluebox/raw_data/dump /data2/ad6813/pipe-data/Bluebox/raw_data/clamp_detection NoClampUsed,PhotoDoesNotShowEnoughOfClamps,ClampDetected last_label_is_default
 
   # and then nohup ~/.local/bin/ccn-make-batches models/clamp_detection/options.cfg >> models/clamp_detection/make_batches.out 2>&1 &
   elif sys.argv[1] == 'move_to_dirs':
@@ -628,7 +633,11 @@ if __name__ == "__main__":
     print 'WARNING: this script is BAD for multi-tagging'
 
   elif sys.argv[1] == 'random_delete':
-    random_delete(sys.argv[2], float(sys.argv[3]))
+    print 'just need data_dir passed via command line'
+    min_ratio = float(raw_input('min_ratio? '))
+    max_ratio = float(raw_input('max_ratio? '))
+    num_nets = int(raw_input('num_nets? '))
+    random_delete(sys.argv[2], min_ratio, max_ratio, num_nets)
   
 
 ##### tests ##########################################################
