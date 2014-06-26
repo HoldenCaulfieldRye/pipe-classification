@@ -12,7 +12,6 @@ import shutil
 import time
 
 
-
 #### STEP 1: GET LABELS ##############################################
 
 def get_all_pipe_labels(data_dir,save=True):
@@ -432,14 +431,14 @@ def random_delete_aux(data_dir, ratio):
     D[d]['remove'] = max(0,int(D[d]['total']-(ratio*dirs[0][1])))
     print '%s has %i images so %i will be randomly removed'%(d, D[d]['total'], D[d]['remove'])
     if D[d]['remove'] > 0 :
-      D = random_delete_aux(data_dir,d,D)
+      D = random_delete_aux2(data_dir,d,D)
 
   if dump == 'Y': json.dump(D, open(data_dir+'/random_remove_dict.txt','w'))
   return D
 
 
 # D is for dict, d is for directory
-def random_delete_aux(data_dir,d,D,delete_hard=False):
+def random_delete_aux2(data_dir,d,D,delete_hard=False):
   D[d]['deleted'] = random.sample(os.listdir(ojoin(data_dir,d)),D[d]['remove'])
   print 'successfully condemned images from %s'%(d)
   back = os.getcwd()
@@ -447,6 +446,11 @@ def random_delete_aux(data_dir,d,D,delete_hard=False):
   for link in D[d]['deleted']: os.remove(link)
   os.chdir(back)
   return D
+
+
+def compute_step(min_ratio, max_ratio, num_nets):
+  ''' calculates step such that ratio[i+1] = ratio[i]*step for all i,   and such that '''
+  return pow(max_ratio/float(min_ratio), 1/float(num_nets-1))
 
 
 #### STEP 6: GENERATE BATCHES ########################################
