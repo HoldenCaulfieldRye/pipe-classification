@@ -319,7 +319,7 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
 
   labels.append(default)
   labels = merge_classes(to_dir, labels)
-  rename_classes(to_dir, labels)
+  labels = rename_classes(to_dir, labels)
 
   return case_count, badcase_count, tagless_count
 
@@ -334,12 +334,10 @@ def merge_classes(to_dir, labels):
   while more == 'Y':
     print '%s' % (', '.join(map(str,labels)))
     if raw_input('Merge (more) classes? (Y/N) ') == 'Y':
-      merge = []
-      while len(merge) is not 2:
-        print "Name two class numbers from below, separated by ' ':"
+      merge = [-1]
+      while not all([idx in range(len(labels)) for idx in merge]):
         for elem in zip(range(len(labels)),labels): print elem
-        merge = [int(elem) for elem in raw_input('Merge: ').split()]
-        if not all([idx in range(len(labels)) for idx in merge]): merge = []
+        merge = [int(elem) for elem in raw_input("Name two class numbers from above, separated by ' ': ").split()]
 
       print 'moving files...'
       for fname in os.listdir(to_dir+'/'+labels[merge[1]]):
@@ -357,15 +355,15 @@ def rename_classes(to_dir, labels):
   more = 'Y'
   while more == 'Y':
     if raw_input('Rename (another) class? (Y/N) ') == 'Y':
-      rename = ''
-      while rename == '':
-        print "Name a class number from below:"
+      rename = [-1]
+      while not all([idx in range(len(labels)) for idx in rename]):
         for elem in zip(range(len(labels)),labels): print elem
-        idx = int(raw_input())
-        if rename not in labels: rename = ''
+        rename = [int(elem) for elem in raw_input("Name a class number from above: ").split()]
       new_name = raw_input('Rename to: ')
-      os.rename(to_dir+'/'+rename, to_dir+'/'+new_name)
-      update_labels(labels, merge, new_name)
+      os.rename(to_dir+'/'+labels[rename[0]], to_dir+'/'+new_name)
+      labels = update_labels(labels, rename, new_name)
+    else: more = 'N'
+    return labels
 
 #### STEP 5.1: RANDOM DELETE FOR BALANCED CLASSES ####################
 
