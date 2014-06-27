@@ -458,8 +458,10 @@ def compute_step(min_ratio, max_ratio, num_nets):
   return pow(max_ratio/float(min_ratio), 1/float(num_nets-1))
 
 
-#### STEP 5.2: CREATE VALIDATION SET #################################
+#### STEP 5.2: CREATE VALIDATION SET ##################################
 
+# to have flexible ratio, num_per_class must be num_min_class and code
+# needs to change.
 def separate_validation_set(data_dir, num_per_class=384, ratio=1):
   '''For comparing impact of different imbalance ratios: this script
   is for getting a separate validation set, perfectly balanced, 
@@ -487,19 +489,19 @@ def create_validation_set(net_dir, num_per_class, ratio):
   new sidealong dir called validation. '''
   classes = os.listdir(net_dir)
   d = {}
-  for class in classes:
-    d[class] = random.sample(ojoin(net_dir,class), num_per_class)
-    for fname in d[class]:
-      shutil.move(ojoin(net_dir, class, fname),
-                  ojoin(net_dir, '..', validation))
+  for c in classes:
+    d[c] = random.sample(os.listdir(ojoin(net_dir,c)), num_per_class)
+    for fname in d[c]:
+      shutil.move(ojoin(net_dir, c, fname),
+                  ojoin(net_dir, '..', 'validation'))
   return d
 
 def remove_imgs(net_dir, remove_dic):
   ''' remove_dics knows which imgs to remove in each class subdir,
   and does so in net_dir. '''
-  for class in remove.keys():
-    for fname in d[class]:
-      os.remove(ojoin(data_dir, 'net_'+str(i), class, fname))
+  for c in remove.keys():
+    for fname in d[c]:
+      os.remove(ojoin(data_dir, 'net_'+str(i), c, fname))
 
 
 #### STEP 6: GENERATE BATCHES ########################################
@@ -682,7 +684,10 @@ if __name__ == "__main__":
     max_ratio = float(raw_input('max_ratio? '))
     num_nets = int(raw_input('num_nets? '))
     random_delete(sys.argv[2], min_ratio, max_ratio, num_nets)
-  
+
+  elif sys.argv[1] == 'separate_validation_set':
+    num = int(raw_input('Number of class instances in validation set: (384) '))
+    separate_validation_set(sys.argv[2], num)
 
 ##### tests ##########################################################
 
