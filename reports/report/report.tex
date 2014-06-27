@@ -423,6 +423,21 @@ Why do conv layers 3 and 4 not have it? \\
 
 Cuda-Convnet is a GPU implementation of a deep convolutional neural network implemented in CUDA/C++. It was written by Alex Krizhevsky to train the net that set ground-breaking records at the ILSVRC 2012 competition, and subsequently open-sourced. However, parts of his work are missing and his open source repository is not sufficient to reproduce his network. In order to do so, data batching scripts were written for turning raw .jpg images and separate .dat files into pickled python objects each containing 128 stacked jpg values in matrix format with RGB values split across, and a dictionary of labels and metadata for the network. \\
 
+Wrote scripts to pre-process the data because Cuda-Convnet and noccn don't provide everything. Had to write scripts to:
+\begin{itemize}
+\item get all labels
+\item visually inspect random samples of the data
+\item leave out images tagged as poor
+\item write the data in the xml format that cuda-convnet's batching API can read
+\item potentially treat unlabelled images as an extra class
+\item potentially leave out classes 
+\item potentially merge classes
+\item randomly remove images to reach given class balance ratio
+\item unit tests for all of the above
+\end{itemize}
+The scripts are written in python and the code is ~800 lines.
+
+
 \subsubsection{Hardware: NVidia GeForce GTX 780}
 
 CUDA-enabled GPU. How many teraflops? Which operations are parallelised? 
