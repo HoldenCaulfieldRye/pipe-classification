@@ -8,6 +8,9 @@ import json, random
 import shutil
 from batching import *
 
+
+#### STEP 1: GET LABELS ##############################################
+
 def test_cleave_out_bad_data():
   data_dir = '/data/ad6813/pipe-data/Redbox'
   os.chdir(data_dir)
@@ -30,6 +33,9 @@ def test_cleave_out_bad_data():
   shutil.rmtree(good_data_dir)
   shutil.rmtree(bad_data_dir)
 
+
+#### STEP 4: (SKIP) CREATE XML DATA FILES IN CUDACONVNET FORMAT  #####
+
 def test_generate_xml_for():
   generate_xml_for('100002.dat',
                    '/data/ad6813/pipe-data/Redbox/')
@@ -39,6 +45,9 @@ def test_generate_xml_for():
     print '1 test passed, but make more!'
   else: 
     print 'test failed.\n dict:', d, '\nshould be:',{'labels':np.array([0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0],int),'bad_joint':0}
+
+
+#### STEP 5: STORE IMGS IN DIRS TO PREPARE FOR BATCHING  #############
 
 def test_move_to_dirs():
   labels = 'NoClampUsed,PhotoDoesNotShowEnoughOfClamps,ClampDetected'
@@ -120,6 +129,39 @@ def test_move_to_dirs():
   # delete everything created by the test
   shutil.rmtree(path_from)
   shutil.rmtree(path_to)
+
+# test merge_classes?
+
+# test rename_classes?
+
+
+#### STEP 5.1: SETUP IMBALANCE EXPERIMENT #############################
+
+def test_imbalance_experiment():
+  os.mkdir('temp')
+  os.mkdir(ojoin('temp','class1'))
+  os.mkdir(ojoin('temp','class2'))
+  
+  # create 200 empty jpg's in class1, 20 in class2
+
+  # setup imbalance experiment over temp directory
+
+  # extract validation set of 10 imgs per class
+
+  # verify that each jpg is now where it should be:
+  # correct proportions in each net_i
+  # correct strict inclusion from net_i+1 to net_i
+  # correct number of files in validation
+  # correct mutual exclusion of validation from all net_i
+
+  # ---
+
+  # batch everything up - ah but can't use empty jpgs for that
+
+  # verify that 
+
+#### STEP 5.2: CREATE VALIDATION SET #################################
+
 
 
 #### SCRIPT ##########################################################
