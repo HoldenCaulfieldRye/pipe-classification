@@ -480,8 +480,8 @@ def separate_validation_set(data_dir, num_per_class=384, ratio=1):
 
   print "Done. Now on each graphic machine, you need to:"
   print "  1) scp the validation dir and a net dir from graphic02"
-  print "  2) run batching on net dir, and validation"
-  print "  3) copy validation batches to net dir, but changing batch numbers such that they follow from the max batch in net dir."
+  print "  2) run batching on net dir, and on validation (such that validation-batches dir ends up inside net-batches dir)"
+  print "  3) copy validation batches to net dir, but changing batch numbers such that they follow from the max batch in net dir. NOTE: you have a script for this :) merge_validation_batches()"
 
 
 def create_validation_set(net_dir, num_per_class, ratio):
@@ -504,8 +504,31 @@ def remove_imgs(net_dir, remove_dic):
       os.remove(ojoin(data_dir, 'net_'+str(i), c, fname))
 
 
+def merge_validation_batches(data_dir):
+  ''' assuming validation-batches dir is in the net-batches dir, moves
+  contents of former into latter, but changing names of batches so
+  that batch numbers follow sequentially and validation batch nums are
+  highest. '''
+  names = os.listdir(data_dir)
+  train_batches = [name for name in names if name.startswith('data_batch_')]
+  names = os.listdir(ojoin(data_dir, 'validation'))
+  valid_batches = [name for name in names if name.startswith('data_batch_')]
+  maxx = len(train_batches)
+
+  for (i,batch) in enumerate(valid_batches):
+    shutil.move(ojoin(data_dir,'validation',batch),
+                ojoin(data_dir,'data_batch_'+str(maxx+i+1)))
+
+  shutil.rmtree(ojoin(data_dir,'validation'))
+
+  print 'validation batches start at data_batch_%i'%(maxx+1)
+  print 'WARNING: batches.meta for validation thrown away. this might harm validation performance because the mean being subtracted will not be the mean over the validation set but over the training set. apart from that, don\'t think there\'s a problem. '
+
+
+
 #### STEP 6: GENERATE BATCHES ########################################
 
+# this isn't actually needed, just run ccn-make-batches
 def generate_batches_from_pipe_data(data_dir, label_options):
   ''' generates data batches and batches.meta files in the format 
   expected by cuda-convnet, from a data format provided by 
@@ -688,6 +711,10 @@ if __name__ == "__main__":
   elif sys.argv[1] == 'separate_validation_set':
     num = int(raw_input('Number of class instances in validation set: (384) '))
     separate_validation_set(sys.argv[2], num)
+
+  elif sys.argv[1] == 'merge_validation_batches':
+    merge_validation_batches(sys.argv[2])
+
 
 ##### tests ##########################################################
 
