@@ -12,7 +12,6 @@ import shutil
 import time
 
 
-
 #### STEP 1: GET LABELS ##############################################
 
 def get_all_pipe_labels(data_dir,save=True):
@@ -312,25 +311,110 @@ def move_to_dirs_aux(from_dir, to_dir, labels, lastLabelIsDefault=False):
         for flag in img_flags:
             os.symlink(fullname_jpg,to_dir+'/'+flag+'/'+rootname+'.jpg')
 
-  print 'types of case_count, badcase_count, tagless_count: %s, %s, %s'%(type(case_count), type(badcase_count), type(tagless_count))
   print 'move_to_dir complete. summary stats:'
   print 'badcase_freq: %0.2f' % (float(badcase_count) / case_count)
   print 'tagless_freq: %0.2f' % (float(tagless_count) / case_count)
 
+  labels.append(default)
+  labels = merge_classes(to_dir, labels)
+  labels = rename_classes(to_dir, labels)
+
   return case_count, badcase_count, tagless_count
 
+def update_labels(labels, merge, new_label):
+  labels = [label for label in labels if label not in [labels[i] for i in merge]]
+  labels.append(new_label)
+  return labels
 
-#### STEP 5.1: RANDOM DELETE FOR BALANCED CLASSES ####################
+def merge_classes(to_dir, labels):
+  ''' once move_to_dirs is done, may wish to merge classes. '''
+  more = 'Y'
+  while more == 'Y':
+    print '%s' % (', '.join(map(str,labels)))
+    if raw_input('Merge (more) classes? (Y/N) ') == 'Y':
+      merge = [-1]
+      while not all([idx in range(len(labels)) for idx in merge]):
+        for elem in enumerate(labels): print elem
+        merge = [int(elem) for elem in raw_input("Name two class numbers from above, separated by ' ': ").split()]
+
+      print 'moving files...'
+      for fname in os.listdir(ojoin(to_dir,labels[merge[1]])):
+        shutil.move(ojoin(to_dir,labels[merge[1]],fname),
+                      ojoin(to_dir,labels[merge[0]]))
+      new_label = raw_input('name of merged class? ')
+      os.rmdir(ojoin(to_dir,labels[merge[1]]))
+      os.rename(ojoin(to_dir,labels[merge[0]]), 
+                ojoin(to_dir,new_label))
+      labels = update_labels(labels, merge, new_label)
+
+    else: more = False
+  return labels
+
+def rename_classes(to_dir, labels):
+  ''' once move_to_dirs is done, may wish to rename classes (eg so 
+  they can fit in preds). '''
+  more = 'Y'
+  while more == 'Y':
+    if raw_input('Rename (another) class? (Y/N) ') == 'Y':
+      rename = [-1]
+      while not all([idx in range(len(labels)) for idx in rename]):
+        for elem in enumerate(labels): print elem
+        rename = [int(elem) for elem in raw_input("Name a class number from above: ").split()]
+      new_name = raw_input('Rename to: ')
+      os.rename(ojoin(to_dir,labels[rename[0]]), 
+                ojoin(to_dir,new_name))
+      labels = update_labels(labels, rename, new_name)
+    else: more = 'N'
+    return labels
+
+
+#### STEP 5.1: SETUP IMBALANCE EXPERIMENT ############################
+
+def imbalance_experiment(data_dir, min_ratio, max_ratio, num_nets):
+  ''' given a data directory containing subdirs to each class, a range
+  of imbalance ratios to cover, and a number of nets to train, creates
+  num_nets directories, each holding a subdir for each class, with 
+  max_ratio as imbalance for net_0, ..., min_ratio as imbalance for 
+  net_num_nets. '''
+
+  if min_ratio < 1 or max_ratio < 1: 
+    print 'Error: ratios must be >=1.'
+    exit
+
+  # using cool log calculus, compute la raison de la suite 
+  # geometrique donnant les ratios a obtenir pour chaque net.
+  step = compute_step(min_ratio, max_ratio, num_nets)
+
+  # move contents of data_dir to a new subdir, 'all'
+  if os.path.isdir(ojoin(data_dir,'all')):
+    shutil.rmtree(ojoin(data_dir,'all'))
+  all_names = os.listdir(data_dir)
+  for name in all_names:
+    shutil.move(ojoin(data_dir,name), ojoin(data_dir,'all',name))
+
+  # recursively make subdirs for each net, preserving strict set 
+  # inclusion from net[i] to net[i+1]
+  nets = ['all'] + ['net_'+str(i) for i in range(num_nets)]
+  random_delete_recursive(data_dir, step, nets, ratio=2, i=0)
+  print 'NOTE: net_0 has highest imbalance ratio.'
+
+
+def random_delete_recursive(data_dir, step, nets, ratio, i):
+#  os.mkdir(ojoin(data_dir,nets[i+1]))
+  if os.path.isdir(ojoin(data_dir,nets[i+1])):
+    shutil.rmtree(ojoin(data_dir,nets[i+1]))
+  shutil.copytree(ojoin(data_dir, nets[i]), 
+                  ojoin(data_dir, nets[i+1]), symlinks=True)
+  random_delete_aux(ojoin(data_dir, nets[i+1]), ratio)
+  if i+2 in range(len(nets)):
+    random_delete_recursive(data_dir, step, nets, float(ratio)/step, i+1)
+
 
 # careful! if you deleted links and now wish to add some back, make 
 # sure json dump gets updated/overwritten correctly 
-def random_delete(data_dir, ratio):
+def random_delete_aux(data_dir, ratio):
   ''' randomly deletes as few images from outnumbering class dirs as
       possible such that #biggest/#smallest == ratio. '''
-
-  if ratio < 1: 
-    print 'Error: ratio must be >=1.'
-    exit
 
   data_dir = os.path.abspath(data_dir)
   dump = raw_input('Do you want a json dump in %s of which files were randomly deleted?(Y/any) '%(data_dir))
@@ -354,14 +438,14 @@ def random_delete(data_dir, ratio):
     D[d]['remove'] = max(0,int(D[d]['total']-(ratio*dirs[0][1])))
     print '%s has %i images so %i will be randomly removed'%(d, D[d]['total'], D[d]['remove'])
     if D[d]['remove'] > 0 :
-      D = random_delete_aux(data_dir,d,D)
+      D = random_delete_aux2(data_dir,d,D)
 
   if dump == 'Y': json.dump(D, open(data_dir+'/random_remove_dict.txt','w'))
   return D
 
 
 # D is for dict, d is for directory
-def random_delete_aux(data_dir,d,D,delete_hard=False):
+def random_delete_aux2(data_dir,d,D,delete_hard=False):
   D[d]['deleted'] = random.sample(os.listdir(ojoin(data_dir,d)),D[d]['remove'])
   print 'successfully condemned images from %s'%(d)
   back = os.getcwd()
@@ -371,8 +455,103 @@ def random_delete_aux(data_dir,d,D,delete_hard=False):
   return D
 
 
+def compute_step(min_ratio, max_ratio, num_nets):
+  ''' calculates step such that ratio[i+1] = ratio[i]*step for all i,   and such that '''
+  return pow(max_ratio/float(min_ratio), 1/float(num_nets-1))
+
+
+#### (SKIP) STEP 5.2: CREATE SHARED VALIDATION SET ###################
+
+# SKIP: validation sets should respect proportions in training set.
+
+# WARNING! this script probably has bugs, validation during training 
+# was not working last time.
+
+
+# to have flexible ratio, num_per_class must be num_min_class and code
+# needs to change.
+def separate_validation_set(data_dir, num_per_class=384, ratio=1):
+  '''For comparing impact of different imbalance ratios: this script
+  extracts a perfectly balanced validation set from a sequence of nets
+  with strict training set inclusion. '''
+
+  if os.path.exists(ojoin(data_dir,'validation')):
+    shutil.rmtree(ojoin(data_dir,'validation'))
+  nets = [net for net in os.listdir(data_dir) 
+          if net.startswith('net_')]
+  os.mkdir(ojoin(data_dir,'validation'))
+
+  min_ratio_net_dir = ojoin(data_dir, 'net_'+str(len(nets)-1))
+  print 'min_ratio_net_dir: %s'%('net_'+str(len(nets)-1))
+
+  removed = extract_validation_set(min_ratio_net_dir, 
+                                  num_per_class, ratio)
+
+  for net in nets[:-1]: 
+    remove_imgs(ojoin(data_dir,net), removed)
+
+  print "Done. Now on each graphic machine, you need to:"
+  print "  1) run batching on validation here on graphic02. "
+  print "  2) scp the validation-batch dir and a net-raw dir from graphic02"
+  print "  3) run batching on net dir"
+  print "  4) copy validation-batch dir to each remote net-batch dir"
+  print "  5) copy validation batches to net dir, but changing batch numbers such that they follow from the max batch in net dir. NOTE: you have a script for this :) merge_validation_batches()"
+
+
+def batch_up(data_dir):
+  '''batches up validation set, batches up each training set, merges
+  validation batches into training sets. '''
+  pass
+
+# to have flexible ratio, num_per_class must be num_min_class and code
+# needs to change.
+def extract_validation_set(net_dir, num_per_class, ratio):
+  '''randomly move num_per_class images out of each dir, and into a
+  new sidealong dir called validation. '''
+  classes = os.listdir(net_dir)
+  print 'going to extract %i images from: %s'%(num_per_class,classes)
+  d = {}
+  for c in classes:
+    os.mkdir(ojoin(net_dir, '..', 'validation',c))
+    d[c] = random.sample(os.listdir(ojoin(net_dir,c)), num_per_class)
+    for fname in d[c]:
+      shutil.move(ojoin(net_dir, c, fname),
+                  ojoin(net_dir, '..', 'validation',c))
+  return d
+
+def remove_imgs(net_dir, remove_dic):
+  ''' remove_dics knows which imgs to remove in each class subdir,
+  and does so in net_dir. '''
+  for c in remove_dic.keys():
+    for fname in remove_dic[c]:
+      os.remove(ojoin(net_dir, c, fname))
+
+
+def merge_validation_batches(data_dir):
+  ''' assuming validation-batches dir is in the net-batches dir, moves
+  contents of former into latter, but changing names of batches so
+  that batch numbers follow sequentially and validation batch nums are
+  highest. '''
+  names = os.listdir(data_dir)
+  train_batches = [name for name in names if name.startswith('data_batch_')]
+  names = os.listdir(ojoin(data_dir, 'validation'))
+  valid_batches = [name for name in names if name.startswith('data_batch_')]
+  maxx = len(train_batches)
+
+  for (i,batch) in enumerate(valid_batches):
+    shutil.move(ojoin(data_dir,'validation',batch),
+                ojoin(data_dir,'data_batch_'+str(maxx+i+1)))
+
+  shutil.rmtree(ojoin(data_dir,'validation'))
+
+  print 'validation batches start at data_batch_%i'%(maxx+1)
+  print 'WARNING: batches.meta for validation thrown away. this might harm validation performance because the mean being subtracted will not be the mean over the validation set but over the training set. apart from that, don\'t think there\'s a problem. '
+
+
+
 #### STEP 6: GENERATE BATCHES ########################################
 
+# this isn't actually needed, just run ccn-make-batches
 def generate_batches_from_pipe_data(data_dir, label_options):
   ''' generates data batches and batches.meta files in the format 
   expected by cuda-convnet, from a data format provided by 
@@ -396,121 +575,6 @@ def generate_batches_from_pipe_data(data_dir, label_options):
   # alternatively! convert .data files to xml in same format as for 
   # plant, and let john's scripts do the hard work.
 
-
-#### TEST FUNCTIONS ##################################################
-
-def test_cleave_out_bad_data():
-  data_dir = '/data/ad6813/pipe-data/Redbox'
-  os.chdir(data_dir)
-  good_data_dir = os.getcwd()+'/good_data/'
-  bad_data_dir = os.getcwd()+'/bad_data/'
-  os.mkdir(good_data_dir)
-  os.mkdir(bad_data_dir)
-  good_or_bad_train_case('100002.dat',data_dir,bad_data_dir,bad_data_dir)
-  good_or_bad_train_case('100003.dat',data_dir,bad_data_dir,bad_data_dir)
-  good_or_bad_train_case('100004.dat',data_dir,bad_data_dir,bad_data_dir)
-  good_or_bad_train_case('100005.dat',data_dir,bad_data_dir,bad_data_dir)        
-  good_or_bad_train_case('100006.dat',data_dir,bad_data_dir,bad_data_dir)
-  good_or_bad_train_case('100007.dat',data_dir,bad_data_dir,bad_data_dir)
-  good_or_bad_train_case('100008.dat',data_dir,bad_data_dir,bad_data_dir)
-  good_or_bad_train_case('100009.dat',data_dir,bad_data_dir,bad_data_dir)
-  good_or_bad_train_case('100010.dat',data_dir,bad_data_dir,bad_data_dir)
-  good_or_bad_train_case('100011.dat',data_dir,bad_data_dir,bad_data_dir)
-  if os.listdir(good_data_dir) == ['10000.dat','10000.dat','10000.dat','10000.dat','10000.dat','10000.dat','10000.dat','10000.dat'] and os.listdir(bad_data_dir) == ['100004.dat','100009.dat']: print 'test passed'
-  else: print 'test failed.\nbad_data_dir contains:',os.listdir(bad_data_dir),'\nshould contain:',['100004.dat','100009.dat']
-  shutil.rmtree(good_data_dir)
-  shutil.rmtree(bad_data_dir)
-
-def test_generate_xml_for():
-  generate_xml_for('100002.dat',
-                   '/data/ad6813/pipe-data/Redbox/')
-  d = get_info('100002.jpg',['labels'],'.xml')
-  if d == {'bad_joint':0,'labels':np.array(
-      [0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0],int)}: 
-    print '1 test passed, but make more!'
-  else: 
-    print 'test failed.\n dict:', d, '\nshould be:',{'labels':np.array([0,0,0,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0],int),'bad_joint':0}
-
-def test_move_to_dirs():
-  labels = 'NoClampUsed,PhotoDoesNotShowEnoughOfClamps,ClampDetected'
-  os.mkdir('temp_from')
-  path_from = os.getcwd()+'/temp_from'
-  path_to = os.getcwd()+'/temp_to'
-
-  # create data files for the test
-  base = os.getcwd()
-  os.chdir(path_from)
-  f1 = open('1.dat', 'a')
-  f1.write('JointMisaligned\r\nNoInsertionDepthMarkings\r\n')
-  f2 = open('2.dat', 'a')
-  f2.write('')
-  f3 = open('3.dat', 'a')
-  f3.write('FittingProximity\r\nNoClampUsed\r\n')
-  f4 = open('4.dat', 'a')
-  f4.write('PhotoDoesNotShowEnoughOfClamps\r\n')
-  f5 = open('5.dat', 'a')
-  f5.write('NoClampUsed\r\nPhotoDoesNotShowEnoughOfClamps\r\n')
-  f6 = open('6.dat', 'a')
-  f6.write('NoClampUsed\r\n\NoGroundSheetr\nPhotoDoesNotShowEnoughOfClamps\r\n')
-  f1.close()
-  f2.close()
-  f3.close()
-  f4.close()
-  f5.close()
-  f6.close()
-  for img_name in xrange(1,7):
-    name = os.getcwd()+'/'+str(img_name)+'.jpg'
-    shutil.copy('/data/ad6813/pipe-data/Redbox/100002.jpg',name)
-    print 'copied a real jpg to %s'%(name)
-  os.chdir(base)
-
-  # run move_to_dirs on it
-  summary_stats = move_to_dirs_aux(path_from,path_to,labels,True)
-  
-  # assimilate: subdir creation
-  to_dirlist = os.listdir(path_to)
-  if to_dirlist == ['NoClampUsed','PhotoDoesNotShowEnoughOfClamps','ClampDetected']: print 'labelled subdir creation: OK'
-  else: 
-    print 'labelled subdir creation INCORRECT'
-    print 'to_dir: %s' % (to_dirlist)
-
-  # assimilate: subdir populating
-  noClamp_dirlist = os.listdir(path_to+'/'+to_dirlist[0])
-  semiClamp_dirlist = os.listdir(path_to+'/'+to_dirlist[1])
-  yesClamp_dirlist = os.listdir(path_to+'/'+to_dirlist[2])
-  if noClamp_dirlist == ['3.jpg','5.jpg','6.jpg']:
-    print 'noClamp subdir populating: OK'
-  else: 
-    print 'noClamp subdir populating INCORRECT'
-    print 'is: %s\nshould be: %s'%(noClamp_dirlist,['3.jpg','5.jpg','6.jpg'])
-  if semiClamp_dirlist == ['4.jpg','5.jpg','6.jpg']:
-    print 'semiClamp subdir populating: OK'
-  else: 
-    print 'semiClamp subdir populating INCORRECT'
-    print 'is: %s\nshould be: %s'%(semiClamp_dirlist,['2.jpg','5.jpg','6.jpg'])
-  if yesClamp_dirlist == ['1.jpg','2.jpg']:
-    print 'yesClamp subdir populating: OK'
-  else: 
-    print 'yesClamp subdir populating INCORRECT'
-    print 'is: %s\nshould be: %s'%(yesClamp_dirlist,['1.jpg','2.jpg'])
-  
-  # assimilate: summary stats
-  if summary_stats[0] == 8: print 'summary stats, case_count: OK'
-  if summary_stats[1] == 2: print 'summary stats, badcase_count: OK'
-  if summary_stats[2] == 0: print 'summary stats, tagless_count: OK'
-
-  # make sure symlinked files are images
-  try:
-    img_link = path_to+'/'+to_dirlist[0]+'/'+noClamp_dirlist[0]
-    if not os.path.islink(img_link): print '%s is not a link'%(img_link)
-    img_name = os.readlink(img_link)
-    Image.open(img_name).convert("RGB")
-    print 'A file in one of the label subdirs links to a jpg image: OK'
-  except: print 'ERROR: %s does not link to a jpg'%(img_link)
-
-  # delete everything created by the test
-  shutil.rmtree(path_from)
-  shutil.rmtree(path_to)
 
 
 #### SCRIPT ##########################################################
@@ -538,28 +602,28 @@ if __name__ == "__main__":
   elif sys.argv[1] == 'generate_xml_labels_from_pipe_data':
     generate_xml_labels_from_pipe_data(sys.argv[2])
 
-  # command used: python batching.py move_to_dirs /data2/ad6813/pipe-data/Redbox/raw_data/dump /data2/ad6813/pipe-data/Redbox/raw_data/clamp_detection NoClampUsed,PhotoDoesNotShowEnoughOfClamps,ClampDetected last_label_is_default
+  # command used: python batching.py move_to_dirs /data2/ad6813/pipe-data/Bluebox/raw_data/dump /data2/ad6813/pipe-data/Bluebox/raw_data/clamp_detection NoClampUsed,PhotoDoesNotShowEnoughOfClamps,ClampDetected last_label_is_default
 
-  # and then nohup ~/.local/bin/ccn-make-batches models/clamp_detection/options.cfg >> models/clamp_detection/make_batches.out 2>&1 &
   elif sys.argv[1] == 'move_to_dirs':
     move_to_dirs(sys.argv)
+    print 'WARNING: this script is BAD for multi-tagging'
 
-  elif sys.argv[1] == 'random_delete':
-    random_delete(sys.argv[2], float(sys.argv[3]))
-  
+  # and then: python batching.py imbalance_experiment /data2/ad6813/pipe-data/Bluebox/raw_data/clamp_detection
 
-##### tests ##########################################################
+  # and then: nohup ~/.local/bin/ccn-make-batches models/clamp_detection/options.cfg >> models/clamp_detection/make_batches.out 2>&1 &
+  elif sys.argv[1] == 'imbalance_experiment':
+    print 'just need data_dir passed via command line'
+    min_ratio = float(raw_input('min_ratio? '))
+    max_ratio = float(raw_input('max_ratio? '))
+    num_nets = int(raw_input('num_nets? '))
+    imbalance_experiment(sys.argv[2], min_ratio, max_ratio, num_nets)
 
-  elif sys.argv[1] == 'test_cleave_out_bad_data':
-    test_cleave_out_bad_data()
+  # BUGGY! ignore because valid sets should respect proportions
+  elif sys.argv[1] == 'separate_validation_set':
+    num = int(raw_input('Number of class instances in validation set: (384) '))
+    separate_validation_set(sys.argv[2], num)
 
-  elif sys.argv[1] == 'test_generate_xml_for':
-    test_generate_xml_for()
-
-  elif sys.argv[1] == 'test_move_to_dirs':
-    print '''WARNING: this test cannot make sure that the labels you 
-          enter at command line will match those in data files.'''
-    test_move_to_dirs()
+  elif sys.argv[1] == 'merge_validation_batches':
+    merge_validation_batches(sys.argv[2])
 
   else: print 'arg not recognised'
-
