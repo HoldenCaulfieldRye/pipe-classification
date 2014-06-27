@@ -334,7 +334,7 @@ def merge_classes(to_dir, labels):
     if raw_input('Merge (more) classes? (Y/N) ') == 'Y':
       merge = [-1]
       while not all([idx in range(len(labels)) for idx in merge]):
-        for elem in zip(range(len(labels)),labels): print elem
+        for elem in enumerate(labels): print elem
         merge = [int(elem) for elem in raw_input("Name two class numbers from above, separated by ' ': ").split()]
 
       print 'moving files...'
@@ -358,7 +358,7 @@ def rename_classes(to_dir, labels):
     if raw_input('Rename (another) class? (Y/N) ') == 'Y':
       rename = [-1]
       while not all([idx in range(len(labels)) for idx in rename]):
-        for elem in zip(range(len(labels)),labels): print elem
+        for elem in enumerate(labels): print elem
         rename = [int(elem) for elem in raw_input("Name a class number from above: ").split()]
       new_name = raw_input('Rename to: ')
       os.rename(ojoin(to_dir,labels[rename[0]]), 
@@ -456,6 +456,50 @@ def random_delete_aux2(data_dir,d,D,delete_hard=False):
 def compute_step(min_ratio, max_ratio, num_nets):
   ''' calculates step such that ratio[i+1] = ratio[i]*step for all i,   and such that '''
   return pow(max_ratio/float(min_ratio), 1/float(num_nets-1))
+
+
+#### STEP 5.2: CREATE VALIDATION SET #################################
+
+def separate_validation_set(data_dir, num_per_class=384, ratio=1):
+  '''For comparing impact of different imbalance ratios: this script
+  is for getting a separate validation set, perfectly balanced, 
+  shared between all nets. data_dir contains net dirs for each 
+  imbalance ratio. '''
+
+  if os.path.exists(ojoin(data_dir,'validation')):
+    shutil.rmtree(ojoin(data_dir,'validation'))
+  nets = [net for net in os.listdir(data_dir) 
+          if net.startswith('net_')]
+  os.mkdir(ojoin(data_dir,'validation'))
+
+  min_ratio_net_dir = ojoin(data_dir, 'net_'+str(len(nets)-1))
+  removed = create_validation_set(min_ratio_net_dir, 
+                                  num_per_class, ratio)
+
+  print "Done. Now on each graphic machine, you need to:"
+  print "  1) scp the validation dir and a net dir from graphic02"
+  print "  2) run batching on net dir, and validation"
+  print "  3) copy validation batches to net dir, but changing batch numbers such that they follow from the max batch in net dir."
+
+
+def create_validation_set(net_dir, num_per_class, ratio):
+  '''randomly move num_per_class images out of each dir, and into a
+  new sidealong dir called validation. '''
+  classes = os.listdir(net_dir)
+  d = {}
+  for class in classes:
+    d[class] = random.sample(ojoin(net_dir,class), num_per_class)
+    for fname in d[class]:
+      shutil.move(ojoin(net_dir, class, fname),
+                  ojoin(net_dir, '..', validation))
+  return d
+
+def remove_imgs(net_dir, remove_dic):
+  ''' remove_dics knows which imgs to remove in each class subdir,
+  and does so in net_dir. '''
+  for class in remove.keys():
+    for fname in d[class]:
+      os.remove(ojoin(data_dir, 'net_'+str(i), class, fname))
 
 
 #### STEP 6: GENERATE BATCHES ########################################
