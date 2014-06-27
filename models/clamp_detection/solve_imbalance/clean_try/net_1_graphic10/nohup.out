@@ -1,0 +1,61 @@
+CUDA error at /homes/ad6813/CUDA_SDK/samples/common/inc/helper_cuda.h:898 code=30(cudaErrorUnknown) "cudaGetDeviceCount(&device_count)" 
+Initialized data layer 'data', producing 196608 outputs
+Initialized data layer 'labels', producing 1 outputs
+Initialized convolutional layer 'conv1', producing 63x63 48-channel output
+Initialized max-pooling layer 'pool1', producing 31x31 48-channel output
+Initialized cross-map response-normalization layer 'rnorm1', producing 31x31 48-channel output
+Initialized convolutional layer 'conv2', producing 31x31 128-channel output
+Initialized max-pooling layer 'pool2', producing 15x15 128-channel output
+Initialized cross-map response-normalization layer 'rnorm2', producing 15x15 128-channel output
+Initialized convolutional layer 'conv3', producing 15x15 192-channel output
+Initialized convolutional layer 'conv4', producing 15x15 192-channel output
+Initialized convolutional layer 'conv5', producing 15x15 128-channel output
+Initialized max-pooling layer 'pool5', producing 7x7 128-channel output
+Initialized fully-connected layer 'fc6', producing 4096 outputs
+Initialized fully-connected layer 'fc7', producing 4096 outputs
+Initialized fully-connected layer 'fc8', producing 2 outputs
+Initialized softmax layer 'probs', producing 2 outputs
+Initialized logistic regression cost 'logprob'
+Initialized neuron layer 'conv1_neuron', producing 190512 outputs
+Initialized neuron layer 'conv2_neuron', producing 123008 outputs
+Initialized neuron layer 'conv3_neuron', producing 43200 outputs
+Initialized neuron layer 'conv4_neuron', producing 43200 outputs
+Initialized neuron layer 'conv5_neuron', producing 28800 outputs
+Initialized neuron layer 'fc6_neuron', producing 4096 outputs
+Initialized neuron layer 'fc7_neuron', producing 4096 outputs
+=========================
+Importing _ConvNet C++ module
+=========================
+Training ConvNet
+Always write savepoints, regardless of test err improvement: 0     [DEFAULT]
+Check gradients and quit?                                  : 0     [DEFAULT]
+Compress checkpoints?                                      : 0     [DEFAULT]
+Conserve GPU memory (slower)?                              : 0     [DEFAULT]
+Convert given conv layers to unshared local                :       
+Cropped DP: crop border size                               : 4     [DEFAULT]
+Cropped DP: logreg layer name (for --multiview-test)       :       [DEFAULT]
+Cropped DP: test on multiple patches?                      : 0     [DEFAULT]
+Cropped Step: crop border step                             : 1     [DEFAULT]
+Data batch range: testing                                  : 40-45 
+Data batch range: training                                 : 1-39  
+Data path                                                  : /data/ad6813/pipe-data/Bluebox/batches/clamp_detection 
+Data provider                                              : basic-leaf256 
+GPU override                                               : -1    [DEFAULT]
+Layer definition file                                      : /homes/ad6813/Git/pipe-classification/models/clamp_detection/solve_imbalance/clean_try/net_1_graphic10/layers.cfg 
+Layer parameter file                                       : /homes/ad6813/Git/pipe-classification/models/clamp_detection/solve_imbalance/clean_try/net_1_graphic10/params.cfg 
+Load file                                                  :       [DEFAULT]
+Maximum save file size (MB)                                : 0     [DEFAULT]
+Minibatch size                                             : 128   [DEFAULT]
+Number of GPUs                                             : 1     [DEFAULT]
+Number of epochs                                           : 50000 [DEFAULT]
+Save path                                                  : /data/ad6813/my-nets/saves 
+Test and quit?                                             : 0     [DEFAULT]
+Test on more than one batch at a time?                     : -1    
+Test on one batch at a time?                               : 0     
+Testing frequency                                          : 17    
+Unshare weight matrices in given layers                    :       
+=========================
+Running on CUDA device(s) -2
+Current time: Fri Jun 27 20:38:18 2014
+Saving checkpoints to /data/ad6813/my-nets/saves/ConvNet__2014-06-27_20.38.14
+=========================
