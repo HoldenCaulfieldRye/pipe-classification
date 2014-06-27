@@ -478,10 +478,15 @@ def separate_validation_set(data_dir, num_per_class=384, ratio=1):
   removed = create_validation_set(min_ratio_net_dir, 
                                   num_per_class, ratio)
 
+  for net in nets[:-1]: 
+    remove_imgs(ojoin(data_dir,net), removed)
+
   print "Done. Now on each graphic machine, you need to:"
-  print "  1) scp the validation dir and a net dir from graphic02"
-  print "  2) run batching on net dir, and on validation (such that validation-batches dir ends up inside net-batches dir)"
-  print "  3) copy validation batches to net dir, but changing batch numbers such that they follow from the max batch in net dir. NOTE: you have a script for this :) merge_validation_batches()"
+  print "  1) run batching on validation here on graphic02. "
+  print "  2) scp the validation-batch dir and a net-raw dir from graphic02"
+  print "  3) run batching on net dir"
+  print "  4) copy validation-batch dir to each remote net-batch dir"
+  print "  5) copy validation batches to net dir, but changing batch numbers such that they follow from the max batch in net dir. NOTE: you have a script for this :) merge_validation_batches()"
 
 
 def create_validation_set(net_dir, num_per_class, ratio):
@@ -500,9 +505,9 @@ def create_validation_set(net_dir, num_per_class, ratio):
 def remove_imgs(net_dir, remove_dic):
   ''' remove_dics knows which imgs to remove in each class subdir,
   and does so in net_dir. '''
-  for c in remove.keys():
-    for fname in d[c]:
-      os.remove(ojoin(data_dir, 'net_'+str(i), c, fname))
+  for c in remove_dic.keys():
+    for fname in remove_dic[c]:
+      os.remove(ojoin(net_dir, c, fname))
 
 
 def merge_validation_batches(data_dir):
