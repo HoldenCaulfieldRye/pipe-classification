@@ -1,4 +1,12 @@
-#### TEST FUNCTIONS ##################################################
+import numpy as np
+import os
+from os.path import join as ojoin
+import cPickle as pickle
+from joblib import Parallel, delayed
+from PIL import Image
+import json, random
+import shutil
+from batching import *
 
 def test_cleave_out_bad_data():
   data_dir = '/data/ad6813/pipe-data/Redbox'
@@ -121,7 +129,7 @@ def test_move_to_dirs():
 if __name__ == "__main__":
   import sys
 
-  elif sys.argv[1] == 'test_cleave_out_bad_data':
+  if sys.argv[1] == 'test_cleave_out_bad_data':
     test_cleave_out_bad_data()
 
   elif sys.argv[1] == 'test_generate_xml_for':
