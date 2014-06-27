@@ -389,7 +389,8 @@ def imbalance_experiment(data_dir, min_ratio, max_ratio, num_nets):
   if os.path.isdir(ojoin(data_dir,'all')):
     shutil.rmtree(ojoin(data_dir,'all'))
   all_names = os.listdir(data_dir)
-  shutil.copytree(data_dir, ojoin(data_dir,'all'))
+  for name in all_names:
+    shutil.move(ojoin(data_dir,name), ojoin(data_dir,'all',name))
 
   # recursively make subdirs for each net, preserving strict set 
   # inclusion from net[i] to net[i+1]
@@ -405,7 +406,7 @@ def random_delete_recursive(data_dir, step, nets, ratio, i):
   shutil.copytree(ojoin(data_dir, nets[i]), 
                   ojoin(data_dir, nets[i+1]), symlinks=True)
   random_delete_aux(ojoin(data_dir, nets[i+1]), ratio)
-  if i+1 in range(len(nets)):
+  if i+2 in range(len(nets)):
     random_delete_recursive(data_dir, step, nets, float(ratio)/step, i+1)
 
 
@@ -459,7 +460,13 @@ def compute_step(min_ratio, max_ratio, num_nets):
   return pow(max_ratio/float(min_ratio), 1/float(num_nets-1))
 
 
-#### STEP 5.2: CREATE VALIDATION SET #################################
+#### (SKIP) STEP 5.2: CREATE SHARED VALIDATION SET ###################
+
+# SKIP: validation sets should respect proportions in training set.
+
+# WARNING! this script probably has bugs, validation during training 
+# was not working last time.
+
 
 # to have flexible ratio, num_per_class must be num_min_class and code
 # needs to change.
@@ -494,8 +501,7 @@ def separate_validation_set(data_dir, num_per_class=384, ratio=1):
 def batch_up(data_dir):
   '''batches up validation set, batches up each training set, merges
   validation batches into training sets. '''
-  
-
+  pass
 
 # to have flexible ratio, num_per_class must be num_min_class and code
 # needs to change.
@@ -598,11 +604,13 @@ if __name__ == "__main__":
 
   # command used: python batching.py move_to_dirs /data2/ad6813/pipe-data/Bluebox/raw_data/dump /data2/ad6813/pipe-data/Bluebox/raw_data/clamp_detection NoClampUsed,PhotoDoesNotShowEnoughOfClamps,ClampDetected last_label_is_default
 
-  # and then nohup ~/.local/bin/ccn-make-batches models/clamp_detection/options.cfg >> models/clamp_detection/make_batches.out 2>&1 &
   elif sys.argv[1] == 'move_to_dirs':
     move_to_dirs(sys.argv)
     print 'WARNING: this script is BAD for multi-tagging'
 
+  # and then: python batching.py imbalance_experiment /data2/ad6813/pipe-data/Bluebox/raw_data/clamp_detection
+
+  # and then: nohup ~/.local/bin/ccn-make-batches models/clamp_detection/options.cfg >> models/clamp_detection/make_batches.out 2>&1 &
   elif sys.argv[1] == 'imbalance_experiment':
     print 'just need data_dir passed via command line'
     min_ratio = float(raw_input('min_ratio? '))
@@ -610,6 +618,7 @@ if __name__ == "__main__":
     num_nets = int(raw_input('num_nets? '))
     imbalance_experiment(sys.argv[2], min_ratio, max_ratio, num_nets)
 
+  # BUGGY! ignore because valid sets should respect proportions
   elif sys.argv[1] == 'separate_validation_set':
     num = int(raw_input('Number of class instances in validation set: (384) '))
     separate_validation_set(sys.argv[2], num)
