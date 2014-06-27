@@ -36,9 +36,9 @@ Cropped DP: crop border size                               : 4     [DEFAULT]
 Cropped DP: logreg layer name (for --multiview-test)       :       [DEFAULT]
 Cropped DP: test on multiple patches?                      : 0     [DEFAULT]
 Cropped Step: crop border step                             : 1     [DEFAULT]
-Data batch range: testing                                  : 35-40 
-Data batch range: training                                 : 1-34  
-Data path                                                  : /data/ad6813/pipe-data/Bluebox/batches/clamp_detection 
+Data batch range: testing                                  : 28-33 
+Data batch range: training                                 : 1-27  
+Data path                                                  : /data/ad6813/pipe-data/Bluebox/batches/clamp_detection/net_2 
 Data provider                                              : basic-leaf256 
 GPU override                                               : -1    [DEFAULT]
 Layer definition file                                      : /homes/ad6813/Git/pipe-classification/models/clamp_detection/solve_imbalance/clean_try/net_2_graphic09/layers.cfg 
@@ -56,145 +56,1822 @@ Testing frequency                                          : 17
 Unshare weight matrices in given layers                    :       
 =========================
 Running on CUDA device(s) -2
-Current time: Fri Jun 27 20:52:02 2014
-Saving checkpoints to /data/ad6813/my-nets/saves/ConvNet__2014-06-27_20.51.58
+Current time: Fri Jun 27 21:32:12 2014
+Saving checkpoints to /data/ad6813/my-nets/saves/ConvNet__2014-06-27_21.32.08
 =========================
-1.1... logprob:  0.699081, 0.539062 (0.719 sec)
-1.2... logprob:  0.690133, 0.398438 (0.715 sec)
-1.3... logprob:  0.730490, 0.539062 (0.715 sec)
-1.4... logprob:  1.002013, 0.531250 (0.715 sec)
-1.5... logprob:  1.979197, 0.593750 (0.714 sec)
-1.6... logprob:  1.801089, 0.414062 (0.715 sec)
-1.7... logprob:  0.896450, 0.546875 (0.715 sec)
-1.8... logprob:  1.529756, 0.500000 (0.715 sec)
-1.9... logprob:  1.901989, 0.593750 (0.715 sec)
-1.10... logprob:  1.761568, 0.406250 (0.715 sec)
-1.11... logprob:  0.845319, 0.539062 (0.715 sec)
-1.12... logprob:  1.178833, 0.429688 (0.715 sec)
-1.13... logprob:  1.110888, 0.453125 (0.716 sec)
-1.14... logprob:  1.219704, 0.453125 (0.715 sec)
-1.15... logprob:  1.635326, 0.617188 (0.714 sec)
-1.16... logprob:  2.135371, 0.453125 (0.715 sec)
-1.17... logprob:  0.899097, 0.531250 (0.715 sec)
-Traceback (most recent call last):
-  File "/homes/ad6813/.local/bin/ccn-train", line 9, in <module>
-    load_entry_point('noccn==0.1-dev', 'console_scripts', 'ccn-train')()
-  File "/homes/ad6813/.local/lib/python2.7/site-packages/noccn-0.1_dev-py2.7.egg/noccn/train.py", line 81, in console
-    run_model(ConvNet, 'train')
-  File "/homes/ad6813/.local/lib/python2.7/site-packages/noccn-0.1_dev-py2.7.egg/noccn/script.py", line 111, in run_model
-    model.start()
-  File "/homes/ad6813/.local/lib/python2.7/site-packages/noccn-0.1_dev-py2.7.egg/noccn/train.py", line 62, in start
-    self.train()
-  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/gpumodel.py", line 157, in train
-    self.test_outputs += [self.get_test_error()]
-  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/gpumodel.py", line 226, in get_test_error
-    next_data = self.get_next_batch(train=False)
-  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/gpumodel.py", line 181, in get_next_batch
-    return self.parse_batch_data(dp.get_next_batch(), train=train)
-  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/convdata.py", line 192, in get_next_batch
-    self.data_dic = self.get_batch(self.curr_batchnum)
-  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/data.py", line 85, in get_batch
-    dic = unpickle(self.get_data_file_name(batch_num))
-  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/util.py", line 71, in unpickle
-    raise UnpickleError("Path '%s' does not exist." % filename)
-util.UnpickleError: Path '/data/ad6813/pipe-data/Bluebox/batches/clamp_detection/data_batch_35' does not exist.
-nohup: ignoring input
-Initialized data layer 'data', producing 196608 outputs
-Initialized data layer 'labels', producing 1 outputs
-Initialized convolutional layer 'conv1', producing 63x63 48-channel output
-Initialized max-pooling layer 'pool1', producing 31x31 48-channel output
-Initialized cross-map response-normalization layer 'rnorm1', producing 31x31 48-channel output
-Initialized convolutional layer 'conv2', producing 31x31 128-channel output
-Initialized max-pooling layer 'pool2', producing 15x15 128-channel output
-Initialized cross-map response-normalization layer 'rnorm2', producing 15x15 128-channel output
-Initialized convolutional layer 'conv3', producing 15x15 192-channel output
-Initialized convolutional layer 'conv4', producing 15x15 192-channel output
-Initialized convolutional layer 'conv5', producing 15x15 128-channel output
-Initialized max-pooling layer 'pool5', producing 7x7 128-channel output
-Initialized fully-connected layer 'fc6', producing 4096 outputs
-Initialized fully-connected layer 'fc7', producing 4096 outputs
-Initialized fully-connected layer 'fc8', producing 2 outputs
-Initialized softmax layer 'probs', producing 2 outputs
-Initialized logistic regression cost 'logprob'
-Initialized neuron layer 'conv1_neuron', producing 190512 outputs
-Initialized neuron layer 'conv2_neuron', producing 123008 outputs
-Initialized neuron layer 'conv3_neuron', producing 43200 outputs
-Initialized neuron layer 'conv4_neuron', producing 43200 outputs
-Initialized neuron layer 'conv5_neuron', producing 28800 outputs
-Initialized neuron layer 'fc6_neuron', producing 4096 outputs
-Initialized neuron layer 'fc7_neuron', producing 4096 outputs
-=========================
-Importing _ConvNet C++ module
-=========================
-Training ConvNet
-Always write savepoints, regardless of test err improvement: 0     [DEFAULT]
-Check gradients and quit?                                  : 0     [DEFAULT]
-Compress checkpoints?                                      : 0     [DEFAULT]
-Conserve GPU memory (slower)?                              : 0     [DEFAULT]
-Convert given conv layers to unshared local                :       
-Cropped DP: crop border size                               : 4     [DEFAULT]
-Cropped DP: logreg layer name (for --multiview-test)       :       [DEFAULT]
-Cropped DP: test on multiple patches?                      : 0     [DEFAULT]
-Cropped Step: crop border step                             : 1     [DEFAULT]
-Data batch range: testing                                  : 35-40 
-Data batch range: training                                 : 1-34  
-Data path                                                  : /data/ad6813/pipe-data/Bluebox/batches/clamp_detection 
-Data provider                                              : basic-leaf256 
-GPU override                                               : -1    [DEFAULT]
-Layer definition file                                      : /homes/ad6813/Git/pipe-classification/models/clamp_detection/solve_imbalance/clean_try/net_2_graphic09/layers.cfg 
-Layer parameter file                                       : /homes/ad6813/Git/pipe-classification/models/clamp_detection/solve_imbalance/clean_try/net_2_graphic09/params.cfg 
-Load file                                                  :       [DEFAULT]
-Maximum save file size (MB)                                : 0     [DEFAULT]
-Minibatch size                                             : 128   [DEFAULT]
-Number of GPUs                                             : 1     [DEFAULT]
-Number of epochs                                           : 50000 [DEFAULT]
-Save path                                                  : /data/ad6813/my-nets/saves 
-Test and quit?                                             : 0     [DEFAULT]
-Test on more than one batch at a time?                     : -1    
-Test on one batch at a time?                               : 0     
-Testing frequency                                          : 17    
-Unshare weight matrices in given layers                    :       
-=========================
-Running on CUDA device(s) -2
-Current time: Fri Jun 27 20:57:43 2014
-Saving checkpoints to /data/ad6813/my-nets/saves/ConvNet__2014-06-27_20.57.39
-=========================
-1.1... logprob:  0.699081, 0.539062 (0.651 sec)
-1.2... logprob:  0.690133, 0.398438 (0.649 sec)
-1.3... logprob:  0.730490, 0.539062 (0.648 sec)
-1.4... logprob:  1.002013, 0.531250 (0.648 sec)
-1.5... logprob:  1.979197, 0.593750 (0.648 sec)
-1.6... logprob:  1.801089, 0.414062 (0.648 sec)
-1.7... logprob:  0.896450, 0.546875 (0.648 sec)
-1.8... logprob:  1.529756, 0.500000 (0.648 sec)
-1.9... logprob:  1.901989, 0.593750 (0.648 sec)
-1.10... logprob:  1.761568, 0.406250 (0.648 sec)
-1.11... logprob:  0.845319, 0.539062 (0.649 sec)
-1.12... logprob:  1.178833, 0.429688 (0.649 sec)
+1.1... logprob:  0.699081, 0.539062 (0.658 sec)
+1.2... logprob:  0.690133, 0.398438 (0.651 sec)
+1.3... logprob:  0.730490, 0.539062 (0.651 sec)
+1.4... logprob:  1.002013, 0.531250 (0.651 sec)
+1.5... logprob:  1.979197, 0.593750 (0.650 sec)
+1.6... logprob:  1.801089, 0.414062 (0.650 sec)
+1.7... logprob:  0.896450, 0.546875 (0.650 sec)
+1.8... logprob:  1.529756, 0.500000 (0.650 sec)
+1.9... logprob:  1.901989, 0.593750 (0.649 sec)
+1.10... logprob:  1.761568, 0.406250 (0.650 sec)
+1.11... logprob:  0.845319, 0.539062 (0.650 sec)
+1.12... logprob:  1.178833, 0.429688 (0.650 sec)
 1.13... logprob:  1.110888, 0.453125 (0.649 sec)
-1.14... logprob:  1.219704, 0.453125 (0.649 sec)
+1.14... logprob:  1.219704, 0.453125 (0.650 sec)
 1.15... logprob:  1.635326, 0.617188 (0.649 sec)
-1.16... logprob:  2.135371, 0.453125 (0.649 sec)
-1.17... logprob:  0.899097, 0.531250 (0.651 sec)
-Traceback (most recent call last):
-  File "/homes/ad6813/.local/bin/ccn-train", line 9, in <module>
-    load_entry_point('noccn==0.1-dev', 'console_scripts', 'ccn-train')()
-  File "/homes/ad6813/.local/lib/python2.7/site-packages/noccn-0.1_dev-py2.7.egg/noccn/train.py", line 81, in console
-    run_model(ConvNet, 'train')
-  File "/homes/ad6813/.local/lib/python2.7/site-packages/noccn-0.1_dev-py2.7.egg/noccn/script.py", line 111, in run_model
-    model.start()
-  File "/homes/ad6813/.local/lib/python2.7/site-packages/noccn-0.1_dev-py2.7.egg/noccn/train.py", line 62, in start
-    self.train()
-  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/gpumodel.py", line 157, in train
-    self.test_outputs += [self.get_test_error()]
-  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/gpumodel.py", line 226, in get_test_error
-    next_data = self.get_next_batch(train=False)
-  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/gpumodel.py", line 181, in get_next_batch
-    return self.parse_batch_data(dp.get_next_batch(), train=train)
-  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/convdata.py", line 192, in get_next_batch
-    self.data_dic = self.get_batch(self.curr_batchnum)
-  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/data.py", line 85, in get_batch
-    dic = unpickle(self.get_data_file_name(batch_num))
-  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/util.py", line 71, in unpickle
-    raise UnpickleError("Path '%s' does not exist." % filename)
-util.UnpickleError: Path '/data/ad6813/pipe-data/Bluebox/batches/clamp_detection/data_batch_35' does not exist.
+1.16... logprob:  2.135371, 0.453125 (0.650 sec)
+1.17... logprob:  0.899097, 0.531250 (0.649 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  1.257779, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979724e-03 [1.002526e-09] 
+Layer 'conv1' biases: 8.977467e-10 [4.162232e-11] 
+Layer 'conv2' weights[0]: 7.966638e-03 [1.564491e-09] 
+Layer 'conv2' biases: 1.000000e+00 [2.786751e-10] 
+Layer 'conv3' weights[0]: 7.965016e-03 [1.659824e-09] 
+Layer 'conv3' biases: 2.237530e-08 [9.509410e-10] 
+Layer 'conv4' weights[0]: 7.997502e-03 [2.125084e-09] 
+Layer 'conv4' biases: 1.000000e+00 [1.024608e-08] 
+Layer 'conv5' weights[0]: 7.996430e-03 [5.983833e-08] 
+Layer 'conv5' biases: 9.999991e-01 [6.291226e-08] 
+Layer 'fc6' weights[0]: 7.593272e-03 [1.072359e-08] 
+Layer 'fc6' biases: 1.000000e+00 [1.102957e-08] 
+Layer 'fc7' weights[0]: 7.854274e-03 [1.858423e-07] 
+Layer 'fc7' biases: 9.999999e-01 [1.821667e-07] 
+Layer 'fc8' weights[0]: 5.195052e-04 [3.070142e-04] 
+Layer 'fc8' biases: 2.157199e-04 [2.987734e-04] 
+Train error last 27 batches: 1.295077
+-------------------------------------------------------
+Saved checkpoint to /data/ad6813/my-nets/saves/ConvNet__2014-06-27_21.32.08
+======================================================= (5.160 sec)
+1.18... logprob:  1.243421, 0.429688 (0.649 sec)
+1.19... logprob:  1.307696, 0.562500 (0.649 sec)
+1.20... logprob:  1.744508, 0.445312 (0.650 sec)
+1.21... logprob:  1.140426, 0.570312 (0.650 sec)
+1.22... logprob:  1.662134, 0.437500 (0.652 sec)
+1.23... logprob:  1.163067, 0.593750 (0.650 sec)
+1.24... logprob:  1.797452, 0.445312 (0.651 sec)
+1.25... logprob:  1.079510, 0.570312 (0.650 sec)
+1.26... logprob:  1.619502, 0.445312 (0.650 sec)
+1.27... logprob:  1.164276, 0.554688 (0.655 sec)
+2.1... logprob:  1.659405, 0.460938 (0.650 sec)
+2.2... logprob:  1.343984, 0.601562 (0.650 sec)
+2.3... logprob:  1.947955, 0.460938 (0.651 sec)
+2.4... logprob:  0.908456, 0.468750 (0.652 sec)
+2.5... logprob:  0.987043, 0.406250 (0.652 sec)
+2.6... logprob:  1.162179, 0.585938 (0.651 sec)
+2.7... logprob:  1.735985, 0.453125 (0.650 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  1.122531, 0.565104 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979717e-03 [3.576505e-09] 
+Layer 'conv1' biases: 1.922742e-09 [8.639112e-11] 
+Layer 'conv2' weights[0]: 7.966632e-03 [3.662065e-09] 
+Layer 'conv2' biases: 1.000000e+00 [7.043023e-10] 
+Layer 'conv3' weights[0]: 7.965009e-03 [3.598402e-09] 
+Layer 'conv3' biases: 4.797462e-08 [2.276628e-09] 
+Layer 'conv4' weights[0]: 7.997490e-03 [4.593965e-09] 
+Layer 'conv4' biases: 1.000000e+00 [2.580175e-08] 
+Layer 'conv5' weights[0]: 7.996404e-03 [1.637120e-07] 
+Layer 'conv5' biases: 9.999964e-01 [1.757225e-07] 
+Layer 'fc6' weights[0]: 7.593265e-03 [2.170649e-08] 
+Layer 'fc6' biases: 1.000000e+00 [2.208064e-08] 
+Layer 'fc7' weights[0]: 7.854137e-03 [3.522230e-07] 
+Layer 'fc7' biases: 9.999996e-01 [3.455977e-07] 
+Layer 'fc8' weights[0]: 4.878942e-04 [4.342174e-04] 
+Layer 'fc8' biases: 1.259564e-04 [4.308436e-04] 
+Train error last 27 batches: 1.403143
+-------------------------------------------------------
+Saved checkpoint to /data/ad6813/my-nets/saves/ConvNet__2014-06-27_21.32.08
+======================================================= (5.237 sec)
+2.8... logprob:  1.012791, 0.500000 (0.653 sec)
+2.9... logprob:  1.148136, 0.406250 (0.653 sec)
+2.10... logprob:  1.153071, 0.593750 (0.656 sec)
+2.11... logprob:  1.772727, 0.460938 (0.653 sec)
+2.12... logprob:  1.147692, 0.570312 (0.653 sec)
+2.13... logprob:  1.957943, 0.546875 (0.655 sec)
+2.14... logprob:  1.667036, 0.546875 (0.654 sec)
+2.15... logprob:  1.278847, 0.382812 (0.652 sec)
+2.16... logprob:  0.873371, 0.546875 (0.653 sec)
+2.17... logprob:  1.254644, 0.468750 (0.655 sec)
+2.18... logprob:  1.437169, 0.570312 (0.653 sec)
+2.19... logprob:  1.608774, 0.437500 (0.653 sec)
+2.20... logprob:  1.015138, 0.554688 (0.677 sec)
+2.21... logprob:  1.348241, 0.429688 (0.651 sec)
+2.22... logprob:  1.113671, 0.562500 (0.651 sec)
+2.23... logprob:  1.367140, 0.406250 (0.651 sec)
+2.24... logprob:  0.942337, 0.554688 (0.650 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  1.270156, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979707e-03 [9.847345e-10] 
+Layer 'conv1' biases: 2.806158e-09 [4.581443e-11] 
+Layer 'conv2' weights[0]: 7.966627e-03 [1.694192e-09] 
+Layer 'conv2' biases: 1.000000e+00 [2.986884e-10] 
+Layer 'conv3' weights[0]: 7.965002e-03 [1.771751e-09] 
+Layer 'conv3' biases: 7.033935e-08 [1.018258e-09] 
+Layer 'conv4' weights[0]: 7.997484e-03 [2.286080e-09] 
+Layer 'conv4' biases: 1.000000e+00 [1.093654e-08] 
+Layer 'conv5' weights[0]: 7.996375e-03 [6.419609e-08] 
+Layer 'conv5' biases: 9.999948e-01 [6.751290e-08] 
+Layer 'fc6' weights[0]: 7.593255e-03 [1.153332e-08] 
+Layer 'fc6' biases: 1.000000e+00 [1.183851e-08] 
+Layer 'fc7' weights[0]: 7.854055e-03 [1.996543e-07] 
+Layer 'fc7' biases: 9.999992e-01 [1.958037e-07] 
+Layer 'fc8' weights[0]: 5.174456e-04 [3.262542e-04] 
+Layer 'fc8' biases: 2.356354e-04 [3.304446e-04] 
+Train error last 27 batches: 1.322482
+-------------------------------------------------------
+Not saving because 1.270156 > 1.122531 (2.7: -10.75%)
+======================================================= (4.742 sec)
+2.25... logprob:  1.255644, 0.429688 (0.650 sec)
+2.26... logprob:  1.124818, 0.554688 (0.650 sec)
+2.27... logprob:  1.455069, 0.445312 (0.651 sec)
+3.1... logprob:  1.096812, 0.539062 (0.651 sec)
+3.2... logprob:  1.230953, 0.398438 (0.650 sec)
+3.3... logprob:  0.925585, 0.539062 (0.650 sec)
+3.4... logprob:  1.432404, 0.531250 (0.651 sec)
+3.5... logprob:  1.808774, 0.593750 (0.656 sec)
+3.6... logprob:  1.502480, 0.414062 (0.651 sec)
+3.7... logprob:  0.875088, 0.546875 (0.649 sec)
+3.8... logprob:  1.277386, 0.500000 (0.651 sec)
+3.9... logprob:  1.593248, 0.593750 (0.650 sec)
+3.10... logprob:  1.500832, 0.406250 (0.650 sec)
+3.11... logprob:  0.818702, 0.539062 (0.650 sec)
+3.12... logprob:  0.987299, 0.429688 (0.650 sec)
+3.13... logprob:  0.925878, 0.453125 (0.651 sec)
+3.14... logprob:  0.965646, 0.453125 (0.650 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  1.192913, 0.565104 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979703e-03 [1.415172e-09] 
+Layer 'conv1' biases: 3.572569e-09 [3.741004e-11] 
+Layer 'conv2' weights[0]: 7.966623e-03 [1.616658e-09] 
+Layer 'conv2' biases: 1.000000e+00 [3.048505e-10] 
+Layer 'conv3' weights[0]: 7.964992e-03 [1.659895e-09] 
+Layer 'conv3' biases: 8.965468e-08 [1.002050e-09] 
+Layer 'conv4' weights[0]: 7.997471e-03 [2.112880e-09] 
+Layer 'conv4' biases: 9.999999e-01 [1.123814e-08] 
+Layer 'conv5' weights[0]: 7.996424e-03 [6.643239e-08] 
+Layer 'conv5' biases: 9.999933e-01 [6.927823e-08] 
+Layer 'fc6' weights[0]: 7.593246e-03 [1.134987e-08] 
+Layer 'fc6' biases: 1.000000e+00 [1.159524e-08] 
+Layer 'fc7' weights[0]: 7.853946e-03 [1.935667e-07] 
+Layer 'fc7' biases: 9.999987e-01 [1.899668e-07] 
+Layer 'fc8' weights[0]: 4.866510e-04 [3.008269e-04] 
+Layer 'fc8' biases: 1.511802e-04 [3.101174e-04] 
+Train error last 27 batches: 1.222813
+-------------------------------------------------------
+Not saving because 1.192913 > 1.122531 (2.7: -10.75%)
+======================================================= (4.733 sec)
+3.15... logprob:  1.289446, 0.617188 (0.650 sec)
+3.16... logprob:  1.742726, 0.453125 (0.650 sec)
+3.17... logprob:  0.916248, 0.531250 (0.650 sec)
+3.18... logprob:  1.100681, 0.429688 (0.650 sec)
+3.19... logprob:  1.100529, 0.562500 (0.650 sec)
+3.20... logprob:  1.389383, 0.445312 (0.650 sec)
+3.21... logprob:  1.101587, 0.570312 (0.650 sec)
+3.22... logprob:  1.386389, 0.437500 (0.651 sec)
+3.23... logprob:  1.082218, 0.593750 (0.655 sec)
+3.24... logprob:  1.473827, 0.445312 (0.650 sec)
+3.25... logprob:  1.041594, 0.570312 (0.650 sec)
+3.26... logprob:  1.352629, 0.445312 (0.649 sec)
+3.27... logprob:  1.069084, 0.554688 (0.650 sec)
+4.1... logprob:  1.354753, 0.460938 (0.650 sec)
+4.2... logprob:  1.234408, 0.601562 (0.656 sec)
+4.3... logprob:  1.610726, 0.460938 (0.651 sec)
+4.4... logprob:  0.889650, 0.468750 (0.655 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.907135, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979686e-03 [9.373416e-10] 
+Layer 'conv1' biases: 4.336803e-09 [4.087006e-11] 
+Layer 'conv2' weights[0]: 7.966616e-03 [1.479257e-09] 
+Layer 'conv2' biases: 1.000000e+00 [2.609165e-10] 
+Layer 'conv3' weights[0]: 7.964990e-03 [1.508777e-09] 
+Layer 'conv3' biases: 1.089953e-07 [8.570259e-10] 
+Layer 'conv4' weights[0]: 7.997461e-03 [1.944962e-09] 
+Layer 'conv4' biases: 9.999998e-01 [9.317486e-09] 
+Layer 'conv5' weights[0]: 7.996440e-03 [5.501360e-08] 
+Layer 'conv5' biases: 9.999921e-01 [5.781947e-08] 
+Layer 'fc6' weights[0]: 7.593235e-03 [9.824647e-09] 
+Layer 'fc6' biases: 1.000000e+00 [9.917033e-09] 
+Layer 'fc7' weights[0]: 7.853831e-03 [1.665382e-07] 
+Layer 'fc7' biases: 9.999981e-01 [1.636876e-07] 
+Layer 'fc8' weights[0]: 4.808528e-04 [2.648956e-04] 
+Layer 'fc8' biases: 1.568725e-04 [2.783289e-04] 
+Train error last 27 batches: 1.236712
+-------------------------------------------------------
+Saved checkpoint to /data/ad6813/my-nets/saves/ConvNet__2014-06-27_21.32.08
+======================================================= (5.222 sec)
+4.5... logprob:  0.858425, 0.406250 (0.650 sec)
+4.6... logprob:  0.947012, 0.585938 (0.650 sec)
+4.7... logprob:  1.304936, 0.453125 (0.650 sec)
+4.8... logprob:  1.011782, 0.500000 (0.650 sec)
+4.9... logprob:  0.991502, 0.406250 (0.649 sec)
+4.10... logprob:  0.990545, 0.593750 (0.650 sec)
+4.11... logprob:  1.389901, 0.460938 (0.650 sec)
+4.12... logprob:  1.127157, 0.570312 (0.649 sec)
+4.13... logprob:  1.653706, 0.546875 (0.649 sec)
+4.14... logprob:  1.491483, 0.546875 (0.650 sec)
+4.15... logprob:  1.099232, 0.382812 (0.650 sec)
+4.16... logprob:  0.817954, 0.546875 (0.650 sec)
+4.17... logprob:  1.019142, 0.468750 (0.650 sec)
+4.18... logprob:  1.191735, 0.570312 (0.650 sec)
+4.19... logprob:  1.333387, 0.437500 (0.650 sec)
+4.20... logprob:  0.970061, 0.554688 (0.649 sec)
+4.21... logprob:  1.136412, 0.429688 (0.650 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  1.005965, 0.565104 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979675e-03 [1.863061e-09] 
+Layer 'conv1' biases: 4.962069e-09 [4.675663e-11] 
+Layer 'conv2' weights[0]: 7.966608e-03 [2.098620e-09] 
+Layer 'conv2' biases: 1.000000e+00 [3.803187e-10] 
+Layer 'conv3' weights[0]: 7.964980e-03 [2.117021e-09] 
+Layer 'conv3' biases: 1.248151e-07 [1.277602e-09] 
+Layer 'conv4' weights[0]: 7.997454e-03 [2.710082e-09] 
+Layer 'conv4' biases: 9.999998e-01 [1.430421e-08] 
+Layer 'conv5' weights[0]: 7.996433e-03 [8.590907e-08] 
+Layer 'conv5' biases: 9.999909e-01 [9.087609e-08] 
+Layer 'fc6' weights[0]: 7.593232e-03 [1.392201e-08] 
+Layer 'fc6' biases: 1.000000e+00 [1.419856e-08] 
+Layer 'fc7' weights[0]: 7.853708e-03 [2.355287e-07] 
+Layer 'fc7' biases: 9.999973e-01 [2.307304e-07] 
+Layer 'fc8' weights[0]: 4.707797e-04 [3.282640e-04] 
+Layer 'fc8' biases: 1.202774e-04 [3.504386e-04] 
+Train error last 27 batches: 1.178876
+-------------------------------------------------------
+Not saving because 1.005965 > 0.907135 (4.4: -19.19%)
+======================================================= (4.731 sec)
+4.22... logprob:  1.002356, 0.562500 (0.649 sec)
+4.23... logprob:  1.118824, 0.406250 (0.649 sec)
+4.24... logprob:  0.893375, 0.554688 (0.650 sec)
+4.25... logprob:  1.052451, 0.429688 (0.649 sec)
+4.26... logprob:  0.993049, 0.554688 (0.649 sec)
+4.27... logprob:  1.179883, 0.445312 (0.654 sec)
+5.1... logprob:  1.014850, 0.539062 (0.663 sec)
+5.2... logprob:  1.032490, 0.398438 (0.649 sec)
+5.3... logprob:  0.855480, 0.539062 (0.650 sec)
+5.4... logprob:  1.159203, 0.531250 (0.650 sec)
+5.5... logprob:  1.525483, 0.593750 (0.649 sec)
+5.6... logprob:  1.321015, 0.414062 (0.650 sec)
+5.7... logprob:  0.829678, 0.546875 (0.649 sec)
+5.8... logprob:  1.066778, 0.500000 (0.649 sec)
+5.9... logprob:  1.331192, 0.593750 (0.649 sec)
+5.10... logprob:  1.289114, 0.406250 (0.650 sec)
+5.11... logprob:  0.798580, 0.539062 (0.649 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.881783, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979669e-03 [7.544043e-10] 
+Layer 'conv1' biases: 5.504843e-09 [2.829889e-11] 
+Layer 'conv2' weights[0]: 7.966605e-03 [1.114701e-09] 
+Layer 'conv2' biases: 1.000000e+00 [1.839871e-10] 
+Layer 'conv3' weights[0]: 7.964971e-03 [1.171678e-09] 
+Layer 'conv3' biases: 1.388217e-07 [6.113888e-10] 
+Layer 'conv4' weights[0]: 7.997449e-03 [1.448027e-09] 
+Layer 'conv4' biases: 9.999998e-01 [6.300710e-09] 
+Layer 'conv5' weights[0]: 7.996406e-03 [3.657421e-08] 
+Layer 'conv5' biases: 9.999899e-01 [3.828289e-08] 
+Layer 'fc6' weights[0]: 7.593229e-03 [7.114590e-09] 
+Layer 'fc6' biases: 1.000000e+00 [7.263009e-09] 
+Layer 'fc7' weights[0]: 7.853631e-03 [1.239475e-07] 
+Layer 'fc7' biases: 9.999966e-01 [1.216578e-07] 
+Layer 'fc8' weights[0]: 4.746208e-04 [2.078528e-04] 
+Layer 'fc8' biases: 1.575976e-04 [2.254841e-04] 
+Train error last 27 batches: 1.122373
+-------------------------------------------------------
+Saved checkpoint to /data/ad6813/my-nets/saves/ConvNet__2014-06-27_21.32.08
+======================================================= (5.201 sec)
+5.12... logprob:  0.873399, 0.429688 (0.650 sec)
+5.13... logprob:  0.802039, 0.453125 (0.650 sec)
+5.14... logprob:  0.791190, 0.453125 (0.649 sec)
+5.15... logprob:  0.957979, 0.617188 (0.649 sec)
+5.16... logprob:  1.312761, 0.453125 (0.649 sec)
+5.17... logprob:  0.962563, 0.531250 (0.650 sec)
+5.18... logprob:  1.020326, 0.429688 (0.649 sec)
+5.19... logprob:  0.962462, 0.562500 (0.648 sec)
+5.20... logprob:  1.132021, 0.445312 (0.649 sec)
+5.21... logprob:  1.022043, 0.570312 (0.650 sec)
+5.22... logprob:  1.173483, 0.437500 (0.650 sec)
+5.23... logprob:  1.004323, 0.593750 (0.651 sec)
+5.24... logprob:  1.243933, 0.445312 (0.650 sec)
+5.25... logprob:  0.983097, 0.570312 (0.649 sec)
+5.26... logprob:  1.154928, 0.445312 (0.650 sec)
+5.27... logprob:  0.980906, 0.554688 (0.650 sec)
+6.1... logprob:  1.141245, 0.460938 (0.650 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  1.058589, 0.565104 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979663e-03 [1.767986e-09] 
+Layer 'conv1' biases: 5.974349e-09 [4.499252e-11] 
+Layer 'conv2' weights[0]: 7.966594e-03 [1.956368e-09] 
+Layer 'conv2' biases: 1.000000e+00 [3.666562e-10] 
+Layer 'conv3' weights[0]: 7.964960e-03 [2.010609e-09] 
+Layer 'conv3' biases: 1.507831e-07 [1.229340e-09] 
+Layer 'conv4' weights[0]: 7.997449e-03 [2.588929e-09] 
+Layer 'conv4' biases: 9.999998e-01 [1.390364e-08] 
+Layer 'conv5' weights[0]: 7.996378e-03 [8.225346e-08] 
+Layer 'conv5' biases: 9.999891e-01 [8.648244e-08] 
+Layer 'fc6' weights[0]: 7.593227e-03 [1.390498e-08] 
+Layer 'fc6' biases: 1.000000e+00 [1.418773e-08] 
+Layer 'fc7' weights[0]: 7.853554e-03 [2.372441e-07] 
+Layer 'fc7' biases: 9.999959e-01 [2.325669e-07] 
+Layer 'fc8' weights[0]: 4.702080e-04 [3.335188e-04] 
+Layer 'fc8' biases: 1.418769e-04 [3.665143e-04] 
+Train error last 27 batches: 1.063989
+-------------------------------------------------------
+Not saving because 1.058589 > 0.881783 (5.11: -2.79%)
+======================================================= (4.728 sec)
+6.2... logprob:  1.114174, 0.601562 (0.649 sec)
+6.3... logprob:  1.362517, 0.460938 (0.650 sec)
+6.4... logprob:  0.860028, 0.468750 (0.650 sec)
+6.5... logprob:  0.776512, 0.406250 (0.650 sec)
+6.6... logprob:  0.812150, 0.585938 (0.650 sec)
+6.7... logprob:  0.999160, 0.453125 (0.649 sec)
+6.8... logprob:  0.921941, 0.500000 (0.650 sec)
+6.9... logprob:  0.856035, 0.406250 (0.649 sec)
+6.10... logprob:  0.865450, 0.593750 (0.649 sec)
+6.11... logprob:  1.107974, 0.460938 (0.650 sec)
+6.12... logprob:  1.049493, 0.570312 (0.650 sec)
+6.13... logprob:  1.414127, 0.546875 (0.649 sec)
+6.14... logprob:  1.351533, 0.546875 (0.650 sec)
+6.15... logprob:  0.978743, 0.382812 (0.649 sec)
+6.16... logprob:  0.773710, 0.546875 (0.649 sec)
+6.17... logprob:  0.874456, 0.468750 (0.650 sec)
+6.18... logprob:  0.990335, 0.570312 (0.650 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  1.094256, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979653e-03 [1.152567e-09] 
+Layer 'conv1' biases: 6.400978e-09 [5.002428e-11] 
+Layer 'conv2' weights[0]: 7.966589e-03 [1.856405e-09] 
+Layer 'conv2' biases: 1.000000e+00 [3.285623e-10] 
+Layer 'conv3' weights[0]: 7.964953e-03 [1.836604e-09] 
+Layer 'conv3' biases: 1.617318e-07 [1.048582e-09] 
+Layer 'conv4' weights[0]: 7.997438e-03 [2.313306e-09] 
+Layer 'conv4' biases: 9.999998e-01 [1.094983e-08] 
+Layer 'conv5' weights[0]: 7.996365e-03 [6.483900e-08] 
+Layer 'conv5' biases: 9.999884e-01 [6.771112e-08] 
+Layer 'fc6' weights[0]: 7.593215e-03 [1.175761e-08] 
+Layer 'fc6' biases: 9.999999e-01 [1.207295e-08] 
+Layer 'fc7' weights[0]: 7.853474e-03 [2.040490e-07] 
+Layer 'fc7' biases: 9.999954e-01 [2.005578e-07] 
+Layer 'fc8' weights[0]: 4.936718e-04 [3.230737e-04] 
+Layer 'fc8' biases: 2.343176e-04 [3.598485e-04] 
+Train error last 27 batches: 1.033584
+-------------------------------------------------------
+Not saving because 1.094256 > 0.881783 (5.11: -2.79%)
+======================================================= (4.723 sec)
+6.19... logprob:  1.100237, 0.437500 (0.657 sec)
+6.20... logprob:  0.921959, 0.554688 (0.651 sec)
+6.21... logprob:  0.992831, 0.429688 (0.652 sec)
+6.22... logprob:  0.908648, 0.562500 (0.652 sec)
+6.23... logprob:  0.948556, 0.406250 (0.653 sec)
+6.24... logprob:  0.831488, 0.554688 (0.652 sec)
+6.25... logprob:  0.901299, 0.429688 (0.651 sec)
+6.26... logprob:  0.880686, 0.554688 (0.652 sec)
+6.27... logprob:  0.980049, 0.445312 (0.651 sec)
+7.1... logprob:  0.919264, 0.539062 (0.651 sec)
+7.2... logprob:  0.889226, 0.398438 (0.651 sec)
+7.3... logprob:  0.792346, 0.539062 (0.651 sec)
+7.4... logprob:  0.969526, 0.531250 (0.651 sec)
+7.5... logprob:  1.270476, 0.593750 (0.650 sec)
+7.6... logprob:  1.175308, 0.414062 (0.650 sec)
+7.7... logprob:  0.801098, 0.546875 (0.650 sec)
+7.8... logprob:  0.948777, 0.500000 (0.661 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  1.093944, 0.565104 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979645e-03 [1.263162e-09] 
+Layer 'conv1' biases: 6.764543e-09 [3.235542e-11] 
+Layer 'conv2' weights[0]: 7.966580e-03 [1.445113e-09] 
+Layer 'conv2' biases: 1.000000e+00 [2.647668e-10] 
+Layer 'conv3' weights[0]: 7.964947e-03 [1.495127e-09] 
+Layer 'conv3' biases: 1.711022e-07 [8.935952e-10] 
+Layer 'conv4' weights[0]: 7.997433e-03 [1.902506e-09] 
+Layer 'conv4' biases: 9.999998e-01 [9.867149e-09] 
+Layer 'conv5' weights[0]: 7.996355e-03 [5.620396e-08] 
+Layer 'conv5' biases: 9.999880e-01 [5.830986e-08] 
+Layer 'fc6' weights[0]: 7.593195e-03 [1.045942e-08] 
+Layer 'fc6' biases: 9.999999e-01 [1.065719e-08] 
+Layer 'fc7' weights[0]: 7.853404e-03 [1.801706e-07] 
+Layer 'fc7' biases: 9.999948e-01 [1.773600e-07] 
+Layer 'fc8' weights[0]: 4.697621e-04 [2.807170e-04] 
+Layer 'fc8' biases: 1.588594e-04 [3.163395e-04] 
+Train error last 27 batches: 0.981246
+-------------------------------------------------------
+Not saving because 1.093944 > 0.881783 (5.11: -2.79%)
+======================================================= (4.809 sec)
+7.9... logprob:  1.140205, 0.593750 (0.653 sec)
+7.10... logprob:  1.121093, 0.406250 (0.652 sec)
+7.11... logprob:  0.782008, 0.539062 (0.653 sec)
+7.12... logprob:  0.806624, 0.429688 (0.657 sec)
+7.13... logprob:  0.737081, 0.453125 (0.658 sec)
+7.14... logprob:  0.711535, 0.453125 (0.656 sec)
+7.15... logprob:  0.757649, 0.617188 (0.672 sec)
+7.16... logprob:  0.935232, 0.453125 (0.656 sec)
+7.17... logprob:  0.903015, 0.531250 (0.656 sec)
+7.18... logprob:  0.904373, 0.429688 (0.652 sec)
+7.19... logprob:  0.870184, 0.562500 (0.684 sec)
+7.20... logprob:  0.964269, 0.445312 (0.657 sec)
+7.21... logprob:  0.930376, 0.570312 (0.656 sec)
+7.22... logprob:  1.015416, 0.437500 (0.659 sec)
+7.23... logprob:  0.933090, 0.593750 (0.656 sec)
+7.24... logprob:  1.085856, 0.445312 (0.658 sec)
+7.25... logprob:  0.924934, 0.570312 (0.660 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.999710, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979637e-03 [9.955158e-10] 
+Layer 'conv1' biases: 7.071523e-09 [4.546792e-11] 
+Layer 'conv2' weights[0]: 7.966575e-03 [1.603416e-09] 
+Layer 'conv2' biases: 1.000000e+00 [2.873436e-10] 
+Layer 'conv3' weights[0]: 7.964940e-03 [1.607749e-09] 
+Layer 'conv3' biases: 1.790018e-07 [9.197715e-10] 
+Layer 'conv4' weights[0]: 7.997422e-03 [1.987168e-09] 
+Layer 'conv4' biases: 9.999998e-01 [9.352918e-09] 
+Layer 'conv5' weights[0]: 7.996331e-03 [5.489246e-08] 
+Layer 'conv5' biases: 9.999875e-01 [5.723485e-08] 
+Layer 'fc6' weights[0]: 7.593182e-03 [1.027765e-08] 
+Layer 'fc6' biases: 9.999999e-01 [1.050411e-08] 
+Layer 'fc7' weights[0]: 7.853298e-03 [1.778403e-07] 
+Layer 'fc7' biases: 9.999939e-01 [1.751375e-07] 
+Layer 'fc8' weights[0]: 4.820102e-04 [2.867741e-04] 
+Layer 'fc8' biases: 2.144754e-04 [3.264675e-04] 
+Train error last 27 batches: 0.931470
+-------------------------------------------------------
+Not saving because 0.999710 > 0.881783 (5.11: -2.79%)
+======================================================= (4.830 sec)
+7.26... logprob:  1.020632, 0.445312 (0.655 sec)
+7.27... logprob:  0.908074, 0.554688 (0.657 sec)
+8.1... logprob:  0.999508, 0.460938 (0.657 sec)
+8.2... logprob:  1.009699, 0.601562 (0.652 sec)
+8.3... logprob:  1.186947, 0.460938 (0.654 sec)
+8.4... logprob:  0.828782, 0.468750 (0.658 sec)
+8.5... logprob:  0.729538, 0.406250 (0.658 sec)
+8.6... logprob:  0.741265, 0.585938 (0.658 sec)
+8.7... logprob:  0.833251, 0.453125 (0.658 sec)
+8.8... logprob:  0.809000, 0.500000 (0.667 sec)
+8.9... logprob:  0.747342, 0.406250 (0.658 sec)
+8.10... logprob:  0.759724, 0.593750 (0.656 sec)
+8.11... logprob:  0.888994, 0.460938 (0.658 sec)
+8.12... logprob:  0.926806, 0.570312 (0.658 sec)
+8.13... logprob:  1.206571, 0.546875 (0.656 sec)
+8.14... logprob:  1.241197, 0.546875 (0.657 sec)
+8.15... logprob:  0.902291, 0.382812 (0.659 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.753418, 0.565104 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979634e-03 [1.169651e-09] 
+Layer 'conv1' biases: 7.392246e-09 [2.763694e-11] 
+Layer 'conv2' weights[0]: 7.966569e-03 [1.419859e-09] 
+Layer 'conv2' biases: 1.000000e+00 [2.551589e-10] 
+Layer 'conv3' weights[0]: 7.964934e-03 [1.446179e-09] 
+Layer 'conv3' biases: 1.870750e-07 [8.332095e-10] 
+Layer 'conv4' weights[0]: 7.997418e-03 [1.840677e-09] 
+Layer 'conv4' biases: 9.999997e-01 [9.266330e-09] 
+Layer 'conv5' weights[0]: 7.996317e-03 [5.351492e-08] 
+Layer 'conv5' biases: 9.999866e-01 [5.581751e-08] 
+Layer 'fc6' weights[0]: 7.593187e-03 [9.661746e-09] 
+Layer 'fc6' biases: 9.999999e-01 [9.752209e-09] 
+Layer 'fc7' weights[0]: 7.853232e-03 [1.639711e-07] 
+Layer 'fc7' biases: 9.999930e-01 [1.614735e-07] 
+Layer 'fc8' weights[0]: 4.458621e-04 [2.324364e-04] 
+Layer 'fc8' biases: 4.583738e-05 [2.674110e-04] 
+Train error last 27 batches: 0.933569
+-------------------------------------------------------
+Saved checkpoint to /data/ad6813/my-nets/saves/ConvNet__2014-06-27_21.32.08
+======================================================= (5.311 sec)
+8.16... logprob:  0.744620, 0.546875 (0.653 sec)
+8.17... logprob:  0.796899, 0.468750 (0.654 sec)
+8.18... logprob:  0.865256, 0.570312 (0.653 sec)
+8.19... logprob:  0.933942, 0.437500 (0.653 sec)
+8.20... logprob:  0.860156, 0.554688 (0.653 sec)
+8.21... logprob:  0.886091, 0.429688 (0.654 sec)
+8.22... logprob:  0.838561, 0.562500 (0.654 sec)
+8.23... logprob:  0.840496, 0.406250 (0.667 sec)
+8.24... logprob:  0.777580, 0.554688 (0.653 sec)
+8.25... logprob:  0.801972, 0.429688 (0.653 sec)
+8.26... logprob:  0.795496, 0.554688 (0.653 sec)
+8.27... logprob:  0.843270, 0.445312 (0.653 sec)
+9.1... logprob:  0.827766, 0.539062 (0.654 sec)
+9.2... logprob:  0.785018, 0.398438 (0.654 sec)
+9.3... logprob:  0.740801, 0.539062 (0.654 sec)
+9.4... logprob:  0.839574, 0.531250 (0.654 sec)
+9.5... logprob:  1.060541, 0.593750 (0.653 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  1.091220, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979627e-03 [1.184059e-09] 
+Layer 'conv1' biases: 7.598241e-09 [5.639951e-11] 
+Layer 'conv2' weights[0]: 7.966561e-03 [2.067349e-09] 
+Layer 'conv2' biases: 1.000000e+00 [3.781652e-10] 
+Layer 'conv3' weights[0]: 7.964927e-03 [2.039714e-09] 
+Layer 'conv3' biases: 1.923570e-07 [1.182356e-09] 
+Layer 'conv4' weights[0]: 7.997409e-03 [2.503582e-09] 
+Layer 'conv4' biases: 9.999997e-01 [1.207011e-08] 
+Layer 'conv5' weights[0]: 7.996300e-03 [7.124623e-08] 
+Layer 'conv5' biases: 9.999865e-01 [7.419208e-08] 
+Layer 'fc6' weights[0]: 7.593177e-03 [1.290793e-08] 
+Layer 'fc6' biases: 9.999999e-01 [1.323875e-08] 
+Layer 'fc7' weights[0]: 7.853177e-03 [2.241982e-07] 
+Layer 'fc7' biases: 9.999925e-01 [2.202485e-07] 
+Layer 'fc8' weights[0]: 4.913192e-04 [3.447566e-04] 
+Layer 'fc8' biases: 2.518236e-04 [3.994538e-04] 
+Train error last 27 batches: 0.862759
+-------------------------------------------------------
+Not saving because 1.091220 > 0.753418 (8.15: -14.56%)
+======================================================= (4.758 sec)
+9.6... logprob:  1.043574, 0.414062 (0.654 sec)
+9.7... logprob:  0.785375, 0.546875 (0.655 sec)
+9.8... logprob:  0.887230, 0.500000 (0.654 sec)
+9.9... logprob:  1.026503, 0.593750 (0.654 sec)
+9.10... logprob:  1.006359, 0.406250 (0.654 sec)
+9.11... logprob:  0.765090, 0.539062 (0.653 sec)
+9.12... logprob:  0.764492, 0.429688 (0.655 sec)
+9.13... logprob:  0.706805, 0.453125 (0.654 sec)
+9.14... logprob:  0.689748, 0.453125 (0.654 sec)
+9.15... logprob:  0.685254, 0.382812 (0.653 sec)
+9.16... logprob:  0.763247, 0.453125 (0.654 sec)
+9.17... logprob:  0.770991, 0.531250 (0.654 sec)
+9.18... logprob:  0.761981, 0.429688 (0.653 sec)
+9.19... logprob:  0.766989, 0.562500 (0.653 sec)
+9.20... logprob:  0.812388, 0.445312 (0.654 sec)
+9.21... logprob:  0.828021, 0.570312 (0.653 sec)
+9.22... logprob:  0.880862, 0.437500 (0.660 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.840481, 0.565104 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979621e-03 [1.029190e-09] 
+Layer 'conv1' biases: 7.779771e-09 [2.930980e-11] 
+Layer 'conv2' weights[0]: 7.966554e-03 [1.279159e-09] 
+Layer 'conv2' biases: 1.000000e+00 [2.326224e-10] 
+Layer 'conv3' weights[0]: 7.964920e-03 [1.344156e-09] 
+Layer 'conv3' biases: 1.969801e-07 [7.617042e-10] 
+Layer 'conv4' weights[0]: 7.997404e-03 [1.678343e-09] 
+Layer 'conv4' biases: 9.999997e-01 [8.392245e-09] 
+Layer 'conv5' weights[0]: 7.996306e-03 [4.744842e-08] 
+Layer 'conv5' biases: 9.999863e-01 [4.925823e-08] 
+Layer 'fc6' weights[0]: 7.593172e-03 [8.861550e-09] 
+Layer 'fc6' biases: 9.999999e-01 [8.977617e-09] 
+Layer 'fc7' weights[0]: 7.853105e-03 [1.517918e-07] 
+Layer 'fc7' biases: 9.999920e-01 [1.496673e-07] 
+Layer 'fc8' weights[0]: 4.486825e-04 [2.296869e-04] 
+Layer 'fc8' biases: 8.936464e-05 [2.679385e-04] 
+Train error last 27 batches: 0.824349
+-------------------------------------------------------
+Not saving because 0.840481 > 0.753418 (8.15: -14.56%)
+======================================================= (4.763 sec)
+9.23... logprob:  0.865287, 0.593750 (0.655 sec)
+9.24... logprob:  0.972175, 0.445312 (0.653 sec)
+9.25... logprob:  0.877406, 0.570312 (0.653 sec)
+9.26... logprob:  0.934713, 0.445312 (0.655 sec)
+9.27... logprob:  0.856083, 0.554688 (0.654 sec)
+10.1... logprob:  0.911920, 0.460938 (0.654 sec)
+10.2... logprob:  0.933571, 0.601562 (0.655 sec)
+10.3... logprob:  1.070673, 0.460938 (0.654 sec)
+10.4... logprob:  0.802063, 0.468750 (0.656 sec)
+10.5... logprob:  0.704482, 0.406250 (0.655 sec)
+10.6... logprob:  0.708025, 0.585938 (0.654 sec)
+10.7... logprob:  0.758758, 0.453125 (0.655 sec)
+10.8... logprob:  0.742291, 0.500000 (0.655 sec)
+10.9... logprob:  0.691635, 0.406250 (0.654 sec)
+10.10... logprob:  0.695370, 0.593750 (0.658 sec)
+10.11... logprob:  0.751963, 0.460938 (0.653 sec)
+10.12... logprob:  0.786830, 0.570312 (0.653 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.825718, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979614e-03 [7.805875e-10] 
+Layer 'conv1' biases: 7.969838e-09 [2.960926e-11] 
+Layer 'conv2' weights[0]: 7.966545e-03 [1.138561e-09] 
+Layer 'conv2' biases: 1.000000e+00 [1.878101e-10] 
+Layer 'conv3' weights[0]: 7.964910e-03 [1.135223e-09] 
+Layer 'conv3' biases: 2.017234e-07 [5.826023e-10] 
+Layer 'conv4' weights[0]: 7.997397e-03 [1.353579e-09] 
+Layer 'conv4' biases: 9.999997e-01 [5.884094e-09] 
+Layer 'conv5' weights[0]: 7.996306e-03 [3.319196e-08] 
+Layer 'conv5' biases: 9.999861e-01 [3.449650e-08] 
+Layer 'fc6' weights[0]: 7.593168e-03 [6.422646e-09] 
+Layer 'fc6' biases: 9.999999e-01 [6.611343e-09] 
+Layer 'fc7' weights[0]: 7.853006e-03 [1.131692e-07] 
+Layer 'fc7' biases: 9.999915e-01 [1.111180e-07] 
+Layer 'fc8' weights[0]: 4.599436e-04 [1.901311e-04] 
+Layer 'fc8' biases: 1.586053e-04 [2.233968e-04] 
+Train error last 27 batches: 0.804797
+-------------------------------------------------------
+Not saving because 0.825718 > 0.753418 (8.15: -14.56%)
+======================================================= (4.760 sec)
+10.13... logprob:  0.980787, 0.546875 (0.657 sec)
+10.14... logprob:  1.114687, 0.546875 (0.657 sec)
+10.15... logprob:  0.852432, 0.382812 (0.654 sec)
+10.16... logprob:  0.727604, 0.546875 (0.655 sec)
+10.17... logprob:  0.758343, 0.468750 (0.655 sec)
+10.18... logprob:  0.800324, 0.570312 (0.654 sec)
+10.19... logprob:  0.840718, 0.437500 (0.662 sec)
+10.20... logprob:  0.806051, 0.554688 (0.653 sec)
+10.21... logprob:  0.812534, 0.429688 (0.654 sec)
+10.22... logprob:  0.787591, 0.562500 (0.654 sec)
+10.23... logprob:  0.773602, 0.406250 (0.654 sec)
+10.24... logprob:  0.739517, 0.554688 (0.653 sec)
+10.25... logprob:  0.743673, 0.429688 (0.653 sec)
+10.26... logprob:  0.741170, 0.554688 (0.653 sec)
+10.27... logprob:  0.761241, 0.445312 (0.654 sec)
+11.1... logprob:  0.758360, 0.539062 (0.653 sec)
+11.2... logprob:  0.716196, 0.398438 (0.653 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.708947, 0.565104 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979609e-03 [6.079278e-10] 
+Layer 'conv1' biases: 8.129339e-09 [1.426498e-11] 
+Layer 'conv2' weights[0]: 7.966538e-03 [7.386924e-10] 
+Layer 'conv2' biases: 1.000000e+00 [1.103630e-10] 
+Layer 'conv3' weights[0]: 7.964906e-03 [7.562662e-10] 
+Layer 'conv3' biases: 2.058725e-07 [3.626183e-10] 
+Layer 'conv4' weights[0]: 7.997390e-03 [9.167188e-10] 
+Layer 'conv4' biases: 9.999997e-01 [3.841420e-09] 
+Layer 'conv5' weights[0]: 7.996307e-03 [2.144205e-08] 
+Layer 'conv5' biases: 9.999855e-01 [2.226731e-08] 
+Layer 'fc6' weights[0]: 7.593168e-03 [4.112473e-09] 
+Layer 'fc6' biases: 9.999999e-01 [4.155010e-09] 
+Layer 'fc7' weights[0]: 7.852947e-03 [7.094578e-08] 
+Layer 'fc7' biases: 9.999910e-01 [6.973287e-08] 
+Layer 'fc8' weights[0]: 4.400764e-04 [1.151429e-04] 
+Layer 'fc8' biases: 1.511685e-05 [1.361196e-04] 
+Train error last 27 batches: 0.793590
+-------------------------------------------------------
+Saved checkpoint to /data/ad6813/my-nets/saves/ConvNet__2014-06-27_21.32.08
+======================================================= (5.265 sec)
+11.3... logprob:  0.704242, 0.539062 (0.655 sec)
+11.4... logprob:  0.750875, 0.531250 (0.661 sec)
+11.5... logprob:  0.889453, 0.593750 (0.654 sec)
+11.6... logprob:  0.912666, 0.414062 (0.655 sec)
+11.7... logprob:  0.770933, 0.546875 (0.654 sec)
+11.8... logprob:  0.847421, 0.500000 (0.654 sec)
+11.9... logprob:  0.957818, 0.593750 (0.653 sec)
+11.10... logprob:  0.935348, 0.406250 (0.654 sec)
+11.11... logprob:  0.751321, 0.539062 (0.654 sec)
+11.12... logprob:  0.739655, 0.429688 (0.654 sec)
+11.13... logprob:  0.694626, 0.453125 (0.654 sec)
+11.14... logprob:  0.690563, 0.453125 (0.654 sec)
+11.15... logprob:  0.667867, 0.382812 (0.654 sec)
+11.16... logprob:  0.713329, 0.453125 (0.654 sec)
+11.17... logprob:  0.715099, 0.531250 (0.654 sec)
+11.18... logprob:  0.699302, 0.429688 (0.654 sec)
+11.19... logprob:  0.702093, 0.562500 (0.654 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.706894, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979599e-03 [5.996188e-10] 
+Layer 'conv1' biases: 8.241788e-09 [1.251511e-11] 
+Layer 'conv2' weights[0]: 7.966532e-03 [6.331760e-10] 
+Layer 'conv2' biases: 1.000000e+00 [7.660057e-11] 
+Layer 'conv3' weights[0]: 7.964897e-03 [6.346417e-10] 
+Layer 'conv3' biases: 2.087611e-07 [2.385033e-10] 
+Layer 'conv4' weights[0]: 7.997385e-03 [7.371962e-10] 
+Layer 'conv4' biases: 9.999997e-01 [2.369426e-09] 
+Layer 'conv5' weights[0]: 7.996301e-03 [1.322553e-08] 
+Layer 'conv5' biases: 9.999851e-01 [1.366401e-08] 
+Layer 'fc6' weights[0]: 7.593166e-03 [2.580759e-09] 
+Layer 'fc6' biases: 9.999999e-01 [2.600704e-09] 
+Layer 'fc7' weights[0]: 7.852891e-03 [4.492886e-08] 
+Layer 'fc7' biases: 9.999907e-01 [4.394767e-08] 
+Layer 'fc8' weights[0]: 4.440640e-04 [7.708928e-05] 
+Layer 'fc8' biases: 8.339039e-05 [9.154632e-05] 
+Train error last 27 batches: 0.769724
+-------------------------------------------------------
+Saved checkpoint to /data/ad6813/my-nets/saves/ConvNet__2014-06-27_21.32.08
+======================================================= (5.265 sec)
+11.20... logprob:  0.714098, 0.445312 (0.654 sec)
+11.21... logprob:  0.724975, 0.570312 (0.654 sec)
+11.22... logprob:  0.746720, 0.437500 (0.654 sec)
+11.23... logprob:  0.764878, 0.593750 (0.654 sec)
+11.24... logprob:  0.838657, 0.445312 (0.654 sec)
+11.25... logprob:  0.821314, 0.570312 (0.654 sec)
+11.26... logprob:  0.862787, 0.445312 (0.654 sec)
+11.27... logprob:  0.817033, 0.554688 (0.654 sec)
+12.1... logprob:  0.855785, 0.460938 (0.654 sec)
+12.2... logprob:  0.882295, 0.601562 (0.681 sec)
+12.3... logprob:  0.997301, 0.460938 (0.654 sec)
+12.4... logprob:  0.782744, 0.468750 (0.654 sec)
+12.5... logprob:  0.691874, 0.406250 (0.654 sec)
+12.6... logprob:  0.693298, 0.585938 (0.654 sec)
+12.7... logprob:  0.727344, 0.453125 (0.654 sec)
+12.8... logprob:  0.714304, 0.500000 (0.655 sec)
+12.9... logprob:  0.676625, 0.406250 (0.655 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.684643, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979592e-03 [5.296710e-10] 
+Layer 'conv1' biases: 8.372165e-09 [3.198091e-12] 
+Layer 'conv2' weights[0]: 7.966526e-03 [4.612668e-10] 
+Layer 'conv2' biases: 1.000000e+00 [2.311343e-11] 
+Layer 'conv3' weights[0]: 7.964891e-03 [4.305328e-10] 
+Layer 'conv3' biases: 2.120239e-07 [8.107015e-11] 
+Layer 'conv4' weights[0]: 7.997375e-03 [4.418188e-10] 
+Layer 'conv4' biases: 9.999997e-01 [6.311438e-10] 
+Layer 'conv5' weights[0]: 7.996292e-03 [3.559840e-09] 
+Layer 'conv5' biases: 9.999851e-01 [3.666974e-09] 
+Layer 'fc6' weights[0]: 7.593159e-03 [7.799741e-10] 
+Layer 'fc6' biases: 9.999999e-01 [6.809002e-10] 
+Layer 'fc7' weights[0]: 7.852805e-03 [1.290466e-08] 
+Layer 'fc7' biases: 9.999903e-01 [1.144466e-08] 
+Layer 'fc8' weights[0]: 4.391772e-04 [1.980299e-05] 
+Layer 'fc8' biases: 3.602994e-05 [2.363230e-05] 
+Train error last 27 batches: 0.763750
+-------------------------------------------------------
+Saved checkpoint to /data/ad6813/my-nets/saves/ConvNet__2014-06-27_21.32.08
+======================================================= (5.295 sec)
+12.10... logprob:  0.676865, 0.406250 (0.655 sec)
+12.11... logprob:  0.704652, 0.460938 (0.655 sec)
+12.12... logprob:  0.716111, 0.570312 (0.655 sec)
+12.13... logprob:  0.830346, 0.546875 (0.656 sec)
+12.14... logprob:  0.967633, 0.546875 (0.655 sec)
+12.15... logprob:  0.802837, 0.382812 (0.655 sec)
+12.16... logprob:  0.716278, 0.546875 (0.655 sec)
+12.17... logprob:  0.736663, 0.468750 (0.655 sec)
+12.18... logprob:  0.764973, 0.570312 (0.655 sec)
+12.19... logprob:  0.790596, 0.437500 (0.654 sec)
+12.20... logprob:  0.770611, 0.554688 (0.655 sec)
+12.21... logprob:  0.768513, 0.429688 (0.655 sec)
+12.22... logprob:  0.754350, 0.562500 (0.654 sec)
+12.23... logprob:  0.734740, 0.406250 (0.655 sec)
+12.24... logprob:  0.716168, 0.554688 (0.655 sec)
+12.25... logprob:  0.712590, 0.429688 (0.654 sec)
+12.26... logprob:  0.711575, 0.554688 (0.655 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.711355, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979587e-03 [6.348004e-10] 
+Layer 'conv1' biases: 8.466471e-09 [1.540533e-11] 
+Layer 'conv2' weights[0]: 7.966518e-03 [7.151281e-10] 
+Layer 'conv2' biases: 1.000000e+00 [9.564669e-11] 
+Layer 'conv3' weights[0]: 7.964883e-03 [7.096396e-10] 
+Layer 'conv3' biases: 2.144695e-07 [2.922492e-10] 
+Layer 'conv4' weights[0]: 7.997369e-03 [8.230143e-10] 
+Layer 'conv4' biases: 9.999997e-01 [2.868846e-09] 
+Layer 'conv5' weights[0]: 7.996276e-03 [1.597900e-08] 
+Layer 'conv5' biases: 9.999850e-01 [1.649154e-08] 
+Layer 'fc6' weights[0]: 7.593150e-03 [3.065154e-09] 
+Layer 'fc6' biases: 9.999999e-01 [3.122428e-09] 
+Layer 'fc7' weights[0]: 7.852728e-03 [5.387804e-08] 
+Layer 'fc7' biases: 9.999900e-01 [5.271810e-08] 
+Layer 'fc8' weights[0]: 4.435958e-04 [9.209783e-05] 
+Layer 'fc8' biases: 8.951456e-05 [1.103228e-04] 
+Train error last 27 batches: 0.767189
+-------------------------------------------------------
+Not saving because 0.711355 > 0.684643 (12.9: -3.15%)
+======================================================= (4.766 sec)
+12.27... logprob:  0.718997, 0.445312 (0.654 sec)
+13.1... logprob:  0.718146, 0.539062 (0.655 sec)
+13.2... logprob:  0.682497, 0.398438 (0.654 sec)
+13.3... logprob:  0.690278, 0.460938 (0.655 sec)
+13.4... logprob:  0.704712, 0.531250 (0.654 sec)
+13.5... logprob:  0.772852, 0.593750 (0.654 sec)
+13.6... logprob:  0.797149, 0.414062 (0.655 sec)
+13.7... logprob:  0.742764, 0.546875 (0.654 sec)
+13.8... logprob:  0.799406, 0.500000 (0.655 sec)
+13.9... logprob:  0.893560, 0.593750 (0.654 sec)
+13.10... logprob:  0.879753, 0.406250 (0.655 sec)
+13.11... logprob:  0.741520, 0.539062 (0.655 sec)
+13.12... logprob:  0.725415, 0.429688 (0.655 sec)
+13.13... logprob:  0.690309, 0.453125 (0.655 sec)
+13.14... logprob:  0.696407, 0.546875 (0.655 sec)
+13.15... logprob:  0.665409, 0.382812 (0.654 sec)
+13.16... logprob:  0.699199, 0.453125 (0.655 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.703970, 0.565104 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979580e-03 [6.310073e-10] 
+Layer 'conv1' biases: 8.540066e-09 [8.282480e-12] 
+Layer 'conv2' weights[0]: 7.966514e-03 [5.478984e-10] 
+Layer 'conv2' biases: 1.000000e+00 [5.998827e-11] 
+Layer 'conv3' weights[0]: 7.964875e-03 [5.238124e-10] 
+Layer 'conv3' biases: 2.164321e-07 [1.912438e-10] 
+Layer 'conv4' weights[0]: 7.997363e-03 [5.915156e-10] 
+Layer 'conv4' biases: 9.999997e-01 [1.922569e-09] 
+Layer 'conv5' weights[0]: 7.996251e-03 [1.076696e-08] 
+Layer 'conv5' biases: 9.999849e-01 [1.115577e-08] 
+Layer 'fc6' weights[0]: 7.593145e-03 [2.047735e-09] 
+Layer 'fc6' biases: 9.999999e-01 [2.036895e-09] 
+Layer 'fc7' weights[0]: 7.852682e-03 [3.515084e-08] 
+Layer 'fc7' biases: 9.999898e-01 [3.420264e-08] 
+Layer 'fc8' weights[0]: 4.376545e-04 [5.911205e-05] 
+Layer 'fc8' biases: 1.053743e-05 [7.101800e-05] 
+Train error last 27 batches: 0.743672
+-------------------------------------------------------
+Not saving because 0.703970 > 0.684643 (12.9: -3.15%)
+======================================================= (4.785 sec)
+13.17... logprob:  0.699480, 0.531250 (0.654 sec)
+13.18... logprob:  0.685589, 0.429688 (0.655 sec)
+13.19... logprob:  0.687110, 0.437500 (0.654 sec)
+13.20... logprob:  0.690649, 0.445312 (0.655 sec)
+13.21... logprob:  0.691030, 0.429688 (0.655 sec)
+13.22... logprob:  0.697609, 0.437500 (0.654 sec)
+13.23... logprob:  0.702448, 0.593750 (0.654 sec)
+13.24... logprob:  0.743837, 0.445312 (0.654 sec)
+13.25... logprob:  0.751399, 0.570312 (0.654 sec)
+13.26... logprob:  0.781131, 0.445312 (0.654 sec)
+13.27... logprob:  0.770118, 0.554688 (0.655 sec)
+14.1... logprob:  0.799917, 0.460938 (0.655 sec)
+14.2... logprob:  0.833956, 0.601562 (0.654 sec)
+14.3... logprob:  0.937366, 0.460938 (0.655 sec)
+14.4... logprob:  0.768468, 0.468750 (0.654 sec)
+14.5... logprob:  0.685144, 0.406250 (0.654 sec)
+14.6... logprob:  0.686293, 0.414062 (0.655 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.701158, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979573e-03 [5.666741e-10] 
+Layer 'conv1' biases: 8.613477e-09 [1.039541e-11] 
+Layer 'conv2' weights[0]: 7.966508e-03 [5.728560e-10] 
+Layer 'conv2' biases: 1.000000e+00 [5.825314e-11] 
+Layer 'conv3' weights[0]: 7.964868e-03 [5.678925e-10] 
+Layer 'conv3' biases: 2.182839e-07 [1.811542e-10] 
+Layer 'conv4' weights[0]: 7.997357e-03 [6.213667e-10] 
+Layer 'conv4' biases: 9.999997e-01 [1.665312e-09] 
+Layer 'conv5' weights[0]: 7.996236e-03 [9.294752e-09] 
+Layer 'conv5' biases: 9.999847e-01 [9.616337e-09] 
+Layer 'fc6' weights[0]: 7.593139e-03 [1.783718e-09] 
+Layer 'fc6' biases: 9.999999e-01 [1.768781e-09] 
+Layer 'fc7' weights[0]: 7.852634e-03 [3.088690e-08] 
+Layer 'fc7' biases: 9.999896e-01 [2.984006e-08] 
+Layer 'fc8' weights[0]: 4.413530e-04 [5.226523e-05] 
+Layer 'fc8' biases: 7.852208e-05 [6.298385e-05] 
+Train error last 27 batches: 0.746122
+-------------------------------------------------------
+Not saving because 0.701158 > 0.684643 (12.9: -3.15%)
+======================================================= (4.779 sec)
+14.7... logprob:  0.712682, 0.453125 (0.654 sec)
+14.8... logprob:  0.702827, 0.500000 (0.655 sec)
+14.9... logprob:  0.675938, 0.406250 (0.653 sec)
+14.10... logprob:  0.676016, 0.406250 (0.654 sec)
+14.11... logprob:  0.692860, 0.460938 (0.655 sec)
+14.12... logprob:  0.693927, 0.570312 (0.655 sec)
+14.13... logprob:  0.768751, 0.546875 (0.655 sec)
+14.14... logprob:  0.879369, 0.546875 (0.655 sec)
+14.15... logprob:  0.761640, 0.382812 (0.655 sec)
+14.16... logprob:  0.707038, 0.546875 (0.655 sec)
+14.17... logprob:  0.721387, 0.468750 (0.655 sec)
+14.18... logprob:  0.741324, 0.570312 (0.655 sec)
+14.19... logprob:  0.759042, 0.437500 (0.654 sec)
+14.20... logprob:  0.746906, 0.554688 (0.655 sec)
+14.21... logprob:  0.741158, 0.429688 (0.655 sec)
+14.22... logprob:  0.732775, 0.562500 (0.655 sec)
+14.23... logprob:  0.711893, 0.406250 (0.658 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.703969, 0.565104 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979565e-03 [6.496363e-10] 
+Layer 'conv1' biases: 8.671564e-09 [1.282501e-11] 
+Layer 'conv2' weights[0]: 7.966499e-03 [7.367157e-10] 
+Layer 'conv2' biases: 1.000000e+00 [1.110260e-10] 
+Layer 'conv3' weights[0]: 7.964861e-03 [7.493188e-10] 
+Layer 'conv3' biases: 2.198755e-07 [3.619897e-10] 
+Layer 'conv4' weights[0]: 7.997349e-03 [8.645603e-10] 
+Layer 'conv4' biases: 9.999997e-01 [3.639473e-09] 
+Layer 'conv5' weights[0]: 7.996233e-03 [2.002819e-08] 
+Layer 'conv5' biases: 9.999844e-01 [2.072930e-08] 
+Layer 'fc6' weights[0]: 7.593131e-03 [3.703909e-09] 
+Layer 'fc6' biases: 9.999999e-01 [3.751386e-09] 
+Layer 'fc7' weights[0]: 7.852575e-03 [6.419128e-08] 
+Layer 'fc7' biases: 9.999893e-01 [6.289898e-08] 
+Layer 'fc8' weights[0]: 4.369425e-04 [1.041603e-04] 
+Layer 'fc8' biases: 1.078053e-05 [1.258080e-04] 
+Train error last 27 batches: 0.747525
+-------------------------------------------------------
+Not saving because 0.703969 > 0.684643 (12.9: -3.15%)
+======================================================= (4.780 sec)
+14.24... logprob:  0.702577, 0.554688 (0.655 sec)
+14.25... logprob:  0.696619, 0.429688 (0.655 sec)
+14.26... logprob:  0.696846, 0.554688 (0.655 sec)
+14.27... logprob:  0.699215, 0.445312 (0.656 sec)
+15.1... logprob:  0.699163, 0.539062 (0.656 sec)
+15.2... logprob:  0.672658, 0.398438 (0.656 sec)
+15.3... logprob:  0.695168, 0.460938 (0.656 sec)
+15.4... logprob:  0.691604, 0.468750 (0.655 sec)
+15.5... logprob:  0.715619, 0.593750 (0.656 sec)
+15.6... logprob:  0.729672, 0.414062 (0.656 sec)
+15.7... logprob:  0.712593, 0.546875 (0.655 sec)
+15.8... logprob:  0.749846, 0.500000 (0.656 sec)
+15.9... logprob:  0.823270, 0.593750 (0.656 sec)
+15.10... logprob:  0.821821, 0.406250 (0.656 sec)
+15.11... logprob:  0.731385, 0.539062 (0.656 sec)
+15.12... logprob:  0.714022, 0.429688 (0.656 sec)
+15.13... logprob:  0.688797, 0.453125 (0.656 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.706785, 0.565104 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979559e-03 [5.220321e-10] 
+Layer 'conv1' biases: 8.713643e-09 [5.808050e-12] 
+Layer 'conv2' weights[0]: 7.966491e-03 [4.903544e-10] 
+Layer 'conv2' biases: 1.000000e+00 [2.400593e-11] 
+Layer 'conv3' weights[0]: 7.964854e-03 [4.537351e-10] 
+Layer 'conv3' biases: 2.210661e-07 [6.950044e-11] 
+Layer 'conv4' weights[0]: 7.997343e-03 [4.629108e-10] 
+Layer 'conv4' biases: 9.999997e-01 [1.757043e-10] 
+Layer 'conv5' weights[0]: 7.996230e-03 [1.086885e-09] 
+Layer 'conv5' biases: 9.999843e-01 [1.016859e-09] 
+Layer 'fc6' weights[0]: 7.593123e-03 [4.230029e-10] 
+Layer 'fc6' biases: 9.999999e-01 [1.768537e-10] 
+Layer 'fc7' weights[0]: 7.852529e-03 [5.295611e-09] 
+Layer 'fc7' biases: 9.999890e-01 [2.934507e-09] 
+Layer 'fc8' weights[0]: 4.367978e-04 [5.094368e-06] 
+Layer 'fc8' biases: 1.414435e-05 [6.170386e-06] 
+Train error last 27 batches: 0.731237
+-------------------------------------------------------
+Not saving because 0.706785 > 0.684643 (12.9: -3.15%)
+======================================================= (4.928 sec)
+15.14... logprob:  0.703853, 0.546875 (0.659 sec)
+15.15... logprob:  0.666608, 0.382812 (0.659 sec)
+15.16... logprob:  0.693150, 0.453125 (0.659 sec)
+15.17... logprob:  0.693716, 0.531250 (0.658 sec)
+15.18... logprob:  0.683199, 0.429688 (0.660 sec)
+15.19... logprob:  0.685398, 0.437500 (0.658 sec)
+15.20... logprob:  0.687120, 0.445312 (0.655 sec)
+15.21... logprob:  0.683703, 0.429688 (0.655 sec)
+15.22... logprob:  0.686546, 0.437500 (0.655 sec)
+15.23... logprob:  0.682313, 0.406250 (0.656 sec)
+15.24... logprob:  0.708246, 0.445312 (0.656 sec)
+15.25... logprob:  0.713314, 0.570312 (0.655 sec)
+15.26... logprob:  0.731804, 0.445312 (0.655 sec)
+15.27... logprob:  0.731359, 0.554688 (0.656 sec)
+16.1... logprob:  0.752506, 0.460938 (0.656 sec)
+16.2... logprob:  0.785314, 0.601562 (0.655 sec)
+16.3... logprob:  0.878540, 0.460938 (0.656 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.836169, 0.565104 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979552e-03 [1.019068e-09] 
+Layer 'conv1' biases: 8.744770e-09 [3.574140e-11] 
+Layer 'conv2' weights[0]: 7.966477e-03 [1.403606e-09] 
+Layer 'conv2' biases: 1.000000e+00 [2.614120e-10] 
+Layer 'conv3' weights[0]: 7.964845e-03 [1.417854e-09] 
+Layer 'conv3' biases: 2.220510e-07 [8.320517e-10] 
+Layer 'conv4' weights[0]: 7.997334e-03 [1.685615e-09] 
+Layer 'conv4' biases: 9.999997e-01 [8.565560e-09] 
+Layer 'conv5' weights[0]: 7.996221e-03 [4.737008e-08] 
+Layer 'conv5' biases: 9.999842e-01 [4.903321e-08] 
+Layer 'fc6' weights[0]: 7.593115e-03 [8.601189e-09] 
+Layer 'fc6' biases: 9.999999e-01 [8.711696e-09] 
+Layer 'fc7' weights[0]: 7.852462e-03 [1.475366e-07] 
+Layer 'fc7' biases: 9.999889e-01 [1.455655e-07] 
+Layer 'fc8' weights[0]: 4.437580e-04 [2.233988e-04] 
+Layer 'fc8' biases: 9.547712e-05 [2.706464e-04] 
+Train error last 27 batches: 0.723901
+-------------------------------------------------------
+Not saving because 0.836169 > 0.684643 (12.9: -3.15%)
+======================================================= (4.778 sec)
+16.4... logprob:  0.754280, 0.468750 (0.655 sec)
+16.5... logprob:  0.680508, 0.406250 (0.656 sec)
+16.6... logprob:  0.681994, 0.414062 (0.655 sec)
+16.7... logprob:  0.703455, 0.453125 (0.655 sec)
+16.8... logprob:  0.696973, 0.500000 (0.656 sec)
+16.9... logprob:  0.679559, 0.406250 (0.655 sec)
+16.10... logprob:  0.680081, 0.406250 (0.655 sec)
+16.11... logprob:  0.690143, 0.460938 (0.655 sec)
+16.12... logprob:  0.686141, 0.429688 (0.655 sec)
+16.13... logprob:  0.739690, 0.546875 (0.656 sec)
+16.14... logprob:  0.830058, 0.546875 (0.655 sec)
+16.15... logprob:  0.734448, 0.382812 (0.655 sec)
+16.16... logprob:  0.700319, 0.546875 (0.655 sec)
+16.17... logprob:  0.710971, 0.468750 (0.656 sec)
+16.18... logprob:  0.725153, 0.570312 (0.656 sec)
+16.19... logprob:  0.738295, 0.437500 (0.655 sec)
+16.20... logprob:  0.730680, 0.554688 (0.655 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.727956, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979544e-03 [5.903351e-10] 
+Layer 'conv1' biases: 8.786177e-09 [2.044346e-11] 
+Layer 'conv2' weights[0]: 7.966474e-03 [9.304328e-10] 
+Layer 'conv2' biases: 1.000000e+00 [1.357225e-10] 
+Layer 'conv3' weights[0]: 7.964838e-03 [9.141874e-10] 
+Layer 'conv3' biases: 2.230959e-07 [4.131101e-10] 
+Layer 'conv4' weights[0]: 7.997326e-03 [1.051638e-09] 
+Layer 'conv4' biases: 9.999997e-01 [4.024953e-09] 
+Layer 'conv5' weights[0]: 7.996221e-03 [2.202120e-08] 
+Layer 'conv5' biases: 9.999841e-01 [2.269310e-08] 
+Layer 'fc6' weights[0]: 7.593110e-03 [4.110729e-09] 
+Layer 'fc6' biases: 9.999999e-01 [4.159100e-09] 
+Layer 'fc7' weights[0]: 7.852407e-03 [7.103172e-08] 
+Layer 'fc7' biases: 9.999887e-01 [6.983741e-08] 
+Layer 'fc8' weights[0]: 4.444452e-04 [1.207853e-04] 
+Layer 'fc8' biases: 1.073030e-04 [1.466683e-04] 
+Train error last 27 batches: 0.722829
+-------------------------------------------------------
+Not saving because 0.727956 > 0.684643 (12.9: -3.15%)
+======================================================= (4.791 sec)
+16.21... logprob:  0.723441, 0.429688 (0.655 sec)
+16.22... logprob:  0.718405, 0.562500 (0.656 sec)
+16.23... logprob:  0.697976, 0.406250 (0.656 sec)
+16.24... logprob:  0.694776, 0.554688 (0.656 sec)
+16.25... logprob:  0.688567, 0.429688 (0.656 sec)
+16.26... logprob:  0.690054, 0.445312 (0.655 sec)
+16.27... logprob:  0.690621, 0.445312 (0.656 sec)
+17.1... logprob:  0.691742, 0.460938 (0.658 sec)
+17.2... logprob:  0.674291, 0.398438 (0.661 sec)
+17.3... logprob:  0.708473, 0.460938 (0.656 sec)
+17.4... logprob:  0.693044, 0.468750 (0.655 sec)
+17.5... logprob:  0.692304, 0.406250 (0.656 sec)
+17.6... logprob:  0.700483, 0.414062 (0.656 sec)
+17.7... logprob:  0.696616, 0.546875 (0.655 sec)
+17.8... logprob:  0.720069, 0.500000 (0.656 sec)
+17.9... logprob:  0.771046, 0.593750 (0.656 sec)
+17.10... logprob:  0.774010, 0.406250 (0.656 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.728295, 0.565104 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979538e-03 [8.620718e-10] 
+Layer 'conv1' biases: 8.809252e-09 [2.504475e-11] 
+Layer 'conv2' weights[0]: 7.966470e-03 [1.100509e-09] 
+Layer 'conv2' biases: 1.000000e+00 [1.927856e-10] 
+Layer 'conv3' weights[0]: 7.964830e-03 [1.097730e-09] 
+Layer 'conv3' biases: 2.239437e-07 [6.041828e-10] 
+Layer 'conv4' weights[0]: 7.997321e-03 [1.288984e-09] 
+Layer 'conv4' biases: 9.999997e-01 [6.166485e-09] 
+Layer 'conv5' weights[0]: 7.996210e-03 [3.392252e-08] 
+Layer 'conv5' biases: 9.999840e-01 [3.504489e-08] 
+Layer 'fc6' weights[0]: 7.593106e-03 [6.051568e-09] 
+Layer 'fc6' biases: 9.999999e-01 [6.182270e-09] 
+Layer 'fc7' weights[0]: 7.852352e-03 [1.052013e-07] 
+Layer 'fc7' biases: 9.999886e-01 [1.033787e-07] 
+Layer 'fc8' weights[0]: 4.371578e-04 [1.615021e-04] 
+Layer 'fc8' biases: 3.463236e-05 [1.962972e-04] 
+Train error last 27 batches: 0.715252
+-------------------------------------------------------
+Not saving because 0.728295 > 0.684643 (12.9: -3.15%)
+======================================================= (4.781 sec)
+17.11... logprob:  0.719669, 0.539062 (0.656 sec)
+17.12... logprob:  0.702917, 0.429688 (0.656 sec)
+17.13... logprob:  0.689363, 0.453125 (0.656 sec)
+17.14... logprob:  0.714524, 0.546875 (0.656 sec)
+17.15... logprob:  0.670502, 0.382812 (0.655 sec)
+17.16... logprob:  0.689794, 0.453125 (0.656 sec)
+17.17... logprob:  0.691350, 0.468750 (0.656 sec)
+17.18... logprob:  0.684871, 0.429688 (0.656 sec)
+17.19... logprob:  0.688331, 0.437500 (0.655 sec)
+17.20... logprob:  0.689340, 0.445312 (0.656 sec)
+17.21... logprob:  0.684048, 0.429688 (0.656 sec)
+17.22... logprob:  0.685671, 0.437500 (0.656 sec)
+17.23... logprob:  0.676006, 0.406250 (0.656 sec)
+17.24... logprob:  0.693661, 0.445312 (0.657 sec)
+17.25... logprob:  0.694762, 0.570312 (0.655 sec)
+17.26... logprob:  0.706236, 0.445312 (0.656 sec)
+17.27... logprob:  0.707218, 0.554688 (0.657 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.703746, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979531e-03 [6.044884e-10] 
+Layer 'conv1' biases: 8.814064e-09 [1.728911e-11] 
+Layer 'conv2' weights[0]: 7.966465e-03 [7.746565e-10] 
+Layer 'conv2' biases: 1.000000e+00 [1.033620e-10] 
+Layer 'conv3' weights[0]: 7.964824e-03 [7.390489e-10] 
+Layer 'conv3' biases: 2.242265e-07 [2.946085e-10] 
+Layer 'conv4' weights[0]: 7.997312e-03 [8.297035e-10] 
+Layer 'conv4' biases: 9.999997e-01 [2.775406e-09] 
+Layer 'conv5' weights[0]: 7.996206e-03 [1.522577e-08] 
+Layer 'conv5' biases: 9.999840e-01 [1.568995e-08] 
+Layer 'fc6' weights[0]: 7.593100e-03 [2.769840e-09] 
+Layer 'fc6' biases: 9.999999e-01 [2.811706e-09] 
+Layer 'fc7' weights[0]: 7.852294e-03 [4.828902e-08] 
+Layer 'fc7' biases: 9.999886e-01 [4.727512e-08] 
+Layer 'fc8' weights[0]: 4.408211e-04 [8.228692e-05] 
+Layer 'fc8' biases: 8.307362e-05 [1.001088e-04] 
+Train error last 27 batches: 0.700383
+-------------------------------------------------------
+Not saving because 0.703746 > 0.684643 (12.9: -3.15%)
+======================================================= (4.782 sec)
+18.1... logprob:  0.720938, 0.460938 (0.656 sec)
+18.2... logprob:  0.744513, 0.601562 (0.656 sec)
+18.3... logprob:  0.825147, 0.460938 (0.656 sec)
+18.4... logprob:  0.738343, 0.468750 (0.656 sec)
+18.5... logprob:  0.676995, 0.406250 (0.656 sec)
+18.6... logprob:  0.679110, 0.414062 (0.656 sec)
+18.7... logprob:  0.696126, 0.453125 (0.656 sec)
+18.8... logprob:  0.693721, 0.500000 (0.656 sec)
+18.9... logprob:  0.686656, 0.406250 (0.655 sec)
+18.10... logprob:  0.687799, 0.406250 (0.655 sec)
+18.11... logprob:  0.690966, 0.460938 (0.656 sec)
+18.12... logprob:  0.683329, 0.429688 (0.656 sec)
+18.13... logprob:  0.720671, 0.546875 (0.656 sec)
+18.14... logprob:  0.794525, 0.546875 (0.656 sec)
+18.15... logprob:  0.713910, 0.382812 (0.656 sec)
+18.16... logprob:  0.695204, 0.546875 (0.655 sec)
+18.17... logprob:  0.703201, 0.468750 (0.656 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.711605, 0.565104 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979526e-03 [5.931979e-10] 
+Layer 'conv1' biases: 8.847840e-09 [9.020046e-12] 
+Layer 'conv2' weights[0]: 7.966456e-03 [6.072185e-10] 
+Layer 'conv2' biases: 1.000000e+00 [7.381339e-11] 
+Layer 'conv3' weights[0]: 7.964820e-03 [5.878456e-10] 
+Layer 'conv3' biases: 2.252921e-07 [2.312122e-10] 
+Layer 'conv4' weights[0]: 7.997304e-03 [6.511560e-10] 
+Layer 'conv4' biases: 9.999997e-01 [2.207213e-09] 
+Layer 'conv5' weights[0]: 7.996208e-03 [1.197423e-08] 
+Layer 'conv5' biases: 9.999840e-01 [1.237066e-08] 
+Layer 'fc6' weights[0]: 7.593093e-03 [2.181047e-09] 
+Layer 'fc6' biases: 9.999999e-01 [2.167600e-09] 
+Layer 'fc7' weights[0]: 7.852226e-03 [3.727235e-08] 
+Layer 'fc7' biases: 9.999884e-01 [3.634474e-08] 
+Layer 'fc8' weights[0]: 4.362481e-04 [6.273097e-05] 
+Layer 'fc8' biases: 1.975581e-05 [7.643825e-05] 
+Train error last 27 batches: 0.705974
+-------------------------------------------------------
+Not saving because 0.711605 > 0.684643 (12.9: -3.15%)
+======================================================= (4.792 sec)
+18.18... logprob:  0.712663, 0.570312 (0.655 sec)
+18.19... logprob:  0.722739, 0.437500 (0.655 sec)
+18.20... logprob:  0.718202, 0.554688 (0.656 sec)
+18.21... logprob:  0.710486, 0.429688 (0.655 sec)
+18.22... logprob:  0.707727, 0.562500 (0.655 sec)
+18.23... logprob:  0.688561, 0.406250 (0.655 sec)
+18.24... logprob:  0.690119, 0.445312 (0.655 sec)
+18.25... logprob:  0.684547, 0.429688 (0.655 sec)
+18.26... logprob:  0.687376, 0.445312 (0.656 sec)
+18.27... logprob:  0.687410, 0.445312 (0.656 sec)
+19.1... logprob:  0.690063, 0.460938 (0.657 sec)
+19.2... logprob:  0.681046, 0.398438 (0.660 sec)
+19.3... logprob:  0.724968, 0.460938 (0.675 sec)
+19.4... logprob:  0.699009, 0.468750 (0.672 sec)
+19.5... logprob:  0.682333, 0.406250 (0.688 sec)
+19.6... logprob:  0.687862, 0.414062 (0.665 sec)
+19.7... logprob:  0.690407, 0.453125 (0.670 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.684965, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979521e-03 [5.259724e-10] 
+Layer 'conv1' biases: 8.860824e-09 [8.199532e-12] 
+Layer 'conv2' weights[0]: 7.966452e-03 [5.216890e-10] 
+Layer 'conv2' biases: 1.000000e+00 [3.794894e-11] 
+Layer 'conv3' weights[0]: 7.964809e-03 [4.929190e-10] 
+Layer 'conv3' biases: 2.257804e-07 [1.143490e-10] 
+Layer 'conv4' weights[0]: 7.997298e-03 [5.219361e-10] 
+Layer 'conv4' biases: 9.999997e-01 [8.306159e-10] 
+Layer 'conv5' weights[0]: 7.996203e-03 [4.520065e-09] 
+Layer 'conv5' biases: 9.999840e-01 [4.637240e-09] 
+Layer 'fc6' weights[0]: 7.593084e-03 [8.990563e-10] 
+Layer 'fc6' biases: 9.999999e-01 [8.131119e-10] 
+Layer 'fc7' weights[0]: 7.852159e-03 [1.505945e-08] 
+Layer 'fc7' biases: 9.999883e-01 [1.365172e-08] 
+Layer 'fc8' weights[0]: 4.368839e-04 [2.381236e-05] 
+Layer 'fc8' biases: 4.209413e-05 [2.904412e-05] 
+Train error last 27 batches: 0.701315
+-------------------------------------------------------
+Not saving because 0.684965 > 0.684643 (12.9: -3.15%)
+======================================================= (4.890 sec)
+19.8... logprob:  0.705441, 0.500000 (0.666 sec)
+19.9... logprob:  0.739260, 0.593750 (0.660 sec)
+19.10... logprob:  0.742300, 0.406250 (0.658 sec)
+19.11... logprob:  0.709563, 0.539062 (0.658 sec)
+19.12... logprob:  0.694221, 0.429688 (0.660 sec)
+19.13... logprob:  0.692317, 0.453125 (0.664 sec)
+19.14... logprob:  0.727873, 0.546875 (0.674 sec)
+19.15... logprob:  0.676674, 0.382812 (0.672 sec)
+19.16... logprob:  0.688729, 0.453125 (0.659 sec)
+19.17... logprob:  0.691512, 0.468750 (0.672 sec)
+19.18... logprob:  0.688873, 0.429688 (0.669 sec)
+19.19... logprob:  0.693630, 0.437500 (0.656 sec)
+19.20... logprob:  0.693943, 0.554688 (0.656 sec)
+19.21... logprob:  0.687614, 0.429688 (0.658 sec)
+19.22... logprob:  0.688544, 0.437500 (0.656 sec)
+19.23... logprob:  0.675694, 0.406250 (0.659 sec)
+19.24... logprob:  0.688697, 0.445312 (0.657 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.687842, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979514e-03 [5.607374e-10] 
+Layer 'conv1' biases: 8.872760e-09 [4.605302e-12] 
+Layer 'conv2' weights[0]: 7.966446e-03 [4.993112e-10] 
+Layer 'conv2' biases: 1.000000e+00 [3.424012e-11] 
+Layer 'conv3' weights[0]: 7.964803e-03 [4.482377e-10] 
+Layer 'conv3' biases: 2.263206e-07 [1.043673e-10] 
+Layer 'conv4' weights[0]: 7.997289e-03 [4.568313e-10] 
+Layer 'conv4' biases: 9.999997e-01 [8.175017e-10] 
+Layer 'conv5' weights[0]: 7.996199e-03 [4.418589e-09] 
+Layer 'conv5' biases: 9.999840e-01 [4.497686e-09] 
+Layer 'fc6' weights[0]: 7.593078e-03 [8.715008e-10] 
+Layer 'fc6' biases: 9.999999e-01 [7.843476e-10] 
+Layer 'fc7' weights[0]: 7.852096e-03 [1.456670e-08] 
+Layer 'fc7' biases: 9.999883e-01 [1.313931e-08] 
+Layer 'fc8' weights[0]: 4.358316e-04 [2.275802e-05] 
+Layer 'fc8' biases: 1.651263e-05 [2.777256e-05] 
+Train error last 27 batches: 0.696293
+-------------------------------------------------------
+Not saving because 0.687842 > 0.684643 (12.9: -3.15%)
+======================================================= (4.828 sec)
+19.25... logprob:  0.687320, 0.429688 (0.658 sec)
+19.26... logprob:  0.695315, 0.445312 (0.657 sec)
+19.27... logprob:  0.695917, 0.554688 (0.659 sec)
+20.1... logprob:  0.705193, 0.460938 (0.707 sec)
+20.2... logprob:  0.719274, 0.601562 (0.660 sec)
+20.3... logprob:  0.788532, 0.460938 (0.658 sec)
+20.4... logprob:  0.724731, 0.468750 (0.658 sec)
+20.5... logprob:  0.675489, 0.406250 (0.660 sec)
+20.6... logprob:  0.678296, 0.414062 (0.659 sec)
+20.7... logprob:  0.691424, 0.453125 (0.658 sec)
+20.8... logprob:  0.693234, 0.500000 (0.659 sec)
+20.9... logprob:  0.696534, 0.593750 (0.664 sec)
+20.10... logprob:  0.698153, 0.406250 (0.658 sec)
+20.11... logprob:  0.693958, 0.539062 (0.659 sec)
+20.12... logprob:  0.683709, 0.429688 (0.658 sec)
+20.13... logprob:  0.709000, 0.546875 (0.671 sec)
+20.14... logprob:  0.770286, 0.546875 (0.657 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.753115, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979503e-03 [7.657781e-10] 
+Layer 'conv1' biases: 8.894173e-09 [3.202665e-11] 
+Layer 'conv2' weights[0]: 7.966437e-03 [1.262881e-09] 
+Layer 'conv2' biases: 1.000000e+00 [2.066514e-10] 
+Layer 'conv3' weights[0]: 7.964793e-03 [1.191005e-09] 
+Layer 'conv3' biases: 2.270033e-07 [6.033702e-10] 
+Layer 'conv4' weights[0]: 7.997283e-03 [1.363658e-09] 
+Layer 'conv4' biases: 9.999997e-01 [5.903723e-09] 
+Layer 'conv5' weights[0]: 7.996189e-03 [3.143873e-08] 
+Layer 'conv5' biases: 9.999841e-01 [3.227346e-08] 
+Layer 'fc6' weights[0]: 7.593071e-03 [5.580266e-09] 
+Layer 'fc6' biases: 9.999999e-01 [5.747421e-09] 
+Layer 'fc7' weights[0]: 7.852038e-03 [9.730547e-08] 
+Layer 'fc7' biases: 9.999883e-01 [9.575810e-08] 
+Layer 'fc8' weights[0]: 4.474719e-04 [1.620910e-04] 
+Layer 'fc8' biases: 1.277897e-04 [1.980270e-04] 
+Train error last 27 batches: 0.699269
+-------------------------------------------------------
+Not saving because 0.753115 > 0.684643 (12.9: -3.15%)
+======================================================= (4.782 sec)
+20.15... logprob:  0.699494, 0.382812 (0.657 sec)
+20.16... logprob:  0.691793, 0.453125 (0.656 sec)
+20.17... logprob:  0.697859, 0.468750 (0.657 sec)
+20.18... logprob:  0.703344, 0.570312 (0.656 sec)
+20.19... logprob:  0.711206, 0.437500 (0.661 sec)
+20.20... logprob:  0.708616, 0.554688 (0.656 sec)
+20.21... logprob:  0.700891, 0.429688 (0.657 sec)
+20.22... logprob:  0.699635, 0.562500 (0.657 sec)
+20.23... logprob:  0.682131, 0.406250 (0.656 sec)
+20.24... logprob:  0.687689, 0.445312 (0.656 sec)
+20.25... logprob:  0.683210, 0.429688 (0.656 sec)
+20.26... logprob:  0.687479, 0.445312 (0.656 sec)
+20.27... logprob:  0.687515, 0.445312 (0.656 sec)
+21.1... logprob:  0.691946, 0.460938 (0.657 sec)
+21.2... logprob:  0.690638, 0.398438 (0.657 sec)
+21.3... logprob:  0.742781, 0.460938 (0.657 sec)
+21.4... logprob:  0.706079, 0.468750 (0.658 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.684713, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979498e-03 [5.470862e-10] 
+Layer 'conv1' biases: 8.904248e-09 [1.592304e-11] 
+Layer 'conv2' weights[0]: 7.966431e-03 [6.824925e-10] 
+Layer 'conv2' biases: 1.000000e+00 [9.312735e-11] 
+Layer 'conv3' weights[0]: 7.964779e-03 [6.714139e-10] 
+Layer 'conv3' biases: 2.275552e-07 [2.621307e-10] 
+Layer 'conv4' weights[0]: 7.997279e-03 [7.387249e-10] 
+Layer 'conv4' biases: 9.999997e-01 [2.528082e-09] 
+Layer 'conv5' weights[0]: 7.996181e-03 [1.348980e-08] 
+Layer 'conv5' biases: 9.999841e-01 [1.384032e-08] 
+Layer 'fc6' weights[0]: 7.593064e-03 [2.441509e-09] 
+Layer 'fc6' biases: 9.999999e-01 [2.431410e-09] 
+Layer 'fc7' weights[0]: 7.851994e-03 [4.151379e-08] 
+Layer 'fc7' biases: 9.999881e-01 [4.056512e-08] 
+Layer 'fc8' weights[0]: 4.362013e-04 [6.943516e-05] 
+Layer 'fc8' biases: 3.258776e-05 [8.491387e-05] 
+Train error last 27 batches: 0.698607
+-------------------------------------------------------
+Not saving because 0.684713 > 0.684643 (12.9: -3.15%)
+======================================================= (4.799 sec)
+21.5... logprob:  0.677992, 0.406250 (0.656 sec)
+21.6... logprob:  0.682269, 0.414062 (0.656 sec)
+21.7... logprob:  0.688763, 0.453125 (0.664 sec)
+21.8... logprob:  0.698604, 0.500000 (0.659 sec)
+21.9... logprob:  0.720656, 0.593750 (0.657 sec)
+21.10... logprob:  0.722805, 0.406250 (0.657 sec)
+21.11... logprob:  0.702471, 0.539062 (0.656 sec)
+21.12... logprob:  0.688701, 0.429688 (0.657 sec)
+21.13... logprob:  0.696942, 0.546875 (0.657 sec)
+21.14... logprob:  0.741679, 0.546875 (0.657 sec)
+21.15... logprob:  0.683466, 0.382812 (0.657 sec)
+21.16... logprob:  0.689041, 0.453125 (0.658 sec)
+21.17... logprob:  0.692888, 0.468750 (0.658 sec)
+21.18... logprob:  0.693101, 0.296875 (0.658 sec)
+21.19... logprob:  0.698742, 0.437500 (0.658 sec)
+21.20... logprob:  0.698167, 0.554688 (0.657 sec)
+21.21... logprob:  0.691159, 0.429688 (0.658 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.691368, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979489e-03 [5.930075e-10] 
+Layer 'conv1' biases: 8.916813e-09 [7.945063e-12] 
+Layer 'conv2' weights[0]: 7.966424e-03 [5.755648e-10] 
+Layer 'conv2' biases: 1.000000e+00 [6.399246e-11] 
+Layer 'conv3' weights[0]: 7.964770e-03 [5.463147e-10] 
+Layer 'conv3' biases: 2.280727e-07 [1.994156e-10] 
+Layer 'conv4' weights[0]: 7.997272e-03 [5.967410e-10] 
+Layer 'conv4' biases: 9.999997e-01 [1.892252e-09] 
+Layer 'conv5' weights[0]: 7.996169e-03 [1.007478e-08] 
+Layer 'conv5' biases: 9.999841e-01 [1.039726e-08] 
+Layer 'fc6' weights[0]: 7.593057e-03 [1.775968e-09] 
+Layer 'fc6' biases: 9.999999e-01 [1.760362e-09] 
+Layer 'fc7' weights[0]: 7.851925e-03 [3.046393e-08] 
+Layer 'fc7' biases: 9.999881e-01 [2.938103e-08] 
+Layer 'fc8' weights[0]: 4.355588e-04 [5.021136e-05] 
+Layer 'fc8' biases: 7.835599e-06 [6.145431e-05] 
+Train error last 27 batches: 0.697280
+-------------------------------------------------------
+Not saving because 0.691368 > 0.684643 (12.9: -3.15%)
+======================================================= (4.818 sec)
+21.22... logprob:  0.691444, 0.437500 (0.658 sec)
+21.23... logprob:  0.676877, 0.406250 (0.657 sec)
+21.24... logprob:  0.687448, 0.445312 (0.657 sec)
+21.25... logprob:  0.684911, 0.429688 (0.657 sec)
+21.26... logprob:  0.691431, 0.445312 (0.657 sec)
+21.27... logprob:  0.691737, 0.445312 (0.657 sec)
+22.1... logprob:  0.698990, 0.460938 (0.662 sec)
+22.2... logprob:  0.707386, 0.601562 (0.658 sec)
+22.3... logprob:  0.769656, 0.460938 (0.658 sec)
+22.4... logprob:  0.716639, 0.468750 (0.665 sec)
+22.5... logprob:  0.675678, 0.406250 (0.658 sec)
+22.6... logprob:  0.679018, 0.414062 (0.658 sec)
+22.7... logprob:  0.689516, 0.453125 (0.658 sec)
+22.8... logprob:  0.694432, 0.500000 (0.659 sec)
+22.9... logprob:  0.705063, 0.593750 (0.658 sec)
+22.10... logprob:  0.706570, 0.406250 (0.660 sec)
+22.11... logprob:  0.696615, 0.539062 (0.658 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.687042, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979485e-03 [5.935347e-10] 
+Layer 'conv1' biases: 8.925359e-09 [1.269761e-11] 
+Layer 'conv2' weights[0]: 7.966418e-03 [6.349669e-10] 
+Layer 'conv2' biases: 1.000000e+00 [7.004013e-11] 
+Layer 'conv3' weights[0]: 7.964761e-03 [6.071028e-10] 
+Layer 'conv3' biases: 2.285524e-07 [1.958910e-10] 
+Layer 'conv4' weights[0]: 7.997268e-03 [6.551338e-10] 
+Layer 'conv4' biases: 9.999997e-01 [1.715755e-09] 
+Layer 'conv5' weights[0]: 7.996164e-03 [9.129592e-09] 
+Layer 'conv5' biases: 9.999840e-01 [9.395441e-09] 
+Layer 'fc6' weights[0]: 7.593048e-03 [1.623459e-09] 
+Layer 'fc6' biases: 9.999999e-01 [1.607897e-09] 
+Layer 'fc7' weights[0]: 7.851859e-03 [2.798045e-08] 
+Layer 'fc7' biases: 9.999880e-01 [2.691188e-08] 
+Layer 'fc8' weights[0]: 4.373087e-04 [4.674117e-05] 
+Layer 'fc8' biases: 5.290311e-05 [5.725725e-05] 
+Train error last 27 batches: 0.697678
+-------------------------------------------------------
+Not saving because 0.687042 > 0.684643 (12.9: -3.15%)
+======================================================= (4.812 sec)
+22.12... logprob:  0.684930, 0.429688 (0.658 sec)
+22.13... logprob:  0.703929, 0.546875 (0.658 sec)
+22.14... logprob:  0.758500, 0.546875 (0.658 sec)
+22.15... logprob:  0.692165, 0.382812 (0.657 sec)
+22.16... logprob:  0.690241, 0.453125 (0.661 sec)
+22.17... logprob:  0.695231, 0.468750 (0.658 sec)
+22.18... logprob:  0.698204, 0.570312 (0.657 sec)
+22.19... logprob:  0.704728, 0.437500 (0.657 sec)
+22.20... logprob:  0.702983, 0.554688 (0.658 sec)
+22.21... logprob:  0.695363, 0.429688 (0.657 sec)
+22.22... logprob:  0.694847, 0.562500 (0.657 sec)
+22.23... logprob:  0.678768, 0.406250 (0.659 sec)
+22.24... logprob:  0.687115, 0.445312 (0.657 sec)
+22.25... logprob:  0.683667, 0.429688 (0.657 sec)
+22.26... logprob:  0.689122, 0.445312 (0.657 sec)
+22.27... logprob:  0.689269, 0.445312 (0.658 sec)
+23.1... logprob:  0.695134, 0.460938 (0.658 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.697027, 0.565104 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979479e-03 [6.969190e-10] 
+Layer 'conv1' biases: 8.933223e-09 [7.611043e-12] 
+Layer 'conv2' weights[0]: 7.966411e-03 [5.920120e-10] 
+Layer 'conv2' biases: 1.000000e+00 [6.165429e-11] 
+Layer 'conv3' weights[0]: 7.964755e-03 [5.252790e-10] 
+Layer 'conv3' biases: 2.289833e-07 [1.835317e-10] 
+Layer 'conv4' weights[0]: 7.997258e-03 [5.400819e-10] 
+Layer 'conv4' biases: 9.999997e-01 [1.551061e-09] 
+Layer 'conv5' weights[0]: 7.996155e-03 [8.189722e-09] 
+Layer 'conv5' biases: 9.999840e-01 [8.419239e-09] 
+Layer 'fc6' weights[0]: 7.593041e-03 [1.439338e-09] 
+Layer 'fc6' biases: 9.999999e-01 [1.414778e-09] 
+Layer 'fc7' weights[0]: 7.851796e-03 [2.467901e-08] 
+Layer 'fc7' biases: 9.999880e-01 [2.361901e-08] 
+Layer 'fc8' weights[0]: 4.355460e-04 [4.073212e-05] 
+Layer 'fc8' biases: 2.185338e-06 [4.992292e-05] 
+Train error last 27 batches: 0.699436
+-------------------------------------------------------
+Not saving because 0.697027 > 0.684643 (12.9: -3.15%)
+======================================================= (4.820 sec)
+23.2... logprob:  0.699012, 0.601562 (0.660 sec)
+23.3... logprob:  0.756097, 0.460938 (0.657 sec)
+23.4... logprob:  0.710911, 0.468750 (0.657 sec)
+23.5... logprob:  0.676605, 0.406250 (0.658 sec)
+23.6... logprob:  0.680389, 0.414062 (0.657 sec)
+23.7... logprob:  0.688809, 0.453125 (0.659 sec)
+23.8... logprob:  0.696217, 0.500000 (0.657 sec)
+23.9... logprob:  0.712495, 0.593750 (0.656 sec)
+23.10... logprob:  0.713787, 0.406250 (0.660 sec)
+23.11... logprob:  0.698943, 0.539062 (0.657 sec)
+23.12... logprob:  0.686237, 0.429688 (0.657 sec)
+23.13... logprob:  0.700835, 0.546875 (0.657 sec)
+23.14... logprob:  0.751032, 0.546875 (0.658 sec)
+23.15... logprob:  0.687784, 0.382812 (0.656 sec)
+23.16... logprob:  0.689505, 0.453125 (0.660 sec)
+23.17... logprob:  0.693867, 0.468750 (0.657 sec)
+23.18... logprob:  0.695293, 0.570312 (0.656 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.699527, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979474e-03 [6.086147e-10] 
+Layer 'conv1' biases: 8.954609e-09 [1.611746e-11] 
+Layer 'conv2' weights[0]: 7.966405e-03 [7.506263e-10] 
+Layer 'conv2' biases: 1.000000e+00 [9.286230e-11] 
+Layer 'conv3' weights[0]: 7.964746e-03 [7.032761e-10] 
+Layer 'conv3' biases: 2.296022e-07 [2.564196e-10] 
+Layer 'conv4' weights[0]: 7.997251e-03 [7.726336e-10] 
+Layer 'conv4' biases: 9.999997e-01 [2.389926e-09] 
+Layer 'conv5' weights[0]: 7.996150e-03 [1.266174e-08] 
+Layer 'conv5' biases: 9.999840e-01 [1.302534e-08] 
+Layer 'fc6' weights[0]: 7.593034e-03 [2.197004e-09] 
+Layer 'fc6' biases: 9.999999e-01 [2.184813e-09] 
+Layer 'fc7' weights[0]: 7.851726e-03 [3.743162e-08] 
+Layer 'fc7' biases: 9.999880e-01 [3.649583e-08] 
+Layer 'fc8' weights[0]: 4.397234e-04 [6.331953e-05] 
+Layer 'fc8' biases: 7.846997e-05 [7.769669e-05] 
+Train error last 27 batches: 0.698475
+-------------------------------------------------------
+Not saving because 0.699527 > 0.684643 (12.9: -3.15%)
+======================================================= (4.789 sec)
+23.19... logprob:  0.701121, 0.437500 (0.670 sec)
+23.20... logprob:  0.699876, 0.554688 (0.657 sec)
+23.21... logprob:  0.692461, 0.429688 (0.658 sec)
+23.22... logprob:  0.692368, 0.437500 (0.658 sec)
+23.23... logprob:  0.677289, 0.406250 (0.658 sec)
+23.24... logprob:  0.687301, 0.445312 (0.658 sec)
+23.25... logprob:  0.684529, 0.429688 (0.658 sec)
+23.26... logprob:  0.690731, 0.445312 (0.658 sec)
+23.27... logprob:  0.690921, 0.445312 (0.659 sec)
+24.1... logprob:  0.697653, 0.460938 (0.660 sec)
+24.2... logprob:  0.704349, 0.601562 (0.658 sec)
+24.3... logprob:  0.763995, 0.460938 (0.659 sec)
+24.4... logprob:  0.713617, 0.468750 (0.658 sec)
+24.5... logprob:  0.676121, 0.406250 (0.658 sec)
+24.6... logprob:  0.679699, 0.414062 (0.658 sec)
+24.7... logprob:  0.689042, 0.453125 (0.658 sec)
+24.8... logprob:  0.695331, 0.500000 (0.658 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.704896, 0.565104 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979465e-03 [6.246048e-10] 
+Layer 'conv1' biases: 8.966868e-09 [7.094016e-12] 
+Layer 'conv2' weights[0]: 7.966394e-03 [5.458497e-10] 
+Layer 'conv2' biases: 1.000000e+00 [4.698025e-11] 
+Layer 'conv3' weights[0]: 7.964739e-03 [4.699688e-10] 
+Layer 'conv3' biases: 2.300580e-07 [1.295140e-10] 
+Layer 'conv4' weights[0]: 7.997244e-03 [4.791398e-10] 
+Layer 'conv4' biases: 9.999997e-01 [1.040503e-09] 
+Layer 'conv5' weights[0]: 7.996146e-03 [5.505661e-09] 
+Layer 'conv5' biases: 9.999840e-01 [5.654333e-09] 
+Layer 'fc6' weights[0]: 7.593027e-03 [1.016519e-09] 
+Layer 'fc6' biases: 9.999999e-01 [9.403330e-10] 
+Layer 'fc7' weights[0]: 7.851650e-03 [1.691664e-08] 
+Layer 'fc7' biases: 9.999879e-01 [1.567672e-08] 
+Layer 'fc8' weights[0]: 4.356541e-04 [2.717637e-05] 
+Layer 'fc8' biases: 1.286559e-05 [3.336484e-05] 
+Train error last 27 batches: 0.698747
+-------------------------------------------------------
+Not saving because 0.704896 > 0.684643 (12.9: -3.15%)
+======================================================= (4.818 sec)
+24.9... logprob:  0.708977, 0.593750 (0.656 sec)
+24.10... logprob:  0.709902, 0.406250 (0.656 sec)
+24.11... logprob:  0.697449, 0.539062 (0.657 sec)
+24.12... logprob:  0.685311, 0.429688 (0.657 sec)
+24.13... logprob:  0.702972, 0.546875 (0.657 sec)
+24.14... logprob:  0.755678, 0.546875 (0.656 sec)
+24.15... logprob:  0.689847, 0.382812 (0.662 sec)
+24.16... logprob:  0.689754, 0.453125 (0.658 sec)
+24.17... logprob:  0.694323, 0.468750 (0.658 sec)
+24.18... logprob:  0.696205, 0.570312 (0.658 sec)
+24.19... logprob:  0.702048, 0.437500 (0.657 sec)
+24.20... logprob:  0.700477, 0.554688 (0.657 sec)
+24.21... logprob:  0.692872, 0.429688 (0.658 sec)
+24.22... logprob:  0.692617, 0.437500 (0.658 sec)
+24.23... logprob:  0.677382, 0.406250 (0.658 sec)
+24.24... logprob:  0.687278, 0.445312 (0.658 sec)
+24.25... logprob:  0.684462, 0.429688 (0.658 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.686564, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979456e-03 [5.330667e-10] 
+Layer 'conv1' biases: 8.982376e-09 [9.568010e-12] 
+Layer 'conv2' weights[0]: 7.966387e-03 [5.127305e-10] 
+Layer 'conv2' biases: 1.000000e+00 [3.876344e-11] 
+Layer 'conv3' weights[0]: 7.964731e-03 [4.878425e-10] 
+Layer 'conv3' biases: 2.305504e-07 [1.080556e-10] 
+Layer 'conv4' weights[0]: 7.997237e-03 [5.087222e-10] 
+Layer 'conv4' biases: 9.999997e-01 [7.957019e-10] 
+Layer 'conv5' weights[0]: 7.996138e-03 [4.194505e-09] 
+Layer 'conv5' biases: 9.999840e-01 [4.291863e-09] 
+Layer 'fc6' weights[0]: 7.593017e-03 [8.027863e-10] 
+Layer 'fc6' biases: 9.999999e-01 [7.064893e-10] 
+Layer 'fc7' weights[0]: 7.851589e-03 [1.321436e-08] 
+Layer 'fc7' biases: 9.999878e-01 [1.176738e-08] 
+Layer 'fc8' weights[0]: 4.370782e-04 [2.035892e-05] 
+Layer 'fc8' biases: 5.132414e-05 [2.501821e-05] 
+Train error last 27 batches: 0.698852
+-------------------------------------------------------
+Not saving because 0.686564 > 0.684643 (12.9: -3.15%)
+======================================================= (4.843 sec)
+24.26... logprob:  0.690594, 0.445312 (0.658 sec)
+24.27... logprob:  0.690742, 0.445312 (0.659 sec)
+25.1... logprob:  0.697330, 0.460938 (0.659 sec)
+25.2... logprob:  0.703528, 0.601562 (0.658 sec)
+25.3... logprob:  0.762252, 0.460938 (0.659 sec)
+25.4... logprob:  0.712556, 0.468750 (0.658 sec)
+25.5... logprob:  0.676351, 0.406250 (0.658 sec)
+25.6... logprob:  0.680014, 0.414062 (0.658 sec)
+25.7... logprob:  0.688919, 0.453125 (0.658 sec)
+25.8... logprob:  0.695713, 0.500000 (0.658 sec)
+25.9... logprob:  0.710400, 0.593750 (0.658 sec)
+25.10... logprob:  0.710972, 0.406250 (0.658 sec)
+25.11... logprob:  0.697643, 0.539062 (0.658 sec)
+25.12... logprob:  0.685375, 0.429688 (0.659 sec)
+25.13... logprob:  0.702860, 0.546875 (0.659 sec)
+25.14... logprob:  0.755100, 0.546875 (0.658 sec)
+25.15... logprob:  0.689151, 0.382812 (0.659 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.687732, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979450e-03 [7.105326e-10] 
+Layer 'conv1' biases: 9.005304e-09 [1.200964e-11] 
+Layer 'conv2' weights[0]: 7.966379e-03 [7.935058e-10] 
+Layer 'conv2' biases: 1.000000e+00 [1.186006e-10] 
+Layer 'conv3' weights[0]: 7.964723e-03 [7.403952e-10] 
+Layer 'conv3' biases: 2.312444e-07 [3.554335e-10] 
+Layer 'conv4' weights[0]: 7.997229e-03 [8.411601e-10] 
+Layer 'conv4' biases: 9.999997e-01 [3.426815e-09] 
+Layer 'conv5' weights[0]: 7.996126e-03 [1.792854e-08] 
+Layer 'conv5' biases: 9.999840e-01 [1.840858e-08] 
+Layer 'fc6' weights[0]: 7.593008e-03 [2.983452e-09] 
+Layer 'fc6' biases: 9.999999e-01 [3.025597e-09] 
+Layer 'fc7' weights[0]: 7.851516e-03 [5.138515e-08] 
+Layer 'fc7' biases: 9.999878e-01 [5.028008e-08] 
+Layer 'fc8' weights[0]: 4.354512e-04 [8.218753e-05] 
+Layer 'fc8' biases: 1.677059e-05 [1.010870e-04] 
+Train error last 27 batches: 0.698775
+-------------------------------------------------------
+Not saving because 0.687732 > 0.684643 (12.9: -3.15%)
+======================================================= (4.799 sec)
+25.16... logprob:  0.689604, 0.453125 (0.658 sec)
+25.17... logprob:  0.694029, 0.468750 (0.658 sec)
+25.18... logprob:  0.695519, 0.570312 (0.658 sec)
+25.19... logprob:  0.701099, 0.437500 (0.658 sec)
+25.20... logprob:  0.699562, 0.554688 (0.659 sec)
+25.21... logprob:  0.691964, 0.429688 (0.658 sec)
+25.22... logprob:  0.691801, 0.437500 (0.658 sec)
+25.23... logprob:  0.676925, 0.406250 (0.659 sec)
+25.24... logprob:  0.687447, 0.445312 (0.658 sec)
+25.25... logprob:  0.684886, 0.429688 (0.658 sec)
+25.26... logprob:  0.691276, 0.445312 (0.659 sec)
+25.27... logprob:  0.691392, 0.445312 (0.659 sec)
+26.1... logprob:  0.698225, 0.460938 (0.659 sec)
+26.2... logprob:  0.705164, 0.601562 (0.658 sec)
+26.3... logprob:  0.764232, 0.460938 (0.659 sec)
+26.4... logprob:  0.712903, 0.468750 (0.659 sec)
+26.5... logprob:  0.676330, 0.406250 (0.659 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.689675, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979446e-03 [6.081743e-10] 
+Layer 'conv1' biases: 9.016883e-09 [8.037856e-12] 
+Layer 'conv2' weights[0]: 7.966372e-03 [5.380568e-10] 
+Layer 'conv2' biases: 1.000000e+00 [3.893966e-11] 
+Layer 'conv3' weights[0]: 7.964713e-03 [4.946662e-10] 
+Layer 'conv3' biases: 2.316482e-07 [1.062749e-10] 
+Layer 'conv4' weights[0]: 7.997221e-03 [5.112092e-10] 
+Layer 'conv4' biases: 9.999997e-01 [6.814146e-10] 
+Layer 'conv5' weights[0]: 7.996123e-03 [3.592347e-09] 
+Layer 'conv5' biases: 9.999840e-01 [3.642662e-09] 
+Layer 'fc6' weights[0]: 7.593002e-03 [7.101494e-10] 
+Layer 'fc6' biases: 9.999999e-01 [5.967035e-10] 
+Layer 'fc7' weights[0]: 7.851440e-03 [1.143338e-08] 
+Layer 'fc7' biases: 9.999877e-01 [9.917659e-09] 
+Layer 'fc8' weights[0]: 4.378076e-04 [1.707070e-05] 
+Layer 'fc8' biases: 6.090062e-05 [2.101816e-05] 
+Train error last 27 batches: 0.698834
+-------------------------------------------------------
+Not saving because 0.689675 > 0.684643 (12.9: -3.15%)
+======================================================= (4.839 sec)
+26.6... logprob:  0.679972, 0.414062 (0.658 sec)
+26.7... logprob:  0.688938, 0.453125 (0.658 sec)
+26.8... logprob:  0.695647, 0.500000 (0.658 sec)
+26.9... logprob:  0.710050, 0.593750 (0.659 sec)
+26.10... logprob:  0.710275, 0.406250 (0.658 sec)
+26.11... logprob:  0.697250, 0.539062 (0.658 sec)
+26.12... logprob:  0.685118, 0.429688 (0.658 sec)
+26.13... logprob:  0.703585, 0.546875 (0.659 sec)
+26.14... logprob:  0.756380, 0.546875 (0.658 sec)
+26.15... logprob:  0.689412, 0.382812 (0.658 sec)
+26.16... logprob:  0.689593, 0.453125 (0.658 sec)
+26.17... logprob:  0.693992, 0.468750 (0.658 sec)
+26.18... logprob:  0.695379, 0.570312 (0.658 sec)
+26.19... logprob:  0.700791, 0.437500 (0.658 sec)
+26.20... logprob:  0.699171, 0.554688 (0.658 sec)
+26.21... logprob:  0.691523, 0.429688 (0.658 sec)
+26.22... logprob:  0.691371, 0.437500 (0.658 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.690495, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979439e-03 [5.252359e-10] 
+Layer 'conv1' biases: 9.031555e-09 [1.172566e-11] 
+Layer 'conv2' weights[0]: 7.966365e-03 [6.248578e-10] 
+Layer 'conv2' biases: 1.000000e+00 [6.636711e-11] 
+Layer 'conv3' weights[0]: 7.964705e-03 [5.862405e-10] 
+Layer 'conv3' biases: 2.321665e-07 [1.909335e-10] 
+Layer 'conv4' weights[0]: 7.997215e-03 [6.457554e-10] 
+Layer 'conv4' biases: 9.999997e-01 [1.798983e-09] 
+Layer 'conv5' weights[0]: 7.996115e-03 [9.328676e-09] 
+Layer 'conv5' biases: 9.999839e-01 [9.560797e-09] 
+Layer 'fc6' weights[0]: 7.592994e-03 [1.571741e-09] 
+Layer 'fc6' biases: 9.999999e-01 [1.555594e-09] 
+Layer 'fc7' weights[0]: 7.851369e-03 [2.692629e-08] 
+Layer 'fc7' biases: 9.999876e-01 [2.586994e-08] 
+Layer 'fc8' weights[0]: 4.379773e-04 [4.470268e-05] 
+Layer 'fc8' biases: 6.290161e-05 [5.507773e-05] 
+Train error last 27 batches: 0.698786
+-------------------------------------------------------
+Not saving because 0.690495 > 0.684643 (12.9: -3.15%)
+======================================================= (4.817 sec)
+26.23... logprob:  0.676687, 0.406250 (0.659 sec)
+26.24... logprob:  0.687575, 0.445312 (0.658 sec)
+26.25... logprob:  0.685158, 0.429688 (0.657 sec)
+26.26... logprob:  0.691682, 0.445312 (0.658 sec)
+26.27... logprob:  0.691750, 0.445312 (0.659 sec)
+27.1... logprob:  0.698672, 0.460938 (0.664 sec)
+27.2... logprob:  0.705859, 0.601562 (0.658 sec)
+27.3... logprob:  0.764759, 0.460938 (0.658 sec)
+27.4... logprob:  0.712696, 0.468750 (0.658 sec)
+27.5... logprob:  0.676415, 0.406250 (0.659 sec)
+27.6... logprob:  0.680075, 0.414062 (0.658 sec)
+27.7... logprob:  0.688908, 0.453125 (0.677 sec)
+27.8... logprob:  0.695756, 0.500000 (0.658 sec)
+27.9... logprob:  0.710370, 0.593750 (0.658 sec)
+27.10... logprob:  0.710236, 0.406250 (0.658 sec)
+27.11... logprob:  0.697077, 0.539062 (0.658 sec)
+27.12... logprob:  0.684986, 0.429688 (0.658 sec)
+=========================
+Testing all batches
+
+======================Test output======================
+logprob:  0.685831, 0.434896 
+------------------------------------------------------- 
+Layer 'conv1' weights[0]: 7.979432e-03 [6.327172e-10] 
+Layer 'conv1' biases: 9.045522e-09 [5.926583e-12] 
+Layer 'conv2' weights[0]: 7.966356e-03 [5.237186e-10] 
+Layer 'conv2' biases: 1.000000e+00 [4.282429e-11] 
+Layer 'conv3' weights[0]: 7.964697e-03 [4.672216e-10] 
+Layer 'conv3' biases: 2.327293e-07 [1.336736e-10] 
+Layer 'conv4' weights[0]: 7.997207e-03 [4.719720e-10] 
+Layer 'conv4' biases: 9.999997e-01 [9.926619e-10] 
+Layer 'conv5' weights[0]: 7.996107e-03 [5.160992e-09] 
+Layer 'conv5' biases: 9.999839e-01 [5.258316e-09] 
+Layer 'fc6' weights[0]: 7.592988e-03 [9.275291e-10] 
+Layer 'fc6' biases: 9.999999e-01 [8.465028e-10] 
+Layer 'fc7' weights[0]: 7.851294e-03 [1.539679e-08] 
+Layer 'fc7' biases: 9.999876e-01 [1.403304e-08] 
+Layer 'fc8' weights[0]: 4.355809e-04 [2.400840e-05] 
+Layer 'fc8' biases: 2.401728e-05 [2.959641e-05] 
+Train error last 27 batches: 0.698884
+-------------------------------------------------------
+Not saving because 0.685831 > 0.684643 (12.9: -3.15%)
+======================================================= (4.825 sec)
+27.13... logprob:  0.704001, 0.546875 (0.661 sec)
+27.14... logprob:  0.756945, 0.546875 (0.659 sec)
+27.15... logprob:  0.689299, 0.382812 (0.658 sec)
+27.16... logprob:  0.689531, 0.453125 (0.660 sec)
+27.17... logprob:  0.693862, 0.468750 (0.659 sec)
+27.18... logprob:  0.695040, 0.570312 (0.658 sec)
+27.19... logprob:  0.700261, 0.437500 (0.659 sec)
+27.20... logprob:  0.698611, 0.554688 (0.658 sec)
+27.21... logprob:  0.690950, 0.429688 (0.659 sec)
+27.22...
