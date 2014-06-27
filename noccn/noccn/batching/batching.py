@@ -490,10 +490,11 @@ def create_validation_set(net_dir, num_per_class, ratio):
   classes = os.listdir(net_dir)
   d = {}
   for c in classes:
+    os.mkdir(ojoin(net_dir, '..', 'validation',c))
     d[c] = random.sample(os.listdir(ojoin(net_dir,c)), num_per_class)
     for fname in d[c]:
       shutil.move(ojoin(net_dir, c, fname),
-                  ojoin(net_dir, '..', 'validation'))
+                  ojoin(net_dir, '..', 'validation',c))
   return d
 
 def remove_imgs(net_dir, remove_dic):
