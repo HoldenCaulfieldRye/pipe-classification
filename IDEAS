@@ -5,11 +5,14 @@ Class imbalance:
 - gradient descent on pointwise approx of error surface more
 sensitive than other learning techniques? cf Learning from Imbalanced
 Data. "for certain relative imbal- anced data sets, the minority concept is accurately learned with little disturbance from the imbalance [22], [23], [24]"
+- imbalanced data more dangerous with small sample size: 
 - note that it really does suck to have to have balanced classes,
 because the "clamp detected" class is indeed semantically richer:
 there are lots of different types of clamps, so one would need more
 examples to show them all.
-- try 2 other ratios: 27/16 (biggest) and 32/27 (smallest)
+- one might argue taking a perfectly balanced validation set obviously
+benefits more balanced samples. maybe should also try with validation
+sets that follow the same imbalance as what they were trained on.
 
 
 Visual insection of data
