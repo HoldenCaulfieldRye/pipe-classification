@@ -1,0 +1,11 @@
+nohup: ignoring input
+Traceback (most recent call last):
+  File "/homes/ad6813/.local/bin/ccn-make-batches", line 9, in <module>
+    load_entry_point('noccn==0.1-dev', 'console_scripts', 'ccn-make-batches')()
+  File "/homes/ad6813/.local/lib/python2.7/site-packages/noccn-0.1_dev-py2.7.egg/noccn/dataset.py", line 340, in console
+    cfg = get_options(sys.argv[1], 'dataset')
+  File "/homes/ad6813/.local/lib/python2.7/site-packages/noccn-0.1_dev-py2.7.egg/noccn/script.py", line 18, in get_options
+    for key, value in parser.items(section):
+  File "/usr/lib/python2.7/ConfigParser.py", line 642, in items
+    raise NoSectionError(section)
+ConfigParser.NoSectionError: No section: 'dataset'
