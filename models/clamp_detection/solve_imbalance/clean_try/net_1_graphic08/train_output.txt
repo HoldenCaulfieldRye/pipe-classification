@@ -1,0 +1,43 @@
+nohup: ignoring input
+Initialized data layer 'data', producing 196608 outputs
+Initialized data layer 'labels', producing 1 outputs
+Initialized convolutional layer 'conv1', producing 63x63 48-channel output
+Initialized max-pooling layer 'pool1', producing 31x31 48-channel output
+Initialized cross-map response-normalization layer 'rnorm1', producing 31x31 48-channel output
+Initialized convolutional layer 'conv2', producing 31x31 128-channel output
+Initialized max-pooling layer 'pool2', producing 15x15 128-channel output
+Initialized cross-map response-normalization layer 'rnorm2', producing 15x15 128-channel output
+Initialized convolutional layer 'conv3', producing 15x15 192-channel output
+Initialized convolutional layer 'conv4', producing 15x15 192-channel output
+Initialized convolutional layer 'conv5', producing 15x15 128-channel output
+Initialized max-pooling layer 'pool5', producing 7x7 128-channel output
+Initialized fully-connected layer 'fc6', producing 4096 outputs
+Initialized fully-connected layer 'fc7', producing 4096 outputs
+Initialized fully-connected layer 'fc8', producing 2 outputs
+Initialized softmax layer 'probs', producing 2 outputs
+Initialized logistic regression cost 'logprob'
+Initialized neuron layer 'conv1_neuron', producing 190512 outputs
+Initialized neuron layer 'conv2_neuron', producing 123008 outputs
+Initialized neuron layer 'conv3_neuron', producing 43200 outputs
+Initialized neuron layer 'conv4_neuron', producing 43200 outputs
+Initialized neuron layer 'conv5_neuron', producing 28800 outputs
+Initialized neuron layer 'fc6_neuron', producing 4096 outputs
+Initialized neuron layer 'fc7_neuron', producing 4096 outputs
+=========================
+Importing _ConvNet C++ module
+Traceback (most recent call last):
+  File "/homes/ad6813/.local/bin/ccn-train", line 9, in <module>
+    load_entry_point('noccn==0.1-dev', 'console_scripts', 'ccn-train')()
+  File "/homes/ad6813/.local/lib/python2.7/site-packages/noccn-0.1_dev-py2.7.egg/noccn/train.py", line 81, in console
+    run_model(ConvNet, 'train')
+  File "/homes/ad6813/.local/lib/python2.7/site-packages/noccn-0.1_dev-py2.7.egg/noccn/script.py", line 110, in run_model
+    model = make_model(model_cls, section, cfg_filename)
+  File "/homes/ad6813/.local/lib/python2.7/site-packages/noccn-0.1_dev-py2.7.egg/noccn/script.py", line 102, in make_model
+    model = model_cls(op, load_dic)
+  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/convnet.py", line 47, in __init__
+    IGPUModel.__init__(self, "ConvNet", op, load_dic, filename_options, dp_params=dp_params)
+  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/gpumodel.py", line 89, in __init__
+    self.import_model()
+  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/convnet.py", line 53, in import_model
+    self.libmodel = __import__(lib_name) 
+ImportError: libcblas.so.3: cannot open shared object file: No such file or directory
