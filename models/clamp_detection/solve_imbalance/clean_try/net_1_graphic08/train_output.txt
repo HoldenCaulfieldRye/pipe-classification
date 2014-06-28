@@ -25,19 +25,76 @@ Initialized neuron layer 'fc6_neuron', producing 4096 outputs
 Initialized neuron layer 'fc7_neuron', producing 4096 outputs
 =========================
 Importing _ConvNet C++ module
+=========================
+Training ConvNet
+Always write savepoints, regardless of test err improvement: 0     [DEFAULT]
+Check gradients and quit?                                  : 0     [DEFAULT]
+Compress checkpoints?                                      : 0     [DEFAULT]
+Conserve GPU memory (slower)?                              : 0     [DEFAULT]
+Convert given conv layers to unshared local                :       
+Cropped DP: crop border size                               : 4     [DEFAULT]
+Cropped DP: logreg layer name (for --multiview-test)       :       [DEFAULT]
+Cropped DP: test on multiple patches?                      : 0     [DEFAULT]
+Cropped Step: crop border step                             : 1     [DEFAULT]
+Data batch range: testing                                  : 40-45 
+Data batch range: training                                 : 1-39  
+Data path                                                  : /data/ad6813/pipe-data/Bluebox/batches/clamp_detection/net_1 
+Data provider                                              : basic-leaf256 
+GPU override                                               : -1    [DEFAULT]
+Layer definition file                                      : /homes/ad6813/Git/pipe-classification/models/clamp_detection/solve_imbalance/clean_try/net_1_graphic08/layers.cfg 
+Layer parameter file                                       : /homes/ad6813/Git/pipe-classification/models/clamp_detection/solve_imbalance/clean_try/net_1_graphic08/params.cfg 
+Load file                                                  :       [DEFAULT]
+Maximum save file size (MB)                                : 0     [DEFAULT]
+Minibatch size                                             : 128   [DEFAULT]
+Number of GPUs                                             : 1     [DEFAULT]
+Number of epochs                                           : 50000 [DEFAULT]
+Save path                                                  : /data/ad6813/my-nets/saves 
+Test and quit?                                             : 0     [DEFAULT]
+Test on more than one batch at a time?                     : -1    
+Test on one batch at a time?                               : 0     
+Testing frequency                                          : 17    
+Unshare weight matrices in given layers                    :       
+=========================
+Running on CUDA device(s) -2
+Current time: Sat Jun 28 00:56:14 2014
+Saving checkpoints to /data/ad6813/my-nets/saves/ConvNet__2014-06-28_00.56.10
+=========================
+1.1... logprob:  0.709586, 0.632812 (0.679 sec)
+1.2... logprob:  0.865993, 0.359375 (0.666 sec)
+1.3... logprob:  1.098850, 0.656250 (0.666 sec)
+1.4... logprob:  2.045472, 0.429688 (0.666 sec)
+1.5... logprob:  0.858111, 0.546875 (0.666 sec)
+1.6... logprob:  1.160046, 0.398438 (0.666 sec)
+1.7... logprob:  1.236873, 0.593750 (0.666 sec)
+1.8... logprob:  1.569592, 0.359375 (0.667 sec)
+1.9... logprob:  0.745988, 0.609375 (0.671 sec)
+1.10... logprob:  1.059481, 0.421875 (0.666 sec)
+1.11... logprob:  1.469660, 0.632812 (0.665 sec)
+1.12... logprob:  2.132306, 0.429688 (0.668 sec)
+1.13... logprob:  0.879767, 0.671875 (0.665 sec)
+1.14... logprob:  1.473153, 0.375000 (0.669 sec)
+1.15... logprob:  0.855606, 0.585938 (0.666 sec)
+1.16... logprob:  1.163905, 0.375000 (0.670 sec)
+1.17... logprob:  1.005783, 0.570312 (0.666 sec)
 Traceback (most recent call last):
   File "/homes/ad6813/.local/bin/ccn-train", line 9, in <module>
     load_entry_point('noccn==0.1-dev', 'console_scripts', 'ccn-train')()
   File "/homes/ad6813/.local/lib/python2.7/site-packages/noccn-0.1_dev-py2.7.egg/noccn/train.py", line 81, in console
     run_model(ConvNet, 'train')
-  File "/homes/ad6813/.local/lib/python2.7/site-packages/noccn-0.1_dev-py2.7.egg/noccn/script.py", line 110, in run_model
-    model = make_model(model_cls, section, cfg_filename)
-  File "/homes/ad6813/.local/lib/python2.7/site-packages/noccn-0.1_dev-py2.7.egg/noccn/script.py", line 102, in make_model
-    model = model_cls(op, load_dic)
-  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/convnet.py", line 47, in __init__
-    IGPUModel.__init__(self, "ConvNet", op, load_dic, filename_options, dp_params=dp_params)
-  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/gpumodel.py", line 89, in __init__
-    self.import_model()
-  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/convnet.py", line 53, in import_model
-    self.libmodel = __import__(lib_name) 
-ImportError: libcblas.so.3: cannot open shared object file: No such file or directory
+  File "/homes/ad6813/.local/lib/python2.7/site-packages/noccn-0.1_dev-py2.7.egg/noccn/script.py", line 111, in run_model
+    model.start()
+  File "/homes/ad6813/.local/lib/python2.7/site-packages/noccn-0.1_dev-py2.7.egg/noccn/train.py", line 62, in start
+    self.train()
+  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/gpumodel.py", line 157, in train
+    self.test_outputs += [self.get_test_error()]
+  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/gpumodel.py", line 226, in get_test_error
+    next_data = self.get_next_batch(train=False)
+  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/gpumodel.py", line 181, in get_next_batch
+    return self.parse_batch_data(dp.get_next_batch(), train=train)
+  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/convdata.py", line 192, in get_next_batch
+    self.data_dic = self.get_batch(self.curr_batchnum)
+  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/data.py", line 85, in get_batch
+    dic = unpickle(self.get_data_file_name(batch_num))
+  File "/homes/ad6813/Git/pipe-classification/cuda_convnet/util.py", line 71, in unpickle
+    raise UnpickleError("Path '%s' does not exist." % filename)
+util.UnpickleError: Path '/data/ad6813/pipe-data/Bluebox/batches/clamp_detection/net_1/data_batch_40' does not exist.
