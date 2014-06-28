@@ -39,16 +39,16 @@
 \contentsline {paragraph}{Softmax Output Layer}{14}
 \contentsline {subsection}{\numberline {3.3}Implementation}{14}
 \contentsline {subsubsection}{\numberline {3.3.1}Cuda-Convnet: An Out-of-the-box API}{14}
-\contentsline {subsubsection}{\numberline {3.3.2}Hardware: NVidia GeForce GTX 780}{14}
+\contentsline {subsubsection}{\numberline {3.3.2}Hardware: NVidia GeForce GTX 780}{15}
 \contentsline {subsubsection}{\numberline {3.3.3}Summary: Considerable Unforeseen Challenges}{15}
-\contentsline {subsection}{\numberline {3.4}Experimentation}{15}
-\contentsline {subsubsection}{\numberline {3.4.1}Non-Converging Error Rates}{15}
+\contentsline {subsection}{\numberline {3.4}Experimentation}{16}
+\contentsline {subsubsection}{\numberline {3.4.1}Non-Converging Error Rates}{16}
 \contentsline {paragraph}{Increase Test Error Precision}{17}
 \contentsline {paragraph}{Alter Momentum}{18}
 \contentsline {subparagraph}{Increase}{18}
-\contentsline {subparagraph}{Decrease}{18}
+\contentsline {subparagraph}{Decrease}{19}
 \contentsline {paragraph}{Reduce Learning Rate}{19}
-\contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{19}
+\contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{20}
 \contentsline {subsubsection}{\numberline {3.4.2}Class Imbalance}{20}
 \contentsline {paragraph}{Subset of Training Set}{21}
 \contentsline {paragraph}{Partial Data Augmentation}{22}
