@@ -1,0 +1,5 @@
+graphic10:~/CUDA_SDK/gpu_sdk> grep "LIB += -lcuda " -r .
+./C/common/common.mk:     LIB += -lcuda   ${OPENGLLIB} $(PARAMGLLIB) $(RENDERCHECKGLLIB) ${LIB} 
+./CUDALibraries/common/UtilNPP/defines.mk:     LIB += -lcuda   ${OPENGLLIB} $(PARAMGLLIB) $(RENDERCHECKGLLIB) $(CUDPPLIB) ${LIB} 
+./CUDALibraries/common/common_cudalib.mk:     LIB += -lcuda   ${OPENGLLIB} $(PARAMGLLIB) $(RENDERCHECKGLLIB) $(CUDPPLIB) ${LIB} 
+./shared/common.mk:     LIB += -lcuda   ${OPENGLLIB} $(PARAMGLLIB) $(RENDERCHECKGLLIB) ${LIB} 
