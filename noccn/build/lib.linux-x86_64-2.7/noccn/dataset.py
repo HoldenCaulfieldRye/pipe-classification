@@ -1,3 +1,5 @@
+# This dataset.py file is modified to work on ControlPoint data.
+
 # why not use BatchCreator.component for each pipe characteristic?
 # label is directory name!
 
@@ -276,7 +278,7 @@ def _collect_filenames_and_labels(cfg):
   for fname in find(path, pattern): # fname is entire file path
     # label is directory name!
     # so there must be multiple directories. works because find() 
-    # steps into dirs inside root dir
+    # steps into subdirs 
     label = os.path.basename(os.path.split(fname)[-2])
     filenames_and_labels.append((fname, label))
   # batches need to be randomly sampled!
