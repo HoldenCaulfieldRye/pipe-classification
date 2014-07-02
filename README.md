@@ -13,6 +13,7 @@ also, you must run this program in a bash terminal.
 in bashrc, set:
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
+make sure you are in a bash terminal.
 
 
 import pretrained net
