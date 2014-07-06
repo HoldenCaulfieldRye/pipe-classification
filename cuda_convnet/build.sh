@@ -4,16 +4,16 @@
 # - script only works on lab machine - need path to gpu_sdk as command line argument! 
 
 # Copy CUDA SDK to home directory
-if [ -d ~/CUDA_SDK ]; then
-    echo "deleting ~/CUDA_SDK ..."
-    rm -r -f ~/CUDA_SDK
-fi
-mkdir ~/CUDA_SDK
-echo "initialised empty directory ~/CUDA_SDK"
-echo "copying /usr/local/cuda/gpu_sdk to ~/CUDA_SDK/ ..."
-cp -r /usr/local/cuda/gpu_sdk ~/CUDA_SDK/
-echo "copying /usr/local/cuda/samples to ~/CUDA_SDK/ ..."
-cp -r /usr/local/cuda/samples ~/CUDA_SDK/
+# if [ -d ~/CUDA_SDK ]; then
+#     echo "deleting ~/CUDA_SDK ..."
+#     rm -r -f ~/CUDA_SDK
+# fi
+# mkdir ~/CUDA_SDK
+# echo "initialised empty directory ~/CUDA_SDK"
+# echo "copying /usr/local/cuda/gpu_sdk to ~/CUDA_SDK/ ..."
+# cp -r /usr/local/cuda/gpu_sdk ~/CUDA_SDK/
+# echo "copying /usr/local/cuda/samples to ~/CUDA_SDK/ ..."
+# cp -r /usr/local/cuda/samples ~/CUDA_SDK/
 
 
 # Add env vars to ~/.bashrc file
