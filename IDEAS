@@ -1,3 +1,33 @@
+CURRENTLY
+=========
+
+1) scraping_or_peeling training on graphic02
+
+2) fix cuda-convnet bug on graphic[06-10]
+
+3) install caffe for transfer learning
+
+a) satisfying dependencies
+installing python requirements for the python wrappers
+six needs to be upgraded without root
+virtual env was recommended
+virtual env takes up too much space when running pip install -r
+requirements.txt inside it
+delete venv and restart from scratch
+check which requirements are already fulfilled, create a copy of
+requirements.txt without the libs already installed, and only install
+inside venv the ones which are really needed
+
+b) arrayobject.h and Python.h
+cat /data/ad6813/caffe/python/venv/where_pythonh_arrayobject.out
+for arrayobject.h
+
+Python.h is in /usr/include/python2.7/Python.h
+
+c) compiling
+can't find glog, so need to set env var
+
+
 TO DO
 =====
 
