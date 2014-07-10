@@ -1,0 +1,22 @@
+Package: libprotobuf-dev
+Status: install ok installed
+
+
+Package: libleveldb-dev
+Status: install ok installed
+
+
+Package: libsnappy-dev
+Status: install ok installed
+
+
+Package: libopencv-dev
+Status: install ok installed
+
+
+Package: libboost-all-dev
+Status: install ok installed
+
+
+Package: libhdf5-serial-dev
+Status: install ok installed

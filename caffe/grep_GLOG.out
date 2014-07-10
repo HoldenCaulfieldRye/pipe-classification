@@ -1,0 +1,547 @@
+./docs/cifar10.md:`train_quick.sh` is a simple script, so have a look inside. `GLOG_logtostderr=1` is the google logging flag that prints all the logging messages directly to stderr. The main tool for training is `train_net.bin`, with the solver protobuf text file as its argument.
+./docs/imagenet_training.md:Take a look at `create_imagenet.sh`. Set the paths to the train and val dirs as needed. Now simply create the leveldbs with `./create_imagenet.sh`. Note that `imagenet_train_leveldb` and `imagenet_val_leveldb` should not exist before this execution. It will be created by the script. `GLOG_logtostderr=1` simply dumps more information for you to inspect, and you can safely ignore it.
+./docs/mnist.md:`train_lenet.sh` is a simple script, but here are a few explanations: `GLOG_logtostderr=1` is the google logging flag that prints all the logging messages directly to stderr. The main tool for training is `train_net.bin`, with the solver protobuf text file as its argument.
+./examples/cifar10/train_full.sh:GLOG_logtostderr=1 $TOOLS/train_net.bin \
+./examples/cifar10/train_full.sh:GLOG_logtostderr=1 $TOOLS/train_net.bin \
+./examples/cifar10/train_full.sh:GLOG_logtostderr=1 $TOOLS/train_net.bin \
+./examples/cifar10/train_quick.sh:GLOG_logtostderr=1 $TOOLS/train_net.bin cifar10_quick_solver.prototxt
+./examples/cifar10/train_quick.sh:GLOG_logtostderr=1 $TOOLS/train_net.bin cifar10_quick_solver_lr1.prototxt cifar10_quick_iter_4000.solverstate
+./examples/imagenet/create_imagenet.sh:GLOG_logtostderr=1 $TOOLS/convert_imageset.bin \
+./examples/imagenet/create_imagenet.sh:GLOG_logtostderr=1 $TOOLS/convert_imageset.bin \
+./examples/imagenet/resume_training.sh:GLOG_logtostderr=1 $TOOLS/train_net.bin \
+./examples/imagenet/train_alexnet.sh:GLOG_logtostderr=1 $TOOLS/train_net.bin alexnet_solver.prototxt
+./examples/imagenet/train_imagenet.sh:GLOG_logtostderr=1 $TOOLS/train_net.bin imagenet_solver.prototxt
+./examples/mnist/train_lenet.sh:GLOG_logtostderr=1 $TOOLS/train_net.bin lenet_solver.prototxt
+./examples/mnist/train_mnist_autoencoder.sh:GLOG_logtostderr=1 $TOOLS/train_net.bin mnist_autoencoder_solver.prototxt
+./glog-0.3.3/src/base/commandlineflags.h:    extern GOOGLE_GLOG_DLL_DECL type FLAGS_##name;                      \
+./glog-0.3.3/src/base/commandlineflags.h:    GOOGLE_GLOG_DLL_DECL type FLAGS_##name(value);                      \
+./glog-0.3.3/src/base/commandlineflags.h:    extern GOOGLE_GLOG_DLL_DECL std::string& FLAGS_##name;              \
+./glog-0.3.3/src/base/commandlineflags.h:    GOOGLE_GLOG_DLL_DECL std::string& FLAGS_##name = FLAGS_##name##_buf; \
+./glog-0.3.3/src/base/commandlineflags.h:// Define GLOG_DEFINE_* using DEFINE_* . By using these macros, we
+./glog-0.3.3/src/base/commandlineflags.h:// have GLOG_* environ variables even if we have gflags installed.
+./glog-0.3.3/src/base/commandlineflags.h:// specified by a flag wins. E.g., if GLOG_v=0 and --v=1, the
+./glog-0.3.3/src/base/commandlineflags.h:#define GLOG_DEFINE_bool(name, value, meaning) \
+./glog-0.3.3/src/base/commandlineflags.h:  DEFINE_bool(name, EnvToBool("GLOG_" #name, value), meaning)
+./glog-0.3.3/src/base/commandlineflags.h:#define GLOG_DEFINE_int32(name, value, meaning) \
+./glog-0.3.3/src/base/commandlineflags.h:  DEFINE_int32(name, EnvToInt("GLOG_" #name, value), meaning)
+./glog-0.3.3/src/base/commandlineflags.h:#define GLOG_DEFINE_string(name, value, meaning) \
+./glog-0.3.3/src/base/commandlineflags.h:  DEFINE_string(name, EnvToString("GLOG_" #name, value), meaning)
+./glog-0.3.3/src/logging_unittest.cc:  LogMessage("dummy", LogMessage::kNoLogPrefix, GLOG_INFO).stream() << early_stderr;
+./glog-0.3.3/src/logging_unittest.cc:  int64 base_num_infos   = LogMessage::num_messages(GLOG_INFO);
+./glog-0.3.3/src/logging_unittest.cc:  int64 base_num_warning = LogMessage::num_messages(GLOG_WARNING);
+./glog-0.3.3/src/logging_unittest.cc:  int64 base_num_errors  = LogMessage::num_messages(GLOG_ERROR);
+./glog-0.3.3/src/logging_unittest.cc:  LogMessage("foo", LogMessage::kNoLogPrefix, GLOG_INFO).stream() << "no prefix";
+./glog-0.3.3/src/logging_unittest.cc:    CHECK_EQ(base_num_infos   + 14, LogMessage::num_messages(GLOG_INFO));
+./glog-0.3.3/src/logging_unittest.cc:    CHECK_EQ(base_num_warning + 3,  LogMessage::num_messages(GLOG_WARNING));
+./glog-0.3.3/src/logging_unittest.cc:    CHECK_EQ(base_num_errors  + 15, LogMessage::num_messages(GLOG_ERROR));
+./glog-0.3.3/src/logging_unittest.cc:  LogWithLevels(0, GLOG_INFO, false, false);
+./glog-0.3.3/src/logging_unittest.cc:  LogWithLevels(1, GLOG_INFO, false, false);
+./glog-0.3.3/src/logging_unittest.cc:  LogWithLevels(-1, GLOG_INFO, false, false);
+./glog-0.3.3/src/logging_unittest.cc:  LogWithLevels(0, GLOG_WARNING, false, false);
+./glog-0.3.3/src/logging_unittest.cc:  LogWithLevels(0, GLOG_ERROR, false, false);
+./glog-0.3.3/src/logging_unittest.cc:  LogWithLevels(0, GLOG_FATAL, false, false);
+./glog-0.3.3/src/logging_unittest.cc:  LogWithLevels(0, GLOG_FATAL, true, false);
+./glog-0.3.3/src/logging_unittest.cc:  LogWithLevels(0, GLOG_FATAL, false, true);
+./glog-0.3.3/src/logging_unittest.cc:  LogWithLevels(1, GLOG_WARNING, false, false);
+./glog-0.3.3/src/logging_unittest.cc:  LogWithLevels(1, GLOG_FATAL, false, true);
+./glog-0.3.3/src/logging_unittest.cc:    LogMessage("foo", LogMessage::kNoLogPrefix, GLOG_INFO).stream()
+./glog-0.3.3/src/logging_unittest.cc:  SetLogDestination(GLOG_INFO, dest.c_str());
+./glog-0.3.3/src/logging_unittest.cc:  FlushLogFiles(GLOG_INFO);
+./glog-0.3.3/src/logging_unittest.cc:  SetLogSymlink(GLOG_INFO, "symlinkbase");
+./glog-0.3.3/src/logging_unittest.cc:  SetLogDestination(GLOG_INFO, dest.c_str());
+./glog-0.3.3/src/logging_unittest.cc:  FlushLogFiles(GLOG_INFO);
+./glog-0.3.3/src/logging_unittest.cc:  SetLogDestination(GLOG_INFO, dest.c_str());
+./glog-0.3.3/src/logging_unittest.cc:  FlushLogFiles(GLOG_INFO);
+./glog-0.3.3/src/logging_unittest.cc:  base::Logger* old_logger = base::GetLogger(GLOG_INFO);
+./glog-0.3.3/src/logging_unittest.cc:  base::SetLogger(GLOG_INFO, &my_logger);
+./glog-0.3.3/src/logging_unittest.cc:  FlushLogFiles(GLOG_INFO);
+./glog-0.3.3/src/logging_unittest.cc:  base::SetLogger(GLOG_INFO, old_logger);
+./glog-0.3.3/src/demangle_unittest.cc:GLOG_DEFINE_bool(demangle_filter, false,
+./glog-0.3.3/src/signalhandler_unittest.sh:LIBGLOG="$BINDIR/libglog.so"
+./glog-0.3.3/src/raw_logging.cc:  if (severity == GLOG_FATAL)  {
+./glog-0.3.3/src/vlog_is_on.cc:GLOG_DEFINE_int32(v, 0, "Show all VLOG(m) messages for m <= this."
+./glog-0.3.3/src/vlog_is_on.cc:GLOG_DEFINE_string(vmodule, "", "per-module verbose level."
+./glog-0.3.3/src/vlog_is_on.cc:GOOGLE_GLOG_DLL_DECL bool SafeFNMatch_(const char* pattern,
+./glog-0.3.3/src/utilities.cc:GLOG_DEFINE_bool(symbolize_stacktrace, true,
+./glog-0.3.3/src/googletest.h:extern GOOGLE_GLOG_DLL_DECL void (*g_logging_fail_func)();
+./glog-0.3.3/src/googletest.h:#undef GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/googletest.h:#define GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/config_for_unittests.h:// The problem is that config.h declares GOOGLE_GLOG_DLL_DECL to be
+./glog-0.3.3/src/config_for_unittests.h:// sets GOOGLE_GLOG_DLL_DECL to do a dllimport instead of a dllexport.
+./glog-0.3.3/src/config_for_unittests.h:// The reason we need this extra GOOGLE_GLOG_DLL_DECL_FOR_UNITTESTS
+./glog-0.3.3/src/config_for_unittests.h:// variable is in case people want to set GOOGLE_GLOG_DLL_DECL explicitly
+./glog-0.3.3/src/config_for_unittests.h:// GOOGLE_GLOG_DLL_DECL and GOOGLE_GLOG_DLL_DECL_FOR_UNITTESTS explicitly.
+./glog-0.3.3/src/config_for_unittests.h:// which never defined GOOGLE_GLOG_DLL_DECL_FOR_UNITTESTS and always
+./glog-0.3.3/src/config_for_unittests.h:// define GOOGLE_GLOG_DLL_DECL to the empty string.
+./glog-0.3.3/src/config_for_unittests.h:#undef GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/config_for_unittests.h:#ifdef GOOGLE_GLOG_DLL_DECL_FOR_UNITTESTS
+./glog-0.3.3/src/config_for_unittests.h:# define GOOGLE_GLOG_DLL_DECL  GOOGLE_GLOG_DLL_DECL_FOR_UNITTESTS
+./glog-0.3.3/src/config_for_unittests.h:# define GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/demangle_unittest.sh:LIBGLOG="$BINDIR/libglog.so"
+./glog-0.3.3/src/demangle_unittest.sh:nm "$LIBGLOG" | perl -nle 'print $1 if /\s(_Z\S+$)/' > "$NM_OUTPUT"
+./glog-0.3.3/src/demangle_unittest.sh:GLOG_demangle_filter=1 "$DEMANGLER" --demangle_filter < "$NM_OUTPUT" > "$DM_OUTPUT"
+./glog-0.3.3/src/logging.cc:GLOG_DEFINE_bool(logtostderr, BoolFromEnv("GOOGLE_LOGTOSTDERR", false),
+./glog-0.3.3/src/logging.cc:GLOG_DEFINE_bool(alsologtostderr, BoolFromEnv("GOOGLE_ALSOLOGTOSTDERR", false),
+./glog-0.3.3/src/logging.cc:GLOG_DEFINE_bool(colorlogtostderr, false,
+./glog-0.3.3/src/logging.cc:GLOG_DEFINE_bool(drop_log_memory, true, "Drop in-memory buffers of log contents. "
+./glog-0.3.3/src/logging.cc:             GOOGLE_NAMESPACE::GLOG_ERROR,
+./glog-0.3.3/src/logging.cc:GLOG_DEFINE_string(alsologtoemail, "",
+./glog-0.3.3/src/logging.cc:GLOG_DEFINE_bool(log_prefix, true,
+./glog-0.3.3/src/logging.cc:GLOG_DEFINE_int32(minloglevel, 0, "Messages logged at a lower level than this don't "
+./glog-0.3.3/src/logging.cc:GLOG_DEFINE_int32(logbuflevel, 0,
+./glog-0.3.3/src/logging.cc:GLOG_DEFINE_int32(logbufsecs, 30,
+./glog-0.3.3/src/logging.cc:GLOG_DEFINE_int32(logemaillevel, 999,
+./glog-0.3.3/src/logging.cc:GLOG_DEFINE_string(logmailer, "/bin/mail",
+./glog-0.3.3/src/logging.cc:GLOG_DEFINE_string(log_dir, DefaultLogDir(),
+./glog-0.3.3/src/logging.cc:GLOG_DEFINE_string(log_link, "", "Put additional links to the log "
+./glog-0.3.3/src/logging.cc:GLOG_DEFINE_int32(max_log_size, 1800,
+./glog-0.3.3/src/logging.cc:GLOG_DEFINE_bool(stop_logging_if_full_disk, false,
+./glog-0.3.3/src/logging.cc:GLOG_DEFINE_string(log_backtrace_at, "",
+./glog-0.3.3/src/logging.cc:  case GLOG_INFO:
+./glog-0.3.3/src/logging.cc:  case GLOG_WARNING:
+./glog-0.3.3/src/logging.cc:  case GLOG_ERROR:
+./glog-0.3.3/src/logging.cc:  case GLOG_FATAL:
+./glog-0.3.3/src/logging.cc:  Init(file, line, GLOG_FATAL, &LogMessage::SendToLog);
+./glog-0.3.3/src/logging.cc:  Init(file, line, GLOG_INFO, &LogMessage::SendToLog);
+./glog-0.3.3/src/logging.cc:  if (severity != GLOG_FATAL || !exit_on_dfatal) {
+./glog-0.3.3/src/logging.cc:    LogDestination::LogToAllLogfiles(GLOG_ERROR, fatal_time, fatal_message, n);
+./glog-0.3.3/src/logging.cc:  if (data_->severity_ == GLOG_FATAL && exit_on_dfatal) {
+./glog-0.3.3/src/logging.cc:GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/logging.cc:    LogMessage(file, line, GLOG_FATAL) {}
+./glog-0.3.3/src/glog/log_severity.h:#ifndef GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/log_severity.h:#   define GOOGLE_GLOG_DLL_DECL  __declspec(dllimport)
+./glog-0.3.3/src/glog/log_severity.h:#   define GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/log_severity.h:const int GLOG_INFO = 0, GLOG_WARNING = 1, GLOG_ERROR = 2, GLOG_FATAL = 3,
+./glog-0.3.3/src/glog/log_severity.h:#ifndef GLOG_NO_ABBREVIATED_SEVERITIES
+./glog-0.3.3/src/glog/log_severity.h:#  error ERROR macro is defined. Define GLOG_NO_ABBREVIATED_SEVERITIES before including logging.h. See the document for detail.
+./glog-0.3.3/src/glog/log_severity.h:const int INFO = GLOG_INFO, WARNING = GLOG_WARNING,
+./glog-0.3.3/src/glog/log_severity.h:  ERROR = GLOG_ERROR, FATAL = GLOG_FATAL;
+./glog-0.3.3/src/glog/log_severity.h:extern GOOGLE_GLOG_DLL_DECL const char* const LogSeverityNames[NUM_SEVERITIES];
+./glog-0.3.3/src/glog/raw_logging.h.in:#ifndef GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/raw_logging.h.in:#   define GOOGLE_GLOG_DLL_DECL  __declspec(dllimport)
+./glog-0.3.3/src/glog/raw_logging.h.in:#   define GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/raw_logging.h.in:    switch (@ac_google_namespace@::GLOG_ ## severity) {  \
+./glog-0.3.3/src/glog/raw_logging.h.in:#define RAW_LOG_INFO(...) @ac_google_namespace@::RawLog__(@ac_google_namespace@::GLOG_INFO, \
+./glog-0.3.3/src/glog/raw_logging.h.in:#define RAW_LOG_WARNING(...) @ac_google_namespace@::RawLog__(@ac_google_namespace@::GLOG_WARNING,   \
+./glog-0.3.3/src/glog/raw_logging.h.in:#define RAW_LOG_ERROR(...) @ac_google_namespace@::RawLog__(@ac_google_namespace@::GLOG_ERROR,       \
+./glog-0.3.3/src/glog/raw_logging.h.in:#define RAW_LOG_FATAL(...) @ac_google_namespace@::RawLog__(@ac_google_namespace@::GLOG_FATAL,       \
+./glog-0.3.3/src/glog/raw_logging.h.in:GOOGLE_GLOG_DLL_DECL void RawLog__(LogSeverity severity,
+./glog-0.3.3/src/glog/raw_logging.h.in:GOOGLE_GLOG_DLL_DECL void RawLog__SetLastTime(const struct tm& t, int usecs);
+./glog-0.3.3/src/glog/logging.h.in:#ifndef GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/logging.h.in:#   define GOOGLE_GLOG_DLL_DECL  __declspec(dllimport)
+./glog-0.3.3/src/glog/logging.h.in:#   define GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/logging.h.in:#define GLOG_MSVC_PUSH_DISABLE_WARNING(n) __pragma(warning(push)) \
+./glog-0.3.3/src/glog/logging.h.in:#define GLOG_MSVC_POP_WARNING() __pragma(warning(pop))
+./glog-0.3.3/src/glog/logging.h.in:#define GLOG_MSVC_PUSH_DISABLE_WARNING(n)
+./glog-0.3.3/src/glog/logging.h.in:#define GLOG_MSVC_POP_WARNING()
+./glog-0.3.3/src/glog/logging.h.in:    extern GOOGLE_GLOG_DLL_DECL type FLAGS_##name;                      \
+./glog-0.3.3/src/glog/logging.h.in:    extern GOOGLE_GLOG_DLL_DECL std::string& FLAGS_##name;              \
+./glog-0.3.3/src/glog/logging.h.in:      __FILE__, __LINE__, @ac_google_namespace@::GLOG_INFO, message)
+./glog-0.3.3/src/glog/logging.h.in:      __FILE__, __LINE__, @ac_google_namespace@::GLOG_WARNING)
+./glog-0.3.3/src/glog/logging.h.in:      __FILE__, __LINE__, @ac_google_namespace@::GLOG_WARNING, message)
+./glog-0.3.3/src/glog/logging.h.in:      __FILE__, __LINE__, @ac_google_namespace@::GLOG_ERROR)
+./glog-0.3.3/src/glog/logging.h.in:      __FILE__, __LINE__, @ac_google_namespace@::GLOG_ERROR, message)
+./glog-0.3.3/src/glog/logging.h.in:      __FILE__, __LINE__, @ac_google_namespace@::GLOG_FATAL, message)
+./glog-0.3.3/src/glog/logging.h.in:      __FILE__, __LINE__, @ac_google_namespace@::GLOG_FATAL)
+./glog-0.3.3/src/glog/logging.h.in:#define GOOGLE_LOG_INFO(counter) @ac_google_namespace@::LogMessage(__FILE__, __LINE__, @ac_google_namespace@::GLOG_INFO, counter, &@ac_google_namespace@::LogMessage::SendToLog)
+./glog-0.3.3/src/glog/logging.h.in:  @ac_google_namespace@::LogMessage(__FILE__, __LINE__, @ac_google_namespace@::GLOG_INFO, counter, \
+./glog-0.3.3/src/glog/logging.h.in:  @ac_google_namespace@::LogMessage(__FILE__, __LINE__, @ac_google_namespace@::GLOG_WARNING, counter, \
+./glog-0.3.3/src/glog/logging.h.in:  @ac_google_namespace@::LogMessage(__FILE__, __LINE__, @ac_google_namespace@::GLOG_WARNING, counter, \
+./glog-0.3.3/src/glog/logging.h.in:  @ac_google_namespace@::LogMessage(__FILE__, __LINE__, @ac_google_namespace@::GLOG_ERROR, counter, \
+./glog-0.3.3/src/glog/logging.h.in:  @ac_google_namespace@::LogMessage(__FILE__, __LINE__, @ac_google_namespace@::GLOG_ERROR, counter, \
+./glog-0.3.3/src/glog/logging.h.in:  @ac_google_namespace@::LogMessage(__FILE__, __LINE__, @ac_google_namespace@::GLOG_FATAL, counter, \
+./glog-0.3.3/src/glog/logging.h.in:  @ac_google_namespace@::LogMessage(__FILE__, __LINE__, @ac_google_namespace@::GLOG_FATAL, counter, \
+./glog-0.3.3/src/glog/logging.h.in:      @ac_google_namespace@::LogMessage(__FILE__, __LINE__, @ac_google_namespace@::GLOG_ERROR, 0, \
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL void InitGoogleLogging(const char* argv0);
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL void ShutdownGoogleLogging();
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL void InstallFailureFunction(void (*fail_func)());
+./glog-0.3.3/src/glog/logging.h.in:      @ac_google_namespace@::GLOG_ ## severity,                         \
+./glog-0.3.3/src/glog/logging.h.in:      @ac_google_namespace@::GLOG_ ## severity,                         \
+./glog-0.3.3/src/glog/logging.h.in:template <> GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/logging.h.in:template <> GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/logging.h.in:template <> GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/logging.h.in:class GOOGLE_GLOG_DLL_DECL CheckOpMessageBuilder {
+./glog-0.3.3/src/glog/logging.h.in:  GOOGLE_GLOG_DLL_DECL std::string* Check##func##expected##Impl( \
+./glog-0.3.3/src/glog/logging.h.in:      __FILE__, __LINE__, @ac_google_namespace@::GLOG_ ## severity, counter, \
+./glog-0.3.3/src/glog/logging.h.in:        __FILE__, __LINE__, @ac_google_namespace@::GLOG_ ## severity, LOG_OCCURRENCES, \
+./glog-0.3.3/src/glog/logging.h.in:        __FILE__, __LINE__, @ac_google_namespace@::GLOG_ ## severity, LOG_OCCURRENCES, \
+./glog-0.3.3/src/glog/logging.h.in:        __FILE__, __LINE__, @ac_google_namespace@::GLOG_ ## severity, LOG_OCCURRENCES, \
+./glog-0.3.3/src/glog/logging.h.in:        __FILE__, __LINE__, @ac_google_namespace@::GLOG_ ## severity, LOG_OCCURRENCES, \
+./glog-0.3.3/src/glog/logging.h.in:#define GOOGLE_GLOG_COMPILE_ASSERT(expr, msg) \
+./glog-0.3.3/src/glog/logging.h.in:  GOOGLE_GLOG_COMPILE_ASSERT(@ac_google_namespace@::GLOG_ ## severity < \
+./glog-0.3.3/src/glog/logging.h.in:#ifdef GLOG_NO_ABBREVIATED_SEVERITIES
+./glog-0.3.3/src/glog/logging.h.in:const LogSeverity GLOG_0 = GLOG_ERROR;
+./glog-0.3.3/src/glog/logging.h.in:// GLOG_NO_ABBREVIATED_SEVERITIES nor WIN32_LEAN_AND_MEAN.
+./glog-0.3.3/src/glog/logging.h.in:# define GLOG_ERROR_MSG ERROR_macro_is_defined_Define_GLOG_NO_ABBREVIATED_SEVERITIES_before_including_logging_h_See_the_document_for_detail
+./glog-0.3.3/src/glog/logging.h.in:# define COMPACT_GOOGLE_LOG_0 GLOG_ERROR_MSG
+./glog-0.3.3/src/glog/logging.h.in:# define SYSLOG_0 GLOG_ERROR_MSG
+./glog-0.3.3/src/glog/logging.h.in:# define LOG_TO_STRING_0 GLOG_ERROR_MSG
+./glog-0.3.3/src/glog/logging.h.in:# define GLOG_0 GLOG_ERROR_MSG
+./glog-0.3.3/src/glog/logging.h.in:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h.in:    GLOG_MSVC_POP_WARNING() CHECK(condition)
+./glog-0.3.3/src/glog/logging.h.in:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h.in:    GLOG_MSVC_POP_WARNING() CHECK_EQ(val1, val2)
+./glog-0.3.3/src/glog/logging.h.in:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h.in:    GLOG_MSVC_POP_WARNING() CHECK_NE(val1, val2)
+./glog-0.3.3/src/glog/logging.h.in:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h.in:    GLOG_MSVC_POP_WARNING() CHECK_LE(val1, val2)
+./glog-0.3.3/src/glog/logging.h.in:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h.in:    GLOG_MSVC_POP_WARNING() CHECK_LT(val1, val2)
+./glog-0.3.3/src/glog/logging.h.in:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h.in:    GLOG_MSVC_POP_WARNING() CHECK_GE(val1, val2)
+./glog-0.3.3/src/glog/logging.h.in:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h.in:    GLOG_MSVC_POP_WARNING() CHECK_GT(val1, val2)
+./glog-0.3.3/src/glog/logging.h.in:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h.in:    GLOG_MSVC_POP_WARNING() CHECK_STREQ(str1, str2)
+./glog-0.3.3/src/glog/logging.h.in:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h.in:    GLOG_MSVC_POP_WARNING() CHECK_STRCASEEQ(str1, str2)
+./glog-0.3.3/src/glog/logging.h.in:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h.in:    GLOG_MSVC_POP_WARNING() CHECK_STRNE(str1, str2)
+./glog-0.3.3/src/glog/logging.h.in:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h.in:    GLOG_MSVC_POP_WARNING() CHECK_STRCASENE(str1, str2)
+./glog-0.3.3/src/glog/logging.h.in:class GOOGLE_GLOG_DLL_DECL LogMessage {
+./glog-0.3.3/src/glog/logging.h.in:  class GOOGLE_GLOG_DLL_DECL LogStream : public std::ostream {
+./glog-0.3.3/src/glog/logging.h.in:class GOOGLE_GLOG_DLL_DECL LogMessageFatal : public LogMessage {
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL std::ostream& operator<<(std::ostream &os,
+./glog-0.3.3/src/glog/logging.h.in:class GOOGLE_GLOG_DLL_DECL ErrnoLogMessage : public LogMessage {
+./glog-0.3.3/src/glog/logging.h.in:class GOOGLE_GLOG_DLL_DECL LogMessageVoidify {
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL void FlushLogFiles(LogSeverity min_severity);
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL void FlushLogFilesUnsafe(LogSeverity min_severity);
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL void SetLogDestination(LogSeverity severity,
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL void SetLogSymlink(LogSeverity severity,
+./glog-0.3.3/src/glog/logging.h.in:class GOOGLE_GLOG_DLL_DECL LogSink {
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL void AddLogSink(LogSink *destination);
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL void RemoveLogSink(LogSink *destination);
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL void SetLogFilenameExtension(
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL void SetStderrLogging(LogSeverity min_severity);
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL void LogToStderr();
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL void SetEmailLogging(LogSeverity min_severity,
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL bool SendEmail(const char *dest,
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL const std::vector<std::string>& GetLoggingDirectories();
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL void GetExistingTempDirectories(
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL void ReprintFatalMessage();
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL void TruncateLogFile(const char *path,
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL void TruncateStdoutStderr();
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL const char* GetLogSeverityName(LogSeverity severity);
+./glog-0.3.3/src/glog/logging.h.in:class GOOGLE_GLOG_DLL_DECL Logger {
+./glog-0.3.3/src/glog/logging.h.in:extern GOOGLE_GLOG_DLL_DECL Logger* GetLogger(LogSeverity level);
+./glog-0.3.3/src/glog/logging.h.in:extern GOOGLE_GLOG_DLL_DECL void SetLogger(LogSeverity level, Logger* logger);
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL int posix_strerror_r(int err, char *buf, size_t len);
+./glog-0.3.3/src/glog/logging.h.in:class GOOGLE_GLOG_DLL_DECL NullStream : public LogMessage::LogStream {
+./glog-0.3.3/src/glog/logging.h.in:class GOOGLE_GLOG_DLL_DECL NullStreamFatal : public NullStream {
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL void InstallFailureSignalHandler();
+./glog-0.3.3/src/glog/logging.h.in:GOOGLE_GLOG_DLL_DECL void InstallFailureWriter(
+./glog-0.3.3/src/glog/vlog_is_on.h.in:#ifndef GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/vlog_is_on.h.in:#   define GOOGLE_GLOG_DLL_DECL  __declspec(dllimport)
+./glog-0.3.3/src/glog/vlog_is_on.h.in:#   define GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/vlog_is_on.h.in:extern GOOGLE_GLOG_DLL_DECL int SetVLOGLevel(const char* module_pattern,
+./glog-0.3.3/src/glog/vlog_is_on.h.in:extern GOOGLE_GLOG_DLL_DECL bool InitVLOG3__(
+./glog-0.3.3/src/glog/logging.h:#ifndef GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/logging.h:#   define GOOGLE_GLOG_DLL_DECL  __declspec(dllimport)
+./glog-0.3.3/src/glog/logging.h:#   define GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/logging.h:#define GLOG_MSVC_PUSH_DISABLE_WARNING(n) __pragma(warning(push)) \
+./glog-0.3.3/src/glog/logging.h:#define GLOG_MSVC_POP_WARNING() __pragma(warning(pop))
+./glog-0.3.3/src/glog/logging.h:#define GLOG_MSVC_PUSH_DISABLE_WARNING(n)
+./glog-0.3.3/src/glog/logging.h:#define GLOG_MSVC_POP_WARNING()
+./glog-0.3.3/src/glog/logging.h:    extern GOOGLE_GLOG_DLL_DECL type FLAGS_##name;                      \
+./glog-0.3.3/src/glog/logging.h:    extern GOOGLE_GLOG_DLL_DECL std::string& FLAGS_##name;              \
+./glog-0.3.3/src/glog/logging.h:      __FILE__, __LINE__, google::GLOG_INFO, message)
+./glog-0.3.3/src/glog/logging.h:      __FILE__, __LINE__, google::GLOG_WARNING)
+./glog-0.3.3/src/glog/logging.h:      __FILE__, __LINE__, google::GLOG_WARNING, message)
+./glog-0.3.3/src/glog/logging.h:      __FILE__, __LINE__, google::GLOG_ERROR)
+./glog-0.3.3/src/glog/logging.h:      __FILE__, __LINE__, google::GLOG_ERROR, message)
+./glog-0.3.3/src/glog/logging.h:      __FILE__, __LINE__, google::GLOG_FATAL, message)
+./glog-0.3.3/src/glog/logging.h:      __FILE__, __LINE__, google::GLOG_FATAL)
+./glog-0.3.3/src/glog/logging.h:#define GOOGLE_LOG_INFO(counter) google::LogMessage(__FILE__, __LINE__, google::GLOG_INFO, counter, &google::LogMessage::SendToLog)
+./glog-0.3.3/src/glog/logging.h:  google::LogMessage(__FILE__, __LINE__, google::GLOG_INFO, counter, \
+./glog-0.3.3/src/glog/logging.h:  google::LogMessage(__FILE__, __LINE__, google::GLOG_WARNING, counter, \
+./glog-0.3.3/src/glog/logging.h:  google::LogMessage(__FILE__, __LINE__, google::GLOG_WARNING, counter, \
+./glog-0.3.3/src/glog/logging.h:  google::LogMessage(__FILE__, __LINE__, google::GLOG_ERROR, counter, \
+./glog-0.3.3/src/glog/logging.h:  google::LogMessage(__FILE__, __LINE__, google::GLOG_ERROR, counter, \
+./glog-0.3.3/src/glog/logging.h:  google::LogMessage(__FILE__, __LINE__, google::GLOG_FATAL, counter, \
+./glog-0.3.3/src/glog/logging.h:  google::LogMessage(__FILE__, __LINE__, google::GLOG_FATAL, counter, \
+./glog-0.3.3/src/glog/logging.h:      google::LogMessage(__FILE__, __LINE__, google::GLOG_ERROR, 0, \
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL void InitGoogleLogging(const char* argv0);
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL void ShutdownGoogleLogging();
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL void InstallFailureFunction(void (*fail_func)());
+./glog-0.3.3/src/glog/logging.h:      google::GLOG_ ## severity,                         \
+./glog-0.3.3/src/glog/logging.h:      google::GLOG_ ## severity,                         \
+./glog-0.3.3/src/glog/logging.h:template <> GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/logging.h:template <> GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/logging.h:template <> GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/logging.h:class GOOGLE_GLOG_DLL_DECL CheckOpMessageBuilder {
+./glog-0.3.3/src/glog/logging.h:  GOOGLE_GLOG_DLL_DECL std::string* Check##func##expected##Impl( \
+./glog-0.3.3/src/glog/logging.h:      __FILE__, __LINE__, google::GLOG_ ## severity, counter, \
+./glog-0.3.3/src/glog/logging.h:        __FILE__, __LINE__, google::GLOG_ ## severity, LOG_OCCURRENCES, \
+./glog-0.3.3/src/glog/logging.h:        __FILE__, __LINE__, google::GLOG_ ## severity, LOG_OCCURRENCES, \
+./glog-0.3.3/src/glog/logging.h:        __FILE__, __LINE__, google::GLOG_ ## severity, LOG_OCCURRENCES, \
+./glog-0.3.3/src/glog/logging.h:        __FILE__, __LINE__, google::GLOG_ ## severity, LOG_OCCURRENCES, \
+./glog-0.3.3/src/glog/logging.h:#define GOOGLE_GLOG_COMPILE_ASSERT(expr, msg) \
+./glog-0.3.3/src/glog/logging.h:  GOOGLE_GLOG_COMPILE_ASSERT(google::GLOG_ ## severity < \
+./glog-0.3.3/src/glog/logging.h:#ifdef GLOG_NO_ABBREVIATED_SEVERITIES
+./glog-0.3.3/src/glog/logging.h:const LogSeverity GLOG_0 = GLOG_ERROR;
+./glog-0.3.3/src/glog/logging.h:// GLOG_NO_ABBREVIATED_SEVERITIES nor WIN32_LEAN_AND_MEAN.
+./glog-0.3.3/src/glog/logging.h:# define GLOG_ERROR_MSG ERROR_macro_is_defined_Define_GLOG_NO_ABBREVIATED_SEVERITIES_before_including_logging_h_See_the_document_for_detail
+./glog-0.3.3/src/glog/logging.h:# define COMPACT_GOOGLE_LOG_0 GLOG_ERROR_MSG
+./glog-0.3.3/src/glog/logging.h:# define SYSLOG_0 GLOG_ERROR_MSG
+./glog-0.3.3/src/glog/logging.h:# define LOG_TO_STRING_0 GLOG_ERROR_MSG
+./glog-0.3.3/src/glog/logging.h:# define GLOG_0 GLOG_ERROR_MSG
+./glog-0.3.3/src/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK(condition)
+./glog-0.3.3/src/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_EQ(val1, val2)
+./glog-0.3.3/src/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_NE(val1, val2)
+./glog-0.3.3/src/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_LE(val1, val2)
+./glog-0.3.3/src/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_LT(val1, val2)
+./glog-0.3.3/src/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_GE(val1, val2)
+./glog-0.3.3/src/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_GT(val1, val2)
+./glog-0.3.3/src/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_STREQ(str1, str2)
+./glog-0.3.3/src/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_STRCASEEQ(str1, str2)
+./glog-0.3.3/src/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_STRNE(str1, str2)
+./glog-0.3.3/src/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_STRCASENE(str1, str2)
+./glog-0.3.3/src/glog/logging.h:class GOOGLE_GLOG_DLL_DECL LogMessage {
+./glog-0.3.3/src/glog/logging.h:  class GOOGLE_GLOG_DLL_DECL LogStream : public std::ostream {
+./glog-0.3.3/src/glog/logging.h:class GOOGLE_GLOG_DLL_DECL LogMessageFatal : public LogMessage {
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL std::ostream& operator<<(std::ostream &os,
+./glog-0.3.3/src/glog/logging.h:class GOOGLE_GLOG_DLL_DECL ErrnoLogMessage : public LogMessage {
+./glog-0.3.3/src/glog/logging.h:class GOOGLE_GLOG_DLL_DECL LogMessageVoidify {
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL void FlushLogFiles(LogSeverity min_severity);
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL void FlushLogFilesUnsafe(LogSeverity min_severity);
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL void SetLogDestination(LogSeverity severity,
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL void SetLogSymlink(LogSeverity severity,
+./glog-0.3.3/src/glog/logging.h:class GOOGLE_GLOG_DLL_DECL LogSink {
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL void AddLogSink(LogSink *destination);
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL void RemoveLogSink(LogSink *destination);
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL void SetLogFilenameExtension(
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL void SetStderrLogging(LogSeverity min_severity);
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL void LogToStderr();
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL void SetEmailLogging(LogSeverity min_severity,
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL bool SendEmail(const char *dest,
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL const std::vector<std::string>& GetLoggingDirectories();
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL void GetExistingTempDirectories(
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL void ReprintFatalMessage();
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL void TruncateLogFile(const char *path,
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL void TruncateStdoutStderr();
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL const char* GetLogSeverityName(LogSeverity severity);
+./glog-0.3.3/src/glog/logging.h:class GOOGLE_GLOG_DLL_DECL Logger {
+./glog-0.3.3/src/glog/logging.h:extern GOOGLE_GLOG_DLL_DECL Logger* GetLogger(LogSeverity level);
+./glog-0.3.3/src/glog/logging.h:extern GOOGLE_GLOG_DLL_DECL void SetLogger(LogSeverity level, Logger* logger);
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL int posix_strerror_r(int err, char *buf, size_t len);
+./glog-0.3.3/src/glog/logging.h:class GOOGLE_GLOG_DLL_DECL NullStream : public LogMessage::LogStream {
+./glog-0.3.3/src/glog/logging.h:class GOOGLE_GLOG_DLL_DECL NullStreamFatal : public NullStream {
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL void InstallFailureSignalHandler();
+./glog-0.3.3/src/glog/logging.h:GOOGLE_GLOG_DLL_DECL void InstallFailureWriter(
+./glog-0.3.3/src/glog/raw_logging.h:#ifndef GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/raw_logging.h:#   define GOOGLE_GLOG_DLL_DECL  __declspec(dllimport)
+./glog-0.3.3/src/glog/raw_logging.h:#   define GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/raw_logging.h:    switch (google::GLOG_ ## severity) {  \
+./glog-0.3.3/src/glog/raw_logging.h:#define RAW_LOG_INFO(...) google::RawLog__(google::GLOG_INFO, \
+./glog-0.3.3/src/glog/raw_logging.h:#define RAW_LOG_WARNING(...) google::RawLog__(google::GLOG_WARNING,   \
+./glog-0.3.3/src/glog/raw_logging.h:#define RAW_LOG_ERROR(...) google::RawLog__(google::GLOG_ERROR,       \
+./glog-0.3.3/src/glog/raw_logging.h:#define RAW_LOG_FATAL(...) google::RawLog__(google::GLOG_FATAL,       \
+./glog-0.3.3/src/glog/raw_logging.h:GOOGLE_GLOG_DLL_DECL void RawLog__(LogSeverity severity,
+./glog-0.3.3/src/glog/raw_logging.h:GOOGLE_GLOG_DLL_DECL void RawLog__SetLastTime(const struct tm& t, int usecs);
+./glog-0.3.3/src/glog/vlog_is_on.h:#ifndef GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/vlog_is_on.h:#   define GOOGLE_GLOG_DLL_DECL  __declspec(dllimport)
+./glog-0.3.3/src/glog/vlog_is_on.h:#   define GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/glog/vlog_is_on.h:extern GOOGLE_GLOG_DLL_DECL int SetVLOGLevel(const char* module_pattern,
+./glog-0.3.3/src/glog/vlog_is_on.h:extern GOOGLE_GLOG_DLL_DECL bool InitVLOG3__(
+./glog-0.3.3/src/windows/config.h:#ifndef GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/windows/config.h:# define GOOGLE_GLOG_IS_A_DLL  1   /* not set if you're statically linking */
+./glog-0.3.3/src/windows/config.h:# define GOOGLE_GLOG_DLL_DECL  __declspec(dllexport)
+./glog-0.3.3/src/windows/config.h:# define GOOGLE_GLOG_DLL_DECL_FOR_UNITTESTS  __declspec(dllimport)
+./glog-0.3.3/src/windows/glog/vlog_is_on.h:#ifndef GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/windows/glog/vlog_is_on.h:#   define GOOGLE_GLOG_DLL_DECL  __declspec(dllimport)
+./glog-0.3.3/src/windows/glog/vlog_is_on.h:#   define GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/windows/glog/vlog_is_on.h:extern GOOGLE_GLOG_DLL_DECL int SetVLOGLevel(const char* module_pattern,
+./glog-0.3.3/src/windows/glog/vlog_is_on.h:extern GOOGLE_GLOG_DLL_DECL bool InitVLOG3__(
+./glog-0.3.3/src/windows/glog/raw_logging.h:#ifndef GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/windows/glog/raw_logging.h:#   define GOOGLE_GLOG_DLL_DECL  __declspec(dllimport)
+./glog-0.3.3/src/windows/glog/raw_logging.h:#   define GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/windows/glog/raw_logging.h:    switch (google::GLOG_ ## severity) {  \
+./glog-0.3.3/src/windows/glog/raw_logging.h:#define RAW_LOG_INFO(...) google::RawLog__(google::GLOG_INFO, \
+./glog-0.3.3/src/windows/glog/raw_logging.h:#define RAW_LOG_WARNING(...) google::RawLog__(google::GLOG_WARNING,   \
+./glog-0.3.3/src/windows/glog/raw_logging.h:#define RAW_LOG_ERROR(...) google::RawLog__(google::GLOG_ERROR,       \
+./glog-0.3.3/src/windows/glog/raw_logging.h:#define RAW_LOG_FATAL(...) google::RawLog__(google::GLOG_FATAL,       \
+./glog-0.3.3/src/windows/glog/raw_logging.h:GOOGLE_GLOG_DLL_DECL void RawLog__(LogSeverity severity,
+./glog-0.3.3/src/windows/glog/raw_logging.h:GOOGLE_GLOG_DLL_DECL void RawLog__SetLastTime(const struct tm& t, int usecs);
+./glog-0.3.3/src/windows/glog/log_severity.h:#ifndef GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/windows/glog/log_severity.h:#   define GOOGLE_GLOG_DLL_DECL  __declspec(dllimport)
+./glog-0.3.3/src/windows/glog/log_severity.h:#   define GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/windows/glog/log_severity.h:const int GLOG_INFO = 0, GLOG_WARNING = 1, GLOG_ERROR = 2, GLOG_FATAL = 3,
+./glog-0.3.3/src/windows/glog/log_severity.h:#ifndef GLOG_NO_ABBREVIATED_SEVERITIES
+./glog-0.3.3/src/windows/glog/log_severity.h:#  error ERROR macro is defined. Define GLOG_NO_ABBREVIATED_SEVERITIES before including logging.h. See the document for detail.
+./glog-0.3.3/src/windows/glog/log_severity.h:const int INFO = GLOG_INFO, WARNING = GLOG_WARNING,
+./glog-0.3.3/src/windows/glog/log_severity.h:  ERROR = GLOG_ERROR, FATAL = GLOG_FATAL;
+./glog-0.3.3/src/windows/glog/log_severity.h:extern GOOGLE_GLOG_DLL_DECL const char* const LogSeverityNames[NUM_SEVERITIES];
+./glog-0.3.3/src/windows/glog/logging.h:#ifndef GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/windows/glog/logging.h:#   define GOOGLE_GLOG_DLL_DECL  __declspec(dllimport)
+./glog-0.3.3/src/windows/glog/logging.h:#   define GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/windows/glog/logging.h:#define GLOG_MSVC_PUSH_DISABLE_WARNING(n) __pragma(warning(push)) \
+./glog-0.3.3/src/windows/glog/logging.h:#define GLOG_MSVC_POP_WARNING() __pragma(warning(pop))
+./glog-0.3.3/src/windows/glog/logging.h:#define GLOG_MSVC_PUSH_DISABLE_WARNING(n)
+./glog-0.3.3/src/windows/glog/logging.h:#define GLOG_MSVC_POP_WARNING()
+./glog-0.3.3/src/windows/glog/logging.h:    extern GOOGLE_GLOG_DLL_DECL type FLAGS_##name;                      \
+./glog-0.3.3/src/windows/glog/logging.h:    extern GOOGLE_GLOG_DLL_DECL std::string& FLAGS_##name;              \
+./glog-0.3.3/src/windows/glog/logging.h:      __FILE__, __LINE__, google::GLOG_INFO, message)
+./glog-0.3.3/src/windows/glog/logging.h:      __FILE__, __LINE__, google::GLOG_WARNING)
+./glog-0.3.3/src/windows/glog/logging.h:      __FILE__, __LINE__, google::GLOG_WARNING, message)
+./glog-0.3.3/src/windows/glog/logging.h:      __FILE__, __LINE__, google::GLOG_ERROR)
+./glog-0.3.3/src/windows/glog/logging.h:      __FILE__, __LINE__, google::GLOG_ERROR, message)
+./glog-0.3.3/src/windows/glog/logging.h:      __FILE__, __LINE__, google::GLOG_FATAL, message)
+./glog-0.3.3/src/windows/glog/logging.h:      __FILE__, __LINE__, google::GLOG_FATAL)
+./glog-0.3.3/src/windows/glog/logging.h:#define GOOGLE_LOG_INFO(counter) google::LogMessage(__FILE__, __LINE__, google::GLOG_INFO, counter, &google::LogMessage::SendToLog)
+./glog-0.3.3/src/windows/glog/logging.h:  google::LogMessage(__FILE__, __LINE__, google::GLOG_INFO, counter, \
+./glog-0.3.3/src/windows/glog/logging.h:  google::LogMessage(__FILE__, __LINE__, google::GLOG_WARNING, counter, \
+./glog-0.3.3/src/windows/glog/logging.h:  google::LogMessage(__FILE__, __LINE__, google::GLOG_WARNING, counter, \
+./glog-0.3.3/src/windows/glog/logging.h:  google::LogMessage(__FILE__, __LINE__, google::GLOG_ERROR, counter, \
+./glog-0.3.3/src/windows/glog/logging.h:  google::LogMessage(__FILE__, __LINE__, google::GLOG_ERROR, counter, \
+./glog-0.3.3/src/windows/glog/logging.h:  google::LogMessage(__FILE__, __LINE__, google::GLOG_FATAL, counter, \
+./glog-0.3.3/src/windows/glog/logging.h:  google::LogMessage(__FILE__, __LINE__, google::GLOG_FATAL, counter, \
+./glog-0.3.3/src/windows/glog/logging.h:      google::LogMessage(__FILE__, __LINE__, google::GLOG_ERROR, 0, \
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL void InitGoogleLogging(const char* argv0);
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL void ShutdownGoogleLogging();
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL void InstallFailureFunction(void (*fail_func)());
+./glog-0.3.3/src/windows/glog/logging.h:      google::GLOG_ ## severity,                         \
+./glog-0.3.3/src/windows/glog/logging.h:      google::GLOG_ ## severity,                         \
+./glog-0.3.3/src/windows/glog/logging.h:template <> GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/windows/glog/logging.h:template <> GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/windows/glog/logging.h:template <> GOOGLE_GLOG_DLL_DECL
+./glog-0.3.3/src/windows/glog/logging.h:class GOOGLE_GLOG_DLL_DECL CheckOpMessageBuilder {
+./glog-0.3.3/src/windows/glog/logging.h:  GOOGLE_GLOG_DLL_DECL std::string* Check##func##expected##Impl( \
+./glog-0.3.3/src/windows/glog/logging.h:      __FILE__, __LINE__, google::GLOG_ ## severity, counter, \
+./glog-0.3.3/src/windows/glog/logging.h:        __FILE__, __LINE__, google::GLOG_ ## severity, LOG_OCCURRENCES, \
+./glog-0.3.3/src/windows/glog/logging.h:        __FILE__, __LINE__, google::GLOG_ ## severity, LOG_OCCURRENCES, \
+./glog-0.3.3/src/windows/glog/logging.h:        __FILE__, __LINE__, google::GLOG_ ## severity, LOG_OCCURRENCES, \
+./glog-0.3.3/src/windows/glog/logging.h:        __FILE__, __LINE__, google::GLOG_ ## severity, LOG_OCCURRENCES, \
+./glog-0.3.3/src/windows/glog/logging.h:#define GOOGLE_GLOG_COMPILE_ASSERT(expr, msg) \
+./glog-0.3.3/src/windows/glog/logging.h:  GOOGLE_GLOG_COMPILE_ASSERT(google::GLOG_ ## severity < \
+./glog-0.3.3/src/windows/glog/logging.h:#ifdef GLOG_NO_ABBREVIATED_SEVERITIES
+./glog-0.3.3/src/windows/glog/logging.h:const LogSeverity GLOG_0 = GLOG_ERROR;
+./glog-0.3.3/src/windows/glog/logging.h:// GLOG_NO_ABBREVIATED_SEVERITIES nor WIN32_LEAN_AND_MEAN.
+./glog-0.3.3/src/windows/glog/logging.h:# define GLOG_ERROR_MSG ERROR_macro_is_defined_Define_GLOG_NO_ABBREVIATED_SEVERITIES_before_including_logging_h_See_the_document_for_detail
+./glog-0.3.3/src/windows/glog/logging.h:# define COMPACT_GOOGLE_LOG_0 GLOG_ERROR_MSG
+./glog-0.3.3/src/windows/glog/logging.h:# define SYSLOG_0 GLOG_ERROR_MSG
+./glog-0.3.3/src/windows/glog/logging.h:# define LOG_TO_STRING_0 GLOG_ERROR_MSG
+./glog-0.3.3/src/windows/glog/logging.h:# define GLOG_0 GLOG_ERROR_MSG
+./glog-0.3.3/src/windows/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/windows/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK(condition)
+./glog-0.3.3/src/windows/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/windows/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_EQ(val1, val2)
+./glog-0.3.3/src/windows/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/windows/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_NE(val1, val2)
+./glog-0.3.3/src/windows/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/windows/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_LE(val1, val2)
+./glog-0.3.3/src/windows/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/windows/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_LT(val1, val2)
+./glog-0.3.3/src/windows/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/windows/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_GE(val1, val2)
+./glog-0.3.3/src/windows/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/windows/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_GT(val1, val2)
+./glog-0.3.3/src/windows/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/windows/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_STREQ(str1, str2)
+./glog-0.3.3/src/windows/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/windows/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_STRCASEEQ(str1, str2)
+./glog-0.3.3/src/windows/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/windows/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_STRNE(str1, str2)
+./glog-0.3.3/src/windows/glog/logging.h:  GLOG_MSVC_PUSH_DISABLE_WARNING(4127) \
+./glog-0.3.3/src/windows/glog/logging.h:    GLOG_MSVC_POP_WARNING() CHECK_STRCASENE(str1, str2)
+./glog-0.3.3/src/windows/glog/logging.h:class GOOGLE_GLOG_DLL_DECL LogMessage {
+./glog-0.3.3/src/windows/glog/logging.h:  class GOOGLE_GLOG_DLL_DECL LogStream : public std::ostream {
+./glog-0.3.3/src/windows/glog/logging.h:class GOOGLE_GLOG_DLL_DECL LogMessageFatal : public LogMessage {
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL std::ostream& operator<<(std::ostream &os,
+./glog-0.3.3/src/windows/glog/logging.h:class GOOGLE_GLOG_DLL_DECL ErrnoLogMessage : public LogMessage {
+./glog-0.3.3/src/windows/glog/logging.h:class GOOGLE_GLOG_DLL_DECL LogMessageVoidify {
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL void FlushLogFiles(LogSeverity min_severity);
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL void FlushLogFilesUnsafe(LogSeverity min_severity);
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL void SetLogDestination(LogSeverity severity,
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL void SetLogSymlink(LogSeverity severity,
+./glog-0.3.3/src/windows/glog/logging.h:class GOOGLE_GLOG_DLL_DECL LogSink {
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL void AddLogSink(LogSink *destination);
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL void RemoveLogSink(LogSink *destination);
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL void SetLogFilenameExtension(
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL void SetStderrLogging(LogSeverity min_severity);
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL void LogToStderr();
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL void SetEmailLogging(LogSeverity min_severity,
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL bool SendEmail(const char *dest,
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL const std::vector<std::string>& GetLoggingDirectories();
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL void GetExistingTempDirectories(
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL void ReprintFatalMessage();
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL void TruncateLogFile(const char *path,
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL void TruncateStdoutStderr();
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL const char* GetLogSeverityName(LogSeverity severity);
+./glog-0.3.3/src/windows/glog/logging.h:class GOOGLE_GLOG_DLL_DECL Logger {
+./glog-0.3.3/src/windows/glog/logging.h:extern GOOGLE_GLOG_DLL_DECL Logger* GetLogger(LogSeverity level);
+./glog-0.3.3/src/windows/glog/logging.h:extern GOOGLE_GLOG_DLL_DECL void SetLogger(LogSeverity level, Logger* logger);
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL int posix_strerror_r(int err, char *buf, size_t len);
+./glog-0.3.3/src/windows/glog/logging.h:class GOOGLE_GLOG_DLL_DECL NullStream : public LogMessage::LogStream {
+./glog-0.3.3/src/windows/glog/logging.h:class GOOGLE_GLOG_DLL_DECL NullStreamFatal : public NullStream {
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL void InstallFailureSignalHandler();
+./glog-0.3.3/src/windows/glog/logging.h:GOOGLE_GLOG_DLL_DECL void InstallFailureWriter(
+./glog-0.3.3/src/windows/preprocess.sh:DLLDEF_MACRO_NAME="GLOG_DLL_DECL"
+./glog-0.3.3/src/windows/preprocess.sh:# GLOG_DLL_DECL.  Apparently sed expands \n into a newline.  Good!
+./glog-0.3.3/src/logging_striptest_main.cc:GLOG_DEFINE_bool(check_mode, false, "Prints 'opt' or 'dbg'");
+./glog-0.3.3/src/logging_striplog_test.sh:mode=`GLOG_check_mode=1 ./logging_striptest0 2> /dev/null`
+./glog-0.3.3/src/mock-log.h:#ifndef GLOG_SRC_MOCK_LOG_H_
+./glog-0.3.3/src/mock-log.h:#define GLOG_SRC_MOCK_LOG_H_
+./glog-0.3.3/src/mock-log.h:#endif  // GLOG_SRC_MOCK_LOG_H_
+./glog-0.3.3/vsprojects/libglog_static/libglog_static.vcproj:				PreprocessorDefinitions="GOOGLE_GLOG_DLL_DECL="
+./glog-0.3.3/vsprojects/libglog_static/libglog_static.vcproj:				PreprocessorDefinitions="GOOGLE_GLOG_DLL_DECL="
+./glog-0.3.3/vsprojects/libglog/libglog.vcproj:				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;LIBGLOG_EXPORTS"
+./glog-0.3.3/vsprojects/libglog/libglog.vcproj:				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;_USRDLL;LIBGLOG_EXPORTS"
+./glog-0.3.3/vsprojects/logging_unittest_static/logging_unittest_static.vcproj:				PreprocessorDefinitions="GOOGLE_GLOG_DLL_DECL="
+./glog-0.3.3/vsprojects/logging_unittest_static/logging_unittest_static.vcproj:				PreprocessorDefinitions="GOOGLE_GLOG_DLL_DECL="
+./glog-0.3.3/README.windows:to work, you'll need to add "/D GOOGLE_GLOG_DLL_DECL=" to the compile
+./glog-0.3.3/ChangeLog:	* Color output support by GLOG_colorlogtostderr (thanks alexs).
+./glog-0.3.3/ChangeLog:	* GLOG_* environment variables now work even when gflags is installed.
+./glog-0.3.3/doc/glog.html:environment variables, prefixing the flag name with "GLOG_", e.g.
+./glog-0.3.3/doc/glog.html:   GLOG_logtostderr=1 ./your_application
+./glog-0.3.3/doc/glog.html:<p>By glog version 0.x.x, you can use GLOG_* environment variables
+./glog-0.3.3/doc/glog.html:are specified, the value specified by a flag wins. E.g., if GLOG_v=0
+./glog-0.3.3/doc/glog.html:<code>GLOG_NO_ABBREVIATED_SEVERITIES</code> before
+./glog-0.3.3/doc/glog.html:  #define GLOG_NO_ABBREVIATED_SEVERITIES
+./glog-0.3.3/doc/glog.html:  #define GLOG_NO_ABBREVIATED_SEVERITIES
+./glog-0.3.3/doc/glog.html:  google::FlushLogFiles(google::GLOG_ERROR);
+Binary file ./glog-0.3.3/.libs/libglog_la-logging.o matches
+Binary file ./glog-0.3.3/.libs/libglog_la-raw_logging.o matches
+Binary file ./glog-0.3.3/.libs/libglog_la-vlog_is_on.o matches
+Binary file ./glog-0.3.3/.libs/libglog_la-utilities.o matches
+Binary file ./glog-0.3.3/.libs/libglog_la-symbolize.o matches
+Binary file ./glog-0.3.3/.libs/libglog_la-signalhandler.o matches
+Binary file ./glog-0.3.3/.libs/libglog.so.0.0.0 matches
+Binary file ./glog-0.3.3/.libs/libglog.a matches
+Binary file ./glog-0.3.3/.libs/logging_unittest matches
+Binary file ./glog-0.3.3/.libs/demangle_unittest matches
+Binary file ./glog-0.3.3/.libs/stacktrace_unittest matches
+Binary file ./glog-0.3.3/.libs/symbolize_unittest matches
+Binary file ./glog-0.3.3/.libs/stl_logging_unittest matches
+Binary file ./glog-0.3.3/.libs/utilities_unittest matches
+Binary file ./glog-0.3.3/.libs/logging_striptest0 matches
+Binary file ./glog-0.3.3/.libs/logging_striptest2 matches
+Binary file ./glog-0.3.3/.libs/logging_striptest10 matches
+Binary file ./glog-0.3.3/.libs/signalhandler_unittest matches
+Binary file ./glog-0.3.3/libglog_la-utilities.o matches
+Binary file ./glog-0.3.3/libglog_la-symbolize.o matches
+Binary file ./glog-0.3.3/libglog_la-signalhandler.o matches
+Binary file ./glog-0.3.3/logging_unittest-logging_unittest.o matches
+Binary file ./glog-0.3.3/demangle_unittest-demangle_unittest.o matches
+Binary file ./glog-0.3.3/stacktrace_unittest-stacktrace_unittest.o matches
+Binary file ./glog-0.3.3/symbolize_unittest-symbolize_unittest.o matches
+Binary file ./glog-0.3.3/stl_logging_unittest-stl_logging_unittest.o matches
+Binary file ./glog-0.3.3/utilities_unittest-utilities_unittest.o matches
+Binary file ./glog-0.3.3/logging_striptest0-logging_striptest_main.o matches
+Binary file ./glog-0.3.3/logging_striptest2-logging_striptest2.o matches
+Binary file ./glog-0.3.3/logging_striptest10-logging_striptest10.o matches
+Binary file ./glog-0.3.3/signalhandler_unittest-signalhandler_unittest.o matches
+Binary file ./glog-0.3.3/libglog_la-logging.o matches
+Binary file ./glog-0.3.3/libglog_la-raw_logging.o matches
+Binary file ./glog-0.3.3/libglog_la-vlog_is_on.o matches
