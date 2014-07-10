@@ -121,7 +121,10 @@ LIBRARIES := cudart cublas curand \
 	opencv_core opencv_highgui opencv_imgproc
 PYTHON_LIBRARIES := boost_python python2.7
 WARNINGS := -Wall
+<<<<<<< HEAD
 LIBGLOG := /homes/ad6813/.local/lib/glog
+=======
+>>>>>>> 702292453ed726520a87e606669515ca24b0c4ad
 
 ##############################
 # Set build directories
