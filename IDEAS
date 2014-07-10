@@ -5,27 +5,18 @@ CURRENTLY
 
 2) fix cuda-convnet bug on graphic[06-10]
 
-3) install caffe for transfer learning
+3) commit and push graphic06 changes to pipe-classification
+all of caffe going to be deleted. make sure it gets deleted from
+git commit history as well.
 
-a) satisfying dependencies
-installing python requirements for the python wrappers
-six needs to be upgraded without root
-virtual env was recommended
-virtual env takes up too much space when running pip install -r
-requirements.txt inside it
-delete venv and restart from scratch
-check which requirements are already fulfilled, create a copy of
-requirements.txt without the libs already installed, and only install
-inside venv the ones which are really needed
 
-b) arrayobject.h and Python.h
-cat /data/ad6813/caffe/python/venv/where_pythonh_arrayobject.out
-for arrayobject.h
+4) train caffe on clamp detection with pretrained net and frozen
+backprop on conv layers
 
-Python.h is in /usr/include/python2.7/Python.h
+a) write scripts to create train.txt val.txt files (same format)
 
-c) compiling
-can't find glog, so need to set env var
+f) download full labels from Will's latest dump
+
 
 
 TO DO
