@@ -1,0 +1,87 @@
+CURRENTLY
+=========
+
+1) scraping_or_peeling training on graphic02
+
+2) fix cuda-convnet bug on graphic[06-10]
+
+3) commit and push graphic06 changes to pipe-classification
+all of caffe going to be deleted. make sure it gets deleted from
+git commit history as well.
+
+
+4) train caffe on clamp detection with pretrained net and frozen
+backprop on conv layers
+
+a) write scripts to create train.txt val.txt files (same format)
+
+f) download full labels from Will's latest dump
+
+
+
+TO DO
+=====
+
+Class imbalance:
+- gradient descent on pointwise approx of error surface more
+sensitive than other learning techniques? cf Learning from Imbalanced
+Data. "for certain relative imbal- anced data sets, the minority concept is accurately learned with little disturbance from the imbalance [22], [23], [24]"
+- imbalanced data more dangerous with small sample size: 
+- note that it really does suck to have to have balanced classes,
+because the "clamp detected" class is indeed semantically richer:
+there are lots of different types of clamps, so one would need more
+examples to show them all.
+- one might argue taking a perfectly balanced validation set obviously
+benefits more balanced samples. maybe should also try with validation
+sets that follow the same imbalance as what they were trained on.
+
+
+Visual insection of data
+- once downsized to 256x256
+
+
+Transfer Learning:
+- freeze backprop on conv layers
+- try tight fc, even proportion training cases
+
+  
+F-measure:
+- modify cost function to account for imbalanced classes
+
+
+False negatives:
+- if we take the entire dataset (no filtering out), are there far more
+false negatives than false positives? if so, I could modify my cost
+function to penalise false negatives less
+- plot this on a graph for intuition
+- to test it properly, need a well-labelled dataset, with
+representative class proportions
+
+
+Data Augmentation:
+- normal
+- full rotation
+- blind spots (cf blind spots paper)
+
+
+InitW:
+- SGD tricks
+
+
+Smart Preprocessing:
+- blurring if only colour matters
+- greyscale if only shape matter
+- filter spotted
+
+
+
+MUST READS
+==========
+
+Image Blind Spots - Intriguing ppties of neural networks, Szegedy et al.
+
+SGD tricks 1
+
+SGD tricks 2
+
+
