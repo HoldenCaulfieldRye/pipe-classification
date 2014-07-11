@@ -9,11 +9,12 @@ CURRENTLY
 all of caffe going to be deleted. make sure it gets deleted from
 git commit history as well.
 
-
 4) train caffe on clamp detection with pretrained net and frozen
 backprop on conv layers
 
-a) write scripts to create train.txt val.txt files (same format)
+a) write scripts to create train.txt val.txt files (same format
+b) move data (symlink possible?) to train/ val/ test/ dirs
+c) cf scripts/data_preparation/README for net tips
 
 f) download full labels from Will's latest dump
 

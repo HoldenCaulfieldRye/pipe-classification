@@ -1,0 +1,46 @@
+1. get labels and choose which ones to learn
+============================================
+
+python create_lookup_txtfiles.py path/to/rawdata path/to/caffe/data/yourtask
+
+
+
+2. move data (symlinks?) to train/ val/ test/ dirs
+==================================================
+
+# taskdata is where train/ val/ test/ dirs will be
+
+python move_to_dirs.py path/to/src_data path/to/dest_data path/to/caffe/data/yourtask
+
+
+
+
+NEXT STEPS !
+============
+
+3. resize images
+================
+
+
+
+4. make use of
+==============
+resume_training.sh     # aka import pretrained?
+
+alexnet_deploy.prototxt
+alexnet_solver.prototxt
+alexnet_train.prototxt
+alexnet_val.prototxt
+get_caffe_alexnet_model.sh
+train_alexnet.sh
+
+imagenet_deploy.prototxt
+imagenet_solver.prototxt
+imagenet_train.prototxt
+imagenet_val.prototxt
+make_imagenet_mean.sh
+
+
+
+
+

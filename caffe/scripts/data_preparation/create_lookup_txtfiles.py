@@ -5,15 +5,8 @@
 import numpy as np
 import os
 from os.path import join as ojoin
-import cPickle as pickle
-# from dict2xml import *
-import xml.dom
-from joblib import Parallel, delayed
 from PIL import Image
-import xml.etree.ElementTree as ET
 import json, random
-import shutil
-import time
 
 
 #### STEP 1: GET LABELS #############################################
@@ -63,7 +56,7 @@ def get_label_dict(data_dir):
 
 #### STEP 2: CREATE train.txt val.txt  #############################
 
-def create_lookup_txtfiles(data_dir, to_dir):
+def create_lookup_txtfiles(data_dir, to_dir=None):
   ''' data_dir: where raw data is
       to_dir: where to store .txt files. '''
   
@@ -74,10 +67,12 @@ def create_lookup_txtfiles(data_dir, to_dir):
   case_count = 0 # number of training cases
   tagless_count = 0 # n
   badcase_count = 0 # num of images with multiple flags to train on
-  train_file = open(ojoin(to_dir,'train.txt'), 'w')
-  val_file = open(ojoin(to_dir,'val.txt'), 'w')
-  test_file = open(ojoin(to_dir,'test.txt'), 'w')
-  read = open(ojoin(to_dir,'synset_words.txt'), 'w')
+
+  if to_dir is not None:
+    train_file = open(ojoin(to_dir,'train.txt'), 'w')
+    val_file = open(ojoin(to_dir,'val.txt'), 'w')
+    test_file = open(ojoin(to_dir,'test.txt'), 'w')
+    read = open(ojoin(to_dir,'read.txt'), 'w')
   
   # get labels of classes to learn
   labels_read = get_all_pipe_labels(data_dir,save=False)['labels']
@@ -94,6 +89,7 @@ def create_lookup_txtfiles(data_dir, to_dir):
   if label_default is not 'N':
     lastLabelIsDefault = True
     lookup[label_default] = len(labels_write)
+    labels_write.append(label_default)
             
   print 'sorting images by class label...'
   for fname in list_dir:
@@ -134,25 +130,29 @@ def create_lookup_txtfiles(data_dir, to_dir):
                if elem not in val_dump]
   train_dump = [elem for elem in dump if elem not in non_train_dump]
   random.shuffle(train_dump)
-  train_file.writelines(["%s %i\n" % (fname,num)
-                         for (fname,num) in train_dump])
-  train_file.close()
-  val_file.writelines(["%s %i\n" % (fname,num)
-                       for (fname,num) in val_dump])
-  val_file.close()
-  test_file.writelines(["%s %i\n" % (fname,num)
-                       for (fname,num) in test_dump])
-  test_file.close()
 
-  # write to read file how to interpret values as classes
-  read.writelines(["%i %s\n" % (lookup[label],label,)
-                         for label in labels_write])
+  if to_dir is not None:
+    train_file.writelines(["%s %i\n" % (fname,num)
+                           for (fname,num) in train_dump])
+    val_file.writelines(["%s %i\n" % (fname,num)
+                         for (fname,num) in val_dump])
+    test_file.writelines(["%s %i\n" % (fname,num)
+                         for (fname,num) in test_dump])
+
+    # write to read file how to interpret values as classes
+    read.writelines(["%i %s\n" % (lookup[label],label,)
+                           for label in labels_write])
+    train_file.close()
+    val_file.close()
+    test_file.close()
+    read_file.close()
+
 
   print 'create_lookup_txtfiles complete. summary stats:'
   print 'badcase_freq: %0.2f' % (float(badcase_count) / case_count)
   print 'tagless_freq: %0.2f' % (float(tagless_count) / case_count)
 
-  return case_count, badcase_count, tagless_count
+  return train_dump, val_dump, test_dump
 
 
 def update_labels(labels_write, merge, new_label):
