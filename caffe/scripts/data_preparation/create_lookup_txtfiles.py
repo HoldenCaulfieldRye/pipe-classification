@@ -76,6 +76,8 @@ def create_lookup_txtfiles(data_dir, to_dir):
   badcase_count = 0 # num of images with multiple flags to train on
   train_file = open(ojoin(to_dir,'train.txt'), 'w')
   val_file = open(ojoin(to_dir,'val.txt'), 'w')
+  test_file = open(ojoin(to_dir,'test.txt'), 'w')
+  read = open(ojoin(to_dir,'synset_words.txt'), 'w')
   
   # get labels of classes to learn
   labels_read = get_all_pipe_labels(data_dir,save=False)['labels']
@@ -124,10 +126,13 @@ def create_lookup_txtfiles(data_dir, to_dir):
   # randomise!!
   # 10% of dataset for validation, rest for training
   # print "val_dump has %i elements, looking like %s and %s"%(len(val_dump),val_dump[0], val_dump[300])
-  val_size = int(0.1*len(dump))
-  val_dump = random.sample(dump, val_size)
-  train_dump = [elem for elem in dump if elem not in val_dump]
-  print 'shapes of dump, valdump, traindump: %s, %s, %s'%(np.array(dump).shape, np.array(val_dump).shape, np.array(train_dump).shape)
+  non_train_dump_size = int(0.2*len(dump))
+  relative_val_size = int(0.34*non_train_dump_size)
+  non_train_dump = random.sample(dump, non_train_dump_size)
+  val_dump = random.sample(non_train_dump, relative_val_size)
+  test_dump = [elem for elem in non_train_dump
+               if elem not in val_dump]
+  train_dump = [elem for elem in dump if elem not in non_train_dump]
   random.shuffle(train_dump)
   train_file.writelines(["%s %i\n" % (fname,num)
                          for (fname,num) in train_dump])
@@ -135,6 +140,13 @@ def create_lookup_txtfiles(data_dir, to_dir):
   val_file.writelines(["%s %i\n" % (fname,num)
                        for (fname,num) in val_dump])
   val_file.close()
+  test_file.writelines(["%s %i\n" % (fname,num)
+                       for (fname,num) in test_dump])
+  test_file.close()
+
+  # write to read file how to interpret values as classes
+  read.writelines(["%i %s\n" % (lookup[label],label,)
+                         for label in labels_write])
 
   print 'create_lookup_txtfiles complete. summary stats:'
   print 'badcase_freq: %0.2f' % (float(badcase_count) / case_count)
