@@ -1,7 +1,7 @@
 1. get labels and choose which ones to learn
 ============================================
 
-python create_lookup_txtfiles.py path/to/rawdata path/to/caffe/data/yourtask
+python create_lookup_txtfiles.py path/to/rawdata path/to/caffe/data_info/yourtask
 
 
 
@@ -10,7 +10,7 @@ python create_lookup_txtfiles.py path/to/rawdata path/to/caffe/data/yourtask
 
 # taskdata is where train/ val/ test/ dirs will be
 
-python move_to_dirs.py path/to/src_data path/to/dest_data path/to/caffe/data/yourtask
+python move_to_dirs.py path/to/src_data path/to/dest_data path/to/caffe/data_info/yourtask
 
 
 
@@ -20,7 +20,54 @@ NEXT STEPS !
 
 3. resize images
 ================
+cd /data/ad6813/caffe/data/controlpoint/clampdet
+for name in */*.jpg; do
+    convert -resize 256x256\! $name $name
+done
 
+# check
+convert 102003.jpg -print "Size: %wx%h\n" /dev/null
+
+
+4. download alexnet
+===================
+cd /data/ad6813/caffe/examples/imagenet
+./get_caffe_alexnet_model.sh
+./get_caffe_alexnet_model.sh   # repeat to check correct download
+
+
+Executables are in:
+===================
+
+caffe/build/tools
+
+
+5. batch
+========
+
+cd /data/ad6813/caffe/examples/imagenet
+./create_clampdet.sh
+
+ATTENTION! your script only processed a few images. seems to be a
+mismatch between jpgs in files and jpgs actually present.
+or is it that symlinks aren't followed?
+
+find out, first by writing tests for your scripts.
+then by doing a tiny batching on 1 physical jpg and 1 symlink.
+see how many images are said to have been processed at the end.
+
+
+# also need to compute image mean and put it somewhere?
+# create_clampdet.sh 'under the hood' (though still very high level)
+# batching: caffe/build/tools/convert_imageset.bin ?
+
+
+6. train
+========
+
+options: 
+layers: 
+params: 
 
 
 4. make use of

@@ -4,11 +4,10 @@ from os.path import join as ojoin
 from PIL import Image
 import json, random
 
-from create_lookup_txtfiles import *
+from create_lookup_txtfiles import create_lookup_txtfiles
 
 
-# WHERE/WHEN IS INFO SAVED OF WHICH IMAGE HAS WHICH LABEL?
-
+# image-label mapping in data_info_dir/{train,val,test}.txt
 def move_to_dirs(data_src_dir, data_dest_dir, data_info_dir):
   data_src_dir = os.path.abspath(data_src_dir)
   if not os.path.exists(data_dest_dir): os.mkdir(data_dest_dir)
