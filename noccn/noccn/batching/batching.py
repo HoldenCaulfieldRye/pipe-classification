@@ -12,7 +12,7 @@ import shutil
 import time
 
 
-#### STEP 1: GET LABELS ##############################################
+#### STEP 1: GET LABELS #############################################
 
 def get_all_pipe_labels(data_dir,save=True):
   ''' looks into all .dat files in data_dir, and if find a new 

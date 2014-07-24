@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  14 JUN 2014 21:00
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  23 JUL 2014 13:02
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -758,18 +758,18 @@ Underfull \hbox (badness 10000) in paragraph at lines 47--48
 
  []
 
-<images/logistic.png, id=13, 578.16pt x 433.62pt>
-File: images/logistic.png Graphic file (type png)
- <use images/logistic.png>
-Package pdftex.def Info: images/logistic.png used on input line 69.
-(pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
+<images/sigmoid.png, id=13, 602.25pt x 401.5pt>
+File: images/sigmoid.png Graphic file (type png)
+ <use images/sigmoid.png>
+Package pdftex.def Info: images/sigmoid.png used on input line 69.
+(pdftex.def)             Requested size: 240.89572pt x 160.59715pt.
 
-<images/logistic-derivative.png, id=15, 578.16pt x 433.62pt>
+<images/logistic-derivative.png, id=15, 577.15625pt x 384.43625pt>
 File: images/logistic-derivative.png Graphic file (type png)
 
 <use images/logistic-derivative.png>
 Package pdftex.def Info: images/logistic-derivative.png used on input line 74.
-(pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
+(pdftex.def)             Requested size: 230.8584pt x 153.77177pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 81--82
 
@@ -782,22 +782,23 @@ Underfull \hbox (badness 10000) in paragraph at lines 89--90
 
 [2
 
- <./images/logistic.png> <./images/logistic-derivative.png>]
+ <./images/sigmoid.png> <./images/logistic-derivative.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 91--92
 
  []
 
-<images/ReLU.png, id=28, 578.16pt x 433.62pt>
-File: images/ReLU.png Graphic file (type png)
- <use images/ReLU.png>
-Package pdftex.def Info: images/ReLU.png used on input line 103.
-(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
+<images/rectifier.png, id=28, 618.31pt x 475.7775pt>
+File: images/rectifier.png Graphic file (type png)
+
+<use images/rectifier.png>
+Package pdftex.def Info: images/rectifier.png used on input line 103.
+(pdftex.def)             Requested size: 309.15424pt x 237.88815pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 116--117
 
  []
 
-[3 <./images/ReLU.png>]
+[3 <./images/rectifier.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 124--125
 
  []
@@ -807,44 +808,22 @@ Underfull \hbox (badness 10000) in paragraph at lines 133--134
 
  []
 
-<images/gradient_propagates.png, id=33, 562.1pt x 532.99126pt>
-File: images/gradient_propagates.png Graphic file (type png)
-
-<use images/gradient_propagates.png>
-Package pdftex.def Info: images/gradient_propagates.png used on input line 139.
-
-(pdftex.def)             Requested size: 157.38692pt x 149.23653pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 148--150
 
  []
 
-<images/local_minima.png, id=34, 423.38174pt x 220.4235pt>
-File: images/local_minima.png Graphic file (type png)
-
-<use images/local_minima.png>
-Package pdftex.def Info: images/local_minima.png used on input line 159.
-(pdftex.def)             Requested size: 338.70586pt x 176.33902pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-<images/ReLU_train_fast.png, id=35, 836.12375pt x 669.50125pt>
+<images/ReLU_train_fast.png, id=32, 541.02126pt x 587.19376pt>
 File: images/ReLU_train_fast.png Graphic file (type png)
 
 <use images/ReLU_train_fast.png>
-Package pdftex.def Info: images/ReLU_train_fast.png used on input line 170.
-(pdftex.def)             Requested size: 250.83905pt x 200.85191pt.
-
-
-LaTeX Warning: `!h' float specifier changed to `!ht'.
-
-[4 <./images/gradient_propagates.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 191--193
+Package pdftex.def Info: images/ReLU_train_fast.png used on input line 160.
+(pdftex.def)             Requested size: 162.30762pt x 176.15948pt.
+ [4 <./images/ReLU_train_fast.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 181--183
 
  []
 
-[5 <./images/local_minima.png> <./images/ReLU_train_fast.png>]
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ­ in font cmr10!
 Missing character: There is no Ã in font cmr10!
@@ -853,39 +832,36 @@ Missing character: There is no Ã in font cmr10!
 Missing character: There is no ­ in font cmr10!
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no © in font cmr10!
- [6]
-(./activation_functions.aux)
+[5] (./activation_functions.aux)
 
 LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 16111 strings out of 494985
- 281738 string characters out of 6180356
- 344177 words of memory out of 5000000
- 18982 multiletter control sequences out of 15000+600000
- 14187 words of font info for 55 fonts, out of 8000000 for 9000
+ 16097 strings out of 494985
+ 281431 string characters out of 6180356
+ 343177 words of memory out of 5000000
+ 18972 multiletter control sequences out of 15000+600000
+ 13566 words of font info for 53 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  48i,10n,51p,816b,485s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texl
 ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dis
-t/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
-amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
-r5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb><
-/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/s
-hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/te
-xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on activation_functions.pdf (6 pages, 534304 bytes).
+xmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy
+10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
+Output written on activation_functions.pdf (5 pages, 259602 bytes).
 PDF statistics:
- 100 PDF objects out of 1000 (max. 8388607)
- 66 compressed objects within 1 object stream
+ 86 PDF objects out of 1000 (max. 8388607)
+ 58 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 43 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 33 words of extra memory for PDF output out of 10000 (max. 10000000)
 

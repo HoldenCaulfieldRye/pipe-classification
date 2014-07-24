@@ -68,6 +68,21 @@ In terms of progress, several instances of large-scale neural networks have been
 
 The background goes through the essential material regarding machine learning with feed-forward neural networks. Since this project was experimental from an early phase, the rest of the report is divided into chapters each of which go over the conceptual motivations, the design and the implementation of a main experiment. \\
 
+Contributions (beyond training accurate pipe weld classifiers for ControlPoint):
+1. theory
+- mathematical intuition for ReLU vs sigmoid activation function
+2. empirics
+- class imbalance rule of thumb?
+3. software
+- data provider for cuda convnet
+- class imbalance controller for cuda convnet
+- training time series plotter for cuda convnet
+- symlink lookup for caffe
+- class imbalance controller for caffe
+- f measure for caffe
+- data augmentation for caffe \\
+
+
 \section{Background}
 
 This project aims to automate the classification of pipe weld images with deep neural networks. After explaining and formalising the problem, we will explain fundamental concepts in machine learning, then go on to explain the architecture of a deep convolutional neural network with restricted linear units, and finally explain how the network is trained with stochastic gradient descent, backpropagation and dropout. The last sections focus on three challenges specific to the pipe weld image classification task: multi-tagging, learning features from a restricted training set, and class imbalance.
@@ -247,6 +262,8 @@ The official name for a deep neural network is Multilayer Perceptron (MLP), and 
 
 Intuitively, having a hidden layer feed into another hidden layer above enables the learning of complex, abstract features, as a higher hidden layer can learn features which combine, build upon and complexify the features detected in the layer below. The neurons of the output layer can be viewed as using information about features in the input to determine the output value. In the case of classification, where each output neuron corresponds to the probability of membership of a specific class, the neuron can be seen as using information about the most abstract features (i.e.\ those closest to defining the entire object) to determine the probability of a certain class membership. \\
 
+To make the case for deep architectures, consider a model with the same number of parameters but fewer layers (i.e.\ a greater number of neurons per layer). Goodfellow's paper on google street view number recognition (https://www.youtube.com/watch?v=vGPI_JvLoN0&list=PLhiWXaTdsWB-3O19E0PSR0r9OseIylUM8&index=18) ran experiments to compare and found that depth is better: intuitively, if neurons are side by side, they cannot use the computation of their neighbour, whereas with depth, the neurons above can make use of the work done by the neurons below. \\	
+
 Mathematically, it was proved in 1989 that MLPs are universal approximators \cite{MLP-univ-approx}; hidden layers therefore increase the size of the function space, and solve the initial limitation faced by perceptrons.\\
 
 
@@ -260,6 +277,64 @@ A convolutional neural network uses a specific network topology that is inspired
 	\caption{LeNet7 architecture: each square is a kernel}
 \end{figure}
 
+\subparagraph{Kernels}
+
+awesome explanation of sliding kernels:
+http://colah.github.io/posts/2014-07-Understanding-Convolutions/
+http://docs.gimp.org/en/plug-in-convmatrix.html
+
+example 1: dark left light right edge detector
+example 2: overall edge detector
+comment on how 2 is more generic, but 1 carries more precise information.
+example 3: blurring
+example 4: sharpening
+
+Further, while convolution naively appears to be an O(n2) operation, using some rather deep mathematical insights, it is possible to create a O(nlog(n)) implementation. (yes, you can parallelise the convolution quite easily, each window of a kernel can be computed in parallel)
+
+\subsubsection{Topology of Deep Neural Networks}
+
+Now that architecture is clear, let's take a step back and consider the topology of deep neural networks. One may wonder whether it is useful to going into such abstract maths for an applied project such as this one; but doing this will provide an answer to a frequent critique of deep neural networks: "we don't know what they are doing". By proving that a deep neural network is a homeomorphism, we can provide the answer that training a deep neural network is akin to searching for a combination of projections, stretches and squashes of the input space to end up with a linearly separable configuration.
+
+http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/
+
+
+\paragraph{Topology of $tanh$ Layer}
+
+First start with mathematical definitions. \\
+
+\subparagraph{Homeomorphism}
+A function $f: X → Y$ between two topological spaces (X, TX) and (Y, TY) is called a homeomorphism if it has the following properties: 
+f is a bijection (one-to-one and onto),
+f is continuous,
+the inverse function $f^{−1}$ is continuous (f is an open mapping). \\
+
+Theorem: a tanh layer is a homeomorphism if the weight matrix is invertible.
+
+$tanh$ is a continuous bijection between its input and output domains, \mathcalbb{R} and ]-1;1[, and ??? is its continuous inverse.
+ A translation is also bi-continuous. However, a linear transformation is only bi-coso a $tanh$ layer is a homeomorphism. The implications of this are intuitively interesting: it means that the layer performs a continuous transformation ... \\
+
+Since each layer is a homeomorphism, then the entire network is a homeomorphism too (
+
+Why would we desire 
+
+\paragraph{Topology of ReLU Layer}
+
+Wait a second, what makes you think that the weight matrix will ever be invertible in practice? Only square matrices can be invertible, and in practice it's rare for two adjacent layers to have the same number of neurons. \\
+
+ReLU is not a bijection between its input and output domains, \mathcalbb{R} and [0;\infty[. So a layer of ReLUs is not a homeomorphism. Does this mean we cannot study the topology of such deep neural networks? What does it imply for the type of transformations that can be applied to the data? Could you provide an animation of collapsing on an axis? \\
+
+\paragraph{Ambient Isotopy}
+
+definition:
+http://www.cs.ucdavis.edu/~amenta/pubs/tcs-iso-qed.pdf \\
+
+Embedding, untangling the manifold. \\
+
+\paragraph{The Manifold Hypothesis}
+
+Why is it important to know that we are using homeomorphisms? Because a homeomorphism guarantees the existence of an inverse continuous function. If we see the class of cat images as a manifold (cf deep spars rectifier network for phrase used to decribe this) that has been heavily tangled by being represented in the pixel space, then it's good to know that there exists a continuous function that will untangle it, since that's what the deep neural network is looking for.
+
+Conclusion is that learning a classification task with a deep neural network is like learning how to disentangle manifolds. 
 
 \subsection{Training: Backpropagation}
 
@@ -650,7 +725,7 @@ Since there is a tradeoff between class balance and dataset size, two different 
 
 
 \clearpage
-\section{Task 2: Joint-Type Classification}
+\section{Task 2: Transfer Learning}
 
 \subsection{Motivations}
 
@@ -667,24 +742,71 @@ Caffe is a framework for convolutional neural network algorithms, created by Yan
 The network pretrained on ImageNet is licensed for academic research, and is for non-commercial use only. Therefore, if ControlPoint wishes to make commercial use of a network whose weights were initialised from it, it would have to pretrain its own net on a dataset on which there are no such licensing restrictions. \\
 
 
-\textit{Caffe Reference ImageNet Model: Our reference implementation of an ImageNet model trained on ILSVRC-2012 is the iteration 310,000 snapshot. The best validation performance during training was iteration 313,000 with validation accuracy 57.412\% and loss 1.82328. This model obtains a top-1 accuracy 57.4\% and a top-5 accuracy 80.4\% on the validation set.} \cite{caffe-website}
+\textit{Caffe Reference ImageNet Model: Our reference implementation of an ImageNet model trained on ILSVRC-2012 is the iteration 310,000 snapshot. The best validation performance during training was iteration 313,000 with validation accuracy 57.412\% and loss 1.82328. This model obtains a top-1 accuracy 57.4\% and a top-5 accuracy 80.4\% on the validation set.} \cite{caffe-website} \\
 
+Contributed to Caffe by making it more space efficient: instead of the data being copied to the task directory, it is symlinked. The batching code tests for whether files are symlinks, and follows the link if that is the case. Caffe has a low-level tier written in C++ and a high-level tier written in Python; in this case, the modification was in C++. Note that before, it could get really inefficient to make copies of the data for every task. (One could use the same directory for several tasks, but if we want to keep control of class imbalance, we need flexibility in taking subsets of the training set. Therefore, one usually ends up requiring multiple different data directories, which makes the case for symlinked data all the more compelling.) \\
 
+\paragraph{leveldb}
 
+More efficient implementation that does not require to create batches. Describe a bit what is going on under the hood, it seems that lookup tables are created for each image so that they can be dynamically pulled in (in constant time) to create batches on the fly. But find out more, it's cool. \\
 
-\subsubsection{Training the Joint-Type Classifier}
+\paragraph{Class Imbalance Solver}
 
-\subsubsection{Applying the Joint-Type Classifier to Specific Clamp Detection}
+Note that class imbalance ratio i.e.\ size of largest class relative to smallest class is not the right metric to consider. The right metric to consider is the proportion of the largest class, since this is what provides a bad/fake local minimum. This may not seem to be significant but it can be. Consider the 3 class case where we have 10, 100, 500 images for each respective class. Class imbalance ratio is 0.05, and proportion of largest class is approximately 0.82. If we wanted to attain a class imbalance ratio of 0.2, no class would be permitted to have more than 5*10=50 images, and we would be left with a training set of size 110. On the other hand, if we wanted to attain a proportion of largest class of 0.8, we would merely have to remove 12 images from the largest class, and we would be left with a training set of size 598. Interestingly, in the two class case, optimising with respect to either of the two metrics is equivalent. \\
+
+Ok, but do we care about this for this project? Are we ever going to be training multi-class classifiers? Yes, if we think that it may help training to distinguish multiple cases. Intuitively, if two classes contain similar semantic content (e.g. inadequate clamp fitting and no clamp detected both involve clamps), then it could be better to train a single classifier on a 3-class task rather than 2 binary classifiers, because in the latter case, we lose potentially useful information that the images contain about clamps. In other words, to detect whether clamps are fitted properly, it helps to know what a clamp looks like, i.e.\ it helps to know which images do and don't have clamps. \\
+
+t: target bad min
+N: total number of current images
+n: number of majority class images \\
+
+when n is optimal, we have t = n^*/(N-n^*)
+<=> N*t - t * n^* = n^*
+<=> N*t = n^* *(t+1)
+<=> n^* = N*t/(t+1) \\
+
+so solution is to randomly delete n - n^* images from the majority class. \\
 
 \subsubsection{Summary}
 
 \subsection{Experimentation}
 
-\subsubsection{Overfit Problem: Small Dataset}
+\subsubsection{Test Run}
 
-\subsubsection{Overfit Solution: Transfer Learning}
+Simple and Safe: very small, fixed learning rate throughout. Used all data, so high imbalance. Let's see whether class imbalance is as dangerous when only training the higher layers. \\
 
-Use transfer learning to make up for the lack of training examples. \\
+Significant improvement: 93.8\% validation error. The test error is: ??.\\
+
+ 
+\paragraph{Claim: transfer learning more tolerant of class imbalance}
+
+Claim: there is more tolerance to class imbalance. Double check by looking at the error on a batch of minority class instances only.
+
+\paragraph{Analytically: initialisation far from fake minima}
+
+Intuition for that is with initialisation, weights are in an area of the error surface that is far away from fake minima; the nearest local minima are more likely to be 'true' ones. Find evidence for this by viewing the features learned, and see whether they correspond to actual visual features. \\
+
+
+\subsubsection{Decreasing Learning Rate}
+
+\paragraph{Step}
+
+Caffe code:
+ Return the current learning rate. The currently implemented learning rate
+ policies are as follows:
+    - step: return base $lr * gamma ^ (floor(iter / step))$
+
+These are all heuristics. No 2nd order methods involved. The intuition is that... Theory suggests that... . \\
+
+Improvement: 94.5\% validation error. The test error is: ??.\\
+
+\paragraph{Use More Info}
+
+Instead of trying to predict how to decrease the error rate, why not use the info that gets generated as training develops? i.e. look back and decrease error rate if it's very volatile. \\
+
+
+\subsubsection{Decreasing Learning Rate}
+
 
 
 \clearpage
@@ -694,17 +816,11 @@ Use transfer learning to make up for the lack of training examples. \\
 
 \subsection{Design}
 
+A binary classifier for each flag. Easy to implement, and maintains independence between the flags (which is prevents 'unfair' bias/discrimination that is present with humans! So improvement towards superhuman performance.\\
+
 \subsection{Implementation}
 
 \subsubsection{Summary}
-
-\subsubsection{Theano}
-
-python wrappers for CUDA, LISA. Uses some of Krizhevsky's cuda-convnet code. \\
-
-Greater flexibility than cuda-convnet, which is monolithic to some extent. \\
-
-symbolic programming - completely new to me, took time. \\
 
 
 \subsubsection{Hardware}
@@ -713,6 +829,52 @@ CUDA-enabled GPU. How many teraflops? Which operations are parallelised?
 Moving from the GTX 780 to a Titan Black with ... \\
 
 \subsection{Experimentation}
+
+\subsubsection{Soil Risk Contamination Task}
+
+\paragraph{Test Run}
+
+Class imbalance is very sharp, with only 3.9\% of soil contamination in the Bluebox images. So even with good initialisations from transfer learning, quite likely that network will not learn anything.
+
+One should keep in mind that there could be a lot fake minima corresponding to "output majority class every time". The parameter space and the function space associated with every single parameterisation of a given deep neural network is not isomorphic; i.e.\ for a function, there exists many different parameterisations that can represent it. (Need to find a paper that goes into more depth on this.) \\
+
+So even if backprop is frozen on all the lower layers to ensure that they are good feature detectors, it is still possible with just the use of the higher layers to generate a classifier that is nonsense from the point of view of learning representations of the classes at hand. As a result, fake minima can exist in the sweet spot region (sweet spot region as described by Yann LeCun's research). Since class imbalance is so sharp in this case, these fake minima are even deeper (they correspond to 96.1\% success rate), so they are likely to be deeper - and therefore accessible via gradient descent - than the true minima close to the point on the surface at which the network 'lands' with transfer learning. \\
+
+\subparagraph{Training Results}
+
+Validation error 0, at initialised weights:
+Classification \% success: 0.125977
+Cost function score: 1.35429
+
+Validation error 1, after 50 mini-batch passes:
+Classification \% success: 0.964844
+Cost function score: 0.179662
+
+Training error 0, at initialised weights:
+Cost function score: 1.35429
+
+Training error 1, after 1 mini-batch passes:
+Cost function score: 0.179662
+
+Training error 1, after 1 mini-batch passes:
+Cost function score: 0.179662
+
+(just have a plot of this! first 200 mini-batch passes). \\
+Note no classification \% success because for efficiency reasons it is not computed by caffe for training batches.
+
+\subparagraph{Observations}
+
+Converges extremely quickly to 96\%. To confirm this, would have to run validation after every single minibatch pass. If that is indeed the case, then it tells us about how class imbalance litters the error surface with fake minima (one could emit the conjecture that the fake minima are as dense as the injectivity between parameter space and function space).
+
+Stays in the 96\% region for the remaining mini-batch passes (have plot of all of those iterations). However the validation error is not always exactly the same - but if the validation is always using the exact same data and the net is indeed stuck at a fake minimum, shouldn't it always be the same value, i.e. the one corresponding to the exact proportion of majority class instances in the validation data? Check this!\\
+
+
+\paragraph{Get more evidence}
+
+Looking for evidence that in a given pot, there is a high number of fake minima all mapping to the same function that spits out majority class every time. If so, then the injectivity of parameter space into function space is not uniform: some functions can be represented by a lot more different parameterisations than others, and sadly for us, the bad function is one of the densely represented ones. Would be fantastic to come up with a toy example of this with a very simple network, but mathematically prove just how much more numerously certain functions can be represented than others. \\
+
+One could empirically verify this by looking at what the network converges to with and without transfer learning. Also take very different initialisations for non transfer learning. If converged error rate same for all, and indeed sending in a batch of random images to each network spits out same or similar outputs every time, then we've got a few large scale examples as well. \\
+
 
 \subsubsection{Tight Bowl Zig-zagging}
 
@@ -731,6 +893,9 @@ How does the training set provide an approximation of the true error surface? Si
 Could we answer these questions if, instead of facing the usual problem of having a training set sampled from an unknown distribution, we ran a completely artificial experiment where we start with a known distribution? That way, we know the true error surface, and as we draw samples from the distribution, we can look at how each one approximates the true error surface, how it introduces bad minima? \\
 
 How does mis-labelling alter the error surface? Intuitively, it would seem that it lifts up the true minima only, making the false minima even more attractive (e.g.\ "labelling is so bad it's too confusing, there's just nothing to distinguish them, so I might as well go for the blind strategy of outputting clamp detected all the time"). \\
+
+because exists injection of parameter space into function space, and because of what Yann says, can view the error surface as a replication of side-by-side identical pots with jagged bottom. However, seeing as we run into imbalance-induced fake minima with transfer learning as well, despite
+Conjecture that imbalance-induced fake minima are littered across the entire error surface, also present in the sweet spot zone. Conjecture further that they are as dense as the relative size between parameter space and function space. Could be interesting to think about how the choice of a network architecture affects this injectivity.
 
 Unsupervised Learning to correct mis-labelling, with encouragements to create clusters initialised by those resulting from supervised learning (maybe could only work well with many false negatives, few false positives, as is the case here?). \\ 
 

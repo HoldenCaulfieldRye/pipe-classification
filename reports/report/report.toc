@@ -53,25 +53,33 @@
 \contentsline {paragraph}{Subset of Training Set}{22}
 \contentsline {paragraph}{Partial Data Augmentation}{22}
 \contentsline {paragraph}{F Measure}{22}
-\contentsline {section}{\numberline {4}Task 2: Joint-Type Classification}{23}
+\contentsline {section}{\numberline {4}Task 2: Transfer Learning}{23}
 \contentsline {subsection}{\numberline {4.1}Motivations}{23}
 \contentsline {subsection}{\numberline {4.2}Design}{23}
 \contentsline {subsection}{\numberline {4.3}Implementation}{23}
 \contentsline {subsubsection}{\numberline {4.3.1}Caffe}{23}
-\contentsline {subsubsection}{\numberline {4.3.2}Training the Joint-Type Classifier}{23}
-\contentsline {subsubsection}{\numberline {4.3.3}Applying the Joint-Type Classifier to Specific Clamp Detection}{23}
-\contentsline {subsubsection}{\numberline {4.3.4}Summary}{23}
+\contentsline {paragraph}{leveldb}{23}
+\contentsline {subsubsection}{\numberline {4.3.2}Summary}{23}
 \contentsline {subsection}{\numberline {4.4}Experimentation}{23}
-\contentsline {subsubsection}{\numberline {4.4.1}Overfit Problem: Small Dataset}{23}
-\contentsline {subsubsection}{\numberline {4.4.2}Overfit Solution: Transfer Learning}{23}
-\contentsline {section}{\numberline {5}Task 3: Full Multi-Tagging Pipe Weld Classification Task}{24}
-\contentsline {subsection}{\numberline {5.1}Motivations}{24}
-\contentsline {subsection}{\numberline {5.2}Design}{24}
-\contentsline {subsection}{\numberline {5.3}Implementation}{24}
-\contentsline {subsubsection}{\numberline {5.3.1}Summary}{24}
-\contentsline {subsubsection}{\numberline {5.3.2}Theano}{24}
-\contentsline {subsubsection}{\numberline {5.3.3}Hardware}{24}
-\contentsline {subsection}{\numberline {5.4}Experimentation}{24}
-\contentsline {subsubsection}{\numberline {5.4.1}Tight Bowl Zig-zagging}{24}
-\contentsline {subsubsection}{\numberline {5.4.2}Image Preprocessing}{24}
-\contentsline {section}{\numberline {6}Conclusions and Future Work}{25}
+\contentsline {subsubsection}{\numberline {4.4.1}Test Run}{23}
+\contentsline {paragraph}{Claim: transfer learning more tolerant of class imbalance}{24}
+\contentsline {paragraph}{Analytically: initialisation far from fake minima}{24}
+\contentsline {subsubsection}{\numberline {4.4.2}Decreasing Learning Rate}{24}
+\contentsline {paragraph}{Step}{24}
+\contentsline {paragraph}{Use More Info}{24}
+\contentsline {subsubsection}{\numberline {4.4.3}Decreasing Learning Rate}{24}
+\contentsline {section}{\numberline {5}Task 3: Full Multi-Tagging Pipe Weld Classification Task}{25}
+\contentsline {subsection}{\numberline {5.1}Motivations}{25}
+\contentsline {subsection}{\numberline {5.2}Design}{25}
+\contentsline {subsection}{\numberline {5.3}Implementation}{25}
+\contentsline {subsubsection}{\numberline {5.3.1}Summary}{25}
+\contentsline {subsubsection}{\numberline {5.3.2}Hardware}{25}
+\contentsline {subsection}{\numberline {5.4}Experimentation}{25}
+\contentsline {subsubsection}{\numberline {5.4.1}Soil Risk Contamination Task}{25}
+\contentsline {paragraph}{Test Run}{25}
+\contentsline {subparagraph}{Training Results}{25}
+\contentsline {subparagraph}{Observations}{26}
+\contentsline {paragraph}{Get more evidence}{26}
+\contentsline {subsubsection}{\numberline {5.4.2}Tight Bowl Zig-zagging}{26}
+\contentsline {subsubsection}{\numberline {5.4.3}Image Preprocessing}{26}
+\contentsline {section}{\numberline {6}Conclusions and Future Work}{27}
