@@ -70,7 +70,7 @@ The background goes through the essential material regarding machine learning wi
 
 Contributions (beyond training accurate pipe weld classifiers for ControlPoint):
 1. theory
-- mathematical intuition for ReLU vs sigmoid activation function
+-  intuition for ReLU vs sigmoid activation function (mention that since then you have found Quoc Le people at Google Brain thinking the same bit.ly/1ohsQcb)	
 2. empirics
 - class imbalance rule of thumb?
 3. software
@@ -758,12 +758,13 @@ Ok, but do we care about this for this project? Are we ever going to be training
 
 t: target bad min
 N: total number of current images
-n: number of majority class images \\
+n: number of majority class images
+k: number of majority class images to kill
 
-when n is optimal, we have t = n^*/(N-n^*)
-<=> N*t - t * n^* = n^*
-<=> N*t = n^* *(t+1)
-<=> n^* = N*t/(t+1) \\
+when n-k is optimal, we have t = (n-k)/(N-k)
+<=> t*N - t*k = n - k
+<=> (1-t)*k = n - t*N
+<=> k = (n-t*N)/(1-t) \\
 
 so solution is to randomly delete n - n^* images from the majority class. \\
 
@@ -795,6 +796,13 @@ Caffe code:
  Return the current learning rate. The currently implemented learning rate
  policies are as follows:
     - step: return base $lr * gamma ^ (floor(iter / step))$
+    
+from src/caffe/solver.cpp:
+if (lr_policy == "step") {
+    int current_step = this->iter_ / this->param_.stepsize();
+
+from src/caffe/proto/caffe.proto:
+  optional int32 stepsize = 13; // the stepsize for learning rate policy "step"
 
 These are all heuristics. No 2nd order methods involved. The intuition is that... Theory suggests that... . \\
 
