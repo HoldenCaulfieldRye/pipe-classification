@@ -3,7 +3,7 @@
 \contentsline {subsection}{\numberline {2.1}Defining the Problem}{4}
 \contentsline {subsubsection}{\numberline {2.1.1}Explaining the Problem}{4}
 \contentsline {subsubsection}{\numberline {2.1.2}Formalising the problem: Multi-Instance Multi-Label Supervised Learning}{5}
-\contentsline {subsubsection}{\numberline {2.1.3}Supervised Learning}{5}
+\contentsline {subsubsection}{\numberline {2.1.3}Supervised Learning}{6}
 \contentsline {subsubsection}{\numberline {2.1.4}Approximation vs Generalisation}{6}
 \contentsline {subsection}{\numberline {2.2}Architecture of a Deep Convolutional Neural Network with Rectified Linear Neurons}{6}
 \contentsline {subsubsection}{\numberline {2.2.1}Models of Neurons}{6}
@@ -15,71 +15,79 @@
 \contentsline {subsubsection}{\numberline {2.2.2}Feed-Forward Architecture}{8}
 \contentsline {paragraph}{Shallow Feed-Forward Neural Networks: the Perceptron}{9}
 \contentsline {paragraph}{Deep Feed-Forward Neural Networks: the Multilayer Perceptron}{9}
-\contentsline {paragraph}{Deep Convolutional Neural Networks: for translation invariance}{9}
-\contentsline {subsection}{\numberline {2.3}Training: Backpropagation}{10}
-\contentsline {subsubsection}{\numberline {2.3.1}Compute Error-Weight Partial Derivatives}{10}
-\contentsline {subsubsection}{\numberline {2.3.2}Update Weight Values (with Gradient Descent)}{10}
-\contentsline {paragraph}{Training, Validation and Test Sets}{11}
-\contentsline {subsection}{\numberline {2.4}Challenges specific to the Pipe Weld Classification Task}{11}
-\contentsline {subsubsection}{\numberline {2.4.1}Data Overview}{11}
-\contentsline {subsubsection}{\numberline {2.4.2}Multi-Tagging}{11}
-\contentsline {subsubsection}{\numberline {2.4.3}Domain Change}{12}
-\contentsline {subsubsection}{\numberline {2.4.4}Small Dataset Size}{13}
-\contentsline {subsubsection}{\numberline {2.4.5}Class Imbalance}{13}
-\contentsline {section}{\numberline {3}Task 1: Generic Clamp Detection}{14}
-\contentsline {subsection}{\numberline {3.1}Motivations}{14}
-\contentsline {subsection}{\numberline {3.2}Design}{14}
-\contentsline {subsubsection}{\numberline {3.2.1}AlexNet: State-of-the-art Benchmark}{14}
-\contentsline {subsubsection}{\numberline {3.2.2}Network Architecture: Large-Scale Convolutional Neural Network}{14}
-\contentsline {paragraph}{Convolutional Layer}{14}
-\contentsline {subparagraph}{Convolution}{14}
-\contentsline {subparagraph}{Pooling}{14}
-\contentsline {subparagraph}{Normalisation}{14}
-\contentsline {paragraph}{Fully Connected Layer}{14}
-\contentsline {paragraph}{Softmax Output Layer}{14}
-\contentsline {subsection}{\numberline {3.3}Implementation}{14}
-\contentsline {subsubsection}{\numberline {3.3.1}Cuda-Convnet: An Out-of-the-box API}{14}
-\contentsline {subsubsection}{\numberline {3.3.2}Hardware: NVidia GeForce GTX 780}{15}
-\contentsline {subsubsection}{\numberline {3.3.3}Summary: Considerable Unforeseen Challenges}{15}
-\contentsline {subsection}{\numberline {3.4}Experimentation}{16}
-\contentsline {subsubsection}{\numberline {3.4.1}Non-Converging Error Rates}{16}
-\contentsline {paragraph}{Increase Test Error Precision}{17}
-\contentsline {paragraph}{Alter Momentum}{18}
-\contentsline {subparagraph}{Increase}{19}
-\contentsline {subparagraph}{Decrease}{19}
-\contentsline {paragraph}{Reduce Learning Rate}{20}
-\contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{20}
-\contentsline {subsubsection}{\numberline {3.4.2}Class Imbalance}{22}
-\contentsline {paragraph}{Subset of Training Set}{22}
-\contentsline {paragraph}{Partial Data Augmentation}{22}
-\contentsline {paragraph}{F Measure}{22}
-\contentsline {section}{\numberline {4}Task 2: Transfer Learning}{23}
-\contentsline {subsection}{\numberline {4.1}Motivations}{23}
-\contentsline {subsection}{\numberline {4.2}Design}{23}
-\contentsline {subsection}{\numberline {4.3}Implementation}{23}
-\contentsline {subsubsection}{\numberline {4.3.1}Caffe}{23}
-\contentsline {paragraph}{leveldb}{23}
-\contentsline {subsubsection}{\numberline {4.3.2}Summary}{23}
-\contentsline {subsection}{\numberline {4.4}Experimentation}{23}
-\contentsline {subsubsection}{\numberline {4.4.1}Test Run}{23}
-\contentsline {paragraph}{Claim: transfer learning more tolerant of class imbalance}{24}
-\contentsline {paragraph}{Analytically: initialisation far from fake minima}{24}
-\contentsline {subsubsection}{\numberline {4.4.2}Decreasing Learning Rate}{24}
-\contentsline {paragraph}{Step}{24}
-\contentsline {paragraph}{Use More Info}{24}
-\contentsline {subsubsection}{\numberline {4.4.3}Decreasing Learning Rate}{24}
-\contentsline {section}{\numberline {5}Task 3: Full Multi-Tagging Pipe Weld Classification Task}{25}
-\contentsline {subsection}{\numberline {5.1}Motivations}{25}
-\contentsline {subsection}{\numberline {5.2}Design}{25}
-\contentsline {subsection}{\numberline {5.3}Implementation}{25}
-\contentsline {subsubsection}{\numberline {5.3.1}Summary}{25}
-\contentsline {subsubsection}{\numberline {5.3.2}Hardware}{25}
-\contentsline {subsection}{\numberline {5.4}Experimentation}{25}
-\contentsline {subsubsection}{\numberline {5.4.1}Soil Risk Contamination Task}{25}
-\contentsline {paragraph}{Test Run}{25}
-\contentsline {subparagraph}{Training Results}{25}
-\contentsline {subparagraph}{Observations}{26}
-\contentsline {paragraph}{Get more evidence}{26}
-\contentsline {subsubsection}{\numberline {5.4.2}Tight Bowl Zig-zagging}{26}
-\contentsline {subsubsection}{\numberline {5.4.3}Image Preprocessing}{26}
-\contentsline {section}{\numberline {6}Conclusions and Future Work}{27}
+\contentsline {paragraph}{Deep Convolutional Neural Networks: for translation invariance}{10}
+\contentsline {subparagraph}{Kernels}{10}
+\contentsline {subsubsection}{\numberline {2.2.3}Topology of Deep Neural Networks}{10}
+\contentsline {paragraph}{Topology of $tanh$ Layer}{10}
+\contentsline {subparagraph}{Homeomorphism}{11}
+\contentsline {paragraph}{Topology of ReLU Layer}{11}
+\contentsline {paragraph}{Ambient Isotopy}{11}
+\contentsline {paragraph}{The Manifold Hypothesis}{11}
+\contentsline {subsection}{\numberline {2.3}Training: Backpropagation}{11}
+\contentsline {subsubsection}{\numberline {2.3.1}Compute Error-Weight Partial Derivatives}{11}
+\contentsline {subsubsection}{\numberline {2.3.2}Update Weight Values (with Gradient Descent)}{12}
+\contentsline {paragraph}{Training, Validation and Test Sets}{12}
+\contentsline {subsection}{\numberline {2.4}Challenges specific to the Pipe Weld Classification Task}{12}
+\contentsline {subsubsection}{\numberline {2.4.1}Data Overview}{13}
+\contentsline {subsubsection}{\numberline {2.4.2}Multi-Tagging}{13}
+\contentsline {subsubsection}{\numberline {2.4.3}Domain Change}{13}
+\contentsline {subsubsection}{\numberline {2.4.4}Small Dataset Size}{14}
+\contentsline {subsubsection}{\numberline {2.4.5}Class Imbalance}{14}
+\contentsline {section}{\numberline {3}Task 1: Generic Clamp Detection}{16}
+\contentsline {subsection}{\numberline {3.1}Motivations}{16}
+\contentsline {subsection}{\numberline {3.2}Design}{16}
+\contentsline {subsubsection}{\numberline {3.2.1}AlexNet: State-of-the-art Benchmark}{16}
+\contentsline {subsubsection}{\numberline {3.2.2}Network Architecture: Large-Scale Convolutional Neural Network}{16}
+\contentsline {paragraph}{Convolutional Layer}{16}
+\contentsline {subparagraph}{Convolution}{16}
+\contentsline {subparagraph}{Pooling}{16}
+\contentsline {subparagraph}{Normalisation}{16}
+\contentsline {paragraph}{Fully Connected Layer}{16}
+\contentsline {paragraph}{Softmax Output Layer}{16}
+\contentsline {subsection}{\numberline {3.3}Implementation}{16}
+\contentsline {subsubsection}{\numberline {3.3.1}Cuda-Convnet: An Out-of-the-box API}{16}
+\contentsline {subsubsection}{\numberline {3.3.2}Hardware: NVidia GeForce GTX 780}{17}
+\contentsline {subsubsection}{\numberline {3.3.3}Summary: Considerable Unforeseen Challenges}{17}
+\contentsline {subsection}{\numberline {3.4}Experimentation}{18}
+\contentsline {subsubsection}{\numberline {3.4.1}Non-Converging Error Rates}{18}
+\contentsline {paragraph}{Increase Test Error Precision}{19}
+\contentsline {paragraph}{Alter Momentum}{20}
+\contentsline {subparagraph}{Increase}{21}
+\contentsline {subparagraph}{Decrease}{21}
+\contentsline {paragraph}{Reduce Learning Rate}{22}
+\contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{22}
+\contentsline {subsubsection}{\numberline {3.4.2}Class Imbalance}{24}
+\contentsline {paragraph}{Subset of Training Set}{24}
+\contentsline {paragraph}{Partial Data Augmentation}{24}
+\contentsline {paragraph}{F Measure}{24}
+\contentsline {section}{\numberline {4}Task 2: Transfer Learning}{25}
+\contentsline {subsection}{\numberline {4.1}Motivations}{25}
+\contentsline {subsection}{\numberline {4.2}Design}{25}
+\contentsline {subsection}{\numberline {4.3}Implementation}{25}
+\contentsline {subsubsection}{\numberline {4.3.1}Caffe}{25}
+\contentsline {paragraph}{leveldb}{25}
+\contentsline {paragraph}{Class Imbalance Solver}{25}
+\contentsline {subsubsection}{\numberline {4.3.2}Summary}{26}
+\contentsline {subsection}{\numberline {4.4}Experimentation}{26}
+\contentsline {subsubsection}{\numberline {4.4.1}Test Run}{26}
+\contentsline {paragraph}{Claim: transfer learning more tolerant of class imbalance}{26}
+\contentsline {paragraph}{Analytically: initialisation far from fake minima}{26}
+\contentsline {subsubsection}{\numberline {4.4.2}Decreasing Learning Rate}{26}
+\contentsline {paragraph}{Step}{26}
+\contentsline {paragraph}{Use More Info}{26}
+\contentsline {subsubsection}{\numberline {4.4.3}Decreasing Learning Rate}{27}
+\contentsline {section}{\numberline {5}Task 3: Full Multi-Tagging Pipe Weld Classification Task}{28}
+\contentsline {subsection}{\numberline {5.1}Motivations}{28}
+\contentsline {subsection}{\numberline {5.2}Design}{28}
+\contentsline {subsection}{\numberline {5.3}Implementation}{28}
+\contentsline {subsubsection}{\numberline {5.3.1}Summary}{28}
+\contentsline {subsubsection}{\numberline {5.3.2}Hardware}{28}
+\contentsline {subsection}{\numberline {5.4}Experimentation}{28}
+\contentsline {subsubsection}{\numberline {5.4.1}Soil Risk Contamination Task}{28}
+\contentsline {paragraph}{Test Run}{28}
+\contentsline {subparagraph}{Training Results}{28}
+\contentsline {subparagraph}{Observations}{29}
+\contentsline {paragraph}{Get more evidence}{29}
+\contentsline {subsubsection}{\numberline {5.4.2}Tight Bowl Zig-zagging}{29}
+\contentsline {subsubsection}{\numberline {5.4.3}Image Preprocessing}{29}
+\contentsline {section}{\numberline {6}Conclusions and Future Work}{30}

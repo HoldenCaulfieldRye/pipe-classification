@@ -746,6 +746,8 @@ The network pretrained on ImageNet is licensed for academic research, and is for
 
 Contributed to Caffe by making it more space efficient: instead of the data being copied to the task directory, it is symlinked. The batching code tests for whether files are symlinks, and follows the link if that is the case. Caffe has a low-level tier written in C++ and a high-level tier written in Python; in this case, the modification was in C++. Note that before, it could get really inefficient to make copies of the data for every task. (One could use the same directory for several tasks, but if we want to keep control of class imbalance, we need flexibility in taking subsets of the training set. Therefore, one usually ends up requiring multiple different data directories, which makes the case for symlinked data all the more compelling.) \\
 
+Caffe benchmark: https://github.com/soumith/convnet-benchmarks 
+
 \paragraph{leveldb}
 
 More efficient implementation that does not require to create batches. Describe a bit what is going on under the hood, it seems that lookup tables are created for each image so that they can be dynamically pulled in (in constant time) to create batches on the fly. But find out more, it's cool. \\
