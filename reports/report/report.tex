@@ -175,6 +175,8 @@ It is important to note that supervised learning does not consist in merely find
 
 \subsection{Architecture of a Deep Convolutional Neural Network with Rectified Linear Neurons}
 
+A most complete and concise review of ConvNet architecture can be found in "Stochastic Pooling" paper. You could imitate the structure and expound on every single point with image examples. \\
+
 Learning a hypothesis function $f^{h}$ comes down to searching a target function space for the function which minimises the cost function. A function space is defined by a parametrised function equation, and a parameter space. Choosing a deep convolutional neural network with rectified linear neurons sets the parametrised function equation. By explaining the architecture of such a neural network, this subsection justifies the chosen function equation. As for the parameter space, it is $\mathbb{R^{P}}$ (where P is the number of parameters in the network); its continuity must be noted as this enables the use of gradient descent as the optimisation algorithm (as is discussed later). \\
 
 
@@ -223,7 +225,13 @@ A disadvantage of this neuron model is that it is computationally expensive to c
 y = \max\{0, b + \sum\limits_{i=1}^k x_{i}\cdot w_{i}\}
 \end{equation}
 
-As can be seen in the graph plot below, the rectified linear neuron is neither fully differentiable (not at $0$), nor bounded above. Moreover, it only has two slopes, so its derivative with respect to $x_{i}$ can only be one of two values: $0$ or $w_{i}$. Although this may come as a strong downgrade in sophistication compared to the logistic sigmoid neuron, it is so much more efficient to compute (both its value and its partial derivatives) that it enables much larger network implementations\cite{krizhevsky}. Until now, this has more than offset the per-neuron information loss - and saturation risks - of the rectifier versus the sigmoid unit \cite{rectifier}.
+As can be seen in the graph plot below, the rectified linear neuron is neither fully differentiable (not at $0$), nor bounded above. Moreover, it only has two slopes, so its derivative with respect to $x_{i}$ can only be one of two values: $0$ or $w_{i}$. Although this may come as a strong downgrade in sophistication compared to the logistic sigmoid neuron, it is so much more efficient to compute (both its value and its partial derivatives) that it enables much larger network implementations\cite{krizhevsky}. Until now, this has more than offset the per-neuron information loss - and saturation risks - of the rectifier versus the sigmoid unit \cite{rectifier}. \\
+
+ReLU introduces a non-linearity with its angular point (a smooth approximation to it is the softplus $f(x) = \log(1 + e^x)$). \\
+
+Add the maths for why ReLU train faster. \\
+
+Explain also the no neighbouring cancellations in pooling. \\
 
 \begin{figure}[h!]
 	\centering
@@ -234,10 +242,13 @@ As can be seen in the graph plot below, the rectified linear neuron is neither f
 \paragraph{Softmax Neuron}
 \begin{equation}
 \label{}
-y_{j} = \frac{\exp(z_{j})}{\sum\limits_{i=1}^k\exp(z_{i})} \text{, where } z_{j} = \sum\limits_{i=1}^k x_{i}\cdot w_{i,j}
+y_{j} = \frac{\exp(z_{j})}{\sum\limits_{i=1}^k\exp(z_{i})} \text{, where } z_{j} = \sum\limits_{i=1}^k x_{i}\cdot w_{i,j} + b
 \end{equation}
 
-The equation of a softmax neuron needs to be understood in the context of a layer of $k$ such neurons within a neural network: therefore, the notation $y_{j}$ corresponds to the output of the $j^{th}$ softmax neuron, and $w_{i,j}$ corresponds to the weight of $x_{i}$ as in input for the $j^{th}$ softmax neuron. A layer of softmax neurons distinguishes itself from others in that neighbouring neurons interact with each other: as can be seen from the equation, the input vectors of all the softmax neurons $z_{1}, z_{2}, ..., z_{k}$ serve to enforce $\sum\limits_{i=1}^k y_{i} = 1$. In other words, the vector $(y_{1}, y_{2}, ..., y_{k})$ defines a probability mass function. This makes the softmax layer ideal for classification: neuron $j$ can be made to represent the probability that the input is an instance of class $j$. Another attractive aspect of the softmax neuron is that its derivative is quick to compute: it is given by $\frac{dy}{dz} = \frac{y}{1-y}$.
+The equation of a softmax neuron needs to be understood in the context of a layer of $k$ such neurons within a neural network: therefore, the notation $y_{j}$ corresponds to the output of the $j^{th}$ softmax neuron, and $w_{i,j}$ corresponds to the weight of $x_{i}$ as in input for the $j^{th}$ softmax neuron. A layer of softmax neurons distinguishes itself from others in that neighbouring neurons interact with each other: as can be seen from the equation, the input vectors of all the softmax neurons $z_{1}, z_{2}, ..., z_{k}$ serve to enforce $\sum\limits_{i=1}^k y_{i} = 1$. In other words, the vector $(y_{1}, y_{2}, ..., y_{k})$ defines a probability mass function. This makes the softmax layer ideal for classification: neuron $j$ can be made to represent the probability that the input is an instance of class $j$. Another attractive aspect of the softmax neuron is that its derivative is quick to compute: it is given by $\frac{dy}{dz} = \frac{y}{1-y}$. \\
+
+intuition: Bishop textbook: "softmax function, as it represents
+a smoothed version of the ‘max’ function because, if ak ? aj for all j ?= k, then p(Ck|x) ? 1, and p(Cj|x) ? 0."
 
 
 \subsubsection{Feed-Forward Architecture}
@@ -269,7 +280,9 @@ Mathematically, it was proved in 1989 that MLPs are universal approximators \cit
 
 \paragraph{Deep Convolutional Neural Networks: for translation invariance}
 
-A convolutional neural network uses a specific network topology that is inspired by the biological visual cortex and tailored for computer vision tasks, because it achieves translation invariance of the features. Consider the following image of a geranium: a good feature to classify this image would be the blue flower. This feature appears all across the image; therefore, if the network can learn it, it should then sweep the entire image to look for it. A convolutional layer implements this: it is divided into groups of neurons (called \textit{kernels}), where all of the neurons in a kernel are set to the same parameter values, but are 'wired' to different pixel windows across the image. As a result, one feature can be detected anywhere on the image, and the information of where on the image this feature was detected is contained in the output of the kernel. Below is a representation of LeNet5, a deep convolutional neural network used to classify handwritten characters.
+A convolutional neural network uses a specific network topology that is inspired by the biological visual cortex and tailored for computer vision tasks, because it achieves translation invariance of the features. Consider the following image of a geranium: a good feature to classify this image would be the blue flower. This feature appears all across the image; therefore, if the network can learn it, it should then sweep the entire image to look for it. A convolutional layer implements this: it is divided into groups of neurons (called \textit{kernels}), where all of the neurons in a kernel are set to the same parameter values, but are 'wired' to different pixel windows across the image. As a result, one feature can be detected anywhere on the image, and the information of where on the image this feature was detected is contained in the output of the kernel. Below is a representation of LeNet5, a deep convolutional neural network used to classify handwritten characters. \\
+
+(Hey, you should explain what is meant by convolution with http://colah.github.io/posts/2014-07-Understanding-Convolutions/ by using some of the images.) \\
 
 \begin{figure}[h!]
 	\centering
@@ -336,6 +349,29 @@ Why is it important to know that we are using homeomorphisms? Because a homeomor
 
 Conclusion is that learning a classification task with a deep neural network is like learning how to disentangle manifolds. 
 
+
+\subsubsection{Krizhevsky 2012 explained}
+
+Careful, these are notes taken from the tutorial\cite{nips-tut}. The structure is totally plagiarised. Instead, you insert pieces of content below in areas above.
+
+\paragraph{Operations in each layer}
+
+images to paste: http://media.nips.cc/Conferences/2013/Video/Tutorial1A.pdf 
+
+A convolution layer has a pixel feature i.e. filter which is convolved over the entire image, followed by a non-linearity, followed by a spatial feature, optionally followed by a normalisation between feature responses. This may seem like it comes out of nowhere, but when we look at hand-crafted successes in computer vision, the structures are similar. \\
+
+For example consider SIFT (Scale-invariant feature transform) descriptors: they are a range of filters for edges at different angles
+
+ 
+
+
+
+\paragraph{Architecture}
+
+\paragraph{Training}
+
+\paragraph{Results}
+
 \subsection{Training: Backpropagation}
 
 Now that the architecture of a deep CNN has been explained, the question remains of how to train it. Mathematically: now that the function space has been explained, the question remains of how this space is searched. In the case of feed-forward neural networks and supervised learning, this is done with gradient descent, a local (therefore greedy) optimisation algorithm. Gradient descent relies on the partial derivatives of the error (a.k.a\ cost) function with respect to each parameter of the network; the backpropagation algorithm is an implementation of gradient descent which efficiently computes these values.
@@ -355,7 +391,14 @@ where $\mathcal{C}$ is the chosen cost function. The error-weight partial deriva
 \frac{\partial{E}}{\partial{w_{ij}}} = \frac{\partial{E}}{\partial{y_{i}}} \cdot \frac{\partial{y_{i}}}{\partial{net}} \cdot \frac{\partial{net}}{\partial{w_{ij}}}
 \end{equation}
 
-Since in general, a derivative $\frac{\partial{f}}{\partial{x}}$ is numerically obtained by perturbing $x$ and taking the change in $f(x)$, the advantage with this formula is that instead of individually perturbing each weight $w_{ij}$, only the unit outputs $y_{i}$ are perturbed. In a neural network with $k$ fully connected layers and $n$ units per layer, this amounts to $\Theta(k \cdot n)$ unit perturbations instead of $\Theta(k \cdot n^{2})$ weight perturbations (note that the bound on weight perturbations is no longer tight if we drop the assumption of fully connected layers).
+Since in general, a derivative $\frac{\partial{f}}{\partial{x}}$ is numerically obtained by perturbing $x$ and taking the change in $f(x)$, the advantage with this formula is that instead of individually perturbing each weight $w_{ij}$, only the unit outputs $y_{i}$ are perturbed. In a neural network with $k$ fully connected layers and $n$ units per layer, this amounts to $\Theta(k \cdot n)$ unit perturbations instead of $\Theta(k \cdot n^{2})$ weight perturbations (note that the bound on weight perturbations is no longer tight if we drop the assumption of fully connected layers). \\
+
+The error being shown is the negative of the log probability of the likelihood function:
+\begin{equation}
+-\frac{1}{n}\sum\limits_{i=1}^n ln(f(W|x_i))
+\end{equation}
+Where f is the learned function. This is the cross entropy, but it also elegantly evaluates to MLE. In other words, we are choosing the parameters of the model to maximise the likelihood of the data (to make the observed events i.e.\ the training set as highly probable as possible). Do the proof with joint probability of independent events etc. \\
+
 
 \subsubsection{Update Weight Values (with Gradient Descent)}
 
@@ -565,7 +608,7 @@ You should also justify why you are not bothering with the test error! Because t
 
 The error being shown is the negative of the log probability of the likelihood function:
 \begin{equation}
-\frac{1}{n}\sum\limits_{i=1}^n ln(f(W|x_i))
+-\frac{1}{n}\sum\limits_{i=1}^n ln(f(W|x_i))
 \end{equation}
 Where f is the cost function I think. So in this case it is the cross entropy I think. (Verify this, provide intuition).\\
 
@@ -748,6 +791,43 @@ Contributed to Caffe by making it more space efficient: instead of the data bein
 
 Caffe benchmark: https://github.com/soumith/convnet-benchmarks 
 
+finetune_net.cpp calls solver.net()->CopyTrainedLayersFrom() then solver.Solve().
+
+Does finetune chop off the top layer, or the top 2 layers? (Because DeCAF_6 better than DeCAF_7)
+The answer to this should lie in CopyTrainedLayersFrom(param), in src/caffe/net.cpp
+logs of which layers are copied are being sent to DLOG(INFO), seems that my output file does not receive it.
+where can I get hold of DLOG? nevermind, just change it to send to LOG(INFO).
+result: the following layers are copied: data conv1 relu1 norm1 pool1 conv2 relu2 norm2 pool2 conv3 relu3 conv4 relu4 conv5 relu5 pool5 fc6 relu6 drop6 fc7 relu7 drop7. fc8 is the only non-copied.
+
+Does finetune do backprop on the top layer, or more?
+1) The answer to this should lie in solver.Solve() in src/caffe/solver.cpp.
+
+2) Another answer might be in Init() in net.cpp because it outputs "needs / does not need backward computation".
+what matters is the point in the code at which "needs backward computation" is output, and from there work yourself up to which prototxt sets this.
+looks like blobs_lr is the determinant param.  
+
+
+Use L2 SVM linear support vector machine layer instead of softmax for transfer learning: http://arxiv.org/pdf/1306.0239.pdf
+is it implemented in caffe?
+https://github.com/BVLC/caffe/pull/398
+https://github.com/BVLC/caffe/pull/303
+
+proper transfer learning is extract features then train SVM:
+http://arxiv.org/abs/1403.6382
+
+this doesn't work as well with caffe:
+https://github.com/BVLC/caffe/issues/642
+works better with overfeat: http://cilvr.nyu.edu/doku.php?id=software:overfeat:start
+
+if nevertheless you want to extract features with caffe:
+http://caffe.berkeleyvision.org/gathered/examples/feature_extraction.html
+
+or maybe with pylearn2: 
+https://groups.google.com/forum/#!topic/pylearn-dev/hifIB5U-Gb8
+
+
+
+
 \paragraph{leveldb}
 
 More efficient implementation that does not require to create batches. Describe a bit what is going on under the hood, it seems that lookup tables are created for each image so that they can be dynamically pulled in (in constant time) to create batches on the fly. But find out more, it's cool. \\
@@ -810,25 +890,130 @@ These are all heuristics. No 2nd order methods involved. The intuition is that..
 
 Improvement: 94.5\% validation error. The test error is: ??.\\
 
-\paragraph{Use More Info}
+\paragraph{Exp}
 
-Instead of trying to predict how to decrease the error rate, why not use the info that gets generated as training develops? i.e. look back and decrease error rate if it's very volatile. \\
+[...] \\
+
+\subsubsection{Freezing Backprop on various layers}
+
+This section is a fucking mess. To bring order, you might have to train nets again. Structure should be as follows:
+- pick a task: clampdet (easy) or hatch markings (hard)
+- freeze backprop 1/2/3/4/5/6/7 layers
+- import weights or re-initialise them
+- learn on top of conv feature space of fc feature space
+
+This would require training 2*7*2*2 = 56 nets. Not practical. Instead, when exploring either hyperparam, set the others to what you think is optimal. Also, if freeze 5 is less good than freeze k>5, no need to go lower. \\
+
+\paragraph{Freeze Backprop on how many layers}
+
+Fully enable 
+
+Use clampdet (thresh, threshold_freeze{5.5,6,7}/logs/11-08-2014) to illustrate how the extent to which backrpop is freed up alters the expressive power of the network and its tendency to overfit (have you got a section in your paper explaining overfit? use the polynomials from Bishop, or the MLNC slides from A. Faisal to illustrate it, then link up with ). \\
+
+Show that there is an optimal middle ground (i.e.\ non-monotonous error) number of layers to free up. In our case, freeing up top two layers is optimal. This middle ground is surprising: I'm surprised, I would expect more overfit when more layers are freed for backprop. Could anyone explain this?﻿//
+
+Soumith's opinion: Are you resetting the weights in the layers FC6,FC7 or are you just backproping from the AlexNet weights? I think if you reset the weights, you will see what you are expecting.﻿\\
+Me: Yeah, weights initialised to alexnet's. Why do you think that makes a difference? The local minima from alexnet's region leave less room for the net to learn meaningful patterns and push it more quickly into overfitting? \\ ﻿
+Soumith: when doing transfer learning, if you kept alexnet weights you are already in a well-settled local minima for that layer, so there wont be much movement I think.﻿\\
+
+The middle ground is possibly the result of a tradeoff: movement in function space versus over-expressiveness of the model. \\
+
+\paragraph{Case 2: too much freeing}
+
+Use scrape_zones/logs/1{3,4,5}-08-2014 to show that, with backprop freed up on all layers, even with transfer learning, expressiveness of model is such that (overfit or) bad_min occurs very quickly. 
+
+13 is with all layers free. 14 is with fc8_new and fc7_new. 15 is with fc8_new only, and batchsize 512. Cannot constrain network more than 15, so if it fails, we're pretty screwed, that task is a really hard one. Might need an image transformation for scrape zones to stand out. In that case, delete or move this paragraph elsewhere more appropriate. \\
 
 
-\subsubsection{Decreasing Learning Rate}
+\paragraph{Case 3: hatch markings, combine both}
+
+This section is a total mess, should probably erase. \\
+
+Freeing up too many layers leads to overfit, but preventing too many reduces expressive power of the net (show plots for {03,13}-08-2014). 13 freezes backprop up to weights of conv6, and re-initialises fc7 and fc8. \\
+
+However 'CNN features of the shelf' figure 2a shows that training a linear SVM on the highest fc layer is best. So why not chop off the softmax layer for the 1000 imagenet classes, and add two layers? that way, images are projected onto the feature space given by the entire AlexNet, and a more expressive classifier than 1 single layer can be trained on it. This will also enable a more gradual funneling from the 4096 units of fc7 to the 2 unit softmax layer for the binary classification task. 512 and 2 unit fc layers are added onto top 7 layers of AlexNet. \\
+
+Representing a SVM in a MLP: chaque neuron in bottom layer represente un datapoint. chaque neurone in layer above est associe a un support datapoint xi (support vector) et sa fonction d'activation est x -> K(xi,x). et tu as un neurone binaire dans la couche de sortie. \\
+
+What's the difference between SVM and softmax in output? Learning minimizes a margin-based loss (maximise euclidean distance between nearest points and boundary) instead of joint probability of the data (i.e.\ the cross-entropy loss) {cite arxiv.org/pdf/1306.0239.pdf}. \\
+
+Result: 14-08-2014, far worse than 13. So the real problem is all about lack of expressive power to bring training error to 0. \\
+
+You should properly benchmark 'CNN features off the shelf': use a linear SVM, so there is no kernel, just fitting hyperplanes, i.e. assume AlexNet feature space enables decent linear separation. Doesn't seem to be the case with this dataset! Maybe should use kernel trick on SVM? \\
 
 
+\paragraph{Case 4: hatch markings, build on entire network or on conv layers only?}
+
+Is there any use for the semantic information encoded in the fc layers? If the expressive power of the net is lost by freezing backprop on some fully connected layers, it seems we really need 3 fully free fully connected layers to make the most of the data.  \\
+
+So: should these 3 fully free fc layers be put on top of AlexNet, or only the conv layers? In light of "intriguing properties" paper, a feature is not encoded in each fc neuron. So maybe there is no need to transfer its knowledge. \\
+
+15-08-2014 has 3 fc new layers on top conv[1-5] from AlexNet.
+16-08-2014 has 3 fc new (random intialised) layers on top of frozen AlexNet (minus its softmax layer).
+
+Note: batchsize bumped up to 256 for them both.
+
+Results: 15 is significantly better, so information in fc layers is not as useful as raw filter information. In either case, model not expressive enough. However, on other extreme, 03 had full backprop and overfitted very quickly. There should be an optimal middle ground. 
+
+Note these results are striking in light of 'CNN filters off the shelf', because there is such a large gap in performance 
+
+\subsubsection{Initialising Free Layers}
+
+Use clampdet (threshold_freeze5/logs/1{3,4}-08-2014 to illustrate impact of initialising free layers to AlexNet weights or to randomly (re-)initialise them. Backprop enabled fully on all fc layers. \\
+
+Results are quite shocking: 13 has the new weights, within 3 iterations training loss attains its asymptote. It corresponds to a per class accuracy of 0.5, which suggests net is stuck in bad minimum. So even if you give it great filters, the convnet gets stuck in bad min. \\
+
+14 has the alexnet weights, and it actually takes 2500 iterations to reach its asymptote. 
+
+Notice that even with backprop on 3 fully connected layers, the network is not powerful enough to perfectly approximate the data (reach 0 training error). There is slack to make use of. Should this be by freeing backprop on 
+
+Ok the comments above correspond to freeze5.5, I forgot to set blobs_lr to fc6 to 1 and 2. The nets are fucking up because fc6 has been initialised to 0 and can't learn its weights. \\
+
+
+\subsubsection{Benchmark: 'CNN filters off the shelf'}
+
+Implement OverFeat fc projection + linear SVM, and compare to your personal best. \\
+
+To perform this benchmark correctly, need to use OverFeat and train a linear SVM. Your experiments with freezing backprop on caffe are similar but not identical, especially in light of that comment about caffe being weaker than OverFeat. \\
 
 \clearpage
-\section{Task 3: Full Multi-Tagging Pipe Weld Classification Task}
+\section{Task 3: Bayesian Renormalisation}
 
 \subsection{Motivations}
 
 \subsection{Design}
 
-A binary classifier for each flag. Easy to implement, and maintains independence between the flags (which is prevents 'unfair' bias/discrimination that is present with humans! So improvement towards superhuman performance.\\
+\subsubsection{Threshold}
+
+Papers: 
+http://sci2s.ugr.es/keel/pdf/algorithm/articulo/2006%20-%20IEEE_TKDE%20-%20Zhou_Liu.pdf
+http://www.eiti.uottawa.ca/~nat/Workshop2003/maloof-icml03-wids.pdf
+
+It also allows you to assign different costs to the different misclassifications (i.e. if the algorithm is only supposed to flag potential problems then a false negative is much more expensive than a false positive)
+the idea is that, if we have 2 classes and assign equal cost to both misclassifications, then we would want to pick the label with the biggest p(data | label) probability
+however, the NN will compute the probabilities p(label | data) ~ p(data | label) p(label)
+and a class imbalance means the priors p(label) are different
+so you just need to correct for that by multiplying, for instance, the probability of p(label = 1 | data) outputted by the NN by the factor p(label=2) / p(label=1) and renormalizing \\
+
+I get why it's called threshold: suppose p(c_1)=0.1. the threshold for classifying as c_1 moves from 0.5 to 0.1. Illustrate this point with one or two simple examples ("intuitively, ").  (that's pretty much what the "sig level" script I mentioned intends to do, except script has a flexible sig level.)
+Also, I think that if we wanted to implement the threshold directly in the net, we might need to put the threshold layer after the softmax layer (and have it renormalise by 1/num_classes). cos it's non-linear so you can't be sure that their output will be renormalised in the same way. \\
+
+Rather than have a fixed threshold hard-coded into the network, I propose to use a sig level script, for greater flexibility. \\
+
+
+\subsubsection{Bayesian Cross Entropy Cost Function}
+
+I also wonder whether it should be used in conjunction with a modified cost function. the threshold renormalisation won't change the fact that most of the error will come from c_2 examples, so the net would still be encouraged to learn c_2 more than c_1. [Provide a simple mathematical example of this]. If we want the stochastic gradient to reflect as much of the c_1 errors as the c_2 errors on average, then we need to renormalise the errors based on priors as well. This is done with bayesian cross entropy: [formula here] \\
+
+When viewed as MLE estimation, the Bayesian cross entropy can be interpreted as follows: instead of trying to maximise the joint probability of the data under the assumption that each observed event has the same probability, we are assigning higher probability to minority class events. \\
 
 \subsection{Implementation}
+
+c++ threshold layer. bayesian softmax loss layer. bayesian layer abstract class with OOP from which the previous two inherit, which has access to minibatch labels and can compute the prior for the specific batch. More precise than assuming each minibatch has the same prior as the entire training set. \\
+
+python script. \\
+
+
 
 \subsubsection{Summary}
 
@@ -995,6 +1180,10 @@ Unsupervised Learning to correct mis-labelling, with encouragements to create cl
 
 \bibitem{caffe-website}  
  URL: \url{http://caffe.berkeleyvision.org/getting_pretrained_models.html}, last accessed 6th June 2014.
+
+\bibitem{nips-tut}  
+ URL: \url{http://research.microsoft.com/apps/video/default.aspx?id=206976&l=i}, last accessed 6th August 2014.
+
 
 \end{thebibliography}
 
