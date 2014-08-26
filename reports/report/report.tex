@@ -528,42 +528,15 @@ Combine your intuition with the stuff from that conference, about gradient desce
 
 \section{Task 1: Generic Clamp Detection}
 
-Justify multiple binary classifiers in light of Chao Wu's multi-label classification work: http://www.aicit.org/aiss/global/paper_detail.html?jname=AISS&q=1061
-
 
 \subsection{Motivations}
 
-Clamp detection was suggested by ControlPoint as a simple test run for training a CNN on their dataset. It was a standard single-tag task with few classes, so implementation was not as difficult as multi-tag, and the detection task in itself was deemed simple since clamps are large objects which would be easy to see. Moreover, four significant obstacles arose: non-converging error rates, class imbalance, data complexity, and mis-labelling.\\
-
-\subsection{Design}
-
-\subsubsection{AlexNet: State-of-the-art Benchmark}
-
-Winner of ILSVRC 2012 by far. Decent out-of-the-box benchmark for rapid evaluation of data complexity. \\
-Trained on a bigger dataset, so expected overfit to occur quickly. \\
-
-\subsubsection{Network Architecture: Large-Scale Convolutional Neural Network}
-
-find the image for AlexNet with the maps and kernels and stuff.
-
-\paragraph{Convolutional Layer}
-
-\subparagraph{Convolution}
-
-\subparagraph{Pooling}
-
-Why do conv layers 3 and 4 not have it? \\
-
-\subparagraph{Normalisation}
-
-Why do conv layers 3 and 4 not have it? \\
-
-\paragraph{Fully Connected Layer}
-
-\paragraph{Softmax Output Layer}
+Clamp detection was suggested by ControlPoint as a simple test run for training a CNN on their dataset. The detection task in itself was deemed simple since clamps are large objects which would be easy to see. However, four significant obstacles arose: non-converging error rates, class imbalance, mislabelling and data complexity.\\
 
 
-\subsection{Implementation}
+\subsection{Implementation: Cuda-Convnet}
+
+Used AlexNet. No need to describe its achitecture here, this is already done above. \\
 
 \subsubsection{Cuda-Convnet: An Out-of-the-box API}
 
@@ -589,9 +562,12 @@ The scripts are written in python and the code is ~800 lines.
 CUDA-enabled GPU. How many teraflops? Which operations are parallelised? 
 First a GeForce GTX 780 with 4GB RAM. 
 
-\subsubsection{Summary: Considerable Unforeseen Challenges}
 
-DOES THIS SUBSUBSECTION REALLY BELONG HERE? yes I would say so, but may need to be edited so that it just mentions how tough the task turned out to be, and that the obstacles which were discovered lead to devising a new task, that of joint-type classification. Perhaps also mention that unsupervised learning was considered to deal with the mis-labelled data, the reasons for why this was put aside (discussions with ControlPoint), but that it would make for interesting further research? Maybe it should be renamed to summary, and be included as final subsubsection of every implementation subsection? \\
+\subsection{Discovery}
+
+Also mention that unsupervised learning was considered to deal with the mis-labelled data, the reasons for why this was put aside (discussions with ControlPoint), but that it would make for interesting further research? Maybe it should be renamed to summary, and be included as final subsubsection of every implementation subsection? \\
+
+
 
 Several weeks into training, it was discovered that in the case of tapping-T joints, for the Redbox images, the glint of a slim portion of a clamp is sufficient to judge it present. \\
 
@@ -615,8 +591,6 @@ This makes learning very difficult, as a class can be pictured as a disjoint set
 
 The solution was to train a classifier capable of recognising the type of joint having been welded, using the small subset of data which contained joint-type labels, in order to try and tag the remaining dataset. The advantage of knowing the joint-type is that we can isolate clamp types, and train a classifier on s single type of clamp. That way, the learning task is simplified, and one is able to focus on the other challenges. \\
 
-
-\subsection{Experimentation}
 
 \subsubsection{Non-Converging Error Rates}
 
@@ -776,11 +750,11 @@ It can also be interesting to notice that no meaningful features are learned: fo
 
 \subsubsection{Class Imbalance}
 
-SHOULD I REALLY IMPLEMENT THIS? So much work just on the first task which was supposed to be preliminary... yes but you might as well do it now, you haven't got much else to do, since ControlPoint need to get round to sending me the extra metadata. Moreover, to get their confidence, you need to deliver good results. Transfer Learning is what I'm talking about boy. \\
+Here you just need to prove that there is class imbalance.
 
 Three approaches were taken to tackle class imbalance, the first ones being simplest to implement, the last ones most sophisticated and information-preserving. \\
 
-\paragraph{Subset of Training Set}
+\paragraph{Under-Sampling}
 
 CNNs were trained on all of the "No Clamps" or "Clamps Not Sufficiently Visible" images, and a random sample containing 15\% of the "Clamps Detected" images, in order to obtain an acceptably balanced dataset. This fix was easiest to implement and served as a benchmark for the more sophisticated subsequent approaches. Naturally, one would also expect this approach to be least effective: 85\% of the training data was lost, data which could intuitively serve not to teach the network to distinguish classes, but to learn features that are good encoders of pipe weld images, from which an effective discriminative setup of the parameters could ensue. \\
 
@@ -790,10 +764,14 @@ Moreover, Bluebox images were chosen this time round, in order to limit the impa
 
 Since there is a tradeoff between class balance and dataset size, two different balance ratios were tested: 40\%/60\% for a dataset of and 33\%/66\%. \\ 
 
-\paragraph{Partial Data Augmentation}
 
-\paragraph{F Measure}
+\subsubsection{Mislabelling}
 
+The discovery of this is detailed somewhere above, fetch it.
+
+\subsubsection{Data Complexity}
+
+Simply provide examples that describe. I think this has also been written up somewhere, if not, it is in the emails. \\
 
 \clearpage
 \section{Task 2: Transfer Learning}
@@ -803,11 +781,7 @@ Since there is a tradeoff between class balance and dataset size, two different 
 Because training set restricted. The objective here is to optimise transfer learning.
 2 aspects: re-initialise weights, freeze backprop.
 
-\subsection{Design}
-
-\subsection{Implementation}
-
-\subsubsection{Caffe}
+\subsection{Implementation: Caffe}
 
 Caffe is a framework for convolutional neural network algorithms, created by Yangqing Jia, and is in active development by the Berkeley Vision and Learning Center. It was chosen in order to implement transfer learning, or pretraining. Not like standard unsupervised pretraining, since this time, training was supervised, but on another dataset. So end result is pretty much the same, though it would be interesting to compare the two approaches. (unsupervised pretraining on ImageNet vs supervised pretraining on ImageNet). \\
  
@@ -879,78 +853,8 @@ when n-k is optimal, we have t = (n-k)/(N-k)
 
 so solution is to randomly delete n - n^* images from the majority class. \\
 
-\subsubsection{Summary}
 
 \subsection{Experimentation}
-
-\subsubsection{Test Run}
-
-Simple and Safe: very small, fixed learning rate throughout. Used all data, so high imbalance. Let's see whether class imbalance is as dangerous when only training the higher layers. \\
-
-Significant improvement: 93.8\% validation error. The test error is: ??.\\
-
- 
-
-
-\subsubsection{Decreasing Learning Rate}
-
-\paragraph{Step}
-
-Caffe code:
- Return the current learning rate. The currently implemented learning rate
- policies are as follows:
-    - step: return base $lr * gamma ^ (floor(iter / step))$
-    
-from src/caffe/solver.cpp:
-if (lr_policy == "step") {
-    int current_step = this->iter_ / this->param_.stepsize();
-
-from src/caffe/proto/caffe.proto:
-  optional int32 stepsize = 13; // the stepsize for learning rate policy "step"
-
-These are all heuristics. No 2nd order methods involved. The intuition is that... Theory suggests that... . \\
-
-Improvement: 94.5\% validation error. The test error is: ??.\\
-
-\paragraph{Exp}
-
-[...] \\
-
-\subsubsection{Initialising Free Layers}
-
-Use clampdet (threshold_freeze5/logs/1{3,4}-08-2014 to illustrate impact of initialising free layers to AlexNet weights or to randomly (re-)initialise them. Backprop enabled fully on all fc layers. \\
-
-Both nets have frozen AlexNet conv[1-5] layers.
-13 has 3 free fc layers with re-initialised weights
-14 has 3 free fc layers transferred from AlexNet
-
-So we expect 13 to do better.
-
-Results: very convincing. 
-
-
-\paragraph{Clampdet optimisation}
-
-Wait a second. I got a bunch of clampdet detections high up in the 80s, but lately it's gone way down. Is small learning rate ruining it? 
-"backprop on fc8, fc7 and biases of fc6" - start with alexnet weights - got 90\% - i.e.\ freeze5.5/
-"backprop on fc8, fc7, fc6"              - start with alexnet weights - got 40\% - i.e.\ freeze5/14  
-
-what the fuck!
-
-5.5/11 has free fc[7-8],         semifree fc6 - step 10^-4 - 10^-4   - 85\%
-5.5/12 has free fc[7-8],         semifree fc6 - inv  10^-5 - 10^-5   - 84\%
-5.5/13 has free fc[7-8] new fc7, semifree fc6 - exp  10^-4 - 10^-6   - 40\%
-
-11 and 12 are identical in train.prototxt.
-But 13 is different in that fc7 is new!
-
-Can the gap in performance be explained by lr_policy? or class imbalance opened up by re-initialisation?
-
-To test this: 
-14 is 13 with 11's lr_policy
-15 is 11 with 13's lr_policy
-
-
 
 \subsubsection{Freezing Backprop on various layers}
 
@@ -1053,21 +957,47 @@ if 18,15 best so far, only fully flex conv5     can be best
 
 Once you've settled that, another obscure possibility: re-initialise (part of) a conv layer. This might be likely if best so far has low conv layers: undoubtedly optimal low level features are getting sacrificed for the sake of model expressiveness. \\    
 
+\subsubsection{Initialising Free Layers}
 
-\subsubsection{Benchmark: 'CNN filters off the shelf'}
+Use clampdet (threshold_freeze5/logs/1{3,4}-08-2014 to illustrate impact of initialising free layers to AlexNet weights or to randomly (re-)initialise them. Backprop enabled fully on all fc layers. \\
 
-Implement OverFeat fc projection + linear SVM, and compare to your personal best. \\
+Both nets have frozen AlexNet conv[1-5] layers.
+13 has 3 free fc layers with re-initialised weights
+14 has 3 free fc layers transferred from AlexNet
 
-To perform this benchmark correctly, need to use OverFeat and train a linear SVM. Your experiments with freezing backprop on caffe are similar but not identical, especially in light of that comment about caffe being weaker than OverFeat. \\
+So we expect 13 to do better.
+
+Results: very convincing. 
+
+
+\paragraph{Clampdet optimisation}
+
+Wait a second. I got a bunch of clampdet detections high up in the 80s, but lately it's gone way down. Is small learning rate ruining it? 
+"backprop on fc8, fc7 and biases of fc6" - start with alexnet weights - got 90\% - i.e.\ freeze5.5/
+"backprop on fc8, fc7, fc6"              - start with alexnet weights - got 40\% - i.e.\ freeze5/14  
+
+what the fuck!
+
+5.5/11 has free fc[7-8],         semifree fc6 - step 10^-4 - 10^-4   - 85\%
+5.5/12 has free fc[7-8],         semifree fc6 - inv  10^-5 - 10^-5   - 84\%
+5.5/13 has free fc[7-8] new fc7, semifree fc6 - exp  10^-4 - 10^-6   - 40\%
+
+11 and 12 are identical in train.prototxt.
+But 13 is different in that fc7 is new!
+
+Can the gap in performance be explained by lr_policy? or class imbalance opened up by re-initialisation?
+
+To test this: 
+14 is 13 with 11's lr_policy
+15 is 11 with 13's lr_policy
+
+
+
 
 \clearpage
 \section{Task 3: Class Imbalance}
 
 \subsection{Motivations}
-
-\subsection{Design}
-
-\subsubsection{Threshold}
 
 Papers: 
 http://sci2s.ugr.es/keel/pdf/algorithm/articulo/2006%20-%20IEEE_TKDE%20-%20Zhou_Liu.pdf
@@ -1085,11 +1015,6 @@ Also, I think that if we wanted to implement the threshold directly in the net, 
 Rather than have a fixed threshold hard-coded into the network, I propose to use a sig level script, for greater flexibility. \\
 
 
-\subsubsection{Bayesian Cross Entropy Cost Function}
-
-I also wonder whether it should be used in conjunction with a modified cost function. the threshold renormalisation won't change the fact that most of the error will come from c_2 examples, so the net would still be encouraged to learn c_2 more than c_1. [Provide a simple mathematical example of this]. If we want the stochastic gradient to reflect as much of the c_1 errors as the c_2 errors on average, then we need to renormalise the errors based on priors as well. This is done with bayesian cross entropy: [formula here] \\
-
-When viewed as MLE estimation, the Bayesian cross entropy can be interpreted as follows: instead of trying to maximise the joint probability of the data under the assumption that each observed event has the same probability, we are assigning higher probability to minority class events. \\
 
 \subsection{Implementation}
 
@@ -1109,14 +1034,74 @@ Moving from the GTX 780 to a Titan Black with ... \\
 
 \subsection{Experimentation}
 
-\paragraph{Is transfer learning more tolerant of class imbalance?}
+\subsubsection{Under-Sampling}
 
-Claim: there is more tolerance to class imbalance. Double check by looking at the error on a batch of minority class instances only.
+\subsubsection{Within-net threshold}
 
-Analytically: initialisation far from fake minima
+\subsubsection{Bayesian Cross Entropy Cost Function}
 
-Intuition for that is with initialisation, weights are in an area of the error surface that is far away from fake minima; the nearest local minima are more likely to be 'true' ones. Find evidence for this by viewing the features learned, and see whether they correspond to actual visual features. \\
+I also wonder whether it should be used in conjunction with a modified cost function. the threshold renormalisation won't change the fact that most of the error will come from c_2 examples, so the net would still be encouraged to learn c_2 more than c_1. [Provide a simple mathematical example of this]. If we want the stochastic gradient to reflect as much of the c_1 errors as the c_2 errors on average, then we need to renormalise the errors based on priors as well. This is done with bayesian cross entropy: [formula here] \\
 
+When viewed as MLE estimation, the Bayesian cross entropy can be interpreted as follows: instead of trying to maximise the joint probability of the data under the assumption that each observed event has the same probability, we are assigning higher probability to minority class events. \\
+
+
+
+\paragraph{Softmax Bayesian Loss Layer}
+
+this concerns work done around 20th August. This was written on 23rd August. 
+
+scrape_zones_sbl/22-08-2014: We look at the output probabilities, the loss values with and without bayesian renormalisation, the gradients for the softmax layer with and without bayesian renormalisation. 
+
+We have a class imbalance of 81.5\%. In first train iteration, output probs are all close to (0.5, 0.5) i.e.\ with ~0.01 standard deviation. This makes intuitive sense, the network has no idea which class is more likely because it has learned nothing yet. \\
+
+The SBL and SL losses are practically the same, they only vary by 0.15\%. This also makes sense: they will be different when the precision on one class differs markedly from the precision on the other class, which is not the case when outputting roughly (0.5,0.5) for every case. \\
+
+The gradient backpropagated to the softmax layer is of dimension 2: one for each softmax neuron. It is interesting to note that grad(softmax_0) = - grad(softmax_1) always. So the modulus of the gradient for both softmax neurons is always the same, and the sign for softmax_i is given by whether softmax_i should have output a lower or a higher value. The reason for why the values are the same is because both neurons are always going to be the same distance away from the target value. This is only the case for 2 neurons. It might be interesting to think about how this property, which is only true for binary classifiers, affects training. \\
+
+The SBL and SL gradients backpropagated to the softmax layer are instantly different: SBL gradient is always bigger than SL gradient for min class cases, and smaller for max class cases. Note, this is the case regardless of whether the prediction was correct or not. As a result, the weight updates 	
+
+But wait: with SBL, do we really want to make the modulus bigger for both softmax neurons whenever we have a min class case? The answer would be yes, because we are going to update weights by the average gradient over the mini batch, so this is equalising the weight of the min class case (but it is adding noise to the gradient, because it's like replicating the same example - so it might lead to overfit actually). \\
+
+
+
+So with SBL, do we really want to make the modulus bigger for both softmax neurons whenever we have a min class case? Or do we want to make the modulus bigger for the min class softmax neuron, for all class cases? Or both?
+I think the latter corresponds to thresholding. So it is interesting to compare them. \\
+
+
+\subsubsection{Test-time threshold}
+
+This is great because it enables to set different costs to false positives, which is what ControlPoint is interested in. \\
+
+
+\section{Final Results}
+
+This presents best results (accuracy overall, on pos, on neg, sig level) for each binary classifier and discusses further improvements. This is where you mention the multi-query issue, the mis-labelling issue. \\
+
+Also mention the things you could not experiment with: the entire list in your .md file. \\
+
+\subsection{Learning Rate}
+
+\paragraph{Step}
+
+Caffe code:
+ Return the current learning rate. The currently implemented learning rate
+ policies are as follows:
+    - step: return base $lr * gamma ^ (floor(iter / step))$
+    
+from src/caffe/solver.cpp:
+if (lr_policy == "step") {
+    int current_step = this->iter_ / this->param_.stepsize();
+
+from src/caffe/proto/caffe.proto:
+  optional int32 stepsize = 13; // the stepsize for learning rate policy "step"
+
+These are all heuristics. No 2nd order methods involved. The intuition is that... Theory suggests that... . \\
+
+Improvement: 94.5\% validation error. The test error is: ??.\\
+
+\paragraph{Exp}
+
+[...] \\
 
 \subsubsection{Soil Risk Contamination Task}
 
@@ -1162,37 +1147,6 @@ Stays in the 96\% region for the remaining mini-batch passes (have plot of all o
 Looking for evidence that in a given pot, there is a high number of fake minima all mapping to the same function that spits out majority class every time. If so, then the injectivity of parameter space into function space is not uniform: some functions can be represented by a lot more different parameterisations than others, and sadly for us, the bad function is one of the densely represented ones. Would be fantastic to come up with a toy example of this with a very simple network, but mathematically prove just how much more numerously certain functions can be represented than others. \\
 
 One could empirically verify this by looking at what the network converges to with and without transfer learning. Also take very different initialisations for non transfer learning. If converged error rate same for all, and indeed sending in a batch of random images to each network spits out same or similar outputs every time, then we've got a few large scale examples as well. \\
-
-
-\paragraph{Softmax Bayesian Loss Layer}
-
-this concerns work done around 20th August. This was written on 23rd August. 
-
-scrape_zones_sbl/22-08-2014: We look at the output probabilities, the loss values with and without bayesian renormalisation, the gradients for the softmax layer with and without bayesian renormalisation. 
-
-We have a class imbalance of 81.5\%. In first train iteration, output probs are all close to (0.5, 0.5) i.e.\ with ~0.01 standard deviation. This makes intuitive sense, the network has no idea which class is more likely because it has learned nothing yet. \\
-
-The SBL and SL losses are practically the same, they only vary by 0.15\%. This also makes sense: they will be different when the precision on one class differs markedly from the precision on the other class, which is not the case when outputting roughly (0.5,0.5) for every case. \\
-
-The gradient backpropagated to the softmax layer is of dimension 2: one for each softmax neuron. It is interesting to note that grad(softmax_0) = - grad(softmax_1) always. So the modulus of the gradient for both softmax neurons is always the same, and the sign for softmax_i is given by whether softmax_i should have output a lower or a higher value. The reason for why the values are the same is because both neurons are always going to be the same distance away from the target value. This is only the case for 2 neurons. It might be interesting to think about how this property, which is only true for binary classifiers, affects training. \\
-
-The SBL and SL gradients backpropagated to the softmax layer are instantly different: SBL gradient is always bigger than SL gradient for min class cases, and smaller for max class cases. Note, this is the case regardless of whether the prediction was correct or not. As a result, the weight updates 	
-
-But wait: with SBL, do we really want to make the modulus bigger for both softmax neurons whenever we have a min class case? The answer would be yes, because we are going to update weights by the average gradient over the mini batch, so this is equalising the weight of the min class case (but it is adding noise to the gradient, because it's like replicating the same example - so it might lead to overfit actually). \\
-
-
-
-So with SBL, do we really want to make the modulus bigger for both softmax neurons whenever we have a min class case? Or do we want to make the modulus bigger for the min class softmax neuron, for all class cases? Or both?
-I think the latter corresponds to thresholding. So it is interesting to compare them. \\
-
-
-
-\subsubsection{Tight Bowl Zig-zagging}
-
-\subsubsection{Image Preprocessing}
-
-Blurring if only colour matters, grey-scale if only shape matters, filter from ControlPoint. \\
-
 
 
 
