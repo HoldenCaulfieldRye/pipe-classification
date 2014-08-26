@@ -180,6 +180,7 @@ A most complete and concise review of ConvNet architecture can be found in "Stoc
 Learning a hypothesis function $f^{h}$ comes down to searching a target function space for the function which minimises the cost function. A function space is defined by a parametrised function equation, and a parameter space. Choosing a deep convolutional neural network with rectified linear neurons sets the parametrised function equation. By explaining the architecture of such a neural network, this subsection justifies the chosen function equation. As for the parameter space, it is $\mathbb{R^{P}}$ (where P is the number of parameters in the network); its continuity must be noted as this enables the use of gradient descent as the optimisation algorithm (as is discussed later). \\
 
 
+
 \subsubsection{Models of Neurons}
 
 Before we consider the neural network architecture as a whole, let us start with the building block of a neural network: the neuron (mathematically referred to as the \textit{activation function}). Two types of neuron models are used in current state-of-the-art implementations of deep convolutional neural networks: the rectified linear unit and the softmax unit (note that the terms "neuron" and "unit" are used interchangeably). In order to bring out their specific characteristics, we shall first consider two other compatible neuron models: the binary threshold neuron, which is the most intuitive, and the hyperbolic tangent neuron, which is the most analytically appealing. It may also help to know what is being modelled, so a very brief look at a biological neuron shall first be given.
@@ -352,7 +353,17 @@ Conclusion is that learning a classification task with a deep neural network is 
 
 \subsubsection{Krizhevsky 2012 explained}
 
-Careful, these are notes taken from the tutorial\cite{nips-tut}. The structure is totally plagiarised. Instead, you insert pieces of content below in areas above.
+CAREFUL! these are notes taken from the tutorial\cite{nips-tut}. The structure is totally plagiarised. Instead, you insert pieces of content below in areas above.
+video, currently on 10:20
+
+To situate the CNN in terms of other ANNs, it may help to view a number of them in terms of depth and learning strategy:
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.6]{images/all_neural_networks.png}
+	\caption{Different kinds of ANNs}
+\end{figure}
+
 
 \paragraph{Operations in each layer}
 
@@ -360,9 +371,16 @@ images to paste: http://media.nips.cc/Conferences/2013/Video/Tutorial1A.pdf
 
 A convolution layer has a pixel feature i.e. filter which is convolved over the entire image, followed by a non-linearity, followed by a spatial feature, optionally followed by a normalisation between feature responses. This may seem like it comes out of nowhere, but when we look at hand-crafted successes in computer vision, the structures are similar. \\
 
-For example consider SIFT (Scale-invariant feature transform) descriptors: they are a range of filters for edges at different angles
+For example consider SIFT (Scale-invariant feature transform) descriptors: they are a range of filters for edges at different angles. \\
+
+\subparagraph{Filter aka Pixel Feature}
 
  
+\subparagraph{Non-linearity}
+
+\subparagraph{Pooling aka Spatial Feature}
+
+\subparagraph{Possible Normalisation}
 
 
 
@@ -500,7 +518,14 @@ classes. Moreover, one would need to ensure that the range of the error is as la
 
 \clearpage
 
+\section{Analysis 1: ReLU Activation}
+
+\section{Analysis 2: Early Stopping}
+
+
 \section{Task 1: Generic Clamp Detection}
+
+Justify multiple binary classifiers in light of Chao Wu's multi-label classification work: http://www.aicit.org/aiss/global/paper_detail.html?jname=AISS&q=1061
 
 
 \subsection{Motivations}
@@ -772,7 +797,8 @@ Since there is a tradeoff between class balance and dataset size, two different 
 
 \subsection{Motivations}
 
-To generate additional labels that help with learning tasks and create commercial value for ControlPoint. \\
+Because training set restricted. The objective here is to optimise transfer learning.
+2 aspects: re-initialise weights, freeze backprop.
 
 \subsection{Design}
 
@@ -861,13 +887,6 @@ Simple and Safe: very small, fixed learning rate throughout. Used all data, so h
 Significant improvement: 93.8\% validation error. The test error is: ??.\\
 
  
-\paragraph{Claim: transfer learning more tolerant of class imbalance}
-
-Claim: there is more tolerance to class imbalance. Double check by looking at the error on a batch of minority class instances only.
-
-\paragraph{Analytically: initialisation far from fake minima}
-
-Intuition for that is with initialisation, weights are in an area of the error surface that is far away from fake minima; the nearest local minima are more likely to be 'true' ones. Find evidence for this by viewing the features learned, and see whether they correspond to actual visual features. \\
 
 
 \subsubsection{Decreasing Learning Rate}
@@ -893,6 +912,42 @@ Improvement: 94.5\% validation error. The test error is: ??.\\
 \paragraph{Exp}
 
 [...] \\
+
+\subsubsection{Initialising Free Layers}
+
+Use clampdet (threshold_freeze5/logs/1{3,4}-08-2014 to illustrate impact of initialising free layers to AlexNet weights or to randomly (re-)initialise them. Backprop enabled fully on all fc layers. \\
+
+Both nets have frozen AlexNet conv[1-5] layers.
+13 has 3 free fc layers with re-initialised weights
+14 has 3 free fc layers transferred from AlexNet
+
+So we expect 13 to do better.
+
+Results: very convincing. 
+
+
+\paragraph{Clampdet optimisation}
+
+Wait a second. I got a bunch of clampdet detections high up in the 80s, but lately it's gone way down. Is small learning rate ruining it? 
+"backprop on fc8, fc7 and biases of fc6" - start with alexnet weights - got 90\% - i.e.\ freeze5.5/
+"backprop on fc8, fc7, fc6"              - start with alexnet weights - got 40\% - i.e.\ freeze5/14  
+
+what the fuck!
+
+5.5/11 has free fc[7-8],         semifree fc6 - step 10^-4 - 10^-4   - 85\%
+5.5/12 has free fc[7-8],         semifree fc6 - inv  10^-5 - 10^-5   - 84\%
+5.5/13 has free fc[7-8] new fc7, semifree fc6 - exp  10^-4 - 10^-6   - 40\%
+
+11 and 12 are identical in train.prototxt.
+But 13 is different in that fc7 is new!
+
+Can the gap in performance be explained by lr_policy? or class imbalance opened up by re-initialisation?
+
+To test this: 
+14 is 13 with 11's lr_policy
+15 is 11 with 13's lr_policy
+
+
 
 \subsubsection{Freezing Backprop on various layers}
 
@@ -927,7 +982,7 @@ Use scrape_zones/logs/1{3,4,5}-08-2014 to show that, with backprop freed up on a
 
 \paragraph{Case 3: hatch markings, combine both}
 
-This section is a total mess, should probably erase. \\
+This section is a total mess, get rid of it, but stick descriptions in other hatch markings. \\
 
 Freeing up too many layers leads to overfit, but preventing too many reduces expressive power of the net (show plots for {03,13}-08-2014). 13 freezes backprop up to weights of conv6, and re-initialises fc7 and fc8. \\
 
@@ -939,38 +994,71 @@ What's the difference between SVM and softmax in output? Learning minimizes a ma
 
 Result: 14-08-2014, far worse than 13. So the real problem is all about lack of expressive power to bring training error to 0. \\
 
-You should properly benchmark 'CNN features off the shelf': use a linear SVM, so there is no kernel, just fitting hyperplanes, i.e. assume AlexNet feature space enables decent linear separation. Doesn't seem to be the case with this dataset! Maybe should use kernel trick on SVM? \\
+Note these results are surprising in light of 'CNN filters off the shelf', because closest there is to mimicking that paper here is 14. But you should properly benchmark 'CNN features off the shelf': use a linear SVM, so there is no kernel, just fitting hyperplanes. \\
 
 
-\paragraph{Case 4: hatch markings, build on entire network or on conv layers only?}
+\paragraph{Case 3: hatch markings, build on entire network or on conv layers only?}
 
 Is there any use for the semantic information encoded in the fc layers? If the expressive power of the net is lost by freezing backprop on some fully connected layers, it seems we really need 3 fully free fully connected layers to make the most of the data.  \\
 
 So: should these 3 fully free fc layers be put on top of AlexNet, or only the conv layers? In light of "intriguing properties" paper, a feature is not encoded in each fc neuron. So maybe there is no need to transfer its knowledge. \\
 
-15-08-2014 has 3 fc new layers on top conv[1-5] from AlexNet.
+15-08-2014 has 3 fc new layers on top frozen conv[1-5] from AlexNet 
 16-08-2014 has 3 fc new (random intialised) layers on top of frozen AlexNet (minus its softmax layer).
 
 Note: batchsize bumped up to 256 for them both.
 
-Results: 15 is significantly better, so information in fc layers is not as useful as raw filter information. 
+Results: 15 is significantly better, so information in fc layers is not as useful as raw filter information. In either case, model not expressive enough. \\
 
 
-\subsubsection{Initialising Free Layers}
+\paragraph{hatch markings optimisation}
 
-Use clampdet (threshold_freeze5/logs/1{3,4}-08-2014 to illustrate impact of initialising free layers to AlexNet weights or to randomly (re-)initialise them. Backprop enabled fully on all fc layers. \\
+We can summarise experimentation on hatch markings (so far) as:
 
-Results are quite shocking: 13 has the new weights, within 3 iterations training loss attains its asymptote. It corresponds to a per class accuracy of 0.5, which suggests net is stuck in bad minimum. So even if you give it great filters, the convnet gets stuck in bad min. \\
+03         has fully flexible AlexNet, all weights initialised to AlexNet
+13         has 2 fc new layers on top frozen conv[1-5] and semifrozen fc_6 from AlexNet
+14         has a funnel fc structure with 9 total layers, backprop on 2 new layers only
+15-08-2014 has 3 fc new layers on top frozen conv[1-5] from AlexNet 
+16-08-2014 has 3 fc new (random intialised) layers on top of frozen AlexNet (minus its softmax layer).
 
-14 has the alexnet weights, and it actually takes 2500 iterations to reach its asymptote. 
+The conclusion is that a lot of expressive power is needed for this transfer task, and that the conv feature space is better than the fc feature space. \\
 
-Notice that even with backprop on 3 fully connected layers, the network is not powerful enough to perfectly approximate the data (reach 0 training error). There is slack to make use of. Should this be by freeing backprop on 
+The worst is 14, because it has the least expressive power and starts 
+but is has as much expressive power as 15, so it suggests filter feature space is better.
+The best is 03, which suggests most important factor here is expressive power. 
 
-Ok the comments above correspond to freeze5.5, I forgot to set blobs_lr to fc6 to 1 and 2. The nets are fucking up because fc6 has been initialised to 0 and can't learn its weights. \\
+More can still be done: 1) re initialise fc layers and 2) freeze backprop on lowest conv layers. Justification:
+03 suffers from inheriting AlexNet fc weights. Perhaps backprop should also be frozen on its lowest conv layer(s) to prevent overfitting and because there's just no way those low level filters aren't optimal for this task too. 
+Maybe re-initialising high level conv filters would help as well? Re-intialisation of only some kernel maps?
 
+Next steps: best will be between 03 and 15: 3 fc new layers on top of conv layers, some of which are free, potentially even re-initialised. \\
+
+
+\paragraph{hatch markings, optimisation II}
+
+All nets now have 3 free fc new layers on top of 5 conv layers. Only conv layers remain to be optimised.
+prototxt's edited from 15.
+
+17 has fully flexible conv[2-5] layers (so like 03, but re initialise fc)
+18 has fully flexible conv[4-5] layer
+
+Results: both doing well. 5000 iterations not enough, keep going. SETUP TO RESUME
+
+if 17,18 best so far, only fully flex conv[3-5] can be best
+if 03,17 best so far, only fully flex conv[1-5] can be best
+if 18,15 best so far, only fully flex conv5     can be best
+
+Once you've settled that, another obscure possibility: re-initialise (part of) a conv layer. This might be likely if best so far has low conv layers: undoubtedly optimal low level features are getting sacrificed for the sake of model expressiveness. \\    
+
+
+\subsubsection{Benchmark: 'CNN filters off the shelf'}
+
+Implement OverFeat fc projection + linear SVM, and compare to your personal best. \\
+
+To perform this benchmark correctly, need to use OverFeat and train a linear SVM. Your experiments with freezing backprop on caffe are similar but not identical, especially in light of that comment about caffe being weaker than OverFeat. \\
 
 \clearpage
-\section{Task 3: Bayesian Renormalisation}
+\section{Task 3: Class Imbalance}
 
 \subsection{Motivations}
 
@@ -1018,6 +1106,15 @@ Moving from the GTX 780 to a Titan Black with ... \\
 
 \subsection{Experimentation}
 
+\paragraph{Is transfer learning more tolerant of class imbalance?}
+
+Claim: there is more tolerance to class imbalance. Double check by looking at the error on a batch of minority class instances only.
+
+Analytically: initialisation far from fake minima
+
+Intuition for that is with initialisation, weights are in an area of the error surface that is far away from fake minima; the nearest local minima are more likely to be 'true' ones. Find evidence for this by viewing the features learned, and see whether they correspond to actual visual features. \\
+
+
 \subsubsection{Soil Risk Contamination Task}
 
 \paragraph{Test Run}
@@ -1064,11 +1161,50 @@ Looking for evidence that in a given pot, there is a high number of fake minima 
 One could empirically verify this by looking at what the network converges to with and without transfer learning. Also take very different initialisations for non transfer learning. If converged error rate same for all, and indeed sending in a batch of random images to each network spits out same or similar outputs every time, then we've got a few large scale examples as well. \\
 
 
+\paragraph{Softmax Bayesian Loss Layer}
+
+this concerns work done around 20th August. This was written on 23rd August. 
+
+scrape_zones_sbl/22-08-2014: We look at the output probabilities, the loss values with and without bayesian renormalisation, the gradients for the softmax layer with and without bayesian renormalisation. 
+
+We have a class imbalance of 81.5\%. In first train iteration, output probs are all close to (0.5, 0.5) i.e.\ with ~0.01 standard deviation. This makes intuitive sense, the network has no idea which class is more likely because it has learned nothing yet. \\
+
+The SBL and SL losses are practically the same, they only vary by 0.15\%. This also makes sense: they will be different when the precision on one class differs markedly from the precision on the other class, which is not the case when outputting roughly (0.5,0.5) for every case. \\
+
+The gradient backpropagated to the softmax layer is of dimension 2: one for each softmax neuron. It is interesting to note that grad(softmax_0) = - grad(softmax_1) always. So the modulus of the gradient for both softmax neurons is always the same, and the sign for softmax_i is given by whether softmax_i should have output a lower or a higher value. The reason for why the values are the same is because both neurons are always going to be the same distance away from the target value. This is only the case for 2 neurons. It might be interesting to think about how this property, which is only true for binary classifiers, affects training. \\
+
+The SBL and SL gradients backpropagated to the softmax layer are instantly different: SBL gradient is always bigger than SL gradient for min class cases, and smaller for max class cases. Note, this is the case regardless of whether the prediction was correct or not. As a result, the weight updates 	
+
+But wait: with SBL, do we really want to make the modulus bigger for both softmax neurons whenever we have a min class case? The answer would be yes, because we are going to update weights by the average gradient over the mini batch, so this is equalising the weight of the min class case (but it is adding noise to the gradient, because it's like replicating the same example - so it might lead to overfit actually). \\
+
+
+
+So with SBL, do we really want to make the modulus bigger for both softmax neurons whenever we have a min class case? Or do we want to make the modulus bigger for the min class softmax neuron, for all class cases? Or both?
+I think the latter corresponds to thresholding. So it is interesting to compare them. \\
+
+
+
 \subsubsection{Tight Bowl Zig-zagging}
 
 \subsubsection{Image Preprocessing}
 
 Blurring if only colour matters, grey-scale if only shape matters, filter from ControlPoint. \\
+
+
+\section{Task 4: Final Tweaks}
+
+\subsection{Motivations}
+
+\subsection{Design}
+
+\subsection{Implementation}
+
+\subsection{Experimentation}
+
+\paragraph{Learning Rate policy}
+
+This can seriously fuck things up.
+
 
 
 \clearpage
