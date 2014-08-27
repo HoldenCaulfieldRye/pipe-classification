@@ -995,7 +995,9 @@ Three approaches were taken to tackle class imbalance, the first ones being simp
 
 \subsection{Experimentation}
 
-In order to evaluate different measures for tackling class imbalance with a much clarity as possible, a heavily imbalanced task was chosen: fitting proximity, with 0.993\% class imbalance (32 examples only). 
+In order to evaluate different measures for tackling class imbalance with a much clarity as possible, a heavily imbalanced task was chosen: fitting proximity, with 0.993\% class imbalance (32 examples only). \\
+
+A fixed architecture is kept throughout the experiments: frozen backprop on conv layers, fc weights initialised to AlexNet. These constraining choices are to keep the network as much buried inside the good region of the parameter space as possible. \\
 
 \subsubsection{Test Run}
 
@@ -1013,7 +1015,9 @@ Moreover, Bluebox images were chosen this time round, in order to limit the impa
 
 Since there is a tradeoff between class balance and dataset size, two different balance ratios were tested: 40\%/60\% for a dataset of and 33\%/66\%. \\ 
 
-\subsubsection{Within-net threshold}
+
+\subsubsection{Over-Sampling}
+
 
 \subsubsection{Bayesian Cross Entropy Cost Function}
 
@@ -1044,6 +1048,10 @@ But wait: with SBL, do we really want to make the modulus bigger for both softma
 So with SBL, do we really want to make the modulus bigger for both softmax neurons whenever we have a min class case? Or do we want to make the modulus bigger for the min class softmax neuron, for all class cases? Or both?
 I think the latter corresponds to thresholding. So it is interesting to compare them. \\
 
+
+\subsubsection{Linear SVM}
+
+Intuitively, fitting a linear SVM seems like it would not suffer from class imbalance, it's just a
 
 \subsubsection{Test-time threshold}
 
