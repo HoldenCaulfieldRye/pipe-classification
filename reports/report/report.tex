@@ -862,20 +862,23 @@ This should just be the simple case of transfer learning (no weight re-initialis
 
 Do NOT take nets in which weights have been re-initialised. \\
 
-clampdet of hatch markings?
-
-clampdet: 
+clampdet, same weights, freeze backprop up to and including: 
+     -> none:  clampdet/08
+     -> conv1: 
+     -> conv2: 
+     -> conv3: 
+     -> conv4: 
+     -> conv5: 
+     -> fc6:   thresh_freeze5/14, fix solver, TODO
+     -> fc7:   thresh_freeze6/11
+     -> fc8:   thresh_freeze7/11
 thresh
 threshold_freeze{5.5,6,7}/logs/11-08-2014) 
 
-hatch_markings_3501:
-03         has fully flexible AlexNet, all weights initialised to AlexNet
-13         has 2 fc new layers on top frozen conv[1-5] and semifrozen fc_6 from AlexNet
-14         has a funnel fc structure with 9 total layers, backprop on 2 new layers only
-15-08-2014 has 3 fc new layers on top frozen conv[1-5] from AlexNet 
-16-08-2014 has 3 fc new (random intialised) layers on top of frozen AlexNet (minus its softmax layer).
-17 has fully flexible conv[2-5] layers (so like 03, but re initialise fc)
-18 has fully flexible conv[4-5] layer
+
+keepers:
+hatch markings: 03, 15
+clampdet: thresh, thresh_freeze6/11, thresh_freeze7/11
 
 Illustrates how the extent to which backrpop is freed up alters the expressive power of the network and its tendency to overfit (have you got a section in your paper explaining overfit? use the polynomials from Bishop, or the MLNC slides from A. Faisal to illustrate it, then link up with ). \\
 
@@ -886,47 +889,6 @@ Me: Yeah, weights initialised to alexnet's. Why do you think that makes a differ
 Soumith: when doing transfer learning, if you kept alexnet weights you are already in a well-settled local minima for that layer, so there wont be much movement I think.﻿\\
 
 The middle ground is the result of the usual expressiveness tradeoff: movement in function space versus over-fitting of the model. \\
-
-
-\paragraph{hatch markings, build on entire network or on conv layers only?}
-
-
-The conclusion is that a lot of expressive power is needed for this transfer task, and that the conv feature space is better than the fc feature space. \\
-
-The worst is 14, because it has the least expressive power and starts 
-but is has as much expressive power as 15, so it suggests filter feature space is better.
-The best is 03, which suggests most important factor here is expressive power. 
-
-More can still be done: 1) re initialise fc layers and 2) freeze backprop on lowest conv layers. Justification:
-03 suffers from inheriting AlexNet fc weights. Perhaps backprop should also be frozen on its lowest conv layer(s) to prevent overfitting and because there's just no way those low level filters aren't optimal for this task too. 
-Maybe re-initialising high level conv filters would help as well? Re-intialisation of only some kernel maps?
-
-Next steps: best will be between 03 and 15: 3 fc new layers on top of conv layers, some of which are free, potentially even re-initialised. \\
-
-
-\paragraph{hatch markings, optimisation II}
-
-All nets now have 3 free fc new layers on top of 5 conv layers. Only conv layers remain to be optimised.
-prototxt's edited from 15.
-
-Results: both doing well. 5000 iterations not enough, keep going. SETUP TO RESUME
-
-if 17,18 best so far, only fully flex conv[3-5] can be best
-if 03,17 best so far, only fully flex conv[1-5] can be best
-if 18,15 best so far, only fully flex conv5     can be best
-
-Once you've settled that, another obscure possibility: re-initialise (part of) a conv layer. This might be likely if best so far has low conv layers: undoubtedly optimal low level features are getting sacrificed for the sake of model expressiveness. \\    
-
-Results: 15 is significantly better, so information in fc layers is not as useful as raw filter information. In either case, model not expressive enough. \\
-
-\paragraph{related}
-
-Freeing up too many layers leads to overfit, but preventing too many reduces expressive power of the net (show plots for {03,13}-08-2014). 13 freezes backprop up to weights of conv6, and re-initialises fc7 and fc8. \\
-
-Result: 14-08-2014, far worse than 13. So the real problem is all about lack of expressive power to bring training error to 0. \\
-
-Note these results are surprising in light of 'CNN filters off the shelf', because closest there is to mimicking that paper here is 14. But you should properly benchmark 'CNN features off the shelf': use a linear SVM, so there is no kernel, just fitting hyperplanes. \\
-
 
 
 
