@@ -690,6 +690,11 @@ The test error stops to jitter completely. So the tiny pulses observed during co
 $train_output.txt$ contains data to plot this. Good to put it in to show that you have checked everything meticulously, and to show that it's evidence for the hypothesis of stuck in corner solution.
 
 
+
+\subsubsection{Class Imbalance}
+
+Here you just need to show that there is class imbalance.
+
 \paragraph{Stuck in Sampling-Induced, "fake" Corner Minimum}
 
 I trained a neural network to detect clamps in the images. It very quickly converged to logprob 0.4, i.e. 10\% classification error, as can be seen in attachment.
@@ -747,22 +752,6 @@ It can also be interesting to notice that no meaningful features are learned: fo
 	\includegraphics[scale=0.5]{images/bad_filters.png}  % need to crop to get side by side
 	\caption{filters learned at lowest convolutional layer of this network}
 \end{figure}
-
-\subsubsection{Class Imbalance}
-
-Here you just need to prove that there is class imbalance.
-
-Three approaches were taken to tackle class imbalance, the first ones being simplest to implement, the last ones most sophisticated and information-preserving. \\
-
-\paragraph{Under-Sampling}
-
-CNNs were trained on all of the "No Clamps" or "Clamps Not Sufficiently Visible" images, and a random sample containing 15\% of the "Clamps Detected" images, in order to obtain an acceptably balanced dataset. This fix was easiest to implement and served as a benchmark for the more sophisticated subsequent approaches. Naturally, one would also expect this approach to be least effective: 85\% of the training data was lost, data which could intuitively serve not to teach the network to distinguish classes, but to learn features that are good encoders of pipe weld images, from which an effective discriminative setup of the parameters could ensue. \\
-
-Note that the two minority classes were merged: because it is suspected that there is barely any semantic difference between them (will have to draw random samples to verify this), and because this reduces the number of majority class instances to remove, since it makes it easier to reach a good balance ratio. \\
-
-Moreover, Bluebox images were chosen this time round, in order to limit the impact of mis-labelling and photographically poor images on training, and to limit the number of possible explanations for poor performance if that were to occur. According to ControlPoint the mis-labelling rate greatly decreased through time; since Bluebox images are the most recent, one would hope the mis-labelling rate would be lowest. However, this heavily reduced the amount of training data, requiring transfer learning to come into play. Still, just as a benchmark -- for the record -- randomly initialised AlexNets were trained from the ground up. \\
-
-Since there is a tradeoff between class balance and dataset size, two different balance ratios were tested: 40\%/60\% for a dataset of and 33\%/66\%. \\ 
 
 
 \subsubsection{Mislabelling}
@@ -856,19 +845,23 @@ so solution is to randomly delete n - n^* images from the majority class. \\
 
 \subsection{Experimentation}
 
-\subsubsection{Freezing Backprop on various layers}
-
 This section is a fucking mess. To bring order, you might have to train nets again. Structure should be as follows:
 - pick a task: clampdet (easy) or hatch markings (hard)
+- learn on top of conv feature space of fc feature space
 - freeze backprop 1/2/3/4/5/6/7 layers
 - import weights or re-initialise them
-- learn on top of conv feature space of fc feature space
 
-This would require training 2*7*2*2 = 56 nets. Not practical. Instead, when exploring either hyperparam, set the others to what you think is optimal. Also, if freeze 5 is less good than freeze k>5, no need to go lower. \\
+\subsubsection{Test Run}
+
+This should just be the simple case of transfer learning (no weight re-initialisation, backprop everywhere) vs no transfer learning. 
+
+\subsubsection{Freezing Backprop on various layers}
+
+Now we switch to clampdet, hope that's ok. \\
 
 \paragraph{Freeze Backprop on how many layers}
 
-Fully enable 
+Do NOT take nets in which weights have been re-initialised. \\
 
 Use clampdet (thresh, threshold_freeze{5.5,6,7}/logs/11-08-2014) to illustrate how the extent to which backrpop is freed up alters the expressive power of the network and its tendency to overfit (have you got a section in your paper explaining overfit? use the polynomials from Bishop, or the MLNC slides from A. Faisal to illustrate it, then link up with ). \\
 
@@ -878,47 +871,50 @@ Soumith's opinion: Are you resetting the weights in the layers FC6,FC7 or are yo
 Me: Yeah, weights initialised to alexnet's. Why do you think that makes a difference? The local minima from alexnet's region leave less room for the net to learn meaningful patterns and push it more quickly into overfitting? \\ ﻿
 Soumith: when doing transfer learning, if you kept alexnet weights you are already in a well-settled local minima for that layer, so there wont be much movement I think.﻿\\
 
-The middle ground is possibly the result of a tradeoff: movement in function space versus over-expressiveness of the model. \\
-
-\paragraph{Case 2: too much freeing}
-
-Use scrape_zones/logs/1{3,4,5}-08-2014 to show that, with backprop freed up on all layers, even with transfer learning, expressiveness of model is such that (overfit or) bad_min occurs very quickly. 
-
-13 is with all layers free. 14 is with fc8_new and fc7_new. 15 is with fc8_new only, and batchsize 512. Cannot constrain network more than 15, so if it fails, we're pretty screwed, that task is a really hard one. Might need an image transformation for scrape zones to stand out. In that case, delete or move this paragraph elsewhere more appropriate. \\
+The middle ground is the result of the usual expressiveness tradeoff: movement in function space versus over-fitting of the model. \\
 
 
-\paragraph{Case 3: hatch markings, combine both}
+\subsubsection{Conv feature space or Fc feature space}
 
-This section is a total mess, get rid of it, but stick descriptions in other hatch markings. \\
+Motivation:
+This question is partly stimulated by the Intriguing Properties paper: is there any use for the semantic information encoded in the fc layers? (Elaborate by quoting paper on why this is still an unanswered question). We can test this by comparing performance of training a classifier in the conv5 feature space versus the fc7 feature space.
 
-Freeing up too many layers leads to overfit, but preventing too many reduces expressive power of the net (show plots for {03,13}-08-2014). 13 freezes backprop up to weights of conv6, and re-initialises fc7 and fc8. \\
+Design:
+There are different ways of training such a classifier: we can choose two different optimising regimes (margin-based loss, joint probability of the data) and we can choose different levels of model expressiveness (by stacking more or less fully connected layers to increase non-linearity). Note that due to time limitations, a single classification task was chosen (hatch markings detection). \\
 
-However 'CNN features of the shelf' figure 2a shows that training a linear SVM on the highest fc layer is best. So why not chop off the softmax layer for the 1000 imagenet classes, and add two layers? that way, images are projected onto the feature space given by the entire AlexNet, and a more expressive classifier than 1 single layer can be trained on it. This will also enable a more gradual funneling from the 4096 units of fc7 to the 2 unit softmax layer for the binary classification task. 512 and 2 unit fc layers are added onto top 7 layers of AlexNet. \\
+Implementation:
+- alexnet, freeze backprop up to and including fc7
 
-Representing a SVM in a MLP: chaque neuron in bottom layer represente un datapoint. chaque neurone in layer above est associe a un support datapoint xi (support vector) et sa fonction d'activation est x -> K(xi,x). et tu as un neurone binaire dans la couche de sortie. \\
+\paragraph{Expressive power}
 
-What's the difference between SVM and softmax in output? Learning minimizes a margin-based loss (maximise euclidean distance between nearest points and boundary) instead of joint probability of the data (i.e.\ the cross-entropy loss) {cite arxiv.org/pdf/1306.0239.pdf}. \\
+If the expressive power of the net is lost by freezing backprop on some fully connected layers, it seems we really need 3 FREE fully connected layers to make the most of the data.  \\
 
-Result: 14-08-2014, far worse than 13. So the real problem is all about lack of expressive power to bring training error to 0. \\
+So: we further experiment by placing 2,3 fully connected layers either on top of conv5, or on top of fc7. 
 
-Note these results are surprising in light of 'CNN filters off the shelf', because closest there is to mimicking that paper here is 14. But you should properly benchmark 'CNN features off the shelf': use a linear SVM, so there is no kernel, just fitting hyperplanes. \\
+\paragraph{Fc feature space}
+
+Given that we choose fc feature space, what is the best way of learning in this space?
+
+'CNN features of the shelf' suggests a linear SVM. What's the difference between SVM and softmax in output? Learning minimizes a margin-based loss (maximise euclidean distance between nearest points and boundary) instead of joint probability of the data (i.e.\ the cross-entropy loss) {cite arxiv.org/pdf/1306.0239.pdf}. \\
+
+Above should actually go under motivations.
+
+Figure 2a shows that training a linear SVM on the highest fc layer is best. So why not chop off the softmax layer for the 1000 imagenet classes, and add two layers? that way, images are projected onto the feature space given by the entire AlexNet, and a more expressive classifier than 1 single layer can be trained on it. This will also enable a more gradual funneling from the 4096 units of fc7 to the 2 unit softmax layer for the binary classification task. 512 and 2 unit fc layers are added onto top 7 layers of AlexNet. \\
+
+This experimentation was performed on hatch marking detection. \\
 
 
-\paragraph{Case 3: hatch markings, build on entire network or on conv layers only?}
 
-Is there any use for the semantic information encoded in the fc layers? If the expressive power of the net is lost by freezing backprop on some fully connected layers, it seems we really need 3 fully free fully connected layers to make the most of the data.  \\
+\paragraph{Conv feature space}
 
-So: should these 3 fully free fc layers be put on top of AlexNet, or only the conv layers? In light of "intriguing properties" paper, a feature is not encoded in each fc neuron. So maybe there is no need to transfer its knowledge. \\
 
+
+
+\paragraph{hatch markings, build on entire network or on conv layers only?}
+
+hatch_markings_3501:
 15-08-2014 has 3 fc new layers on top frozen conv[1-5] from AlexNet 
 16-08-2014 has 3 fc new (random intialised) layers on top of frozen AlexNet (minus its softmax layer).
-
-Note: batchsize bumped up to 256 for them both.
-
-Results: 15 is significantly better, so information in fc layers is not as useful as raw filter information. In either case, model not expressive enough. \\
-
-
-\paragraph{hatch markings optimisation}
 
 We can summarise experimentation on hatch markings (so far) as:
 
@@ -957,6 +953,19 @@ if 18,15 best so far, only fully flex conv5     can be best
 
 Once you've settled that, another obscure possibility: re-initialise (part of) a conv layer. This might be likely if best so far has low conv layers: undoubtedly optimal low level features are getting sacrificed for the sake of model expressiveness. \\    
 
+Results: 15 is significantly better, so information in fc layers is not as useful as raw filter information. In either case, model not expressive enough. \\
+
+\paragraph{related}
+
+Freeing up too many layers leads to overfit, but preventing too many reduces expressive power of the net (show plots for {03,13}-08-2014). 13 freezes backprop up to weights of conv6, and re-initialises fc7 and fc8. \\
+
+Result: 14-08-2014, far worse than 13. So the real problem is all about lack of expressive power to bring training error to 0. \\
+
+Note these results are surprising in light of 'CNN filters off the shelf', because closest there is to mimicking that paper here is 14. But you should properly benchmark 'CNN features off the shelf': use a linear SVM, so there is no kernel, just fitting hyperplanes. \\
+
+
+
+
 \subsubsection{Initialising Free Layers}
 
 Use clampdet (threshold_freeze5/logs/1{3,4}-08-2014 to illustrate impact of initialising free layers to AlexNet weights or to randomly (re-)initialise them. Backprop enabled fully on all fc layers. \\
@@ -990,6 +999,82 @@ Can the gap in performance be explained by lr_policy? or class imbalance opened 
 To test this: 
 14 is 13 with 11's lr_policy
 15 is 11 with 13's lr_policy
+
+
+
+\subsubsection{Parametric vs Non-parametric}
+
+Motivation:
+'CNN features off the shelf' advocates training a linear SVM on top of the transferred feature space. The difference with a standard deep neural network are:
+- linearity
+- optimise margin-based loss rather than log probability of the data
+{cite arxiv.org/pdf/1306.0239.pdf}
+By maximising log prob of the data, the deep neural net learns models of the probability distributions that produce both classes. The SVM on the other hand merely chooses the discriminative frontier that maximises the space between the support vectors, i.e. that leaves most space between 
+
+Therefore, in order to experiment, both the linear SVM and the standard deep neural network approaches were tried out.
+
+
+Implementation:
+- for linear SVM: a single inner product layer with elementwise product activation functions (to achieve linearity), then a hinge-loss layer
+- for standard deep neural network: we take the best performing network obtained from previous experimentations.
+
+
+Results:
+
+
+\paragraph{hatch markings, build on entire network or on conv layers only?}
+
+hatch_markings_3501:
+15-08-2014 has 3 fc new layers on top frozen conv[1-5] from AlexNet 
+16-08-2014 has 3 fc new (random intialised) layers on top of frozen AlexNet (minus its softmax layer).
+
+We can summarise experimentation on hatch markings (so far) as:
+
+03         has fully flexible AlexNet, all weights initialised to AlexNet
+13         has 2 fc new layers on top frozen conv[1-5] and semifrozen fc_6 from AlexNet
+14         has a funnel fc structure with 9 total layers, backprop on 2 new layers only
+15-08-2014 has 3 fc new layers on top frozen conv[1-5] from AlexNet 
+16-08-2014 has 3 fc new (random intialised) layers on top of frozen AlexNet (minus its softmax layer).
+
+The conclusion is that a lot of expressive power is needed for this transfer task, and that the conv feature space is better than the fc feature space. \\
+
+The worst is 14, because it has the least expressive power and starts 
+but is has as much expressive power as 15, so it suggests filter feature space is better.
+The best is 03, which suggests most important factor here is expressive power. 
+
+More can still be done: 1) re initialise fc layers and 2) freeze backprop on lowest conv layers. Justification:
+03 suffers from inheriting AlexNet fc weights. Perhaps backprop should also be frozen on its lowest conv layer(s) to prevent overfitting and because there's just no way those low level filters aren't optimal for this task too. 
+Maybe re-initialising high level conv filters would help as well? Re-intialisation of only some kernel maps?
+
+Next steps: best will be between 03 and 15: 3 fc new layers on top of conv layers, some of which are free, potentially even re-initialised. \\
+
+
+\paragraph{hatch markings, optimisation II}
+
+All nets now have 3 free fc new layers on top of 5 conv layers. Only conv layers remain to be optimised.
+prototxt's edited from 15.
+
+17 has fully flexible conv[2-5] layers (so like 03, but re initialise fc)
+18 has fully flexible conv[4-5] layer
+
+Results: both doing well. 5000 iterations not enough, keep going. SETUP TO RESUME
+
+if 17,18 best so far, only fully flex conv[3-5] can be best
+if 03,17 best so far, only fully flex conv[1-5] can be best
+if 18,15 best so far, only fully flex conv5     can be best
+
+Once you've settled that, another obscure possibility: re-initialise (part of) a conv layer. This might be likely if best so far has low conv layers: undoubtedly optimal low level features are getting sacrificed for the sake of model expressiveness. \\    
+
+Results: 15 is significantly better, so information in fc layers is not as useful as raw filter information. In either case, model not expressive enough. \\
+
+\paragraph{related}
+
+Freeing up too many layers leads to overfit, but preventing too many reduces expressive power of the net (show plots for {03,13}-08-2014). 13 freezes backprop up to weights of conv6, and re-initialises fc7 and fc8. \\
+
+Result: 14-08-2014, far worse than 13. So the real problem is all about lack of expressive power to bring training error to 0. \\
+
+Note these results are surprising in light of 'CNN filters off the shelf', because closest there is to mimicking that paper here is 14. But you should properly benchmark 'CNN features off the shelf': use a linear SVM, so there is no kernel, just fitting hyperplanes. \\
+
 
 
 
@@ -1032,9 +1117,22 @@ python script. \\
 CUDA-enabled GPU. How many teraflops? Which operations are parallelised? 
 Moving from the GTX 780 to a Titan Black with ... \\
 
+\subsubsection{Under-Sampling}
+Three approaches were taken to tackle class imbalance, the first ones being simplest to implement, the last ones most sophisticated and information-preserving. \\
+
 \subsection{Experimentation}
 
 \subsubsection{Under-Sampling}
+
+This was trained with cuda-convnet. \\
+
+CNNs were trained on all of the "No Clamps" or "Clamps Not Sufficiently Visible" images, and a random sample containing 15\% of the "Clamps Detected" images, in order to obtain an acceptably balanced dataset. This fix was easiest to implement and served as a benchmark for the more sophisticated subsequent approaches. Naturally, one would also expect this approach to be least effective: 85\% of the training data was lost, data which could intuitively serve not to teach the network to distinguish classes, but to learn features that are good encoders of pipe weld images, from which an effective discriminative setup of the parameters could ensue. \\
+
+Note that the two minority classes were merged: because it is suspected that there is barely any semantic difference between them (will have to draw random samples to verify this), and because this reduces the number of majority class instances to remove, since it makes it easier to reach a good balance ratio. \\
+
+Moreover, Bluebox images were chosen this time round, in order to limit the impact of mis-labelling and photographically poor images on training, and to limit the number of possible explanations for poor performance if that were to occur. According to ControlPoint the mis-labelling rate greatly decreased through time; since Bluebox images are the most recent, one would hope the mis-labelling rate would be lowest. However, this heavily reduced the amount of training data, requiring transfer learning to come into play. Still, just as a benchmark -- for the record -- randomly initialised AlexNets were trained from the ground up. \\
+
+Since there is a tradeoff between class balance and dataset size, two different balance ratios were tested: 40\%/60\% for a dataset of and 33\%/66\%. \\ 
 
 \subsubsection{Within-net threshold}
 
@@ -1077,6 +1175,7 @@ This is great because it enables to set different costs to false positives, whic
 
 This presents best results (accuracy overall, on pos, on neg, sig level) for each binary classifier and discusses further improvements. This is where you mention the multi-query issue, the mis-labelling issue. \\
 
+Also mention the things you could not experiment with: the entire list in your .md file. \\
 
 \subsection{Learning Rate}
 
