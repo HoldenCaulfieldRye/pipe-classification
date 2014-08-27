@@ -937,6 +937,8 @@ Motivation:
 {cite arxiv.org/pdf/1306.0239.pdf}
 By maximising log prob of the data, the deep neural net learns models of the probability distributions that produce both classes. The SVM on the other hand merely chooses the discriminative frontier that maximises the space between the support vectors, i.e. that leaves most space between the two classes. \\
 
+Softmax performs a logistic regression: http://ufldl.stanford.edu/wiki/index.php/Softmax_Regression
+
 
 Implementation:
 - for linear SVM: a single inner product layer with elementwise product activation functions (to achieve linearity), then a hinge-loss layer
