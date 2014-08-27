@@ -941,12 +941,13 @@ Softmax performs a logistic regression: http://ufldl.stanford.edu/wiki/index.php
 
 
 Implementation:
-- for linear SVM: a single inner product layer with elementwise product activation functions (to achieve linearity), then a hinge-loss layer
+- for linear SVM: a single inner product layer with elementwise product activation functions (to achieve linearity), then a hinge-loss layer.
 - for standard deep neural network: we take the best performing network obtained from previous experimentations.
 
 
 Results:
-
+Comment in light of http://metaoptimize.com/qa/questions/13253/least-squares-vs-cross-entropy-vs-hinge-loss
+and of http://arxiv.org/pdf/1306.0239v1.pdf
 
 
 
@@ -991,7 +992,10 @@ Moving from the GTX 780 to a Titan Black with ... \\
 \subsubsection{Under-Sampling}
 Three approaches were taken to tackle class imbalance, the first ones being simplest to implement, the last ones most sophisticated and information-preserving. \\
 
+
 \subsection{Experimentation}
+
+In order to evaluate different measures for tackling class imbalance with a much clarity as possible, a heavily imbalanced task was chosen: soil contamination risk. 
 
 \subsubsection{Under-Sampling}
 
@@ -1047,6 +1051,8 @@ This is great because it enables to set different costs to false positives, whic
 This presents best results (accuracy overall, on pos, on neg, sig level) for each binary classifier and discusses further improvements. This is where you mention the multi-query issue, the mis-labelling issue. \\
 
 Also mention the things you could not experiment with: the entire list in your .md file. \\
+
+\subsection{Merging Classes}
 
 \subsection{Learning Rate}
 
