@@ -989,14 +989,10 @@ python script. \\
 CUDA-enabled GPU. How many teraflops? Which operations are parallelised? 
 Moving from the GTX 780 to a Titan Black with ... \\
 
-\subsubsection{Under-Sampling}
-
-Four approaches were taken to tackle class imbalance, the first ones being simplest to implement, the last ones most sophisticated and information-preserving. \\
-
 
 \subsection{Experimentation}
 
-In order to evaluate different measures for tackling class imbalance with a much clarity as possible, a heavily imbalanced task was chosen: fitting proximity, with 0.993\% class imbalance (32 examples only). \\
+Four approaches were taken to tackle class imbalance, the first ones being simplest to implement, the last ones most sophisticated and information-preserving. \\
 
 A fixed architecture is kept throughout the experiments: frozen backprop on conv layers, fc weights initialised to AlexNet. These constraining choices are to keep the network as much buried inside the good region of the parameter space as possible. \\
 
