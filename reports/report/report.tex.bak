@@ -995,7 +995,11 @@ Three approaches were taken to tackle class imbalance, the first ones being simp
 
 \subsection{Experimentation}
 
-In order to evaluate different measures for tackling class imbalance with a much clarity as possible, a heavily imbalanced task was chosen: soil contamination risk. 
+In order to evaluate different measures for tackling class imbalance with a much clarity as possible, a heavily imbalanced task was chosen: fitting proximity, with 0.993\% class imbalance (32 examples only). 
+
+\subsubsection{Test Run}
+
+Imbalance is obviously reached because most mini-batches do not contain any minority class examples, so the net is only ever being told to output 0. 
 
 \subsubsection{Under-Sampling}
 
