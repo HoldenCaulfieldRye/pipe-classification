@@ -994,7 +994,7 @@ Moving from the GTX 780 to a Titan Black with ... \\
 
 Four approaches were taken to tackle class imbalance, the first ones being simplest to implement, the last ones most sophisticated and information-preserving. \\
 
-A fixed architecture is kept throughout the experiments: frozen backprop on conv layers, fc weights initialised to AlexNet. These constraining choices are to keep the network as much buried inside the good region of the parameter space as possible. \\
+A fixed architecture is kept throughout the experiments: backprop on all layers, fc weights re-initialised. \\
 
 Test interval set to 1, because more important to follow whether or how quickly net goes into bad local minimum. \\
 
