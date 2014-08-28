@@ -1038,7 +1038,7 @@ I think the latter corresponds to thresholding. So it is interesting to compare 
 \end{figure}
 
 
-Re-initialising the weights has several effects. Firstly, it initialises the network in an area of the parameter space which is further away from the optimal region, which is why the training error starts higher. Secondly, the training error is more volatile: this is a result of the network having "more space to move". As a result, overfit occurs sooner too. What is slightly surprising is that re-initialising the weights does not increase performance overall, despite advice from Soumith Chintala to the contrary (any paper?). Perhaps, if data had been more plentiful, re-initialisation would have proven superior. However, given that the backpropagation is fully enabled in such a network that is very large relative to the dataset (remember this network size was trained on ImageNet), overfit occurs quickly. \\
+Re-initialising the weights has other effects too. It initialises the network in an area of the parameter space which is further away from the optimal region, which is why the training error starts higher. Secondly, the training error is more volatile: this is a result of the network having "more space to move". As a result, overfit occurs sooner too. What is slightly surprising is that re-initialising the weights does not increase performance overall, despite advice from Soumith Chintala to the contrary (any paper?). Perhaps, if data had been more plentiful, re-initialisation would have proven superior. However, given that the backpropagation is fully enabled in such a network that is very large relative to the dataset (remember this network size was trained on ImageNet), overfit occurs quickly. \\
 
 
 \subsubsection{Non-Parametric}
