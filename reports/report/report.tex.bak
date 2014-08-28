@@ -857,32 +857,22 @@ This should just be the simple case of transfer learning (no weight re-initialis
 
 \subsubsection{Freezing Backprop on various layers}
 
+Note: under-sampling, weights initialised to AlexNet for all nets in this section. Assume these aspects cannot be optimised. \\
 
-\paragraph{Freeze Backprop on how many layers}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_us_none.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
 
 Do NOT take nets in which weights have been re-initialised. \\
 
-clampdet, same weights, freeze backprop up to and including: 
-     -> none:  clampdet/08
-     -> conv1: 
-     -> conv2: 
-     -> conv3: 
-     -> conv4: 
-     -> conv5: 
-     -> fc6:   thresh_freeze5/14, fix solver, TODO
-     -> fc7:   thresh_freeze6/11
-     -> fc8:   thresh_freeze7/11
-thresh
-threshold_freeze{5.5,6,7}/logs/11-08-2014) 
-
-
-keepers:
-hatch markings: 03, 15
-clampdet: thresh, thresh_freeze6/11, thresh_freeze7/11
 
 Illustrates how the extent to which backrpop is freed up alters the expressive power of the network and its tendency to overfit (have you got a section in your paper explaining overfit? use the polynomials from Bishop, or the MLNC slides from A. Faisal to illustrate it, then link up with ). \\
 
-Show that there is an optimal middle ground (i.e.\ non-monotonous error) number of layers to free up. In our case, freeing up top two layers is optimal. This middle ground is surprising: I'm surprised, I would expect more overfit when more layers are freed for backprop. Could anyone explain this?﻿//
+Is there an optimal middle ground (i.e.\ non-monotonous error) number of layers to free up. In our case, freeing up [???] layers is optimal. This middle ground is surprising: I'm surprised, I would expect more overfit when more layers are freed for backprop. Could anyone explain this?﻿//
 
 Soumith's opinion: Are you resetting the weights in the layers FC6,FC7 or are you just backproping from the AlexNet weights? I think if you reset the weights, you will see what you are expecting.﻿\\
 Me: Yeah, weights initialised to alexnet's. Why do you think that makes a difference? The local minima from alexnet's region leave less room for the net to learn meaningful patterns and push it more quickly into overfitting? \\ ﻿
@@ -894,37 +884,19 @@ The middle ground is the result of the usual expressiveness tradeoff: movement i
 
 \subsubsection{Initialising Free Layers}
 
-Use clampdet (threshold_freeze5/logs/1{3,4}-08-2014 to illustrate impact of initialising free layers to AlexNet weights or to randomly (re-)initialise them. Backprop enabled fully on all fc layers. \\
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_us_none.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
 
-Both nets have frozen AlexNet conv[1-5] layers.
-13 has 3 free fc layers with re-initialised weights
-14 has 3 free fc layers transferred from AlexNet
-
-So we expect 13 to do better.
-
-Results: very convincing. 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_us_none_reinit.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
 
 
-\paragraph{Clampdet optimisation}
-
-Wait a second. I got a bunch of clampdet detections high up in the 80s, but lately it's gone way down. Is small learning rate ruining it? 
-"backprop on fc8, fc7 and biases of fc6" - start with alexnet weights - got 90\% - i.e.\ freeze5.5/
-"backprop on fc8, fc7, fc6"              - start with alexnet weights - got 40\% - i.e.\ freeze5/14  
-
-what the fuck!
-
-5.5/11 has free fc[7-8],         semifree fc6 - step 10^-4 - 10^-4   - 85\%
-5.5/12 has free fc[7-8],         semifree fc6 - inv  10^-5 - 10^-5   - 84\%
-5.5/13 has free fc[7-8] new fc7, semifree fc6 - exp  10^-4 - 10^-6   - 40\%
-
-11 and 12 are identical in train.prototxt.
-But 13 is different in that fc7 is new!
-
-Can the gap in performance be explained by lr_policy? or class imbalance opened up by re-initialisation?
-
-To test this: 
-14 is 13 with 11's lr_policy
-15 is 11 with 13's lr_policy
 
 
 
