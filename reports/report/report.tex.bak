@@ -861,6 +861,15 @@ This section is a fucking mess. To bring order, you might have to train nets aga
 
 This should just be the simple case of transfer learning (no weight re-initialisation, backprop everywhere) vs no transfer learning. 
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_tl_wout.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+Without transfer learning, we get a bad min. With transfer learning, 
+
+
 \subsubsection{Freezing Backprop on various layers}
 
 Note: under-sampling, weights initialised to AlexNet for all nets in this section. Assume these aspects cannot be optimised. \\
