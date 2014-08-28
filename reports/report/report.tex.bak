@@ -897,6 +897,7 @@ The middle ground is the result of the usual expressiveness tradeoff: movement i
 \end{figure}
 
 
+Re-initialising the weights has several effects. Firstly, it initialises the network in an area of the parameter space which is further away from the optimal region, which is why the training error starts higher. Secondly, the training error is more volatile: this is a result of the network having "more space to move". As a result, overfit occurs sooner too. What is slightly surprising is that re-initialising the weights does not increase performance overall, despite advice from Soumith Chintala to the contrary (any paper?). Perhaps, if data had been more plentiful, re-initialisation would have proven superior. However, given that the backpropagation is fully enabled in such a large network relative to the dataset (remember this network size i this is due to the relatively small dataset relative to the size of the network: otherwise one
 
 
 
