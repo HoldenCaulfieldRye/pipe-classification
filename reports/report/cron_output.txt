@@ -493,3 +493,4 @@ alex      7134  7090  0 Aug27 pts/35   00:01:29 texmaker report.tex
  3 files changed, 34 insertions(+), 64 deletions(-)
 To git@github.com:HoldenCaulfieldRye/pipe-classification.git
    91b6b40..863186f  master -> master
+alex      7134  7090  0 Aug27 pts/35   00:01:58 texmaker report.tex
