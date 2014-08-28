@@ -758,6 +758,12 @@ It can also be interesting to notice that no meaningful features are learned: fo
 
 The discovery of this is detailed somewhere above, fetch it.
 
+
+Only Bluebox images were chosen for the rest of the project, in order to limit the impact of mis-labelling and photographically poor images on training, and to limit the number of possible explanations for poor performance if that were to occur. According to ControlPoint the mis-labelling rate greatly decreased through time; since Bluebox images are the most recent, one would hope the mis-labelling rate would be lowest. However, this heavily reduced the amount of training data, requiring transfer learning to come into play. Still, just as a benchmark -- for the record -- randomly initialised AlexNets were trained from the ground up. \\
+
+It is likely that recent Redbox images also have good labelling. By ranking them chronologically, it may have been possible to determine the optimal cut-off date by using a network trained on Bluebox and testing it on Redbox data, with the cutoff date going steadily back. One would expect test error to rise as the cutoff date is brought earlier ie as the proportion of mislabelled images in the test set rises. \\
+
+
 \subsubsection{Data Complexity}
 
 Simply provide examples that describe. I think this has also been written up somewhere, if not, it is in the emails. \\
@@ -855,6 +861,15 @@ This section is a fucking mess. To bring order, you might have to train nets aga
 
 This should just be the simple case of transfer learning (no weight re-initialisation, backprop everywhere) vs no transfer learning. 
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_tl_wout.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+Without transfer learning, we get a bad min. With transfer learning, 
+
+
 \subsubsection{Freezing Backprop on various layers}
 
 Note: under-sampling, weights initialised to AlexNet for all nets in this section. Assume these aspects cannot be optimised. \\
@@ -879,26 +894,6 @@ Me: Yeah, weights initialised to alexnet's. Why do you think that makes a differ
 Soumith: when doing transfer learning, if you kept alexnet weights you are already in a well-settled local minima for that layer, so there wont be much movement I think.﻿\\
 
 The middle ground is the result of the usual expressiveness tradeoff: movement in function space versus over-fitting of the model. \\
-
-
-
-\subsubsection{Initialising Free Layers}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_us_none.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_us_none_reinit.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-
-Re-initialising the weights has several effects. Firstly, it initialises the network in an area of the parameter space which is further away from the optimal region, which is why the training error starts higher. Secondly, the training error is more volatile: this is a result of the network having "more space to move". As a result, overfit occurs sooner too. What is slightly surprising is that re-initialising the weights does not increase performance overall, despite advice from Soumith Chintala to the contrary (any paper?). Perhaps, if data had been more plentiful, re-initialisation would have proven superior. However, given that the backpropagation is fully enabled in such a network that is very large relative to the dataset (remember this network size was trained on ImageNet), overfit occurs quickly. \\
-
 
 
 \subsubsection{Parametric vs Non-parametric}
@@ -975,19 +970,20 @@ Test interval set to 1, because more important to follow whether or how quickly 
 
 \subsubsection{Test Run}
 
+
+
 Imbalance is obviously reached because most mini-batches do not contain any minority class examples, so the net is only ever being told to output 0. 
 
 \subsubsection{Under-Sampling}
 
-This was trained with cuda-convnet. \\
 
-CNNs were trained on all of the "No Clamps" or "Clamps Not Sufficiently Visible" images, and a random sample containing 15\% of the "Clamps Detected" images, in order to obtain an acceptably balanced dataset. This fix was easiest to implement and served as a benchmark for the more sophisticated subsequent approaches. Naturally, one would also expect this approach to be least effective: 85\% of the training data was lost, data which could intuitively serve not to teach the network to distinguish classes, but to learn features that are good encoders of pipe weld images, from which an effective discriminative setup of the parameters could ensue. \\
 
-Note that the two minority classes were merged: because it is suspected that there is barely any semantic difference between them (will have to draw random samples to verify this), and because this reduces the number of majority class instances to remove, since it makes it easier to reach a good balance ratio. \\
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=•]{•}=0.5]{images/plot_clampdet_us_none_reinit.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
 
-Moreover, Bluebox images were chosen this time round, in order to limit the impact of mis-labelling and photographically poor images on training, and to limit the number of possible explanations for poor performance if that were to occur. According to ControlPoint the mis-labelling rate greatly decreased through time; since Bluebox images are the most recent, one would hope the mis-labelling rate would be lowest. However, this heavily reduced the amount of training data, requiring transfer learning to come into play. Still, just as a benchmark -- for the record -- randomly initialised AlexNets were trained from the ground up. \\
-
-Since there is a tradeoff between class balance and dataset size, two different balance ratios were tested: 40\%/60\% for a dataset of and 33\%/66\%. \\ 
 
 
 \subsubsection{Over-Sampling}
@@ -1036,6 +1032,24 @@ So with SBL, do we really want to make the modulus bigger for both softmax neuro
 I think the latter corresponds to thresholding. So it is interesting to compare them. \\
 
 
+\subsubsection{Initialising Free Layers}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_none_reinit.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+
+Re-initialising the weights has other effects too. It initialises the network in an area of the parameter space which is further away from the optimal region, which is why the training error starts higher. Secondly, the training error is more volatile: this is a result of the network having "more space to move". As a result, overfit occurs sooner too. What is slightly surprising is that re-initialising the weights does not increase performance overall, despite advice from Soumith Chintala to the contrary (any paper?). Perhaps, if data had been more plentiful, re-initialisation would have proven superior. However, given that the backpropagation is fully enabled in such a network that is very large relative to the dataset (remember this network size was trained on ImageNet), overfit occurs quickly. \\
+
+
 \subsubsection{Non-Parametric}
 
 
@@ -1051,6 +1065,11 @@ This presents best results (accuracy overall, on pos, on neg, sig level) for eac
 Also mention the things you could not experiment with: the entire list in your .md file. \\
 
 \subsection{Merging Classes}
+
+CNNs were trained on all of the "No Clamps" or "Clamps Not Sufficiently Visible" images, and a random sample containing 15\% of the "Clamps Detected" images, in order to obtain an acceptably balanced dataset. This fix was easiest to implement and served as a benchmark for the more sophisticated subsequent approaches. Naturally, one would also expect this approach to be least effective: 85\% of the training data was lost, data which could intuitively serve not to teach the network to distinguish classes, but to learn features that are good encoders of pipe weld images, from which an effective discriminative setup of the parameters could ensue. \\
+
+Note that the two minority classes were merged: because it is suspected that there is barely any semantic difference between them (will have to draw random samples to verify this), and because this reduces the number of majority class instances to remove, since it makes it easier to reach a good balance ratio. \\
+
 
 \subsection{Learning Rate}
 
