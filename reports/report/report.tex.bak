@@ -1020,6 +1020,18 @@ Since there is a tradeoff between class balance and dataset size, two different 
 \subsubsection{Over-Sampling}
 
 For the implementation: 
+(min + copy) / (max + min + copy) = target
+
+min + copy = copy*target + target*(max+min)
+
+copy = copy*target + target*(max+min) - min
+
+(1-target)*copy = target*(max+min) - min
+
+copy = ( target*(max+min) - min ) / (1 - target)
+
+Duplicates are created in training set, but we don't want them in the validation or test sets as this will slow down the algorithms (though it wouldn't bias the results aka metrics). 
+
 
 \subsubsection{Bayesian Cross Entropy Cost Function}
 
