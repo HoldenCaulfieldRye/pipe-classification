@@ -761,7 +761,7 @@ The discovery of this is detailed somewhere above, fetch it.
 
 Only Bluebox images were chosen for the rest of the project, in order to limit the impact of mis-labelling and photographically poor images on training, and to limit the number of possible explanations for poor performance if that were to occur. According to ControlPoint the mis-labelling rate greatly decreased through time; since Bluebox images are the most recent, one would hope the mis-labelling rate would be lowest. However, this heavily reduced the amount of training data, requiring transfer learning to come into play. Still, just as a benchmark -- for the record -- randomly initialised AlexNets were trained from the ground up. \\
 
-It is likely that recent Redbox images also have good labelling. By ranking them chronologically, it may have been possible to determine the optimal cut-off date by using a network trained on Bluebox and testing it on Redbox data, with the cutoff date going steadily back. One would expect test error to rise as the cutoff date is brought earlier ie as the proportion of mislabelled images
+It is likely that recent Redbox images also have good labelling. By ranking them chronologically, it may have been possible to determine the optimal cut-off date by using a network trained on Bluebox and testing it on Redbox data, with the cutoff date going steadily back. One would expect test error to rise as the cutoff date is brought earlier ie as the proportion of mislabelled images in the test set rises. \\
 
 
 \subsubsection{Data Complexity}
@@ -887,26 +887,6 @@ Soumith: when doing transfer learning, if you kept alexnet weights you are alrea
 The middle ground is the result of the usual expressiveness tradeoff: movement in function space versus over-fitting of the model. \\
 
 
-
-\subsubsection{Initialising Free Layers}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_us_none.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_us_none_reinit.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-
-Re-initialising the weights has several effects. Firstly, it initialises the network in an area of the parameter space which is further away from the optimal region, which is why the training error starts higher. Secondly, the training error is more volatile: this is a result of the network having "more space to move". As a result, overfit occurs sooner too. What is slightly surprising is that re-initialising the weights does not increase performance overall, despite advice from Soumith Chintala to the contrary (any paper?). Perhaps, if data had been more plentiful, re-initialisation would have proven superior. However, given that the backpropagation is fully enabled in such a network that is very large relative to the dataset (remember this network size was trained on ImageNet), overfit occurs quickly. \\
-
-
-
 \subsubsection{Parametric vs Non-parametric}
 
 Motivation:
@@ -981,6 +961,8 @@ Test interval set to 1, because more important to follow whether or how quickly 
 
 \subsubsection{Test Run}
 
+
+
 Imbalance is obviously reached because most mini-batches do not contain any minority class examples, so the net is only ever being told to output 0. 
 
 \subsubsection{Under-Sampling}
@@ -989,7 +971,7 @@ Imbalance is obviously reached because most mini-batches do not contain any mino
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_us_none_reinit.png}
+	\includegraphics[scale=•]{•}=0.5]{images/plot_clampdet_us_none_reinit.png}
 	\caption{Clamp Detection, Full Backpropagation}
 \end{figure}
 
@@ -1039,6 +1021,24 @@ But wait: with SBL, do we really want to make the modulus bigger for both softma
 
 So with SBL, do we really want to make the modulus bigger for both softmax neurons whenever we have a min class case? Or do we want to make the modulus bigger for the min class softmax neuron, for all class cases? Or both?
 I think the latter corresponds to thresholding. So it is interesting to compare them. \\
+
+
+\subsubsection{Initialising Free Layers}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_none_reinit.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+
+Re-initialising the weights has several effects. Firstly, it initialises the network in an area of the parameter space which is further away from the optimal region, which is why the training error starts higher. Secondly, the training error is more volatile: this is a result of the network having "more space to move". As a result, overfit occurs sooner too. What is slightly surprising is that re-initialising the weights does not increase performance overall, despite advice from Soumith Chintala to the contrary (any paper?). Perhaps, if data had been more plentiful, re-initialisation would have proven superior. However, given that the backpropagation is fully enabled in such a network that is very large relative to the dataset (remember this network size was trained on ImageNet), overfit occurs quickly. \\
 
 
 \subsubsection{Non-Parametric}
