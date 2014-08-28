@@ -937,14 +937,17 @@ Motivation:
 {cite arxiv.org/pdf/1306.0239.pdf}
 By maximising log prob of the data, the deep neural net learns models of the probability distributions that produce both classes. The SVM on the other hand merely chooses the discriminative frontier that maximises the space between the support vectors, i.e. that leaves most space between the two classes. \\
 
+Softmax performs a logistic regression: http://ufldl.stanford.edu/wiki/index.php/Softmax_Regression
+
 
 Implementation:
-- for linear SVM: a single inner product layer with elementwise product activation functions (to achieve linearity), then a hinge-loss layer
+- for linear SVM: a single inner product layer with elementwise product activation functions (to achieve linearity), then a hinge-loss layer.
 - for standard deep neural network: we take the best performing network obtained from previous experimentations.
 
 
 Results:
-
+Comment in light of http://metaoptimize.com/qa/questions/13253/least-squares-vs-cross-entropy-vs-hinge-loss
+and of http://arxiv.org/pdf/1306.0239v1.pdf
 
 
 
@@ -972,7 +975,9 @@ Rather than have a fixed threshold hard-coded into the network, I propose to use
 
 \subsection{Implementation}
 
-c++ threshold layer. bayesian softmax loss layer. bayesian layer abstract class with OOP from which the previous two inherit, which has access to minibatch labels and can compute the prior for the specific batch. More precise than assuming each minibatch has the same prior as the entire training set. \\
+c++ per class accuracy layer, threshold layer. bayesian softmax loss layer. bayesian layer abstract class with OOP from which the previous two inherit, which has access to minibatch labels and can compute the prior for the specific batch. More precise than assuming each minibatch has the same prior as the entire training set. \\
+
+
 
 python script. \\
 
@@ -986,10 +991,18 @@ python script. \\
 CUDA-enabled GPU. How many teraflops? Which operations are parallelised? 
 Moving from the GTX 780 to a Titan Black with ... \\
 
-\subsubsection{Under-Sampling}
-Three approaches were taken to tackle class imbalance, the first ones being simplest to implement, the last ones most sophisticated and information-preserving. \\
 
 \subsection{Experimentation}
+
+Four approaches were taken to tackle class imbalance, the first ones being simplest to implement, the last ones most sophisticated and information-preserving. \\
+
+A fixed architecture is kept throughout the experiments: backprop on all layers, fc weights re-initialised. \\
+
+Test interval set to 1, because more important to follow whether or how quickly net goes into bad local minimum. \\
+
+\subsubsection{Test Run}
+
+Imbalance is obviously reached because most mini-batches do not contain any minority class examples, so the net is only ever being told to output 0. 
 
 \subsubsection{Under-Sampling}
 
@@ -1003,7 +1016,22 @@ Moreover, Bluebox images were chosen this time round, in order to limit the impa
 
 Since there is a tradeoff between class balance and dataset size, two different balance ratios were tested: 40\%/60\% for a dataset of and 33\%/66\%. \\ 
 
-\subsubsection{Within-net threshold}
+
+\subsubsection{Over-Sampling}
+
+For the implementation: 
+(min + copy) / (max + min + copy) = target
+
+min + copy = copy*target + target*(max+min)
+
+copy = copy*target + target*(max+min) - min
+
+(1-target)*copy = target*(max+min) - min
+
+copy = ( target*(max+min) - min ) / (1 - target)
+
+Duplicates are created in training set, but we don't want them in the validation or test sets as this will slow down the algorithms (though it wouldn't bias the results aka metrics). 
+
 
 \subsubsection{Bayesian Cross Entropy Cost Function}
 
@@ -1045,6 +1073,8 @@ This is great because it enables to set different costs to false positives, whic
 This presents best results (accuracy overall, on pos, on neg, sig level) for each binary classifier and discusses further improvements. This is where you mention the multi-query issue, the mis-labelling issue. \\
 
 Also mention the things you could not experiment with: the entire list in your .md file. \\
+
+\subsection{Merging Classes}
 
 \subsection{Learning Rate}
 

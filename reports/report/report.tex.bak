@@ -1019,6 +1019,7 @@ Since there is a tradeoff between class balance and dataset size, two different 
 
 \subsubsection{Over-Sampling}
 
+For the implementation: 
 
 \subsubsection{Bayesian Cross Entropy Cost Function}
 
