@@ -382,13 +382,10 @@ For example consider SIFT (Scale-invariant feature transform) descriptors: they 
 
 \subparagraph{Possible Normalisation}
 
+\paragraph{Dropout}
 
+\paragraph{Data augmentation}
 
-\paragraph{Architecture}
-
-\paragraph{Training}
-
-\paragraph{Results}
 
 \subsection{Training: Backpropagation}
 
@@ -437,6 +434,17 @@ Visually, this means that weight values move in the direction the will reduce th
 \paragraph{Training, Validation and Test Sets}
 
 As mentioned previously, learning is not a mere approximation problem because the hypothesis function must generalise well to any subset of the instance space. Approximation and generalisation are incorporated into the training of deep neural networks (as well as other models \cite{train&test}) by separating the labelled dataset into a training set, a validation set and a test set. The partial derivatives are computed from the error over the training set, but the function that is learned is the one that minimises the error over the validation set, and its performance is measured on the test set. The distinction between training and validation sets is what prevents the function from overfitting the training data: if the function begins to overfit, the error on the validation set will increase and training will be stopped. The distinction between the test set and the validation set is to obtain a stochastically impartial measure of performance: since the function is chosen to minimise the error over the validation set, there could be some non-negligible overfit to the validation set which can only be reflected by assessing the function's performance on yet another set.
+
+\subsubsection{Early Stopping}
+
+As opposed to 
+
+Lorenzo Rosascol https://www.youtube.com/watch?v=bukb-rMuayM&list=PLYTk9IwHBb2ANKHc2feIso7tL1slpuVPY#t=935
+
+15:32 inversion of matrix equals polynomial series.
+
+awesome blog post about it all: http://mrtz.org/blog/the-zen-of-gradient-descent/#comment-3240
+
 
 % \paragraph{Dropout}
 
@@ -867,7 +875,14 @@ This should just be the simple case of transfer learning (no weight re-initialis
 	\caption{Clamp Detection, Full Backpropagation}
 \end{figure}
 
-Without transfer learning, we get a bad min. With transfer learning, 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+
+Without transfer learning, impossible to train. With transfer learning, it is! (at least not with this task). The conclusion is that initialisation of the parameters is very important, even in convolutional neural networks, at least when the dataset is not large! (Quote deep sparse rectifier network paper and maybe another, just to show that your observations are consistent with the literature). Ideally, show the features or filters or something. \\
 
 
 \subsubsection{Freezing Backprop on various layers}
@@ -877,7 +892,13 @@ Note: under-sampling, weights initialised to AlexNet for all nets in this sectio
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_us_none.png}
+	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_conv1.png}
 	\caption{Clamp Detection, Full Backpropagation}
 \end{figure}
 
@@ -895,28 +916,60 @@ Soumith: when doing transfer learning, if you kept alexnet weights you are alrea
 
 The middle ground is the result of the usual expressiveness tradeoff: movement in function space versus over-fitting of the model. \\
 
+\subsubsection{Initialising Free Layers}
+
+Another hyperparameter in transfer learning is whether to initialise the layers in which backpropagation has been enabled to the transferred network's weights, or to randomly initialise them. A way to think about this intuitively is to wonder: do we want to keep the features learned at the given layer or not? \\
+
+The features on convolutional layers are easy to visualise, and the success of transfer learning in computer vision rests on the fact that pixel features good for one computer vision task are also good for others. This makes intuitive sense for low level shapes: our visual world is made up of combinations of edges, corners, textures and shapes. But what about the features in the fully connected layers? \\
+
+There currently exists no way of visualising the semantic content in fully connected layers: the Intruiguing properties paper suggests that an individual neuron does not contain a semantic feature, but that it is distributed among the units of the layer. So it is not obvious whether or not the features in the fully connected layers are of any use for transfer tasks. That is the motivation for experimenting with weight re-initialisation. \\
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_none_reinit.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+Are below comments still true once retrained no mistake long time for both? \\
+
+Re-initialising the weights has other effects too. It initialises the network in an area of the parameter space which is further away from the optimal region, which is why the training error starts higher. Secondly, the training error is more volatile: this is a result of the network having "more space to move". As a result, overfit occurs sooner too. What is slightly surprising is that re-initialising the weights does not increase performance overall, despite advice from Soumith Chintala to the contrary (any paper?). Perhaps, if data had been more plentiful, re-initialisation would have proven superior. However, given that the backpropagation is fully enabled in such a network that is very large relative to the dataset (remember this network size was trained on ImageNet), overfit occurs quickly. \\
+
 
 \subsubsection{Parametric vs Non-parametric}
 
 Motivation:
-'CNN features off the shelf' advocates training a linear SVM on top of the transferred feature space. The difference with a standard deep neural network are:
-- linearity
-- optimise margin-based loss rather than log probability of the data
+Still on the topic of whether features in the fully connected layers are of transferrable use, the results of 'CNN features off the shelf' offer guidance. The paper achieves quasi state of the art performance by trianing a very simple linear SVM on the feature space of the penultimate fully connected layer (obviously not the highest one, since this one is specifically trained for distinguishing among the classes is the source task).  
+
+The difference between training a linear SVM and a standard softmax layer are:
+- SVM fits the best separating hyperplane. this assumes linear separability. 
+- softmax performs logistic regression. does this assume linear separability?
+
+Expound:
+Softmax logistic regression: http://ufldl.stanford.edu/wiki/index.php/Softmax_Regression
+SVM maths + illustration
+
+optimise margin-based loss rather than log probability of the data
 {cite arxiv.org/pdf/1306.0239.pdf}
-By maximising log prob of the data, the deep neural net learns models of the probability distributions that produce both classes. The SVM on the other hand merely chooses the discriminative frontier that maximises the space between the support vectors, i.e. that leaves most space between the two classes. \\
-
-Softmax performs a logistic regression: http://ufldl.stanford.edu/wiki/index.php/Softmax_Regression
-
 
 Implementation:
 - for linear SVM: a single inner product layer with elementwise product activation functions (to achieve linearity), then a hinge-loss layer.
 - for standard deep neural network: we take the best performing network obtained from previous experimentations.
 
 
-Results:
-Comment in light of http://metaoptimize.com/qa/questions/13253/least-squares-vs-cross-entropy-vs-hinge-loss
-and of http://arxiv.org/pdf/1306.0239v1.pdf
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_linSVM.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
 
+Results:
+Comment in light Are All Loss Functions The Same? http://arxiv.org/pdf/1306.0239v1.pdf
 
 
 \clearpage
@@ -945,64 +998,111 @@ Rather than have a fixed threshold hard-coded into the network, I propose to use
 
 c++ per class accuracy layer, threshold layer. bayesian softmax loss layer. bayesian layer abstract class with OOP from which the previous two inherit, which has access to minibatch labels and can compute the prior for the specific batch. More precise than assuming each minibatch has the same prior as the entire training set. \\
 
-
+c++ per class accuracy layer as an indicator for bad min: do the maths to explain how bad min necessarily implies 0.5 per class accuracy. A flaw is that 0.5 per class accuracy can be caused by other things than bad min - and this did throw me off guard during the project on an occasion. Therefore, it is not a detector! To make sure that we are indeed in bad_min, we can run the net and look at the output probabilities. \\
 
 python script. \\
 
 
 
-\subsubsection{Summary}
-
-
-\subsubsection{Hardware}
-
-CUDA-enabled GPU. How many teraflops? Which operations are parallelised? 
-Moving from the GTX 780 to a Titan Black with ... \\
-
-
 \subsection{Experimentation}
 
-Four approaches were taken to tackle class imbalance, the first ones being simplest to implement, the last ones most sophisticated and information-preserving. \\
+Several approaches were taken to tackle class imbalance. Successful ones accumulated as experimentation went along. \\
 
-A fixed architecture is kept throughout the experiments: backprop on all layers, fc weights re-initialised. \\
+A fixed architecture is kept throughout the experiments: backprop on all layers, all weights transferred. Note that this is no longer SGD with fitting proximity because dataset is so small, we are using the entire training set every time. \\
 
 Test interval set to 1, because more important to follow whether or how quickly net goes into bad local minimum. \\
 
-\subsubsection{Test Run}
-
-
+\subsubsection{Test Run, Under-Sampling}
 
 Imbalance is obviously reached because most mini-batches do not contain any minority class examples, so the net is only ever being told to output 0. 
 
-\subsubsection{Under-Sampling}
-
-
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=•]{•}=0.5]{images/plot_fitting_proximity_tl_wout.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=•]{•}=0.5]{images/plot_clampdet_us_none_reinit.png}
+	\includegraphics[scale=•]{•}=0.5]{images/plot_fitting_proximity_us_tl_wout.png}
 	\caption{Clamp Detection, Full Backpropagation}
 \end{figure}
 
 
+\paragraph{Overfitting consequences of under-sampling}
 
-\subsubsection{Over-Sampling}
+Here we evaluate impact of under-sampling on clampdet. There is no need to under-sample on clampdet because class imbalance is tackled by transfer learning. But that is the reason for why clampdet is used to illustrate impact on overfitting: apply under-sampling in a case where learning occurs regardless, to see what impact it has on the health. We can't be certain about this impact on fitting proximity, since it just doesn't learn anyway. \\
 
-For the implementation: 
-(min + copy) / (max + min + copy) = target
+Comparison 1: without weight re-initialization
 
-min + copy = copy*target + target*(max+min)
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=•]{•}=0.5]{images/plot_clampdet_none.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
 
-copy = copy*target + target*(max+min) - min
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=•]{•}=0.5]{images/plot_clampdet_us_none.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
 
-(1-target)*copy = target*(max+min) - min
+Notice how under-sampling makes overfit take place so much sooner. This begs for other class imbalance tacklign tricks to be combined with under-sampling, in order to limit the extent to which we under-sample, in order to fragilise robustness as little as possibe, so that we can use more expressive models, i.e.\ enable backprop on more layers. \\
 
-copy = ( target*(max+min) - min ) / (1 - target)
 
-Duplicates are created in training set, but we don't want them in the validation or test sets as this will slow down the algorithms (though it wouldn't bias the results aka metrics). 
+\subsubsection{Transfer Learning}
+
+As a reminder, it works with clampdet (and that is why we were able to experiment freely with various transfer learning related hyperparameters in the previous section).
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_tl_wout.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+We can revisit the results found in the transfer learning test run in the light of class imbalance: initialise the parameters in a region where true minima are deeper than the local minima. This is the case with clamp detection.
+
+To back up this interpretation, do the same thing with a task where you can estimate that the true minima are higher than the bad minima. To figure out how deep the good minima are, do transfer learning + target 0.5 under-sampling on the task (ie stricted possible under-sampling), and use the minimum attained as an estimate for how deep the good minima are (this might not work because heavier under-sampling reduces training set therefore makes gradient more noisy therefore maybe cannot locate the good min, or cannot locate the better one(s).) 
+
+If depth of good min measure is obtained, do transfer learning with two different under-sampling rates: one above the good min measure, one below. See whether transfer learning overcomes class imbalance in any of those cases. Hopefully only the one with stricter under-sampling. \\
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_fitting_proximity_us_none.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+We can see from above that the good minimum is at ? . Therefore, to evaluate hypothesis expressed above, we can under-sample with a target bad min below this good min ('fit_prox_usBelow'), another slightly above ('fit_prox_usAbove'), and do transfer learning with no reinit for both. If hypothesis is correct, then network should settle in bad min for former, but not for latter. \\
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_fitting_proximity_usAbove_none.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_fitting_proximity_usBelow_none.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+Hypothesis supported? Disproved? If hypothesis supported, ie usAbove looks like it is in bad min, make sure with run_classifier and loo at the output probabilities. \\
+
+If hypothesis disproved, ie transfer learning counters class imalance in both cases, it could be that noisy gradient did not allow us to locate the good min that is available at less strict under-sampling rates. Maybe try again with a task this is not so extremely imbalanced. 
+Or if hypothesis disproved, maybe we should try freezing backprop? As a way of reducing the number of different ways in which network can step into bad min? 
+We could also try with non-parametric error, but that is not related to transfer learning per se, so we keep that for later. \\
+
 
 
 \subsubsection{Bayesian Cross Entropy Cost Function}
+
+If hypothesis supported, maybe rebalancing costs with a different cost function can allow us to under-sample less severely? \\
 
 I also wonder whether it should be used in conjunction with a modified cost function. the threshold renormalisation won't change the fact that most of the error will come from c_2 examples, so the net would still be encouraged to learn c_2 more than c_1. [Provide a simple mathematical example of this]. If we want the stochastic gradient to reflect as much of the c_1 errors as the c_2 errors on average, then we need to renormalise the errors based on priors as well. This is done with bayesian cross entropy: [formula here] \\
 
@@ -1032,37 +1132,78 @@ So with SBL, do we really want to make the modulus bigger for both softmax neuro
 I think the latter corresponds to thresholding. So it is interesting to compare them. \\
 
 
-\subsubsection{Initialising Free Layers}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_none_reinit.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-
-Re-initialising the weights has other effects too. It initialises the network in an area of the parameter space which is further away from the optimal region, which is why the training error starts higher. Secondly, the training error is more volatile: this is a result of the network having "more space to move". As a result, overfit occurs sooner too. What is slightly surprising is that re-initialising the weights does not increase performance overall, despite advice from Soumith Chintala to the contrary (any paper?). Perhaps, if data had been more plentiful, re-initialisation would have proven superior. However, given that the backpropagation is fully enabled in such a network that is very large relative to the dataset (remember this network size was trained on ImageNet), overfit occurs quickly. \\
-
-
 \subsubsection{Non-Parametric}
+
+Maybe a separating hyperplane is less sensitive to small datasets than logistic regression? \\
+
+
+
+\subsubsection{Over-Sampling}
+
+And now for an alternative to under-sampling. 
+
+For the implementation: 
+(min + copy) / (max + min + copy) = target
+
+min + copy = copy*target + target*(max+min)
+
+copy = copy*target + target*(max+min) - min
+
+(1-target)*copy = target*(max+min) - min
+
+copy = ( target*(max+min) - min ) / (1 - target)
+
+Duplicates are created in training set, but we don't want them in the validation or test sets as this will slow down the algorithms (though it wouldn't bias the results aka metrics). 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=•]{•}=0.5]{images/plot_clampdet_us_none_reinit.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_os_none_reinit-5000.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_os_none_reinit.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+Oversampling completely fails. \\
+
+Observations:
+- very weak performance
+- per class accuracy goes below 0.5
+- entire error time series are shifted up by a constant
+- overfit occurs sooner
+
+
+Interpretations:
+How can per class accuracy be below 0.5? that's worse than random! It may be due to the fact that copies are made in the training set, but not in the test and validation sets. 
+When comparing these networks, should we not be using the same validation set for all? No, we should be using the same test set (and testing will come in the next section). We should choose the validation set that we deem best for early stopping. In the case of over-sampling, makes no sense to include duplicates. 
+
+There might be bugs in the implementation. Check in this paper: http://sci2s.ugr.es/keel/pdf/algorithm/articulo/2006%20-%20IEEE_TKDE%20-%20Zhou_Liu.pdf
+whether what it says can be linked to what you got. Otherwise, just omit it from your report. \\
 
 
 \subsubsection{Test-time threshold}
 
 This is great because it enables to set different costs to false positives, which is what ControlPoint is interested in. \\
 
+Get Razvan's Bayesian interpretation of what the net learns and therefore why the threshold has a nice probabilistic interpretation. \\
+
 
 \section{Final Results}
 
-This presents best results (accuracy overall, on pos, on neg, sig level) for each binary classifier and discusses further improvements. This is where you mention the multi-query issue, the mis-labelling issue. \\
+This presents best results (accuracy overall, on pos, on neg, sig level) for each binary classifier and discusses further improvements. All successfull tricks were accumulated to produce these results. \\
 
-Also mention the things you could not experiment with: the entire list in your .md file. \\
+To sum up, the two greatest challenges with the Bluebox dataset is small size and class imbalance. Small size can be dealt with by transferring knowledge from another task by initialising weights. Class imbalance can be cruelly dealt with using under-sampling, but this decreases the size of the dataset even more, making robustness ie generalisation the second challenge. Therefore, we use [..] and [..] to help with dealing with class imbalance and mitigate the extent of under-sampling. \\
+
+This is where you mention the multi-query issue, the mis-labelling issue. Also mention the things you could not experiment with: the entire list in your .md file. \\
 
 \subsection{Merging Classes}
 
