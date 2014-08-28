@@ -1063,6 +1063,9 @@ So with SBL, do we really want to make the modulus bigger for both softmax neuro
 I think the latter corresponds to thresholding. So it is interesting to compare them. \\
 
 
+\subsubsection{Non-Parametric}
+
+
 \subsubsection{Test-time threshold}
 
 This is great because it enables to set different costs to false positives, which is what ControlPoint is interested in. \\
