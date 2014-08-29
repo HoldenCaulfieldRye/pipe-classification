@@ -991,6 +991,12 @@ c++ per class accuracy layer as an indicator for bad min: do the maths to explai
 
 python script. \\
 
+increase class imbalance:
+target = (max_num) / (total_num - delete_min)
+target*total_num - target*delete_min = max_num
+target*delete_min = target*total_num - max_num
+delete_min = total_num - (max_num/target)
+
 
 \subsection{Experimentation}
 
@@ -1000,7 +1006,7 @@ A fixed architecture and training strategy are kept throughout the experiments: 
 
 Test interval set to 1, because more important to follow whether or how quickly net goes into bad local minimum. \\
 
-The level of class imbalance to impose on the clamp detection task was chosen such that the optimal transfer learning setup obtained from previous experimentation no longer enables successful learning of the task, and puts the network in bad local minimum instead. This corresponds to: \\
+The level of class imbalance to impose on the clamp detection task was chosen such that the optimal transfer learning setup obtained from previous experimentation no longer enables successful learning of the task, and puts the network in bad local minimum instead. This corresponds to ??, from an original imbalance ratio of 0.88\%. It may seem like a small gap, but this means going from 1323 minority class training cases to 824, i.e. a 38\% decrease. \\
 
 \subsubsection{Test Run, Under-Sampling}
 
