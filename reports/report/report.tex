@@ -1038,7 +1038,7 @@ Notice what happens when validation batch size too small:
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.8\textwidth,natwidth=610,natheight=642]{images/plot_clampdetCI_none_testrun.png}
+	\includegraphics[scale=0.5]{images/plot_clampdetCI_none_testrun.png}
 	\caption{Clamp Detection, Full Backpropagation}
 \end{figure}
 
@@ -1082,13 +1082,13 @@ Comparison 1: without weight re-initialization
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.8\textwidth, natwidth=610,natheight=642]{images/plot_clampdet_none.png}
+	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
 	\caption{Clamp Detection, Full Backpropagation}
 \end{figure}
 
-%\begin{figure}[h!]
+\begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.8\textwidth, natwidth=610,natheight=642]{images/plot_clampdet_us_none.png}
+	\includegraphics[scale=0.5]{images/plot_clampdet_us_none.png}
 	\caption{Clamp Detection, Full Backpropagation}
 \end{figure}
 
@@ -1117,27 +1117,27 @@ To back up this interpretation, do the same thing with a task where you can esti
 
 If depth of good min measure is obtained, do transfer learning with two different under-sampling rates: one above the good min measure, one below. See whether transfer learning overcomes class imbalance in any of those cases. Hopefully only the one with stricter under-sampling. \\
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_fitting_proximity_us_none.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[scale=0.5]{images/plot_fitting_proximity_us_none.png}
+%	\caption{Clamp Detection, Full Backpropagation}
+%\end{figure}
 
-We can see from above that the good minimum is at ? . Therefore, to evaluate hypothesis expressed above, we can under-sample with a target bad min below this good min ('fit_prox_usBelow'), another slightly above ('fit_prox_usAbove'), and do transfer learning with no reinit for both. If hypothesis is correct, then network should settle in bad min for former, but not for latter. \\
+We can see from above that the good minimum is at ? . Therefore, to evaluate hypothesis expressed above, we can under-sample with a target bad min below this good min ('fit prox usBelow'), another slightly above ('fit prox usAbove'), and do transfer learning with no reinit for both. If hypothesis is correct, then network should settle in bad min for former, but not for latter. \\
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_fitting_proximity_usAbove_none.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[scale=0.5]{images/plot_fitting_proximity_usAbove_none.png}
+%	\caption{Clamp Detection, Full Backpropagation}
+%\end{figure}
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_fitting_proximity_usBelow_none.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[scale=0.5]{images/plot_fitting_proximity_usBelow_none.png}
+%	\caption{Clamp Detection, Full Backpropagation}
+%\end{figure}
 
-Hypothesis supported? Disproved? If hypothesis supported, ie usAbove looks like it is in bad min, make sure with run_classifier and loo at the output probabilities. \\
+Hypothesis supported? Disproved? If hypothesis supported, ie usAbove looks like it is in bad min, make sure with $run_classifier$ and loo at the output probabilities. \\
 
 If hypothesis disproved, ie transfer learning counters class imalance in both cases, it could be that noisy gradient did not allow us to locate the good min that is available at less strict under-sampling rates. Maybe try again with a task this is not so extremely imbalanced. 
 Or if hypothesis disproved, maybe we should try freezing backprop? As a way of reducing the number of different ways in which network can step into bad min? 
@@ -1149,7 +1149,7 @@ We could also try with non-parametric error, but that is not related to transfer
 
 If hypothesis supported, maybe rebalancing costs with a different cost function can allow us to under-sample less severely? \\
 
-I also wonder whether it should be used in conjunction with a modified cost function. the threshold renormalisation won't change the fact that most of the error will come from c_2 examples, so the net would still be encouraged to learn c_2 more than c_1. [Provide a simple mathematical example of this]. If we want the stochastic gradient to reflect as much of the c_1 errors as the c_2 errors on average, then we need to renormalise the errors based on priors as well. This is done with bayesian cross entropy: [formula here] \\
+I also wonder whether it should be used in conjunction with a modified cost function. the threshold renormalisation won't change the fact that most of the error will come from $c_2$ examples, so the net would still be encouraged to learn $c_2$ more than $c_1$. [Provide a simple mathematical example of this]. If we want the stochastic gradient to reflect as much of the $c_1$ errors as the $c_2$ errors on average, then we need to renormalise the errors based on priors as well. This is done with bayesian cross entropy: [formula here] \\
 
 When viewed as MLE estimation, the Bayesian cross entropy can be interpreted as follows: instead of trying to maximise the joint probability of the data under the assumption that each observed event has the same probability, we are assigning higher probability to minority class events. \\
 
@@ -1159,13 +1159,13 @@ When viewed as MLE estimation, the Bayesian cross entropy can be interpreted as 
 
 this concerns work done around 20th August. This was written on 23rd August. 
 
-scrape_zones_sbl/22-08-2014: We look at the output probabilities, the loss values with and without bayesian renormalisation, the gradients for the softmax layer with and without bayesian renormalisation. 
+$scrape_zones_sbl/22-08-2014$: We look at the output probabilities, the loss values with and without bayesian renormalisation, the gradients for the softmax layer with and without bayesian renormalisation. 
 
 We have a class imbalance of 81.5\%. In first train iteration, output probs are all close to (0.5, 0.5) i.e.\ with ~0.01 standard deviation. This makes intuitive sense, the network has no idea which class is more likely because it has learned nothing yet. \\
 
 The SBL and SL losses are practically the same, they only vary by 0.15\%. This also makes sense: they will be different when the precision on one class differs markedly from the precision on the other class, which is not the case when outputting roughly (0.5,0.5) for every case. \\
 
-The gradient backpropagated to the softmax layer is of dimension 2: one for each softmax neuron. It is interesting to note that grad(softmax_0) = - grad(softmax_1) always. So the modulus of the gradient for both softmax neurons is always the same, and the sign for softmax_i is given by whether softmax_i should have output a lower or a higher value. The reason for why the values are the same is because both neurons are always going to be the same distance away from the target value. This is only the case for 2 neurons. It might be interesting to think about how this property, which is only true for binary classifiers, affects training. \\
+The gradient backpropagated to the softmax layer is of dimension 2: one for each softmax neuron. It is interesting to note that $grad(softmax_0) = - grad(softmax_1)$ always. So the modulus of the gradient for both softmax neurons is always the same, and the sign for $softmax_i$ is given by whether $softmax_i$ should have output a lower or a higher value. The reason for why the values are the same is because both neurons are always going to be the same distance away from the target value. This is only the case for 2 neurons. It might be interesting to think about how this property, which is only true for binary classifiers, affects training. \\
 
 The SBL and SL gradients backpropagated to the softmax layer are instantly different: SBL gradient is always bigger than SL gradient for min class cases, and smaller for max class cases. Note, this is the case regardless of whether the prediction was correct or not. As a result, the weight updates 	
 
@@ -1196,7 +1196,7 @@ Duplicates are created in training set, but we don't want them in the validation
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.8	extwidth,natwidth=610,natheight=642]{images/plot_clampdet_us_none_reinit.png}
+	\includegraphics[width=0.8\textwidth,natwidth=610,natheight=642]{images/plot_clampdet_us_none_reinit.png}
 	\caption{Clamp Detection, Full Backpropagation}
 \end{figure}
 
@@ -1243,8 +1243,8 @@ however, the NN will compute the probabilities p(label | data) ~ p(data | label)
 and a class imbalance means the priors p(label) are different
 so you just need to correct for that by multiplying, for instance, the probability of p(label = 1 | data) outputted by the NN by the factor p(label=2) / p(label=1) and renormalizing \\
 
-I get why it's called threshold: suppose p(c_1)=0.1. the threshold for classifying as c_1 moves from 0.5 to 0.1. Illustrate this point with one or two simple examples ("intuitively, ").  (that's pretty much what the "sig level" script I mentioned intends to do, except script has a flexible sig level.)
-Also, I think that if we wanted to implement the threshold directly in the net, we might need to put the threshold layer after the softmax layer (and have it renormalise by 1/num_classes). cos it's non-linear so you can't be sure that their output will be renormalised in the same way. \\
+I get why it's called threshold: suppose $p(c_1)=0.1$. the threshold for classifying as $c_1$ moves from 0.5 to 0.1. Illustrate this point with one or two simple examples ("intuitively, ").  (that's pretty much what the "sig level" script I mentioned intends to do, except script has a flexible sig level.)
+Also, I think that if we wanted to implement the threshold directly in the net, we might need to put the threshold layer after the softmax layer (and have it renormalise by $1/num_classes$). cos it's non-linear so you can't be sure that their output will be renormalised in the same way. \\
 
 Rather than have a fixed threshold hard-coded into the network, I propose to use a sig level script, for greater flexibility. \\
 
@@ -1274,12 +1274,11 @@ Caffe code:
  policies are as follows:
     - step: return base $lr * gamma ^ (floor(iter / step))$
     
-from src/caffe/solver.cpp:
+$from src/caffe/solver.cpp:
 if (lr_policy == "step") {
     int current_step = this->iter_ / this->param_.stepsize();
-
 from src/caffe/proto/caffe.proto:
-  optional int32 stepsize = 13; // the stepsize for learning rate policy "step"
+  optional int32 stepsize = 13; // the stepsize for learning rate policy "step"$
 
 These are all heuristics. No 2nd order methods involved. The intuition is that... Theory suggests that... . \\
 

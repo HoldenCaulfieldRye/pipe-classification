@@ -78,6 +78,19 @@
 \contentsline {subsubsection}{\numberline {7.3.1}Test Run, Mini-batch Size}{37}
 \contentsline {subsubsection}{\numberline {7.3.2}Under-Sampling}{37}
 \contentsline {paragraph}{Overfitting consequences of under-sampling}{37}
-\contentsline {subsubsection}{\numberline {7.3.3}Transfer Learning}{39}
+\contentsline {subsubsection}{\numberline {7.3.3}Transfer Learning}{38}
 \contentsline {subsubsection}{\numberline {7.3.4}Bayesian Cross Entropy Cost Function}{40}
 \contentsline {paragraph}{Softmax Bayesian Loss Layer}{40}
+\contentsline {subsubsection}{\numberline {7.3.5}Over-Sampling}{41}
+\contentsline {subsubsection}{\numberline {7.3.6}Test-time threshold}{42}
+\contentsline {section}{\numberline {8}Final Results}{43}
+\contentsline {subsection}{\numberline {8.1}Merging Classes}{43}
+\contentsline {subsection}{\numberline {8.2}Learning Rate}{43}
+\contentsline {paragraph}{Step}{43}
+\contentsline {paragraph}{Exp}{44}
+\contentsline {subsubsection}{\numberline {8.2.1}Soil Risk Contamination Task}{44}
+\contentsline {paragraph}{Test Run}{44}
+\contentsline {subparagraph}{Training Results}{44}
+\contentsline {subparagraph}{Observations}{44}
+\contentsline {paragraph}{Get more evidence}{44}
+\contentsline {section}{\numberline {9}Conclusions and Future Work}{46}

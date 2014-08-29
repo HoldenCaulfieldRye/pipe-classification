@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  29 AUG 2014 23:09
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  29 AUG 2014 23:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1900,7 +1900,7 @@ File: images/plot_clampdetCI_none_testrun.png Graphic file (type png)
 <use images/plot_clampdetCI_none_testrun.png>
 Package pdftex.def Info: images/plot_clampdetCI_none_testrun.png used on input 
 line 1041.
-(pdftex.def)             Requested size: 386.95897pt x 290.21953pt.
+(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 1047--1048
 
@@ -1911,6 +1911,31 @@ Underfull \hbox (badness 10000) in paragraph at lines 1079--1080
 
  []
 
+File: images/plot_clampdet_none.png Graphic file (type png)
+<use images/plot_clampdet_none.png>
+Package pdftex.def Info: images/plot_clampdet_none.png used on input line 1085.
+
+(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+<images/plot_clampdet_us_none.png, id=188, 578.16pt x 433.62pt>
+File: images/plot_clampdet_us_none.png Graphic file (type png)
+
+<use images/plot_clampdet_us_none.png>
+Package pdftex.def Info: images/plot_clampdet_us_none.png used on input line 10
+91.
+(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1095--1096
+
+ []
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -1918,97 +1943,24 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [37 <./images/plot_clampdetCI_none_testrun.png>]
+File: images/plot_clampdet_tl_wout.png Graphic file (type png)
+
+<use images/plot_clampdet_tl_wout.png>
+Package pdftex.def Info: images/plot_clampdet_tl_wout.png used on input line 11
+04.
+(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
 File: images/plot_clampdet_none.png Graphic file (type png)
-
 <use images/plot_clampdet_none.png>
-Package pdftex.def Info: images/plot_clampdet_none.png used on input line 1085.
+Package pdftex.def Info: images/plot_clampdet_none.png used on input line 1110.
 
-(pdftex.def)             Requested size: 386.95897pt x 290.21953pt.
-
-<images/plot_clampdet_us_none.png, id=193, 578.16pt x 433.62pt>
-File: images/plot_clampdet_us_none.png Graphic file (type png)
-
-<use images/plot_clampdet_us_none.png>
-Package pdftex.def Info: images/plot_clampdet_us_none.png used on input line 10
-91.
-(pdftex.def)             Requested size: 386.95897pt x 290.21953pt.
+(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 
-! LaTeX Error: \caption outside float.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1092 	\caption
-                {Clamp Detection, Full Backpropagation}
-You're in trouble here.  Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-! Undefined control sequence.
-\caption ... \endcsname \fi \fi \@dblarg {\@tempf 
-                                                  \@captype }
-l.1092 	\caption
-                {Clamp Detection, Full Backpropagation}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Undefined control sequence.
-\caption ...e \fi \fi \@dblarg {\@tempf \@captype 
-                                                  }
-l.1092 	\caption
-                {Clamp Detection, Full Backpropagation}
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
-! Too many }'s.
-\@endfloatbox ...pagefalse \outer@nobreak \egroup 
-                                                  \color@endbox 
-l.1093 \end{figure}
-                   
-You've closed more groups than you opened.
-Such booboos are generally harmless, so keep going.
-
-! Extra \endgroup.
-\color@endgroup ->\endgraf \endgroup 
-                                     
-l.1093 \end{figure}
-                   
-Things are pretty mixed up, but I think the worst is over.
-
-! Too many }'s.
-\color@endbox ->\color@endgroup \egroup 
-                                        
-l.1093 \end{figure}
-                   
-You've closed more groups than you opened.
-Such booboos are generally harmless, so keep going.
-
-
-! LaTeX Error: \begin{document} ended by \end{figure}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1093 \end{figure}
-                   
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! Extra \endgroup.
-<recently read> \endgroup 
-                          
-l.1093 \end{figure}
-                   
-Things are pretty mixed up, but I think the worst is over.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2017,17 +1969,24 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [38 <./images/plot_clampdet_us_none.png>]
-File: images/plot_clampdet_tl_wout.png Graphic file (type png)
+Underfull \hbox (badness 10000) in paragraph at lines 1118--1119
 
-<use images/plot_clampdet_tl_wout.png>
-Package pdftex.def Info: images/plot_clampdet_tl_wout.png used on input line 11
-04.
-(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
-File: images/plot_clampdet_none.png Graphic file (type png)
- <use images/plot_clampdet_none.png>
-Package pdftex.def Info: images/plot_clampdet_none.png used on input line 1110.
+ []
 
-(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 1126--1127
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1140--1141
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1142--1145
+
+ []
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2036,187 +1995,38 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [39]
+Underfull \hbox (badness 10000) in paragraph at lines 1150--1151
 
-LaTeX Warning: File `images/plot_fitting_proximity_us_none.png' not found on in
-put line 1122.
-
-
-! Package pdftex.def Error: File `images/plot_fitting_proximity_us_none.png' no
-t found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1122 ...ages/plot_fitting_proximity_us_none.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1126 ...arget bad min below this good min ('fit_
-                                                  prox_usBelow'), another sl...
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-! LaTeX Error: There's no line here to end.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1126 ...d min for former, but not for latter. \\
-                                                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1126 ...d min for former, but not for latter. \\
-                                                  
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-Overfull \hbox (439.85812pt too wide) in paragraph at lines 1126--1126
- \OT1/cmr/m/n/10.95 ('fit$[]\OML/cmm/m/it/10.95 rox[]sBelow[]\OT1/cmr/m/n/10.95
- )\OML/cmm/m/it/10.95 ; anotherslightlyabove\OT1/cmr/m/n/10.95 ([]\OML/cmm/m/it
-/10.95 fit[]rox[]sAbove[]\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 ; anddotransfe
-rlearningwithnoreinitforboth:Ifhypothesisiscorrect; thennetworkshouldsettleinba
-dminforformer; butnotforlatter:$ 
  []
 
 
-LaTeX Warning: File `images/plot_fitting_proximity_usAbove_none.png' not found 
-on input line 1130.
+Underfull \hbox (badness 10000) in paragraph at lines 1152--1153
 
-
-! Package pdftex.def Error: File `images/plot_fitting_proximity_usAbove_none.pn
-g' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1130 ...plot_fitting_proximity_usAbove_none.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `images/plot_fitting_proximity_usBelow_none.png' not found 
-on input line 1136.
-
-
-! Package pdftex.def Error: File `images/plot_fitting_proximity_usBelow_none.pn
-g' not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1136 ...plot_fitting_proximity_usBelow_none.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1140 ...ke it is in bad min, make sure with run_
-                                                  classifier and loo at the ...
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-! LaTeX Error: There's no line here to end.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1140 ... and loo at the output probabilities. \\
-                                                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1140 ... and loo at the output probabilities. \\
-                                                  
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1152 ...that most of the error will come from c_
-                                                  2 examples, so the net wou...
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-! LaTeX Error: There's no line here to end.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1152 ...ayesian cross entropy: [formula here] \\
-                                                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1152 ...ayesian cross entropy: [formula here] \\
-                                                  
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-Overfull \hbox (956.50262pt too wide) in paragraph at lines 1152--1152
- \OT1/cmr/m/n/10.95 c$[]\OML/cmm/m/it/10.95 examples; sothenetwouldstillbeencou
-ragedtolearnc[]morethanc[]:\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 Provideasimp
-lemathematicalexampleofthis\OT1/cmr/m/n/10.95 ]\OML/cmm/m/it/10.95 :Ifwewantthe
-stochasticgradienttoreflectasmuchofthec[]errorsasthec[]errorsonaverage; thenwen
-eedtorenormalisetheerrorsbasedonpriorsaswell:Thisisdonewithbayesiancrossentropy
- \OT1/cmr/m/n/10.95 : 
  []
 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1162 scrape_
-              zones_sbl/22-08-2014: We look at the output probabilities, the...
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1163 
-       
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
+Underfull \hbox (badness 10000) in paragraph at lines 1154--1155
+
+ []
 
 
-Overfull \hbox (313.72476pt too wide) in paragraph at lines 1162--1163
- \OML/cmm/m/it/10.95 Welookattheoutputprobabilities; thelossvalueswithandwithou
-tbayesianrenormalisation; thegradientsforthesoftmaxlayerwithandwithoutbayesianr
-enormalisation:$ 
+Underfull \hbox (badness 10000) in paragraph at lines 1164--1165
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1166--1167
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1168--1169
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1172--1173
+
  []
 
 
@@ -2226,143 +2036,28 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [40]
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1168 ...s interesting to note that grad(softmax_
-                                                  0) = - grad(softmax_1) alw...
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
+Underfull \hbox (badness 10000) in paragraph at lines 1176--1178
 
-
-! LaTeX Error: There's no line here to end.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1168 ...binary classifiers, affects training. \\
-                                                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1168 ...binary classifiers, affects training. \\
-                                                  
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-Overfull \hbox (1715.19064pt too wide) in paragraph at lines 1168--1168
- \OMS/cmsy/m/n/10.95 ^^@\OML/cmm/m/it/10.95 grad\OT1/cmr/m/n/10.95 (\OML/cmm/m/
-it/10.95 softmax[]\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 always:Sothemodulusof
-thegradientforbothsoftmaxneuronsisalwaysthesame; andthesignforsoftmax[]isgivenb
-ywhethersoftmax[]shouldhaveoutputalowerorahighervalue:Thereasonforwhythevaluesa
-rethesameisbecausebothneuronsarealwaysgoingtobethesamedistanceawayfromthetarget
-value:Thisisonlythecasefor\OT1/cmr/m/n/10.95 2\OML/cmm/m/it/10.95 neurons:Itmig
-htbeinterestingtothinkabouthowthisproperty; whichisonlytrueforbinaryclassifiers
-; affectstraining:$ 
  []
 
-<images/plot_clampdet_us_none_reinit.png, id=205, 578.16pt x 433.62pt>
-
-! Package calc Error: `t' invalid at this point.
-
-See the calc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1199 ...images/plot_clampdet_us_none_reinit.png}
-                                                  
-I expected to see one of: + - * / )
-
-
-! Package calc Error: `t' invalid at this point.
-
-See the calc package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1199 ...images/plot_clampdet_us_none_reinit.png}
-                                                  
-I expected to see one of: + - * / )
-
+<images/plot_clampdet_us_none_reinit.png, id=204, 578.16pt x 433.62pt>
 File: images/plot_clampdet_us_none_reinit.png Graphic file (type png)
+
 <use images/plot_clampdet_us_none_reinit.png>
 Package pdftex.def Info: images/plot_clampdet_us_none_reinit.png used on input 
 line 1199.
-(pdftex.def)             Requested size: 578.15858pt x 433.63878pt.
+(pdftex.def)             Requested size: 386.95897pt x 290.21953pt.
 
-Overfull \hbox (155.29515pt too wide) in paragraph at lines 1199--1200
- []\OT1/cmr/m/n/10.95 width!width![] 
- []
+<images/plot_clampdet_os_none_reinit-5000.png, id=205, 578.16pt x 433.62pt>
+File: images/plot_clampdet_os_none_reinit-5000.png Graphic file (type png)
 
-! Extra }, or forgotten \endgroup.
-\@endfloatbox ...pagefalse \outer@nobreak \egroup 
-                                                  \color@endbox 
-l.1201 \end{figure}
-                   
-I've deleted a group-closing symbol because it seems to be
-spurious, as in `$x}$'. But perhaps the } is legitimate and
-you forgot something else, as in `\hbox{$x}'. In such cases
-the way to recover is to insert both the forgotten and the
-deleted material, e.g., by typing `I$}'.
-
-! Extra }, or forgotten \endgroup.
-\color@endbox ->\color@endgroup \egroup 
-                                        
-l.1201 \end{figure}
-                   
-I've deleted a group-closing symbol because it seems to be
-spurious, as in `$x}$'. But perhaps the } is legitimate and
-you forgot something else, as in `\hbox{$x}'. In such cases
-the way to recover is to insert both the forgotten and the
-deleted material, e.g., by typing `I$}'.
+<use images/plot_clampdet_os_none_reinit-5000.png>
+Package pdftex.def Info: images/plot_clampdet_os_none_reinit-5000.png used on i
+nput line 1205.
+(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 
-! LaTeX Error: Not in outer par mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1203 \begin{figure}[h!]
-                         
-You've lost some text.  Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-LaTeX Warning: File `images/plot_clampdet_os_none_reinit-5000.png' not found on
- input line 1205.
-
-
-! Package pdftex.def Error: File `images/plot_clampdet_os_none_reinit-5000.png'
- not found.
-
-See the pdftex.def package documentation for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1205 ...s/plot_clampdet_os_none_reinit-5000.png}
-                                                  
-Using draft setting for this image.
-Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
-
-
-! LaTeX Error: Not in outer par mode.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1209 \begin{figure}[h!]
-                         
-You've lost some text.  Try typing  <return>  to proceed.
-If that doesn't work, type  X <return>  to quit.
+LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 <images/plot_clampdet_os_none_reinit.png, id=206, 578.16pt x 433.62pt>
 File: images/plot_clampdet_os_none_reinit.png Graphic file (type png)
@@ -2372,84 +2067,199 @@ Package pdftex.def Info: images/plot_clampdet_os_none_reinit.png used on input
 line 1211.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
-Overfull \hbox (41.35628pt too wide) in paragraph at lines 1236--1239
- \OT1/cmr/m/n/10.95 http://sci2s.ugr.es/keel/pdf/algorithm/articulo/2006http://
-www.eiti.uottawa.ca/ nat/Workshop2003/maloof- 
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1215--1216
+
  []
 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1246 ... why it's called threshold: suppose p(c_
-                                                  1)=0.1. the threshold for ...
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
 
-
-! LaTeX Error: There's no line here to end.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1247 ...will be renormalised in the same way. \\
-                                                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1247 ...will be renormalised in the same way. \\
-                                                  
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
-
-
-Overfull \hbox (1481.30763pt too wide) in paragraph at lines 1246--1247
- \OT1/cmr/m/n/10.95 0\OML/cmm/m/it/10.95 :\OT1/cmr/m/n/10.95 1\OML/cmm/m/it/10.
-95 :thethresholdforclassifyingasc[]movesfrom\OT1/cmr/m/n/10.95 0\OML/cmm/m/it/1
-0.95 :\OT1/cmr/m/n/10.95 5\OML/cmm/m/it/10.95 to\OT1/cmr/m/n/10.95 0\OML/cmm/m/
-it/10.95 :\OT1/cmr/m/n/10.95 1\OML/cmm/m/it/10.95 :Illustratethispointwithoneor
-twosimpleexamples\OT1/cmr/m/n/10.95 ("\OML/cmm/m/it/10.95 intuitively; \OT1/cmr
-/m/n/10.95 ")\OML/cmm/m/it/10.95 :\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 that[
-]sprettymuchwhatthe\OT1/cmr/m/n/10.95 "\OML/cmm/m/it/10.95 siglevel\OT1/cmr/m/n
-/10.95 "\OML/cmm/m/it/10.95 scriptImentionedintendstodo; exceptscripthasaflexib
-lesiglevel:\OT1/cmr/m/n/10.95 )\OML/cmm/m/it/10.95 Also; Ithinkthatifwewantedto
-implementthethresholddirectlyinthenet; wemightneedtoputthethresholdlayerafterth
-esoftmaxlayer\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 andhaveitrenormaliseby\OT1
-/cmr/m/n/10.95 1\OML/cmm/m/it/10.95 =num[]lasses\OT1/cmr/m/n/10.95 )\OML/cmm/m/
-it/10.95 :cosit[]snon \OMS/cmsy/m/n/10.95 ^^@ 
+Overfull \hbox (139.89749pt too wide) in paragraph at lines 1228--1230
+[]\OT1/cmr/m/n/10.95 There might be bugs in the im-ple-men-ta-tion. Check in th
+is pa-per: http://sci2s.ugr.es/keel/pdf/algorithm/articulo/2006whether
  []
 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1278 if (lr_
-              policy == "step") {
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
 
-! Missing $ inserted.
-<inserted text> 
-                $
-l.1280 
-       
-I've inserted a begin-math/end-math symbol since I think
-you left one out. Proceed, with fingers crossed.
+Underfull \hbox (badness 10000) in paragraph at lines 1228--1230
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[41 <./images/plot_clampdet_us_none_reinit.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1234--1235
+
+ []
+
+
+Overfull \hbox (105.1413pt too wide) in paragraph at lines 1236--1239
+[]\OT1/cmr/m/n/10.95 Papers: http://sci2s.ugr.es/keel/pdf/algorithm/articulo/20
+06http://www.eiti.uottawa.ca/ nat/Workshop2003/maloof-
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1240--1245
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[42 <./images/plot_clampdet_os_none_reinit-5000.png> <./images/plot_clampdet_os
+_none_reinit.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1246--1248
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1249--1250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1255--1256
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1257--1258
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1259--1260
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1263--1264
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1265--1266
+
+ []
 
 ! Missing } inserted.
 <inserted text> 
                 }
-l.1280 
-       
+l.1281 ...tepsize for learning rate policy "step"$
+                                                  
 I've inserted something that you may have forgotten.
 (See the <inserted text> above.)
 With luck, this will get me unwedged. But if you
 really didn't forget anything, try typing `2' now; then
 my insertion and my current dilemma will both disappear.
 
+
+Overfull \hbox (584.70193pt too wide) in paragraph at lines 1277--1282
+[]$\OML/cmm/m/it/10.95 fromsrc=caffe=solver:cpp \OT1/cmr/m/n/10.95 : \OML/cmm/m
+/it/10.95 if\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95 lr[]olicy \OT1/cmr/m/n/10.9
+5 == "\OML/cmm/m/it/10.95 step\OT1/cmr/m/n/10.95 ")[]$ 
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1283--1284
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1285--1286
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[43]
+Underfull \hbox (badness 10000) in paragraph at lines 1289--1290
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1297--1298
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1299--1300
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1327--1328
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1332--1333
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[44]
+Underfull \hbox (badness 10000) in paragraph at lines 1334--1335
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[45]
+Underfull \hbox (badness 10000) in paragraph at lines 1346--1347
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1348--1349
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1350--1351
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1355--1356
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1375--1377
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[46
+
+]
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no ­ in font cmr10!
 Missing character: There is no Ã in font cmr10!
@@ -2459,72 +2269,46 @@ Missing character: There is no ­ in font cmr10!
 Missing character: There is no Ã in font cmr10!
 Missing character: There is no © in font cmr10!
 
-! LaTeX Error: \begin{figure} on input line 1197 ended by \end{document}.
 
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1451 \end{document}
-                     
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
 
-(./report.aux)
+[47] (./report.aux)
 
 LaTeX Warning: There were undefined references.
 
 
 LaTeX Warning: There were multiply-defined labels.
 
-! You can't use `\end' in internal vertical mode.
-\enddocument ... \endgroup \deadcycles \z@ \@@end 
-                                                  
-l.1451 \end{document}
-                     
-Sorry, but I'm not programmed to handle this case;
-I'll just pretend that you didn't ask for it.
-If you're in the wrong mode, you might be able to
-return to the right one by typing `I}' or `I$' or `I\par'.
-
-
-! LaTeX Error: \begin{figure} on input line 1197 ended by \end{document}.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.1451 \end{document}
-                     
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-! Missing } inserted.
-<inserted text> 
-                }
-l.1451 \end{document}
-                     
-I've inserted something that you may have forgotten.
-(See the <inserted text> above.)
-With luck, this will get me unwedged. But if you
-really didn't forget anything, try typing `2' now; then
-my insertion and my current dilemma will both disappear.
-
-)
-! Emergency stop.
-<*> report.tex
-              
-*** (job aborted, no legal \end found)
-
- 
+ ) 
 Here is how much of TeX's memory you used:
- 15971 strings out of 494985
- 290759 string characters out of 6180356
- 367109 words of memory out of 5000000
- 18783 multiletter control sequences out of 15000+600000
+ 15972 strings out of 494985
+ 290858 string characters out of 6180356
+ 355109 words of memory out of 5000000
+ 18787 multiletter control sequences out of 15000+600000
  12174 words of font info for 46 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 48i,12n,61p,1312b,376s stack positions out of 5000i,500n,10000p,200000b,80000s
-!  ==> Fatal error occurred, no output PDF file produced!
+ 48i,12n,61p,1312b,305s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
+r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texl
+ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/te
+xmf-dist/fonts/type1/public/amsfonts/cm/cmmi6.pfb></usr/share/texlive/texmf-dis
+t/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cms
+y10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy8.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/share
+/texlive/texmf-dist/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
+Output written on report.pdf (47 pages, 2850780 bytes).
+PDF statistics:
+ 284 PDF objects out of 1000 (max. 8388607)
+ 155 compressed objects within 2 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 203 words of extra memory for PDF output out of 10000 (max. 10000000)
+

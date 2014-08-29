@@ -128,9 +128,9 @@ At this point, it may help to explain the procedure through which these welds ar
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[width=0.3\linewidth]{images/soilcontam2.jpg}
-	\includegraphics[width=0.3\linewidth]{images/watercontam1.jpg}
-	\includegraphics[width=0.3\linewidth]{images/perfect2.jpg}
+	\includegraphics[width=0.8\textwidth,natwidth=610,natheight=642]{images/soilcontam2.jpg}
+	\includegraphics[width=0.8\textwidth,natwidth=610,natheight=642]{images/watercontam1.jpg}
+	\includegraphics[width=0.8\textwidth,natwidth=610,natheight=642]{images/perfect2.jpg}
 	\caption{soil contamination risk (left), water contamination risk (centre), no risk (right)}
 \end{figure}
 
@@ -447,7 +447,7 @@ Lorenzo Rosascol %https://www.youtube.com/watch?v=bukb-rMuayM&list=PLYTk9IwHBb2A
 
 15:32 inversion of matrix equals polynomial series.
 
-awesome blog post about it all: http://mrtz.org/blog/the-zen-of-gradient-descent/#comment-3240
+awesome blog post about it all: %http://mrtz.org/blog/the-zen-of-gradient-descent/#comment-3240
 
 
 % \paragraph{Dropout}
@@ -820,41 +820,6 @@ Contributed to Caffe by making it more space efficient: instead of the data bein
 
 Caffe benchmark: https://github.com/soumith/convnet-benchmarks 
 
-finetune_net.cpp calls solver.net()->CopyTrainedLayersFrom() then solver.Solve().
-
-Does finetune chop off the top layer, or the top 2 layers? (Because DeCAF_6 better than DeCAF_7)
-The answer to this should lie in CopyTrainedLayersFrom(param), in src/caffe/net.cpp
-logs of which layers are copied are being sent to DLOG(INFO), seems that my output file does not receive it.
-where can I get hold of DLOG? nevermind, just change it to send to LOG(INFO).
-result: the following layers are copied: data conv1 relu1 norm1 pool1 conv2 relu2 norm2 pool2 conv3 relu3 conv4 relu4 conv5 relu5 pool5 fc6 relu6 drop6 fc7 relu7 drop7. fc8 is the only non-copied.
-
-Does finetune do backprop on the top layer, or more?
-1) The answer to this should lie in solver.Solve() in src/caffe/solver.cpp.
-
-2) Another answer might be in Init() in net.cpp because it outputs "needs / does not need backward computation".
-what matters is the point in the code at which "needs backward computation" is output, and from there work yourself up to which prototxt sets this.
-looks like blobs_lr is the determinant param.  
-
-
-Use L2 SVM linear support vector machine layer instead of softmax for transfer learning: http://arxiv.org/pdf/1306.0239.pdf
-is it implemented in caffe?
-https://github.com/BVLC/caffe/pull/398
-https://github.com/BVLC/caffe/pull/303
-
-proper transfer learning is extract features then train SVM:
-http://arxiv.org/abs/1403.6382
-
-this doesn't work as well with caffe:
-https://github.com/BVLC/caffe/issues/642
-works better with overfeat: http://cilvr.nyu.edu/doku.php?id=software:overfeat:start
-
-if nevertheless you want to extract features with caffe:
-http://caffe.berkeleyvision.org/gathered/examples/feature_extraction.html
-
-or maybe with pylearn2: 
-https://groups.google.com/forum/#!topic/pylearn-dev/hifIB5U-Gb8
-
-
 
 
 \paragraph{leveldb}
@@ -877,7 +842,7 @@ when n-k is optimal, we have t = (n-k)/(N-k)
 <=> (1-t)*k = n - t*N
 <=> k = (n-t*N)/(1-t) \\
 
-so solution is to randomly delete n - n^* images from the majority class. \\
+so solution is to randomly delete $n - n^{*}$ images from the majority class. \\
 
 
 \subsection{Experimentation}
@@ -1010,7 +975,7 @@ The difference between training a linear SVM and a standard softmax layer are:
 - softmax performs logistic regression. does this assume linear separability?
 
 Expound:
-Softmax logistic regression: http://ufldl.stanford.edu/wiki/index.php/Softmax_Regression
+Softmax logistic regression: %http://ufldl.stanford.edu/wiki/index.php/Softmax_Regression
 SVM maths + illustration
 
 optimise margin-based loss rather than log probability of the data
@@ -1046,15 +1011,15 @@ Were this tactic not adopted, it would not be possible to ascertain whether an a
 
 c++ per class accuracy layer, threshold layer. bayesian softmax loss layer. bayesian layer abstract class with OOP from which the previous two inherit, which has access to minibatch labels and can compute the prior for the specific batch. More precise than assuming each minibatch has the same prior as the entire training set. \\
 
-c++ per class accuracy layer as an indicator for bad min: do the maths to explain how bad min necessarily implies 0.5 per class accuracy. A flaw is that 0.5 per class accuracy can be caused by other things than bad min - and this did throw me off guard during the project on an occasion. Therefore, it is not a detector! To make sure that we are indeed in bad_min, we can run the net and look at the output probabilities. \\
+$C++$ per class accuracy layer as an indicator for bad min: do the maths to explain how bad min necessarily implies 0.5 per class accuracy. A flaw is that 0.5 per class accuracy can be caused by other things than bad min - and this did throw me off guard during the project on an occasion. Therefore, it is not a detector! To make sure that we are indeed in bad min, we can run the net and look at the output probabilities. \\
 
 python script. \\
 
 increase class imbalance:
-target = (max_num) / (total_num - delete_min)
+$target = (max_num) / (total_num - delete_min)
 target*total_num - target*delete_min = max_num
 target*delete_min = target*total_num - max_num
-delete_min = total_num - (max_num/target)
+delete_min = total_num - (max_num/target)$
 
 
 \subsection{Experimentation}
@@ -1073,7 +1038,7 @@ Notice what happens when validation batch size too small:
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=•]{•}=0.5]{images/plot_clampdetCI_none_testrun.png}
+	\includegraphics[scale=0.5]{images/plot_clampdetCI_none_testrun.png}
 	\caption{Clamp Detection, Full Backpropagation}
 \end{figure}
 
@@ -1081,11 +1046,12 @@ Notice what happens when validation batch size too small:
 
 Class imbalance is so high that it is sometimes not present in the subset of the validation set that is being tested. In that case, if the model is in bad min, its per class accuracy will be equal to its accuracy on the majority class. We obtain the confusing output above. (Still got to do some maths to prove that assigning majrity classe randomly with probability p (not 0.5) will lead to per class accuracy being 0.5 or p depending on whether minority class present). Hence this confusing output, which could wrongly be interpreted as the network steadily learning but sometimes getting stuck in bad min (and getting back out thanks to momentum). \\
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=•]{•}=0.5]{images/plot_clampdetCI_testrun_higherbatchsize.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
+
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[width=0.8	extwidth,natwidth=610,natheight=642]{images/plot_clampdetCI_testrun_higherbatchsize.png}
+%	\caption{Clamp Detection, Full Backpropagation}
+%\end{figure}
 
 (training files for that in clampdetCI/none on graphic06)
 
@@ -1095,17 +1061,17 @@ Class imbalance is so high that it is sometimes not present in the subset of the
 
 Imbalance is obviously reached because most mini-batches do not contain any minority class examples, so the net is only ever being told to output 0. 
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=•]{•}=0.5]{images/plot_fitting_proximity_tl_wout.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=•]{•}=0.5]{images/plot_fitting_proximity_us_tl_wout.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[width=0.8	extwidth,natwidth=610,natheight=642]{images/plot_fitting_proximity_tl_wout.png}
+%	\caption{Clamp Detection, Full Backpropagation}
+%\end{figure}
+%
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[width=0.8	extwidth,natwidth=610,natheight=642]{images/plot_fitting_proximity_us_tl_wout.png}
+%	\caption{Clamp Detection, Full Backpropagation}
+%\end{figure}
 
 
 \paragraph{Overfitting consequences of under-sampling}
@@ -1116,13 +1082,13 @@ Comparison 1: without weight re-initialization
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=•]{•}=0.5]{images/plot_clampdet_none.png}
+	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
 	\caption{Clamp Detection, Full Backpropagation}
 \end{figure}
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=•]{•}=0.5]{images/plot_clampdet_us_none.png}
+	\includegraphics[scale=0.5]{images/plot_clampdet_us_none.png}
 	\caption{Clamp Detection, Full Backpropagation}
 \end{figure}
 
@@ -1151,27 +1117,27 @@ To back up this interpretation, do the same thing with a task where you can esti
 
 If depth of good min measure is obtained, do transfer learning with two different under-sampling rates: one above the good min measure, one below. See whether transfer learning overcomes class imbalance in any of those cases. Hopefully only the one with stricter under-sampling. \\
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_fitting_proximity_us_none.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[scale=0.5]{images/plot_fitting_proximity_us_none.png}
+%	\caption{Clamp Detection, Full Backpropagation}
+%\end{figure}
 
-We can see from above that the good minimum is at ? . Therefore, to evaluate hypothesis expressed above, we can under-sample with a target bad min below this good min ('fit_prox_usBelow'), another slightly above ('fit_prox_usAbove'), and do transfer learning with no reinit for both. If hypothesis is correct, then network should settle in bad min for former, but not for latter. \\
+We can see from above that the good minimum is at ? . Therefore, to evaluate hypothesis expressed above, we can under-sample with a target bad min below this good min ('fit prox usBelow'), another slightly above ('fit prox usAbove'), and do transfer learning with no reinit for both. If hypothesis is correct, then network should settle in bad min for former, but not for latter. \\
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_fitting_proximity_usAbove_none.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[scale=0.5]{images/plot_fitting_proximity_usAbove_none.png}
+%	\caption{Clamp Detection, Full Backpropagation}
+%\end{figure}
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_fitting_proximity_usBelow_none.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[scale=0.5]{images/plot_fitting_proximity_usBelow_none.png}
+%	\caption{Clamp Detection, Full Backpropagation}
+%\end{figure}
 
-Hypothesis supported? Disproved? If hypothesis supported, ie usAbove looks like it is in bad min, make sure with run_classifier and loo at the output probabilities. \\
+Hypothesis supported? Disproved? If hypothesis supported, ie usAbove looks like it is in bad min, make sure with $run_classifier$ and loo at the output probabilities. \\
 
 If hypothesis disproved, ie transfer learning counters class imalance in both cases, it could be that noisy gradient did not allow us to locate the good min that is available at less strict under-sampling rates. Maybe try again with a task this is not so extremely imbalanced. 
 Or if hypothesis disproved, maybe we should try freezing backprop? As a way of reducing the number of different ways in which network can step into bad min? 
@@ -1183,7 +1149,7 @@ We could also try with non-parametric error, but that is not related to transfer
 
 If hypothesis supported, maybe rebalancing costs with a different cost function can allow us to under-sample less severely? \\
 
-I also wonder whether it should be used in conjunction with a modified cost function. the threshold renormalisation won't change the fact that most of the error will come from c_2 examples, so the net would still be encouraged to learn c_2 more than c_1. [Provide a simple mathematical example of this]. If we want the stochastic gradient to reflect as much of the c_1 errors as the c_2 errors on average, then we need to renormalise the errors based on priors as well. This is done with bayesian cross entropy: [formula here] \\
+I also wonder whether it should be used in conjunction with a modified cost function. the threshold renormalisation won't change the fact that most of the error will come from $c_2$ examples, so the net would still be encouraged to learn $c_2$ more than $c_1$. [Provide a simple mathematical example of this]. If we want the stochastic gradient to reflect as much of the $c_1$ errors as the $c_2 errors on average, then we need to renormalise the errors based on priors as well. This is done with bayesian cross entropy: [formula here] \\
 
 When viewed as MLE estimation, the Bayesian cross entropy can be interpreted as follows: instead of trying to maximise the joint probability of the data under the assumption that each observed event has the same probability, we are assigning higher probability to minority class events. \\
 
@@ -1230,7 +1196,7 @@ Duplicates are created in training set, but we don't want them in the validation
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=•]{•}=0.5]{images/plot_clampdet_us_none_reinit.png}
+	\includegraphics[width=0.8	extwidth,natwidth=610,natheight=642]{images/plot_clampdet_us_none_reinit.png}
 	\caption{Clamp Detection, Full Backpropagation}
 \end{figure}
 
@@ -1368,6 +1334,9 @@ Looking for evidence that in a given pot, there is a high number of fake minima 
 
 One could empirically verify this by looking at what the network converges to with and without transfer learning. Also take very different initialisations for non transfer learning. If converged error rate same for all, and indeed sending in a batch of random images to each network spits out same or similar outputs every time, then we've got a few large scale examples as well. \\
 
+transfer learning doesn't work as well with caffe:
+https://github.com/BVLC/caffe/issues/642
+works better with overfeat: http://cilvr.nyu.edu/doku.php?id=software:overfeat:start
 
 
 \clearpage
