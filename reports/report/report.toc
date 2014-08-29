@@ -68,29 +68,29 @@
 \contentsline {paragraph}{Class Imbalance Solver}{28}
 \contentsline {subsection}{\numberline {6.3}Experimentation}{29}
 \contentsline {subsubsection}{\numberline {6.3.1}Test Run}{29}
-\contentsline {subsubsection}{\numberline {6.3.2}Freezing Backprop on various layers}{30}
-\contentsline {subsubsection}{\numberline {6.3.3}Initialising Free Layers}{31}
+\contentsline {subsubsection}{\numberline {6.3.2}Initialising Free Layers}{30}
+\contentsline {subsubsection}{\numberline {6.3.3}Freezing Backprop on various layers}{30}
 \contentsline {subsubsection}{\numberline {6.3.4}Parametric vs Non-parametric}{32}
-\contentsline {section}{\numberline {7}Task 3: Class Imbalance}{33}
-\contentsline {subsection}{\numberline {7.1}Motivations}{33}
-\contentsline {subsection}{\numberline {7.2}Implementation}{33}
-\contentsline {subsection}{\numberline {7.3}Experimentation}{33}
-\contentsline {subsubsection}{\numberline {7.3.1}Test Run, Mini-batch Size}{34}
-\contentsline {subsubsection}{\numberline {7.3.2}Under-Sampling}{34}
-\contentsline {paragraph}{Overfitting consequences of under-sampling}{34}
-\contentsline {subsubsection}{\numberline {7.3.3}Transfer Learning}{35}
-\contentsline {subsubsection}{\numberline {7.3.4}Bayesian Cross Entropy Cost Function}{37}
-\contentsline {paragraph}{Softmax Bayesian Loss Layer}{37}
-\contentsline {subsubsection}{\numberline {7.3.5}Over-Sampling}{38}
-\contentsline {subsubsection}{\numberline {7.3.6}Test-time threshold}{39}
-\contentsline {section}{\numberline {8}Final Results}{40}
-\contentsline {subsection}{\numberline {8.1}Merging Classes}{40}
-\contentsline {subsection}{\numberline {8.2}Learning Rate}{40}
-\contentsline {paragraph}{Step}{40}
-\contentsline {paragraph}{Exp}{40}
-\contentsline {subsubsection}{\numberline {8.2.1}Soil Risk Contamination Task}{41}
-\contentsline {paragraph}{Test Run}{41}
-\contentsline {subparagraph}{Training Results}{41}
-\contentsline {subparagraph}{Observations}{41}
-\contentsline {paragraph}{Get more evidence}{41}
-\contentsline {section}{\numberline {9}Conclusions and Future Work}{43}
+\contentsline {section}{\numberline {7}Task 3: Class Imbalance}{34}
+\contentsline {subsection}{\numberline {7.1}Motivations}{34}
+\contentsline {subsection}{\numberline {7.2}Implementation}{34}
+\contentsline {subsection}{\numberline {7.3}Experimentation}{34}
+\contentsline {subsubsection}{\numberline {7.3.1}Test Run, Mini-batch Size}{35}
+\contentsline {subsubsection}{\numberline {7.3.2}Under-Sampling}{35}
+\contentsline {paragraph}{Overfitting consequences of under-sampling}{35}
+\contentsline {subsubsection}{\numberline {7.3.3}Transfer Learning}{36}
+\contentsline {subsubsection}{\numberline {7.3.4}Bayesian Cross Entropy Cost Function}{38}
+\contentsline {paragraph}{Softmax Bayesian Loss Layer}{38}
+\contentsline {subsubsection}{\numberline {7.3.5}Over-Sampling}{39}
+\contentsline {subsubsection}{\numberline {7.3.6}Test-time threshold}{40}
+\contentsline {section}{\numberline {8}Final Results}{41}
+\contentsline {subsection}{\numberline {8.1}Merging Classes}{41}
+\contentsline {subsection}{\numberline {8.2}Learning Rate}{41}
+\contentsline {paragraph}{Step}{41}
+\contentsline {paragraph}{Exp}{41}
+\contentsline {subsubsection}{\numberline {8.2.1}Soil Risk Contamination Task}{42}
+\contentsline {paragraph}{Test Run}{42}
+\contentsline {subparagraph}{Training Results}{42}
+\contentsline {subparagraph}{Observations}{42}
+\contentsline {paragraph}{Get more evidence}{42}
+\contentsline {section}{\numberline {9}Conclusions and Future Work}{44}

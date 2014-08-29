@@ -875,6 +875,37 @@ This should just be the simple case of transfer learning (no weight re-initialis
 
 Without transfer learning, impossible to train. With transfer learning, it is! (at least not with this task). The conclusion is that initialisation of the parameters is very important, even in convolutional neural networks, at least when the dataset is not large! (Quote deep sparse rectifier network paper and maybe another, just to show that your observations are consistent with the literature). Ideally, show the features or filters or something. \\
 
+\subsubsection{Initialising Free Layers}
+
+Another hyperparameter in transfer learning is whether to initialise the layers in which backpropagation has been enabled to the transferred network's weights, or to randomly initialise them. A way to think about this intuitively is to wonder: do we want to keep the features learned at the given layer or not? \\
+
+The features on convolutional layers are easy to visualise, and the success of transfer learning in computer vision rests on the fact that pixel features good for one computer vision task are also good for others. This makes intuitive sense for low level shapes: our visual world is made up of combinations of edges, corners, textures and shapes. But what about the features in the fully connected layers? \\
+
+There currently exists no way of visualising the semantic content in fully connected layers: the Intruiguing properties paper suggests that an individual neuron does not contain a semantic feature, but that it is distributed among the units of the layer. So it is not obvious whether or not the features in the fully connected layers are of any use for transfer tasks. That is the motivation for experimenting with weight re-initialisation. \\
+
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdet_none.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{backprop enabled in all layers}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdet_none_reinit.png}
+        % ...here to lower the subcaptions and...
+        \caption{backprop enabled in top layer only}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{Another figure}\label{fig:2}
+    \end{minipage}%
+\end{figure}
+
+Are below comments still true once retrained no mistake long time for both? \\
+
+Re-initialising the weights has other effects too. It initialises the network in an area of the parameter space which is further away from the optimal region, which is why the training error starts higher. Secondly, the training error is more volatile: this is a result of the network having "more space to move". As a result, overfit occurs sooner too. What is slightly surprising is that re-initialising the weights does not increase performance overall, despite advice from Soumith Chintala to the contrary (any paper?). Perhaps, if data had been more plentiful, re-initialisation would have proven superior. However, given that the backpropagation is fully enabled in such a network that is very large relative to the dataset (remember this network size was trained on ImageNet), overfit occurs quickly. \\
+
 
 \subsubsection{Freezing Backprop on various layers}
 
@@ -913,36 +944,6 @@ Soumith: when doing transfer learning, if you kept alexnet weights you are alrea
 
 The middle ground is the result of the usual expressiveness tradeoff: movement in function space versus over-fitting of the model. \\
 
-\subsubsection{Initialising Free Layers}
-
-Another hyperparameter in transfer learning is whether to initialise the layers in which backpropagation has been enabled to the transferred network's weights, or to randomly initialise them. A way to think about this intuitively is to wonder: do we want to keep the features learned at the given layer or not? \\
-
-The features on convolutional layers are easy to visualise, and the success of transfer learning in computer vision rests on the fact that pixel features good for one computer vision task are also good for others. This makes intuitive sense for low level shapes: our visual world is made up of combinations of edges, corners, textures and shapes. But what about the features in the fully connected layers? \\
-
-There currently exists no way of visualising the semantic content in fully connected layers: the Intruiguing properties paper suggests that an individual neuron does not contain a semantic feature, but that it is distributed among the units of the layer. So it is not obvious whether or not the features in the fully connected layers are of any use for transfer tasks. That is the motivation for experimenting with weight re-initialisation. \\
-
-\begin{figure}
-    \centering
-    \begin{minipage}[b]{\textwidth}
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_clampdet_none.png}
-        % Add \par\vspace*{20pt} here and...
-        \caption{backprop enabled in all layers}\label{fig:2a}
-      \end{subfigure}%
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_clampdet_none_reinit.png}
-        % ...here to lower the subcaptions and...
-        \caption{backprop enabled in top layer only}\label{fig:2b}
-      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-      \caption{Another figure}\label{fig:2}
-    \end{minipage}%
-\end{figure}
-
-Are below comments still true once retrained no mistake long time for both? \\
-
-Re-initialising the weights has other effects too. It initialises the network in an area of the parameter space which is further away from the optimal region, which is why the training error starts higher. Secondly, the training error is more volatile: this is a result of the network having "more space to move". As a result, overfit occurs sooner too. What is slightly surprising is that re-initialising the weights does not increase performance overall, despite advice from Soumith Chintala to the contrary (any paper?). Perhaps, if data had been more plentiful, re-initialisation would have proven superior. However, given that the backpropagation is fully enabled in such a network that is very large relative to the dataset (remember this network size was trained on ImageNet), overfit occurs quickly. \\
 
 
 \subsubsection{Parametric vs Non-parametric}
