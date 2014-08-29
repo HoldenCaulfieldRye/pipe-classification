@@ -977,22 +977,11 @@ Comment in light Are All Loss Functions The Same? http://arxiv.org/pdf/1306.0239
 
 \subsection{Motivations}
 
-Papers: 
-http://sci2s.ugr.es/keel/pdf/algorithm/articulo/2006%20-%20IEEE_TKDE%20-%20Zhou_Liu.pdf
-http://www.eiti.uottawa.ca/~nat/Workshop2003/maloof-icml03-wids.pdf
+The first challenge posed by the Bluebox dataset was its small size, the second one was class imbalance. Although transfer learning by itself delivered strong results for clamp detection (including dealing with class imbalance), this was not the case for the following tasks: [...] \\
 
-It also allows you to assign different costs to the different misclassifications (i.e. if the algorithm is only supposed to flag potential problems then a false negative is much more expensive than a false positive)
-the idea is that, if we have 2 classes and assign equal cost to both misclassifications, then we would want to pick the label with the biggest p(data | label) probability
-however, the NN will compute the probabilities p(label | data) ~ p(data | label) p(label)
-and a class imbalance means the priors p(label) are different
-so you just need to correct for that by multiplying, for instance, the probability of p(label = 1 | data) outputted by the NN by the factor p(label=2) / p(label=1) and renormalizing \\
+Therefore, additional approaches for dealing with class imbalance were sought out. However, instead of trying them out on the unsatisfactory tasks, they were tried on a subset of the clamp detection dataset where class imbalance was increased (simply by throwing out training cases without clamps). This way, one knows that the only thing preventing performance on the task is class imbalance, and the impact of an approach on classification performance is a good measure of the impact of the approach on class imbalance. \\
 
-I get why it's called threshold: suppose p(c_1)=0.1. the threshold for classifying as c_1 moves from 0.5 to 0.1. Illustrate this point with one or two simple examples ("intuitively, ").  (that's pretty much what the "sig level" script I mentioned intends to do, except script has a flexible sig level.)
-Also, I think that if we wanted to implement the threshold directly in the net, we might need to put the threshold layer after the softmax layer (and have it renormalise by 1/num_classes). cos it's non-linear so you can't be sure that their output will be renormalised in the same way. \\
-
-Rather than have a fixed threshold hard-coded into the network, I propose to use a sig level script, for greater flexibility. \\
-
-
+Were this tactic not adopted, it would not be possible to ascertain whether an approach failing to deliver a performance increase would be due to its inability to tackle class imbalance, or to the fact that the task is difficult or impossible for other reasons. For example, water contamination risk is defined by the presence of droplets on the pipe fitting. However, when images are downsized to 256x256 pixels for AlexNet, droplets become invisible to the naked eye. This task could therefore be impossible to learn with networks the size of AlexNet, for a reason not related to the strong class imbalance that the task also presents (92.5\%). \\
 
 \subsection{Implementation}
 
@@ -1003,14 +992,15 @@ c++ per class accuracy layer as an indicator for bad min: do the maths to explai
 python script. \\
 
 
-
 \subsection{Experimentation}
 
 Several approaches were taken to tackle class imbalance. Successful ones accumulated as experimentation went along. \\
 
-A fixed architecture is kept throughout the experiments: backprop on all layers, all weights transferred. Note that this is no longer SGD with fitting proximity because dataset is so small, we are using the entire training set every time. \\
+A fixed architecture and training strategy are kept throughout the experiments: backprop on all layers, all weights transferred. \\
 
 Test interval set to 1, because more important to follow whether or how quickly net goes into bad local minimum. \\
+
+The level of class imbalance to impose on the clamp detection task was chosen such that the optimal transfer learning setup obtained from previous experimentation no longer enables successful learning of the task, and puts the network in bad local minimum instead. This corresponds to: \\
 
 \subsubsection{Test Run, Under-Sampling}
 
@@ -1047,7 +1037,7 @@ Comparison 1: without weight re-initialization
 	\caption{Clamp Detection, Full Backpropagation}
 \end{figure}
 
-Notice how under-sampling makes overfit take place so much sooner. This begs for other class imbalance tacklign tricks to be combined with under-sampling, in order to limit the extent to which we under-sample, in order to fragilise robustness as little as possibe, so that we can use more expressive models, i.e.\ enable backprop on more layers. \\
+Notice how under-sampling makes overfit take place so much sooner. As a result, the model cannot pick up any of the higher order generalising patterns, and the performance is not as high (go down from 94\% to 85\% or something right?). This begs for other class imbalance tackling tricks to be combined with under-sampling, in order to limit the extent to which we under-sample, in order to fragilise robustness as little as possibe, so that we can use more expressive models, i.e.\ enable backprop on more layers. \\
 
 
 \subsubsection{Transfer Learning}
@@ -1132,12 +1122,6 @@ So with SBL, do we really want to make the modulus bigger for both softmax neuro
 I think the latter corresponds to thresholding. So it is interesting to compare them. \\
 
 
-\subsubsection{Non-Parametric}
-
-Maybe a separating hyperplane is less sensitive to small datasets than logistic regression? \\
-
-
-
 \subsubsection{Over-Sampling}
 
 And now for an alternative to under-sampling. 
@@ -1194,7 +1178,21 @@ whether what it says can be linked to what you got. Otherwise, just omit it from
 
 This is great because it enables to set different costs to false positives, which is what ControlPoint is interested in. \\
 
-Get Razvan's Bayesian interpretation of what the net learns and therefore why the threshold has a nice probabilistic interpretation. \\
+Papers: 
+http://sci2s.ugr.es/keel/pdf/algorithm/articulo/2006%20-%20IEEE_TKDE%20-%20Zhou_Liu.pdf
+http://www.eiti.uottawa.ca/~nat/Workshop2003/maloof-icml03-wids.pdf
+
+It also allows you to assign different costs to the different misclassifications (i.e. if the algorithm is only supposed to flag potential problems then a false negative is much more expensive than a false positive)
+the idea is that, if we have 2 classes and assign equal cost to both misclassifications, then we would want to pick the label with the biggest p(data | label) probability
+however, the NN will compute the probabilities p(label | data) ~ p(data | label) p(label)
+and a class imbalance means the priors p(label) are different
+so you just need to correct for that by multiplying, for instance, the probability of p(label = 1 | data) outputted by the NN by the factor p(label=2) / p(label=1) and renormalizing \\
+
+I get why it's called threshold: suppose p(c_1)=0.1. the threshold for classifying as c_1 moves from 0.5 to 0.1. Illustrate this point with one or two simple examples ("intuitively, ").  (that's pretty much what the "sig level" script I mentioned intends to do, except script has a flexible sig level.)
+Also, I think that if we wanted to implement the threshold directly in the net, we might need to put the threshold layer after the softmax layer (and have it renormalise by 1/num_classes). cos it's non-linear so you can't be sure that their output will be renormalised in the same way. \\
+
+Rather than have a fixed threshold hard-coded into the network, I propose to use a sig level script, for greater flexibility. \\
+
 
 
 \section{Final Results}
