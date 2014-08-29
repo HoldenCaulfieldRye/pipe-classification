@@ -899,69 +899,6 @@ Note: under-sampling, weights initialised to AlexNet for all nets in this sectio
     \end{minipage}%
 \end{figure}
 
-%\begin{figure}
-%  %\setlength{\fboxsep}{-\fboxrule}
-%  %\fbox{%
-%    \begin{minipage}[b]{.5\textwidth}
-%    \centering
-%      \begin{tabular}{cc}
-%        \includegraphics[scale=0.4]{images/plot_clampdet_none.png} 
-%        & 
-%        \includegraphics[scale=0.4]{images/plot_clampdet_fc7.png} 
-%      \end{tabular}
-%      \caption{Some figure}\label{fig:1}
-%    \end{minipage}%
-%\end{figure}
-    
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_conv1.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_conv2.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_conv3.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_conv4.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_conv5.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_fc6.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_fc7.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
 
 Do NOT take nets in which weights have been re-initialised. \\
 
@@ -984,16 +921,23 @@ The features on convolutional layers are easy to visualise, and the success of t
 
 There currently exists no way of visualising the semantic content in fully connected layers: the Intruiguing properties paper suggests that an individual neuron does not contain a semantic feature, but that it is distributed among the units of the layer. So it is not obvious whether or not the features in the fully connected layers are of any use for transfer tasks. That is the motivation for experimenting with weight re-initialisation. \\
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_none_reinit.png}
-	\caption{Clamp Detection, Full Backpropagation}
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdet_none.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{backprop enabled in all layers}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdet_none_reinit.png}
+        % ...here to lower the subcaptions and...
+        \caption{backprop enabled in top layer only}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{Another figure}\label{fig:2}
+    \end{minipage}%
 \end{figure}
 
 Are below comments still true once retrained no mistake long time for both? \\
