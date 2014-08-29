@@ -888,7 +888,7 @@ There currently exists no way of visualising the semantic content in fully conne
     \begin{minipage}[b]{\textwidth}
       \begin{subfigure}{.5\textwidth} 
         \centering
-        \includegraphics[scale=0.4]{images/plot_clampdet_none.png}
+        \includegraphics[scale=0.4]{images/plot_clampdet_none-10k.png}
         % Add \par\vspace*{20pt} here and...
         \caption{backprop enabled in all layers}\label{fig:2a}
       \end{subfigure}%
