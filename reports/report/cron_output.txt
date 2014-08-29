@@ -558,3 +558,9 @@ alex     14284  2324 20 23:06 pts/13   00:00:46 texmaker report.tex
 To git@github.com:HoldenCaulfieldRye/pipe-classification.git
    9241b99..84a7e4e  master -> master
 alex     14284  2324 16 23:06 pts/13   00:02:16 texmaker report.tex
+[master 5cb7390] auto-commit progress on report
+ 8 files changed, 379 insertions(+), 591 deletions(-)
+ delete mode 100644 reports/report/images/plot_clampdet_os_none_reinit -5000.png
+To git@github.com:HoldenCaulfieldRye/pipe-classification.git
+   84a7e4e..5cb7390  master -> master
+alex     14284  2324 10 23:06 pts/13   00:02:31 texmaker report.tex

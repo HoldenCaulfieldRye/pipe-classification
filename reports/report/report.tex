@@ -1274,11 +1274,11 @@ Caffe code:
  policies are as follows:
     - step: return base $lr * gamma ^ (floor(iter / step))$
     
-$from src/caffe/solver.cpp:
-if (lr_policy == "step") {
-    int current_step = this->iter_ / this->param_.stepsize();
-from src/caffe/proto/caffe.proto:
-  optional int32 stepsize = 13; // the stepsize for learning rate policy "step"$
+%from src/caffe/solver.cpp:
+%if (lr_policy == "step") {
+%    int current_step = this->iter_ / this->param_.stepsize();
+%from src/caffe/proto/caffe.proto:
+%  optional int32 stepsize = 13; // the stepsize for learning rate policy "step"
 
 These are all heuristics. No 2nd order methods involved. The intuition is that... Theory suggests that... . \\
 
