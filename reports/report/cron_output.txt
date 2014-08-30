@@ -849,3 +849,4 @@ alex     14284  2324  1 Aug29 pts/13   00:07:05 texmaker report.tex
  rewrite reports/report/report.synctex.gz (90%)
 To git@github.com:HoldenCaulfieldRye/pipe-classification.git
    9d67b27..df1f4aa  master -> master
+alex     14284  2324  1 Aug29 pts/13   00:07:11 texmaker report.tex

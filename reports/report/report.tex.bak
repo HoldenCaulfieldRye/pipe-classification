@@ -1156,19 +1156,74 @@ Class imbalance is so high that it is sometimes not present in the subset of the
     \begin{minipage}[b]{\textwidth}
       \begin{subfigure}{.5\textwidth} 
         \centering
-        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs128_lr4.png}
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
         % Add \par\vspace*{20pt} here and...
         \caption{learning rate 0.0001}\label{fig:2a}
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
-        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5.png}
         % ...here to lower the subcaptions and...
-        \caption{mini-batch size 256}\label{fig:2b}
+        \caption{learning rate 0.00001}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{98\% imbalance, different learning rates}\label{fig:2}
     \end{minipage}%
 \end{figure}
+
+
+\subsubsection{Bayesian Cross Entropy Cost Function}
+
+If hypothesis supported, maybe rebalancing costs with a different cost function can allow us to under-sample less severely? \\
+
+I also wonder whether it should be used in conjunction with a modified cost function. the threshold renormalisation won't change the fact that most of the error will come from $c_2$ examples, so the net would still be encouraged to learn $c_2$ more than $c_1$. [Provide a simple mathematical example of this]. If we want the stochastic gradient to reflect as much of the $c_1$ errors as the $c_2$ errors on average, then we need to renormalise the errors based on priors as well. This is done with bayesian cross entropy: [formula here] \\
+
+When viewed as MLE estimation, the Bayesian cross entropy can be interpreted as follows: instead of trying to maximise the joint probability of the data under the assumption that each observed event has the same probability, we are assigning higher probability to minority class events. \\
+
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{softmax cross entropy}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5_sbl.png}
+        % ...here to lower the subcaptions and...
+        \caption{softmax bayesian cross entropy}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{98\% imbalance, different cost functions}\label{fig:2}
+    \end{minipage}%
+\end{figure}
+
+
+\paragraph{Softmax Bayesian Loss Layer}
+
+this concerns work done around 20th August. This was written on 23rd August. 
+
+$scrape_zones_sbl/22-08-2014$: We look at the output probabilities, the loss values with and without bayesian renormalisation, the gradients for the softmax layer with and without bayesian renormalisation. 
+
+We have a class imbalance of 81.5\%. In first train iteration, output probs are all close to (0.5, 0.5) i.e.\ with ~0.01 standard deviation. This makes intuitive sense, the network has no idea which class is more likely because it has learned nothing yet. \\
+
+The SBL and SL losses are practically the same, they only vary by 0.15\%. This also makes sense: they will be different when the precision on one class differs markedly from the precision on the other class, which is not the case when outputting roughly (0.5,0.5) for every case. \\
+
+The gradient backpropagated to the softmax layer is of dimension 2: one for each softmax neuron. It is interesting to note that $grad(softmax_0) = - grad(softmax_1)$ always. So the modulus of the gradient for both softmax neurons is always the same, and the sign for $softmax_i$ is given by whether $softmax_i$ should have output a lower or a higher value. The reason for why the values are the same is because both neurons are always going to be the same distance away from the target value. This is only the case for 2 neurons. It might be interesting to think about how this property, which is only true for binary classifiers, affects training. \\
+
+The SBL and SL gradients backpropagated to the softmax layer are instantly different: SBL gradient is always bigger than SL gradient for min class cases, and smaller for max class cases. Note, this is the case regardless of whether the prediction was correct or not. As a result, the weight updates 	
+
+But wait: with SBL, do we really want to make the modulus bigger for both softmax neurons whenever we have a min class case? The answer would be yes, because we are going to update weights by the average gradient over the mini batch, so this is equalising the weight of the min class case (but it is adding noise to the gradient, because it's like replicating the same example - so it might lead to overfit actually). \\
+
+
+
+So with SBL, do we really want to make the modulus bigger for both softmax neurons whenever we have a min class case? Or do we want to make the modulus bigger for the min class softmax neuron, for all class cases? Or both?
+I think the latter corresponds to thresholding. So it is interesting to compare them. \\
+
+
+A difficulty implementing this was small batches with a missing class, the loss would be infinite and weight updates would screw up the net. \\
+
+
 
 \subsubsection{Under-Sampling}
 
@@ -1208,40 +1263,6 @@ Comparison 1: without weight re-initialization
 Notice how under-sampling makes overfit take place so much sooner. As a result, the model cannot pick up any of the higher order generalising patterns, and the performance is not as high (go down from 94\% to 85\% or something right?). This begs for other class imbalance tackling tricks to be combined with under-sampling, in order to limit the extent to which we under-sample, in order to fragilise robustness as little as possibe, so that we can use more expressive models, i.e.\ enable backprop on more layers. \\
 
 
-
-\subsubsection{Bayesian Cross Entropy Cost Function}
-
-If hypothesis supported, maybe rebalancing costs with a different cost function can allow us to under-sample less severely? \\
-
-I also wonder whether it should be used in conjunction with a modified cost function. the threshold renormalisation won't change the fact that most of the error will come from $c_2$ examples, so the net would still be encouraged to learn $c_2$ more than $c_1$. [Provide a simple mathematical example of this]. If we want the stochastic gradient to reflect as much of the $c_1$ errors as the $c_2$ errors on average, then we need to renormalise the errors based on priors as well. This is done with bayesian cross entropy: [formula here] \\
-
-When viewed as MLE estimation, the Bayesian cross entropy can be interpreted as follows: instead of trying to maximise the joint probability of the data under the assumption that each observed event has the same probability, we are assigning higher probability to minority class events. \\
-
-
-
-\paragraph{Softmax Bayesian Loss Layer}
-
-this concerns work done around 20th August. This was written on 23rd August. 
-
-$scrape_zones_sbl/22-08-2014$: We look at the output probabilities, the loss values with and without bayesian renormalisation, the gradients for the softmax layer with and without bayesian renormalisation. 
-
-We have a class imbalance of 81.5\%. In first train iteration, output probs are all close to (0.5, 0.5) i.e.\ with ~0.01 standard deviation. This makes intuitive sense, the network has no idea which class is more likely because it has learned nothing yet. \\
-
-The SBL and SL losses are practically the same, they only vary by 0.15\%. This also makes sense: they will be different when the precision on one class differs markedly from the precision on the other class, which is not the case when outputting roughly (0.5,0.5) for every case. \\
-
-The gradient backpropagated to the softmax layer is of dimension 2: one for each softmax neuron. It is interesting to note that $grad(softmax_0) = - grad(softmax_1)$ always. So the modulus of the gradient for both softmax neurons is always the same, and the sign for $softmax_i$ is given by whether $softmax_i$ should have output a lower or a higher value. The reason for why the values are the same is because both neurons are always going to be the same distance away from the target value. This is only the case for 2 neurons. It might be interesting to think about how this property, which is only true for binary classifiers, affects training. \\
-
-The SBL and SL gradients backpropagated to the softmax layer are instantly different: SBL gradient is always bigger than SL gradient for min class cases, and smaller for max class cases. Note, this is the case regardless of whether the prediction was correct or not. As a result, the weight updates 	
-
-But wait: with SBL, do we really want to make the modulus bigger for both softmax neurons whenever we have a min class case? The answer would be yes, because we are going to update weights by the average gradient over the mini batch, so this is equalising the weight of the min class case (but it is adding noise to the gradient, because it's like replicating the same example - so it might lead to overfit actually). \\
-
-
-
-So with SBL, do we really want to make the modulus bigger for both softmax neurons whenever we have a min class case? Or do we want to make the modulus bigger for the min class softmax neuron, for all class cases? Or both?
-I think the latter corresponds to thresholding. So it is interesting to compare them. \\
-
-
-A difficulty implementing this was small batches with a missing class, the loss would be infinite and weight updates would screw up the net. \\
 
 \subsubsection{Over-Sampling}
 
