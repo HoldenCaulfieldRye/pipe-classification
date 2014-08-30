@@ -966,7 +966,7 @@ Implementation:
 - for linear SVM: a single inner product layer with elementwise product activation functions (to achieve linearity), then a hinge-loss layer.
 - for standard deep neural network: we take the best performing network obtained from previous experimentations.
 
-Note that 
+Note that the linear SVM model was not equipped with a hinge loss accuracy layer, but was rather given the standard per class accuracy layer, which outputs the log probability as validation error. 
 
 \begin{figure}
     \centering
