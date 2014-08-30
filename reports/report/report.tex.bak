@@ -1396,9 +1396,10 @@ The architecture of the network was easily modified thanks to the prototxt inter
      note bs128 saturates gpu mem
      
      
--> Remove pooling and an fc layer
+\paragraph{Remove pooling and an fc layer}
      soil_contam/nopool_sl                    TRAINING
--> SBL
+
+\paragraph{Softmax Bayesian Cros
      soil_contam/nopool                       TRAINING
 
 
