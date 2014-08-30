@@ -1138,24 +1138,24 @@ Class imbalance is so high that it is sometimes not present in the subset of the
 
 \subsubsection{Learning Rate}
 
-%\begin{figure}
-%    \centering
-%    \begin{minipage}[b]{\textwidth}
-%      \begin{subfigure}{.5\textwidth} 
-%        \centering
-%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
-%        % Add \par\vspace*{20pt} here and...
-%        \caption{learning rate 0.0001}\label{fig:2a}
-%      \end{subfigure}%
-%      \begin{subfigure}{.5\textwidth} 
-%        \centering
-%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5.png}
-%        % ...here to lower the subcaptions and...
-%        \caption{learning rate 0.00001}\label{fig:2b}
-%      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-%      \caption{98\% imbalance, different learning rates}\label{fig:2}
-%    \end{minipage}%
-%\end{figure}
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{learning rate 0.0001}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5.png}
+        % ...here to lower the subcaptions and...
+        \caption{learning rate 0.00001}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{98\% imbalance, different learning rates}\label{fig:2}
+    \end{minipage}%
+\end{figure}
 
 
 \subsubsection{Bayesian Cross Entropy Cost Function}

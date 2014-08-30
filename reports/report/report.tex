@@ -885,13 +885,6 @@ There currently exists no way of visualising the semantic content in fully conne
 
 \begin{figure}
     \centering
-    \begin{minipage}[b]{\textwidth}
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_clampdet_none-10k.png}
-        % Add \par\vspace*{20pt} here and...
-        \caption{initialised to transferred weights}\label{fig:2a}
-      \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
         \includegraphics[scale=0.4]{images/plot_clampdet_none_reinit.png}
@@ -899,6 +892,13 @@ There currently exists no way of visualising the semantic content in fully conne
         \caption{re-initialised fully connected layers}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{Another figure}\label{fig:2}
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdet_none-10k.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{initialised to transferred weights}\label{fig:2a}
+      \end{subfigure}%
     \end{minipage}%
 \end{figure}
 
@@ -1060,7 +1060,6 @@ Whereas 88\% imbalance made it difficult to learn without transfer learning, 98\
 
 \subsubsection{Transfer Learning}
 
-As a reminder, it works with clampdet (and that is why we were able to experiment freely with various transfer learning related hyperparameters in the previous section).
 
 \begin{figure}
     \centering
@@ -1087,7 +1086,9 @@ As a reminder, it works with clampdet (and that is why we were able to experimen
     \end{minipage}%
 \end{figure}
 
+Transfer learning keeps the net's parameters from bad fake local minima, so the model is not a constant function. But little is learned. Transferring the fully connected layer weights seems to help a little as well. Note that validation error is very low because it is not a per class average: the transfer learning models quickly obtain high precision on the majority class, but struggle to learn the minority one. \\
 
+The question is whether the difficulty in learning the minority class is the inevitable consequence of having few training examples to learn from, or whether the imbalance is penalising the minority class from being learned. If the latter case is correct, one should strive to find a way to remedy this.  
 
 
 
@@ -1137,24 +1138,24 @@ Class imbalance is so high that it is sometimes not present in the subset of the
 
 \subsubsection{Learning Rate}
 
-%\begin{figure}
-%    \centering
-%    \begin{minipage}[b]{\textwidth}
-%      \begin{subfigure}{.5\textwidth} 
-%        \centering
-%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
-%        % Add \par\vspace*{20pt} here and...
-%        \caption{learning rate 0.0001}\label{fig:2a}
-%      \end{subfigure}%
-%      \begin{subfigure}{.5\textwidth} 
-%        \centering
-%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5.png}
-%        % ...here to lower the subcaptions and...
-%        \caption{learning rate 0.00001}\label{fig:2b}
-%      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-%      \caption{98\% imbalance, different learning rates}\label{fig:2}
-%    \end{minipage}%
-%\end{figure}
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{learning rate 0.0001}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5.png}
+        % ...here to lower the subcaptions and...
+        \caption{learning rate 0.00001}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{98\% imbalance, different learning rates}\label{fig:2}
+    \end{minipage}%
+\end{figure}
 
 
 \subsubsection{Bayesian Cross Entropy Cost Function}
