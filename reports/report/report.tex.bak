@@ -863,13 +863,13 @@ This should just be the simple case of transfer learning (no weight re-initialis
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.5]{images/plot_clampdet_tl_wout.png}
-	\caption{Clamp Detection, Full Backpropagation}
+	\caption{Without transfer learning}
 \end{figure}
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
-	\caption{Clamp Detection, Full Backpropagation}
+	\caption{With transfer learning}
 \end{figure}
 
 
@@ -890,13 +890,13 @@ There currently exists no way of visualising the semantic content in fully conne
         \centering
         \includegraphics[scale=0.4]{images/plot_clampdet_none-10k.png}
         % Add \par\vspace*{20pt} here and...
-        \caption{backprop enabled in all layers}\label{fig:2a}
+        \caption{initialised to transferred weights}\label{fig:2a}
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
         \includegraphics[scale=0.4]{images/plot_clampdet_none_reinit.png}
         % ...here to lower the subcaptions and...
-        \caption{backprop enabled in top layer only}\label{fig:2b}
+        \caption{re-initialised fully connected layers}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{Another figure}\label{fig:2}
     \end{minipage}%
@@ -918,13 +918,13 @@ Note: under-sampling, weights initialised to AlexNet for all nets in this sectio
         \centering
         \includegraphics[scale=0.4]{images/plot_clampdet_none.png}
         % Add \par\vspace*{20pt} here and...
-        \caption{backprop enabled in all layers}\label{fig:2a}
+        \caption{backprop on all layers}\label{fig:2a}
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
         \includegraphics[scale=0.4]{images/plot_clampdet_fc7.png}
         % ...here to lower the subcaptions and...
-        \caption{backprop enabled in top layer only}\label{fig:2b}
+        \caption{backprop on top layer only}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{Another figure}\label{fig:2}
     \end{minipage}%
@@ -966,16 +966,31 @@ Implementation:
 - for linear SVM: a single inner product layer with elementwise product activation functions (to achieve linearity), then a hinge-loss layer.
 - for standard deep neural network: we take the best performing network obtained from previous experimentations.
 
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_linSVM.png}
-	\caption{Clamp Detection, Full Backpropagation}
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdet_none.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{log prob cross entropy loss}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdet_linSVM.png}
+        % ...here to lower the subcaptions and...
+        \caption{hinge loss}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{Another figure}\label{fig:2}
+    \end{minipage}%
 \end{figure}
 
 Results:
 Comment in light Are All Loss Functions The Same? http://arxiv.org/pdf/1306.0239v1.pdf
 
+We observe that the training error does not converge to zero with the hinge loss, which means that the training data projected on fc7 space is not linearly separable. This is understandable. \\
+
+The errors between these two models are not comparable since they are of different nature. Just because the hinge loss is higher in absolute terms than the log probabity does not mean that test run performance is lower. The way to compare the two models is to look at classification performance on the test set. \\
 
 \clearpage
 \section{Task 3: Class Imbalance}
