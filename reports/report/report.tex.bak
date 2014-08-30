@@ -1403,7 +1403,9 @@ Improvement: 94.5\% validation error. The test error is: ??.\\
 
 \subsection{Soil Risk Contamination Task}
 
-plot_soil_contam_noneC:
+Imbalance ratio: 96.1\%.
+
+Instead of transferring AlexNet, optimal clampdet model is transferred. The underlying assumption is that the way in which clampdet model finetunes is also useful for soil contamination. 
 
 \begin{figure}[h!]
 	\centering
@@ -1460,6 +1462,21 @@ transfer learning doesn't work as well with caffe:
 https://github.com/BVLC/caffe/issues/642
 works better with overfeat: http://cilvr.nyu.edu/doku.php?id=software:overfeat:start
 
+
+\subsection{Hatch Markings}
+
+72.5\% class imbalance. 
+
+plot_hatch_markings_noneC:
+
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_hatch_markings_noneC.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+Probably gains to be made from keeping information here. 
 
 \clearpage
 \section{Conclusions and Future Work}
