@@ -1139,6 +1139,8 @@ Class imbalance is so high that it is sometimes not present in the subset of the
 
 \subsubsection{Learning Rate}
 
+Decreasing the learning rate helps if it prevents a good minimum from being overshot. This is not the case here. \\
+
 \begin{figure}
     \centering
     \begin{minipage}[b]{\textwidth}
