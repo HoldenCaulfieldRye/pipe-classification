@@ -1028,7 +1028,10 @@ Test interval set to 1, because more important to follow whether or how quickly 
 
 The level of class imbalance to impose on the clamp detection task was chosen such that the optimal transfer learning setup obtained from previous experimentation no longer enables successful learning of the task, and puts the network in bad local minimum instead. This corresponds to 97\%, from an original imbalance ratio of 0.88\%. It may seem like a small gap, but this means going from 1323 minority class training cases to 293, i.e. a \% decrease. \\
 
-\subsubsection{Test Run, Mini-batch Size}
+\subsubsection{Test Run}
+
+
+\paragraph{Importance of Batch Size}
 
 Notice what happens when validation batch size too small:
 
@@ -1040,7 +1043,7 @@ Notice what happens when validation batch size too small:
 
 (training files for above now in clampdetCI/BULLSHIT)
 
-Class imbalance is so high that it is sometimes not present in the subset of the validation set that is being tested. In that case, if the model is in bad min, its per class accuracy will be equal to its accuracy on the majority class. We obtain the confusing output above. (Still got to do some maths to prove that assigning majrity classe randomly with probability p (not 0.5) will lead to per class accuracy being 0.5 or p depending on whether minority class present). Hence this confusing output, which could wrongly be interpreted as the network steadily learning but sometimes getting stuck in bad min (and getting back out thanks to momentum). \\
+Class imbalance is so high that it is sometimes not present in the subset of the validation set that is being tested. In that case, if the model is in bad min, its per class accuracy will be equal to its accuracy on the majority class. We obtain the confusing output above. (Still got to do some maths to prove that assigning majrity class randomly with probability p (not 0.5) will lead to per class accuracy being 0.5 or p depending on whether minority class present). Hence this confusing output, which could wrongly be interpreted as the network steadily learning but sometimes getting stuck in bad min (and getting back out thanks to momentum). \\
 
 
 %\begin{figure}[h!]
