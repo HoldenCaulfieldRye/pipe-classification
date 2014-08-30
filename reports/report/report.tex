@@ -1013,6 +1013,9 @@ $C++$ per class accuracy layer as an indicator for bad min: do the maths to expl
 
 It will be crucial to keep in mind throughout that the per class accuracy layer provides per class accuracy, but the log prob which it outputs is not 
 
+that's also why we thought the per class accuracy was "fucked up": it was outputting per class accuracy, but OVERALL softmax loss
+hence why the 2 didn't always vary in the same direction!
+
 python script. \\
 
 increase class imbalance:
@@ -1182,7 +1185,7 @@ I also wonder whether it should be used in conjunction with a modified cost func
 
 When viewed as MLE estimation, the Bayesian cross entropy can be interpreted as follows: instead of trying to maximise the joint probability of the data under the assumption that each observed event has the same probability, we are assigning higher probability to minority class events. \\
 
-Blow us away with some nice maths here! \\
+Blow us away with some nice maths here! Also need the background maths for cross entropy that is the same as MLE. \\
 
 
 \paragraph{Implementation}
@@ -1214,7 +1217,22 @@ When gradient not correctly propagated, backpropagation does not converge. \\
     \end{minipage}%
 \end{figure}
 
+Makes gradient a noiser because class imbalance from one minibatch to another varies. This could be improved by making sure same class proportion in every batch. Note that validation error is noisy here because 1 validation batch is tested at a time (for faster evaluation of implementation). \\
 
+I had thought that the "bayesian softmax loss" had failed
+because the models trained on it were not hitting as low a validation error minimum as were the models trained on normal softmax loss
+HOWEVER 
+scarcity of minority class cases makes the class harder to learn, no matter what tricks you use to get the net to "focus on it more"
+since softmax bayesian loss is a kind of per class average softmax loss, it will always be higher than sotmax loss when there is class imbalance
+even if it achieves in getting the net to learn the minority class better!
+
+I'm going to run the models on the test set
+look at the accuracy on positives and negatives
+and if I get better accuracy on the positives, it's great. 
+
+no free lunch: if you're making minority class cases stand out disproportionately, you're telling the net "screw overall performance, try to get the minority class good"
+"at the expense of performance on the majority class"
+which, when you're taking an unweighted measure of performance such as softmax loss, lowers performance.
 
 \paragraph{Results}
 

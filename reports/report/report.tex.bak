@@ -1013,6 +1013,9 @@ $C++$ per class accuracy layer as an indicator for bad min: do the maths to expl
 
 It will be crucial to keep in mind throughout that the per class accuracy layer provides per class accuracy, but the log prob which it outputs is not 
 
+that's also why we thought the per class accuracy was "fucked up": it was outputting per class accuracy, but OVERALL softmax loss
+hence why the 2 didn't always vary in the same direction!
+
 python script. \\
 
 increase class imbalance:
@@ -1129,46 +1132,46 @@ Class imbalance is so high that it is sometimes not present in the subset of the
 (training files for that in clampdetCI/none on graphic06)
 
 
-\begin{figure}
-    \centering
-    \begin{minipage}[b]{\textwidth}
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs128_lr4.png}
-        % Add \par\vspace*{20pt} here and...
-        \caption{mini-batch size 128}\label{fig:2a}
-      \end{subfigure}%
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
-        % ...here to lower the subcaptions and...
-        \caption{mini-batch size 256}\label{fig:2b}
-      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-      \caption{98\% imbalance, different mini-batch sizes}\label{fig:2}
-    \end{minipage}%
-\end{figure}
+%\begin{figure}
+%    \centering
+%    \begin{minipage}[b]{\textwidth}
+%      \begin{subfigure}{.5\textwidth} 
+%        \centering
+%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs128_lr4.png}
+%        % Add \par\vspace*{20pt} here and...
+%        \caption{mini-batch size 128}\label{fig:2a}
+%      \end{subfigure}%
+%      \begin{subfigure}{.5\textwidth} 
+%        \centering
+%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
+%        % ...here to lower the subcaptions and...
+%        \caption{mini-batch size 256}\label{fig:2b}
+%      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+%      \caption{98\% imbalance, different mini-batch sizes}\label{fig:2}
+%    \end{minipage}%
+%\end{figure}
 
 
 \subsubsection{Learning Rate}
 
-\begin{figure}
-    \centering
-    \begin{minipage}[b]{\textwidth}
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
-        % Add \par\vspace*{20pt} here and...
-        \caption{learning rate 0.0001}\label{fig:2a}
-      \end{subfigure}%
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5.png}
-        % ...here to lower the subcaptions and...
-        \caption{learning rate 0.00001}\label{fig:2b}
-      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-      \caption{98\% imbalance, different learning rates}\label{fig:2}
-    \end{minipage}%
-\end{figure}
+%\begin{figure}
+%    \centering
+%    \begin{minipage}[b]{\textwidth}
+%      \begin{subfigure}{.5\textwidth} 
+%        \centering
+%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
+%        % Add \par\vspace*{20pt} here and...
+%        \caption{learning rate 0.0001}\label{fig:2a}
+%      \end{subfigure}%
+%      \begin{subfigure}{.5\textwidth} 
+%        \centering
+%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5.png}
+%        % ...here to lower the subcaptions and...
+%        \caption{learning rate 0.00001}\label{fig:2b}
+%      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+%      \caption{98\% imbalance, different learning rates}\label{fig:2}
+%    \end{minipage}%
+%\end{figure}
 
 
 \subsubsection{Bayesian Cross Entropy Cost Function}
@@ -1182,6 +1185,9 @@ I also wonder whether it should be used in conjunction with a modified cost func
 
 When viewed as MLE estimation, the Bayesian cross entropy can be interpreted as follows: instead of trying to maximise the joint probability of the data under the assumption that each observed event has the same probability, we are assigning higher probability to minority class events. \\
 
+Blow us away with some nice maths here! Also need the background maths for cross entropy that is the same as MLE. \\
+
+
 \paragraph{Implementation}
 
 Implement a softmax bayesian loss layer, and a per class bayesian accuracy layer, in C++. \\
@@ -1190,7 +1196,7 @@ A difficulty implementing this was small batches with a missing class, the loss 
 
 For testing and debugging, the cost function was used on one of the simpler tasks with little imbalance: ground sheet detection. 
 
-When tested on a When gradient not correctly propagated
+When gradient not correctly propagated, backpropagation does not converge. \\
 
 \begin{figure}
     \centering
@@ -1211,31 +1217,44 @@ When tested on a When gradient not correctly propagated
     \end{minipage}%
 \end{figure}
 
+Makes gradient a lot noiser because class imbalance from one minibatch to another varies. This could be improved by making sure same class proportion in every batch. \\
+
+I had thought that the "bayesian softmax loss" had failed
+because the models trained on it were not hitting as low a validation error minimum as were the models trained on normal softmax loss
+HOWEVER 
+scarcity of minority class cases makes the class harder to learn, no matter what tricks you use to get the net to "focus on it more"
+since softmax bayesian loss is a kind of per class average softmax loss, it will always be higher than sotmax loss when there is class imbalance
+even if it achieves in getting the net to learn the minority class better!
+
+I'm going to run the models on the test set
+look at the accuracy on positives and negatives
+and if I get better accuracy on the positives, it's great. 
+
+no free lunch: if you're making minority class cases stand out disproportionately, you're telling the net "screw overall performance, try to get the minority class good"
+"at the expense of performance on the majority class"
+which, when you're taking an unweighted measure of performance such as softmax loss, lowers performance.
+
 \paragraph{Results}
 
-\begin{figure}
-    \centering
-    \begin{minipage}[b]{\textwidth}
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5.png}
-        % Add \par\vspace*{20pt} here and...
-        \caption{softmax cross entropy}\label{fig:2a}
-      \end{subfigure}%
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5_sbl.png}
-        % ...here to lower the subcaptions and...
-        \caption{softmax bayesian cross entropy}\label{fig:2b}
-      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-      \caption{98\% imbalance, different cost functions}\label{fig:2}
-    \end{minipage}%
-\end{figure}
+%\begin{figure}
+%    \centering
+%    \begin{minipage}[b]{\textwidth}
+%      \begin{subfigure}{.5\textwidth} 
+%        \centering
+%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5.png}
+%        % Add \par\vspace*{20pt} here and...
+%        \caption{softmax cross entropy}\label{fig:2a}
+%      \end{subfigure}%
+%      \begin{subfigure}{.5\textwidth} 
+%        \centering
+%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5_sbl.png}
+%        % ...here to lower the subcaptions and...
+%        \caption{softmax bayesian cross entropy}\label{fig:2b}
+%      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+%      \caption{98\% imbalance, different cost functions}\label{fig:2}
+%    \end{minipage}%
+%\end{figure}
 
-
-\paragraph{Softmax Bayesian Loss Layer}
-
-this concerns work done around 20th August. This was written on 23rd August. 
 
 
 
