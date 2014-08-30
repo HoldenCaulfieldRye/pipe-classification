@@ -1201,6 +1201,8 @@ So with SBL, do we really want to make the modulus bigger for both softmax neuro
 I think the latter corresponds to thresholding. So it is interesting to compare them. \\
 
 
+A difficulty implementing this was small batches with a missing class, the loss would be infinite and weight updates would screw up the net. \\
+
 \subsubsection{Over-Sampling}
 
 And now for an alternative to under-sampling. 
