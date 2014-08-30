@@ -79,22 +79,22 @@
 \contentsline {subsubsection}{\numberline {7.3.2}Transfer Learning}{35}
 \contentsline {subsubsection}{\numberline {7.3.3}Batch Size}{35}
 \contentsline {subsubsection}{\numberline {7.3.4}Learning Rate}{37}
-\contentsline {subsubsection}{\numberline {7.3.5}Bayesian Cross Entropy Cost Function}{37}
-\contentsline {paragraph}{Motivations}{37}
+\contentsline {subsubsection}{\numberline {7.3.5}Bayesian Cross Entropy Cost Function}{38}
+\contentsline {paragraph}{Motivations}{38}
 \contentsline {paragraph}{Implementation}{38}
 \contentsline {paragraph}{Results}{39}
 \contentsline {subsubsection}{\numberline {7.3.6}Under-Sampling}{39}
 \contentsline {paragraph}{Overfitting consequences of under-sampling}{39}
-\contentsline {subsubsection}{\numberline {7.3.7}Over-Sampling}{39}
-\contentsline {subsubsection}{\numberline {7.3.8}Test-time threshold}{41}
+\contentsline {subsubsection}{\numberline {7.3.7}Over-Sampling}{40}
+\contentsline {subsubsection}{\numberline {7.3.8}Test-time threshold}{42}
 \contentsline {section}{\numberline {8}Final Results}{42}
-\contentsline {subsection}{\numberline {8.1}Merging Classes}{42}
-\contentsline {subsection}{\numberline {8.2}Learning Rate}{42}
-\contentsline {paragraph}{Step}{42}
+\contentsline {subsection}{\numberline {8.1}Merging Classes}{43}
+\contentsline {subsection}{\numberline {8.2}Learning Rate}{43}
+\contentsline {paragraph}{Step}{43}
 \contentsline {paragraph}{Exp}{43}
 \contentsline {subsubsection}{\numberline {8.2.1}Soil Risk Contamination Task}{43}
 \contentsline {paragraph}{Test Run}{43}
-\contentsline {subparagraph}{Training Results}{43}
-\contentsline {subparagraph}{Observations}{43}
-\contentsline {paragraph}{Get more evidence}{43}
+\contentsline {subparagraph}{Training Results}{44}
+\contentsline {subparagraph}{Observations}{44}
+\contentsline {paragraph}{Get more evidence}{44}
 \contentsline {section}{\numberline {9}Conclusions and Future Work}{45}

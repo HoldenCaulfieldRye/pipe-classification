@@ -1117,24 +1117,27 @@ Class imbalance is so high that it is sometimes not present in the subset of the
 (training files for that in clampdetCI/none on graphic06)
 
 
-%\begin{figure}
-%    \centering
-%    \begin{minipage}[b]{\textwidth}
-%      \begin{subfigure}{.5\textwidth} 
-%        \centering
-%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs128_lr4.png}
-%        % Add \par\vspace*{20pt} here and...
-%        \caption{mini-batch size 128}\label{fig:2a}
-%      \end{subfigure}%
-%      \begin{subfigure}{.5\textwidth} 
-%        \centering
-%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
-%        % ...here to lower the subcaptions and...
-%        \caption{mini-batch size 256}\label{fig:2b}
-%      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-%      \caption{98\% imbalance, different mini-batch sizes}\label{fig:2}
-%    \end{minipage}%
-%\end{figure}
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs128_lr4.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{mini-batch size 128}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
+        % ...here to lower the subcaptions and...
+        \caption{mini-batch size 256}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{98\% imbalance, different mini-batch sizes}\label{fig:2}
+    \end{minipage}%
+\end{figure}
+
+
+Increasing batch size certainly helps, which shows that the gradient is noisy, so the network parameters head in a suboptimal direction. Noisiness of the gradient is understandable given the class imbalance. \\
 
 
 \subsubsection{Learning Rate}
@@ -1230,13 +1233,13 @@ which, when you're taking an unweighted measure of performance such as softmax l
 %    \begin{minipage}[b]{\textwidth}
 %      \begin{subfigure}{.5\textwidth} 
 %        \centering
-%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5.png}
+%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
 %        % Add \par\vspace*{20pt} here and...
 %        \caption{softmax cross entropy}\label{fig:2a}
 %      \end{subfigure}%
 %      \begin{subfigure}{.5\textwidth} 
 %        \centering
-%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5_sbl.png}
+%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4_sbl.png}
 %        % ...here to lower the subcaptions and...
 %        \caption{softmax bayesian cross entropy}\label{fig:2b}
 %      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
