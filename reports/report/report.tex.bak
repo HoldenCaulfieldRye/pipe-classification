@@ -1372,6 +1372,26 @@ Also, I think that if we wanted to implement the threshold directly in the net, 
 Rather than have a fixed threshold hard-coded into the network, I propose to use a sig level script, for greater flexibility. \\
 
 
+\section{Task 4: Conserving Spatial Information}
+
+\subsection{Motivations}
+
+Some tasks depend on picking out visual characteristics in specific areas of the pipe installation:
+- soil contamination risk
+- water contamination risk
+- scraping or peeling
+- (scrape zone detection?)
+
+Whereas pooling in convolutional layers condenses the visual information and achieves translation equivariance, it also loses spatial information (where the feature was seen). This can be severely detrimental to the tasks above. For example, there is risk os soil contamination when traces of soil can be seen on the pipe fitting, but not if they are anywhere else. Therefore, in this case, it does not suffice to ascertain that traces of soil can be seen on the image. \\
+
+\subsection{Implementation}
+
+The architecture of the network was easily modified thanks to the prototxt interface featured in caffe. 
+
+\subsection{Experimentation}
+
+
+
 
 \section{Final Results}
 
