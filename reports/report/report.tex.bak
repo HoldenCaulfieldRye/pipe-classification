@@ -1060,26 +1060,25 @@ Whereas 88\% imbalance made it difficult to learn without transfer learning, 98\
 
 \subsubsection{Transfer Learning}
 
-As a reminder, it works with clampdet (and that is why we were able to experiment freely with various transfer learning related hyperparameters in the previous section).
 
 \begin{figure}
     \centering
     \begin{minipage}[b]{\textwidth}
-      \begin{subfigure}{.1\textwidth} 
+      \begin{subfigure}{.5\textwidth} 
         \centering
-        \includegraphics[scale=0.3]{images/plot_clampdetCI98_tl_wout.png}
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_tl_wout.png}
         % Add \par\vspace*{20pt} here and...
         \caption{no transfer}\label{fig:2a}
       \end{subfigure}%
-      \begin{subfigure}{1.5\textwidth} 
+      \begin{subfigure}{.5\textwidth} 
         \centering
-        \includegraphics[scale=0.3]{images/plot_clampdetCI98_none_reinit_bs128_lr4.png}
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_reinit_bs128_lr4.png}
         % ...here to lower the subcaptions and...
         \caption{convolutional layer transfer}\label{fig:2b}
       \end{subfigure} \par \vspace*{3pt} % ...remove them from here
-      \begin{subfigure}{3\textwidth} 
+      \begin{subfigure}{.5\textwidth} 
         \centering
-        \includegraphics[scale=0.3]{images/plot_clampdetCI98_none_bs128_lr4.png}
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs128_lr4.png}
         % ...here to lower the subcaptions and...
         \caption{full net transfer}\label{fig:2b}
       \end{subfigure} \par \vspace*{3pt} % ...remove them from here
@@ -1087,7 +1086,9 @@ As a reminder, it works with clampdet (and that is why we were able to experimen
     \end{minipage}%
 \end{figure}
 
+Transfer learning keeps the net's parameters from bad fake local minima, so the model is not a constant function. But little is learned. Transferring the fully connected layer weights seems to help a little as well. Note that validation error is very low because it is not a per class average: the transfer learning models quickly obtain high precision on the majority class, but struggle to learn the minority one. \\
 
+The question is whether the difficulty in learning the minority class is the inevitable consequence of having few training examples to learn from, or whether the imbalance is penalising the minority class from being learned. If the latter case is correct, one should strive to find a way to remedy this.  
 
 
 
