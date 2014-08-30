@@ -1137,6 +1137,9 @@ Class imbalance is so high that it is sometimes not present in the subset of the
 \end{figure}
 
 
+Increasing batch size certainly helps, which shows that the gradient is noisy, so the network parameters head in a suboptimal direction. Noisiness of the gradient is understandable given the class imbalance. \\
+
+
 \subsubsection{Learning Rate}
 
 Decreasing the learning rate helps if it prevents a good minimum from being overshot (elaborate, illustration?). \\ 
@@ -1398,7 +1401,17 @@ Improvement: 94.5\% validation error. The test error is: ??.\\
 
 [...] \\
 
-\subsubsection{Soil Risk Contamination Task}
+\subsection{Soil Risk Contamination Task}
+
+plot_soil_contam_noneC:
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_soil_contam_noneC.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+Sadly, hardly learning anything. Notice the training error takes a lot of time (does it even reach it?) to reach 0,  suggesting it is very difficult to even fit the training data. We can be even more precise than that thanks to ours insight into gradient descent and Chebyshev polynomials: we know that we require an order `train-iters-to-fuly-fit` polyomial to create regions that cover and discriminate the training set properly, which means that the features learned are inadequate for separating the data. Qualitatively, we know that soil contamination depends on a very specific part of the image, and pooling loses this information. A speck of brown in a specific area means soil contamination, but the same speck elsewhere does not. Therefore, we can say a convnet is not suited for this task. (Unless we use segmentation to crop out the area of the image - the fitting - which we wish to examine for contamination). \\
 
 \paragraph{Test Run}
 
