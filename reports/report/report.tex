@@ -1062,49 +1062,32 @@ Whereas 88\% imbalance made it difficult to learn without transfer learning, 98\
 
 As a reminder, it works with clampdet (and that is why we were able to experiment freely with various transfer learning related hyperparameters in the previous section).
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_tl_wout.png}
-	\caption{Clamp Detection, Full Backpropagation}
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_tl_wout.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{no transfer}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_reinit_bs128_lr4.png}
+        % ...here to lower the subcaptions and...
+        \caption{convolutional layer transfer}\label{fig:2b}
+      \end{subfigure} \par \vspace*{3pt} % ...remove them from here
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs128_lr4.png}
+        % ...here to lower the subcaptions and...
+        \caption{full net transfer}\label{fig:2b}
+      \end{subfigure} \par \vspace*{3pt} % ...remove them from here
+      \caption{98\% imbalance, varying levels of transfer learning}\label{fig:2}
+    \end{minipage}%
 \end{figure}
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
 
-We can revisit the results found in the transfer learning test run in the light of class imbalance: initialise the parameters in a region where true minima are deeper than the local minima. This is the case with clamp detection.
-
-To back up this interpretation, do the same thing with a task where you can estimate that the true minima are higher than the bad minima. To figure out how deep the good minima are, do transfer learning + target 0.5 under-sampling on the task (ie stricted possible under-sampling), and use the minimum attained as an estimate for how deep the good minima are (this might not work because heavier under-sampling reduces training set therefore makes gradient more noisy therefore maybe cannot locate the good min, or cannot locate the better one(s).) 
-
-If depth of good min measure is obtained, do transfer learning with two different under-sampling rates: one above the good min measure, one below. See whether transfer learning overcomes class imbalance in any of those cases. Hopefully only the one with stricter under-sampling. \\
-
-%\begin{figure}[h!]
-%	\centering
-%	\includegraphics[scale=0.5]{images/plot_fitting_proximity_us_none.png}
-%	\caption{Clamp Detection, Full Backpropagation}
-%\end{figure}
-
-We can see from above that the good minimum is at ? . Therefore, to evaluate hypothesis expressed above, we can under-sample with a target bad min below this good min ('fit prox usBelow'), another slightly above ('fit prox usAbove'), and do transfer learning with no reinit for both. If hypothesis is correct, then network should settle in bad min for former, but not for latter. \\
-
-%\begin{figure}[h!]
-%	\centering
-%	\includegraphics[scale=0.5]{images/plot_fitting_proximity_usAbove_none.png}
-%	\caption{Clamp Detection, Full Backpropagation}
-%\end{figure}
-
-%\begin{figure}[h!]
-%	\centering
-%	\includegraphics[scale=0.5]{images/plot_fitting_proximity_usBelow_none.png}
-%	\caption{Clamp Detection, Full Backpropagation}
-%\end{figure}
-
-Hypothesis supported? Disproved? If hypothesis supported, ie usAbove looks like it is in bad min, make sure with $run_classifier$ and loo at the output probabilities. \\
-
-If hypothesis disproved, ie transfer learning counters class imalance in both cases, it could be that noisy gradient did not allow us to locate the good min that is available at less strict under-sampling rates. Maybe try again with a task this is not so extremely imbalanced. 
-Or if hypothesis disproved, maybe we should try freezing backprop? As a way of reducing the number of different ways in which network can step into bad min? 
-We could also try with non-parametric error, but that is not related to transfer learning per se, so we keep that for later. \\
 
 
 
