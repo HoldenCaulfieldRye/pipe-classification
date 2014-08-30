@@ -966,6 +966,8 @@ Implementation:
 - for linear SVM: a single inner product layer with elementwise product activation functions (to achieve linearity), then a hinge-loss layer.
 - for standard deep neural network: we take the best performing network obtained from previous experimentations.
 
+Note that the linear SVM model was not equipped with a hinge loss accuracy layer, but was rather given the standard per class accuracy layer, which outputs the log probability as validation error. 
+
 \begin{figure}
     \centering
     \begin{minipage}[b]{\textwidth}
@@ -1009,6 +1011,8 @@ c++ per class accuracy layer, threshold layer. bayesian softmax loss layer. baye
 
 $C++$ per class accuracy layer as an indicator for bad min: do the maths to explain how bad min necessarily implies 0.5 per class accuracy. A flaw is that 0.5 per class accuracy can be caused by other things than bad min - and this did throw me off guard during the project on an occasion. Therefore, it is not a detector! To make sure that we are indeed in bad min, we can run the net and look at the output probabilities. \\
 
+It will be crucial to keep in mind throughout that the per class accuracy layer provides per class accuracy, but the log prob which it outputs is not 
+
 python script. \\
 
 increase class imbalance:
@@ -1049,71 +1053,7 @@ To evaluate the difficulty of the clamp detection task with increased class imba
     \end{minipage}%
 \end{figure}
 
-Whereas 88\% imbalance made it difficult to learn without transfer learning, 98\% imbalance makes it impossible. The model becomes a constant function 
-
-
-\subsubsection{Batch Size}
-
-Notice what happens when validation batch size too small:
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdetCI_none_testrun.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-(training files for above now in clampdetCI/BULLSHIT)
-
-Class imbalance is so high that it is sometimes not present in the subset of the validation set that is being tested. In that case, if the model is in bad min, its per class accuracy will be equal to its accuracy on the majority class. We obtain the confusing output above. (Still got to do some maths to prove that assigning majrity class randomly with probability p (not 0.5) will lead to per class accuracy being 0.5 or p depending on whether minority class present). Hence this confusing output, which could wrongly be interpreted as the network steadily learning but sometimes getting stuck in bad min (and getting back out thanks to momentum). \\
-
-
-%\begin{figure}[h!]
-%	\centering
-%	\includegraphics[width=0.8	extwidth,natwidth=610,natheight=642]{images/plot_clampdetCI_testrun_higherbatchsize.png}
-%	\caption{Clamp Detection, Full Backpropagation}
-%\end{figure}
-
-(training files for that in clampdetCI/none on graphic06)
-
-
-
-\subsubsection{Under-Sampling}
-
-Imbalance is obviously reached because most mini-batches do not contain any minority class examples, so the net is only ever being told to output 0. 
-
-%\begin{figure}[h!]
-%	\centering
-%	\includegraphics[width=0.8	extwidth,natwidth=610,natheight=642]{images/plot_fitting_proximity_tl_wout.png}
-%	\caption{Clamp Detection, Full Backpropagation}
-%\end{figure}
-%
-%\begin{figure}[h!]
-%	\centering
-%	\includegraphics[width=0.8	extwidth,natwidth=610,natheight=642]{images/plot_fitting_proximity_us_tl_wout.png}
-%	\caption{Clamp Detection, Full Backpropagation}
-%\end{figure}
-
-
-\paragraph{Overfitting consequences of under-sampling}
-
-Here we evaluate impact of under-sampling on clampdet. There is no need to under-sample on clampdet because class imbalance is tackled by transfer learning. But that is the reason for why clampdet is used to illustrate impact on overfitting: apply under-sampling in a case where learning occurs regardless, to see what impact it has on the health. We can't be certain about this impact on fitting proximity, since it just doesn't learn anyway. \\
-
-Comparison 1: without weight re-initialization
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_us_none.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-Notice how under-sampling makes overfit take place so much sooner. As a result, the model cannot pick up any of the higher order generalising patterns, and the performance is not as high (go down from 94\% to 85\% or something right?). This begs for other class imbalance tackling tricks to be combined with under-sampling, in order to limit the extent to which we under-sample, in order to fragilise robustness as little as possibe, so that we can use more expressive models, i.e.\ enable backprop on more layers. \\
-
+Whereas 88\% imbalance made it difficult to learn without transfer learning, 98\% imbalance makes it impossible. The model becomes a constant function. Note that although the 
 
 \subsubsection{Transfer Learning}
 
@@ -1165,6 +1105,110 @@ We could also try with non-parametric error, but that is not related to transfer
 
 
 
+\subsubsection{Batch Size}
+
+Notice what happens when validation batch size too small:
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdetCI_none_testrun.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+(training files for above now in clampdetCI/BULLSHIT)
+
+Class imbalance is so high that it is sometimes not present in the subset of the validation set that is being tested. In that case, if the model is in bad min, its per class accuracy will be equal to its accuracy on the majority class. We obtain the confusing output above. (Still got to do some maths to prove that assigning majrity class randomly with probability p (not 0.5) will lead to per class accuracy being 0.5 or p depending on whether minority class present). Hence this confusing output, which could wrongly be interpreted as the network steadily learning but sometimes getting stuck in bad min (and getting back out thanks to momentum). \\
+
+
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[width=0.8	extwidth,natwidth=610,natheight=642]{images/plot_clampdetCI_testrun_higherbatchsize.png}
+%	\caption{Clamp Detection, Full Backpropagation}
+%\end{figure}
+
+(training files for that in clampdetCI/none on graphic06)
+
+
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs128_lr4.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{mini-batch size 128}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
+        % ...here to lower the subcaptions and...
+        \caption{mini-batch size 256}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{98\% imbalance, different mini-batch sizes}\label{fig:2}
+    \end{minipage}%
+\end{figure}
+
+
+\subsubsection{Learning Rate}
+
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{learning rate 0.0001}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5.png}
+        % ...here to lower the subcaptions and...
+        \caption{learning rate 0.00001}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{98\% imbalance, different learning rates}\label{fig:2}
+    \end{minipage}%
+\end{figure}
+
+\subsubsection{Under-Sampling}
+
+Imbalance is obviously reached because most mini-batches do not contain any minority class examples, so the net is only ever being told to output 0. 
+
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[width=0.8	extwidth,natwidth=610,natheight=642]{images/plot_fitting_proximity_tl_wout.png}
+%	\caption{Clamp Detection, Full Backpropagation}
+%\end{figure}
+%
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[width=0.8	extwidth,natwidth=610,natheight=642]{images/plot_fitting_proximity_us_tl_wout.png}
+%	\caption{Clamp Detection, Full Backpropagation}
+%\end{figure}
+
+
+\paragraph{Overfitting consequences of under-sampling}
+
+Here we evaluate impact of under-sampling on clampdet. There is no need to under-sample on clampdet because class imbalance is tackled by transfer learning. But that is the reason for why clampdet is used to illustrate impact on overfitting: apply under-sampling in a case where learning occurs regardless, to see what impact it has on the health. We can't be certain about this impact on fitting proximity, since it just doesn't learn anyway. \\
+
+Comparison 1: without weight re-initialization
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_us_none.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+Notice how under-sampling makes overfit take place so much sooner. As a result, the model cannot pick up any of the higher order generalising patterns, and the performance is not as high (go down from 94\% to 85\% or something right?). This begs for other class imbalance tackling tricks to be combined with under-sampling, in order to limit the extent to which we under-sample, in order to fragilise robustness as little as possibe, so that we can use more expressive models, i.e.\ enable backprop on more layers. \\
+
+
+
 \subsubsection{Bayesian Cross Entropy Cost Function}
 
 If hypothesis supported, maybe rebalancing costs with a different cost function can allow us to under-sample less severely? \\
@@ -1196,6 +1240,8 @@ But wait: with SBL, do we really want to make the modulus bigger for both softma
 So with SBL, do we really want to make the modulus bigger for both softmax neurons whenever we have a min class case? Or do we want to make the modulus bigger for the min class softmax neuron, for all class cases? Or both?
 I think the latter corresponds to thresholding. So it is interesting to compare them. \\
 
+
+A difficulty implementing this was small batches with a missing class, the loss would be infinite and weight updates would screw up the net. \\
 
 \subsubsection{Over-Sampling}
 
