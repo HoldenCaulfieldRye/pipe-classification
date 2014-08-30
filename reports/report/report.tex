@@ -883,22 +883,23 @@ The features on convolutional layers are easy to visualise, and the success of t
 
 There currently exists no way of visualising the semantic content in fully connected layers: the Intruiguing properties paper suggests that an individual neuron does not contain a semantic feature, but that it is distributed among the units of the layer. So it is not obvious whether or not the features in the fully connected layers are of any use for transfer tasks. That is the motivation for experimenting with weight re-initialisation. \\
 
+
 \begin{figure}
     \centering
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_clampdet_none_reinit.png}
-        % ...here to lower the subcaptions and...
-        \caption{re-initialised fully connected layers}\label{fig:2b}
-      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-      \caption{Another figure}\label{fig:2}
     \begin{minipage}[b]{\textwidth}
       \begin{subfigure}{.5\textwidth} 
         \centering
-        \includegraphics[scale=0.4]{images/plot_clampdet_none-10k.png}
+        \includegraphics[scale=0.4]{images/plot_clampdet_none_reinit.png}
         % Add \par\vspace*{20pt} here and...
-        \caption{initialised to transferred weights}\label{fig:2a}
+        \caption{backprop on all layers}\label{fig:2a}
       \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdet_none-10k.png}
+        % ...here to lower the subcaptions and...
+        \caption{backprop on top layer only}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{Another figure}\label{fig:2}
     \end{minipage}%
 \end{figure}
 
