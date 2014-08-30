@@ -981,7 +981,7 @@ Implementation:
         % ...here to lower the subcaptions and...
         \caption{hinge loss}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-      \caption{Another figure}\label{fig:2}
+      \caption{hinge loss}\label{fig:2}
     \end{minipage}%
 \end{figure}
 
@@ -1024,11 +1024,35 @@ Several approaches were taken to tackle class imbalance. Successful ones accumul
 
 A fixed architecture and training strategy are kept throughout the experiments: backprop on all layers, all weights transferred. \\
 
-Test interval set to 1, because more important to follow whether or how quickly net goes into bad local minimum. \\
+The level of class imbalance to impose on the clamp detection task was chosen such that the optimal transfer learning setup obtained from previous experimentation no longer enables successful learning of the task, and puts the network in bad local minimum instead. This corresponds to 98\%, from an original imbalance ratio of 0.88\%. This corresponds to going from 1323 minority class training cases to 193. \\
 
-The level of class imbalance to impose on the clamp detection task was chosen such that the optimal transfer learning setup obtained from previous experimentation no longer enables successful learning of the task, and puts the network in bad local minimum instead. This corresponds to 97\%, from an original imbalance ratio of 0.88\%. It may seem like a small gap, but this means going from 1323 minority class training cases to 293, i.e. a \% decrease. \\
+\subsubsection{Test Run}
 
-\subsubsection{Test Run, Mini-batch Size}
+To evaluate the difficulty of the clamp detection task with increased class imbalance, a model was trained from scratch without transfer learning, to be benchmarked with the equivalent trained on the entire dataset. 
+
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdet_tl_wout.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{88\% class imbalance, no transfer learning}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_tl_wout.png}
+        % ...here to lower the subcaptions and...
+        \caption{hinge loss}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{98\% class imbalance, no transfer learning}\label{fig:2}
+    \end{minipage}%
+\end{figure}
+
+Whereas 88\% imbalance made it difficult to learn without transfer learning, 98\% imbalance makes it impossible. The model becomes a constant function 
+
+
+\subsubsection{Batch Size}
 
 Notice what happens when validation batch size too small:
 
@@ -1040,7 +1064,7 @@ Notice what happens when validation batch size too small:
 
 (training files for above now in clampdetCI/BULLSHIT)
 
-Class imbalance is so high that it is sometimes not present in the subset of the validation set that is being tested. In that case, if the model is in bad min, its per class accuracy will be equal to its accuracy on the majority class. We obtain the confusing output above. (Still got to do some maths to prove that assigning majrity classe randomly with probability p (not 0.5) will lead to per class accuracy being 0.5 or p depending on whether minority class present). Hence this confusing output, which could wrongly be interpreted as the network steadily learning but sometimes getting stuck in bad min (and getting back out thanks to momentum). \\
+Class imbalance is so high that it is sometimes not present in the subset of the validation set that is being tested. In that case, if the model is in bad min, its per class accuracy will be equal to its accuracy on the majority class. We obtain the confusing output above. (Still got to do some maths to prove that assigning majrity class randomly with probability p (not 0.5) will lead to per class accuracy being 0.5 or p depending on whether minority class present). Hence this confusing output, which could wrongly be interpreted as the network steadily learning but sometimes getting stuck in bad min (and getting back out thanks to momentum). \\
 
 
 %\begin{figure}[h!]

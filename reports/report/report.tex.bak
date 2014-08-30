@@ -1024,14 +1024,35 @@ Several approaches were taken to tackle class imbalance. Successful ones accumul
 
 A fixed architecture and training strategy are kept throughout the experiments: backprop on all layers, all weights transferred. \\
 
-Test interval set to 1, because more important to follow whether or how quickly net goes into bad local minimum. \\
-
-The level of class imbalance to impose on the clamp detection task was chosen such that the optimal transfer learning setup obtained from previous experimentation no longer enables successful learning of the task, and puts the network in bad local minimum instead. This corresponds to 97\%, from an original imbalance ratio of 0.88\%. It may seem like a small gap, but this means going from 1323 minority class training cases to 293, i.e. a \% decrease. \\
+The level of class imbalance to impose on the clamp detection task was chosen such that the optimal transfer learning setup obtained from previous experimentation no longer enables successful learning of the task, and puts the network in bad local minimum instead. This corresponds to 98\%, from an original imbalance ratio of 0.88\%. This corresponds to going from 1323 minority class training cases to 193. \\
 
 \subsubsection{Test Run}
 
+To evaluate the difficulty of the clamp detection task with increased class imbalance, a model was trained from scratch without transfer learning, to be benchmarked with the equivalent trained on the entire dataset. 
 
-\paragraph{Importance of Batch Size}
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdet_tl_wout.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{log prob cross entropy loss}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_tl_wout.png}
+        % ...here to lower the subcaptions and...
+        \caption{hinge loss}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{Another figure}\label{fig:2}
+    \end{minipage}%
+\end{figure}
+
+
+
+
+\subsubsection{Batch Size}
 
 Notice what happens when validation batch size too small:
 
