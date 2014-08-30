@@ -966,6 +966,8 @@ Implementation:
 - for linear SVM: a single inner product layer with elementwise product activation functions (to achieve linearity), then a hinge-loss layer.
 - for standard deep neural network: we take the best performing network obtained from previous experimentations.
 
+Note that 
+
 \begin{figure}
     \centering
     \begin{minipage}[b]{\textwidth}
@@ -981,7 +983,7 @@ Implementation:
         % ...here to lower the subcaptions and...
         \caption{hinge loss}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-      \caption{Another figure}\label{fig:2}
+      \caption{hinge loss}\label{fig:2}
     \end{minipage}%
 \end{figure}
 
@@ -1008,6 +1010,8 @@ Were this tactic not adopted, it would not be possible to ascertain whether an a
 c++ per class accuracy layer, threshold layer. bayesian softmax loss layer. bayesian layer abstract class with OOP from which the previous two inherit, which has access to minibatch labels and can compute the prior for the specific batch. More precise than assuming each minibatch has the same prior as the entire training set. \\
 
 $C++$ per class accuracy layer as an indicator for bad min: do the maths to explain how bad min necessarily implies 0.5 per class accuracy. A flaw is that 0.5 per class accuracy can be caused by other things than bad min - and this did throw me off guard during the project on an occasion. Therefore, it is not a detector! To make sure that we are indeed in bad min, we can run the net and look at the output probabilities. \\
+
+It will be crucial to keep in mind throughout that the per class accuracy layer provides per class accuracy, but the log prob which it outputs is not 
 
 python script. \\
 
@@ -1037,19 +1041,19 @@ To evaluate the difficulty of the clamp detection task with increased class imba
         \centering
         \includegraphics[scale=0.4]{images/plot_clampdet_tl_wout.png}
         % Add \par\vspace*{20pt} here and...
-        \caption{log prob cross entropy loss}\label{fig:2a}
+        \caption{88\% class imbalance}\label{fig:2a}
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
         \includegraphics[scale=0.4]{images/plot_clampdetCI98_tl_wout.png}
         % ...here to lower the subcaptions and...
-        \caption{hinge loss}\label{fig:2b}
+        \caption{98\% class imbalance}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-      \caption{Another figure}\label{fig:2}
+      \caption{no transfer learning}\label{fig:2}
     \end{minipage}%
 \end{figure}
 
-
+Whereas 88\% imbalance made it difficult to learn without transfer learning, 98\% imbalance makes it impossible. The model becomes a constant function. Note that although the 
 
 
 \subsubsection{Batch Size}
