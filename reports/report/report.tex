@@ -1228,27 +1228,37 @@ which, when you're taking an unweighted measure of performance such as softmax l
 
 \paragraph{Results}
 
-%\begin{figure}
-%    \centering
-%    \begin{minipage}[b]{\textwidth}
-%      \begin{subfigure}{.5\textwidth} 
-%        \centering
-%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
-%        % Add \par\vspace*{20pt} here and...
-%        \caption{softmax cross entropy}\label{fig:2a}
-%      \end{subfigure}%
-%      \begin{subfigure}{.5\textwidth} 
-%        \centering
-%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4_sbl.png}
-%        % ...here to lower the subcaptions and...
-%        \caption{softmax bayesian cross entropy}\label{fig:2b}
-%      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-%      \caption{98\% imbalance, different cost functions}\label{fig:2}
-%    \end{minipage}%
-%\end{figure}
+Full transfer learning, backpropagation on all layers, batch size 256. \\
+
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{softmax cross entropy, 0.0001 learning rate}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5_sbl.png}
+        % ...here to lower the subcaptions and...
+        \caption{softmax bayesian cross entropy, 0.00001 learning rate}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{98\% imbalance, different cost functions}\label{fig:2}
+    \end{minipage}%
+\end{figure}
 
 
+With softmax bayesian cross entropy, the training is far less clean, but the highest per class classification accuracy reached is nearly 10 percentage points higher. \\
 
+The training is less clean because the modulus of the gradient is strongly influenced by imbalance within the mini-batch, and this value can greatly vary from a mini batch to the next, since a mini batch with 3/256 minority class cases has minority class proportion 3 times that of a mini batch with 1/256 minority class cases, and both are likely to occur in sampling. \\
+
+Need to mathematically derive how imbalance affects the modulus of the gradient, and how the standard deviation of the modulus with SBL is much greater than with SL. \\
+
+Compare the two nets with run classifier script, to see whether they have same sig values. If they do, then SBL is just doing thresholding, nothing more. Otherwise, it's doing something better. \\
+
+Performance improvement could be obtained by enforcing the same class proportions at every iteration. \\
 
 
 \subsubsection{Under-Sampling}
@@ -1362,6 +1372,38 @@ Also, I think that if we wanted to implement the threshold directly in the net, 
 Rather than have a fixed threshold hard-coded into the network, I propose to use a sig level script, for greater flexibility. \\
 
 
+\section{Task 4: Conserving Spatial Information}
+
+\subsection{Motivations}
+
+Some tasks depend on picking out visual characteristics in specific areas of the pipe installation:
+- soil contamination risk
+- water contamination risk
+- scraping or peeling
+- (scrape zone detection?)
+
+Whereas pooling in convolutional layers condenses the visual information and achieves translation equivariance, it also loses spatial information (where the feature was seen). This can be severely detrimental to the tasks above. For example, there is risk os soil contamination when traces of soil can be seen on the pipe fitting, but not if they are anywhere else. Therefore, in this case, it does not suffice to ascertain that traces of soil can be seen on the image. \\
+
+\subsection{Implementation}
+
+The architecture of the network was easily modified thanks to the prototxt interface featured in caffe. 
+
+\subsection{Experimentation}
+
+\paragraph{Test Run}
+     soil_contam/tl_wout
+     soil_contam/none_lr5_sbl
+
+Note that above batch size 96 saturates gpu memory. The reason for why this model cann take up more space is because without pool, the partial derivatives between conv5 and fc6 are twice as large, and that already constitutes the largest Jacobian in the model: we go from a (bSize*256*6*6) x (bSize*4096) Jacobian to a (bSize*256*13*13) x (bSize*4096), i.e.\ four times as large. However, the reason for why the GPU is unable to support is probably due to CUDA implementation details, and how many cores have been allocated to that specific Jacobian. After all, the Titan Black has 6GB of memory, which should be ample space. In the interest of time, the issue was not explored further. \\
+     
+     
+\paragraph{Remove pooling and an fc layer}
+     soil_contam/nopool_sl                    TRAINING
+
+\paragraph{Softmax Bayesian Cross Entropy}
+     soil_contam/nopool                       TRAINING
+
+
 
 \section{Final Results}
 
@@ -1403,7 +1445,9 @@ Improvement: 94.5\% validation error. The test error is: ??.\\
 
 \subsection{Soil Risk Contamination Task}
 
-plot_soil_contam_noneC:
+Imbalance ratio: 96.1\%.
+
+Instead of transferring AlexNet, optimal clampdet model is transferred. The underlying assumption is that the way in which clampdet model finetunes is also useful for soil contamination. 
 
 \begin{figure}[h!]
 	\centering
@@ -1460,6 +1504,21 @@ transfer learning doesn't work as well with caffe:
 https://github.com/BVLC/caffe/issues/642
 works better with overfeat: http://cilvr.nyu.edu/doku.php?id=software:overfeat:start
 
+
+\subsection{Hatch Markings}
+
+72.5\% class imbalance. 
+
+plot_hatch_markings_noneC:
+
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_hatch_markings_noneC.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+Probably gains to be made from keeping information here. 
 
 \clearpage
 \section{Conclusions and Future Work}

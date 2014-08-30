@@ -1393,13 +1393,14 @@ The architecture of the network was easily modified thanks to the prototxt inter
 \paragraph{Test Run}
      soil_contam/tl_wout
      soil_contam/none_lr5_sbl
-     note bs128 saturates gpu mem
+
+Note that above batch size 96 saturates gpu memory. The reason for why this model cann take up more space is because without pool, the partial derivatives between conv5 and fc6 are twice as large, and that already constitutes the largest Jacobian in the model: we go from a (bSize*256*6*6) x (bSize*4096) Jacobian to a (bSize*256*13*13) x (bSize*4096), i.e.\ four times as large. However, the reason for why the GPU is unable to support is probably due to CUDA implementation details, and how many cores have been allocated to that specific Jacobian. After all, the Titan Black has 6GB of memory, which should be ample space. In the interest of time, the issue was not explored further. \\
      
      
 \paragraph{Remove pooling and an fc layer}
      soil_contam/nopool_sl                    TRAINING
 
-\paragraph{Softmax Bayesian Cros
+\paragraph{Softmax Bayesian Cross Entropy}
      soil_contam/nopool                       TRAINING
 
 
