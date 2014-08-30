@@ -1228,27 +1228,29 @@ which, when you're taking an unweighted measure of performance such as softmax l
 
 \paragraph{Results}
 
-%\begin{figure}
-%    \centering
-%    \begin{minipage}[b]{\textwidth}
-%      \begin{subfigure}{.5\textwidth} 
-%        \centering
-%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
-%        % Add \par\vspace*{20pt} here and...
-%        \caption{softmax cross entropy}\label{fig:2a}
-%      \end{subfigure}%
-%      \begin{subfigure}{.5\textwidth} 
-%        \centering
-%        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4_sbl.png}
-%        % ...here to lower the subcaptions and...
-%        \caption{softmax bayesian cross entropy}\label{fig:2b}
-%      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-%      \caption{98\% imbalance, different cost functions}\label{fig:2}
-%    \end{minipage}%
-%\end{figure}
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{softmax cross entropy, 0.0001 learning rate}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5_sbl.png}
+        % ...here to lower the subcaptions and...
+        \caption{softmax bayesian cross entropy, 0.00001 learning rate}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{98\% imbalance, different cost functions}\label{fig:2}
+    \end{minipage}%
+\end{figure}
 
 
+With softmax bayesian cross entropy, the training is far less clean, but the highest per class classification accuracy reached is nearly 10 percentage points higher. \\
 
+The training is less clean because the direction of the gradient is strongly influenced by imbalance within the mini-batch, and this value can grea
 
 
 \subsubsection{Under-Sampling}
