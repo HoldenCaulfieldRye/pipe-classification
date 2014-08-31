@@ -535,7 +535,65 @@ classes. Moreover, one would need to ensure that the range of the error is as la
 
 \section{Analysis 1: ReLU Activation}
 
-Talk about the mathematical intuition.
+Everyone thought it was great to use differentiable, symmetric, non-linear activation functions in feed-forward neural networks, until Alex Krizhevsky \cite{krizhevsky} found that Rectifier Linear Units, despite being not entirely differentiable, nor symmetric, and most of all, piece-wise linear, were computationally cheaper and worth the trade-off with their more sophisticated counterparts. \\
+
+The parameters (a.k.a\ weights) of feed-forward neural networks in the context of supervised learning are trained with backpropagation, which makes use of gradient descent: a weight $w$ is adjusted by $\tau \cdot \frac{\partial{E}}{\partial{w}}$, which is a multiple of the error, and this multiple is determined by the weights and neurons that lie in the paths from the weight to a neuron of the output layer. The choice of activation function will modify the formula for a weight update, so the comparison between the logistic unit and the ReLU extends to training. \\
+
+\subsection{Training: Backpropagation}
+
+The parameters (a.k.a\ weights) of feed-forward neural networks in the context of supervised learning are trained with backpropagation, which makes use of gradient descent: a weight $w$ is adjusted by $\tau \cdot \frac{\partial{E}}{\partial{w}}$, which is a multiple of the error, and this multiple is determined by the weights and neurons that lie in the paths from the weight to a neuron of the output layer. The choice of activation function will modify the formula for a weight update, so the comparison between the logistic unit and the ReLU extends to training.
+
+\subsection{How the Gradient Propagates}
+
+It may be of interest to know how the gradient propagates through a network - especially since a single vector of information - the error - is supposed to adjust up to millions of parameters, which could be considered as a bit of a stretch.\\
+
+With the following notation:
+\begin{itemize}
+\renewcommand\labelitemi{--}
+\item $y_{j}$, the output of unit (a.k.a\ neuron) $j$, but also used to refer to the unit $j$ itself
+\item $w_{ij}$, the weight of the edge connecting lower-layer neuron $y_{i}$ to upper-layer neuron $y_{j}$
+\item $z_{j} := b+ \langle x,w \rangle = b + \sum\limits_{i=1}^k x_{i}\cdot w_{ij}$, the input vector for $y_{j}$
+\item $\psi$, the activation function used -- therefore $y_{j} = \psi(z_{j})$ \\
+\end{itemize}
+
+The rules for propagating the gradient backwards through a network are:
+\begin{itemize}
+\renewcommand\labelitemi{--}
+\item to \textbf{initialise}: $grad \leftarrow \mathcal{C}'(y_{L})$, where $y_{L}$ is the output unit
+\item to \textbf{propagate through a unit} $y_{j}$: $grad \leftarrow grad \cdot \psi'(z_{j})$
+\item to \textbf{propagate through an edge} $w_{ij}$: $grad \leftarrow grad \cdot w_{ij}$
+\item to \textbf{stop at an edge} $w_{ij}$: $grad \leftarrow grad \cdot y_{i}$ \\
+\end{itemize}
+
+
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[scale=0.28]{images/gradient_propagates.png}
+%	\caption{(CHANGE NOTATION to reflect one above with $\textbf{y}_L$ for top layer) Feed-Forward Neural Network with one Hidden Layer}
+%\end{figure}
+
+So for example, given the figure above:
+\begin{itemize}
+\renewcommand\labelitemi{--}
+\item for $\frac{\partial{E}}{\partial{w_{57}}}$: initialise, propagate through $y_{7}$, then stop at $w_{57}$:
+ $ \mathcal{C}'(y_{7}) \cdot \psi'(z_7) \cdot y_5$ 
+\item for $\frac{\partial{E}}{\partial{w_{25}}}$: initialise, propagate through $y_{7}$, $w_{57}$, $y_{5}$ then stop at $w_{25}$:
+ $\mathcal{C}'(y_{7}) \cdot \psi'(z_7) \cdot w_{57} \cdot \psi'(z_5) \cdot y_2$ \\
+\end{itemize}
+
+Notice that if $y_7$ is 
+
+\subsection{ReLUs Train Faster}
+
+Networks consisting of ReLUs have empirically trained faster than those consisting of sigmoid units. This may be because if a sigmoid unit is in its saturated environment, its weights are harder 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/ReLU_train_fast.png}
+	\caption{Training AlexNet (Krizhevsky et al 2012)}
+\end{figure}
+
+
 
 \section{Analysis 2: Early Stopping}
 
@@ -1391,17 +1449,17 @@ The architecture of the network was easily modified thanks to the prototxt inter
 \subsection{Experimentation}
 
 \paragraph{Test Run}
-     soil_contam/tl_wout
-     soil_contam/none_lr5_sbl
+%     soil_contam/tl_wout
+%     soil_contam/none_lr5_sbl
 
 Note that above batch size 96 saturates gpu memory. The reason for why this model cann take up more space is because without pool, the partial derivatives between conv5 and fc6 are twice as large, and that already constitutes the largest Jacobian in the model: we go from a (bSize*256*6*6) x (bSize*4096) Jacobian to a (bSize*256*13*13) x (bSize*4096), i.e.\ four times as large. However, the reason for why the GPU is unable to support is probably due to CUDA implementation details, and how many cores have been allocated to that specific Jacobian. After all, the Titan Black has 6GB of memory, which should be ample space. In the interest of time, the issue was not explored further. \\
      
      
 \paragraph{Remove pooling and an fc layer}
-     soil_contam/nopool_sl                    TRAINING
+%     soil_contam/nopool_sl                    TRAINING
 
 \paragraph{Softmax Bayesian Cross Entropy}
-     soil_contam/nopool                       TRAINING
+%     soil_contam/nopool                       TRAINING
 
 
 
@@ -1509,7 +1567,7 @@ works better with overfeat: http://cilvr.nyu.edu/doku.php?id=software:overfeat:s
 
 72.5\% class imbalance. 
 
-plot_hatch_markings_noneC:
+%plot_hatch_markings_noneC:
 
 
 \begin{figure}[h!]
