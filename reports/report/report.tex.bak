@@ -535,7 +535,20 @@ classes. Moreover, one would need to ensure that the range of the error is as la
 
 \section{Analysis 1: ReLU Activation}
 
-Everyone thought it was great to use differentiable, symmetric, non-linear activation functions in feed-forward neural networks, until Alex Krizhevsky \cite{krizhevsky} found that Rectifier Linear Units, despite being not entirely differentiable, nor symmetric, and most of all, piece-wise linear, were computationally cheaper and worth the trade-off with their more sophisticated counterparts. \\
+Differentiable, symmetric, bounded activation functions that introduce a non-linearity smoothly over the entire input domain were of choice in deep feed-forward neural networks, until Rectified Linear Units were used in 2010 \cite{nair_hinton} and found to outperform their counterparts. This may come as a surprising result, since they are not fully differentiable nor symmetric, introduce non-linearity with an angular point, and most of all, are not bounded above. These points provide motivation to seek to understand why. \\
+
+\subsection{Literature Review}
+
+The literature currently does not provide a mathematical explanation backed by experimental evidence. 
+
+"Rectified linear units improve restricted boltzmann machines" by Nair and Hinton (2010) provide... FILL IN!!
+
+"ImageNet classification with deep convolutional neural networks" by Krizhevsky, Sutskever and Hinton (2012) \cite{krizhevsky} make the observations that $f(x) = tanh(x)$ or $f(x) = (1+ exp^{-x})^{-1}$ "saturating non-linearities" are slower to train than the $f(x) = max(0,x)$ "non-saturating non-linearity", and report an "accelerated ability to fit the training set", but do not provide any explanations. 
+
+"Deep sparse rectifier networks" by Glorot, Bordes and Bengio (2013) observe that ... explain that ...
+
+
+\subsection{Proposed Mathematical Explanation}
 
 The parameters (a.k.a\ weights) of feed-forward neural networks in the context of supervised learning are trained with backpropagation, which makes use of gradient descent: a weight $w$ is adjusted by $\tau \cdot \frac{\partial{E}}{\partial{w}}$, which is a multiple of the error, and this multiple is determined by the weights and neurons that lie in the paths from the weight to a neuron of the output layer. The choice of activation function will modify the formula for a weight update, so the comparison between the logistic unit and the ReLU extends to training. \\
 
@@ -1567,7 +1580,7 @@ works better with overfeat: http://cilvr.nyu.edu/doku.php?id=software:overfeat:s
 
 72.5\% class imbalance. 
 
-plot_hatch_markings_noneC:
+%plot_hatch_markings_noneC:
 
 
 \begin{figure}[h!]
