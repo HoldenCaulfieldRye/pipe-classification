@@ -43,26 +43,29 @@
 \contentsline {subsubsection}{\numberline {2.4.4}Small Dataset Size}{13}
 \contentsline {subsubsection}{\numberline {2.4.5}Class Imbalance}{13}
 \contentsline {section}{\numberline {3}Analysis 1: ReLU Activation}{19}
-\contentsline {subsection}{\numberline {3.1}Training: Backpropagation}{19}
-\contentsline {subsection}{\numberline {3.2}How the Gradient Propagates}{19}
-\contentsline {subsection}{\numberline {3.3}ReLUs Train Faster}{20}
-\contentsline {section}{\numberline {4}Analysis 2: Early Stopping}{20}
-\contentsline {paragraph}{Gradient Descent}{20}
-\contentsline {section}{\numberline {5}Task 1: Generic Clamp Detection}{21}
-\contentsline {subsection}{\numberline {5.1}Motivations}{21}
-\contentsline {subsection}{\numberline {5.2}Implementation: Cuda-Convnet}{21}
-\contentsline {subsubsection}{\numberline {5.2.1}Cuda-Convnet: An Out-of-the-box API}{21}
+\contentsline {subsection}{\numberline {3.1}Motivations}{19}
+\contentsline {subsection}{\numberline {3.2}Literature Review}{19}
+\contentsline {subsection}{\numberline {3.3}Proposed Mathematical Explanation}{20}
+\contentsline {subsection}{\numberline {3.4}Training: Backpropagation}{20}
+\contentsline {subsection}{\numberline {3.5}How the Gradient Propagates}{20}
+\contentsline {subsection}{\numberline {3.6}ReLUs Train Faster}{20}
+\contentsline {section}{\numberline {4}Analysis 2: Early Stopping}{21}
+\contentsline {paragraph}{Gradient Descent}{21}
+\contentsline {section}{\numberline {5}Task 1: Generic Clamp Detection}{22}
+\contentsline {subsection}{\numberline {5.1}Motivations}{22}
+\contentsline {subsection}{\numberline {5.2}Implementation: Cuda-Convnet}{22}
+\contentsline {subsubsection}{\numberline {5.2.1}Cuda-Convnet: An Out-of-the-box API}{22}
 \contentsline {subsubsection}{\numberline {5.2.2}Hardware: NVidia GeForce GTX 780}{22}
-\contentsline {subsection}{\numberline {5.3}Discovery}{22}
-\contentsline {subsubsection}{\numberline {5.3.1}Non-Converging Error Rates}{22}
-\contentsline {paragraph}{Increase Test Error Precision}{24}
-\contentsline {paragraph}{Alter Momentum}{25}
-\contentsline {subparagraph}{Increase}{25}
-\contentsline {subparagraph}{Decrease}{25}
-\contentsline {paragraph}{Reduce Learning Rate}{26}
-\contentsline {subsubsection}{\numberline {5.3.2}Class Imbalance}{26}
-\contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{26}
-\contentsline {subsubsection}{\numberline {5.3.3}Mislabelling}{27}
+\contentsline {subsection}{\numberline {5.3}Discovery}{23}
+\contentsline {subsubsection}{\numberline {5.3.1}Non-Converging Error Rates}{24}
+\contentsline {paragraph}{Increase Test Error Precision}{25}
+\contentsline {paragraph}{Alter Momentum}{26}
+\contentsline {subparagraph}{Increase}{26}
+\contentsline {subparagraph}{Decrease}{27}
+\contentsline {paragraph}{Reduce Learning Rate}{27}
+\contentsline {subsubsection}{\numberline {5.3.2}Class Imbalance}{27}
+\contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{27}
+\contentsline {subsubsection}{\numberline {5.3.3}Mislabelling}{28}
 \contentsline {subsubsection}{\numberline {5.3.4}Data Complexity}{29}
 \contentsline {section}{\numberline {6}Task 2: Transfer Learning}{30}
 \contentsline {subsection}{\numberline {6.1}Motivations}{30}

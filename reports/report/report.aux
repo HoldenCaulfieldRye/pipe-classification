@@ -83,43 +83,48 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Different kinds of ANNs\relax }}{17}}
 \@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces an error surface with poor local minima\relax }}{18}}
 \@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces left: a Redbox photo - right: a Bluebox photo\relax }}{18}}
+\citation{nair_hinton}
+\citation{univ-approx}
 \citation{krizhevsky}
 \@writefile{toc}{\contentsline {section}{\numberline {3}Analysis 1: ReLU Activation}{19}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Training: Backpropagation}{19}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}How the Gradient Propagates}{19}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}ReLUs Train Faster}{20}}
-\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Training AlexNet (Krizhevsky et al 2012)\relax }}{20}}
-\@writefile{toc}{\contentsline {section}{\numberline {4}Analysis 2: Early Stopping}{20}}
-\@writefile{toc}{\contentsline {paragraph}{Gradient Descent}{20}}
-\@writefile{toc}{\contentsline {section}{\numberline {5}Task 1: Generic Clamp Detection}{21}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Motivations}{21}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Implementation: Cuda-Convnet}{21}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}Cuda-Convnet: An Out-of-the-box API}{21}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Motivations}{19}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}Literature Review}{19}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Proposed Mathematical Explanation}{20}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Training: Backpropagation}{20}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}How the Gradient Propagates}{20}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.6}ReLUs Train Faster}{20}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Training AlexNet (Krizhevsky et al 2012)\relax }}{21}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Analysis 2: Early Stopping}{21}}
+\@writefile{toc}{\contentsline {paragraph}{Gradient Descent}{21}}
+\@writefile{toc}{\contentsline {section}{\numberline {5}Task 1: Generic Clamp Detection}{22}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Motivations}{22}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Implementation: Cuda-Convnet}{22}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.1}Cuda-Convnet: An Out-of-the-box API}{22}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {5.2.2}Hardware: NVidia GeForce GTX 780}{22}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Discovery}{22}}
-\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces The clamp wraps around under the pipe - the glint of a metal rod gives it away\relax }}{22}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.1}Non-Converging Error Rates}{22}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Discovery}{23}}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces The clamp wraps around under the pipe - the glint of a metal rod gives it away\relax }}{23}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces This clamp is not a weld clamp\relax }}{23}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces The clamp on the vertical rod is not a weld clamp\relax }}{23}}
 \citation{krizhevsky}
 \citation{transfer-learning}
 \citation{decaf}
-\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces This clamp is not a weld clamp\relax }}{23}}
-\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces The clamp on the vertical rod is not a weld clamp\relax }}{23}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.1}Non-Converging Error Rates}{24}}
 \@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces Test Run Training Results\relax }}{24}}
-\@writefile{toc}{\contentsline {paragraph}{Increase Test Error Precision}{24}}
-\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces test and validation error rates for clamp detection after fixing a large test range\relax }}{24}}
-\@writefile{toc}{\contentsline {paragraph}{Alter Momentum}{25}}
-\@writefile{toc}{\contentsline {subparagraph}{Increase}{25}}
-\@writefile{toc}{\contentsline {subparagraph}{Decrease}{25}}
+\@writefile{toc}{\contentsline {paragraph}{Increase Test Error Precision}{25}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces test and validation error rates for clamp detection after fixing a large test range\relax }}{25}}
+\@writefile{toc}{\contentsline {paragraph}{Alter Momentum}{26}}
+\@writefile{toc}{\contentsline {subparagraph}{Increase}{26}}
 \@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces test and validation error rates for clamp detection after raising momentum\relax }}{26}}
-\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces test and validation error rates for clamp detection after setting momentum to zero\relax }}{26}}
-\@writefile{toc}{\contentsline {paragraph}{Reduce Learning Rate}{26}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.2}Class Imbalance}{26}}
-\@writefile{toc}{\contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{26}}
-\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Class Proportions Across Batches that Score Different Training Errors\relax }}{27}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.3}Mislabelling}{27}}
-\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces test and validation error rates for clamp detection after setting momentum to zero\relax }}{28}}
-\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces filters learned from a successfully optimised lowest convolutional layer\relax }}{28}}
-\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces filters learned at lowest convolutional layer of this network\relax }}{28}}
+\@writefile{toc}{\contentsline {subparagraph}{Decrease}{27}}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces test and validation error rates for clamp detection after setting momentum to zero\relax }}{27}}
+\@writefile{toc}{\contentsline {paragraph}{Reduce Learning Rate}{27}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.2}Class Imbalance}{27}}
+\@writefile{toc}{\contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{27}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Class Proportions Across Batches that Score Different Training Errors\relax }}{28}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.3}Mislabelling}{28}}
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces test and validation error rates for clamp detection after setting momentum to zero\relax }}{29}}
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces filters learned from a successfully optimised lowest convolutional layer\relax }}{29}}
+\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces filters learned at lowest convolutional layer of this network\relax }}{29}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.4}Data Complexity}{29}}
 \citation{caffe-website}
 \@writefile{toc}{\contentsline {section}{\numberline {6}Task 2: Transfer Learning}{30}}
