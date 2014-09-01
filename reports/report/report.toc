@@ -1,114 +1,108 @@
-\contentsline {section}{\numberline {1}Introduction}{4}
-\contentsline {section}{\numberline {2}Background}{4}
-\contentsline {subsection}{\numberline {2.1}Defining the Problem}{4}
-\contentsline {subsubsection}{\numberline {2.1.1}Explaining the Problem}{4}
-\contentsline {subsubsection}{\numberline {2.1.2}Formalising the problem: Multi-Instance Multi-Label Supervised Learning}{5}
-\contentsline {subsubsection}{\numberline {2.1.3}Supervised Learning}{5}
-\contentsline {subsubsection}{\numberline {2.1.4}Approximation vs Generalisation}{6}
-\contentsline {subsection}{\numberline {2.2}Architecture of a Deep Convolutional Neural Network with Rectified Linear Neurons}{6}
-\contentsline {subsubsection}{\numberline {2.2.1}Models of Neurons}{6}
-\contentsline {paragraph}{Multipolar Biological Neuron}{6}
-\contentsline {paragraph}{Binary Threshold Neuron}{7}
-\contentsline {paragraph}{Logistic Sigmoid Neuron}{7}
-\contentsline {paragraph}{Rectified Linear Neuron}{7}
-\contentsline {paragraph}{Softmax Neuron}{7}
-\contentsline {subsubsection}{\numberline {2.2.2}Feed-Forward Architecture}{8}
-\contentsline {paragraph}{Shallow Feed-Forward Neural Networks: the Perceptron}{8}
-\contentsline {paragraph}{Deep Feed-Forward Neural Networks: the Multilayer Perceptron}{8}
-\contentsline {paragraph}{Deep Convolutional Neural Networks: for translation invariance}{9}
-\contentsline {subparagraph}{Kernels}{9}
-\contentsline {subsubsection}{\numberline {2.2.3}Topology of Deep Neural Networks}{9}
-\contentsline {paragraph}{Topology of $tanh$ Layer}{9}
-\contentsline {subparagraph}{Homeomorphism}{9}
-\contentsline {paragraph}{Topology of ReLU Layer}{10}
-\contentsline {paragraph}{Ambient Isotopy}{10}
-\contentsline {paragraph}{The Manifold Hypothesis}{10}
-\contentsline {subsubsection}{\numberline {2.2.4}Krizhevsky 2012 explained}{10}
-\contentsline {paragraph}{Operations in each layer}{10}
-\contentsline {subparagraph}{Filter aka Pixel Feature}{10}
-\contentsline {subparagraph}{Non-linearity}{10}
-\contentsline {subparagraph}{Pooling aka Spatial Feature}{11}
-\contentsline {subparagraph}{Possible Normalisation}{11}
-\contentsline {paragraph}{Dropout}{11}
-\contentsline {paragraph}{Data augmentation}{11}
-\contentsline {subsection}{\numberline {2.3}Training: Backpropagation}{11}
-\contentsline {subsubsection}{\numberline {2.3.1}Compute Error-Weight Partial Derivatives}{11}
-\contentsline {subsubsection}{\numberline {2.3.2}Update Weight Values (with Gradient Descent)}{11}
-\contentsline {paragraph}{Training, Validation and Test Sets}{12}
-\contentsline {subsubsection}{\numberline {2.3.3}Early Stopping}{12}
-\contentsline {subsection}{\numberline {2.4}Challenges specific to the Pipe Weld Classification Task}{12}
-\contentsline {subsubsection}{\numberline {2.4.1}Data Overview}{12}
-\contentsline {subsubsection}{\numberline {2.4.2}Multi-Tagging}{12}
-\contentsline {subsubsection}{\numberline {2.4.3}Domain Change}{12}
-\contentsline {subsubsection}{\numberline {2.4.4}Small Dataset Size}{13}
-\contentsline {subsubsection}{\numberline {2.4.5}Class Imbalance}{13}
-\contentsline {section}{\numberline {3}Analysis 1: ReLU Activation}{19}
-\contentsline {subsection}{\numberline {3.1}Motivations}{19}
-\contentsline {subsection}{\numberline {3.2}Literature Review}{19}
-\contentsline {subsection}{\numberline {3.3}Proposed Mathematical Explanation}{20}
-\contentsline {subsection}{\numberline {3.4}Training: Backpropagation}{20}
-\contentsline {subsection}{\numberline {3.5}How the Gradient Propagates}{20}
-\contentsline {subsection}{\numberline {3.6}ReLUs Train Faster}{21}
-\contentsline {section}{\numberline {4}Analysis 2: Early Stopping}{21}
-\contentsline {paragraph}{Gradient Descent}{22}
-\contentsline {section}{\numberline {5}Task 1: Generic Clamp Detection}{22}
-\contentsline {subsection}{\numberline {5.1}Motivations}{22}
-\contentsline {subsection}{\numberline {5.2}Implementation: Cuda-Convnet}{22}
-\contentsline {subsubsection}{\numberline {5.2.1}Cuda-Convnet: An Out-of-the-box API}{22}
-\contentsline {subsubsection}{\numberline {5.2.2}Hardware: NVidia GeForce GTX 780}{23}
-\contentsline {subsection}{\numberline {5.3}Discovery}{23}
-\contentsline {subsubsection}{\numberline {5.3.1}Non-Converging Error Rates}{24}
-\contentsline {paragraph}{Increase Test Error Precision}{25}
-\contentsline {paragraph}{Alter Momentum}{26}
-\contentsline {subparagraph}{Increase}{26}
-\contentsline {subparagraph}{Decrease}{26}
-\contentsline {paragraph}{Reduce Learning Rate}{27}
-\contentsline {subsubsection}{\numberline {5.3.2}Class Imbalance}{27}
-\contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{28}
-\contentsline {subsubsection}{\numberline {5.3.3}Mislabelling}{28}
-\contentsline {subsubsection}{\numberline {5.3.4}Data Complexity}{30}
-\contentsline {section}{\numberline {6}Task 2: Transfer Learning}{31}
-\contentsline {subsection}{\numberline {6.1}Motivations}{31}
-\contentsline {subsection}{\numberline {6.2}Implementation: Caffe}{31}
-\contentsline {paragraph}{leveldb}{31}
-\contentsline {paragraph}{Class Imbalance Solver}{31}
-\contentsline {subsection}{\numberline {6.3}Experimentation}{32}
-\contentsline {subsubsection}{\numberline {6.3.1}Test Run}{32}
-\contentsline {subsubsection}{\numberline {6.3.2}Initialising Free Layers}{33}
-\contentsline {subsubsection}{\numberline {6.3.3}Freezing Backprop on various layers}{33}
-\contentsline {subsubsection}{\numberline {6.3.4}Parametric vs Non-parametric}{35}
-\contentsline {section}{\numberline {7}Task 3: Class Imbalance}{37}
-\contentsline {subsection}{\numberline {7.1}Motivations}{37}
-\contentsline {subsection}{\numberline {7.2}Implementation}{37}
-\contentsline {subsection}{\numberline {7.3}Experimentation}{37}
-\contentsline {subsubsection}{\numberline {7.3.1}Test Run}{38}
-\contentsline {subsubsection}{\numberline {7.3.2}Transfer Learning}{38}
-\contentsline {subsubsection}{\numberline {7.3.3}Batch Size}{38}
-\contentsline {subsubsection}{\numberline {7.3.4}Learning Rate}{40}
-\contentsline {subsubsection}{\numberline {7.3.5}Bayesian Cross Entropy Cost Function}{41}
-\contentsline {paragraph}{Motivations}{41}
-\contentsline {paragraph}{Implementation}{41}
-\contentsline {paragraph}{Results}{42}
-\contentsline {subsubsection}{\numberline {7.3.6}Under-Sampling}{43}
-\contentsline {paragraph}{Overfitting consequences of under-sampling}{43}
-\contentsline {subsubsection}{\numberline {7.3.7}Over-Sampling}{44}
-\contentsline {subsubsection}{\numberline {7.3.8}Test-time threshold}{44}
-\contentsline {section}{\numberline {8}Task 4: Conserving Spatial Information}{46}
-\contentsline {subsection}{\numberline {8.1}Motivations}{46}
-\contentsline {subsection}{\numberline {8.2}Implementation}{46}
-\contentsline {subsection}{\numberline {8.3}Experimentation}{46}
-\contentsline {paragraph}{Test Run}{46}
-\contentsline {paragraph}{Remove pooling and an fc layer}{47}
-\contentsline {paragraph}{Softmax Bayesian Cross Entropy}{47}
-\contentsline {section}{\numberline {9}Final Results}{47}
-\contentsline {subsection}{\numberline {9.1}Merging Classes}{47}
-\contentsline {subsection}{\numberline {9.2}Learning Rate}{47}
-\contentsline {paragraph}{Step}{47}
-\contentsline {paragraph}{Exp}{47}
-\contentsline {subsection}{\numberline {9.3}Soil Risk Contamination Task}{48}
-\contentsline {paragraph}{Test Run}{48}
-\contentsline {subparagraph}{Training Results}{49}
-\contentsline {subparagraph}{Observations}{49}
-\contentsline {paragraph}{Get more evidence}{49}
-\contentsline {subsection}{\numberline {9.4}Hatch Markings}{49}
-\contentsline {section}{\numberline {10}Conclusions and Future Work}{51}
+\contentsline {section}{\numberline {1}Introduction}{5}
+\contentsline {section}{\numberline {2}Defining the Problem}{5}
+\contentsline {subsection}{\numberline {2.1}Explaining the Problem}{5}
+\contentsline {subsection}{\numberline {2.2}Formalising the problem: Multi-Instance Multi-Label Supervised Learning}{6}
+\contentsline {subsection}{\numberline {2.3}Challenges specific to the Pipe Weld Classification Task}{6}
+\contentsline {subsubsection}{\numberline {2.3.1}Data Overview}{7}
+\contentsline {subsubsection}{\numberline {2.3.2}Multi-Tagging}{7}
+\contentsline {subsubsection}{\numberline {2.3.3}Domain Change}{7}
+\contentsline {subsubsection}{\numberline {2.3.4}Small Dataset Size}{8}
+\contentsline {subsubsection}{\numberline {2.3.5}Class Imbalance}{8}
+\contentsline {section}{\numberline {3}Deep Supervised Learning}{11}
+\contentsline {subsection}{\numberline {3.1}Supervised Learning}{11}
+\contentsline {subsubsection}{\numberline {3.1.1}Approximation vs Generalisation}{11}
+\contentsline {subsection}{\numberline {3.2}Deep Learning: Neurons and Depth}{11}
+\contentsline {subsubsection}{\numberline {3.2.1}Models of Neurons}{11}
+\contentsline {paragraph}{Multipolar Biological Neuron}{11}
+\contentsline {paragraph}{Binary Threshold Neuron}{12}
+\contentsline {paragraph}{Logistic Sigmoid Neuron}{12}
+\contentsline {paragraph}{Rectified Linear Neuron}{12}
+\contentsline {paragraph}{Softmax Neuron}{13}
+\contentsline {subsubsection}{\numberline {3.2.2}Why Depth}{14}
+\contentsline {paragraph}{Shallow Feed-Forward Neural Networks: the Perceptron}{14}
+\contentsline {paragraph}{Deep Feed-Forward Neural Networks: the Multilayer Perceptron}{14}
+\contentsline {subsection}{\numberline {3.3}Training: Backpropagation}{16}
+\contentsline {subsubsection}{\numberline {3.3.1}Compute Error-Weight Partial Derivatives}{16}
+\contentsline {subsubsection}{\numberline {3.3.2}Update Weight Values (with Gradient Descent)}{17}
+\contentsline {paragraph}{Training, Validation and Test Sets}{17}
+\contentsline {subsubsection}{\numberline {3.3.3}Early Stopping}{18}
+\contentsline {subsection}{\numberline {3.4}Deep Convolutional Neural Networks}{19}
+\contentsline {paragraph}{Deep Convolutional Neural Networks: for translation invariance}{19}
+\contentsline {subparagraph}{Kernels}{19}
+\contentsline {subsubsection}{\numberline {3.4.1}Operations in each layer}{19}
+\contentsline {paragraph}{Filter aka Pixel Feature}{20}
+\contentsline {paragraph}{Non-linearity}{20}
+\contentsline {paragraph}{Pooling aka Spatial Feature}{20}
+\contentsline {paragraph}{Possible Normalisation}{20}
+\contentsline {subsubsection}{\numberline {3.4.2}Dropout}{20}
+\contentsline {subsubsection}{\numberline {3.4.3}Data augmentation}{20}
+\contentsline {section}{\numberline {4}Analysis 1: ReLU Activation}{20}
+\contentsline {subsection}{\numberline {4.1}Motivations}{20}
+\contentsline {subsection}{\numberline {4.2}Literature Review}{21}
+\contentsline {subsection}{\numberline {4.3}Proposed Mathematical Explanation}{23}
+\contentsline {subsection}{\numberline {4.4}Training: Backpropagation}{23}
+\contentsline {subsection}{\numberline {4.5}How the Gradient Propagates}{23}
+\contentsline {subsection}{\numberline {4.6}ReLUs Train Faster}{24}
+\contentsline {section}{\numberline {5}Analysis 2: Early Stopping}{24}
+\contentsline {paragraph}{Gradient Descent}{24}
+\contentsline {section}{\numberline {6}Task 1: Generic Clamp Detection}{25}
+\contentsline {subsection}{\numberline {6.1}Motivations}{25}
+\contentsline {subsection}{\numberline {6.2}Implementation: Cuda-Convnet}{25}
+\contentsline {subsubsection}{\numberline {6.2.1}Cuda-Convnet: An Out-of-the-box API}{25}
+\contentsline {subsubsection}{\numberline {6.2.2}Hardware: NVidia GeForce GTX 780}{26}
+\contentsline {subsection}{\numberline {6.3}Discovery}{26}
+\contentsline {subsubsection}{\numberline {6.3.1}Non-Converging Error Rates}{26}
+\contentsline {paragraph}{Increase Test Error Precision}{28}
+\contentsline {paragraph}{Alter Momentum}{29}
+\contentsline {subparagraph}{Increase}{29}
+\contentsline {subparagraph}{Decrease}{29}
+\contentsline {paragraph}{Reduce Learning Rate}{30}
+\contentsline {subsubsection}{\numberline {6.3.2}Class Imbalance}{30}
+\contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{30}
+\contentsline {subsubsection}{\numberline {6.3.3}Mislabelling}{31}
+\contentsline {subsubsection}{\numberline {6.3.4}Data Complexity}{33}
+\contentsline {section}{\numberline {7}Task 2: Transfer Learning}{34}
+\contentsline {subsection}{\numberline {7.1}Motivations}{34}
+\contentsline {subsection}{\numberline {7.2}Implementation: Caffe}{34}
+\contentsline {paragraph}{leveldb}{34}
+\contentsline {paragraph}{Class Imbalance Solver}{34}
+\contentsline {subsection}{\numberline {7.3}Experimentation}{35}
+\contentsline {subsubsection}{\numberline {7.3.1}Test Run}{35}
+\contentsline {subsubsection}{\numberline {7.3.2}Initialising Free Layers}{36}
+\contentsline {subsubsection}{\numberline {7.3.3}Freezing Backprop on various layers}{36}
+\contentsline {subsubsection}{\numberline {7.3.4}Parametric vs Non-parametric}{38}
+\contentsline {section}{\numberline {8}Task 3: Class Imbalance}{40}
+\contentsline {subsection}{\numberline {8.1}Motivations}{40}
+\contentsline {subsection}{\numberline {8.2}Implementation}{40}
+\contentsline {subsection}{\numberline {8.3}Experimentation}{40}
+\contentsline {subsubsection}{\numberline {8.3.1}Test Run}{41}
+\contentsline {subsubsection}{\numberline {8.3.2}Transfer Learning}{41}
+\contentsline {subsubsection}{\numberline {8.3.3}Batch Size}{41}
+\contentsline {subsubsection}{\numberline {8.3.4}Learning Rate}{43}
+\contentsline {subsubsection}{\numberline {8.3.5}Bayesian Cross Entropy Cost Function}{44}
+\contentsline {paragraph}{Motivations}{44}
+\contentsline {paragraph}{Implementation}{44}
+\contentsline {paragraph}{Results}{45}
+\contentsline {subsubsection}{\numberline {8.3.6}Under-Sampling}{46}
+\contentsline {paragraph}{Overfitting consequences of under-sampling}{46}
+\contentsline {subsubsection}{\numberline {8.3.7}Over-Sampling}{47}
+\contentsline {subsubsection}{\numberline {8.3.8}Test-time threshold}{47}
+\contentsline {section}{\numberline {9}Task 4: Conserving Spatial Information}{49}
+\contentsline {subsection}{\numberline {9.1}Motivations}{49}
+\contentsline {subsection}{\numberline {9.2}Implementation}{49}
+\contentsline {subsection}{\numberline {9.3}Experimentation}{49}
+\contentsline {paragraph}{Test Run}{49}
+\contentsline {paragraph}{Remove pooling and an fc layer}{50}
+\contentsline {paragraph}{Softmax Bayesian Cross Entropy}{50}
+\contentsline {section}{\numberline {10}Final Results}{50}
+\contentsline {subsection}{\numberline {10.1}Merging Classes}{50}
+\contentsline {subsection}{\numberline {10.2}Learning Rate}{50}
+\contentsline {paragraph}{Step}{50}
+\contentsline {paragraph}{Exp}{50}
+\contentsline {subsection}{\numberline {10.3}Soil Risk Contamination Task}{51}
+\contentsline {paragraph}{Test Run}{51}
+\contentsline {subparagraph}{Training Results}{52}
+\contentsline {subparagraph}{Observations}{52}
+\contentsline {paragraph}{Get more evidence}{52}
+\contentsline {subsection}{\numberline {10.4}Hatch Markings}{52}
+\contentsline {section}{\numberline {11}Conclusions and Future Work}{54}

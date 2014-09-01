@@ -68,9 +68,9 @@ In terms of progress, several instances of large-scale neural networks have been
 \clearpage
 
 Thanks to my supervisors Jack Kelly for ... and Prof Murray Shanahan for ...
-Thanks to Razvan Ranca for wonderful strategic advice on which experiments to choose for the exploration of hypotheses, help with C++, musical and caffeine tricks for staying up all night, and much else. I'm very excited to be cofounding a machine learning startup with you!
-Thanks to Alexandre de Brebisson for his great insights into convnets that helped me make sense of experimental results, and the great conversations we had around the work done in this project.
-Thanks to the people on the Google+ Deep Learning community who provided great comments and guidance; especially Dr Soumith Chintala on transfer learning and Prof Francisco Zamora-Martinez on class imbalance.
+Thanks to Razvan Ranca for wonderful strategic advice on which experiments to choose for the exploration of hypotheses, help with C++, musical and caffeine tricks for staying up all night, and much else. I look excitingly forward to the times ahead cofounding a machine learning startup with him!
+Thanks to Alexandre de Brebisson for his great insights into convnet architecture that helped me make sense of experimental results, and the great conversations we had sharing our passion for deep learning.
+Thanks to the people on the Google+ Deep Learning community who provided helpful comments and guidance; especially Dr Soumith Chintala on transfer learning and Prof Francisco Zamora-Martinez on class imbalance.
 
 \clearpage
 \section{Introduction}
@@ -94,15 +94,14 @@ Contributions (beyond training accurate pipe weld classifiers for ControlPoint):
 - data augmentation for caffe \\
 
 
-\section{Background}
 
 This project aims to automate the classification of pipe weld images with deep neural networks. After explaining and formalising the problem, we will explain fundamental concepts in machine learning, then go on to explain the architecture of a deep convolutional neural network with restricted linear units, and finally explain how the network is trained with stochastic gradient descent, backpropagation and dropout. The last sections focus on three challenges specific to the pipe weld image classification task: multi-tagging, learning features from a restricted training set, and class imbalance.
 
-\subsection{Defining the Problem}
+\section{Defining the Problem}
 
 The problem consists in building a classifier of pipe weld images capable of detecting the presence of multiple characteristics in each image. 
 
-\subsubsection{Explaining the Problem}
+\subsection{Explaining the Problem}
 
 Practically speaking, the reason for why this task involves multiple tags per image is because the quality of a pipe weld is assessed not on one, but 17 characteristics, as shown below.
 
@@ -145,7 +144,7 @@ At this point, it may help to explain the procedure through which these welds ar
 
 These images are then manually inspected at the ControlPoint headquarters and checked for the presence of the adverse characteristics listed above. The joint is accepted and counted as finished if the number of penalty points is sufficiently low (the threshold varies from an installation contractor to the next, but 50 and above is generally considered as unacceptable). Although these characteristics are all outer observations of the pipe fitting, they have shown to be very good indicators of the quality of the weld \cite{control-point}. Manual inspection of the pipes is not only expensive, but also delaying: as images are queued for inspection, so is the completion of a pipe fitting. Contractors are often under tight operational time constraints in order to keep the shutting off of gas or water access to a minimum, so the protocol can be a significant impediment. Automated, immediate classification would therefore bring strong benefits.
 
-\subsubsection{Formalising the problem: Multi-Instance Multi-Label Supervised Learning}
+\subsection{Formalising the problem: Multi-Instance Multi-Label Supervised Learning}
 
 The problem of learning to classify pipe weld images from a labelled dataset is a Multi-Instance Multi-Label (MIML) supervised learning classification problem \cite{MIML}: \\
 
@@ -165,301 +164,7 @@ This differs from the traditional supervised learning classification task, forma
 \indent \indent $x_{i} \in \mathcal{X}$ is an instance \\   
 \indent \indent $y_{	i} \in \mathcal{Y}$ is the class of which $x_{i}$ is an instance.\\
 
-In the case of MIML, not only are there multiple instances present in each case, but the number of instances is unknown. MIML has been used in the image classification literature when one wishes to identify all objects which are present in the image \cite{MIML}. Although in this case, the motivation is to look out for a specific set of pipe weld visual characteristics, the problem is actually conceptually the same; the number of identifiable classes is simply lower.
-
-\subsubsection{Supervised Learning}
-
-Learning in the case of classification consists in using the dataset $\mathcal{D}$ to find the hypothesis function $f^{h}$ that best approximates the unknown function $f^{*} : 2^{\mathcal{X}} \rightarrow 2^{\mathcal{Y}}$ which would perfectly classify any subset of the instance space $\mathcal{X}$. Supervised learning arises when $f^{*}(x)$ is known for every instance in the dataset, i.e.\ when the dataset is labelled and of the form $\{(x_{1},f^{*}(x_{1})),(x_{2},f^{*}(x_{2})), ..., (x_{n},f^{*}(x_{n}))\}$. This means that $|\mathcal{D}|$ points of $f^{*}$ are known, and can be used to fit $f^{h}$ to them, using an appropriate cost function $\mathcal{C}$. $\mathcal{D}$ is therefore referred to as the \textit{training set}. 
-
-Formally, supervised learning therefore consists in finding
-
-\begin{equation}
-\label{learning: optimisation equation}
-  f^{h} = \operatornamewithlimits{argmin}\limits_{\mathcal{F}}\operatorname{\mathcal{C}}(\mathcal{D})
-\end{equation}
-  
-where $\mathcal{F}$ is the chosen target function space in which to search for $f^{h}$ . \\
-
-\subsubsection{Approximation vs Generalisation}
-
-It is important to note that supervised learning does not consist in merely finding the function which best fits the training set - the availability of numerous universal approximating function classes (such as the set of all finite order polynomials) would make this a relatively simple task \cite{univ-approx}. The crux of supervised learning is to find a hypothesis function which fits the training set well \textit{and} would fit well to any subset of the instance space. In other words, approximation and generalisation are the two optimisation criteria for supervised learning, and both need to be incorporated into the cost function.\\
-
-\subsection{Architecture of a Deep Convolutional Neural Network with Rectified Linear Neurons}
-
-A most complete and concise review of ConvNet architecture can be found in "Stochastic Pooling" paper. You could imitate the structure and expound on every single point with image examples. \\
-
-Learning a hypothesis function $f^{h}$ comes down to searching a target function space for the function which minimises the cost function. A function space is defined by a parametrised function equation, and a parameter space. Choosing a deep convolutional neural network with rectified linear neurons sets the parametrised function equation. By explaining the architecture of such a neural network, this subsection justifies the chosen function equation. As for the parameter space, it is $\mathbb{R^{P}}$ (where P is the number of parameters in the network); its continuity must be noted as this enables the use of gradient descent as the optimisation algorithm (as is discussed later). \\
-
-
-
-\subsubsection{Models of Neurons}
-
-Before we consider the neural network architecture as a whole, let us start with the building block of a neural network: the neuron (mathematically referred to as the \textit{activation function}). Two types of neuron models are used in current state-of-the-art implementations of deep convolutional neural networks: the rectified linear unit and the softmax unit (note that the terms "neuron" and "unit" are used interchangeably). In order to bring out their specific characteristics, we shall first consider two other compatible neuron models: the binary threshold neuron, which is the most intuitive, and the hyperbolic tangent neuron, which is the most analytically appealing. It may also help to know what is being modelled, so a very brief look at a biological neuron shall first be given.
-
-\paragraph{Multipolar Biological Neuron}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.3]{images/Biological_Neuron.png}
-	\caption{a multipolar biological neuron}
-\end{figure}
-
-A multipolar neuron receives electric charges from neighbouring incoming neurons through its dendritic branches, and sends electric charges to its neighbouring outgoing neurons through its axon. Neurons connect at synapses, which is where the tip of the telodendria of one neuron is in close vicinity of the dendritic branch of another neuron. Because a single axon feeds into all of the telodendria but mutiple dendritic branches feed into the axon hillock, a neuron receives multiple inputs and sends out a single output. Similarly, all of the neuron models below are functions from a multidimensional space to a unidimensional one.\\
-
-\paragraph{Binary Threshold Neuron}
-\begin{equation}
-y = \begin{cases} 1 & \mbox{if } M <= b + \sum\limits_{i=1}^k x_{i}\cdot w_{i}  \text{ , where } M \text{ is a threshold parameter} \\ 
-				  0 & \mbox{otherwise} \end{cases}
-\end{equation} \\
-
-Intuitively, $y$ takes a hard decision, just like biological neurons: either a charge is sent, or it isn't. $y$ can be seen as producing spikes, $x_{i}$ as the indicator value of some feature, and $w_[i]$ as a parameter of the function that indicates how important $x_{i}$ is in determining $y$. Although this model is closer than most most to reality, the function is not differentiable, which makes it impossible to use greedy local optimisation learning algorithms - such as gradient descent - which need to compute derivatives involving the activation functions.
-
-\paragraph{Logistic Sigmoid Neuron} 
-\begin{equation}
-\label{sigmoid neuron}
-y = \frac{1}{1 + \exp(-z)} \text{, where } z = \sum\limits_{i=1}^k x_{i}\cdot w_{i}
-\end{equation}
-
-Like the binary threshold neuron, the output domain of this neuron is bounded by 0 and 1. But this time, the function is fully differentiable. Moreover, it is nonlinear, which helps to increase performance \cite{DL-book}. To see why, the graph plot below lends itself to the following intuition: if the input x is the amount of evidence for the components of the feature that the neuron detects, and y is the evidence for the feature itself, then the marginal evidence for the feature is decreasing with the amount of evidence for its components (in absolute value terms). 
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.3]{images/sigmoid.png}
-	\caption{single-input logistic sigmoid neuron}
-\end{figure}
-
-This is like saying that to completely convince y of the total presence or absence of the feature, a lot of evidence is required. However, if there is not much evidence for either case, then y is more lenient. 
-A disadvantage of this neuron model is that it is computationally expensive to compute.
-                
-\paragraph{Rectified Linear Neuron}
-\begin{equation}
-\label{relu}
-y = \max\{0, b + \sum\limits_{i=1}^k x_{i}\cdot w_{i}\}
-\end{equation}
-
-As can be seen in the graph plot below, the rectified linear neuron is neither fully differentiable (not at $0$), nor bounded above. Moreover, it only has two slopes, so its derivative with respect to $x_{i}$ can only be one of two values: $0$ or $w_{i}$. Although this may come as a strong downgrade in sophistication compared to the logistic sigmoid neuron, it is so much more efficient to compute (both its value and its partial derivatives) that it enables much larger network implementations\cite{krizhevsky}. Until now, this has more than offset the per-neuron information loss - and saturation risks - of the rectifier versus the sigmoid unit \cite{rectifier}. \\
-
-ReLU introduces a non-linearity with its angular point (a smooth approximation to it is the softplus $f(x) = \log(1 + e^x)$). \\
-
-Add the maths for why ReLU train faster. \\
-
-Explain also the no neighbouring cancellations in pooling. \\
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.3]{images/rectifier.png}
-	\caption{single-input rectified linear neuron}
-\end{figure}
-
-\paragraph{Softmax Neuron}
-\begin{equation}
-\label{}
-y_{j} = \frac{\exp(z_{j})}{\sum\limits_{i=1}^k\exp(z_{i})} \text{, where } z_{j} = \sum\limits_{i=1}^k x_{i}\cdot w_{i,j} + b
-\end{equation}
-
-The equation of a softmax neuron needs to be understood in the context of a layer of $k$ such neurons within a neural network: therefore, the notation $y_{j}$ corresponds to the output of the $j^{th}$ softmax neuron, and $w_{i,j}$ corresponds to the weight of $x_{i}$ as in input for the $j^{th}$ softmax neuron. A layer of softmax neurons distinguishes itself from others in that neighbouring neurons interact with each other: as can be seen from the equation, the input vectors of all the softmax neurons $z_{1}, z_{2}, ..., z_{k}$ serve to enforce $\sum\limits_{i=1}^k y_{i} = 1$. In other words, the vector $(y_{1}, y_{2}, ..., y_{k})$ defines a probability mass function. This makes the softmax layer ideal for classification: neuron $j$ can be made to represent the probability that the input is an instance of class $j$. Another attractive aspect of the softmax neuron is that its derivative is quick to compute: it is given by $\frac{dy}{dz} = \frac{y}{1-y}$. \\
-
-intuition: Bishop textbook: "softmax function, as it represents
-a smoothed version of the ‘max’ function because, if ak ? aj for all j ?= k, then p(Ck|x) ? 1, and p(Cj|x) ? 0."
-
-
-\subsubsection{Feed-Forward Architecture}
-
-A feed-forward neural network is a representation of a function in the form of a directed acyclic graph, so this graph can be interpreted both biologically and mathematically. A node represents a neuron as well as an activation function $f$, an edge represents a synapse as well as the composition of two activation functions $f \circ g$, and an edge weight represents the strength of the connection between two neurons as well as a parameter of $f$. The figure below (taken from \cite{DL-book}) illustrates this.
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.3]{images/NN_math_rep.png}
-	\caption{graphical representation of $y = x*sin(a*x+b)$ and of a feed-forward neural network}
-\end{figure}
-
-The architecture is feed-forward in the sense that data travels in one direction, from one layer to the other. This defines an input layer (at the bottom) and an output layer (at the top) and enables the representation of a mathematical function.\\
-
-\paragraph{Shallow Feed-Forward Neural Networks: the Perceptron}
-
-A feed-forward neural net is called a perceptron if there exist no layers between the input and output layers. The first neural networks, introduced in the 1960s \cite{DL-book}, were of this kind. This architecture severely reduces the function space: for example, with $g_{1}: x \rightarrow sin(s)$, $g_{2}: x,y \rightarrow x*y$, $g_{3}: x,y \rightarrow x+y$ as activation functions (i.e.\ neurons), it cannot represent $f(x) \rightarrow x*sin(a*x+b)$ mentioned above \cite{DL-book}. This was generalised and proved in \textit{Perceptrons: an Introduction to Computation Geometry} by Minsky and Papert (1969) and lead to a move away from artificial neural networks for machine learning by the academic community throughout the 1970s: the so-called "AI Winter" \cite{Russel & Norvig}.
-
-\paragraph{Deep Feed-Forward Neural Networks: the Multilayer Perceptron}
-
-The official name for a deep neural network is Multilayer Perceptron (MLP), and can be represented by a directed acyclic graph made up of more than two layers (i.e.\ not just an input and an output layer). These other layers are called hidden layers, because the "roles" of the neurons within them are not set from the start, but learned throughout training. When training is successful, each neuron becomes a feature detector. At this point, it is important to note that feature learning is what sets machine learning with MLPs apart from most other machine learning techniques, in which features are specified by the programmer \cite{DL-book}. It is therefore a strong candidate for classification tasks where features are too numerous, complex or abstract to be hand-coded - which is arguably the case with pipe weld images.\\ 
-
-Intuitively, having a hidden layer feed into another hidden layer above enables the learning of complex, abstract features, as a higher hidden layer can learn features which combine, build upon and complexify the features detected in the layer below. The neurons of the output layer can be viewed as using information about features in the input to determine the output value. In the case of classification, where each output neuron corresponds to the probability of membership of a specific class, the neuron can be seen as using information about the most abstract features (i.e.\ those closest to defining the entire object) to determine the probability of a certain class membership. \\
-
-To make the case for deep architectures, consider a model with the same number of parameters but fewer layers (i.e.\ a greater number of neurons per layer). Goodfellow's paper on google street view number recognition ran experiments to compare and found that depth is better: intuitively, if neurons are side by side, they cannot use the computation of their neighbour, whereas with depth, the neurons above can make use of the work done by the neurons below. \\	
-
-Mathematically, it was proved in 1989 that MLPs are universal approximators \cite{MLP-univ-approx}; hidden layers therefore increase the size of the function space, and solve the initial limitation faced by perceptrons.\\
-
-
-\paragraph{Deep Convolutional Neural Networks: for translation invariance}
-
-A convolutional neural network uses a specific network topology that is inspired by the biological visual cortex and tailored for computer vision tasks, because it achieves translation invariance of the features. Consider the following image of a geranium: a good feature to classify this image would be the blue flower. This feature appears all across the image; therefore, if the network can learn it, it should then sweep the entire image to look for it. A convolutional layer implements this: it is divided into groups of neurons (called \textit{kernels}), where all of the neurons in a kernel are set to the same parameter values, but are 'wired' to different pixel windows across the image. As a result, one feature can be detected anywhere on the image, and the information of where on the image this feature was detected is contained in the output of the kernel. Below is a representation of LeNet5, a deep convolutional neural network used to classify handwritten characters. \\
-
-(Hey, you should explain what is meant by convolution with http://colah.github.io/posts/2014-07-Understanding-Convolutions/ by using some of the images.) \\
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.6]{images/lenet5.png}
-	\caption{LeNet7 architecture: each square is a kernel}
-\end{figure}
-
-\subparagraph{Kernels}
-
-awesome explanation of sliding kernels:
-http://colah.github.io/posts/2014-07-Understanding-Convolutions/
-http://docs.gimp.org/en/plug-in-convmatrix.html
-
-example 1: dark left light right edge detector
-example 2: overall edge detector
-comment on how 2 is more generic, but 1 carries more precise information.
-example 3: blurring
-example 4: sharpening
-
-Further, while convolution naively appears to be an O(n2) operation, using some rather deep mathematical insights, it is possible to create a O(nlog(n)) implementation. (yes, you can parallelise the convolution quite easily, each window of a kernel can be computed in parallel)
-
-\subsubsection{Topology of Deep Neural Networks}
-
-Now that architecture is clear, let's take a step back and consider the topology of deep neural networks. One may wonder whether it is useful to going into such abstract maths for an applied project such as this one; but doing this will provide an answer to a frequent critique of deep neural networks: "we don't know what they are doing". By proving that a deep neural network is a homeomorphism, we can provide the answer that training a deep neural network is akin to searching for a combination of projections, stretches and squashes of the input space to end up with a linearly separable configuration.
-
-http://colah.github.io/posts/2014-03-NN-Manifolds-Topology/
-
-
-\paragraph{Topology of $tanh$ Layer}
-
-First start with mathematical definitions. \\
-
-\subparagraph{Homeomorphism}
-A function $f: X → Y$ between two topological spaces (X, TX) and (Y, TY) is called a homeomorphism if it has the following properties: 
-f is a bijection (one-to-one and onto),
-f is continuous,
-the inverse function $f^{−1}$ is continuous (f is an open mapping). \\
-
-Theorem: a tanh layer is a homeomorphism if the weight matrix is invertible.
-
-$tanh$ is a continuous bijection between its input and output domains, $\mathbb{R}$ and ]-1;1[, and ??? is its continuous inverse.
- A translation is also bi-continuous. However, a linear transformation is only bi-coso a $tanh$ layer is a homeomorphism. The implications of this are intuitively interesting: it means that the layer performs a continuous transformation ... \\
-
-Since each layer is a homeomorphism, then the entire network is a homeomorphism too (
-
-Why would we desire 
-
-\paragraph{Topology of ReLU Layer}
-
-Wait a second, what makes you think that the weight matrix will ever be invertible in practice? Only square matrices can be invertible, and in practice it's rare for two adjacent layers to have the same number of neurons. \\
-
-ReLU is not a bijection between its input and output domains, $\mathbb{R}$ and $[0;\infty[$. So a layer of ReLUs is not a homeomorphism. Does this mean we cannot study the topology of such deep neural networks? What does it imply for the type of transformations that can be applied to the data? Could you provide an animation of collapsing on an axis? \\
-
-\paragraph{Ambient Isotopy}
-
-definition:
-http://www.cs.ucdavis.edu/~amenta/pubs/tcs-iso-qed.pdf \\
-
-Embedding, untangling the manifold. \\
-
-\paragraph{The Manifold Hypothesis}
-
-Why is it important to know that we are using homeomorphisms? Because a homeomorphism guarantees the existence of an inverse continuous function. If we see the class of cat images as a manifold (cf deep spars rectifier network for phrase used to decribe this) that has been heavily tangled by being represented in the pixel space, then it's good to know that there exists a continuous function that will untangle it, since that's what the deep neural network is looking for.
-
-Conclusion is that learning a classification task with a deep neural network is like learning how to disentangle manifolds. 
-
-
-\subsubsection{Krizhevsky 2012 explained}
-
-A most complete and concise review of ConvNet architecture can be found in "Stochastic Pooling" paper. You could imitate the structure and expound on every single point with image examples. \\
-
-CAREFUL! these are notes taken from the tutorial\cite{nips-tut}. The structure is totally plagiarised. Instead, you insert pieces of content below in areas above.
-video, currently on 10:20
-
-To situate the CNN in terms of other ANNs, it may help to view a number of them in terms of depth and learning strategy:
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.6]{images/all_neural_networks.png}
-	\caption{Different kinds of ANNs}
-\end{figure}
-
-
-\paragraph{Operations in each layer}
-
-images to paste: http://media.nips.cc/Conferences/2013/Video/Tutorial1A.pdf 
-
-A convolution layer has a pixel feature i.e. filter which is convolved over the entire image, followed by a non-linearity, followed by a spatial feature, optionally followed by a normalisation between feature responses. This may seem like it comes out of nowhere, but when we look at hand-crafted successes in computer vision, the structures are similar. \\
-
-For example consider SIFT (Scale-invariant feature transform) descriptors: they are a range of filters for edges at different angles. \\
-
-\subparagraph{Filter aka Pixel Feature}
-
- 
-\subparagraph{Non-linearity}
-
-\subparagraph{Pooling aka Spatial Feature}
-
-\subparagraph{Possible Normalisation}
-
-\paragraph{Dropout}
-
-\paragraph{Data augmentation}
-
-
-\subsection{Training: Backpropagation}
-
-Now that the architecture of a deep CNN has been explained, the question remains of how to train it. Mathematically: now that the function space has been explained, the question remains of how this space is searched. In the case of feed-forward neural networks and supervised learning, this is done with gradient descent, a local (therefore greedy) optimisation algorithm. Gradient descent relies on the partial derivatives of the error (a.k.a\ cost) function with respect to each parameter of the network; the backpropagation algorithm is an implementation of gradient descent which efficiently computes these values.
-  
-\subsubsection{Compute Error-Weight Partial Derivatives}
-
-Let $t$ be the target output (with classification, this is the label) and let $y = (y_{1}, y_{2}, ..., y_{P})$ be actual value of the output layer on a training case. (Note that classification is assumed here: there are multiple output neurons, one for each class).
-
-The error is given by 
-\begin{equation}
-E = \mathcal{C}(t-y)
-\end{equation}
-
-where $\mathcal{C}$ is the chosen cost function. The error-weight partial derivatives are given by
-
-\begin{equation}
-\frac{\partial{E}}{\partial{w_{ij}}} = \frac{\partial{E}}{\partial{y_{i}}} \cdot \frac{\partial{y_{i}}}{\partial{net}} \cdot \frac{\partial{net}}{\partial{w_{ij}}}
-\end{equation}
-
-Since in general, a derivative $\frac{\partial{f}}{\partial{x}}$ is numerically obtained by perturbing $x$ and taking the change in $f(x)$, the advantage with this formula is that instead of individually perturbing each weight $w_{ij}$, only the unit outputs $y_{i}$ are perturbed. In a neural network with $k$ fully connected layers and $n$ units per layer, this amounts to $\Theta(k \cdot n)$ unit perturbations instead of $\Theta(k \cdot n^{2})$ weight perturbations (note that the bound on weight perturbations is no longer tight if we drop the assumption of fully connected layers). \\
-
-The error being shown is the negative of the log probability of the likelihood function:
-\begin{equation}
--\frac{1}{n}\sum\limits_{i=1}^n ln(f(W|x_i))
-\end{equation}
-Where f is the learned function. This is the cross entropy, but it also elegantly evaluates to MLE. In other words, we are choosing the parameters of the model to maximise the likelihood of the data (to make the observed events i.e.\ the training set as highly probable as possible). Do the proof with joint probability of independent events etc. \\
-
-
-\subsubsection{Update Weight Values (with Gradient Descent)}
-
-The learning rule is given by $w_{i,t+1} = w_{i,t+1} + \tau \cdot \frac{\partial{E}}{\partial{w_{i,t}}}$
-
-Visually, this means that weight values move in the direction the will reduce the error quickest, i.e.\ the direction of steepest descent on the error surface is taken. Notice that given the learning rule, gradient descent converges (i.e.\ $w_{i,t+1}$ equals $w_{i,t+1}$) when the partial derivative reaches zero. This corresponds to a local minimum on the error surface. In the figure below, two potential training sessions are illustrated. The minima attained in each cases are not the same. This illustrates a strong shortcoming with backpropagation: parameter values can get stuck in poor local minima.
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.8]{images/local_minima.png}
-	\caption{an error surface with poor local minima}
-\end{figure}
-
-
-% \paragraph{cost functions}
-% MSE, cross-entropy for softmax
-
-\paragraph{Training, Validation and Test Sets}
-
-As mentioned previously, learning is not a mere approximation problem because the hypothesis function must generalise well to any subset of the instance space. Approximation and generalisation are incorporated into the training of deep neural networks (as well as other models \cite{train&test}) by separating the labelled dataset into a training set, a validation set and a test set. The partial derivatives are computed from the error over the training set, but the function that is learned is the one that minimises the error over the validation set, and its performance is measured on the test set. The distinction between training and validation sets is what prevents the function from overfitting the training data: if the function begins to overfit, the error on the validation set will increase and training will be stopped. The distinction between the test set and the validation set is to obtain a stochastically impartial measure of performance: since the function is chosen to minimise the error over the validation set, there could be some non-negligible overfit to the validation set which can only be reflected by assessing the function's performance on yet another set.
-
-\subsubsection{Early Stopping}
-
-As opposed to 
-
-Lorenzo Rosascol %https://www.youtube.com/watch?v=bukb-rMuayM&list=PLYTk9IwHBb2ANKHc2feIso7tL1slpuVPY#t=935
-
-15:32 inversion of matrix equals polynomial series.
-
-awesome blog post about it all: %http://mrtz.org/blog/the-zen-of-gradient-descent/#comment-3240
-
-
-% \paragraph{Dropout}
+In the case of MIML, not only are there multiple instances present in each case, but the number of instances is unknown. MIML has been used in the image classification literature when one wishes to identify all objects which are present in the image \cite{MIML}. Although in this case, the motivation is to look out for a specific set of pipe weld visual characteristics, the problem is actually conceptually the same; the number of identifiable classes is simply lower. \\
 
 
 \subsection{Challenges specific to the Pipe Weld Classification Task}
@@ -535,22 +240,301 @@ One possible solution would be to use a different cost function: the F-measure \
 classes. Moreover, one would need to ensure that the range of the error is as large as possible for a softmax activation unit, whose own output range is merely $[0;1]$. \\ \\
 
 
+\clearpage
+
+
+\section{Deep Supervised Learning}
+
+\subsection{Supervised Learning}
+
+Learning in the case of classification consists in using the dataset $\mathcal{D}$ to find the hypothesis function $f^{h}$ that best approximates the unknown function $f^{*} : 2^{\mathcal{X}} \rightarrow 2^{\mathcal{Y}}$ which would perfectly classify any subset of the instance space $\mathcal{X}$. Supervised learning arises when $f^{*}(x)$ is known for every instance in the dataset, i.e.\ when the dataset is labelled and of the form $\{(x_{1},f^{*}(x_{1})),(x_{2},f^{*}(x_{2})), ..., (x_{n},f^{*}(x_{n}))\}$. This means that $|\mathcal{D}|$ points of $f^{*}$ are known, and can be used to fit $f^{h}$ to them, using an appropriate cost function $\mathcal{C}$. $\mathcal{D}$ is therefore referred to as the \textit{training set}. 
+
+Formally, supervised learning therefore consists in finding
+
+\begin{equation}
+\label{learning: optimisation equation}
+  f^{h} = \operatornamewithlimits{argmin}\limits_{\mathcal{F}}\operatorname{\mathcal{C}}(\mathcal{D})
+\end{equation}
+  
+where $\mathcal{F}$ is the chosen target function space in which to search for $f^{h}$ . \\
+
+\subsubsection{Approximation vs Generalisation}
+
+It is important to note that supervised learning does not consist in merely finding the function which best fits the training set - the availability of numerous universal approximating function classes (such as the set of all finite order polynomials) would make this a relatively simple task \cite{univ-approx}. The crux of supervised learning is to find a hypothesis function which fits the training set well \textit{and} would fit well to any subset of the instance space. In other words, approximation and generalisation are the two optimisation criteria for supervised learning, and both need to be incorporated into the cost function.\\
+
+\subsection{Deep Learning: Neurons and Depth}
+
+Learning a hypothesis function $f^{h}$ comes down to searching a target function space for the function which minimises the cost function. A function space is defined by a parametrised function equation, and a parameter space. Choosing a deep convolutional neural network with rectified linear neurons sets the parametrised function equation. By explaining the architecture of such a neural network, this subsection justifies the chosen function equation. As for the parameter space, it is $\mathbb{R^{P}}$ (where P is the number of parameters in the network); its continuity must be noted as this enables the use of gradient descent as the optimisation algorithm (as is discussed later). \\
+
+
+\subsubsection{Models of Neurons}
+
+Before we consider the neural network architecture as a whole, let us start with the building block of a neural network: the neuron (mathematically referred to as the \textit{activation function}). Two types of neuron models are used in current state-of-the-art implementations of deep convolutional neural networks: the rectified linear unit and the softmax unit (note that the terms "neuron" and "unit" are used interchangeably). In order to bring out their specific characteristics, we shall first consider two other compatible neuron models: the binary threshold neuron, which is the most intuitive, and the hyperbolic tangent neuron, which is the most analytically appealing. It may also help to know what is being modelled, so a very brief look at a biological neuron shall first be given.
+
+\paragraph{Multipolar Biological Neuron}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/Biological_Neuron.png}
+	\caption{a multipolar biological neuron}
+\end{figure}
+
+A multipolar neuron receives electric charges from neighbouring incoming neurons through its dendritic branches, and sends electric charges to its neighbouring outgoing neurons through its axon. Neurons connect at synapses, which is where the tip of the telodendria of one neuron is in close vicinity of the dendritic branch of another neuron. Because a single axon feeds into all of the telodendria but mutiple dendritic branches feed into the axon hillock, a neuron receives multiple inputs and sends out a single output. Similarly, all of the neuron models below are functions from a multidimensional space to a unidimensional one.\\
+
+\paragraph{Binary Threshold Neuron}
+\begin{equation}
+y = \begin{cases} 1 & \mbox{if } M <= b + \sum\limits_{i=1}^k x_{i}\cdot w_{i}  \text{ , where } M \text{ is a threshold parameter} \\ 
+				  0 & \mbox{otherwise} \end{cases}
+\end{equation} \\
+
+Intuitively, $y$ takes a hard decision, just like biological neurons: either a charge is sent, or it isn't. $y$ can be seen as producing spikes, $x_{i}$ as the indicator value of some feature, and $w_[i]$ as a parameter of the function that indicates how important $x_{i}$ is in determining $y$. Although this model is closer than most most to reality, the function is not differentiable, which makes it impossible to use greedy local optimisation learning algorithms - such as gradient descent - which need to compute derivatives involving the activation functions.
+
+\paragraph{Logistic Sigmoid Neuron} 
+\begin{equation}
+\label{sigmoid neuron}
+y = \frac{1}{1 + \exp(-z)} \text{, where } z = \sum\limits_{i=1}^k x_{i}\cdot w_{i}
+\end{equation}
+
+Like the binary threshold neuron, the output domain of this neuron is bounded by 0 and 1. But this time, the function is fully differentiable. Moreover, it is nonlinear, which helps to increase performance \cite{DL-book}. To see why, the graph plot below lends itself to the following intuition: if the input x is the amount of evidence for the components of the feature that the neuron detects, and y is the evidence for the feature itself, then the marginal evidence for the feature is decreasing with the amount of evidence for its components (in absolute value terms). 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/sigmoid.png}
+	\caption{single-input logistic sigmoid neuron}
+\end{figure}
+
+This is like saying that to completely convince y of the total presence or absence of the feature, a lot of evidence is required. However, if there is not much evidence for either case, then y is more lenient. 
+A disadvantage of this neuron model is that it is computationally expensive to compute.
+                
+\paragraph{Rectified Linear Neuron}
+\begin{equation}
+\label{relu}
+y = \max\{0, b + \sum\limits_{i=1}^k x_{i}\cdot w_{i}\}
+\end{equation}
+
+As can be seen in the graph plot below, the rectified linear neuron is neither fully differentiable (not at $0$), nor bounded above. Moreover, it only has two slopes, so its derivative with respect to $x_{i}$ can only be one of two values: $0$ or $w_{i}$. Although this may come as a strong downgrade in sophistication compared to the logistic sigmoid neuron, it is so much more efficient to compute (both its value and its partial derivatives) that it enables much larger network implementations\cite{krizhevsky}. Until now, this has more than offset the per-neuron information loss - and saturation risks - of the rectifier versus the sigmoid unit \cite{rectifier}. \\
+
+ReLU introduces a non-linearity with its angular point (a smooth approximation to it is the softplus $f(x) = \log(1 + e^x)$). \\
+
+Add the maths for why ReLU train faster. \\
+
+Explain also the no neighbouring cancellations in pooling. \\
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/rectifier.png}
+	\caption{single-input rectified linear neuron}
+\end{figure}
+
+\paragraph{Softmax Neuron}
+\begin{equation}
+\label{}
+y_{j} = \frac{\exp(z_{j})}{\sum\limits_{i=1}^k\exp(z_{i})} \text{, where } z_{j} = \sum\limits_{i=1}^k x_{i}\cdot w_{i,j} + b
+\end{equation}
+
+The equation of a softmax neuron needs to be understood in the context of a layer of $k$ such neurons within a neural network: therefore, the notation $y_{j}$ corresponds to the output of the $j^{th}$ softmax neuron, and $w_{i,j}$ corresponds to the weight of $x_{i}$ as in input for the $j^{th}$ softmax neuron. A layer of softmax neurons distinguishes itself from others in that neighbouring neurons interact with each other: as can be seen from the equation, the input vectors of all the softmax neurons $z_{1}, z_{2}, ..., z_{k}$ serve to enforce $\sum\limits_{i=1}^k y_{i} = 1$. In other words, the vector $(y_{1}, y_{2}, ..., y_{k})$ defines a probability mass function. This makes the softmax layer ideal for classification: neuron $j$ can be made to represent the probability that the input is an instance of class $j$. Another attractive aspect of the softmax neuron is that its derivative is quick to compute: it is given by $\frac{dy}{dz} = \frac{y}{1-y}$. \\
+
+intuition: Bishop textbook: "softmax function, as it represents
+a smoothed version of the ‘max’ function because, if ak ? aj for all j ?= k, then p(Ck|x) ? 1, and p(Cj|x) ? 0."
+
+
+\subsubsection{Why Depth}
+
+A feed-forward neural network is a representation of a function in the form of a directed acyclic graph, so this graph can be interpreted both biologically and mathematically. A node represents a neuron as well as an activation function $f$, an edge represents a synapse as well as the composition of two activation functions $f \circ g$, and an edge weight represents the strength of the connection between two neurons as well as a parameter of $f$. The figure below (taken from \cite{DL-book}) illustrates this.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/NN_math_rep.png}
+	\caption{graphical representation of $y = x*sin(a*x+b)$ and of a feed-forward neural network}
+\end{figure}
+
+The architecture is feed-forward in the sense that data travels in one direction, from one layer to the other. This defines an input layer (at the bottom) and an output layer (at the top) and enables the representation of a mathematical function.
+
+\paragraph{Shallow Feed-Forward Neural Networks: the Perceptron} 
+
+A feed-forward neural net is called a perceptron if there exist no layers between the input and output layers. The first neural networks, introduced in the 1960s \cite{DL-book}, were of this kind. This architecture severely reduces the function space: for example, with $g_{1}: x \rightarrow sin(s)$, $g_{2}: x,y \rightarrow x*y$, $g_{3}: x,y \rightarrow x+y$ as activation functions (i.e.\ neurons), it cannot represent $f(x) \rightarrow x*sin(a*x+b)$ mentioned above \cite{DL-book}. This was generalised and proved in \textit{Perceptrons: an Introduction to Computation Geometry} by Minsky and Papert (1969) and lead to a move away from artificial neural networks for machine learning by the academic community throughout the 1970s: the so-called "AI Winter" \cite{Russel & Norvig}. 
+
+\paragraph{Deep Feed-Forward Neural Networks: the Multilayer Perceptron} 
+
+The official name for a deep neural network is Multilayer Perceptron (MLP), and can be represented by a directed acyclic graph made up of more than two layers (i.e.\ not just an input and an output layer). These other layers are called hidden layers, because the "roles" of the neurons within them are not set from the start, but learned throughout training. When training is successful, each neuron becomes a feature detector. At this point, it is important to note that feature learning is what sets machine learning with MLPs apart from most other machine learning techniques, in which features are specified by the programmer \cite{DL-book}. It is therefore a strong candidate for classification tasks where features are too numerous, complex or abstract to be hand-coded - which is arguably the case with pipe weld images.\\ 
+
+Mathematically, it was proved in 1989 that MLPs are universal approximators \cite{MLP-univ-approx}; hidden layers therefore increase the size of the function space, and solve the initial limitation faced by perceptrons. \\
+
+Intuitively, having a hidden layer feed into another hidden layer above enables the learning of complex, abstract features, as a higher hidden layer can learn features which combine, build upon and complexify the features detected in the layer below. The neurons of the output layer can be viewed as using information about features in the input to determine the output value. In the case of classification, where each output neuron corresponds to the probability of membership of a specific class, the neuron can be seen as using information about the most abstract features (i.e.\ those closest to defining the entire object) to determine the probability of a class membership. \\
+
+To make the case for deep architectures, consider a model with the same number of parameters but fewer layers (i.e.\ a greater number of neurons per layer). (Goodfellow et al 2013) \cite{goodfellow_street_view} ran experiments to compare and found that depth is better: intuitively, if neurons are side by side, they cannot use the computation of their neighbour, whereas with depth, the neurons above can make use of the work done by the neurons below. \\	
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/more_layers_better.png}
+	\caption{LeNet7 architecture: each square is a kernel}
+\end{figure}
+
+As a formalisation of the intuition given above, (Bengio 2009) \cite{DL-book} advances that having multiple layers creates a \textbf{distributed representation} of the data, rather than a \textbf{local representation}. Consider for example the one-hot encoding of the integer set $\{0, .., n-1\}$, consisting of n-bit vectors where the i-th bit is 1 if the vector represents the integer i. This encoding is sparse, because every element of the set is represented by a vector of n-1 zeros and one 1. Moreover, it is local, because the k-th vector entry marks the presence of a feature that is present in only a single element, the integer k. On the other hand, the binary representation of the integers ${0, .., n-1}$ is a dense distributed representation, because it requires only $log_2(n)$ bits, and the k-th vector entry marks the presence of a feature that is shared by multiple elements of the set: whether or not not the integer is $\geq 2^k$. The binary representation is richer and more powerful than the one-hot representation because its features are not mutually exclusive: each class (i.e.\ each integer) is represented by a combination of features rather than a unique one. It is in this sense that the representation is distributed, and that the features are general. \\
+
+(Bengio 2009) \cite{DL-book} details the belief that a deep architecture incites such representations, since, by having a neuron feed into multiple neurons of another hidden layer above, the feature it learns will be used by several feature detectors (or eventually, class detectors) above. The crucial benefit of this is generalisation: features learned from data in a specific region of the input space (a.k.a\ data space) are used in other regions of the input space, even if little to no data from this region is present to learn from. It is in this sense that the representation is general, not local. \\
+
+However, it may seem "risky" to be imposing the use of features in regions of the input space that are unknown. "As usual in ML, there is no real free lunch" \cite{Bengio_G+}. Indeed, one can think of this as imposing a prior on the function space to be searched, that is of the form: the observed data can be explained by a number of underlying factors which can be learned without seeing all of their configurations. If the prior is true for the classes we are learning, the gains are large. Successes in deep learning seem to indicate that this prior covers many tasks that humans deal with \cite{Bengio_G+}. This prior is particularly powerful when learning from high dimensional data, where the curse of dimensionality means that a vast majority of the configurations are missing from the training set. \\
+
+
+\subsection{Training: Backpropagation}
+
+Now that the architecture of a deep neural network has been motivated, the question remains of how to train it. Mathematically: now that the function space has been explained, the question remains of how this space is searched. In the case of feed-forward neural networks and supervised learning, this is done with gradient descent, a local (therefore greedy) optimisation algorithm. Gradient descent relies on the partial derivatives of the error (a.k.a\ cost) function with respect to each parameter of the network; the backpropagation algorithm is an implementation of gradient descent which efficiently computes these values.
+  
+\subsubsection{Compute Error-Weight Partial Derivatives}
+
+Let $t$ be the target output (with classification, this is the label) and let $y = (y_{1}, y_{2}, ..., y_{P})$ be actual value of the output layer on a training case. (Note that classification is assumed here: there are multiple output neurons, one for each class).
+
+The error is given by 
+\begin{equation}
+E = \mathcal{C}(t-y)
+\end{equation}
+
+where $\mathcal{C}$ is the chosen cost function. The error-weight partial derivatives are given by
+
+\begin{equation}
+\frac{\partial{E}}{\partial{w_{ij}}} = \frac{\partial{E}}{\partial{y_{i}}} \cdot \frac{\partial{y_{i}}}{\partial{net}} \cdot \frac{\partial{net}}{\partial{w_{ij}}}
+\end{equation}
+
+Since in general, a derivative $\frac{\partial{f}}{\partial{x}}$ is numerically obtained by perturbing $x$ and taking the change in $f(x)$, the advantage with this formula is that instead of individually perturbing each weight $w_{ij}$, only the unit outputs $y_{i}$ are perturbed. In a neural network with $k$ fully connected layers and $n$ units per layer, this amounts to $\Theta(k \cdot n)$ unit perturbations instead of $\Theta(k \cdot n^{2})$ weight perturbations (note that the bound on weight perturbations is no longer tight if we drop the assumption of fully connected layers). \\
+
+The error being shown is the negative of the log probability of the likelihood function:
+\begin{equation}
+-\frac{1}{n}\sum\limits_{i=1}^n ln(f(W|x_i))
+\end{equation}
+Where f is the learned function. This is the cross entropy, but it also elegantly evaluates to MLE. In other words, we are choosing the parameters of the model to maximise the likelihood of the data (to make the observed events i.e.\ the training set as highly probable as possible). Do the proof with joint probability of independent events etc. \\
+
+
+\subsubsection{Update Weight Values (with Gradient Descent)}
+
+The learning rule is given by $w_{i,t+1} = w_{i,t+1} + \tau \cdot \frac{\partial{E}}{\partial{w_{i,t}}}$
+
+Visually, this means that weight values move in the direction the will reduce the error quickest, i.e.\ the direction of steepest descent on the error surface is taken. Notice that given the learning rule, gradient descent converges (i.e.\ $w_{i,t+1}$ equals $w_{i,t+1}$) when the partial derivative reaches zero. This corresponds to a local minimum on the error surface. In the figure below, two potential training sessions are illustrated. The minima attained in each cases are not the same. This illustrates a strong shortcoming with backpropagation: parameter values can get stuck in poor local minima.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.8]{images/local_minima.png}
+	\caption{an error surface with poor local minima}
+\end{figure}
+
+
+% \paragraph{cost functions}
+% MSE, cross-entropy for softmax
+
+\paragraph{Training, Validation and Test Sets}
+
+As mentioned previously, learning is not a mere approximation problem because the hypothesis function must generalise well to any subset of the instance space. Approximation and generalisation are incorporated into the training of deep neural networks (as well as other models \cite{train&test}) by separating the labelled dataset into a training set, a validation set and a test set. The partial derivatives are computed from the error over the training set, but the function that is learned is the one that minimises the error over the validation set, and its performance is measured on the test set. The distinction between training and validation sets is what prevents the function from overfitting the training data: if the function begins to overfit, the error on the validation set will increase and training will be stopped. The distinction between the test set and the validation set is to obtain a stochastically impartial measure of performance: since the function is chosen to minimise the error over the validation set, there could be some non-negligible overfit to the validation set which can only be reflected by assessing the function's performance on yet another set.
+
+\subsubsection{Early Stopping}
+
+As opposed to 
+
+Lorenzo Rosascol %https://www.youtube.com/watch?v=bukb-rMuayM&list=PLYTk9IwHBb2ANKHc2feIso7tL1slpuVPY#t=935
+
+15:32 inversion of matrix equals polynomial series.
+
+awesome blog post about it all: %http://mrtz.org/blog/the-zen-of-gradient-descent/#comment-3240
+
 
 
 \clearpage
+
+
+
+\subsection{Deep Convolutional Neural Networks}
+
+\paragraph{Deep Convolutional Neural Networks: for translation invariance}
+
+A convolutional neural network uses a specific network topology that is inspired by the biological visual cortex and tailored for computer vision tasks, because it achieves translation invariance of the features. Consider the following image of a geranium: a good feature to classify this image would be the blue flower. This feature appears all across the image; therefore, if the network can learn it, it should then sweep the entire image to look for it. A convolutional layer implements this: it is divided into groups of neurons (called \textit{kernels}), where all of the neurons in a kernel are set to the same parameter values, but are 'wired' to different pixel windows across the image. As a result, one feature can be detected anywhere on the image, and the information of where on the image this feature was detected is contained in the output of the kernel. Below is a representation of LeNet5, a deep convolutional neural network used to classify handwritten characters. \\
+
+(Hey, you should explain what is meant by convolution with http://colah.github.io/posts/2014-07-Understanding-Convolutions/ by using some of the images.) \\
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.6]{images/lenet5.png}
+	\caption{LeNet7 architecture: each square is a kernel}
+\end{figure}
+
+\subparagraph{Kernels}
+
+awesome explanation of sliding kernels:
+http://colah.github.io/posts/2014-07-Understanding-Convolutions/
+http://docs.gimp.org/en/plug-in-convmatrix.html
+
+example 1: dark left light right edge detector
+example 2: overall edge detector
+comment on how 2 is more generic, but 1 carries more precise information.
+example 3: blurring
+example 4: sharpening
+
+Further, while convolution naively appears to be an O(n2) operation, using some rather deep mathematical insights, it is possible to create a O(nlog(n)) implementation. (yes, you can parallelise the convolution quite easily, each window of a kernel can be computed in parallel)
+
+
+Deep Convolutional Neural Networks reA most complete and concise review of ConvNet architecture can be found in "Stochastic Pooling" paper. You could imitate the structure and expound on every single point with image examples. \\
+
+CAREFUL! these are notes taken from the tutorial\cite{nips-tut}. The structure is totally plagiarised. Instead, you insert pieces of content below in areas above.
+video, currently on 10:20
+
+To situate the CNN in terms of other ANNs, it may help to view a number of them in terms of depth and learning strategy:
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.6]{images/all_neural_networks.png}
+	\caption{Different kinds of ANNs}
+\end{figure}
+
+
+\subsubsection{Operations in each layer}
+
+images to paste: http://media.nips.cc/Conferences/2013/Video/Tutorial1A.pdf 
+
+A convolution layer has a pixel feature i.e. filter which is convolved over the entire image, followed by a non-linearity, followed by a spatial feature, optionally followed by a normalisation between feature responses. This may seem like it comes out of nowhere, but when we look at hand-crafted successes in computer vision, the structures are similar. \\
+
+For example consider SIFT (Scale-invariant feature transform) descriptors: they are a range of filters for edges at different angles. \\
+
+\paragraph{Filter aka Pixel Feature}
+
+ 
+\paragraph{Non-linearity}
+
+\paragraph{Pooling aka Spatial Feature}
+
+\paragraph{Possible Normalisation}
+
+
+\subsubsection{Dropout}
+
+\subsubsection{Data augmentation}
+
+
 
 \section{Analysis 1: ReLU Activation}
 
 \subsection{Motivations}
 
-Differentiable, symmetric, bounded activation functions that introduce a non-linearity smoothly over the entire input domain were the activation units of choice in deep feed-forward neural networks, until Rectified Linear Units were used in 2010 \cite{nair_hinton} and found to outperform their counterparts. This may come as a surprising result for several reasons:
+Differentiable, symmetric, bounded activation functions that introduce a non-linearity smoothly over the entire input domain were the activation units of choice in deep feed-forward neural networks, until Rectified Linear Units were used for CNNs in 2012 \cite{krizhevsky} and found to outperform their counterparts:
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.4]{images/ReLU_train_fast.png}
+	\caption{ReLUs in CNNs train faster (Krizhevsky et al 2012)}
+\end{figure}
+
+ This may come as a surprising result for several reasons:
 \begin{enumerate}
-\item unlike every other neuron model, they are not $antisymmetric$ ("when its response to the oppposite of a strongly excitatory input pattern is respectively a strongly inhibitory one" \cite{rectifier}), but rather $one-sided$ (the response is zero). This drops a prior assumption on how information should be interpreted and transferred between layers.
+\item unlike every other neuron model, they are not $antisymmetric$ ("when its response to the oppposite of a strongly excitatory input pattern is respectively a strongly inhibitory one" \cite{rectifier}), but rather $one sided$ (the response is zero). This drops a prior assumption on how information should be interpreted and transferred between layers.
 \item the angular point makes them non-differentiable at 0, since we have $\lim_{x \to 0^+} \frac{\partial max(0,x)}{\partial x} = 1 $ and $\lim_{x \to 0^-} \frac{\partial max(0,x)}{\partial x} = 0$). But gradient descent depends on differentiating activation functions, so an arbitrary choice needs to be made for $x = 0$. 
 \item the function is non-linear only in the neighbourhood of $0$ (note that the motivation for learning non-linear functions is the range of functions they can learn; linear functions are greatly limited in this respect, e.g.\ no boolean linear function can represent XOR \cite{univ-approx}).
 \item they are unbounded above, which could increase the difficulty in training the network by making exploding outputs easier to produce.
 \item they are not bijective: $tanh$ is a one-for-one mapping from $\mathbb{R}$ to $[-1,1]$ and $sigmoid$ is a one-for-one mapping from $\mathbb{R}$ to $[0,1]$, therefore information is preserved; ReLU maps all of $\mathbb{R}^-$ to $0$, which loses information.
 \end{enumerate}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.8]{images/activation_functions.png}
+	\caption{ReLUs in CNNs train faster (Krizhevsky et al 2012)}
+\end{figure}
+
 These points provide motivation to seek a mathematical explanation for these surprising results. In the context of this project, the motivation is to understand the mechanics of training for the CNNs to be used. \\
 
 \subsection{Literature Review}
@@ -561,7 +545,18 @@ The literature currently does not provide a mathematical explanation for the sup
 
 "ImageNet classification with deep convolutional neural networks" by Krizhevsky, Sutskever and Hinton (2012) \cite{krizhevsky} are the first to notice the benefits of ReLU in the context of supervised deep learning (i.e.\ backpropagation). They make the observations that $f(x) = tanh(x)$ or $f(x) = (1+ exp^{-x})^{-1}$ "saturating non-linearities" are slower to train than the $f(x) = max(0,x)$ "non-saturating non-linearity", and report an "accelerated ability to fit the training set", but do not provide any explanations. 
 
-"Deep sparse rectifier networks" by Glorot, Bordes and Bengio (2013) focus on the performance of deep neural networks with ReLU activations by running experiments on supervised (and unsupervised) tasks, varied datasets, and comparing performance with models using $tanh$ as activations.
+"Deep sparse rectifier networks" by Glorot, Bordes and Bengio (2013) focus on the performance of deep neural networks with ReLU activations by running experiments on supervised (and unsupervised) tasks, varied datasets, and comparing performance with models using $tanh$ as activations. 
+
+The authors use evidence from neuroscience to justify the superior performance of the ReLU, namely that "studies on brain energy expense suggest that neurons encode information in a sparse and distributed way", and that the one-sided response of ReLUs introduces "real zeros of activations" which leads to sparse representations of the data in the network. A sparse representation is one in which the vector representation has many zero entries. Sparsity is advocated for four intuitive reasons:
+
+\begin{enumerate}
+\item \textbf{Information disentangling}: an underlying assumption of many high dimensional deep learning classification tasks is that the class is a low-dimensional manifold in a high dimensional space. For example, the face manifold has a number of dimensions equal to the degrees of freedom in which the face can move and change, which might be around 7, but if considered in the space of all 256x256 greyscale images, it lies in a 65,536 dimensional space. If so, then there must exist an information-preserving projection of this space into a 7-dimensional space, which is equivalent to an information-preserving transformation of this space such that any vector of the face manifold has only at most 7 non-zero entries. In this sense, the manifold is disentangled from the many dimensions. By mapping $\mathbb{R}^-$ to $0$, the ReLU encourages sparse representations. 
+\item \textbf{Efficient variable-size representation}: "varying the number of active neurons allows a model to control the effective dimensionality of the representation for a given input and the required precision".
+\item \textbf{Linear separability}: sparse representations are easy to linearly separate, for example by using as a separating condition whether or not the k-th entry is zero. 
+\item \textbf{Distributed but sparse}: having multiple 
+\end{enumerate} 
+
+These reasons are not verified by experiments that specifically track each given characteristic and its impact on training speed or performance. 
 
 Additionally, the authors address the fourth point raised  in the motivations above by explaining that the upward unboundedness of the ReLU can be controlled with an $L_1$ regulariser:  FILL IN ! 
 
@@ -574,7 +569,6 @@ Additionally, the authors address the fourth point raised  in the motivations ab
 	\caption{ReLU path selection (source: Glorot et al 2013)}
 \end{figure}
 
-The authors use biological arguments to justify the superior performance of ReLU, namely that "studies on brain energy expense suggest that neurons encode information in a sparse and distributed way", and that the one-sided response of ReLUs introduces "real zeros of activations" which leads to sparse representations. 
 
 However, they provide no mathematical explanation for the key observation in Krizhevsky et al 2012 that ReLUs $accelerate training$. However, they 
 
@@ -636,11 +630,6 @@ Notice that if $y_7$ is
 
 Networks consisting of ReLUs have empirically trained faster than those consisting of sigmoid units. This may be because if a sigmoid unit is in its saturated environment, its weights are harder 
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.3]{images/ReLU_train_fast.png}
-	\caption{Training AlexNet (Krizhevsky et al 2012)}
-\end{figure}
 
 
 
@@ -1648,6 +1637,11 @@ Unsupervised Learning to correct mis-labelling, with encouragements to create cl
 % Example: \bibitem{One}
 % a better way of doing it: a .bib file or something. bit.ly/1kqg2Qe
 
+\bibitem{goodfellow_street_view}
+ Ian J. Goodfellow, Yaroslav Bulatov, Julian Ibarz, Sacha Arnoud, Vinay Shet
+  \emph{Multi-digit Number Recognition from Street View Imagery using Deep Convolutional Neural Networks}\\
+  ILSVRC 2013
+
 \bibitem{ReLU_RBM}
  Nair, Vinod; Hinton, Geoffrey
   \emph{Rectified Linear Units Improve Restricted Boltzmann Machines}\\
@@ -1667,8 +1661,10 @@ Unsupervised Learning to correct mis-labelling, with encouragements to create cl
   December 4-7, 2006
 
 \bibitem{f-measure}
- Pastor-Pellicer, Joan; Zamora-Martinez, Francisco; Espana-Boquera, Salvador; Castro-Bleda, Maria Jose;
-  \emph{F-Measure as the Error Function to Train Neural Networks}\\
+ Joan Pastor-Pellicer, Francisco Zamora-Martínez, Salvador España-Boquera, María José Castro-Bleda;
+ \emph{F-Measure as the Error Function to Train Neural Networks}\\
+ Advances in Computational Intelligence
+ Volume 7902, 2013, pp 376-384
 
 \bibitem{control-point}
  Fusion Group - ControlPoint LLP,
@@ -1714,6 +1710,11 @@ Unsupervised Learning to correct mis-labelling, with encouragements to create cl
  \emph{Adapting visual category models to new domains}\\
  ECCV, 2010
 
+\bibitem{Bengio_G+}
+ Bengio, Yoshua;
+ \emph{Google+ Deep Learning community post}
+ URL: \url{}
+ 
 \bibitem{surf}
  Bay, H., Tuytelaars, T., and Gool, L. Van;
  \emph{SURF: Speeded up robust features}\\
@@ -1724,11 +1725,6 @@ Unsupervised Learning to correct mis-labelling, with encouragements to create cl
  \emph{OverFeat: Integrated Recognition, Localization and Detection using Convolutional Networks}\\
  arXiv:1312.6229
   
-\bibitem{f-measure}
- Joan Pastor-Pellicer, Francisco Zamora-Martínez, Salvador España-Boquera, María José Castro-Bleda;
- \emph{F-Measure as the Error Function to Train Neural Networks}\\
- Advances in Computational Intelligence
- Volume 7902, 2013, pp 376-384
  
 \bibitem{cuda-convnet}  
  URL: \url{https://code.google.com/p/cuda-convnet/}, last accessed 6th June 2014.
