@@ -67,6 +67,12 @@ In terms of progress, several instances of large-scale neural networks have been
 
 \clearpage
 
+Thanks to my supervisors Jack Kelly for ... and Prof Murray Shanahan for ...
+Thanks to Razvan Ranca for wonderful strategic advice on which experiments to choose for the exploration of hypotheses, help with C++, musical and caffeine tricks for staying up all night, and much else. I look excitingly forward to the times ahead cofounding a machine learning startup with him!
+Thanks to Alexandre de Brebisson for his great insights into convnet architecture that helped me make sense of experimental results, and the great conversations we had sharing our passion for deep learning.
+Thanks to the people on the Google+ Deep Learning community who provided helpful comments and guidance; especially Dr Soumith Chintala on transfer learning and Prof Francisco Zamora-Martinez on class imbalance.
+
+\clearpage
 \section{Introduction}
 
 The background goes through the essential material regarding machine learning with feed-forward neural networks. Since this project was experimental from an early phase, the rest of the report is divided into chapters each of which go over the conceptual motivations, the design and the implementation of a main experiment. \\
@@ -549,19 +555,18 @@ These points provide motivation to seek a mathematical explanation for these sur
 
 \subsection{Literature Review}
 
-The literature currently does not provide a mathematical explanation. 
+The literature currently does not provide a mathematical explanation for the superiority of ReLU over sigmoid and tanh units in deep neural networks trained with backpropagation. 
 
-"Rectified linear units improve restricted boltzmann machines" by Nair and Hinton (2010) provide... FILL IN!!
+"Rectified linear units improve Restricted Boltzmann Machines" by Nair and Hinton (2010) uses a noisy version of them ($f(x) = max(0, x + N(0, \sigma(x)))$) to replace binary stochastic neurons in Restricted Boltzmann Machines. Detailed mathematical justifications are provided along with experimental evidence, but the analysis focuses on the ability of ReLUs to replace binary stochastic neurons (which are very different to sigmoid and tanh as seen previously), in the task of training Restrictied Boltzmann Machines, which are trained with the unsupervised Contrastive Divergence learning algorithm, not backpropagation \cite{ReLU_RBM}. \\ 
 
-"ImageNet classification with deep convolutional neural networks" by Krizhevsky, Sutskever and Hinton (2012) \cite{krizhevsky} make the observations that $f(x) = tanh(x)$ or $f(x) = (1+ exp^{-x})^{-1}$ "saturating non-linearities" are slower to train than the $f(x) = max(0,x)$ "non-saturating non-linearity", and report an "accelerated ability to fit the training set", but do not provide any explanations. 
+"ImageNet classification with deep convolutional neural networks" by Krizhevsky, Sutskever and Hinton (2012) \cite{krizhevsky} are the first to notice the benefits of ReLU in the context of supervised deep learning (i.e.\ backpropagation). They make the observations that $f(x) = tanh(x)$ or $f(x) = (1+ exp^{-x})^{-1}$ "saturating non-linearities" are slower to train than the $f(x) = max(0,x)$ "non-saturating non-linearity", and report an "accelerated ability to fit the training set", but do not provide any explanations. 
 
-"Deep sparse rectifier networks" by Glorot, Bordes and Bengio (2013) focus on the performance of deep neural networks with ReLU activations (a.k.a\ deep sparse rectifier networks) by running experiments on supervised and unsupervised tasks as well as varied datasets. 
+"Deep sparse rectifier networks" by Glorot, Bordes and Bengio (2013) focus on the performance of deep neural networks with ReLU activations by running experiments on supervised (and unsupervised) tasks, varied datasets, and comparing performance with models using $tanh$ as activations.
 
-They make the important empirical discovery that "rectifying activation allows deep networks to achieve their best performance without unsupervised pre-training" given sufficient labelled training data. This plays an important part in the shift away from unsupervised pre-training to initialise the weights of a network, which would otherwise have been considered in the later stages of this project. 
-
-Additionally, the authors address the fourth point raised above by explaining that the upward unboundedness of the ReLU can be controlled with an $L_1$ regulariser:  FILL IN ! 
+Additionally, the authors address the fourth point raised  in the motivations above by explaining that the upward unboundedness of the ReLU can be controlled with an $L_1$ regulariser:  FILL IN ! 
 
 "The only non-linearity in the network comes from the path selection associated with individual neurons being fired or not".
+
 
 \begin{figure}[h!]
 	\centering
@@ -572,6 +577,8 @@ Additionally, the authors address the fourth point raised above by explaining th
 The authors use biological arguments to justify the superior performance of ReLU, namely that "studies on brain energy expense suggest that neurons encode information in a sparse and distributed way", and that the one-sided response of ReLUs introduces "real zeros of activations" which leads to sparse representations. 
 
 However, they provide no mathematical explanation for the key observation in Krizhevsky et al 2012 that ReLUs $accelerate training$. However, they 
+
+Note that (Glorot et al 2013) also empirically establishes that "rectifying activation allows deep networks to achieve their best performance without unsupervised pre-training" given sufficient labelled training data. This has probably played an important part in the shift away from unsupervised pre-training to initialise the weights of a network, which would otherwise have been considered in the later stages of this project. \\
 
 observe that ... explain that ...
 ""
@@ -1640,6 +1647,12 @@ Unsupervised Learning to correct mis-labelling, with encouragements to create cl
 \begin{thebibliography}{1}
 % Example: \bibitem{One}
 % a better way of doing it: a .bib file or something. bit.ly/1kqg2Qe
+
+\bibitem{ReLU_RBM}
+ Nair, Vinod; Hinton, Geoffrey
+  \emph{Rectified Linear Units Improve Restricted Boltzmann Machines}\\
+  ICML 2010
+
 \bibitem{decaf}
  Donahue, Jeff; Jia, Yangqing; Vinyals, Oriol; Hoffman, Judy; Zhang, Ning; Tzeng, Eric; Darrell, Trevor;
   \emph{DeCAF: A Deep Convolutional Activation Feature for Generic Visual Recognition}\\
