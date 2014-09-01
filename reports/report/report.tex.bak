@@ -539,11 +539,11 @@ classes. Moreover, one would need to ensure that the range of the error is as la
 
 Differentiable, symmetric, bounded activation functions that introduce a non-linearity smoothly over the entire input domain were the activation units of choice in deep feed-forward neural networks, until Rectified Linear Units were used in 2010 \cite{nair_hinton} and found to outperform their counterparts. This may come as a surprising result for several reasons:
 \begin{enumerate}
-\item unlike every other neuron model, they are not symmetric.
+\item unlike every other neuron model, they are not $antisymmetric$ ("when its response to the oppposite of a strongly excitatory input pattern is respectively a strongly inhibitory one" \cite{rectifier}), but rather $one-sided$ (the response is zero). This drops a prior assumption on how information should be interpreted and transferred between layers.
 \item the angular point makes them non-differentiable at 0, since we have $\lim_{x \to 0^+} \frac{\partial max(0,x)}{\partial x} = 1 $ and $\lim_{x \to 0^-} \frac{\partial max(0,x)}{\partial x} = 0$). But gradient descent depends on differentiating activation functions, so an arbitrary choice needs to be made for $x = 0$. 
 \item the function is non-linear only in the neighbourhood of $0$ (note that the motivation for learning non-linear functions is the range of functions they can learn; linear functions are greatly limited in this respect, e.g.\ no boolean linear function can represent XOR \cite{univ-approx}).
-\item they are not bijective
-\item they are unbounded above, which could increase the difficulty in training the network by making exploding outputs easier to produce).
+\item they are unbounded above, which could increase the difficulty in training the network by making exploding outputs easier to produce.
+\item they are not bijective: $tanh$ is a one-for-one mapping from $\mathbb{R}$ to $[-1,1]$ and $sigmoid$ is a one-for-one mapping from $\mathbb{R}$ to $[0,1]$, therefore information is preserved; ReLU maps all of $\mathbb{R}^-$ to $0$, which loses information.
 \end{enumerate}
 These points provide motivation to seek a mathematical explanation for these surprising results. In the context of this project, the motivation is to understand the mechanics of training for the CNNs to be used. \\
 
@@ -555,9 +555,23 @@ The literature currently does not provide a mathematical explanation.
 
 "ImageNet classification with deep convolutional neural networks" by Krizhevsky, Sutskever and Hinton (2012) \cite{krizhevsky} make the observations that $f(x) = tanh(x)$ or $f(x) = (1+ exp^{-x})^{-1}$ "saturating non-linearities" are slower to train than the $f(x) = max(0,x)$ "non-saturating non-linearity", and report an "accelerated ability to fit the training set", but do not provide any explanations. 
 
-"Deep sparse rectifier networks" by Glorot, Bordes and Bengio (2013) focus on the performance of deep neural networks with ReLU activations (a.k.a\ deep sparse rectifier networks) by running experiments on supervised and unsupervised tasks as well as varied datasets. They make the important empirical discovery that "rectifying activation allows deep networks to achieve their best performance without unsupervised pre-training" given sufficient labelled training data. This plays an important part in the shift away from unsupervised pre-training to initialise the weights of a network, which would otherwise have been considered in the later stages of this project. Additionally, the authors address the fourth point raised above by explaining that the upward unboundedness of the ReLU can be controlled with an $L_1$ regulariser:  [!!!]. The authors use biological arguments to justify the superior performance of ReLU, namely that "studies on brain energy expense suggest that neurons encode information in a sparse and distributed way", 
+"Deep sparse rectifier networks" by Glorot, Bordes and Bengio (2013) focus on the performance of deep neural networks with ReLU activations (a.k.a\ deep sparse rectifier networks) by running experiments on supervised and unsupervised tasks as well as varied datasets. 
 
-However, they provide compelling intuitive arguments but NO mathematical explanation. However, they 
+They make the important empirical discovery that "rectifying activation allows deep networks to achieve their best performance without unsupervised pre-training" given sufficient labelled training data. This plays an important part in the shift away from unsupervised pre-training to initialise the weights of a network, which would otherwise have been considered in the later stages of this project. 
+
+Additionally, the authors address the fourth point raised above by explaining that the upward unboundedness of the ReLU can be controlled with an $L_1$ regulariser:  FILL IN ! 
+
+"The only non-linearity in the network comes from the path selection associated with individual neurons being fired or not".
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.28]{images/ReLU_path_selection.png}
+	\caption{ReLU path selection (source: Glorot et al 2013)}
+\end{figure}
+
+The authors use biological arguments to justify the superior performance of ReLU, namely that "studies on brain energy expense suggest that neurons encode information in a sparse and distributed way", and that the one-sided response of ReLUs introduces "real zeros of activations" which leads to sparse representations. 
+
+However, they provide no mathematical explanation for the key observation in Krizhevsky et al 2012 that ReLUs $accelerate training$. However, they 
 
 observe that ... explain that ...
 ""
