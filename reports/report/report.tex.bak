@@ -559,7 +559,7 @@ Pick a single location of the output, have a little spatial neighbourhood around
 
 \subsection{Dropout}
 
-Dropout is a regularisation technique introduced by (Hinton et al 2012) \cite{dropout}
+Dropout is a regularisation technique introduced by (Hinton et al 2012) \cite{dropout} 
 
 
 \subsection{Data augmentation}
