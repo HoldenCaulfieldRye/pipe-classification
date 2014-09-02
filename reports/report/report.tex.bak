@@ -544,12 +544,19 @@ The key contribution of pooling is invariance to small transformations, since th
 
 By stacking n convolutional layers with $k \times k$ pooling operations, the output of a pooling neuron on the n-th layer has a $k^n \times k^n$ receptive field over the image. Choosing the number of convolutional layers is therefore a matter of finding n such that $k^{2n}$ equals the dimensionality of the input set, i.e.\ such that the highest convolutional layer can recognise complex features spanning the entire image, which is when total translation invariance is achieved. \\
 
-\subsubsection{Optional Normalisation}
+\subsubsection{Contrast Normalisation}
 
-Unclear whether really needed.
+Pick a single location of the output, have a little spatial neighbourhood around that, and perform the linear transformation on all the output values in this neighourhood that results in the best fit of a zero mean, unit standard deviation Gaussian. These transformations are used in image processing to handle images where contrast intensity varies across different areas of the image. The neighbourhood can be defined geographically over isolated kernel maps, or across kernel maps. This normalisation achieves a rescaling of the features at each layer. For example, if in a certain neighbourhood output values are all low and in another neighbourhood all output values are high, this may be due to photographical factors (e.g.\ different expositions to light) which have nothing to do with the underlying objects of interest; local contrast normalisation will pull up the values of the low value neighbourhood and reduce those of the high value neighbourhood to put both neighbourhoods on an equal footing for the next layer to receive unbiased data. \\
 
-contrast normalisation: pick a single location of the output, have a little spatial neighbourhood around that, and perform the linear transformation on all the output values in this neighourhood that results in the best fit of a zero mean, unit standard deviation Gaussian. These transformations are used in image processing to handle images where contrast intensity varies across different areas of the image. The neighbourhood can be defined geographically over isolated kernel maps, or across kernal maps. This normalisation achieves a rescaling of the features at each layer. For example, if in a certain neighbourhood output values are all low and in another neighbourhood all output values are high, this may be due to photographical factors (e.g.\ different expositions to light) which have nothing to do with the underlying objects of interest; local contrast normalisation will pull up the values of the low value neighbourhood and reduce those of the high value neighbourhood to put both neighbourhoods on an equal footing for the next layer to receive unbiased data. \\
+\subsection{AlexNet Architecture}
 
+The archit
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/alexnet_architecture_simple.png}
+	\caption{Selecting a pixel window and applying a kernel to it (source: convmatrix Gimp documentation)}
+\end{figure}
 
 \subsection{Dropout}
 
