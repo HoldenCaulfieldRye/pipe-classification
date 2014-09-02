@@ -479,7 +479,7 @@ Another advantage of such pixel features is that one can make sense of what the 
     \label{materialflowChart}
 \end{figure}
 
-Zero valueThe highest values are obtained when pixel $(1,0)$ is of a much lower value than pixel $(1,1)$, which occurs most often when the window is on a vertical edge separating a dark region to the left from a light region to the right. Therefore, an intuitive representation for the kernel matrix is the pixel window below, which has become a popular way of representing "deep learning features":
+A zero value is obtained when pixel $(1,0)$ and pixel $(1,1)$ have the same value, which is likely to be the case, hence why most of the kernel map is black. A high value is obtained when pixel $(1,0)$ is of a much lower value than pixel $(1,1)$, which occurs most often when the window is on a vertical edge separating a dark region to the left from a light region to the right. Therefore, an intuitive representation for the kernel matrix is the pixel window below, which has become a popular way of representing "deep learning [computer vision] features":
 
 \begin{figure}
     \centering
@@ -499,7 +499,6 @@ Zero valueThe highest values are obtained when pixel $(1,0)$ is of a much lower 
     \end{minipage}%
 \end{figure}
 
-
 In order to impose convolution i.e.\ application of the same kernel over the entire image, the learning rule \eqref{eqn:learning_rule} given in section 3.3.2 is modified to:
 
 \begin{equation}
@@ -507,10 +506,12 @@ In order to impose convolution i.e.\ application of the same kernel over the ent
 \label{eqn:conv_learning_rule}
 \end{equation}
 
-Where $\mathcal{K}$ is the set of all neurons intended to apply the kernel to a different location on the image. This learning rule ensures that the i-th weight of all such neurons are updated by the same value. At initialisation, each i-th weight is also set to the same value. The result is that the weight vectors for all these neurons are identical throughout training, i.e.\ the corresponding kernel is convolved over the entire image. \\
+Where $\mathcal{K}$ is the index set for all neurons intended to apply the kernel to a different location on the image. This learning rule ensures that the i-th weight of all such neurons are updated by the same value. At initialisation, each i-th weight is also set to the same value. The result is that the weight vectors for all these neurons are identical throughout training, i.e.\ the corresponding kernel is convolved over the entire image. \\
 
  
 \subsubsection{Non-linear Activation}
+
+
 
 \subsubsection{Pooling aka Spatial Feature}
 
