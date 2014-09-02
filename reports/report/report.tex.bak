@@ -68,9 +68,9 @@ In terms of progress, several instances of large-scale neural networks have been
 \clearpage
 
 Thanks to my supervisors Jack Kelly for ... and Prof Murray Shanahan for ...
-Thanks to Razvan Ranca for wonderful strategic advice on which experiments to choose for the exploration of hypotheses, help with C++, musical and caffeine tricks for staying up all night, and much else. I look excitingly forward to the times ahead cofounding a machine learning startup with him!
+Thanks to Razvan Ranca for wonderful strategic advice on which experiments to choose for the exploration of hypotheses, help with C++, musical and caffeine tricks for staying up all night, and much else. I look excitingly forward to the times ahead cofounding a machine learning startup together.
 Thanks to Alexandre de Brebisson for his great insights into convnet architecture that helped me make sense of experimental results, and the great conversations we had sharing our passion for deep learning.
-Thanks to the people on the Google+ Deep Learning community who provided helpful comments and guidance; especially Dr Soumith Chintala on transfer learning and Prof Francisco Zamora-Martinez on class imbalance.
+The Google+ Deep Learning community was perhaps the 2nd most precious resource, after arXiv and before stackoverflow. It provided a large and steady stream of wonderful resources, comments and guidance. It seemed like a revolutionary way to be in touch with the world's leading researchers such as Prof Yann LeCun and Prof Yoshua Bengio. Within the community, particular thanks go to Dr Soumith Chintala for his comments on transfer learning and Prof Francisco Zamora-Martinez for his on class imbalance.
 
 \clearpage
 \section{Introduction}
@@ -358,6 +358,12 @@ A feed-forward neural net is called a perceptron if there exist no layers betwee
 
 The official name for a deep neural network is Multilayer Perceptron (MLP), and can be represented by a directed acyclic graph made up of more than two layers (i.e.\ not just an input and an output layer). These other layers are called hidden layers, because the "roles" of the neurons within them are not set from the start, but learned throughout training. When training is successful, each neuron becomes a feature detector. At this point, it is important to note that feature learning is what sets machine learning with MLPs apart from most other machine learning techniques, in which features are specified by the programmer \cite{DL-book}. It is therefore a strong candidate for classification tasks where features are too numerous, complex or abstract to be hand-coded - which is arguably the case with pipe weld images.\\ 
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.4]{images/MLP.png}
+	\caption{Multi Layer Perceptron with 2 hidden layers}
+\end{figure}
+
 Mathematically, it was proved in 1989 that MLPs are universal approximators \cite{MLP-univ-approx}; hidden layers therefore increase the size of the function space, and solve the initial limitation faced by perceptrons. \\
 
 Intuitively, having a hidden layer feed into another hidden layer above enables the learning of complex, abstract features, as a higher hidden layer can learn features which combine, build upon and complexify the features detected in the layer below. The neurons of the output layer can be viewed as using information about features in the input to determine the output value. In the case of classification, where each output neuron corresponds to the probability of membership of a specific class, the neuron can be seen as using information about the most abstract features (i.e.\ those closest to defining the entire object) to determine the probability of a class membership. \\
@@ -443,19 +449,25 @@ awesome blog post about it all: %http://mrtz.org/blog/the-zen-of-gradient-descen
 
 \subsection{Deep Convolutional Neural Networks}
 
-\paragraph{Deep Convolutional Neural Networks: for translation invariance}
+A convolutional neural network is a deep feed-forward neural network with at least one convolutional layer. A convolutional layer differs from a traditional fully connected layer in that it imposes specific operations on the data before and after the data is fed through the activation functions. These specific operations are taken from the pre deep learning era of computer vision, and are detailed in this subsection. \\
 
-A convolutional neural network uses a specific network topology that is inspired by the biological visual cortex and tailored for computer vision tasks, because it achieves translation invariance of the features. Consider the following image of a geranium: a good feature to classify this image would be the blue flower. This feature appears all across the image; therefore, if the network can learn it, it should then sweep the entire image to look for it. A convolutional layer implements this: it is divided into groups of neurons (called \textit{kernels}), where all of the neurons in a kernel are set to the same parameter values, but are 'wired' to different pixel windows across the image. As a result, one feature can be detected anywhere on the image, and the information of where on the image this feature was detected is contained in the output of the kernel. Below is a representation of LeNet5, a deep convolutional neural network used to classify handwritten characters. \\
-
-(Hey, you should explain what is meant by convolution with http://colah.github.io/posts/2014-07-Understanding-Convolutions/ by using some of the images.) \\
+Before diving into the details, a notable point to bear in mind is that these operations impose a prior on the underlying structure of the observed data: translation invariance of the features. Consider the following image of a geranium: a good (albeit complex) feature to classify this image would be the blue flower, regardless of the location of the blue flower. This feature could appear anywhere on the image; therefore, if the network can learn it, it should then sweep the entire image to look for it. \\
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.6]{images/lenet5.png}
+	\includegraphics[scale=0.2]{images/geranium.jpg}
 	\caption{LeNet7 architecture: each square is a kernel}
 \end{figure}
 
-\subparagraph{Kernels}
+\subsubsection{Operations in a convolutional layer}
+
+images to paste: http://media.nips.cc/Conferences/2013/Video/Tutorial1A.pdf 
+
+A convolution layer has a pixel feature i.e. filter which is convolved over the entire image, followed by a non-linearity, followed by a spatial feature, optionally followed by a normalisation between feature responses. This may seem like it comes out of nowhere, but when we look at hand-crafted successes in computer vision, the structures are similar. \\
+
+For example consider SIFT (Scale-invariant feature transform) descriptors: they are a range of filters for edges at different angles. \\
+
+\paragraph{Sliding Kernel a.k.a\ Sliding Filter a.k.a\ Pixel Feature}
 
 awesome explanation of sliding kernels:
 http://colah.github.io/posts/2014-07-Understanding-Convolutions/
@@ -467,35 +479,10 @@ comment on how 2 is more generic, but 1 carries more precise information.
 example 3: blurring
 example 4: sharpening
 
-Further, while convolution naively appears to be an O(n2) operation, using some rather deep mathematical insights, it is possible to create a O(nlog(n)) implementation. (yes, you can parallelise the convolution quite easily, each window of a kernel can be computed in parallel)
-
-
-Deep Convolutional Neural Networks reA most complete and concise review of ConvNet architecture can be found in "Stochastic Pooling" paper. You could imitate the structure and expound on every single point with image examples. \\
-
-CAREFUL! these are notes taken from the tutorial\cite{nips-tut}. The structure is totally plagiarised. Instead, you insert pieces of content below in areas above.
-video, currently on 10:20
-
-To situate the CNN in terms of other ANNs, it may help to view a number of them in terms of depth and learning strategy:
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.6]{images/all_neural_networks.png}
-	\caption{Different kinds of ANNs}
-\end{figure}
-
-
-\subsubsection{Operations in each layer}
-
-images to paste: http://media.nips.cc/Conferences/2013/Video/Tutorial1A.pdf 
-
-A convolution layer has a pixel feature i.e. filter which is convolved over the entire image, followed by a non-linearity, followed by a spatial feature, optionally followed by a normalisation between feature responses. This may seem like it comes out of nowhere, but when we look at hand-crafted successes in computer vision, the structures are similar. \\
-
-For example consider SIFT (Scale-invariant feature transform) descriptors: they are a range of filters for edges at different angles. \\
-
-\paragraph{Filter aka Pixel Feature}
+A convolutional layer implements this: it is divided into groups of neurons (called \textit{kernels}), where all of the neurons in a kernel are set to the same parameter values, but are 'wired' to different pixel windows across the image. As a result, one feature can be detected anywhere on the image, and the information of where on the image this feature was detected is contained in the output of the kernel. Below is a representation of LeNet5, a deep convolutional neural network used to classify handwritten characters. \\
 
  
-\paragraph{Non-linearity}
+\paragraph{Non-linear Activation}
 
 \paragraph{Pooling aka Spatial Feature}
 
@@ -512,12 +499,12 @@ For example consider SIFT (Scale-invariant feature transform) descriptors: they 
 
 \subsection{Motivations}
 
-Differentiable, symmetric, bounded activation functions that introduce a non-linearity smoothly over the entire input domain were the activation units of choice in deep feed-forward neural networks, until Rectified Linear Units were used for CNNs in 2012 \cite{krizhevsky} and found to outperform their counterparts:
+Differentiable, symmetric, bounded activation functions that introduce a non-linearity smoothly over the entire input domain were the activation units of choice in deep feed-forward neural networks, until Rectified Linear Units were used for CNNs in 2012 \cite{krizhevsky} and found to outperform their counterparts: 
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.4]{images/ReLU_train_fast.png}
-	\caption{ReLUs in CNNs train faster (Krizhevsky et al 2012)}
+	\caption{source: Krizhevsky et al 2012}
 \end{figure}
 
  This may come as a surprising result for several reasons:
@@ -531,8 +518,8 @@ Differentiable, symmetric, bounded activation functions that introduce a non-lin
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.8]{images/activation_functions.png}
-	\caption{ReLUs in CNNs train faster (Krizhevsky et al 2012)}
+	\includegraphics[scale=0.7]{images/activation_functions.png}
+	\caption{}
 \end{figure}
 
 These points provide motivation to seek a mathematical explanation for these surprising results. In the context of this project, the motivation is to understand the mechanics of training for the CNNs to be used. \\
@@ -541,7 +528,7 @@ These points provide motivation to seek a mathematical explanation for these sur
 
 The literature currently does not provide a mathematical explanation for the superiority of ReLU over sigmoid and tanh units in deep neural networks trained with backpropagation. 
 
-"Rectified linear units improve Restricted Boltzmann Machines" by Nair and Hinton (2010) uses a noisy version of them ($f(x) = max(0, x + N(0, \sigma(x)))$) to replace binary stochastic neurons in Restricted Boltzmann Machines. Detailed mathematical justifications are provided along with experimental evidence, but the analysis focuses on the ability of ReLUs to replace binary stochastic neurons (which are very different to sigmoid and tanh as seen previously), in the task of training Restrictied Boltzmann Machines, which are trained with the unsupervised Contrastive Divergence learning algorithm, not backpropagation \cite{ReLU_RBM}. \\ 
+(Nair and Hinton 2010) \cite{ReLU_RBM} use a noisy version of them ($f(x) = max(0, x + N(0, \sigma(x)))$) to replace binary stochastic neurons in Restricted Boltzmann Machines. Detailed mathematical justifications are provided along with experimental evidence, but the analysis focuses on the ability of ReLUs to replace binary stochastic neurons (which are very different to sigmoid and tanh as seen previously), in the task of training Restricted Boltzmann Machines, which are trained with the Contrastive Divergence algorithm. This differs markedly from the ability of ReLUs to replace tanh neurons in the task of training convolutional neural networks with backpropagation \cite{ReLU_RBM}. \\ 
 
 "ImageNet classification with deep convolutional neural networks" by Krizhevsky, Sutskever and Hinton (2012) \cite{krizhevsky} are the first to notice the benefits of ReLU in the context of supervised deep learning (i.e.\ backpropagation). They make the observations that $f(x) = tanh(x)$ or $f(x) = (1+ exp^{-x})^{-1}$ "saturating non-linearities" are slower to train than the $f(x) = max(0,x)$ "non-saturating non-linearity", and report an "accelerated ability to fit the training set", but do not provide any explanations. 
 
@@ -553,12 +540,10 @@ The authors use evidence from neuroscience to justify the superior performance o
 \item \textbf{Information disentangling}: an underlying assumption of many high dimensional deep learning classification tasks is that the class is a low-dimensional manifold in a high dimensional space. For example, the face manifold has a number of dimensions equal to the degrees of freedom in which the face can move and change, which might be around 7, but if considered in the space of all 256x256 greyscale images, it lies in a 65,536 dimensional space. If so, then there must exist an information-preserving projection of this space into a 7-dimensional space, which is equivalent to an information-preserving transformation of this space such that any vector of the face manifold has only at most 7 non-zero entries. In this sense, the manifold is disentangled from the many dimensions. By mapping $\mathbb{R}^-$ to $0$, the ReLU encourages sparse representations. 
 \item \textbf{Efficient variable-size representation}: "varying the number of active neurons allows a model to control the effective dimensionality of the representation for a given input and the required precision".
 \item \textbf{Linear separability}: sparse representations are easy to linearly separate, for example by using as a separating condition whether or not the k-th entry is zero. 
-\item \textbf{Distributed but sparse}: having multiple 
+\item \textbf{Distributed but sparse}: this point reassures that sparsity does not come at the expense of a distributed representation, the benefits of which are detailed in section 3.2.2 of this report. Sadly, the paper does provides extensive justification of this point \footnote{a question was posted on the Google+ Deep Learning community on 01/09/2014 asking for clarification, and awaits response}.
 \end{enumerate} 
 
-These reasons are not verified by experiments that specifically track each given characteristic and its impact on training speed or performance. 
-
-Additionally, the authors address the fourth point raised  in the motivations above by explaining that the upward unboundedness of the ReLU can be controlled with an $L_1$ regulariser:  FILL IN ! 
+Although the authors focus on sparsity, they also address points 2 and 5 raised in the motivations. Antisymmetric activation can be obtained by combining two ReLUs he upward unboundedness of the ReLU can be controlled with an $L_1$ regulariser.
 
 "The only non-linearity in the network comes from the path selection associated with individual neurons being fired or not".
 
@@ -1713,7 +1698,7 @@ Unsupervised Learning to correct mis-labelling, with encouragements to create cl
 \bibitem{Bengio_G+}
  Bengio, Yoshua;
  \emph{Google+ Deep Learning community post}
- URL: \url{}
+ URL: \url{https://plus.google.com/+YoshuaBengio/posts/GJY53aahqS8}, last accessed 1st September 2014.
  
 \bibitem{surf}
  Bay, H., Tuytelaars, T., and Gool, L. Van;
