@@ -31,75 +31,75 @@
 \contentsline {subsubsection}{\numberline {4.1.2}Non-linear Activation}{21}
 \contentsline {subsubsection}{\numberline {4.1.3}Pooling aka Spatial Feature}{21}
 \contentsline {subsubsection}{\numberline {4.1.4}Optional Normalisation}{22}
-\contentsline {subsection}{\numberline {4.2}Dropout}{22}
-\contentsline {subsection}{\numberline {4.3}Data augmentation}{22}
-\contentsline {section}{\numberline {5}Analysis 1: ReLU Activation}{23}
-\contentsline {subsection}{\numberline {5.1}Motivations}{23}
-\contentsline {subsection}{\numberline {5.2}Mathematical Analysis}{24}
-\contentsline {subsubsection}{\numberline {5.2.1}How the Gradient Propagates}{24}
-\contentsline {subsubsection}{\numberline {5.2.2}An Example}{24}
-\contentsline {subsubsection}{\numberline {5.2.3}Vanishing Gradient}{25}
-\contentsline {subsubsection}{\numberline {5.2.4}Impact of the ReLU}{26}
-\contentsline {section}{\numberline {6}Analysis 2: Early Stopping}{28}
-\contentsline {paragraph}{Gradient Descent}{28}
-\contentsline {section}{\numberline {7}Task 1: Generic Clamp Detection}{28}
-\contentsline {subsection}{\numberline {7.1}Motivations}{28}
-\contentsline {subsection}{\numberline {7.2}Implementation: Cuda-Convnet}{28}
-\contentsline {subsubsection}{\numberline {7.2.1}Cuda-Convnet: An Out-of-the-box API}{29}
-\contentsline {subsubsection}{\numberline {7.2.2}Hardware: NVidia GeForce GTX 780}{29}
-\contentsline {subsection}{\numberline {7.3}Discovery}{29}
-\contentsline {subsubsection}{\numberline {7.3.1}Non-Converging Error Rates}{30}
-\contentsline {paragraph}{Increase Test Error Precision}{32}
-\contentsline {paragraph}{Alter Momentum}{33}
-\contentsline {subparagraph}{Increase}{33}
-\contentsline {subparagraph}{Decrease}{33}
-\contentsline {paragraph}{Reduce Learning Rate}{33}
-\contentsline {subsubsection}{\numberline {7.3.2}Class Imbalance}{34}
-\contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{34}
-\contentsline {subsubsection}{\numberline {7.3.3}Mislabelling}{35}
-\contentsline {subsubsection}{\numberline {7.3.4}Data Complexity}{36}
-\contentsline {section}{\numberline {8}Task 2: Transfer Learning}{37}
-\contentsline {subsection}{\numberline {8.1}Motivations}{37}
-\contentsline {subsection}{\numberline {8.2}Implementation: Caffe}{37}
-\contentsline {paragraph}{leveldb}{37}
-\contentsline {paragraph}{Class Imbalance Solver}{37}
-\contentsline {subsection}{\numberline {8.3}Experimentation}{38}
-\contentsline {subsubsection}{\numberline {8.3.1}Test Run}{38}
-\contentsline {subsubsection}{\numberline {8.3.2}Initialising Free Layers}{39}
-\contentsline {subsubsection}{\numberline {8.3.3}Freezing Backprop on various layers}{39}
-\contentsline {subsubsection}{\numberline {8.3.4}Parametric vs Non-parametric}{41}
-\contentsline {section}{\numberline {9}Task 3: Class Imbalance}{43}
-\contentsline {subsection}{\numberline {9.1}Motivations}{43}
-\contentsline {subsection}{\numberline {9.2}Implementation}{43}
-\contentsline {subsection}{\numberline {9.3}Experimentation}{43}
-\contentsline {subsubsection}{\numberline {9.3.1}Test Run}{44}
-\contentsline {subsubsection}{\numberline {9.3.2}Transfer Learning}{44}
-\contentsline {subsubsection}{\numberline {9.3.3}Batch Size}{44}
-\contentsline {subsubsection}{\numberline {9.3.4}Learning Rate}{46}
-\contentsline {subsubsection}{\numberline {9.3.5}Bayesian Cross Entropy Cost Function}{47}
-\contentsline {paragraph}{Motivations}{47}
-\contentsline {paragraph}{Implementation}{47}
-\contentsline {paragraph}{Results}{48}
-\contentsline {subsubsection}{\numberline {9.3.6}Under-Sampling}{49}
-\contentsline {paragraph}{Overfitting consequences of under-sampling}{49}
-\contentsline {subsubsection}{\numberline {9.3.7}Over-Sampling}{49}
-\contentsline {subsubsection}{\numberline {9.3.8}Test-time threshold}{51}
-\contentsline {section}{\numberline {10}Task 4: Conserving Spatial Information}{52}
-\contentsline {subsection}{\numberline {10.1}Motivations}{52}
-\contentsline {subsection}{\numberline {10.2}Implementation}{53}
-\contentsline {subsection}{\numberline {10.3}Experimentation}{53}
-\contentsline {paragraph}{Test Run}{53}
-\contentsline {paragraph}{Remove pooling and an fc layer}{53}
-\contentsline {paragraph}{Softmax Bayesian Cross Entropy}{53}
-\contentsline {section}{\numberline {11}Final Results}{53}
-\contentsline {subsection}{\numberline {11.1}Merging Classes}{53}
-\contentsline {subsection}{\numberline {11.2}Learning Rate}{53}
-\contentsline {paragraph}{Step}{53}
-\contentsline {paragraph}{Exp}{54}
-\contentsline {subsection}{\numberline {11.3}Soil Risk Contamination Task}{54}
+\contentsline {subsection}{\numberline {4.2}Dropout}{23}
+\contentsline {subsection}{\numberline {4.3}Data augmentation}{23}
+\contentsline {section}{\numberline {5}Analysis 1: ReLU Activation}{24}
+\contentsline {subsection}{\numberline {5.1}Motivations}{24}
+\contentsline {subsection}{\numberline {5.2}Mathematical Analysis}{25}
+\contentsline {subsubsection}{\numberline {5.2.1}How the Gradient Propagates}{25}
+\contentsline {subsubsection}{\numberline {5.2.2}An Example}{25}
+\contentsline {subsubsection}{\numberline {5.2.3}Vanishing Gradient}{26}
+\contentsline {subsubsection}{\numberline {5.2.4}Impact of the ReLU}{27}
+\contentsline {section}{\numberline {6}Analysis 2: Early Stopping}{29}
+\contentsline {paragraph}{Gradient Descent}{29}
+\contentsline {section}{\numberline {7}Task 1: Generic Clamp Detection}{29}
+\contentsline {subsection}{\numberline {7.1}Motivations}{29}
+\contentsline {subsection}{\numberline {7.2}Implementation: Cuda-Convnet}{29}
+\contentsline {subsubsection}{\numberline {7.2.1}Cuda-Convnet: An Out-of-the-box API}{30}
+\contentsline {subsubsection}{\numberline {7.2.2}Hardware: NVidia GeForce GTX 780}{30}
+\contentsline {subsection}{\numberline {7.3}Discovery}{30}
+\contentsline {subsubsection}{\numberline {7.3.1}Non-Converging Error Rates}{31}
+\contentsline {paragraph}{Increase Test Error Precision}{33}
+\contentsline {paragraph}{Alter Momentum}{34}
+\contentsline {subparagraph}{Increase}{34}
+\contentsline {subparagraph}{Decrease}{34}
+\contentsline {paragraph}{Reduce Learning Rate}{34}
+\contentsline {subsubsection}{\numberline {7.3.2}Class Imbalance}{35}
+\contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{35}
+\contentsline {subsubsection}{\numberline {7.3.3}Mislabelling}{36}
+\contentsline {subsubsection}{\numberline {7.3.4}Data Complexity}{37}
+\contentsline {section}{\numberline {8}Task 2: Transfer Learning}{38}
+\contentsline {subsection}{\numberline {8.1}Motivations}{38}
+\contentsline {subsection}{\numberline {8.2}Implementation: Caffe}{38}
+\contentsline {paragraph}{leveldb}{38}
+\contentsline {paragraph}{Class Imbalance Solver}{38}
+\contentsline {subsection}{\numberline {8.3}Experimentation}{39}
+\contentsline {subsubsection}{\numberline {8.3.1}Test Run}{39}
+\contentsline {subsubsection}{\numberline {8.3.2}Initialising Free Layers}{40}
+\contentsline {subsubsection}{\numberline {8.3.3}Freezing Backprop on various layers}{40}
+\contentsline {subsubsection}{\numberline {8.3.4}Parametric vs Non-parametric}{42}
+\contentsline {section}{\numberline {9}Task 3: Class Imbalance}{44}
+\contentsline {subsection}{\numberline {9.1}Motivations}{44}
+\contentsline {subsection}{\numberline {9.2}Implementation}{44}
+\contentsline {subsection}{\numberline {9.3}Experimentation}{44}
+\contentsline {subsubsection}{\numberline {9.3.1}Test Run}{45}
+\contentsline {subsubsection}{\numberline {9.3.2}Transfer Learning}{45}
+\contentsline {subsubsection}{\numberline {9.3.3}Batch Size}{45}
+\contentsline {subsubsection}{\numberline {9.3.4}Learning Rate}{47}
+\contentsline {subsubsection}{\numberline {9.3.5}Bayesian Cross Entropy Cost Function}{48}
+\contentsline {paragraph}{Motivations}{48}
+\contentsline {paragraph}{Implementation}{48}
+\contentsline {paragraph}{Results}{49}
+\contentsline {subsubsection}{\numberline {9.3.6}Under-Sampling}{50}
+\contentsline {paragraph}{Overfitting consequences of under-sampling}{50}
+\contentsline {subsubsection}{\numberline {9.3.7}Over-Sampling}{50}
+\contentsline {subsubsection}{\numberline {9.3.8}Test-time threshold}{52}
+\contentsline {section}{\numberline {10}Task 4: Conserving Spatial Information}{53}
+\contentsline {subsection}{\numberline {10.1}Motivations}{53}
+\contentsline {subsection}{\numberline {10.2}Implementation}{54}
+\contentsline {subsection}{\numberline {10.3}Experimentation}{54}
 \contentsline {paragraph}{Test Run}{54}
-\contentsline {subparagraph}{Training Results}{55}
-\contentsline {subparagraph}{Observations}{55}
-\contentsline {paragraph}{Get more evidence}{55}
-\contentsline {subsection}{\numberline {11.4}Hatch Markings}{55}
-\contentsline {section}{\numberline {12}Conclusions and Future Work}{57}
+\contentsline {paragraph}{Remove pooling and an fc layer}{54}
+\contentsline {paragraph}{Softmax Bayesian Cross Entropy}{54}
+\contentsline {section}{\numberline {11}Final Results}{54}
+\contentsline {subsection}{\numberline {11.1}Merging Classes}{54}
+\contentsline {subsection}{\numberline {11.2}Learning Rate}{54}
+\contentsline {paragraph}{Step}{54}
+\contentsline {paragraph}{Exp}{55}
+\contentsline {subsection}{\numberline {11.3}Soil Risk Contamination Task}{55}
+\contentsline {paragraph}{Test Run}{55}
+\contentsline {subparagraph}{Training Results}{56}
+\contentsline {subparagraph}{Observations}{56}
+\contentsline {paragraph}{Get more evidence}{56}
+\contentsline {subsection}{\numberline {11.4}Hatch Markings}{56}
+\contentsline {section}{\numberline {12}Conclusions and Future Work}{58}
