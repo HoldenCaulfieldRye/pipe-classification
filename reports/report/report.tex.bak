@@ -559,7 +559,10 @@ Pick a single location of the output, have a little spatial neighbourhood around
 
 \subsection{Dropout}
 
-Dropout is a regularisation technique introduced by (Hinton et al 2012) \cite{dropout} 
+Dropout is a regularisation technique introduced by (Hinton et al 2012) \cite{dropout} which consists in preventing co-adaptation of feature detectors by randomly turning off a predefined proportion $k \in (0,1)$ of neurons at every training iteration, but using the entire network (with weights scaled down by $k$) at test time. This technique 
+
+
+Since deep neural networks are universal approximators \cite{univ-approx}, fitting the training data is rarely a problem; many different network configurations can achieve this. The problem lies in learning the one which fits unseen data just as well. The idea behind dropout is to perform model averaging with the underlying assumption that the average model will 
 
 
 \subsection{Data augmentation}
