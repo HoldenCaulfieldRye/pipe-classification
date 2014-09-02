@@ -429,7 +429,7 @@ As mentioned previously, learning is not a mere approximation problem because th
 
 A convolutional neural network is a deep feed-forward neural network with at least one convolutional layer. A convolutional layer differs from a traditional fully connected layer in that it imposes specific operations on the data before and after the data is fed through the activation functions. These specific operations are taken from the pre deep learning era of computer vision, and are detailed in this subsection. \\
 
-Before diving into the details, a notable point to bear in mind is that these operations impose a prior on the underlying structure of the observed data: translation invariance of the features. Consider the following image of a geranium: a good (albeit complex) feature to classify this image would be the blue flower, regardless of the location of the blue flower. This feature could appear anywhere on the image; therefore, if the network can learn it, it should then sweep the entire image to look for it. \\
+Before diving into the details, a notable point to bear in mind is that these operations impose a prior on the underlying structure of the observed data: translation invariance of the features. Consider the following image of a geranium: a good (albeit complex) feature to classify this image would be the blue flower, regardless of the location of the blue flower. This feature could appear anywhere on the image; therefore, if the network can learn it, it should then sweep the entire image to look for it. It is in this sense that the pixel feature is "convolved" over the image. \\
 
 \begin{figure}[h!]
 	\centering
@@ -441,15 +441,69 @@ Before diving into the details, a notable point to bear in mind is that these op
 
 images to paste: http://media.nips.cc/Conferences/2013/Video/Tutorial1A.pdf 
 
-A convolution layer has a pixel feature i.e. filter which is convolved over the entire image, followed by a non-linearity, followed by a spatial feature, optionally followed by a normalisation between feature responses. This may seem like it comes out of nowhere, but when we look at hand-crafted successes in computer vision, the structures are similar. \\
+A convolution layer has a pixel feature i.e. filter which is convolved over the entire image, followed by a non-linearity, followed by a spatial feature, optionally followed by a normalisation between feature responses. This structure is similar to hand-crafted features in computer vision such as SIFT and HOG \cite{SIFT}. The key difference is that each operation is learned, i.e.\ optimised to maximise performance on the training set. \\
 
-For example consider SIFT (Scale-invariant feature transform) descriptors: they are a range of filters for edges at different angles. \\
+\paragraph{Pixel Feature}
 
-\paragraph{Sliding Kernel a.k.a\ Sliding Filter a.k.a\ Pixel Feature}
+A $k \times k$ pixel feature, also referred to as sliding kernel or sliding filter, is defined as a $k \times k$ matrix $\mathcal{W}$ that is applied to a number of $k \times k$ windows $\mathcal{X}$ of the image by performing  $\sum_{i=1}^{k} \sum_{j=1}^{k} x_{ij} \cdot w_{ij}$, the result of which is the pixel feature activation for the window. An example for $k=3$ is shown below.
 
-awesome explanation of sliding kernels:
-http://colah.github.io/posts/2014-07-Understanding-Convolutions/
-http://docs.gimp.org/en/plug-in-convmatrix.html
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/window_x_kernel.png}
+	\caption{Selecting a pixel window and applying a kernel to it (source: convmatrix Gimp documentation)}
+\end{figure}
+
+Notice that this is equivalent to the vector product component of the generic neural network combination of inputs $z = b + \sum\limits_{i=1}^n x_{i}\cdot w_{i}$ where the matrices are flattened into a vector and every weight corresponding to a pixel that is not part of the window is fixed at zero. Fixing many weights to zero imposes a strong prior on the network and significantly reduces the function space, making it easier to search for good functions. \\
+
+By convolving the kernel over the image, one obtains a feature response map (also referred to kernel map):
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/kernel_map.png}
+	\caption{Producing a kernel map (source: River Trail documentation)}
+\end{figure}
+
+Another advantage of such pixel features is that one can make sense of what the weights represent i.e.\ what the network is learning. For example, consider the feature activation response of convolving the following kernel on the following image: 
+
+%\begin{figure}[!htb]
+%\minipage{0.32\textwidth}
+%  \includegraphics[width=\linewidth]{}
+%  \caption{Image}\label{fig:2a}
+%\endminipage\hfill
+%\minipage{0.32\textwidth}
+%  \includegraphics[width=\linewidth]{}
+%  \caption{Kernel}\label{fig:2b}
+%\endminipage\hfill
+%\minipage{0.32\textwidth}%
+%  \includegraphics[width=\linewidth]{}
+%  \caption{Kernel Map}\label{fig:2c}
+%\endminipage
+%\end{figure}
+
+\begin{figure}[h]       
+    \fbox{\includegraphics[scale=0.9]{images/taj_mahal.jpg}}   
+    \hspace{30px}
+    \fbox{\includegraphics[scale=0.25]{images/kernel_edge_enhance.png}}
+    \hspace{30px}
+    \fbox{\includegraphics[scale=0.23]{images/kernel_edge_enhance_result.png}}
+    \caption{this is the caption}
+    \label{materialflowChart}
+\end{figure}
+
+%\begin{figure}[h!]
+%\centering
+%\subfigure[text]{
+%\includegraphics[width=.225\textwidth]{.jpg}
+%}
+%\subfigure[text]{
+%\includegraphics[width=.225\textwidth]{.png}
+%}
+%\subfigure[text]{
+%\includegraphics[width=.225\textwidth]{.png}
+%}
+%\caption{blablabla}
+%\label{fig:whatever}
+%\end{figure}
 
 example 1: dark left light right edge detector
 example 2: overall edge detector
@@ -459,6 +513,7 @@ example 4: sharpening
 
 A convolutional layer implements this: it is divided into groups of neurons (called \textit{kernels}), where all of the neurons in a kernel are set to the same parameter values, but are 'wired' to different pixel windows across the image. As a result, one feature can be detected anywhere on the image, and the information of where on the image this feature was detected is contained in the output of the kernel. Below is a representation of LeNet5, a deep convolutional neural network used to classify handwritten characters. \\
 
+Note that this subsection on explaining sliding kernels is heavily based on a blog post by Christopher Colah \cite{colah}.
  
 \paragraph{Non-linear Activation}
 
@@ -466,6 +521,7 @@ A convolutional layer implements this: it is divided into groups of neurons (cal
 
 \paragraph{Possible Normalisation}
 
+Note this subsection on explaining the operations in a convolutional layer is heavily based Robert Fergus's NIPS 2013 tutorial \cite{}
 
 \subsubsection{Dropout}
 
@@ -623,6 +679,7 @@ Which means that for any positive input, the gradient will \textit{not be modifi
 
 Since vanishing gradient makes it slow to get rid of non-meaningful features that receive heavy activations, this provides an explanation for why "deep sparse rectifier networks can reach their best performance without requiring any unsupervised pre-training", which initialises the weights of the network to features capable of reconstructing the data. It also explains (Krizhevsky et al 2012)'s observations that ReLU networks train faster. By providing a clear mathematical explanation to the main empirical findings regarding deep sparse rectifier networks, this report would argue that the ability of ReLU to enable gradients to "flow well" is the key reason for their success. \\
 
+One final remark concerning ReLUs is that they reduce the computation in both forward and backward passes by turning off a number of neurons and by not interfering with the gradient as it propagates through a unit. \\
 
 \clearpage
 
@@ -1646,13 +1703,19 @@ Unsupervised Learning to correct mis-labelling, with encouragements to create cl
  \emph{Deep Sparse Rectifier Neural Networks}\\
  2013
  
+\bibitem{SIFT}
+ Lowe, David
+ \emph{Object Recognition From Local Scale-Invariant Features}
+ The Proceedings of the Seventh IEEE International Conference on COmputer Vision
+ 1999 
+ 
 \bibitem{goodfellow_street_view}
  Ian J. Goodfellow, Yaroslav Bulatov, Julian Ibarz, Sacha Arnoud, Vinay Shet
   \emph{Multi-digit Number Recognition from Street View Imagery using Deep Convolutional Neural Networks}\\
   ILSVRC 2013
 
 \bibitem{ReLU_RBM}
- Nair, Vinod; Hinton, Geoffrey
+ Nair, Vinod; Hinton, Geoffrey;
   \emph{Rectified Linear Units Improve Restricted Boltzmann Machines}\\
   ICML 2010
 
@@ -1660,6 +1723,16 @@ Unsupervised Learning to correct mis-labelling, with encouragements to create cl
  Donahue, Jeff; Jia, Yangqing; Vinyals, Oriol; Hoffman, Judy; Zhang, Ning; Tzeng, Eric; Darrell, Trevor;
   \emph{DeCAF: A Deep Convolutional Activation Feature for Generic Visual Recognition}\\
   arXiv preprint arXiv:1310.1531, 2013
+  
+\bibitem{fergus_tutorial}
+ Fergus, Robert;
+ \emph{Tutorials Session A - Deep Learning for Computer Vision}
+ NIPS 2013  
+  
+\bibitem{colah}
+ Olah, Christopher;
+ \emph{Understanding Convolutions}
+ URL: \url{http://colah.github.io/posts/2014-07-Understanding-Convolutions/}, last accessed 1st September 2014.
 
 \bibitem{MIML}
  Zhou, Zhi-Hua; Zhang, Min-Ling;
