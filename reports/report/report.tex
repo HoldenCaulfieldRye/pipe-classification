@@ -316,8 +316,6 @@ As can be seen in the graph plot below, the rectified linear neuron is neither f
 
 ReLU introduces a non-linearity with its angular point (a smooth approximation to it is the softplus $f(x) = \log(1 + e^x)$). \\
 
-Add the maths for why ReLU train faster. \\
-
 Explain also the no neighbouring cancellations in pooling. \\
 
 \begin{figure}[h!]
@@ -402,14 +400,13 @@ where $\mathcal{C}$ is the chosen cost function. The error-weight partial deriva
 \frac{\partial{E}}{\partial{w_{ij}}} = \frac{\partial{E}}{\partial{y_{i}}} \cdot \frac{\partial{y_{i}}}{\partial{net}} \cdot \frac{\partial{net}}{\partial{w_{ij}}}
 \end{equation}
 
-Since in general, a derivative $\frac{\partial{f}}{\partial{x}}$ is numerically obtained by perturbing $x$ and taking the change in $f(x)$, the advantage with this formula is that instead of individually perturbing each weight $w_{ij}$, only the unit outputs $y_{i}$ are perturbed. In a neural network with $k$ fully connected layers and $n$ units per layer, this amounts to $\Theta(k \cdot n)$ unit perturbations instead of $\Theta(k \cdot n^{2})$ weight perturbations (note that the bound on weight perturbations is no longer tight if we drop the assumption of fully connected layers). \\
-
+Since in general, a derivative $\frac{\partial{f}}{\partial{x}}$ is numerically obtained by perturbing $x$ and taking the change in $f(x)$, the advantage with this formula is that instead of individually perturbing each weight $w_{ij}$, only the unit outputs $y_{i}$ are perturbed. In a neural network with $k$ fully connected layers and $n$ units per layer, this amounts to $\Theta(k \cdot n)$ unit perturbations instead of $\Theta(k \cdot n^{2})$ weight perturbations \footnote{the bound on weight perturbations is no longer tight if we drop the assumption of fully connected layers}. Therefore, backpropagation scales linearly with the number of neurons. \\
 
 \subsubsection{Update Weight Values (with Gradient Descent)}
 
 The learning rule is given by $w_{i,t+1} = w_{i,t+1} + \tau \cdot \frac{\partial{E}}{\partial{w_{i,t}}}$
 
-Visually, this means that weight values move in the direction the will reduce the error quickest, i.e.\ the direction of steepest descent on the error surface is taken. Notice that given the learning rule, gradient descent converges (i.e.\ $w_{i,t+1}$ equals $w_{i,t+1}$) when the partial derivative reaches zero. This corresponds to a local minimum on the error surface. In the figure below, two training sessions are illustrated: the only difference is the initialisation of the (two) weights, and the minima attained in each case are not the same. This illustrates a strong shortcoming with backpropagation: parameter values can get stuck in poor local minima.
+Visually, this means that weight values move in the direction that will (locally) reduce the error quickest, i.e.\ the direction of steepest (local) descent on the error surface is taken. Notice that given the learning rule, gradient descent converges (i.e.\ $w_{i,t+1}$ equals $w_{i,t+1}$) when the partial derivative reaches zero. This corresponds to a local minimum on the error surface. In the figure below, two training sessions are illustrated: the only difference is the initialisation of the (two) weights, and the minima attained in each case are not the same. This illustrates a strong shortcoming with backpropagation: parameter values can get stuck in poor local minima.
 
 \begin{figure}[h!]
 	\centering
@@ -507,11 +504,11 @@ The importance attributed to non-linearity of activation functions is due to the
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.28]{images/ReLU_path_selection.png}
+	\includegraphics[scale=0.4]{images/ReLU_path_selection.png}
 	\caption{ReLU path selection (source: Glorot et al 2013)}
 \end{figure}
 
-(Glorot, Bordes and Bengio 2013) make the further remark that "because of [the ReLU's] linearity, gradients flow well on the active paths of neurons (there is no gradient vanishing effect due to activation non-linearities of sigmoid or tanh units)", but no explanations of enhanced flow or vanishing gradient are given. This section of the report attempts to explain these, with the belief that they are the explanation for (Krizhevsky et al 2012)'s observations. In the context of building pipe weld classifiers, the motivation for doing is to understand the mechanics of training for the CNNs to be subsequently used. \\
+(Glorot, Bordes and Bengio 2013) also remark that "because of [the ReLU's] linearity, gradients flow well on the active paths of neurons (there is no gradient vanishing effect due to activation non-linearities of sigmoid or tanh units)", but no explanations of enhanced flow or vanishing gradient are given (instead, the paper focuses on the benefits of sparse representations and their greater resemblance to neuron activations in the brain). Another empirical finding of the paper is that "deep rectifier networks can reach their best performance without requiring any unsupervised pretraining". This section of the report is a simple mathematical analysis of backpropagation that conveniently provides an explanation for these points as well as (Krizhevsky et al 2012)'s observations. In the context of building pipe weld classifiers, the motivation for doing is to understand the mechanics of training for the CNNs to be subsequently used. \\
 
 %This may come as a surprising result for several reasons:
 %\begin{enumerate}
@@ -538,9 +535,9 @@ The importance attributed to non-linearity of activation functions is due to the
 %
 %Although the authors focus on sparsity, they also address points 2 and 5 raised in the motivations: antisymmetric activation can be obtained by combining two ReLUs that share parameters, and the upward unboundedness of the ReLU can be controlled with an $L_1$ regulariser.
 
-\subsection{Mathematical Explanation}
+\subsection{Mathematical Analysis}
 
-Recall that the model is trained with backpropagation: each of the weights $w$ are adjusted by $\tau \cdot \frac{\partial{E}}{\partial{w}}$. The choice of activation function modifies $\frac{\partial{E}}{\partial{w}}$, and it is interesting to see how ReLU does so compared to sigmoid or tanh. \\
+Recall from section 3.3 that the model is trained with backpropagation: each of the weights $w$ are adjusted by $\tau \cdot \frac{\partial{E}}{\partial{w}}$. The choice of activation function modifies $\frac{\partial{E}}{\partial{w}}$; this section looks at how ReLU does so compared to sigmoid or tanh. \\
 
 \subsubsection{How the Gradient Propagates}
 
@@ -558,36 +555,73 @@ The backpropagation algorithm can be formulated as a set of rules for propagatin
 \renewcommand\labelitemi{--}
 \item to \textbf{initialise}: $grad \leftarrow \mathcal{C}'(y_{L})$, where $y_{L}$ is the output unit
 \item to \textbf{propagate through a unit} $y_{j}$: $grad \leftarrow grad \cdot \psi'(z_{j})$
-\item to \textbf{propagate through an edge} $w_{ij}$: $grad \leftarrow grad \cdot w_{ij}$
+\item to \textbf{propagate along an edge} $w_{ij}$: $grad \leftarrow grad \cdot w_{ij}$
 \item to \textbf{stop at an edge} $w_{ij}$: $grad \leftarrow grad \cdot y_{i}$ \\
 \end{itemize}
 
 
-\subsection{An Example}
+\subsubsection{An Example}
 
-%\begin{figure}[h!]
-%	\centering
-%	\includegraphics[scale=0.28]{images/gradient_propagates.png}
-%	\caption{(CHANGE NOTATION to reflect one above with $\textbf{y}_L$ for top layer) Feed-Forward Neural Network with one Hidden Layer}
-%\end{figure}
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.4]{images/gradient_propagates.png}
+	\caption{$\mathbb{R}^3 \rightarrow \mathbb{R}$ MLP with 1 hidden layer}
+\end{figure}
 
 Given the figure above:
 \begin{itemize}
 \renewcommand\labelitemi{--}
-\item for $\frac{\partial{E}}{\partial{w_{57}}}$: initialise, propagate through $y_{7}$, then stop at $w_{57}$:
- $ \mathcal{C}'(y_{7}) \cdot \psi'(z_7) \cdot y_5$ 
-\item for $\frac{\partial{E}}{\partial{w_{25}}}$: initialise, propagate through $y_{7}$, $w_{57}$, $y_{5}$ then stop at $w_{25}$:
- $\mathcal{C}'(y_{7}) \cdot \psi'(z_7) \cdot w_{57} \cdot \psi'(z_5) \cdot y_2$ \\
+\item for $\frac{\partial{E}}{\partial{w_{31}}}$: initialise, propagate through $y_1$, then stop at $w_{31}$:
+ $ \mathcal{\mathcal{C}}'(y_1) \cdot \psi'(z_1) \cdot y_3$ 
+\item for $\frac{\partial{E}}{\partial{w_{53}}}$: initialise, propagate through $y_1$, then along $w_{53}$, then stop at $w_{53}$: \\
+ $\mathcal{C}'(y_{1}) \cdot \psi'(z_1) \cdot w_{31} \cdot \psi'(z_3) \cdot y_5$ \\
 \end{itemize}
 
-Notice that if $y_7$ is 
-
-\subsection{Vanishing Gradient}
+Intuitively, the partial derivative with respect to a weight can be roughly seen as the product of the partial derivative of every component along the path from the weight to the output unit \footnote{this only goes for this simple case where we have one hidden layer and one output node. That is because, if we consider all paths from an input node to an output node, every edge exists in exactly one path. However, if we had more output nodes or more hidden layers, there would exist edges belonging to several input-output paths. In this case, the partial derivative would be the sum across all paths from the weight to some output unit.}. \\
 
 
+\subsubsection{Vanishing Gradient}
+
+Notice that $\psi'(z_1)$ is a factor in both partial derivatives. Now, consider the derivatives of the tanh and sigmoid functions: 
+
+\begin{equation}
+tan'(x) = 1 - tan^2(x)  \\
+\end{equation} \\
+\begin{equation}
+sigmoid'(x) = \frac{1}{1 + e^{-x}}
+\end{equation} \\
+
+The formulae do not lend themselves to intuition, but their graphical representation given below does \footnote{both are the same up to a scaling factor, therefore only one is given.}. Such functions are called "saturating" by (Krizhevsky et al 2012) because, when the input is high in absolute value, the derivative approaches zero. In the context of backpropagation, this means that a tanh or sigmoid unit that is "heavily activated" during the forward pass will strongly reduce the gradient as it propagates through it during the backward pass. Moreover, this will affect the partial derivative of every weight that lies behind the unit in some input-output path. As a result, during training it becomes slow to alter any such weight when the unit's weights are on average high in absolute value. This difficulty increases with the depth of the network, since in order to reach a weight that is low down in the network, the gradient must propagate through a higher number of units, so its probability of vanishing increases. This is consistent with empirical findings \cite{DL-book}. \\
+
+\begin{figure}[h!]
+	\centering
+	\begin{subfigure}{.5\textwidth}
+  		\centering
+		\includegraphics[scale=0.4]{images/tanh_sigmoid.png}
+		\caption{tanh and sigmoid functions}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+  		\centering
+		\includegraphics[scale=0.4]{images/logistic_derivative.png}
+		\caption{derivative fot he tanh and sigmoid}
+	\end{subfigure}
+\end{figure}
+
+One may argue that a unit which has learned a feature that is useful for the task is one that is heavily activated for certain inputs. Therefore, it is a good thing that it becomes rigid to change. However, traditional training of deep neural networks occurs by first randomly initialising the weights. At first, it is therefore unlikely that a unit is heavily activated because it is a detector for a meaningful feature. If the network is built on saturating activations, such non-meaningful features will be harder to get rid of. \\
 
 
-If a sigmoid unit is in its saturated environment, its weights are harder 
+\subsubsection{Impact of the ReLU}
+
+On the other hand, the derivative of the ReLU is given by:
+
+\begin{equation}
+ReLU'(x) = \begin{cases} 1 & \mbox{if } x < 1\\ 
+				  0 & \mbox{otherwise} \end{cases}
+\end{equation} 
+
+Which means that for any positive input, the gradient will \textit{not be modified} when propagating through the unit. It is in this sense that "gradients flow well on the active paths of neurons". On the other hand, for any negative input, the gradient is brought to zero i.e.\ halted from propagating altogether. This could be cause for concern, because if the weights of a ReLU are initialised to values that, given the distribution of the input, always lead to a zero activation, then there is no way of modifying them, and the neuron is effectively a useless component of the network. When training, one should therefore take care to choose a sufficiently high positive value for the neuron's initial bias \footnote{This makes the bias $b$ in $z = b + \langle x, w \rangle$ a crucial element of a neural network, despite them being conventionally excluded from graphical representations}. On the other hand, halting the gradient in this regard has the intuitive benefit of reducing the areas of the network to which it propagates, and focusing it on the areas responsible for the error. If one goes back to the vision of a deep sparse rectifier network as an exponential number of linear models, gradient halting enables the training of a smaller network at every iteration. \\
+
+Since vanishing gradient makes it slow to get rid of non-meaningful features that receive heavy activations, this provides an explanation for why "deep sparse rectifier networks can reach their best performance without requiring any unsupervised pre-training", which initialises the weights of the network to features capable of reconstructing the data. It also explains (Krizhevsky et al 2012)'s observations that ReLU networks train faster. By providing a clear mathematical explanation to the main empirical findings regarding deep sparse rectifier networks, this report would argue that the ability of ReLU to enable gradients to "flow well" is the key reason for their success. \\
 
 
 \clearpage

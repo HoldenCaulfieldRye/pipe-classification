@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  23 JUL 2014 13:02
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  1 SEP 2014 21:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -764,11 +764,11 @@ File: images/sigmoid.png Graphic file (type png)
 Package pdftex.def Info: images/sigmoid.png used on input line 69.
 (pdftex.def)             Requested size: 240.89572pt x 160.59715pt.
 
-<images/logistic-derivative.png, id=15, 577.15625pt x 384.43625pt>
-File: images/logistic-derivative.png Graphic file (type png)
+<images/logistic_derivative.png, id=15, 577.15625pt x 384.43625pt>
+File: images/logistic_derivative.png Graphic file (type png)
 
-<use images/logistic-derivative.png>
-Package pdftex.def Info: images/logistic-derivative.png used on input line 74.
+<use images/logistic_derivative.png>
+Package pdftex.def Info: images/logistic_derivative.png used on input line 74.
 (pdftex.def)             Requested size: 230.8584pt x 153.77177pt.
 
 Underfull \hbox (badness 10000) in paragraph at lines 81--82
@@ -782,7 +782,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 89--90
 
 [2
 
- <./images/sigmoid.png> <./images/logistic-derivative.png>]
+ <./images/sigmoid.png> <./images/logistic_derivative.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 91--92
 
  []
@@ -858,7 +858,7 @@ amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts
 10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb>
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/
 share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on activation_functions.pdf (5 pages, 259602 bytes).
+Output written on activation_functions.pdf (5 pages, 260059 bytes).
 PDF statistics:
  86 PDF objects out of 1000 (max. 8388607)
  58 compressed objects within 1 object stream
