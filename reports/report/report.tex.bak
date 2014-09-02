@@ -431,7 +431,7 @@ As mentioned previously, learning is not a mere approximation problem because th
 
 \clearpage
 
-\subsection{Deep Convolutional Neural Networks}
+\section{Deep Convolutional Neural Networks}
 
 A convolutional neural network is a deep feed-forward neural network with at least one convolutional layer. A convolutional layer differs from a traditional fully connected layer in that it imposes specific operations on the data before and after the data is fed through the activation functions. These specific operations are taken from the pre deep learning era of computer vision, and are detailed in this subsection. \\
 
@@ -443,11 +443,11 @@ Before diving into the details, a notable point to bear in mind is that these op
 	\caption{LeNet7 architecture: each square is a kernel}
 \end{figure}
 
-\subsubsection{Operations in a convolutional layer} 
+\subsection{Operations in a convolutional layer} 
 
 A\footnote{A large portion of the content from this subsection on explaining the operations in a convolutional layer is heavily inspired from Prof Robert Fergus's NIPS 2013 tutorial \cite{fergus_tutorial}.} convolution layer has a pixel feature i.e. filter which is convolved over the entire image, followed by a non-linearity, followed by a spatial feature, optionally followed by a normalisation between feature responses. This structure is similar to hand-crafted features in computer vision such as SIFT and HOG \cite{SIFT}. The key difference is that each operation is learned, i.e.\ optimised to maximise performance on the training set. \\
 
-\paragraph{Pixel Feature}
+\subsubsection{Pixel Feature}
 
 A\footnote{This subsection on explaining sliding kernels is heavily inspired from a blog post by Christopher Colah \cite{colah}.} $k \times k$ pixel feature, also referred to as sliding kernel or sliding filter, is defined as a $k \times k$ matrix $\mathcal{W}$ that is applied to a number of $k \times k$ windows $\mathcal{X}$ of the image by performing  the matrix dot product $\sum_{i=0}^{k-1} \sum_{j=1}^{k} x_{ij} \cdot w_{ij}$. An example with $k=3$ is shown below.
 
@@ -510,17 +510,17 @@ In order to impose convolution i.e.\ application of the same kernel over the ent
 Where $\mathcal{K}$ is the set of all neurons intended to apply the kernel to a different location on the image. This learning rule ensures that the i-th weight of all such neurons are updated by the same value. At initialisation, each i-th weight is also set to the same value. The result is that the weight vectors for all these neurons are identical throughout training, i.e.\ the corresponding kernel is convolved over the entire image. \\
 
  
-\paragraph{Non-linear Activation}
+\subsubsection{Non-linear Activation}
 
-\paragraph{Pooling aka Spatial Feature}
+\subsubsection{Pooling aka Spatial Feature}
 
-\paragraph{Possible Normalisation}
+\subsubsection{Optional Normalisation}
 
 
 
-\subsubsection{Dropout}
+\subsection{Dropout}
 
-\subsubsection{Data augmentation}
+\subsection{Data augmentation}
 
 
 \clearpage
