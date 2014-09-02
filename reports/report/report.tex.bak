@@ -550,7 +550,7 @@ Pick a single location of the output, have a little spatial neighbourhood around
 
 \subsection{AlexNet Architecture}
 
-The architecture from (Krizhevsky et al 2012)'s record-breaking image classification model  - often referred to in the deep learning literature as AlexNet - is summarised below. 
+The architecture from (Krizhevsky et al 2012)'s record-breaking image classification model  - often referred to in the deep learning literature as AlexNet - is summarised below. It was obtained by manual optimisation of hyperparameters. \\
 
 \begin{figure}[h!]
 	\centering
