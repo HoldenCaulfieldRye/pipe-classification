@@ -260,7 +260,7 @@ where $\mathcal{F}$ is the chosen target function space in which to search for $
 
 \subsubsection{Approximation vs Generalisation}
 
-It is important to note that supervised learning does not consist in merely finding the function which best fits the training set - the availability of numerous universal approximating function classes (such as the set of all finite order polynomials) would make this a relatively simple task \cite{univ-approx}. The crux of supervised learning is to find a hypothesis function which fits the training set well \textit{and} would fit well to any subset of the instance space. In other words, approximation and generalisation are the two optimisation criteria for supervised learning, and both need to be incorporated into the cost function.\\
+It is important to note that supervised learning does not consist in merely finding the function which best fits the training set - the availability of numerous universal approximating function classes (such as the set of all finite order polynomials) would make this a relatively simple task \cite{univ-approx}. The crux of supervised learning is to find a hypothesis function which fits the training set well \textit{and} would fit well to any subset of the instance space. Approximation and generalisation together make up the two optimisation criteria for supervised learning.\\
 
 \subsection{Deep Learning: Neurons and Depth}
 
@@ -559,7 +559,7 @@ Pick a single location of the output, have a little spatial neighbourhood around
 
 \subsection{Dropout}
 
-
+Dropout is a regularisation technique introduced by (Hinton et al 2012) \cite{dropout}
 
 
 \subsection{Data augmentation}
@@ -1755,6 +1755,11 @@ Unsupervised Learning to correct mis-labelling, with encouragements to create cl
  Nair, Vinod; Hinton, Geoffrey;
   \emph{Rectified Linear Units Improve Restricted Boltzmann Machines}\\
   ICML 2010
+
+\bibitem{dropout}
+ G. E. Hinton, N. Srivastava, A. Krizhevsky, I. Sutskever and R. R. Salakhutdinov;
+ \emph{Improving Neural Networks By Preventing Co-Adaptation of Feature Detectors}
+ arXiv 2012
 
 \bibitem{decaf}
  Donahue, Jeff; Jia, Yangqing; Vinyals, Oriol; Hoffman, Judy; Zhang, Ning; Tzeng, Eric; Darrell, Trevor;
