@@ -550,12 +550,12 @@ Pick a single location of the output, have a little spatial neighbourhood around
 
 \subsection{AlexNet Architecture}
 
-The archit
+The architecture from (Krizhevsky et al 2012)'s record-breaking image classification model  - often referred to in the deep learning literature as AlexNet - is summarised below. 
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.3]{images/alexnet_architecture_simple.png}
-	\caption{Selecting a pixel window and applying a kernel to it (source: convmatrix Gimp documentation)}
+	\caption{Architecture of CNN from (Krizhevsky et al 2012)}
 \end{figure}
 
 \subsection{Dropout}
