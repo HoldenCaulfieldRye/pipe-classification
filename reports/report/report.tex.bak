@@ -445,7 +445,7 @@ A convolution layer has a pixel feature i.e. filter which is convolved over the 
 
 \paragraph{Pixel Feature}
 
-A $k \times k$ pixel feature, also referred to as sliding kernel or sliding filter, is defined as a $k \times k$ matrix $\mathcal{W}$ that is applied to a number of $k \times k$ windows $\mathcal{X}$ of the image by performing  $\sum_{i=1}^{k} \sum_{j=1}^{k} x_{ij} \cdot w_{ij}$, the result of which is the pixel feature activation for the window. An example for $k=3$ is shown below.
+A $k \times k$ pixel feature, also referred to as sliding kernel or sliding filter, is defined as a $k \times k$ matrix $\mathcal{W}$ that is applied to a number of $k \times k$ windows $\mathcal{X}$ of the image by performing  the matrix dot product $\sum_{i=1}^{k} \sum_{j=1}^{k} x_{ij} \cdot w_{ij}$, the result of which is the pixel feature activation for the window. An example for $k=3$ is shown below.
 
 \begin{figure}[h!]
 	\centering
@@ -463,23 +463,19 @@ By convolving the kernel over the image, one obtains a feature response map (als
 	\caption{Producing a kernel map (source: River Trail documentation)}
 \end{figure}
 
-Another advantage of such pixel features is that one can make sense of what the weights represent i.e.\ what the network is learning. For example, consider the feature activation response of convolving the following kernel on the following image: 
+Another advantage of such pixel features is that one can make sense of what the weights represent i.e.\ what the network is learning. For example, consider the following image, sliding kernel and resulting kernel map:
 
-\begin{figure}[!htb]
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{taj_mahal.jpg}
-  \caption{Image}\label{fig:2a}
-\endminipage\hfill
-\minipage{0.32\textwidth}
-  \includegraphics[width=\linewidth]{kernel_edge_enhance.png}
-  \caption{Kernel}\label{fig:2b}
-\endminipage\hfill
-\minipage{0.32\textwidth}%
-  \includegraphics[width=\linewidth]{kernel_edge_enhance_result.png}
-  \caption{Kernel Map}\label{fig:2c}
-\endminipage
+\begin{figure}[h]       
+    \fbox{\includegraphics[scale=0.9]{images/taj_mahal.jpg}}   
+    \hspace{30px}
+    \fbox{\includegraphics[scale=0.25]{images/kernel_edge_enhance.png}}
+    \hspace{30px}
+    \fbox{\includegraphics[scale=0.23]{images/kernel_edge_enhance_result.png}}
+    \caption{this is the caption}
+    \label{materialflowChart}
 \end{figure}
 
+The highest 
 
 example 1: dark left light right edge detector
 example 2: overall edge detector
