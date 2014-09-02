@@ -383,7 +383,7 @@ As a formalisation of the intuition given above, (Bengio 2009) \cite{DL-book} ad
 However, it may seem "risky" to be imposing the use of features in regions of the input space that are unknown. "As usual in ML, there is no real free lunch" \cite{Bengio_G+}. Indeed, one can think of this as imposing a prior on the function space to be searched, that is of the form: the observed data can be explained by a number of underlying factors which can be learned without seeing all of their configurations. If the prior is true for the classes we are learning, the gains are large. Successes in deep learning seem to indicate that this prior covers many tasks that humans deal with \cite{Bengio_G+}. This prior is particularly powerful when learning from high dimensional data, where the curse of dimensionality means that a vast majority of the configurations are missing from the training set. \\
 
 
-\subsection{Training: Backpropagation}
+\subsection{Backpropagation}
 
 Now that the architecture of a deep neural network has been motivated, the question remains of how to train it. Mathematically: now that the function space has been explained, the question remains of how this space is searched. In the case of feed-forward neural networks and supervised learning, this is done with gradient descent, a local (therefore greedy) optimisation algorithm. Gradient descent relies on the partial derivatives of the error (a.k.a\ cost) function with respect to each parameter of the network; the backpropagation algorithm is an implementation of gradient descent which efficiently computes these values.
   
@@ -404,18 +404,12 @@ where $\mathcal{C}$ is the chosen cost function. The error-weight partial deriva
 
 Since in general, a derivative $\frac{\partial{f}}{\partial{x}}$ is numerically obtained by perturbing $x$ and taking the change in $f(x)$, the advantage with this formula is that instead of individually perturbing each weight $w_{ij}$, only the unit outputs $y_{i}$ are perturbed. In a neural network with $k$ fully connected layers and $n$ units per layer, this amounts to $\Theta(k \cdot n)$ unit perturbations instead of $\Theta(k \cdot n^{2})$ weight perturbations (note that the bound on weight perturbations is no longer tight if we drop the assumption of fully connected layers). \\
 
-The error being shown is the negative of the log probability of the likelihood function:
-\begin{equation}
--\frac{1}{n}\sum\limits_{i=1}^n ln(f(W|x_i))
-\end{equation}
-Where f is the learned function. This is the cross entropy, but it also elegantly evaluates to MLE. In other words, we are choosing the parameters of the model to maximise the likelihood of the data (to make the observed events i.e.\ the training set as highly probable as possible). Do the proof with joint probability of independent events etc. \\
-
 
 \subsubsection{Update Weight Values (with Gradient Descent)}
 
 The learning rule is given by $w_{i,t+1} = w_{i,t+1} + \tau \cdot \frac{\partial{E}}{\partial{w_{i,t}}}$
 
-Visually, this means that weight values move in the direction the will reduce the error quickest, i.e.\ the direction of steepest descent on the error surface is taken. Notice that given the learning rule, gradient descent converges (i.e.\ $w_{i,t+1}$ equals $w_{i,t+1}$) when the partial derivative reaches zero. This corresponds to a local minimum on the error surface. In the figure below, two potential training sessions are illustrated. The minima attained in each cases are not the same. This illustrates a strong shortcoming with backpropagation: parameter values can get stuck in poor local minima.
+Visually, this means that weight values move in the direction the will reduce the error quickest, i.e.\ the direction of steepest descent on the error surface is taken. Notice that given the learning rule, gradient descent converges (i.e.\ $w_{i,t+1}$ equals $w_{i,t+1}$) when the partial derivative reaches zero. This corresponds to a local minimum on the error surface. In the figure below, two training sessions are illustrated: the only difference is the initialisation of the (two) weights, and the minima attained in each case are not the same. This illustrates a strong shortcoming with backpropagation: parameter values can get stuck in poor local minima.
 
 \begin{figure}[h!]
 	\centering
@@ -427,25 +421,12 @@ Visually, this means that weight values move in the direction the will reduce th
 % \paragraph{cost functions}
 % MSE, cross-entropy for softmax
 
-\paragraph{Training, Validation and Test Sets}
+\subsection{Cross Validation}
 
 As mentioned previously, learning is not a mere approximation problem because the hypothesis function must generalise well to any subset of the instance space. Approximation and generalisation are incorporated into the training of deep neural networks (as well as other models \cite{train&test}) by separating the labelled dataset into a training set, a validation set and a test set. The partial derivatives are computed from the error over the training set, but the function that is learned is the one that minimises the error over the validation set, and its performance is measured on the test set. The distinction between training and validation sets is what prevents the function from overfitting the training data: if the function begins to overfit, the error on the validation set will increase and training will be stopped. The distinction between the test set and the validation set is to obtain a stochastically impartial measure of performance: since the function is chosen to minimise the error over the validation set, there could be some non-negligible overfit to the validation set which can only be reflected by assessing the function's performance on yet another set.
 
-\subsubsection{Early Stopping}
-
-As opposed to 
-
-Lorenzo Rosascol %https://www.youtube.com/watch?v=bukb-rMuayM&list=PLYTk9IwHBb2ANKHc2feIso7tL1slpuVPY#t=935
-
-15:32 inversion of matrix equals polynomial series.
-
-awesome blog post about it all: %http://mrtz.org/blog/the-zen-of-gradient-descent/#comment-3240
-
-
 
 \clearpage
-
-
 
 \subsection{Deep Convolutional Neural Networks}
 
@@ -494,59 +475,35 @@ A convolutional layer implements this: it is divided into groups of neurons (cal
 \subsubsection{Data augmentation}
 
 
+\clearpage
 
 \section{Analysis 1: ReLU Activation}
 
 \subsection{Motivations}
 
-Differentiable, symmetric, bounded activation functions that introduce a non-linearity smoothly over the entire input domain were the activation units of choice in deep feed-forward neural networks, until Rectified Linear Units were used for CNNs in 2012 \cite{krizhevsky} and found to outperform their counterparts: 
+Differentiable, symmetric, bounded activation functions that introduce a non-linearity smoothly over the entire input domain were the activation units of choice in deep feed-forward neural networks, until Rectified Linear Units were used for CNNs in 2012 \cite{krizhevsky} and found to outperform their counterparts. They make the observations that $f(x) = \tanh x = \frac{1 - e^{-2x}}{1 + e^{-2x}}$ or $f(x) = (1+ exp^{-x})^{-1}$ "saturating non-linearities" are slower to train than the $f(x) = max(0,x)$ "non-saturating non-linearity", and report an "accelerated ability to fit the training set", but do not provide any explanations.   \\
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.4]{images/ReLU_train_fast.png}
-	\caption{source: Krizhevsky et al 2012}
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.5]{images/activation_functions.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{Activation functions}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.35]{images/ReLU_train_fast.png}
+        % ...here to lower the subcaptions and...
+        \caption{source: Krizhevsky et al 2012}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+    \end{minipage}%
 \end{figure}
 
- This may come as a surprising result for several reasons:
-\begin{enumerate}
-\item unlike every other neuron model, they are not $antisymmetric$ ("when its response to the oppposite of a strongly excitatory input pattern is respectively a strongly inhibitory one" \cite{rectifier}), but rather $one sided$ (the response is zero). This drops a prior assumption on how information should be interpreted and transferred between layers.
-\item the angular point makes them non-differentiable at 0, since we have $\lim_{x \to 0^+} \frac{\partial max(0,x)}{\partial x} = 1 $ and $\lim_{x \to 0^-} \frac{\partial max(0,x)}{\partial x} = 0$). But gradient descent depends on differentiating activation functions, so an arbitrary choice needs to be made for $x = 0$. 
-\item the function is non-linear only in the neighbourhood of $0$ (note that the motivation for learning non-linear functions is the range of functions they can learn; linear functions are greatly limited in this respect, e.g.\ no boolean linear function can represent XOR \cite{univ-approx}).
-\item they are unbounded above, which could increase the difficulty in training the network by making exploding outputs easier to produce.
-\item they are not bijective: $tanh$ is a one-for-one mapping from $\mathbb{R}$ to $[-1,1]$ and $sigmoid$ is a one-for-one mapping from $\mathbb{R}$ to $[0,1]$, therefore information is preserved; ReLU maps all of $\mathbb{R}^-$ to $0$, which loses information.
-\end{enumerate}
+The importance attributed to non-linearity of activation functions is due to the function space that is spanned by composing such functions as deep neural networks do. If activation functions are linear, the overall network is linear too, and as seen in section 3.2.2, such networks are greatly limited in what they can learn. Therefore, one may wonder whether or how the function space is reduced by using an activation function such as the ReLU that is non-linear only in the neighbourhood of $0$.  \\
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.7]{images/activation_functions.png}
-	\caption{}
-\end{figure}
-
-These points provide motivation to seek a mathematical explanation for these surprising results. In the context of this project, the motivation is to understand the mechanics of training for the CNNs to be used. \\
-
-\subsection{Literature Review}
-
-The literature currently does not provide a mathematical explanation for the superiority of ReLU over sigmoid and tanh units in deep neural networks trained with backpropagation. 
-
-(Nair and Hinton 2010) \cite{ReLU_RBM} use a noisy version of them ($f(x) = max(0, x + N(0, \sigma(x)))$) to replace binary stochastic neurons in Restricted Boltzmann Machines. Detailed mathematical justifications are provided along with experimental evidence, but the analysis focuses on the ability of ReLUs to replace binary stochastic neurons (which are very different to sigmoid and tanh as seen previously), in the task of training Restricted Boltzmann Machines, which are trained with the Contrastive Divergence algorithm. This differs markedly from the ability of ReLUs to replace tanh neurons in the task of training convolutional neural networks with backpropagation \cite{ReLU_RBM}. \\ 
-
-"ImageNet classification with deep convolutional neural networks" by Krizhevsky, Sutskever and Hinton (2012) \cite{krizhevsky} are the first to notice the benefits of ReLU in the context of supervised deep learning (i.e.\ backpropagation). They make the observations that $f(x) = tanh(x)$ or $f(x) = (1+ exp^{-x})^{-1}$ "saturating non-linearities" are slower to train than the $f(x) = max(0,x)$ "non-saturating non-linearity", and report an "accelerated ability to fit the training set", but do not provide any explanations. 
-
-"Deep sparse rectifier networks" by Glorot, Bordes and Bengio (2013) focus on the performance of deep neural networks with ReLU activations by running experiments on supervised (and unsupervised) tasks, varied datasets, and comparing performance with models using $tanh$ as activations. 
-
-The authors use evidence from neuroscience to justify the superior performance of the ReLU, namely that "studies on brain energy expense suggest that neurons encode information in a sparse and distributed way", and that the one-sided response of ReLUs introduces "real zeros of activations" which leads to sparse representations of the data in the network. A sparse representation is one in which the vector representation has many zero entries. Sparsity is advocated for four intuitive reasons:
-
-\begin{enumerate}
-\item \textbf{Information disentangling}: an underlying assumption of many high dimensional deep learning classification tasks is that the class is a low-dimensional manifold in a high dimensional space. For example, the face manifold has a number of dimensions equal to the degrees of freedom in which the face can move and change, which might be around 7, but if considered in the space of all 256x256 greyscale images, it lies in a 65,536 dimensional space. If so, then there must exist an information-preserving projection of this space into a 7-dimensional space, which is equivalent to an information-preserving transformation of this space such that any vector of the face manifold has only at most 7 non-zero entries. In this sense, the manifold is disentangled from the many dimensions. By mapping $\mathbb{R}^-$ to $0$, the ReLU encourages sparse representations. 
-\item \textbf{Efficient variable-size representation}: "varying the number of active neurons allows a model to control the effective dimensionality of the representation for a given input and the required precision".
-\item \textbf{Linear separability}: sparse representations are easy to linearly separate, for example by using as a separating condition whether or not the k-th entry is zero. 
-\item \textbf{Distributed but sparse}: this point reassures that sparsity does not come at the expense of a distributed representation, the benefits of which are detailed in section 3.2.2 of this report. Sadly, the paper does provides extensive justification of this point \footnote{a question was posted on the Google+ Deep Learning community on 01/09/2014 asking for clarification, and awaits response}.
-\end{enumerate} 
-
-Although the authors focus on sparsity, they also address points 2 and 5 raised in the motivations. Antisymmetric activation can be obtained by combining two ReLUs he upward unboundedness of the ReLU can be controlled with an $L_1$ regulariser.
-
-"The only non-linearity in the network comes from the path selection associated with individual neurons being fired or not".
-
+(Glorot, Bordes and Bengio 2013) \cite{rectifier} explain that "the only non-linearity in the network comes from the path selection associated with individual neurons being fired or not. [...] We can therefore see the model as an \textit{exponential number of linear models that share parameters}". Since for a certain range of inputs, a ReLU will not fire, one can view the network as selecting different subsets of itself based on the input. Each subset is a linear function, but two inputs which are very close (in the sense of euclidean distance) in the input space might (de)activate different neurons, and therefore be processed by different (linear) functions that output completely different results. In this sense, non-linearity is achieved. \\
 
 \begin{figure}[h!]
 	\centering
@@ -554,37 +511,49 @@ Although the authors focus on sparsity, they also address points 2 and 5 raised 
 	\caption{ReLU path selection (source: Glorot et al 2013)}
 \end{figure}
 
+(Glorot, Bordes and Bengio 2013) make the further remark that "because of [the ReLU's] linearity, gradients flow well on the active paths of neurons (there is no gradient vanishing effect due to activation non-linearities of sigmoid or tanh units)", but no explanations of enhanced flow or vanishing gradient are given. This section of the report attempts to explain these, with the belief that they are the explanation for (Krizhevsky et al 2012)'s observations. In the context of building pipe weld classifiers, the motivation for doing is to understand the mechanics of training for the CNNs to be subsequently used. \\
 
-However, they provide no mathematical explanation for the key observation in Krizhevsky et al 2012 that ReLUs $accelerate training$. However, they 
+%This may come as a surprising result for several reasons:
+%\begin{enumerate}
+%\item unlike every other neuron model, they are not $antisymmetric$ ("when its response to the oppposite of a strongly excitatory input pattern is respectively a strongly inhibitory one" \cite{rectifier}), but rather $one sided$ (the response is zero). This drops a prior assumption on how information should be interpreted and transferred between layers.
+%\item the angular point makes them non-differentiable at 0, since we have $\lim_{x \to 0^+} \frac{\partial max(0,x)}{\partial x} = 1 $ and $\lim_{x \to 0^-} \frac{\partial max(0,x)}{\partial x} = 0$). But gradient descent depends on differentiating activation functions, so an arbitrary choice needs to be made for $x = 0$. 
+%\item 
+%\item they are unbounded above, which could increase the difficulty in training the network by making exploding outputs easier to produce.
+%\item they are not bijective: $tanh$ is a one-for-one mapping from $\mathbb{R}$ to $[-1,1]$ and $sigmoid$ is a one-for-one mapping from $\mathbb{R}$ to $[0,1]$, therefore information is preserved; ReLU maps all of $\mathbb{R}^-$ to $0$, which loses information.
+%\end{enumerate}
 
-Note that (Glorot et al 2013) also empirically establishes that "rectifying activation allows deep networks to achieve their best performance without unsupervised pre-training" given sufficient labelled training data. This has probably played an important part in the shift away from unsupervised pre-training to initialise the weights of a network, which would otherwise have been considered in the later stages of this project. \\
+%The literature currently does not provide a detailed mathematical explanation for the superiority of ReLU over sigmoid and tanh units in deep neural networks trained with backpropagation. 
+%
+%(Krizhevsky et al 2012) \cite{krizhevsky} are the first to notice the benefits of ReLU in the context of supervised deep learning (i.e.\ backpropagation). 
+%
+%
+%The authors use evidence from neuroscience to justify the superior performance of the ReLU, namely that "studies on brain energy expense suggest that neurons encode information in a sparse and distributed way", and that the one-sided response of ReLUs introduces "real zeros of activations" which leads to sparse representations of the data in the network. A sparse representation is one in which the vector representation has many zero entries. Sparsity is advocated for four intuitive reasons:
+%
+%\begin{enumerate}
+%\item \textbf{Information disentangling}: an underlying assumption of many high dimensional deep learning classification tasks is that the class is a low-dimensional manifold in a high dimensional space. For example, the face manifold has a number of dimensions equal to the degrees of freedom in which the face can move and change, which might be around 7, but if considered in the space of all 256x256 greyscale images, it lies in a 65,536 dimensional space. If so, then there must exist an information-preserving projection of this space into a 7-dimensional space, which is equivalent to an information-preserving transformation of this space such that any vector of the face manifold has only at most 7 non-zero entries. In this sense, the manifold is disentangled from the many dimensions. By mapping $\mathbb{R}^-$ to $0$, the ReLU encourages sparse representations. 
+%\item \textbf{Efficient variable-size representation}: "varying the number of active neurons allows a model to control the effective dimensionality of the representation for a given input and the required precision".
+%\item \textbf{Linear separability}: sparse representations are easy to linearly separate, for example by using as a separating condition whether or not the k-th entry is zero. 
+%\item \textbf{Distributed but sparse}: this point reassures that sparsity does not come at the expense of a distributed representation, the benefits of which are detailed in section 3.2.2 of this report. Sadly, the paper does provides extensive justification of this point \footnote{a question was posted on the Google+ Deep Learning community on 01/09/2014 asking for clarification, and awaits response}.
+%\end{enumerate} 
+%
+%Although the authors focus on sparsity, they also address points 2 and 5 raised in the motivations: antisymmetric activation can be obtained by combining two ReLUs that share parameters, and the upward unboundedness of the ReLU can be controlled with an $L_1$ regulariser.
 
-observe that ... explain that ...
-""
+\subsection{Mathematical Explanation}
 
+Recall that the model is trained with backpropagation: each of the weights $w$ are adjusted by $\tau \cdot \frac{\partial{E}}{\partial{w}}$. The choice of activation function modifies $\frac{\partial{E}}{\partial{w}}$, and it is interesting to see how ReLU does so compared to sigmoid or tanh. \\
 
-\subsection{Proposed Mathematical Explanation}
+\subsubsection{How the Gradient Propagates}
 
-The parameters (a.k.a\ weights) of feed-forward neural networks in the context of supervised learning are trained with backpropagation, which makes use of gradient descent: a weight $w$ is adjusted by $\tau \cdot \frac{\partial{E}}{\partial{w}}$, which is a multiple of the error, and this multiple is determined by the weights and neurons that lie in the paths from the weight to a neuron of the output layer. The choice of activation function will modify the formula for a weight update, so the comparison between the logistic unit and the ReLU extends to training. \\
-
-\subsection{Training: Backpropagation}
-
-The parameters (a.k.a\ weights) of feed-forward neural networks in the context of supervised learning are trained with backpropagation, which makes use of gradient descent: a weight $w$ is adjusted by $\tau \cdot \frac{\partial{E}}{\partial{w}}$, which is a multiple of the error, and this multiple is determined by the weights and neurons that lie in the paths from the weight to a neuron of the output layer. The choice of activation function will modify the formula for a weight update, so the comparison between the logistic unit and the ReLU extends to training.
-
-\subsection{How the Gradient Propagates}
-
-It may be of interest to know how the gradient propagates through a network - especially since a single vector of information - the error - is supposed to adjust up to millions of parameters, which could be considered as a bit of a stretch.\\
-
-With the following notation:
+It may be useful for intuition to think of $\frac{\partial{E}}{\partial{w}}$ in the context of the gradient travelling through the network. With the following notation:
 \begin{itemize}
-\renewcommand\labelitemi{--}
+%\renewcommand\labelitemi{--}
 \item $y_{j}$, the output of unit (a.k.a\ neuron) $j$, but also used to refer to the unit $j$ itself
 \item $w_{ij}$, the weight of the edge connecting lower-layer neuron $y_{i}$ to upper-layer neuron $y_{j}$
 \item $z_{j} := b+ \langle x,w \rangle = b + \sum\limits_{i=1}^k x_{i}\cdot w_{ij}$, the input vector for $y_{j}$
 \item $\psi$, the activation function used -- therefore $y_{j} = \psi(z_{j})$ \\
 \end{itemize}
 
-The rules for propagating the gradient backwards through a network are:
+The backpropagation algorithm can be formulated as a set of rules for propagating the gradient through the network:
 \begin{itemize}
 \renewcommand\labelitemi{--}
 \item to \textbf{initialise}: $grad \leftarrow \mathcal{C}'(y_{L})$, where $y_{L}$ is the output unit
@@ -592,7 +561,6 @@ The rules for propagating the gradient backwards through a network are:
 \item to \textbf{propagate through an edge} $w_{ij}$: $grad \leftarrow grad \cdot w_{ij}$
 \item to \textbf{stop at an edge} $w_{ij}$: $grad \leftarrow grad \cdot y_{i}$ \\
 \end{itemize}
-
 
 %\begin{figure}[h!]
 %	\centering
@@ -609,14 +577,16 @@ So for example, given the figure above:
  $\mathcal{C}'(y_{7}) \cdot \psi'(z_7) \cdot w_{57} \cdot \psi'(z_5) \cdot y_2$ \\
 \end{itemize}
 
+
+\subsection{Vanishing Gradient}
+
 Notice that if $y_7$ is 
 
-\subsection{ReLUs Train Faster}
 
-Networks consisting of ReLUs have empirically trained faster than those consisting of sigmoid units. This may be because if a sigmoid unit is in its saturated environment, its weights are harder 
-
+If a sigmoid unit is in its saturated environment, its weights are harder 
 
 
+\clearpage
 
 \section{Analysis 2: Early Stopping}
 
@@ -727,7 +697,7 @@ The error being shown is the negative of the log probability of the likelihood f
 \begin{equation}
 -\frac{1}{n}\sum\limits_{i=1}^n ln(f(W|x_i))
 \end{equation}
-Where f is the cost function I think. So in this case it is the cross entropy I think. (Verify this, provide intuition).\\
+Where f is the learned function, a.k.a\ the model i.e.\ the neural network. So in this case it is the cross entropy I think. (Verify this, provide intuition).\\
 
 A number of potential explanations for the volatile periodic error rates were considered:
 \begin{itemize}
@@ -1258,6 +1228,12 @@ I also wonder whether it should be used in conjunction with a modified cost func
 
 When viewed as MLE estimation, the Bayesian cross entropy can be interpreted as follows: instead of trying to maximise the joint probability of the data under the assumption that each observed event has the same probability, we are assigning higher probability to minority class events. \\
 
+Recall that the error being shown is the negative of the log probability of the likelihood function:
+\begin{equation}
+-\frac{1}{n}\sum\limits_{i=1}^n ln(f(W|x_i))
+\end{equation}
+Where f is the learned function. This is the cross entropy, but it also elegantly evaluates to MLE. In other words, we are choosing the parameters of the model to maximise the likelihood of the data (to make the observed events i.e.\ the training set as highly probable as possible). Do the proof with joint probability of independent events etc. \\
+
 Blow us away with some nice maths here! Also need the background maths for cross entropy that is the same as MLE. \\
 
 
@@ -1622,6 +1598,16 @@ Unsupervised Learning to correct mis-labelling, with encouragements to create cl
 % Example: \bibitem{One}
 % a better way of doing it: a .bib file or something. bit.ly/1kqg2Qe
 
+\bibitem{krizhevsky}
+ Krizhevsky, Alex; Sutskever, Ilya; Hinton, Geoffrey E.;
+ \emph{ImageNet Classification with Deep Convolutional Neural Networks}\\
+ 2012
+
+\bibitem{rectifier}
+ Glorot, Xavier; Bordes, Antoine; Bengio, Yoshua;
+ \emph{Deep Sparse Rectifier Neural Networks}\\
+ 2013
+ 
 \bibitem{goodfellow_street_view}
  Ian J. Goodfellow, Yaroslav Bulatov, Julian Ibarz, Sacha Arnoud, Vinay Shet
   \emph{Multi-digit Number Recognition from Street View Imagery using Deep Convolutional Neural Networks}\\
@@ -1674,16 +1660,6 @@ Unsupervised Learning to correct mis-labelling, with encouragements to create cl
  Russell, Stuart J; Norvig, Peter;
  \emph{Artificial Intelligence: A Modern Approach}\\
  2003
-
-\bibitem{krizhevsky}
- Krizhevsky, Alex; Sutskever, Ilya; Hinton, Geoffrey E.;
- \emph{ImageNet Classification with Deep Convolutional Neural Networks}\\
- 2012
-
-\bibitem{rectifier}
- Glorot, Xavier; Bordes, Antoine; Bengio, Yoshua;
- \emph{Deep Sparse Rectifier Neural Networks}\\
- 2013
 
 \bibitem{MLP-univ-approx}
  Hornik, Kur; Stinchcombe, Maxwell; White, Halber;
