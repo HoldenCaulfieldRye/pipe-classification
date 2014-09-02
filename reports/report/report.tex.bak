@@ -519,7 +519,7 @@ Take a $k \times k$ spatial neighbourhood of the feature map, and compute some s
 
 In general, a potential advantage of average over max is that it conserves more information; on the other hand, it will dilute an activation that is strong in a single location of the given neighbourhood and weak in the others. In the worse case, opposing activations will cancel each other out, and result in the pooled value as that for a neighbourhood with zero activations (however, note that this does not occur with ReLUs since they are not antisymmetric). \\
 
-The key contribution of pooling is invariance to small transformations. 
+The key contribution of pooling is invariance to small transformations, since the same pooling output is obtained regardless of where in the neighbourhood the activations occur. At higher convolutional layers, the resulting invariance can be spectacular. For example, below are kernel maps for a certain feature of the 5-th convolutional layer of a net from (Zeiler and Fergus 2013) \cite{zeiler_fergus}
 
 \subsubsection{Optional Normalisation}
 
@@ -1768,6 +1768,11 @@ Unsupervised Learning to correct mis-labelling, with encouragements to create cl
  Foundations and Trends in Machine Learning, 
  Vol. 2, No. 1 (2009) 1-127
  2009
+
+\bibitem{zeiler_fergus}
+ Zeiler, Matthew; Fergus, Robert;
+ Visualizing and Understanding Convolutional Networks
+ arXiv 2013
 
 \bibitem{Russel & Norvig}
  Russell, Stuart J; Norvig, Peter;

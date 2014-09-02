@@ -449,7 +449,7 @@ A\footnote{A large portion of the content from this subsection on explaining the
 
 \subsubsection{Pixel Feature}
 
-A\footnote{This subsection on explaining sliding kernels is heavily inspired from a blog post by Christopher Colah \cite{colah}.} $k \times k$ pixel feature, also referred to as sliding kernel or sliding filter, is defined as a $k \times k$ matrix $\mathcal{W}$ that is applied to a number of $k \times k$ windows $\mathcal{X}$ of the image by performing  the matrix dot product $\sum_{i=0}^{k-1} \sum_{j=1}^{k} x_{ij} \cdot w_{ij}$. An example with $k=3$ is shown below.
+A\footnote{This subsection on explaining sliding kernels is heavily inspired from a blog post by Christopher Colah \cite{colah}.} $k \times k$ pixel feature, also referred to as sliding kernel or sliding filter, is defined as a $k \times k$ matrix $\mathcal{W}$ that is applied to $k \times k$ windows $\mathcal{X}$ of the image by performing  the matrix dot product $\sum_{i=0}^{k-1} \sum_{j=1}^{k} x_{ij} \cdot w_{ij}$. An example with $k=3$ is shown below.
 
 \begin{figure}[h!]
 	\centering
@@ -506,14 +506,39 @@ In order to impose convolution i.e.\ application of the same kernel over the ent
 \label{eqn:conv_learning_rule}
 \end{equation}
 
-Where $\mathcal{K}$ is the set of all neurons intended to apply the kernel to a different location on the image. This learning rule ensures that the i-th weight of all such neurons are updated by the same value. At initialisation, each i-th weight is also set to the same value. The result is that the weight vectors for all these neurons are identical throughout training, i.e.\ the corresponding kernel is convolved over the entire image. \\
+Where $\mathcal{K}$ is the index set for all neurons intended to apply the kernel to a different location on the image. This learning rule ensures that the i-th weight of all such neurons are updated by the same value. At initialisation, each i-th weight is also set to the same value. The result is that the weight vectors for all these neurons are identical throughout training, i.e.\ the corresponding kernel is convolved over the entire image. \\
 
  
 \subsubsection{Non-linear Activation}
 
-
+going to be applied to each output of the feature map independently, no interaction between the elements in the feature map. it's here because the kernel convolution is a linear operation, and we want non-linearity. the currently best performing known activation is the ReLU (extensively discussed in section 5 of the report). an important element is the bias, which in the case of the ReLU allows to choose the input threshold at which the neuron turns off. the bias is the same across every neuron of the feature map. 
 
 \subsubsection{Pooling aka Spatial Feature}
+
+Take a $k \times k$ spatial neighbourhood of the feature map, and compute some summary statistic over it (average or max). The most common operations are average and max. Max is the currently best performing pooling operation, and this is theoretically backed by (Boureau et al 2010). The intuition behind the theoretical analysis can be illustrated by the following example: given a pixel feature, a $3 \times 3$ spatial neighbourhood to pool over and two different images, consider the case where image A has the feature present in a single location of the neighbourhood (activation output is 1 for this location, 0 elsewhere), whereas image B does not (activation outputs are 0 across all locations of the neighbourhood). Since the feature map seeks to discriminate inputs based on the presence of its feature, we would wish for the pooling operation to assign starkly different values to images A and B. With max pooling, A receives pooled value 1 and B receives pooled value 0; with average pooling, A receives $\frac{1}{9}$ and B receives 0. Therefore, max is better. \\
+
+In general, a potential advantage of average over max is that it conserves more information; on the other hand, it will dilute an activation that is strong in a single location of the given neighbourhood and weak in the others. In the worse case, opposing activations will cancel each other out, and result in the pooled value as that for a neighbourhood with zero activations (however, note that this does not occur with ReLUs since they are not antisymmetric). \\
+
+The key contribution of pooling is invariance to small transformations, since the same pooling output is obtained regardless of where in the neighbourhood the activations occur. At higher convolutional layers, the resulting invariance can be spectacular. For example, below are kernel maps for a certain feature of the 5-th convolutional layer of a net from (Zeiler and Fergus 2013) \cite{zeiler_fergus}, computed for 9 different input images from the same class ("human"), which obtain similar pooled activation values. 
+
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.7]{images/high_level_invariance_orig.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{9 input images of the "human" class}\label{fig:2b}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.7]{images/high_level_invariance.png}
+        % ...here to lower the subcaptions and...
+        \caption{9 corresponding kernel maps with similar pooling outputs}\label{fig:2a}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+    \caption{source: (Zeiler and Fergus 2013)}
+    \end{minipage}%
+\end{figure}
 
 \subsubsection{Optional Normalisation}
 
@@ -1762,6 +1787,11 @@ Unsupervised Learning to correct mis-labelling, with encouragements to create cl
  Foundations and Trends in Machine Learning, 
  Vol. 2, No. 1 (2009) 1-127
  2009
+
+\bibitem{zeiler_fergus}
+ Zeiler, Matthew; Fergus, Robert;
+ Visualizing and Understanding Convolutional Networks
+ arXiv 2013
 
 \bibitem{Russel & Norvig}
  Russell, Stuart J; Norvig, Peter;
