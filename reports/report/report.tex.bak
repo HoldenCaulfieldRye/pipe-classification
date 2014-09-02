@@ -449,7 +449,7 @@ A\footnote{A large portion of the content from this subsection on explaining the
 
 \subsubsection{Pixel Feature}
 
-A\footnote{This subsection on explaining sliding kernels is heavily inspired from a blog post by Christopher Colah \cite{colah}.} $k \times k$ pixel feature, also referred to as sliding kernel or sliding filter, is defined as a $k \times k$ matrix $\mathcal{W}$ that is applied to a number of $k \times k$ windows $\mathcal{X}$ of the image by performing  the matrix dot product $\sum_{i=0}^{k-1} \sum_{j=1}^{k} x_{ij} \cdot w_{ij}$. An example with $k=3$ is shown below.
+A\footnote{This subsection on explaining sliding kernels is heavily inspired from a blog post by Christopher Colah \cite{colah}.} $k \times k$ pixel feature, also referred to as sliding kernel or sliding filter, is defined as a $k \times k$ matrix $\mathcal{W}$ that is applied to $k \times k$ windows $\mathcal{X}$ of the image by performing  the matrix dot product $\sum_{i=0}^{k-1} \sum_{j=1}^{k} x_{ij} \cdot w_{ij}$. An example with $k=3$ is shown below.
 
 \begin{figure}[h!]
 	\centering
@@ -515,7 +515,7 @@ going to be applied to each output of the feature map independently, no interact
 
 \subsubsection{Pooling aka Spatial Feature}
 
-Take a spatial neighbourhood () of the feature maps
+Take a $k \times k$ spatial neighbourhood of the feature map, and compute some summary statistic over it (average or max). A potential advantage of average over max is that it conserves more information; on the other hand, it will dilute an activation that is strong in a single location of the given neighbourhood and weak in the others. In the worse case, opposing activations will cancel each other out, and result in the pooled value as that for a neighbourhood with zero activations (however, note that this does not occur with ReLUs since they are not antisymmetric). Max is the currently best performing pooling operation, and this is theoretically backed by (Boureau et al 2010). The intuition behind the theoretical analysis can be illustrated by the following example: given a spatial neighbourhood to pool over and two different images, consider the case where i
 
 \subsubsection{Optional Normalisation}
 
