@@ -445,7 +445,7 @@ A convolution layer has a pixel feature i.e. filter which is convolved over the 
 
 \paragraph{Pixel Feature}
 
-A $k \times k$ pixel feature, also referred to as sliding kernel or sliding filter, is defined as a $k \times k$ matrix $\mathcal{W}$ that is applied to a number of $k \times k$ windows $\mathcal{X}$ of the image by performing  $\sum_{i=1}^{k} \sum_{j=1}^{k} x_{ij} \cdot w_{ij}$, the result of which is the pixel feature activation for the window. An example for $k=3$ is shown below.
+A $k \times k$ pixel feature, also referred to as sliding kernel or sliding filter, is defined as a $k \times k$ matrix $\mathcal{W}$ that is applied to a number of $k \times k$ windows $\mathcal{X}$ of the image by performing  the matrix dot product $\sum_{i=0}^{k-1} \sum_{j=1}^{k} x_{ij} \cdot w_{ij}$. An example with $k=3$ is shown below.
 
 \begin{figure}[h!]
 	\centering
@@ -453,9 +453,9 @@ A $k \times k$ pixel feature, also referred to as sliding kernel or sliding filt
 	\caption{Selecting a pixel window and applying a kernel to it (source: convmatrix Gimp documentation)}
 \end{figure}
 
-Notice that this is equivalent to the vector product component of the generic neural network combination of inputs $z = b + \sum\limits_{i=1}^n x_{i}\cdot w_{i}$ where the matrices are flattened into a vector and every weight corresponding to a pixel that is not part of the window is fixed at zero. Fixing many weights to zero imposes a strong prior on the network and significantly reduces the function space, making it easier to search for good functions. \\
+Notice that this is equivalent to the vector product component of the generic neural network inputs combination $z = b + \sum\limits_{i=0}^{n-1} x_{i}\cdot w_{i}$, where the pixel matrix representation of the entire image is flattened into the vector $\textbf{x}$, the weights of the kernel are flattened into a portion of the weight vector $\textbf{w}$, and all weights corresponding to a pixel that is not part of the window are set (and fixed) to zero. Fixing many weights to zero imposes a strong prior on the network and significantly reduces the function space, making it easier to search for good functions. \\
 
-By convolving the kernel over the image, one obtains a feature response map (also referred to kernel map):
+By convolving the kernel over the image, one obtains a feature response map (referred to as kernel map in computer vision jargon):
 
 \begin{figure}[h!]
 	\centering
@@ -468,13 +468,20 @@ Another advantage of such pixel features is that one can make sense of what the 
 \begin{figure}[h]       
     \fbox{\includegraphics[scale=0.9]{images/taj_mahal.jpg}}   
     \hspace{30px}
-    \fbox{\includegraphics[scale=0.25]{images/kernel_edge_enhance.png}}
+    \fbox{\includegraphics[scale=0.15]{images/kernel_edge_enhance.png}}
     \hspace{30px}
     \fbox{\includegraphics[scale=0.23]{images/kernel_edge_enhance_result.png}}
-    \caption{this is the caption}
+    \caption{Image, kernel and resulting kernel map (source: convmatrix Gip documentation}
     \label{materialflowChart}
 \end{figure}
 
+The highest values are obtained when pixel $(1,0)$ is of a much lower value than pixel $(1,1)$, which occurs most often when the window is on a vertical edge separating a dark region to the left from a light region to the right. Therefore, an intuitive representation for the kernel matrix is the pixel window below, which has become a popular way of representing "deep learning features":
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/window_x_kernel.png}
+	\caption{Selecting a pixel window and applying a kernel to it (source: convmatrix Gimp documentation)}
+\end{figure}
 
 example 1: dark left light right edge detector
 example 2: overall edge detector
@@ -484,7 +491,7 @@ example 4: sharpening
 
 A convolutional layer implements this: it is divided into groups of neurons (called \textit{kernels}), where all of the neurons in a kernel are set to the same parameter values, but are 'wired' to different pixel windows across the image. As a result, one feature can be detected anywhere on the image, and the information of where on the image this feature was detected is contained in the output of the kernel. Below is a representation of LeNet5, a deep convolutional neural network used to classify handwritten characters. \\
 
-Note that this subsection on explaining sliding kernels is heavily based on a blog post by Christopher Colah \cite{colah}.
+Note that this subsection on explaining sliding kernels is heavily inspired from a blog post by Christopher Colah \cite{colah}.
  
 \paragraph{Non-linear Activation}
 
@@ -492,7 +499,7 @@ Note that this subsection on explaining sliding kernels is heavily based on a bl
 
 \paragraph{Possible Normalisation}
 
-Note this subsection on explaining the operations in a convolutional layer is heavily based Robert Fergus's NIPS 2013 tutorial \cite{}
+Note that a large portion of the content from this subsection on explaining the operations in a convolutional layer is heavily inspired from Prof Robert Fergus's NIPS 2013 tutorial \cite{fergus_tutorial}.
 
 \subsubsection{Dropout}
 
