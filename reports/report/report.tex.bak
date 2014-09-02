@@ -542,11 +542,13 @@ The key contribution of pooling is invariance to small transformations, since th
     \end{minipage}%
 \end{figure}
 
-By stacking n convolutional layers with $k \times k$ pooling operations, the output of a pooling neuron on the n-th layer has a $k^n \times k^n$ receptive field over the image. Choosing the number of convolutional layers is therefore a matter of finding n such that $k^{2n}$ equals the dimensionality of the input set, i.e.\ such that the highest pooling neurons contain information about 
+By stacking n convolutional layers with $k \times k$ pooling operations, the output of a pooling neuron on the n-th layer has a $k^n \times k^n$ receptive field over the image. Choosing the number of convolutional layers is therefore a matter of finding n such that $k^{2n}$ equals the dimensionality of the input set, i.e.\ such that the highest convolutional layer can recognise complex features spanning the entire image, which is when total translation invariance is achieved. \\
 
 \subsubsection{Optional Normalisation}
 
+Unclear whether really needed.
 
+contrast normalisation: pick a single location of the output, have a little spatial neighbourhood around that, and perform the linear transformation on all the output values in this neighourhood that results in the best fit of a zero mean, unit standard deviation Gaussian. This transformation
 
 
 \subsection{Dropout}
