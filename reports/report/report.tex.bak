@@ -443,13 +443,13 @@ Before diving into the details, a notable point to bear in mind is that these op
 	\caption{LeNet7 architecture: each square is a kernel}
 \end{figure}
 
-\subsubsection{Operations in a convolutional layer}
+\subsubsection{Operations in a convolutional layer} 
 
-A convolution layer has a pixel feature i.e. filter which is convolved over the entire image, followed by a non-linearity, followed by a spatial feature, optionally followed by a normalisation between feature responses. This structure is similar to hand-crafted features in computer vision such as SIFT and HOG \cite{SIFT}. The key difference is that each operation is learned, i.e.\ optimised to maximise performance on the training set. \\
+A\footnote{A large portion of the content from this subsection on explaining the operations in a convolutional layer is heavily inspired from Prof Robert Fergus's NIPS 2013 tutorial \cite{fergus_tutorial}.} convolution layer has a pixel feature i.e. filter which is convolved over the entire image, followed by a non-linearity, followed by a spatial feature, optionally followed by a normalisation between feature responses. This structure is similar to hand-crafted features in computer vision such as SIFT and HOG \cite{SIFT}. The key difference is that each operation is learned, i.e.\ optimised to maximise performance on the training set. \\
 
 \paragraph{Pixel Feature}
 
-A $k \times k$ pixel feature, also referred to as sliding kernel or sliding filter, is defined as a $k \times k$ matrix $\mathcal{W}$ that is applied to a number of $k \times k$ windows $\mathcal{X}$ of the image by performing  the matrix dot product $\sum_{i=0}^{k-1} \sum_{j=1}^{k} x_{ij} \cdot w_{ij}$. An example with $k=3$ is shown below.
+A\footnote{This subsection on explaining sliding kernels is heavily inspired from a blog post by Christopher Colah \cite{colah}.} $k \times k$ pixel feature, also referred to as sliding kernel or sliding filter, is defined as a $k \times k$ matrix $\mathcal{W}$ that is applied to a number of $k \times k$ windows $\mathcal{X}$ of the image by performing  the matrix dot product $\sum_{i=0}^{k-1} \sum_{j=1}^{k} x_{ij} \cdot w_{ij}$. An example with $k=3$ is shown below.
 
 \begin{figure}[h!]
 	\centering
@@ -507,7 +507,8 @@ In order to impose convolution i.e.\ application of the same kernel over the ent
 \label{eqn:conv_learning_rule}
 \end{equation}
 
-Note that this subsection on explaining sliding kernels is heavily inspired from a blog post by Christopher Colah \cite{colah}.
+Where $\mathcal{K}$ is the set of all neurons intended to apply the kernel to a different location on the image. This learning rule ensures that the i-th weight of all such neurons are updated by the same value. At initialisation, each i-th weight is also set to the same value. The result is that the weight vectors for all these neurons are identical throughout training, i.e.\ the corresponding kernel is convolved over the entire image. \\
+
  
 \paragraph{Non-linear Activation}
 
@@ -515,7 +516,7 @@ Note that this subsection on explaining sliding kernels is heavily inspired from
 
 \paragraph{Possible Normalisation}
 
-Note that a large portion of the content from this subsection on explaining the operations in a convolutional layer is heavily inspired from Prof Robert Fergus's NIPS 2013 tutorial \cite{fergus_tutorial}.
+
 
 \subsubsection{Dropout}
 

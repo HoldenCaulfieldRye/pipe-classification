@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  2 SEP 2014 03:48
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  2 SEP 2014 03:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1366,31 +1366,6 @@ File: images/geranium.jpg Graphic file (type jpg)
 Package pdftex.def Info: images/geranium.jpg used on input line 442.
 (pdftex.def)             Requested size: 214.99944pt x 214.99944pt.
 
-! Argument of \@sect has an extra }.
-<inserted text> 
-                \par 
-l.446 ...post by Christopher Colah \cite{colah}.}}
-                                                  
-I've run across a `}' that doesn't seem to match anything.
-For example, `\def\a#1{...}' and `\a}' would produce
-this error. If you simply proceed now, the `\par' that
-I've just inserted will cause me to report a runaway
-argument that might be the root of the problem. But if
-your `}' was spurious, just type `2' and it will go away.
-
-Runaway argument?
-{\normalfont \normalsize \bfseries }{\@xfootnote }\def \reserved@b {\stepcounte
-r \ETC.
-! Paragraph ended before \@sect was complete.
-<to be read again> 
-                   \par 
-l.446 ...post by Christopher Colah \cite{colah}.}}
-                                                  
-I suspect you've forgotten a `}', causing me to apply this
-control sequence to too much text. How can we recover?
-My plan is to forget the whole thing and hope for the best.
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 448--449
 
  []
@@ -1409,6 +1384,10 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 Underfull \hbox (badness 10000) in paragraph at lines 460--461
 
  []
+
+
+Overfull \vbox (0.93845pt too high) has occurred while \output is active []
+
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2791,7 +2770,7 @@ t/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts
 /type1/public/amsfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1
 /public/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
 c/amsfonts/symbols/msbm10.pfb>
-Output written on report.pdf (57 pages, 4321036 bytes).
+Output written on report.pdf (57 pages, 4323766 bytes).
 PDF statistics:
  361 PDF objects out of 1000 (max. 8388607)
  192 compressed objects within 2 object streams
