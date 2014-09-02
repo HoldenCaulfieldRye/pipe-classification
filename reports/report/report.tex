@@ -443,6 +443,8 @@ Before diving into the details, a notable point to bear in mind is that these op
 	\caption{LeNet7 architecture: each square is a kernel}
 \end{figure}
 
+The following subsection is an explanation of the computation that occurs in a convolutional layer. Users of Convolutional Neural Networks for classification tasks are sometimes accused of using them as a black box without understanding them; therefore, this section is crucial in establishing an in-depth understanding of how they function and why they might be so successful. \\
+
 \subsection{Operations in a convolutional layer} 
 
 A\footnote{A large portion of the content from this subsection on explaining the operations in a convolutional layer is heavily inspired from Prof Robert Fergus's NIPS 2013 tutorial \cite{fergus_tutorial}.} convolution layer has a pixel feature i.e. filter which is convolved over the entire image, followed by a non-linearity, followed by a spatial feature, optionally followed by a normalisation between feature responses. This structure is similar to hand-crafted features in computer vision such as SIFT and HOG \cite{SIFT}. The key difference is that each operation is learned, i.e.\ optimised to maximise performance on the training set. \\
@@ -511,7 +513,7 @@ Where $\mathcal{K}$ is the index set for all neurons intended to apply the kerne
  
 \subsubsection{Non-linear Activation}
 
-going to be applied to each output of the feature map independently, no interaction between the elements in the feature map. it's here because the kernel convolution is a linear operation, and we want non-linearity. the currently best performing known activation is the ReLU (extensively discussed in section 5 of the report). an important element is the bias, which in the case of the ReLU allows to choose the input threshold at which the neuron turns off. the bias is the same across every neuron of the feature map. 
+Going to be applied to each output of the feature map independently, no interaction between the elements in the feature map. it's here because the kernel convolution is a linear operation, and we want non-linearity. the currently best performing known activation is the ReLU (extensively discussed in section 5 of the report). an important element is the bias, which in the case of the ReLU allows to choose the input threshold at which the neuron turns off. the bias is the same across every neuron of the feature map. \\
 
 \subsubsection{Pooling aka Spatial Feature}
 
@@ -519,7 +521,7 @@ Take a $k \times k$ spatial neighbourhood of the feature map, and compute some s
 
 In general, a potential advantage of average over max is that it conserves more information; on the other hand, it will dilute an activation that is strong in a single location of the given neighbourhood and weak in the others. In the worse case, opposing activations will cancel each other out, and result in the pooled value as that for a neighbourhood with zero activations (however, note that this does not occur with ReLUs since they are not antisymmetric). \\
 
-The key contribution of pooling is invariance to small transformations, since the same pooling output is obtained regardless of where in the neighbourhood the activations occur. At higher convolutional layers, the resulting invariance can be spectacular. For example, below are kernel maps for a certain feature of the 5-th convolutional layer of a net from (Zeiler and Fergus 2013) \cite{zeiler_fergus}, computed for 9 different input images from the same class ("human"), which obtain similar pooled activation values. 
+The key contribution of pooling is invariance to small transformations, since the same pooling output is obtained regardless of where in the neighbourhood the activations occur. At higher convolutional layers, the resulting invariance can be spectacular. For example, below are kernel maps for a certain feature of the 5-th convolutional layer of a net from (Zeiler and Fergus 2013) \cite{zeiler_fergus}, computed for 9 different input images from the same class ("human"), which obtain similar pooled activation values. One may be struck by the fact that they receive similar pooled activation values, since one can tell that the similarities between the kernel maps are complex and would be difficult to describe in terms of "small transformations". \\
 
 \begin{figure}
     \centering

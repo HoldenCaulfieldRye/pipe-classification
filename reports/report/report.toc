@@ -27,7 +27,7 @@
 \contentsline {subsection}{\numberline {3.4}Cross Validation}{17}
 \contentsline {section}{\numberline {4}Deep Convolutional Neural Networks}{19}
 \contentsline {subsection}{\numberline {4.1}Operations in a convolutional layer}{19}
-\contentsline {subsubsection}{\numberline {4.1.1}Pixel Feature}{19}
+\contentsline {subsubsection}{\numberline {4.1.1}Pixel Feature}{20}
 \contentsline {subsubsection}{\numberline {4.1.2}Non-linear Activation}{21}
 \contentsline {subsubsection}{\numberline {4.1.3}Pooling aka Spatial Feature}{21}
 \contentsline {subsubsection}{\numberline {4.1.4}Optional Normalisation}{22}
