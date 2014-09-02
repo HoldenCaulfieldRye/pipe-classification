@@ -380,6 +380,7 @@ As a formalisation of the intuition given above, (Bengio 2009) \cite{DL-book} ad
 
 However, it may seem "risky" to be imposing the use of features in regions of the input space that are unknown. "As usual in ML, there is no real free lunch" \cite{Bengio_G+}. Indeed, one can think of this as imposing a prior on the function space to be searched, that is of the form: the observed data can be explained by a number of underlying factors which can be learned without seeing all of their configurations. If the prior is true for the classes we are learning, the gains are large. Successes in deep learning seem to indicate that this prior covers many tasks that humans deal with \cite{Bengio_G+}. This prior is particularly powerful when learning from high dimensional data, where the curse of dimensionality means that a vast majority of the configurations are missing from the training set. \\
 
+\clearpage
 
 \subsection{Backpropagation}
 
@@ -404,7 +405,12 @@ Since in general, a derivative $\frac{\partial{f}}{\partial{x}}$ is numerically 
 
 \subsubsection{Update Weight Values (with Gradient Descent)}
 
-The learning rule is given by $w_{i,t+1} = w_{i,t+1} + \tau \cdot \frac{\partial{E}}{\partial{w_{i,t}}}$
+The learning rule is given by:
+
+\begin{equation}
+ w_{i,t+1} = w_{i,t+1} + \tau \cdot \frac{\partial{E}}{\partial{w_{i,t}}}
+ \label{eqn:learning_rule}
+\end{equation}
 
 Visually, this means that weight values move in the direction that will (locally) reduce the error quickest, i.e.\ the direction of steepest (local) descent on the error surface is taken. Notice that given the learning rule, gradient descent converges (i.e.\ $w_{i,t+1}$ equals $w_{i,t+1}$) when the partial derivative reaches zero. This corresponds to a local minimum on the error surface. In the figure below, two training sessions are illustrated: the only difference is the initialisation of the (two) weights, and the minima attained in each case are not the same. This illustrates a strong shortcoming with backpropagation: parameter values can get stuck in poor local minima.
 
@@ -438,8 +444,6 @@ Before diving into the details, a notable point to bear in mind is that these op
 \end{figure}
 
 \subsubsection{Operations in a convolutional layer}
-
-images to paste: http://media.nips.cc/Conferences/2013/Video/Tutorial1A.pdf 
 
 A convolution layer has a pixel feature i.e. filter which is convolved over the entire image, followed by a non-linearity, followed by a spatial feature, optionally followed by a normalisation between feature responses. This structure is similar to hand-crafted features in computer vision such as SIFT and HOG \cite{SIFT}. The key difference is that each operation is learned, i.e.\ optimised to maximise performance on the training set. \\
 
@@ -477,19 +481,26 @@ Another advantage of such pixel features is that one can make sense of what the 
 
 The highest values are obtained when pixel $(1,0)$ is of a much lower value than pixel $(1,1)$, which occurs most often when the window is on a vertical edge separating a dark region to the left from a light region to the right. Therefore, an intuitive representation for the kernel matrix is the pixel window below, which has become a popular way of representing "deep learning features":
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.3]{images/window_x_kernel.png}
-	\caption{Selecting a pixel window and applying a kernel to it (source: convmatrix Gimp documentation)}
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.15]{images/kernel_edge_enhance.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{Kernel}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/kernel_edge_detector.png}
+        % ...here to lower the subcaptions and...
+        \caption{(Approximate) intuitive representation}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+    \end{minipage}%
 \end{figure}
 
-example 1: dark left light right edge detector
-example 2: overall edge detector
-comment on how 2 is more generic, but 1 carries more precise information.
-example 3: blurring
-example 4: sharpening
 
-A convolutional layer implements this: it is divided into groups of neurons (called \textit{kernels}), where all of the neurons in a kernel are set to the same parameter values, but are 'wired' to different pixel windows across the image. As a result, one feature can be detected anywhere on the image, and the information of where on the image this feature was detected is contained in the output of the kernel. Below is a representation of LeNet5, a deep convolutional neural network used to classify handwritten characters. \\
+In order to impose convolution i.e.\ application of the same kernel over the entire image, the learning rule \eqref{eqn:learning_rule} given in section \\
 
 Note that this subsection on explaining sliding kernels is heavily inspired from a blog post by Christopher Colah \cite{colah}.
  
