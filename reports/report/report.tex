@@ -479,7 +479,7 @@ Another advantage of such pixel features is that one can make sense of what the 
     \label{materialflowChart}
 \end{figure}
 
-The highest values are obtained when pixel $(1,0)$ is of a much lower value than pixel $(1,1)$, which occurs most often when the window is on a vertical edge separating a dark region to the left from a light region to the right. Therefore, an intuitive representation for the kernel matrix is the pixel window below, which has become a popular way of representing "deep learning features":
+A zero value is obtained when pixel $(1,0)$ and pixel $(1,1)$ have the same value, which is likely to be the case, hence why most of the kernel map is black. A high value is obtained when pixel $(1,0)$ is of a much lower value than pixel $(1,1)$, which occurs most often when the window is on a vertical edge separating a dark region to the left from a light region to the right. Therefore, an intuitive representation for the kernel matrix is the pixel window below, which has become a popular way of representing "deep learning [computer vision] features":
 
 \begin{figure}
     \centering
@@ -499,7 +499,6 @@ The highest values are obtained when pixel $(1,0)$ is of a much lower value than
     \end{minipage}%
 \end{figure}
 
-
 In order to impose convolution i.e.\ application of the same kernel over the entire image, the learning rule \eqref{eqn:learning_rule} given in section 3.3.2 is modified to:
 
 \begin{equation}
@@ -511,6 +510,8 @@ Where $\mathcal{K}$ is the set of all neurons intended to apply the kernel to a 
 
  
 \subsubsection{Non-linear Activation}
+
+
 
 \subsubsection{Pooling aka Spatial Feature}
 

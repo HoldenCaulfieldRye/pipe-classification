@@ -479,7 +479,7 @@ Another advantage of such pixel features is that one can make sense of what the 
     \label{materialflowChart}
 \end{figure}
 
-The highest values are obtained when pixel $(1,0)$ is of a much lower value than pixel $(1,1)$, which occurs most often when the window is on a vertical edge separating a dark region to the left from a light region to the right. Therefore, an intuitive representation for the kernel matrix is the pixel window below, which has become a popular way of representing "deep learning features":
+Zero valueThe highest values are obtained when pixel $(1,0)$ is of a much lower value than pixel $(1,1)$, which occurs most often when the window is on a vertical edge separating a dark region to the left from a light region to the right. Therefore, an intuitive representation for the kernel matrix is the pixel window below, which has become a popular way of representing "deep learning features":
 
 \begin{figure}
     \centering
