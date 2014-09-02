@@ -26,7 +26,7 @@
 \contentsline {subsubsection}{\numberline {3.3.2}Update Weight Values (with Gradient Descent)}{17}
 \contentsline {subsection}{\numberline {3.4}Cross Validation}{17}
 \contentsline {subsection}{\numberline {3.5}Deep Convolutional Neural Networks}{19}
-\contentsline {subsubsection}{\numberline {3.5.1}Operations in a convolutional layer}{19}
+\contentsline {subsubsection}{\numberline {3.5.1}Operations in a convolutional layer\let \reserved@d =[\def \par }{19}
 \contentsline {paragraph}{Pixel Feature}{19}
 \contentsline {paragraph}{Non-linear Activation}{21}
 \contentsline {paragraph}{Pooling aka Spatial Feature}{21}
