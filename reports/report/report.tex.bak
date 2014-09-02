@@ -511,7 +511,7 @@ Where $\mathcal{K}$ is the index set for all neurons intended to apply the kerne
  
 \subsubsection{Non-linear Activation}
 
-
+going to be applied to each output of the feature map independently, no interaction between the elemnts in the feature map. it's here because the kernel convolution is a linear operation, and we want non-linearity. the currently best performing known activation is the ReLU (extensively discussed in section 5 of the report). an important element is the bias, which in the case of the ReLU allows to choose the input threshold at which the neuron turns off. 
 
 \subsubsection{Pooling aka Spatial Feature}
 
