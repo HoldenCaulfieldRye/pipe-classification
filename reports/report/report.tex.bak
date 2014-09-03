@@ -56,9 +56,9 @@
 \begin{abstract}
 
 {
-Automatic image classification experienced a breakthrough in 2012 with the advent of GPU implementations of deep convolutional neural networks. These models distinguish themselves by learning features, making use of pooling operations that achieve feature invariance and robustness to cluttered backgrounds, and a hierarchical structure which enables the learning of complex features with high generalisation performance. This has motivated ControlPoint LLP, a gas & water infrastructure monitoring company, to explore the ability of deep learning to automate one of its business services: inspecting photos of polyethylene pipe weld installations to ascertain weld quality. The company reports to having previously explored automation with existing computer vision businesses, but that the semantic complexity of the visual characteristics to detect made the task technologically infeasible. \\
+Automatic image classification experienced a breakthrough in 2012 with the advent of GPU implementations of deep convolutional neural networks. These models distinguish themselves by learning features, making use of pooling operations that achieve feature invariance and robustness to cluttered backgrounds, and a hierarchical structure which enables the learning of complex features with high generalisation performance. This has motivated ControlPoint LLP, a gas & water infrastructure monitoring company, to explore the ability of deep learning to automate one of its business services: inspecting photos of polyethylene pipe weld installations to ascertain weld quality. The company reports to having previously explored automation with existing computer vision businesses, but that the semantic complexity of the visual characteristics to recognise made the task technologically infeasible. \\
 
-This  It is therefore divided into 5 sections: foundations of machine learning with neural networks, deep convolutional neural networks (including deep belief networks), multi-tag learning, learning with few training examples, and incorporating knowledge of the structure of the data into the network architecture to optimise learning.\\
+This report consists in an in-depth explanation of the workings of a convolutional  It is therefore divided into 5 sections: foundations of machine learning with neural networks, deep convolutional neural networks (including deep belief networks), multi-tag learning, learning with few training examples, and incorporating knowledge of the structure of the data into the network architecture to optimise learning.\\
 
 In terms of progress, several instances of large-scale neural networks have been trained on a simplifed task: that of detecting clamps in Redbox images. None of them have shown signs of parameter convergence, suggesting that the classification task is particularly challenging. Potential reasons are discussed; the next steps of the project are to test them.
 }
@@ -564,6 +564,9 @@ Dropout is a regularisation technique introduced by (Hinton et al 2012) \cite{dr
 \end{figure}
 
 Dropout reduces over-fitting by being equivalent to training an exponential number of models that share weights in reasonable time: there exists an exponential number of different dropout configurations for a given training iteration, so a different model is almost certainly trained every time. At test time, the average of all models is used, which can be seen as a powerful ensemble method. \\
+
+
+\subsection{•}
 
 \clearpage
 
