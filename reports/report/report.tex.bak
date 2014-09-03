@@ -421,15 +421,17 @@ Visually, this means that weight values move in the direction that will (locally
 % \paragraph{cost functions}
 % MSE, cross-entropy for softmax
 
-\subsection{Overfit & Cross Validation}
+\subsection{Cross Validation}
 
-As mentioned previously, learning is not a mere approximation problem because the hypothesis function must generalise well to any subset of the instance space. A downside to using highly expressive models such as deep neural networks is the danger of overfit: training may converge to a function that, despite having zero error over the training set (i.e.\ perfectly fits the training set), performs poorly on unseen data. Overfit can be easily understood with the regression example of fitting a curve to a set of points sampled from a two dimensional distribution, as shown below. 
+As mentioned previously, learning is not a mere approximation problem because the hypothesis function must generalise well to any subset of the instance space. A downside to using highly expressive models such as deep neural networks is the danger of overfit: training may converge to a function that, despite having zero error over the training set (i.e.\ perfectly fits the training set), performs poorly on unseen data. Overfit can be easily understood with the regression example of fitting a polynomial to a set of points sampled uniformly from an unknown curve, as shown below. 
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.8]{images/overfit.png}
-	\caption{an error surface with poor local minima}
+	\caption{source: Bishop 20}
 \end{figure}
+
+$M$ is the order of the polynomial used and governs the expressiveness of the model. Clearly, the fit of the model increases with $M$, but 
 
 Approximation and generalisation are incorporated into the training of deep neural networks by separating the labelled dataset into a training set, a validation set and a test set. The partial derivatives are computed from the error over the training set, but the function that is learned is the one that minimises the error over the validation set, and its performance is measured on the test set. The distinction between training and validation sets is what prevents the function from overfitting the training data: if the function begins to overfit, the error on the validation set will increase and training will be stopped. The distinction between the test set and the validation set is to obtain a stochastically impartial measure of performance: since the function is chosen to minimise the error over the validation set, there could be some non-negligible overfit to the validation set which can only be reflected by assessing the function's performance on yet another set. \\
 
@@ -1817,6 +1819,11 @@ Unsupervised Learning to correct mis-labelling, with encouragements to create cl
  Vol. 2, No. 1 (2009) 1-127
  2009
 
+\bibitem{ML-book}
+ Bishop, Christopher;
+ \emph{Pattern Recognition and Machine Learning}\\
+ Springer 2010
+
 \bibitem{zeiler_fergus}
  Zeiler, Matthew; Fergus, Robert;
  Visualizing and Understanding Convolutional Networks
@@ -1851,8 +1858,7 @@ Unsupervised Learning to correct mis-labelling, with encouragements to create cl
  Sermanet, Pierre; Eigen, David; Zhang, Xiang; Mathieu, Michael; Fergus, Rob; LeCun, Yann;
  \emph{OverFeat: Integrated Recognition, Localization and Detection using Convolutional Networks}\\
  arXiv:1312.6229
-  
- 
+   
 \bibitem{cuda-convnet}  
  URL: \url{https://code.google.com/p/cuda-convnet/}, last accessed 6th June 2014.
 
