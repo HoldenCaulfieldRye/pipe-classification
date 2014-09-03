@@ -441,7 +441,7 @@ In practice, \textbf{early stopping} is the form of cross validation used: train
 
 \subsubsection{Data Augmentation}
 
-If one considers the polynomial overfit figure above, one notices that the points on the fitted curve which are furthest away from the true curve are those which lie far away (in terms of X axis distance) from sampled points. where overfit is greatest are where the fitt in the fit would have been avoided 
+Consider the polynomial overfit figure above: the points on the fitted curve which are furthest away from the true curve are those which lie far away (in terms of X axis distance) from the sampled points. If the sample contained points with those X coordinates, the fitted polynomial would not have scored as low an error, and would not have been the polynomial of best fit. In other words, more data would have reduced overfit. This is what underlies artificial data augmentation, introduced by (Ciresan et al 2011) \cite{data-aug}, which consists in applying label preserving transformations to the training set, i.e.\ `affine (translation, rotation, scaling, horizontal shearing) and elastic deformations'. This was reported to bring the test error rate on MNIST (a benchmark dataset for image classification consisting of 100,000 28x28 greyscale images of handwritten digits, where each digit defines a class) down from 0.40\% to 0.27\%. \\
 
 \subsubsection{Dropout}
 
@@ -1774,6 +1774,11 @@ Unsupervised Learning to correct mis-labelling, with encouragements to create cl
  G. E. Hinton, N. Srivastava, A. Krizhevsky, I. Sutskever and R. R. Salakhutdinov;
  \emph{Improving Neural Networks By Preventing Co-Adaptation of Feature Detectors}
  arXiv 2012
+
+\bibitem{data-aug}
+ Dan C. Cire¸san, Ueli Meier, Jonathan Masci, Luca M. Gambardella, Juergen Schmidhuber;
+ \emph{High-Performance Neural Networks for Visual Object Classification}
+ arXiv 2011
 
 \bibitem{decaf}
  Donahue, Jeff; Jia, Yangqing; Vinyals, Oriol; Hoffman, Judy; Zhang, Ning; Tzeng, Eric; Darrell, Trevor;
