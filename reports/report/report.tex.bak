@@ -435,7 +435,7 @@ $M$ is the order of the polynomial used and governs the expressiveness of the mo
 
 This is the intuition behind cross validation, which consists in separating the labelled dataset into a training set, a validation set and a test set. The partial derivatives are computed from the error over the training set, but the function that is retained at the end of training is the one that minimises the error over the validation set, and its performance is measured on the test set. The distinction between the test set and the validation set is to obtain a stochastically impartial measure of performance: since the function is chosen to minimise the error over the validation set, there could be some non-negligible overfit to the validation set which can only be reflected by assessing the function's performance on yet another set. \\
 
-In practice, early stopping is the form of cross validation used: training occurs while the validation error decreases, and terminates as soon as the validation error begins to rise. One may note that a non negligible assumption underlies early stopping: that the time series of the validation error is convex, i.e.\ once the validation error has reached a minimum, then this is the global minimum. Section 
+In practice, early stopping is the form of cross validation used: training continues while the validation error decreases, and terminates as soon as it begins to rise (even if the training error is still decreasing). One may realise that a non negligible assumption underlies this: convexity of the time series of the validation error, i.e.\ once the validation error has reached a minimum, then this is the global minimum. TSection `Analyis 2' of the report 
 
 \clearpage
 

@@ -1710,3 +1710,13 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 alex      4650  2645  0 Sep02 pts/9    00:15:51 texmaker report.tex
+[master f7c137e] auto-commit progress on report
+ 4 files changed, 11 insertions(+), 3 deletions(-)
+ delete mode 100644 reports/report/images/.~lock.gradient_propagates.draw.odg#
+ rewrite reports/report/images/gradient_propagates.draw.odg (89%)
+ssh: Could not resolve hostname github.com: Name or service not known
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+alex      4650  2645  0 Sep02 pts/9    00:16:03 texmaker report.tex
