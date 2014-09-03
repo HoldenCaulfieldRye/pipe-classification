@@ -97,13 +97,10 @@ Contributions (beyond training accurate pipe weld classifiers for ControlPoint):
 
 This project aims to automate the classification of pipe weld images with deep neural networks. After explaining and formalising the problem, we will explain fundamental concepts in machine learning, then go on to explain the architecture of a deep convolutional neural network with restricted linear units, and finally explain how the network is trained with stochastic gradient descent, backpropagation and dropout. The last sections focus on three challenges specific to the pipe weld image classification task: multi-tagging, learning features from a restricted training set, and class imbalance.
 
-\section{Defining the Problem}
-
-The problem consists in building a classifier of pipe weld images capable of detecting the presence of multiple characteristics in each image. 
 
 \subsection{Explaining the Problem}
 
-Practically speaking, the reason for why this task involves multiple tags per image is because the quality of a pipe weld is assessed not on one, but 17 characteristics, as shown below.
+The problem consists in building a classifier of pipe weld images capable of detecting the presence of multiple characteristics in each image. Practically speaking, the reason for why this task involves multiple tags per image is because the quality of a pipe weld is assessed not on one, but 17 characteristics, as shown below.
 
 \begin{table}[h]
    \centering
@@ -242,10 +239,9 @@ classes. Moreover, one would need to ensure that the range of the error is as la
 
 \clearpage
 
+\section{Literature Review}
 
-\section{Deep Supervised Learning}
-
-\subsection{Supervised Learning}
+\subsection{Deep Supervised Learning}
 
 Learning in the case of classification consists in using the dataset $\mathcal{D}$ to find the hypothesis function $f^{h}$ that best approximates the unknown function $f^{*} : 2^{\mathcal{X}} \rightarrow 2^{\mathcal{Y}}$ which would perfectly classify any subset of the instance space $\mathcal{X}$. Supervised learning arises when $f^{*}(x)$ is known for every instance in the dataset, i.e.\ when the dataset is labelled and of the form $\{(x_{1},f^{*}(x_{1})),(x_{2},f^{*}(x_{2})), ..., (x_{n},f^{*}(x_{n}))\}$. This means that $|\mathcal{D}|$ points of $f^{*}$ are known, and can be used to fit $f^{h}$ to them, using an appropriate cost function $\mathcal{C}$. $\mathcal{D}$ is therefore referred to as the \textit{training set}. 
 
@@ -431,7 +427,7 @@ As mentioned previously, learning is not a mere approximation problem because th
 
 \clearpage
 
-\section{Deep Convolutional Neural Networks}
+\subsection{Deep Convolutional Neural Networks}
 
 A convolutional neural network is a deep feed-forward neural network with at least one convolutional layer. A convolutional layer differs from a traditional fully connected layer in that it imposes specific operations on the data before and after the data is fed through the activation functions. These specific operations are taken from the pre deep learning era of computer vision, and are detailed in this subsection. \\
 
@@ -452,8 +448,6 @@ The architecture from (Krizhevsky et al 2012)'s record-breaking image classifica
 	\includegraphics[scale=0.3]{images/alexnet_architecture_simple.png}
 	\caption{Architecture of CNN from (Krizhevsky et al 2012)}
 \end{figure}
-
-\subsection{Operations in a convolutional layer} 
 
 A\footnote{A large portion of the content from this subsection on explaining the operations in a convolutional layer is heavily inspired from Prof Robert Fergus's NIPS 2013 tutorial \cite{fergus_tutorial}.} convolution layer has a pixel feature i.e. filter which is convolved over the entire image, followed by a non-linearity, followed by a spatial feature, optionally followed by a normalisation between feature responses. This structure is similar to hand-crafted features in computer vision such as SIFT and HOG \cite{SIFT}. The key difference is that each operation is learned, i.e.\ optimised to maximise performance on the training set. \\
 
@@ -517,7 +511,6 @@ In order to impose convolution i.e.\ application of the same kernel over the ent
 \end{equation}
 
 Where $\mathcal{K}$ is the index set for all neurons intended to apply the kernel to a different location on the image. This learning rule ensures that the i-th weight of all such neurons are updated by the same value. At initialisation, each i-th weight is also set to the same value. The result is that the weight vectors for all these neurons are identical throughout training, i.e.\ the corresponding kernel is convolved over the entire image. \\
-
  
 \subsubsection{Non-linear Activation}
 
