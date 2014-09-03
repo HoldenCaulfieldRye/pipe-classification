@@ -421,7 +421,7 @@ Visually, this means that weight values move in the direction that will (locally
 % \paragraph{cost functions}
 % MSE, cross-entropy for softmax
 
-\subsection{Cross Validation}
+\subsection{Overfit}
 
 As mentioned previously, learning is not a mere approximation problem because the hypothesis function must generalise well to any subset of the instance space. A downside to using highly expressive models such as deep neural networks is the danger of overfit: training may converge to a function that, despite having zero error over the training set (i.e.\ perfectly fits the training set), performs poorly on unseen data. Overfit can be easily understood with the regression example of fitting a polynomial to a set of points sampled uniformly with noise from a curve, as shown below. 
 
@@ -433,9 +433,27 @@ As mentioned previously, learning is not a mere approximation problem because th
 
 $M$ is the order of the polynomial used and governs the expressiveness of the model. Clearly, the fit of the model increases with $M$, but one can see that for the case $M = 9$, the given polynomial fits the true (green) function poorly: in other words, the model generalises poorly. How well the model generalises can be evaluated by measuring the fit an another sample of points. \\
 
+\subsubsection{Cross Validation}
+
 This is the intuition behind cross validation, which consists in separating the labelled dataset into a training set, a validation set and a test set. The partial derivatives are computed from the error over the training set, but the function that is retained at the end of training is the one that minimises the error over the validation set, and its performance is measured on the test set. The distinction between the test set and the validation set is to obtain a stochastically impartial measure of performance: since the function is chosen to minimise the error over the validation set, there could be some non-negligible overfit to the validation set which can only be reflected by assessing the function's performance on yet another set. \\
 
-In practice, early stopping is the form of cross validation used: training continues while the validation error decreases, and terminates as soon as it begins to rise (even if the training error is still decreasing). One may realise that a non negligible assumption underlies this: convexity of the time series of the validation error, i.e.\ once the validation error has reached a minimum, then this is the global minimum. TSection `Analyis 2' of the report 
+In practice, \textbf{early stopping} is the form of cross validation used: training continues while the validation error decreases, and terminates as soon as it begins to rise (even if the training error is still decreasing). One may realise that a non negligible assumption underlies this: convexity of the time series of the validation error, i.e.\ once the validation error has reached a minimum, then this is the global minimum. This property is always observed in practice \cite{ML-book}, but one may wonder why. Section `Analyis 2' of the report proposes a mathematical explanation of this. \\
+
+\subsubsection{Data Augmentation}
+
+If one considers the polynomial overfit figure above, one notices that the points on the fitted curve which are furthest away from the true curve are those which lie far away (in terms of X axis distance) from sampled points. where overfit is greatest are where the fitt in the fit would have been avoided 
+
+\subsubsection{Dropout}
+
+Dropout is a regularisation technique for deep neural networks introduced by (Hinton et al 2012) \cite{dropout} which consists in preventing co-adaptation of feature detectors by randomly turning off a fixed proportion $k \in (0,1)$ of neurons at every training iteration, but using the entire network (with weights scaled down by $k$) at test time. As shown below, this technique has been shown to improve performance on the MNIST image classification benchmark task, though this increase is only significant when compared to models where neither data augmentation, convolutional layers or unsupervised pre-training are used (for which the best published record is 160 errors). \\
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.4]{images/dropout.png}
+	\caption{source: (Hinton et al 2012)}
+\end{figure}
+
+Dropout reduces over-fitting by being equivalent to training an exponential number of models that share weights in reasonable time: there exists an exponential number of different dropout configurations for a given training iteration, so a different model is almost certainly trained every time. At test time, the average of all models is used, which can be seen as a powerful ensemble method. \\
 
 \clearpage
 
@@ -560,21 +578,6 @@ By stacking n convolutional layers with $k \times k$ pooling operations, the out
 \subsubsection{Contrast Normalisation}
 
 Pick a single location of the output, have a little spatial neighbourhood around that, and perform the linear transformation on all the output values in this neighourhood that results in the best fit of a zero mean, unit standard deviation Gaussian. These transformations are used in image processing to handle images where contrast intensity varies across different areas of the image. The neighbourhood can be defined geographically over isolated kernel maps, or across kernel maps. This normalisation achieves a rescaling of the features at each layer. For example, if in a certain neighbourhood output values are all low and in another neighbourhood all output values are high, this may be due to photographical factors (e.g.\ different expositions to light) which have nothing to do with the underlying objects of interest; local contrast normalisation will pull up the values of the low value neighbourhood and reduce those of the high value neighbourhood to put both neighbourhoods on an equal footing for the next layer to receive unbiased data. \\
-
-\subsection{Dropout}
-
-Dropout is a regularisation technique introduced by (Hinton et al 2012) \cite{dropout} which consists in preventing co-adaptation of feature detectors by randomly turning off a fixed proportion $k \in (0,1)$ of neurons at every training iteration, but using the entire network (with weights scaled down by $k$) at test time. As shown below, this technique has been shown to improve performance on the MNIST image classification benchmark task, though this increase is only significant when compared to models where neither data augmentation, convolutional layers or unsupervised pre-training are used (for which the best published record is 160 errors). \\
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.4]{images/dropout.png}
-	\caption{source: (Hinton et al 2012)}
-\end{figure}
-
-Dropout reduces over-fitting by being equivalent to training an exponential number of models that share weights in reasonable time: there exists an exponential number of different dropout configurations for a given training iteration, so a different model is almost certainly trained every time. At test time, the average of all models is used, which can be seen as a powerful ensemble method. \\
-
-
-\subsection{•}
 
 \clearpage
 
