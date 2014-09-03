@@ -58,7 +58,7 @@
 {
 Automatic image classification experienced a breakthrough in 2012 with the advent of GPU implementations of deep convolutional neural networks (CNNs). These models distinguish themselves by learning features, convolving them to achieve feature equivariance, making use of max pooling operations to achieve robustness to cluttered backgrounds, and a hierarchical structure to enable the learning of complex features with high generalisation performance. This has motivated ControlPoint LLP, a gas \& water infrastructure monitoring company, to explore whether deep learning could be used to automate one of its business services: inspecting photos of polyethylene pipe weld installations to ascertain weld quality. The company reports having previously explored automation with existing businesses, but that the semantic complexity of the visual characteristics to recognise made the task technologically infeasible. \\
 
-After framing the task, this report provides an overview of supervised deep learning, followed by an in-depth explanation of the workings of a deep convolutional neural network, which despite its performance, gathers criticism for its tendency to be used as a black box. The rest of the report goes over the research that was carried out. The first two are mathematical analyses, one of which proposes an explanation for the recent success of the Rectified Linear Unit as the chief activation function of CNNs, the other an explanation for the success of early stopping as a regularisation technique\footnote{Both came about as the result of seeking to understand, with limited assistance, aspects of training deep neural networks; it is uncertain whether existing research exceeds them.}. The next sections are applied and specific to the main task: understanding why learning failed during the first attempts, finding the optimal way to use transfer learning, exploring ways of tackling class imbalance -- including a novel cost function justified by statistical theory which delivered up to 9 additional percentage points in performance, moving away from the most common `AlexNet' CNN architecture to conserve spatial information, and final performance results across all tasks. \\
+After framing the task, this report provides an overview of supervised deep learning, followed by an in-depth explanation of the workings of a deep convolutional neural network, which despite its performance, gathers criticism for its tendency to be used as a black box. The rest of the report goes over the research that was carried out. The first two are mathematical analyses, one of which proposes an explanation for the recent success of the Rectified Linear Unit as the chief activation function of CNNs, the other an explanation for the success of early stopping as a regularisation technique\footnote{Both came about as the result of seeking to understand, with limited assistance, aspects of training deep neural networks; it is uncertain whether existing research exceeds them.}. The next sections are applied and specific to the main task: understanding why learning failed during the first attempts; finding the optimal way to use transfer learning, exploring ways of tackling class imbalance -- including a novel cost function justified by statistical theory which delivered up to 9 additional percentage points in performance; moving away from the common `AlexNet' CNN architecture to conserve spatial information; and final performance results across all tasks. \\
 
 A meeting summarising then-current research results took place at ControlPoint's headquarters in mid-August. It was concluded that little more needed to be done to produce commercially deployable models, and talks for a licensing partnership have begun. Due to the belief that automation of human classification tasks and learning from high dimensional sensory data have the potential to deliver value in other industries such as construction, oil \& gas and medicine, a technology company has been founded as the result of this research project, with the aim of carrying out this vision. \\
 }
@@ -131,15 +131,18 @@ The problem consists in building a classifier of pipe weld images capable of det
     \caption {Code Coverage for Request Server}
 \end{table} 
 
-At this point, it may help to explain the procedure through which these welds are made, and how pictures of them are taken. The situation is that of fitting two disjoint polyethylene pipes with electrofusion joints \cite{control-point}, in the context of gas or water infrastructure. Since the jointing is done by hand, in an industry affected with alleged "poor quality workmanship", and is most often followed by burial of the pipe under the ground, poor joints occur with relative frequency \cite{control-point}. Since a contamination can cost up to £100,000 \cite{control-point}, there exists a strong case for putting in place protocols to reduce the likelihood of such an event. ControlPoint currently has one in place in which, following the welding of a joint, the on-site worker sends one or more photos, at arm's length, of the completed joint. 
+At this point, it may help to explain the procedure through which these welds are made, and how pictures of them are taken. The situation is that of fitting two disjoint polyethylene pipes with electrofusion joints \cite{control-point}, in the context of gas or water infrastructure. Since the jointing is done by hand, in an industry affected with alleged "poor quality workmanship", and is most often followed by burial of the pipe under the ground, poor joints occur with relative frequency \cite{control-point}. Since a contamination can cost up to £100,000 \cite{control-point}, there exists a strong case for putting in place protocols to reduce the likelihood of such an event. ControlPoint currently has one in place in which, following the welding of a joint, the on-site worker sends one or more photos, at arm's length, of the completed joint. \\
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.8\textwidth,natwidth=610,natheight=642]{images/soilcontam2.jpg}
-	\includegraphics[width=0.8\textwidth,natwidth=610,natheight=642]{images/watercontam1.jpg}
-	\includegraphics[width=0.8\textwidth,natwidth=610,natheight=642]{images/perfect2.jpg}
-	\caption{soil contamination risk (left), water contamination risk (centre), no risk (right)}
+\begin{figure}[h!]       
+    \fbox{\includegraphics[scale=0.22]{images/soilcontam2.jpg}}   
+    \hspace{5px}
+    \fbox{\includegraphics[scale=0.22]{images/watercontam1.jpg}}
+    \hspace{5px}
+    \fbox{\includegraphics[scale=0.22]{images/perfect2.jpg}}
+    \caption{soil contamination risk, water contamination risk, no risk}
+    \label{materialflowChart}
 \end{figure}
+
 
 These images are then manually inspected at the ControlPoint headquarters and checked for the presence of the adverse characteristics listed above. The joint is accepted and counted as finished if the number of penalty points is sufficiently low (the threshold varies from an installation contractor to the next, but 50 and above is generally considered as unacceptable). Although these characteristics are all outer observations of the pipe fitting, they have shown to be very good indicators of the quality of the weld \cite{control-point}. Manual inspection of the pipes is not only expensive, but also delaying: as images are queued for inspection, so is the completion of a pipe fitting. Contractors are often under tight operational time constraints in order to keep the shutting off of gas or water access to a minimum, so the protocol can be a significant impediment. Automated, immediate classification would therefore bring strong benefits.
 
@@ -210,33 +213,73 @@ ControlPoint recently upgraded the photographical equipment with which photos ar
     \caption {Count of Redbox images with given label}
 \end{table} 
 
-\subsubsection{Multi-Tagging}:
 
-As mentioned earlier, training images contain varying numbers of class instances; this uncertainty complexifies the training task.
+\subsubsection{Semantic Complexity}:
 
-\subsubsection{Domain Change}:
-
-Domain change can be lethal to machine vision algorithms: for example, a feature learned (at the pixel level) from the 640x480 Redbox images could end up being out of scale for the 1280x960 Bluebox images. However, this simple example is not relevant to a CNN implementation, since the largest networks can only manage 256x256 images, so Bluebox and Redbox images will both be downsized to identical resolutions. However, more worrying is the difference in image sharpness between Redbox and Bluebox images, as can be seen below. It remains to be seen how a CNN could be made to deal with this type of domain change.
+Certain visual characteristics are semantically more complex than normal object classes, because ControlPoint has rules for what counts to raise a flag depending on the nature of the joint. For example, in the case of clamp detection, for tapping-T joints, for the Redbox images, the glint of a slim portion of a clamp is sufficient to judge it present. \\
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.34]{images/perfect3.jpg}
-	\includegraphics[scale=0.17]{images/niceBluebox_100974.jpg}
-	\caption{left: a Redbox photo - right: a Bluebox photo}
+	\includegraphics[width=0.35\linewidth]{images/tapping-T.jpg}
+	\caption{The clamp wraps around under the pipe - the glint of a metal rod gives it away}
+\end{figure}
+
+Worse still, sometimes the presence of clamps "does not count": these are cases for which the purpose of the clamp is other than to secure the welding. Therefore, if such a clamp is present, but the clamp that serves to secure the weld is absent, then the image is assigned the "No Clamps" label. For example, bottom left, a clamp can clearly be seen, but it's not a weld clamp. So this image should have a "No Clamps" flag raised (sadly, it doesn't). Bottom right: the thin metallic clamp that is fastened on the vertical pipe is not the clamp we're interested in. The glint from the thin metallic rod going along the thick, horizontal pipe tells us that a tapping-T clamp is present, even though that clamp is hidden underneath the pipe. 
+
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.3]{images/truly_confusing_1.jpg}
+        % Add \par\vspace*{20pt} here and...
+        \caption{The clamp is not a weld clamp}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.]{images/truly_confusing_2.jpg}
+        % ...here to lower the subcaptions and...
+        \caption{The clamp on the vertical rod is not a weld clamp}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+    \end{minipage}%
+\end{figure}
+
+
+\subsubsection{Domain Change}
+
+%This makes learning very difficult, as a class can be pictured as a disjoint set of subclasses, some of which fine-grained, and that one subclass could trigger a false positive of another class.\\
+
+Domain change can be lethal to computer vision algorithms: for example, a feature learned (at the pixel level) from the 640x480 Redbox images could end up being out of scale for the 1280x960 Bluebox images. However, this simple example is not relevant to a CNN implementation, since the largest networks can only manage 256x256 images, so Bluebox and Redbox images will both be downsized to identical resolutions. However, more worrying is the difference in image sharpness between Redbox and Bluebox images, as can be seen below. It remains to be seen how a CNN could be made to deal with this type of domain change.
+
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.34]{images/perfect3.jpg}
+        % Add \par\vspace*{20pt} here and...
+        \caption{A Redbox photo}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.17]{images/niceBluebox_100974.jpg}
+        % ...here to lower the subcaptions and...
+        \caption{A Bluebox photo}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+    \end{minipage}%
 \end{figure}
 
 Nevertheless, evidence has been found to suggest that deep neural networks are robust to it: an experiment run by Donahue et al on the \textit{Office} dataset \cite{office}, consisting of images of the same products taken with three different types of photographical equipment (professional studio equipment, digital SLR, webcam) found that their implementation of a deep convolutional neural network produced similar feature representations of two images of the same object even when the two images were taken with different equipment, but that this was not the case when using SURF, the currently best performing set of hand-coded features on the \textit{Office} dataset \cite{surf}. \\
 
+
 \subsubsection{Small Dataset Size}
 
-Alex Krizhevsky's record-breaking CNN was trained on 1 million images \cite{krizhevsky}. Such a large dataset enabled the training of a 60-million parameter neural network, without leading to overfit. In this case, there are 'only' 127,000, and 43\% of them are images of "perfect" welds, meaning that these are label-less. Training a similarly sized network leads to overfit, but training a smaller network could prevent the network from learning sufficiently abstract and complex features for the task at hand. A solution to consider is that of transfer learning \cite{transfer-learning}, which consists in importing a net which has been pretrained in a similar task with vast amounts of data, and to use it as a feature extractor. This would bring the major advantage that a large network architecture can be used, but the number of free parameters can be reduced to fit the size of the training set by "freezing" backpropagation on the lower layers of the network. Intuitively, it would make sense to freeze the lower (convolutional) layers and to re-train the higher ones, since low-level features (such as edges and corners) are likely to be similar across any object recognition task, but the way in which these features are combined are specific to the objects to detect.
+Alex Krizhevsky's record-breaking CNN was trained on 1 million images \cite{krizhevsky}. Such a large dataset enabled the training of a 60-million parameter neural network, without leading to overfit. In this case, there are 'only' 5,000, and 43\% of them are images of "perfect" welds, meaning that these are label-less. Training a similarly sized network leads to overfit, but training a smaller network could prevent the network from learning sufficiently abstract and complex features for the task at hand. A solution to consider is that of transfer learning \cite{transfer-learning}, which consists in importing a net which has been pretrained in a similar task with vast amounts of data, and to use it as a feature extractor. This would bring the major advantage that a large network architecture can be used, but the number of free parameters can be reduced to fit the size of the training set by "freezing" backpropagation on the lower layers of the network. Intuitively, it would make sense to freeze the lower (convolutional) layers and to re-train the higher ones, since low-level features (such as edges and corners) are likely to be similar across any object recognition task, but the way in which these features are combined are specific to the objects to detect.
 
 \subsubsection{Class Imbalance}
 
-The dataset suffers from a similar adverse characteristic to that of medical datasets: pathology observations are significantly less frequent that healthy observations. This can make mini-batch training of the network especially difficult. Consider the simple case of training a neural network to learn the following labels: No Clamp Used, Photo Does Not Show Enough Of Clamps, Clamp Detected (this label is not in the list, but can be constructed as the default label). Only 8\% of the Redbox images contain the first label, and only 5\% contain the second label, so if the partial derivatives of the error are computed over a batch of 128 images (as is the case with the best implementations \cite{krizhevsky},\cite{transfer-learning}, \cite{decaf}), one can only expect a handful of them to contain either of the first two labels. Intuively, one may ask: how could I learn to recognise something if I'm hardly ever shown it?\\
+The dataset suffers from a similar adverse characteristic to that of medical datasets: pathological observations are significantly less frequent that healthy observations. This can make mini-batch training of the network especially difficult. Consider the simple case of training a neural network to learn the following labels: No Clamp Used, Photo Does Not Show Enough Of Clamps, Clamp Detected (this label is not in the list, but can be constructed as the default label). Only 8\% of the Redbox images contain the first label, and only 5\% contain the second label, so if the partial derivatives of the error are computed over a batch of 128 images (as is the case with the best implementations \cite{krizhevsky},\cite{transfer-learning}, \cite{decaf}), one can only expect a handful of them to contain either of the first two labels. Intuively, one may ask: how could I learn to recognise something if I'm hardly ever shown it?\\
 
-One possible solution would be to use a different cost function: the F-measure \cite{f-measure}, which is known to deal with these circumstances. Although the F-measure has been adapted to into a fully differentiable cost function (which is mandatory for gradient descent), there currently exists no generalisation of it for the case of $n \ge 2$
-classes. Moreover, one would need to ensure that the range of the error is as large as possible for a softmax activation unit, whose own output range is merely $[0;1]$. \\ \\
 
 
 \clearpage
@@ -471,7 +514,7 @@ Before diving into the details, a notable point to bear in mind is that these op
 
 The following subsection is an explanation of the computation that occurs in a convolutional layer. Users of Convolutional Neural Networks for classification tasks are sometimes accused of using them as a black box without understanding them; therefore, this section is crucial in establishing an in-depth understanding of how they function and why they might be so successful. \\
 
-The architecture from (Krizhevsky et al 2012)'s record-breaking image classification model -- which has been forming the basis for every natural scale image classification CNN since \cite{rectifier} \cite{goodfellow_street_view} \cite{decaf} \cite{fergus_tutorial} \cite{colah} \cite{zeiler_fergus} \cite{transfer-learning} \cite{caffe-website}  -- is summarised below. The softmax layer and fully connected layers having already been covered in section 3, the subsequent subsection is explains what remains: the inner workings of a convolutional layer. \\
+The architecture from (Krizhevsky et al 2012)'s record-breaking image classification model -- which has since been frequently reused for natural scale image classification tasks with CNNs \cite{rectifier} \cite{goodfellow_street_view} \cite{decaf} \cite{fergus_tutorial} \cite{colah} \cite{zeiler_fergus} \cite{transfer-learning} \cite{caffe-website}  -- is summarised below. The softmax layer and fully connected layers having already been covered in section 3, the subsequent subsection is explains what remains: the inner workings of a convolutional layer. \\
 
 \begin{figure}[h!]
 	\centering
@@ -752,86 +795,38 @@ For the sake of providing mathematical intuition as to why early stopping and va
 $ w_k = ( \sum_{t=0}^{T} (I - A')^k)b'$ where 
 
 
-
 Combine your intuition with the stuff from that conference, about gradient descent and extra polynomial order.
 
 I've been thinking about it in terms of early stopping. early stopping seems really neat in that it first learns patterns that generalise and then eventually learns patterns that don't generalise, which is when we stop training. I was wondering why  it works so nicely, and thought this inverse approximation formulation of grad descent makes it look like you're adding ever higher order polynomials as you go along. so maybe what's happening is that you're not learning first the patterns that generalise per se, but rather the simplest patterns (that can be fitted with low order polynomial), and as you go along, increasingly complex ones. if you have a large enough dataset the patterns that don't generalise are going to be really complex and require really high order polynomials to fit them, hence why overfit only takes place later.
+
+\clearpage
 
 \section{Task 1: Generic Clamp Detection}
 
 
 \subsection{Motivations}
 
-Clamp detection was suggested by ControlPoint as a simple test run for training a CNN on their dataset. The detection task in itself was deemed simple since clamps are large objects which would be easy to see. However, four significant obstacles arose: non-converging error rates, class imbalance, mislabelling and data complexity.\\
-
+Clamp detection was suggested by ControlPoint as a simple test run for training a CNN on their dataset. Since computer vision had never been attempted on ControlPoint's dataset, there was no benchmark from which to evaluate the difficulty of the task. The test run was seen as a way of estimating the difficulty, in case the task would turn out to be too ambitious for the scope of the MSc project. Clamp detection was advised on the intuitive basis that, since clamps are large objects, they would be easy to see. \\
 
 \subsection{Implementation: Cuda-Convnet}
 
-Used AlexNet. No need to describe its achitecture here, this is already done above. \\
+Due to its success and frequent re-use \cite{rectifier} \cite{goodfellow_street_view} \cite{decaf} \cite{fergus_tutorial} \cite{colah} \cite{zeiler_fergus} \cite{transfer-learning} \cite{caffe-website}, the network architecture from (Krizhevsky et al 2012), often referred to as AlexNet, was chosen for this task (and throughout most of the project).
 
-\subsubsection{Cuda-Convnet: An Out-of-the-box API}
+Cuda-Convnet is an open-source GPU implementation of a deep convolutional neural network written in CUDA C++ and python by Alex Krizhevsky to train AlexNet. It was therefore convenient to use it for the task, especially since  it had already been used for the MSc group project. However, a shortcoming with the API is that it expects data in the form of batches consisting of numpy arrays of stacked jpg values in matrix format with RGB values split across, and a dictionary of labels and metadata. Python programs were written to achieve this and extract training data from the log files and plotting it. By re-using code written during the group project, the additional code needing to be written was limited to approx.\ 400 lines. The hardware used for training the network was an nVidia GeForce GTX 780 with 4GB RAM. \\
 
-Cuda-Convnet is a GPU implementation of a deep convolutional neural network implemented in CUDA/C++. It was written by Alex Krizhevsky to train the net that set ground-breaking records at the ILSVRC 2012 competition, and subsequently open-sourced. However, parts of his work are missing and his open source repository is not sufficient to reproduce his network. In order to do so, data batching scripts were written for turning raw .jpg images and separate .dat files into pickled python objects each containing 128 stacked jpg values in matrix format with RGB values split across, and a dictionary of labels and metadata for the network. \\
+\subsection{Experimentation}
 
-Wrote scripts to pre-process the data because Cuda-Convnet and noccn don't provide everything. Had to write scripts to:
-\begin{itemize}
-\item get all labels
-\item visually inspect random samples of the data
-\item leave out images tagged as poor
-\item write the data in the xml format that cuda-convnet's batching API can read
-\item potentially treat unlabelled images as an extra class
-\item potentially leave out classes 
-\item potentially merge classes
-\item randomly remove images to reach given class balance ratio
-\item unit tests for all of the above
-\end{itemize}
-The scripts are written in python and the code is ~800 lines.
+Training occurred over the Redbox dataset only, to exclude domain change as a potential reason for weak performance if it were to occur. Time series for training and validation errors were extracted, but not the test error, since it serves no purpose in training the model.
 
-
-\subsubsection{Hardware: NVidia GeForce GTX 780}
-
-CUDA-enabled GPU. How many teraflops? Which operations are parallelised? 
-First a GeForce GTX 780 with 4GB RAM. 
-
-
-\subsection{Discovery}
-
-Also mention that unsupervised learning was considered to deal with the mis-labelled data, the reasons for why this was put aside (discussions with ControlPoint), but that it would make for interesting further research? Maybe it should be renamed to summary, and be included as final subsubsection of every implementation subsection? \\
-
-
-
-Several weeks into training, it was discovered that in the case of tapping-T joints, for the Redbox images, the glint of a slim portion of a clamp is sufficient to judge it present. \\
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.35\linewidth]{images/tapping-T.jpg}
-	\caption{The clamp wraps around under the pipe - the glint of a metal rod gives it away}
-\end{figure}
-
-Worse still, sometimes the presence of clamps "doesn't count": these are cases for which the purpose of the clamp is other than to secure the welding. Therefore, if such a clamp is present, but the clamp that serves to secure the weld is absent, then the image is assigned the "No Clamps" label. For example, bottom left, a clamp can clearly be seen, but it's not a weld clamp. So this image should have a "No Clamps" flag raised (sadly, it doesn't). Bottom right: the thin metallic clamp that is fastened on the vertical pipe is not the clamp we're interested in. The glint from the thin metallic rod going along the thick, horizontal pipe tells us that a tapping-T clamp is present, even though that clamp is hidden underneath the pipe. 
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.35\linewidth]{images/truly_confusing_1.jpg}
-	\caption{This clamp is not a weld clamp}
-	\includegraphics[width=0.35\linewidth]{images/truly_confusing_2.jpg}
-	\caption{The clamp on the vertical rod is not a weld clamp}
-\end{figure}
-
-This makes learning very difficult, as a class can be pictured as a disjoint set of subclasses, some of which fine-grained, and that one subclass could trigger a false positive of another class.\\
-
-The solution was to train a classifier capable of recognising the type of joint having been welded, using the small subset of data which contained joint-type labels, in order to try and tag the remaining dataset. The advantage of knowing the joint-type is that we can isolate clamp types, and train a classifier on s single type of clamp. That way, the learning task is simplified, and one is able to focus on the other challenges. \\
-
+The error being computed and minimised by Cuda-Convnet is the negative of the log probability of the likelihood function:
+\begin{equation}
+-\frac{1}{n}\sum\limits_{i=1}^n ln(f(W|x_i))
+\end{equation}
+Where f is the learned function, a.k.a\ the model i.e.\ the neural network. This is also known as Maximum Likelihood Estimation; therefore backpropagation converges to the parameter values that maximise the joint likelihood of the training data. It can be shown that this is equal to the cross entropy of the softmax layer's output \cite{DL-book}. This is discussed in greater length in the experimentation section of Task 3 on class imbalance. \\
 
 \subsubsection{Non-Converging Error Rates}
 
-The training produced confusing results. LOOK THROUGH ENTIRE DOCUMENT, when talking about this training, the classification validation error achieved was 11\%, not 40\%! It may also be good to get a test error.
-
-They were trained on the clamp detection task using the Redbox data only. The purpose of these models is to set a benchmark for the difficulty of the classification task, by taking several out-of-the-box network configurations: namely, those found on open source projects or detailed in papers \cite{krizhevsky},\cite{transfer-learning}, \cite{decaf}. \\
-
-The classification task is a challenging one: indeed, none of the training sessions have shown any signs of parameter convergence, as the below plot of the training and validation errors over batch iterations can show. These results are very confusing: backpropagation is guaranteed to converge [cite! go into more detail about this! include the proof in your background!], and yet both training and validation errors seem stuck in volatile periodicity.
-
-You should also justify why you are not bothering with the test error! Because test error optimum is obtained at validation error optimum; test error is merely a truly impartial measure of performance. A bunch of research contents itself with validation error when merely iterating through various models. 
+Training produced worryingly results: none of the training sessions showed any signs of parameter convergence, as the below plot of the training and validation errors over batch iterations can show. These results were confusing: backpropagation is guaranteed to converge \cite{DL-book}, and yet both training and validation errors seem stuck in volatile periodicity.
 
 \begin{figure}[h!]
 	\centering
@@ -839,19 +834,13 @@ You should also justify why you are not bothering with the test error! Because t
 	\caption{Test Run Training Results}
 \end{figure}
 
-The error being shown is the negative of the log probability of the likelihood function:
-\begin{equation}
--\frac{1}{n}\sum\limits_{i=1}^n ln(f(W|x_i))
-\end{equation}
-Where f is the learned function, a.k.a\ the model i.e.\ the neural network. So in this case it is the cross entropy I think. (Verify this, provide intuition).\\
-
 A number of potential explanations for the volatile periodic error rates were considered:
 \begin{itemize}
-\item The learning rates are too high (the minimum gets 'overshot' even when the direction of partial derivatives is correct)
-\item The dropout rate is too high (dropout is a technique which consists in randomly dropping out neurons from the net at every iteration to prevent overfit - but it also means that a different model is tested every time)
-\item The number of parameters is too high (the out-of-the-box implementation contains millions of parameters, which is more than than the number of training cases, so collinearities between the parameters cannot even be broken, and most of them are rendered useless)
-\item Class imbalance (not enough information about the clampless classes to be able to learn feature for them)
-\item Mis-labeled data (at the time of human tagging of these images, tags were left out) \ldots
+\item The learning rates are too high: the minimum gets 'overshot' even when the direction of partial derivatives is correct.
+\item The dropout rate is too high: since neurons are randomly dropped at every iteration, a different model is tested every time; this is known to increase volatility of training error.
+\item The number of parameters is too high: AlexNet contains millions of parameters, which is more than than the number of training cases, so collinearities between the parameters cannot even be broken, and most of them are rendered useless.
+\item Class imbalance: there is not enough information about the "No Clamp" class to be able to learn features for them.
+\item Mislabelled data: the images were not tagged correctly, so members of one class appear in the other and vice versa. \ldots
 \item The error rates are not computed correctly \ldots
 \end{itemize}
 
@@ -1365,6 +1354,9 @@ With a lower learning rate, the net learns the same thing, but a lot slower. Thi
 
 \subsubsection{Bayesian Cross Entropy Cost Function}
 
+One possible solution would be to use a different cost function: the F-measure \cite{f-measure}, which is known to deal with these circumstances. Although the F-measure has been adapted to into a fully differentiable cost function (which is mandatory for gradient descent), there currently exists no generalisation of it for the case of $n \ge 2$
+classes. Moreover, one would need to ensure that the range of the error is as large as possible for a softmax activation unit, whose own output range is merely $[0;1]$. \\ 
+
 If hypothesis supported, maybe rebalancing costs with a different cost function can allow us to under-sample less severely? \\
 
 
@@ -1738,6 +1730,9 @@ because exists injection of parameter space into function space, and because of 
 Conjecture that imbalance-induced fake minima are littered across the entire error surface, also present in the sweet spot zone. Conjecture further that they are as dense as the relative size between parameter space and function space. Could be interesting to think about how the choice of a network architecture affects this injectivity.
 
 Unsupervised Learning to correct mis-labelling, with encouragements to create clusters initialised by those resulting from supervised learning (maybe could only work well with many false negatives, few false positives, as is the case here?). \\ 
+
+Copy paste from your emacs sheet everything! Talk about domain change as well because it's a challenge mentioned at the top but never addressed throughout research.
+
 
 
 \begin{thebibliography}{1}
