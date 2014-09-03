@@ -56,7 +56,7 @@
 \begin{abstract}
 
 {
-Automatic image classification experienced a breakthrough in 2012 with the advent of GPU implementations of deep convolutional neural networks. These models distinguish themselves by learning features, making use of pooling operations that achieve feature invariance and robustness to cluttered backgrounds, and a hierarchical structure which enables the learning of complex features with high generalisation performance. This has motivated ControlPoint LLP, a gas & water infrastructure monitoring company, to explore the ability of deep learning to automate one of its business services: inspecting photos of polyethylene pipe weld installations to ascertain weld quality. The company reports to having previously explored automation with existing computer vision businesses, but that the semantic complexity of the visual characteristics to recognise made the task technologically infeasible. \\
+Automatic image classification experienced a breakthrough in 2012 with the advent of GPU implementations of deep convolutional neural networks. These models distinguish themselves by learning features, making use of pooling operations that achieve feature invariance and robustness to cluttered backgrounds, and a hierarchical structure which enables the learning of complex features with high generalisation performance. This has motivated ControlPoint LLP, a gas and water infrastructure monitoring company, to explore the ability of deep learning to automate one of its business services: inspecting photos of polyethylene pipe weld installations to ascertain weld quality. The company reports to having previously explored automation with existing computer vision businesses, but that the semantic complexity of the visual characteristics to recognise made the task technologically infeasible. \\
 
 This report consists in an in-depth explanation of the workings of a convolutional  It is therefore divided into 5 sections: foundations of machine learning with neural networks, deep convolutional neural networks (including deep belief networks), multi-tag learning, learning with few training examples, and incorporating knowledge of the structure of the data into the network architecture to optimise learning.\\
 
@@ -243,7 +243,7 @@ classes. Moreover, one would need to ensure that the range of the error is as la
 
 \section{Literature Review}
 
-\subsection{Deep Supervised Learning}
+\subsection{Supervised Learning}
 
 Learning in the case of classification consists in using the dataset $\mathcal{D}$ to find the hypothesis function $f^{h}$ that best approximates the unknown function $f^{*} : 2^{\mathcal{X}} \rightarrow 2^{\mathcal{Y}}$ which would perfectly classify any subset of the instance space $\mathcal{X}$. Supervised learning arises when $f^{*}(x)$ is known for every instance in the dataset, i.e.\ when the dataset is labelled and of the form $\{(x_{1},f^{*}(x_{1})),(x_{2},f^{*}(x_{2})), ..., (x_{n},f^{*}(x_{n}))\}$. This means that $|\mathcal{D}|$ points of $f^{*}$ are known, and can be used to fit $f^{h}$ to them, using an appropriate cost function $\mathcal{C}$. $\mathcal{D}$ is therefore referred to as the \textit{training set}. 
 
@@ -256,16 +256,13 @@ Formally, supervised learning therefore consists in finding
   
 where $\mathcal{F}$ is the chosen target function space in which to search for $f^{h}$ . \\
 
-\subsubsection{Approximation vs Generalisation}
+\subsection{Approximation vs Generalisation}
 
-It is important to note that supervised learning does not consist in merely finding the function which best fits the training set - the availability of numerous universal approximating function classes (such as the set of all finite order polynomials) would make this a relatively simple task \cite{univ-approx}. The crux of supervised learning is to find a hypothesis function which fits the training set well \textit{and} would fit well to any subset of the instance space. Approximation and generalisation together make up the two optimisation criteria for supervised learning.\\
+It is important to note that supervised learning does not consist in merely finding the function which best fits the training set - the availability of numerous universal approximating function classes (such as the set of all finite order polynomials) would make this a relatively simple task \cite{univ-approx}. The crux of supervised learning is to find a hypothesis function which fits the training set well \textit{and} would fit well to any subset of the instance space, including unseen data. Approximation and generalisation together make up the two optimisation criteria for supervised learning.\\
 
-\subsection{Deep Learning: Neurons and Depth}
+\subsection{Models of Neurons}
 
 Learning a hypothesis function $f^{h}$ comes down to searching a target function space for the function which minimises the cost function. A function space is defined by a parametrised function equation, and a parameter space. Choosing a deep convolutional neural network with rectified linear neurons sets the parametrised function equation. By explaining the architecture of such a neural network, this subsection justifies the chosen function equation. As for the parameter space, it is $\mathbb{R^{P}}$ (where P is the number of parameters in the network); its continuity must be noted as this enables the use of gradient descent as the optimisation algorithm (as is discussed later). \\
-
-
-\subsubsection{Models of Neurons}
 
 Before we consider the neural network architecture as a whole, let us start with the building block of a neural network: the neuron (mathematically referred to as the \textit{activation function}). Two types of neuron models are used in current state-of-the-art implementations of deep convolutional neural networks: the rectified linear unit and the softmax unit (note that the terms "neuron" and "unit" are used interchangeably). In order to bring out their specific characteristics, we shall first consider two other compatible neuron models: the binary threshold neuron, which is the most intuitive, and the hyperbolic tangent neuron, which is the most analytically appealing. It may also help to know what is being modelled, so a very brief look at a biological neuron shall first be given.
 
@@ -334,7 +331,7 @@ intuition: Bishop textbook: "softmax function, as it represents
 a smoothed version of the ‘max’ function because, if ak ? aj for all j ?= k, then p(Ck|x) ? 1, and p(Cj|x) ? 0."
 
 
-\subsubsection{Why Depth}
+\subsection{Feed-forward Architecture}
 
 A feed-forward neural network is a representation of a function in the form of a directed acyclic graph, so this graph can be interpreted both biologically and mathematically. A node represents a neuron as well as an activation function $f$, an edge represents a synapse as well as the composition of two activation functions $f \circ g$, and an edge weight represents the strength of the connection between two neurons as well as a parameter of $f$. The figure below (taken from \cite{DL-book}) illustrates this.
 
@@ -364,6 +361,8 @@ Mathematically, it was proved in 1989 that MLPs are universal approximators \cit
 
 Intuitively, having a hidden layer feed into another hidden layer above enables the learning of complex, abstract features, as a higher hidden layer can learn features which combine, build upon and complexify the features detected in the layer below. The neurons of the output layer can be viewed as using information about features in the input to determine the output value. In the case of classification, where each output neuron corresponds to the probability of membership of a specific class, the neuron can be seen as using information about the most abstract features (i.e.\ those closest to defining the entire object) to determine the probability of a class membership. \\
 
+\subsection{Justifying Depth}
+
 To make the case for deep architectures, consider a model with the same number of parameters but fewer layers (i.e.\ a greater number of neurons per layer). (Goodfellow et al 2013) \cite{goodfellow_street_view} ran experiments to compare and found that depth is better: intuitively, if neurons are side by side, they cannot use the computation of their neighbour, whereas with depth, the neurons above can make use of the work done by the neurons below. \\	
 
 \begin{figure}[h!]
@@ -380,13 +379,11 @@ However, it may seem "risky" to be imposing the use of features in regions of th
 
 \clearpage
 
-\subsection{Training}
-
-\subsubsection{Backpropagation}
+\subsection{Backpropagation}
 
 Now that the architecture of a deep neural network has been motivated, the question remains of how to train it. Mathematically: now that the function space has been explained, the question remains of how this space is searched. In the case of feed-forward neural networks and supervised learning, this is done with gradient descent, a local (therefore greedy) optimisation algorithm. Gradient descent relies on the partial derivatives of the error (a.k.a\ cost) function with respect to each parameter of the network; the backpropagation algorithm is an implementation of gradient descent which efficiently computes these values.
   
-\paragraph{Compute Error-Weight Partial Derivatives}
+\subsubsection{Compute Error-Weight Partial Derivatives}
 
 Let $t$ be the target output (with classification, this is the label) and let $y = (y_{1}, y_{2}, ..., y_{P})$ be actual value of the output layer on a training case. (Note that classification is assumed here: there are multiple output neurons, one for each class).
 
@@ -403,7 +400,7 @@ where $\mathcal{C}$ is the chosen cost function. The error-weight partial deriva
 
 Since in general, a derivative $\frac{\partial{f}}{\partial{x}}$ is numerically obtained by perturbing $x$ and taking the change in $f(x)$, the advantage with this formula is that instead of individually perturbing each weight $w_{ij}$, only the unit outputs $y_{i}$ are perturbed. In a neural network with $k$ fully connected layers and $n$ units per layer, this amounts to $\Theta(k \cdot n)$ unit perturbations instead of $\Theta(k \cdot n^{2})$ weight perturbations \footnote{the bound on weight perturbations is no longer tight if we drop the assumption of fully connected layers}. Therefore, backpropagation scales linearly with the number of neurons. \\
 
-\subsubsection{Update Weight Values (with Gradient Descent)}
+\subsubsection{Update Weight Values with Gradient Descent}
 
 The learning rule is given by:
 
@@ -424,9 +421,9 @@ Visually, this means that weight values move in the direction that will (locally
 % \paragraph{cost functions}
 % MSE, cross-entropy for softmax
 
-\subsubsection{Cross Validation}
+\subsection{Cross Validation}
 
-As mentioned previously, learning is not a mere approximation problem because the hypothesis function must generalise well to any subset of the instance space. Approximation and generalisation are incorporated into the training of deep neural networks (as well as other models \cite{train&test}) by separating the labelled dataset into a training set, a validation set and a test set. The partial derivatives are computed from the error over the training set, but the function that is learned is the one that minimises the error over the validation set, and its performance is measured on the test set. The distinction between training and validation sets is what prevents the function from overfitting the training data: if the function begins to overfit, the error on the validation set will increase and training will be stopped. The distinction between the test set and the validation set is to obtain a stochastically impartial measure of performance: since the function is chosen to minimise the error over the validation set, there could be some non-negligible overfit to the validation set which can only be reflected by assessing the function's performance on yet another set.
+As mentioned previously, learning is not a mere approximation problem because the hypothesis function must generalise well to any subset of the instance space. Approximation and generalisation are incorporated into the training of deep neural networks (as well as other models \cite{train&test}) by separating the labelled dataset into a training set, a validation set and a test set. The partial derivatives are computed from the error over the training set, but the function that is learned is the one that minimises the error over the validation set, and its performance is measured on the test set. The distinction between training and validation sets is what prevents the function from overfitting the training data: if the function begins to overfit, the error on the validation set will increase and training will be stopped. The distinction between the test set and the validation set is to obtain a stochastically impartial measure of performance: since the function is chosen to minimise the error over the validation set, there could be some non-negligible overfit to the validation set which can only be reflected by assessing the function's performance on yet another set. \\
 
 
 \clearpage
