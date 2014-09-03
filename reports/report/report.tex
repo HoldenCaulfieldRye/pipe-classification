@@ -97,13 +97,10 @@ Contributions (beyond training accurate pipe weld classifiers for ControlPoint):
 
 This project aims to automate the classification of pipe weld images with deep neural networks. After explaining and formalising the problem, we will explain fundamental concepts in machine learning, then go on to explain the architecture of a deep convolutional neural network with restricted linear units, and finally explain how the network is trained with stochastic gradient descent, backpropagation and dropout. The last sections focus on three challenges specific to the pipe weld image classification task: multi-tagging, learning features from a restricted training set, and class imbalance.
 
-\section{Defining the Problem}
-
-The problem consists in building a classifier of pipe weld images capable of detecting the presence of multiple characteristics in each image. 
 
 \subsection{Explaining the Problem}
 
-Practically speaking, the reason for why this task involves multiple tags per image is because the quality of a pipe weld is assessed not on one, but 17 characteristics, as shown below.
+The problem consists in building a classifier of pipe weld images capable of detecting the presence of multiple characteristics in each image. Practically speaking, the reason for why this task involves multiple tags per image is because the quality of a pipe weld is assessed not on one, but 17 characteristics, as shown below.
 
 \begin{table}[h]
    \centering
@@ -242,10 +239,9 @@ classes. Moreover, one would need to ensure that the range of the error is as la
 
 \clearpage
 
+\section{Literature Review}
 
-\section{Deep Supervised Learning}
-
-\subsection{Supervised Learning}
+\subsection{Deep Supervised Learning}
 
 Learning in the case of classification consists in using the dataset $\mathcal{D}$ to find the hypothesis function $f^{h}$ that best approximates the unknown function $f^{*} : 2^{\mathcal{X}} \rightarrow 2^{\mathcal{Y}}$ which would perfectly classify any subset of the instance space $\mathcal{X}$. Supervised learning arises when $f^{*}(x)$ is known for every instance in the dataset, i.e.\ when the dataset is labelled and of the form $\{(x_{1},f^{*}(x_{1})),(x_{2},f^{*}(x_{2})), ..., (x_{n},f^{*}(x_{n}))\}$. This means that $|\mathcal{D}|$ points of $f^{*}$ are known, and can be used to fit $f^{h}$ to them, using an appropriate cost function $\mathcal{C}$. $\mathcal{D}$ is therefore referred to as the \textit{training set}. 
 
@@ -382,11 +378,13 @@ However, it may seem "risky" to be imposing the use of features in regions of th
 
 \clearpage
 
-\subsection{Backpropagation}
+\subsection{Training}
+
+\subsubsection{Backpropagation}
 
 Now that the architecture of a deep neural network has been motivated, the question remains of how to train it. Mathematically: now that the function space has been explained, the question remains of how this space is searched. In the case of feed-forward neural networks and supervised learning, this is done with gradient descent, a local (therefore greedy) optimisation algorithm. Gradient descent relies on the partial derivatives of the error (a.k.a\ cost) function with respect to each parameter of the network; the backpropagation algorithm is an implementation of gradient descent which efficiently computes these values.
   
-\subsubsection{Compute Error-Weight Partial Derivatives}
+\paragraph{Compute Error-Weight Partial Derivatives}
 
 Let $t$ be the target output (with classification, this is the label) and let $y = (y_{1}, y_{2}, ..., y_{P})$ be actual value of the output layer on a training case. (Note that classification is assumed here: there are multiple output neurons, one for each class).
 
@@ -424,14 +422,14 @@ Visually, this means that weight values move in the direction that will (locally
 % \paragraph{cost functions}
 % MSE, cross-entropy for softmax
 
-\subsection{Cross Validation}
+\subsubsection{Cross Validation}
 
 As mentioned previously, learning is not a mere approximation problem because the hypothesis function must generalise well to any subset of the instance space. Approximation and generalisation are incorporated into the training of deep neural networks (as well as other models \cite{train&test}) by separating the labelled dataset into a training set, a validation set and a test set. The partial derivatives are computed from the error over the training set, but the function that is learned is the one that minimises the error over the validation set, and its performance is measured on the test set. The distinction between training and validation sets is what prevents the function from overfitting the training data: if the function begins to overfit, the error on the validation set will increase and training will be stopped. The distinction between the test set and the validation set is to obtain a stochastically impartial measure of performance: since the function is chosen to minimise the error over the validation set, there could be some non-negligible overfit to the validation set which can only be reflected by assessing the function's performance on yet another set.
 
 
 \clearpage
 
-\section{Deep Convolutional Neural Networks}
+\subsection{Deep Convolutional Neural Networks}
 
 A convolutional neural network is a deep feed-forward neural network with at least one convolutional layer. A convolutional layer differs from a traditional fully connected layer in that it imposes specific operations on the data before and after the data is fed through the activation functions. These specific operations are taken from the pre deep learning era of computer vision, and are detailed in this subsection. \\
 
@@ -452,8 +450,6 @@ The architecture from (Krizhevsky et al 2012)'s record-breaking image classifica
 	\includegraphics[scale=0.3]{images/alexnet_architecture_simple.png}
 	\caption{Architecture of CNN from (Krizhevsky et al 2012)}
 \end{figure}
-
-\subsection{Operations in a convolutional layer} 
 
 A\footnote{A large portion of the content from this subsection on explaining the operations in a convolutional layer is heavily inspired from Prof Robert Fergus's NIPS 2013 tutorial \cite{fergus_tutorial}.} convolution layer has a pixel feature i.e. filter which is convolved over the entire image, followed by a non-linearity, followed by a spatial feature, optionally followed by a normalisation between feature responses. This structure is similar to hand-crafted features in computer vision such as SIFT and HOG \cite{SIFT}. The key difference is that each operation is learned, i.e.\ optimised to maximise performance on the training set. \\
 
@@ -517,7 +513,6 @@ In order to impose convolution i.e.\ application of the same kernel over the ent
 \end{equation}
 
 Where $\mathcal{K}$ is the index set for all neurons intended to apply the kernel to a different location on the image. This learning rule ensures that the i-th weight of all such neurons are updated by the same value. At initialisation, each i-th weight is also set to the same value. The result is that the weight vectors for all these neurons are identical throughout training, i.e.\ the corresponding kernel is convolved over the entire image. \\
-
  
 \subsubsection{Non-linear Activation}
 
@@ -556,16 +551,14 @@ By stacking n convolutional layers with $k \times k$ pooling operations, the out
 
 Pick a single location of the output, have a little spatial neighbourhood around that, and perform the linear transformation on all the output values in this neighourhood that results in the best fit of a zero mean, unit standard deviation Gaussian. These transformations are used in image processing to handle images where contrast intensity varies across different areas of the image. The neighbourhood can be defined geographically over isolated kernel maps, or across kernel maps. This normalisation achieves a rescaling of the features at each layer. For example, if in a certain neighbourhood output values are all low and in another neighbourhood all output values are high, this may be due to photographical factors (e.g.\ different expositions to light) which have nothing to do with the underlying objects of interest; local contrast normalisation will pull up the values of the low value neighbourhood and reduce those of the high value neighbourhood to put both neighbourhoods on an equal footing for the next layer to receive unbiased data. \\
 
-\subsection{Data augmentation}
-
 \subsection{Dropout}
 
 Dropout is a regularisation technique introduced by (Hinton et al 2012) \cite{dropout} which consists in preventing co-adaptation of feature detectors by randomly turning off a fixed proportion $k \in (0,1)$ of neurons at every training iteration, but using the entire network (with weights scaled down by $k$) at test time. As shown below, this technique has been shown to improve performance on the MNIST image classification benchmark task, though this increase is only significant when neither data augmentation, convolutional layers or unsupervised pre-training has been used. \\
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.4]{images/ReLU_path_selection.png}
-	\caption{ReLU path selection (source: Glorot et al 2013)}
+	\includegraphics[scale=0.4]{images/dropout.png}
+	\caption{ReLU path selection (source: Hinton et al 2012)}
 \end{figure}
 
 Since deep neural networks are universal approximators \cite{univ-approx}, fitting the training data is rarely a problem; many different network configurations can achieve this. The problem lies in learning the one which fits unseen data just as well. The idea behind dropout is to perform model averaging with the underlying assumption that the average model will 

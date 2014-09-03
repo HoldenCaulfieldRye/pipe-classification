@@ -1,105 +1,103 @@
 \contentsline {section}{\numberline {1}Introduction}{5}
-\contentsline {section}{\numberline {2}Defining the Problem}{5}
-\contentsline {subsection}{\numberline {2.1}Explaining the Problem}{5}
-\contentsline {subsection}{\numberline {2.2}Formalising the problem: Multi-Instance Multi-Label Supervised Learning}{6}
-\contentsline {subsection}{\numberline {2.3}Challenges specific to the Pipe Weld Classification Task}{6}
-\contentsline {subsubsection}{\numberline {2.3.1}Data Overview}{7}
-\contentsline {subsubsection}{\numberline {2.3.2}Multi-Tagging}{7}
-\contentsline {subsubsection}{\numberline {2.3.3}Domain Change}{7}
-\contentsline {subsubsection}{\numberline {2.3.4}Small Dataset Size}{8}
-\contentsline {subsubsection}{\numberline {2.3.5}Class Imbalance}{8}
-\contentsline {section}{\numberline {3}Deep Supervised Learning}{11}
-\contentsline {subsection}{\numberline {3.1}Supervised Learning}{11}
-\contentsline {subsubsection}{\numberline {3.1.1}Approximation vs Generalisation}{11}
-\contentsline {subsection}{\numberline {3.2}Deep Learning: Neurons and Depth}{11}
-\contentsline {subsubsection}{\numberline {3.2.1}Models of Neurons}{11}
+\contentsline {subsection}{\numberline {1.1}Explaining the Problem}{5}
+\contentsline {subsection}{\numberline {1.2}Formalising the problem: Multi-Instance Multi-Label Supervised Learning}{6}
+\contentsline {subsection}{\numberline {1.3}Challenges specific to the Pipe Weld Classification Task}{6}
+\contentsline {subsubsection}{\numberline {1.3.1}Data Overview}{6}
+\contentsline {subsubsection}{\numberline {1.3.2}Multi-Tagging}{7}
+\contentsline {subsubsection}{\numberline {1.3.3}Domain Change}{7}
+\contentsline {subsubsection}{\numberline {1.3.4}Small Dataset Size}{8}
+\contentsline {subsubsection}{\numberline {1.3.5}Class Imbalance}{8}
+\contentsline {section}{\numberline {2}Literature Review}{11}
+\contentsline {subsection}{\numberline {2.1}Deep Supervised Learning}{11}
+\contentsline {subsubsection}{\numberline {2.1.1}Approximation vs Generalisation}{11}
+\contentsline {subsection}{\numberline {2.2}Deep Learning: Neurons and Depth}{11}
+\contentsline {subsubsection}{\numberline {2.2.1}Models of Neurons}{11}
 \contentsline {paragraph}{Multipolar Biological Neuron}{11}
 \contentsline {paragraph}{Binary Threshold Neuron}{12}
 \contentsline {paragraph}{Logistic Sigmoid Neuron}{12}
 \contentsline {paragraph}{Rectified Linear Neuron}{12}
 \contentsline {paragraph}{Softmax Neuron}{13}
-\contentsline {subsubsection}{\numberline {3.2.2}Why Depth}{14}
+\contentsline {subsubsection}{\numberline {2.2.2}Why Depth}{14}
 \contentsline {paragraph}{Shallow Feed-Forward Neural Networks: the Perceptron}{14}
 \contentsline {paragraph}{Deep Feed-Forward Neural Networks: the Multilayer Perceptron}{14}
-\contentsline {subsection}{\numberline {3.3}Backpropagation}{17}
-\contentsline {subsubsection}{\numberline {3.3.1}Compute Error-Weight Partial Derivatives}{17}
-\contentsline {subsubsection}{\numberline {3.3.2}Update Weight Values (with Gradient Descent)}{17}
-\contentsline {subsection}{\numberline {3.4}Cross Validation}{17}
-\contentsline {section}{\numberline {4}Deep Convolutional Neural Networks}{19}
-\contentsline {subsection}{\numberline {4.1}Operations in a convolutional layer}{19}
-\contentsline {subsubsection}{\numberline {4.1.1}Pixel Feature}{20}
-\contentsline {subsubsection}{\numberline {4.1.2}Non-linear Activation}{22}
-\contentsline {subsubsection}{\numberline {4.1.3}Pooling aka Spatial Feature}{22}
-\contentsline {subsubsection}{\numberline {4.1.4}Contrast Normalisation}{22}
-\contentsline {subsection}{\numberline {4.2}Data augmentation}{23}
-\contentsline {subsection}{\numberline {4.3}Dropout}{23}
-\contentsline {section}{\numberline {5}Analysis 1: ReLU Activation}{24}
-\contentsline {subsection}{\numberline {5.1}Motivations}{24}
-\contentsline {subsection}{\numberline {5.2}Mathematical Analysis}{25}
-\contentsline {subsubsection}{\numberline {5.2.1}How the Gradient Propagates}{25}
-\contentsline {subsubsection}{\numberline {5.2.2}An Example}{25}
-\contentsline {subsubsection}{\numberline {5.2.3}Vanishing Gradient}{26}
-\contentsline {subsubsection}{\numberline {5.2.4}Impact of the ReLU}{27}
-\contentsline {section}{\numberline {6}Analysis 2: Early Stopping}{29}
+\contentsline {subsection}{\numberline {2.3}Training}{17}
+\contentsline {subsubsection}{\numberline {2.3.1}Backpropagation}{17}
+\contentsline {paragraph}{Compute Error-Weight Partial Derivatives}{17}
+\contentsline {subsubsection}{\numberline {2.3.2}Update Weight Values (with Gradient Descent)}{17}
+\contentsline {subsubsection}{\numberline {2.3.3}Cross Validation}{17}
+\contentsline {subsection}{\numberline {2.4}Deep Convolutional Neural Networks}{19}
+\contentsline {subsubsection}{\numberline {2.4.1}Pixel Feature}{20}
+\contentsline {subsubsection}{\numberline {2.4.2}Non-linear Activation}{21}
+\contentsline {subsubsection}{\numberline {2.4.3}Pooling aka Spatial Feature}{22}
+\contentsline {subsubsection}{\numberline {2.4.4}Contrast Normalisation}{23}
+\contentsline {subsection}{\numberline {2.5}Dropout}{23}
+\contentsline {section}{\numberline {3}Analysis 1: ReLU Activation}{24}
+\contentsline {subsection}{\numberline {3.1}Motivations}{24}
+\contentsline {subsection}{\numberline {3.2}Mathematical Analysis}{25}
+\contentsline {subsubsection}{\numberline {3.2.1}How the Gradient Propagates}{25}
+\contentsline {subsubsection}{\numberline {3.2.2}An Example}{25}
+\contentsline {subsubsection}{\numberline {3.2.3}Vanishing Gradient}{26}
+\contentsline {subsubsection}{\numberline {3.2.4}Impact of the ReLU}{27}
+\contentsline {section}{\numberline {4}Analysis 2: Early Stopping}{29}
 \contentsline {paragraph}{Gradient Descent}{29}
-\contentsline {section}{\numberline {7}Task 1: Generic Clamp Detection}{29}
-\contentsline {subsection}{\numberline {7.1}Motivations}{29}
-\contentsline {subsection}{\numberline {7.2}Implementation: Cuda-Convnet}{29}
-\contentsline {subsubsection}{\numberline {7.2.1}Cuda-Convnet: An Out-of-the-box API}{30}
-\contentsline {subsubsection}{\numberline {7.2.2}Hardware: NVidia GeForce GTX 780}{30}
-\contentsline {subsection}{\numberline {7.3}Discovery}{30}
-\contentsline {subsubsection}{\numberline {7.3.1}Non-Converging Error Rates}{31}
+\contentsline {section}{\numberline {5}Task 1: Generic Clamp Detection}{29}
+\contentsline {subsection}{\numberline {5.1}Motivations}{29}
+\contentsline {subsection}{\numberline {5.2}Implementation: Cuda-Convnet}{29}
+\contentsline {subsubsection}{\numberline {5.2.1}Cuda-Convnet: An Out-of-the-box API}{30}
+\contentsline {subsubsection}{\numberline {5.2.2}Hardware: NVidia GeForce GTX 780}{30}
+\contentsline {subsection}{\numberline {5.3}Discovery}{30}
+\contentsline {subsubsection}{\numberline {5.3.1}Non-Converging Error Rates}{31}
 \contentsline {paragraph}{Increase Test Error Precision}{33}
 \contentsline {paragraph}{Alter Momentum}{34}
 \contentsline {subparagraph}{Increase}{34}
 \contentsline {subparagraph}{Decrease}{34}
 \contentsline {paragraph}{Reduce Learning Rate}{34}
-\contentsline {subsubsection}{\numberline {7.3.2}Class Imbalance}{35}
+\contentsline {subsubsection}{\numberline {5.3.2}Class Imbalance}{35}
 \contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{35}
-\contentsline {subsubsection}{\numberline {7.3.3}Mislabelling}{36}
-\contentsline {subsubsection}{\numberline {7.3.4}Data Complexity}{37}
-\contentsline {section}{\numberline {8}Task 2: Transfer Learning}{38}
-\contentsline {subsection}{\numberline {8.1}Motivations}{38}
-\contentsline {subsection}{\numberline {8.2}Implementation: Caffe}{38}
+\contentsline {subsubsection}{\numberline {5.3.3}Mislabelling}{36}
+\contentsline {subsubsection}{\numberline {5.3.4}Data Complexity}{37}
+\contentsline {section}{\numberline {6}Task 2: Transfer Learning}{38}
+\contentsline {subsection}{\numberline {6.1}Motivations}{38}
+\contentsline {subsection}{\numberline {6.2}Implementation: Caffe}{38}
 \contentsline {paragraph}{leveldb}{38}
 \contentsline {paragraph}{Class Imbalance Solver}{38}
-\contentsline {subsection}{\numberline {8.3}Experimentation}{39}
-\contentsline {subsubsection}{\numberline {8.3.1}Test Run}{39}
-\contentsline {subsubsection}{\numberline {8.3.2}Initialising Free Layers}{40}
-\contentsline {subsubsection}{\numberline {8.3.3}Freezing Backprop on various layers}{40}
-\contentsline {subsubsection}{\numberline {8.3.4}Parametric vs Non-parametric}{42}
-\contentsline {section}{\numberline {9}Task 3: Class Imbalance}{44}
-\contentsline {subsection}{\numberline {9.1}Motivations}{44}
-\contentsline {subsection}{\numberline {9.2}Implementation}{44}
-\contentsline {subsection}{\numberline {9.3}Experimentation}{44}
-\contentsline {subsubsection}{\numberline {9.3.1}Test Run}{45}
-\contentsline {subsubsection}{\numberline {9.3.2}Transfer Learning}{45}
-\contentsline {subsubsection}{\numberline {9.3.3}Batch Size}{45}
-\contentsline {subsubsection}{\numberline {9.3.4}Learning Rate}{47}
-\contentsline {subsubsection}{\numberline {9.3.5}Bayesian Cross Entropy Cost Function}{48}
+\contentsline {subsection}{\numberline {6.3}Experimentation}{39}
+\contentsline {subsubsection}{\numberline {6.3.1}Test Run}{39}
+\contentsline {subsubsection}{\numberline {6.3.2}Initialising Free Layers}{40}
+\contentsline {subsubsection}{\numberline {6.3.3}Freezing Backprop on various layers}{40}
+\contentsline {subsubsection}{\numberline {6.3.4}Parametric vs Non-parametric}{42}
+\contentsline {section}{\numberline {7}Task 3: Class Imbalance}{44}
+\contentsline {subsection}{\numberline {7.1}Motivations}{44}
+\contentsline {subsection}{\numberline {7.2}Implementation}{44}
+\contentsline {subsection}{\numberline {7.3}Experimentation}{44}
+\contentsline {subsubsection}{\numberline {7.3.1}Test Run}{45}
+\contentsline {subsubsection}{\numberline {7.3.2}Transfer Learning}{45}
+\contentsline {subsubsection}{\numberline {7.3.3}Batch Size}{45}
+\contentsline {subsubsection}{\numberline {7.3.4}Learning Rate}{47}
+\contentsline {subsubsection}{\numberline {7.3.5}Bayesian Cross Entropy Cost Function}{48}
 \contentsline {paragraph}{Motivations}{48}
 \contentsline {paragraph}{Implementation}{48}
 \contentsline {paragraph}{Results}{49}
-\contentsline {subsubsection}{\numberline {9.3.6}Under-Sampling}{50}
+\contentsline {subsubsection}{\numberline {7.3.6}Under-Sampling}{50}
 \contentsline {paragraph}{Overfitting consequences of under-sampling}{50}
-\contentsline {subsubsection}{\numberline {9.3.7}Over-Sampling}{50}
-\contentsline {subsubsection}{\numberline {9.3.8}Test-time threshold}{52}
-\contentsline {section}{\numberline {10}Task 4: Conserving Spatial Information}{53}
-\contentsline {subsection}{\numberline {10.1}Motivations}{53}
-\contentsline {subsection}{\numberline {10.2}Implementation}{54}
-\contentsline {subsection}{\numberline {10.3}Experimentation}{54}
+\contentsline {subsubsection}{\numberline {7.3.7}Over-Sampling}{50}
+\contentsline {subsubsection}{\numberline {7.3.8}Test-time threshold}{52}
+\contentsline {section}{\numberline {8}Task 4: Conserving Spatial Information}{53}
+\contentsline {subsection}{\numberline {8.1}Motivations}{53}
+\contentsline {subsection}{\numberline {8.2}Implementation}{54}
+\contentsline {subsection}{\numberline {8.3}Experimentation}{54}
 \contentsline {paragraph}{Test Run}{54}
 \contentsline {paragraph}{Remove pooling and an fc layer}{54}
 \contentsline {paragraph}{Softmax Bayesian Cross Entropy}{54}
-\contentsline {section}{\numberline {11}Final Results}{54}
-\contentsline {subsection}{\numberline {11.1}Merging Classes}{54}
-\contentsline {subsection}{\numberline {11.2}Learning Rate}{54}
+\contentsline {section}{\numberline {9}Final Results}{54}
+\contentsline {subsection}{\numberline {9.1}Merging Classes}{54}
+\contentsline {subsection}{\numberline {9.2}Learning Rate}{54}
 \contentsline {paragraph}{Step}{54}
 \contentsline {paragraph}{Exp}{55}
-\contentsline {subsection}{\numberline {11.3}Soil Risk Contamination Task}{55}
+\contentsline {subsection}{\numberline {9.3}Soil Risk Contamination Task}{55}
 \contentsline {paragraph}{Test Run}{55}
 \contentsline {subparagraph}{Training Results}{56}
 \contentsline {subparagraph}{Observations}{56}
 \contentsline {paragraph}{Get more evidence}{56}
-\contentsline {subsection}{\numberline {11.4}Hatch Markings}{56}
-\contentsline {section}{\numberline {12}Conclusions and Future Work}{58}
+\contentsline {subsection}{\numberline {9.4}Hatch Markings}{56}
+\contentsline {section}{\numberline {10}Conclusions and Future Work}{58}
