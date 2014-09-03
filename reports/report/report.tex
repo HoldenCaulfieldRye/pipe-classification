@@ -260,7 +260,7 @@ where $\mathcal{F}$ is the chosen target function space in which to search for $
 
 \subsubsection{Approximation vs Generalisation}
 
-It is important to note that supervised learning does not consist in merely finding the function which best fits the training set - the availability of numerous universal approximating function classes (such as the set of all finite order polynomials) would make this a relatively simple task \cite{univ-approx}. The crux of supervised learning is to find a hypothesis function which fits the training set well \textit{and} would fit well to any subset of the instance space. In other words, approximation and generalisation are the two optimisation criteria for supervised learning, and both need to be incorporated into the cost function.\\
+It is important to note that supervised learning does not consist in merely finding the function which best fits the training set - the availability of numerous universal approximating function classes (such as the set of all finite order polynomials) would make this a relatively simple task \cite{univ-approx}. The crux of supervised learning is to find a hypothesis function which fits the training set well \textit{and} would fit well to any subset of the instance space. Approximation and generalisation together make up the two optimisation criteria for supervised learning.\\
 
 \subsection{Deep Learning: Neurons and Depth}
 
@@ -445,6 +445,14 @@ Before diving into the details, a notable point to bear in mind is that these op
 
 The following subsection is an explanation of the computation that occurs in a convolutional layer. Users of Convolutional Neural Networks for classification tasks are sometimes accused of using them as a black box without understanding them; therefore, this section is crucial in establishing an in-depth understanding of how they function and why they might be so successful. \\
 
+The architecture from (Krizhevsky et al 2012)'s record-breaking image classification model -- which has been forming the basis for every natural scale image classification CNN since \cite{rectifier} \cite{goodfellow_street_view} \cite{decaf} \cite{fergus_tutorial} \cite{colah} \cite{zeiler_fergus} \cite{transfer-learning} \cite{caffe-website}  -- is summarised below. The softmax layer and fully connected layers having already been covered in section 3, the subsequent subsection is explains what remains: the inner workings of a convolutional layer. \\
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/alexnet_architecture_simple.png}
+	\caption{Architecture of CNN from (Krizhevsky et al 2012)}
+\end{figure}
+
 \subsection{Operations in a convolutional layer} 
 
 A\footnote{A large portion of the content from this subsection on explaining the operations in a convolutional layer is heavily inspired from Prof Robert Fergus's NIPS 2013 tutorial \cite{fergus_tutorial}.} convolution layer has a pixel feature i.e. filter which is convolved over the entire image, followed by a non-linearity, followed by a spatial feature, optionally followed by a normalisation between feature responses. This structure is similar to hand-crafted features in computer vision such as SIFT and HOG \cite{SIFT}. The key difference is that each operation is learned, i.e.\ optimised to maximise performance on the training set. \\
@@ -459,7 +467,7 @@ A\footnote{This subsection on explaining sliding kernels is heavily inspired fro
 	\caption{Selecting a pixel window and applying a kernel to it (source: convmatrix Gimp documentation)}
 \end{figure}
 
-Notice that this is equivalent to the vector product component of the generic neural network inputs combination $z = b + \sum\limits_{i=0}^{n-1} x_{i}\cdot w_{i}$, where the pixel matrix representation of the entire image is flattened into the vector $\textbf{x}$, the weights of the kernel are flattened into a portion of the weight vector $\textbf{w}$, and all weights corresponding to a pixel that is not part of the window are set (and fixed) to zero. Fixing many weights to zero imposes a strong prior on the network and significantly reduces the function space, making it easier to search for good functions. \\
+Notice that this is equivalent to the vector product component of the generic neural network inputs combination $z = b + \sum\limits_{i=0}^{n-1} x_{i}\cdot w_{i}$, where the pixel matrix representation of the entire image is flattened into the vector $\textbf{x}$, the weights of the kernel are flattened into a portion of the weight vector $\textbf{w}$, and all weights corresponding to a pixel that is not part of the window are set (and fixed) to zero. Fixing many weights to zero imposes a strong prior on the network and significantly reduces the function space, making it easier to search for good functions. The crucial aspect of CNNs is that, by representing these kernels as weight vectors of the network, a large set of optimal features can be learned over the dataset without having to handcraft them, as were for example SIFT and HOG \cite{SIFT}. \\
 
 By convolving the kernel over the image, one obtains a feature response map (referred to as kernel map in computer vision jargon):
 
@@ -548,19 +556,20 @@ By stacking n convolutional layers with $k \times k$ pooling operations, the out
 
 Pick a single location of the output, have a little spatial neighbourhood around that, and perform the linear transformation on all the output values in this neighourhood that results in the best fit of a zero mean, unit standard deviation Gaussian. These transformations are used in image processing to handle images where contrast intensity varies across different areas of the image. The neighbourhood can be defined geographically over isolated kernel maps, or across kernel maps. This normalisation achieves a rescaling of the features at each layer. For example, if in a certain neighbourhood output values are all low and in another neighbourhood all output values are high, this may be due to photographical factors (e.g.\ different expositions to light) which have nothing to do with the underlying objects of interest; local contrast normalisation will pull up the values of the low value neighbourhood and reduce those of the high value neighbourhood to put both neighbourhoods on an equal footing for the next layer to receive unbiased data. \\
 
-\subsection{AlexNet Architecture}
-
-The architecture from (Krizhevsky et al 2012)'s record-breaking image classification model -- often referred to in the deep learning literature as AlexNet -- is summarised below. It was obtained by manual optimisation of hyperparameters. \\
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.3]{images/alexnet_architecture_simple.png}
-	\caption{Architecture of CNN from (Krizhevsky et al 2012)}
-\end{figure}
+\subsection{Data augmentation}
 
 \subsection{Dropout}
 
-\subsection{Data augmentation}
+Dropout is a regularisation technique introduced by (Hinton et al 2012) \cite{dropout} which consists in preventing co-adaptation of feature detectors by randomly turning off a predefined proportion $k \in (0,1)$ of neurons at every training iteration, but using the entire network (with weights scaled down by $k$) at test time. As shown below, this technique has been shown to improve performance on the MNIST image classification benchmark task, though this increase is only significant when neither data augmentation, convolutional layers or unsupervised pre-training has been used (which suggests that . does so when no data augmentation or 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.4]{images/ReLU_path_selection.png}
+	\caption{ReLU path selection (source: Glorot et al 2013)}
+\end{figure}
+
+Since deep neural networks are universal approximators \cite{univ-approx}, fitting the training data is rarely a problem; many different network configurations can achieve this. The problem lies in learning the one which fits unseen data just as well. The idea behind dropout is to perform model averaging with the underlying assumption that the average model will 
+
 
 
 \clearpage
@@ -1753,6 +1762,11 @@ Unsupervised Learning to correct mis-labelling, with encouragements to create cl
  Nair, Vinod; Hinton, Geoffrey;
   \emph{Rectified Linear Units Improve Restricted Boltzmann Machines}\\
   ICML 2010
+
+\bibitem{dropout}
+ G. E. Hinton, N. Srivastava, A. Krizhevsky, I. Sutskever and R. R. Salakhutdinov;
+ \emph{Improving Neural Networks By Preventing Co-Adaptation of Feature Detectors}
+ arXiv 2012
 
 \bibitem{decaf}
  Donahue, Jeff; Jia, Yangqing; Vinyals, Oriol; Hoffman, Judy; Zhang, Ning; Tzeng, Eric; Darrell, Trevor;

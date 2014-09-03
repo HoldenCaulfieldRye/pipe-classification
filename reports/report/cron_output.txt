@@ -1439,3 +1439,11 @@ alex      4650  2645  2 02:52 pts/9    00:11:03 texmaker report.tex
 To git@github.com:HoldenCaulfieldRye/pipe-classification.git
    dfebae0..ff48c00  master -> master
 alex      4650  2645  2 02:52 pts/9    00:11:19 texmaker report.tex
+[master a4e4b8d] auto-commit progress on report
+ 2 files changed, 9 insertions(+), 1 deletion(-)
+ssh: Could not resolve hostname github.com: Name or service not known
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+alex      4650  2645  1 02:52 pts/9    00:11:21 texmaker report.tex

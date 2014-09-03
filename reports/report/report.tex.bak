@@ -556,16 +556,20 @@ By stacking n convolutional layers with $k \times k$ pooling operations, the out
 
 Pick a single location of the output, have a little spatial neighbourhood around that, and perform the linear transformation on all the output values in this neighourhood that results in the best fit of a zero mean, unit standard deviation Gaussian. These transformations are used in image processing to handle images where contrast intensity varies across different areas of the image. The neighbourhood can be defined geographically over isolated kernel maps, or across kernel maps. This normalisation achieves a rescaling of the features at each layer. For example, if in a certain neighbourhood output values are all low and in another neighbourhood all output values are high, this may be due to photographical factors (e.g.\ different expositions to light) which have nothing to do with the underlying objects of interest; local contrast normalisation will pull up the values of the low value neighbourhood and reduce those of the high value neighbourhood to put both neighbourhoods on an equal footing for the next layer to receive unbiased data. \\
 
+\subsection{Data augmentation}
 
 \subsection{Dropout}
 
-Dropout is a regularisation technique introduced by (Hinton et al 2012) \cite{dropout} which consists in preventing co-adaptation of feature detectors by randomly turning off a predefined proportion $k \in (0,1)$ of neurons at every training iteration, but using the entire network (with weights scaled down by $k$) at test time. This technique 
+Dropout is a regularisation technique introduced by (Hinton et al 2012) \cite{dropout} which consists in preventing co-adaptation of feature detectors by randomly turning off a predefined proportion $k \in (0,1)$ of neurons at every training iteration, but using the entire network (with weights scaled down by $k$) at test time. As shown below, this technique has been shown to improve performance on the MNIST image classification benchmark task, though this increase is only significant when neither data augmentation, convolutional layers or unsupervised pre-training has been used (which suggests that . does so when no data augmentation or 
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.4]{images/ReLU_path_selection.png}
+	\caption{ReLU path selection (source: Glorot et al 2013)}
+\end{figure}
 
 Since deep neural networks are universal approximators \cite{univ-approx}, fitting the training data is rarely a problem; many different network configurations can achieve this. The problem lies in learning the one which fits unseen data just as well. The idea behind dropout is to perform model averaging with the underlying assumption that the average model will 
 
-
-\subsection{Data augmentation}
 
 
 \clearpage
