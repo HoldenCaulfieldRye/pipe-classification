@@ -560,7 +560,7 @@ Pick a single location of the output, have a little spatial neighbourhood around
 
 \subsection{Dropout}
 
-Dropout is a regularisation technique introduced by (Hinton et al 2012) \cite{dropout} which consists in preventing co-adaptation of feature detectors by randomly turning off a predefined proportion $k \in (0,1)$ of neurons at every training iteration, but using the entire network (with weights scaled down by $k$) at test time. As shown below, this technique has been shown to improve performance on the MNIST image classification benchmark task, though this increase is only significant when neither data augmentation, convolutional layers or unsupervised pre-training has been used (which suggests that . does so when no data augmentation or 
+Dropout is a regularisation technique introduced by (Hinton et al 2012) \cite{dropout} which consists in preventing co-adaptation of feature detectors by randomly turning off a fixed proportion $k \in (0,1)$ of neurons at every training iteration, but using the entire network (with weights scaled down by $k$) at test time. As shown below, this technique has been shown to improve performance on the MNIST image classification benchmark task, though this increase is only significant when neither data augmentation, convolutional layers or unsupervised pre-training has been used. \\
 
 \begin{figure}[h!]
 	\centering
