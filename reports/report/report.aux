@@ -149,149 +149,150 @@
 \citation{zeiler_fergus}
 \citation{transfer-learning}
 \citation{caffe-website}
-\citation{DL-book}
+\citation{soumith-benchmark}
 \citation{DL-book}
 \@writefile{toc}{\contentsline {section}{\numberline {5}Task 1: Generic Clamp Detection}{31}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.1}Motivations}{31}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Implementation: Cuda-Convnet}{31}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Experimentation}{31}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.1}Non-Converging Error Rates}{31}}
+\citation{DL-book}
 \@writefile{lof}{\contentsline {figure}{\numberline {25}{\ignorespaces Test Run Training Results\relax }}{32}}
-\@writefile{toc}{\contentsline {paragraph}{Increase Validation Error Precision}{32}}
+\citation{decaf}
+\citation{fergus_tutorial}
+\citation{caffe-website}
+\citation{DL-book}
+\@writefile{toc}{\contentsline {paragraph}{Increase Validation Error Precision}{33}}
 \@writefile{lof}{\contentsline {figure}{\numberline {26}{\ignorespaces Test Run with validation errors computed over an unchanging set\relax }}{33}}
-\@writefile{toc}{\contentsline {paragraph}{Alter Momentum}{33}}
-\@writefile{toc}{\contentsline {subparagraph}{Increase}{33}}
+\@writefile{toc}{\contentsline {paragraph}{Periodicity of the training error}{33}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.2}Poor Sampling-Induced Corner Minima}{33}}
 \@writefile{lof}{\contentsline {figure}{\numberline {27}{\ignorespaces test and validation error rates for clamp detection after raising momentum\relax }}{34}}
-\@writefile{toc}{\contentsline {subparagraph}{Decrease}{34}}
 \@writefile{lof}{\contentsline {figure}{\numberline {28}{\ignorespaces test and validation error rates for clamp detection after setting momentum to zero\relax }}{34}}
-\@writefile{toc}{\contentsline {paragraph}{Reduce Learning Rate}{35}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.2}Class Imbalance}{35}}
-\@writefile{toc}{\contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{35}}
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Class Proportions Across Batches that Score Different Training Errors\relax }}{35}}
-\@writefile{lof}{\contentsline {figure}{\numberline {29}{\ignorespaces test and validation error rates for clamp detection after setting momentum to zero\relax }}{36}}
+\@writefile{lof}{\contentsline {figure}{\numberline {29}{\ignorespaces test and validation error rates for clamp detection after setting momentum to zero\relax }}{35}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.3}Mislabelling}{35}}
 \@writefile{lof}{\contentsline {figure}{\numberline {30}{\ignorespaces filters learned from a successfully optimised lowest convolutional layer\relax }}{36}}
 \@writefile{lof}{\contentsline {figure}{\numberline {31}{\ignorespaces filters learned at lowest convolutional layer of this network\relax }}{36}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.3}Mislabelling}{36}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.4}Data Complexity}{37}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.4}Data Complexity}{36}}
 \citation{caffe-website}
-\@writefile{toc}{\contentsline {section}{\numberline {6}Task 2: Transfer Learning}{38}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Motivations}{38}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Implementation: Caffe}{38}}
-\@writefile{toc}{\contentsline {paragraph}{leveldb}{38}}
-\@writefile{toc}{\contentsline {paragraph}{Class Imbalance Solver}{38}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Experimentation}{39}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.1}Test Run}{39}}
-\@writefile{lof}{\contentsline {figure}{\numberline {32}{\ignorespaces Without transfer learning\relax }}{39}}
-\@writefile{lof}{\contentsline {figure}{\numberline {33}{\ignorespaces With transfer learning\relax }}{40}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.2}Initialising Free Layers}{40}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.3}Freezing Backprop on various layers}{40}}
-\newlabel{fig:2a}{{34(a)}{41}}
-\newlabel{sub@fig:2a}{{(a)}{41}}
-\newlabel{fig:2b}{{34(b)}{41}}
-\newlabel{sub@fig:2b}{{(b)}{41}}
-\@writefile{lof}{\contentsline {figure}{\numberline {34}{\ignorespaces Another figure\relax }}{41}}
-\newlabel{fig:2}{{34}{41}}
-\newlabel{fig:2a}{{35(a)}{41}}
-\newlabel{sub@fig:2a}{{(a)}{41}}
-\newlabel{fig:2b}{{35(b)}{41}}
-\newlabel{sub@fig:2b}{{(b)}{41}}
-\@writefile{lof}{\contentsline {figure}{\numberline {35}{\ignorespaces Another figure\relax }}{41}}
-\newlabel{fig:2}{{35}{41}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.4}Parametric vs Non-parametric}{42}}
-\newlabel{fig:2a}{{36(a)}{43}}
-\newlabel{sub@fig:2a}{{(a)}{43}}
-\newlabel{fig:2b}{{36(b)}{43}}
-\newlabel{sub@fig:2b}{{(b)}{43}}
-\@writefile{lof}{\contentsline {figure}{\numberline {36}{\ignorespaces hinge loss\relax }}{43}}
-\newlabel{fig:2}{{36}{43}}
-\@writefile{toc}{\contentsline {section}{\numberline {7}Task 3: Class Imbalance}{44}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Motivations}{44}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Implementation}{44}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Experimentation}{44}}
-\newlabel{fig:2a}{{37(a)}{45}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Task 2: Transfer Learning}{37}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.1}Motivations}{37}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.2}Implementation: Caffe}{37}}
+\@writefile{toc}{\contentsline {paragraph}{leveldb}{37}}
+\@writefile{toc}{\contentsline {paragraph}{Class Imbalance Solver}{37}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {6.3}Experimentation}{38}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.1}Test Run}{38}}
+\@writefile{lof}{\contentsline {figure}{\numberline {32}{\ignorespaces Without transfer learning\relax }}{38}}
+\@writefile{lof}{\contentsline {figure}{\numberline {33}{\ignorespaces With transfer learning\relax }}{39}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.2}Initialising Free Layers}{39}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.3}Freezing Backprop on various layers}{39}}
+\newlabel{fig:2a}{{34(a)}{40}}
+\newlabel{sub@fig:2a}{{(a)}{40}}
+\newlabel{fig:2b}{{34(b)}{40}}
+\newlabel{sub@fig:2b}{{(b)}{40}}
+\@writefile{lof}{\contentsline {figure}{\numberline {34}{\ignorespaces Another figure\relax }}{40}}
+\newlabel{fig:2}{{34}{40}}
+\newlabel{fig:2a}{{35(a)}{40}}
+\newlabel{sub@fig:2a}{{(a)}{40}}
+\newlabel{fig:2b}{{35(b)}{40}}
+\newlabel{sub@fig:2b}{{(b)}{40}}
+\@writefile{lof}{\contentsline {figure}{\numberline {35}{\ignorespaces Another figure\relax }}{40}}
+\newlabel{fig:2}{{35}{40}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {6.3.4}Parametric vs Non-parametric}{41}}
+\newlabel{fig:2a}{{36(a)}{42}}
+\newlabel{sub@fig:2a}{{(a)}{42}}
+\newlabel{fig:2b}{{36(b)}{42}}
+\newlabel{sub@fig:2b}{{(b)}{42}}
+\@writefile{lof}{\contentsline {figure}{\numberline {36}{\ignorespaces hinge loss\relax }}{42}}
+\newlabel{fig:2}{{36}{42}}
+\@writefile{toc}{\contentsline {section}{\numberline {7}Task 3: Class Imbalance}{43}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.1}Motivations}{43}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.2}Implementation}{43}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {7.3}Experimentation}{43}}
+\newlabel{fig:2a}{{37(a)}{44}}
+\newlabel{sub@fig:2a}{{(a)}{44}}
+\newlabel{fig:2b}{{37(b)}{44}}
+\newlabel{sub@fig:2b}{{(b)}{44}}
+\@writefile{lof}{\contentsline {figure}{\numberline {37}{\ignorespaces no transfer learning\relax }}{44}}
+\newlabel{fig:2}{{37}{44}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.1}Test Run}{44}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.2}Transfer Learning}{44}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.3}Batch Size}{44}}
+\newlabel{fig:2a}{{38(a)}{45}}
 \newlabel{sub@fig:2a}{{(a)}{45}}
-\newlabel{fig:2b}{{37(b)}{45}}
+\newlabel{fig:2b}{{38(b)}{45}}
 \newlabel{sub@fig:2b}{{(b)}{45}}
-\@writefile{lof}{\contentsline {figure}{\numberline {37}{\ignorespaces no transfer learning\relax }}{45}}
-\newlabel{fig:2}{{37}{45}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.1}Test Run}{45}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.2}Transfer Learning}{45}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.3}Batch Size}{45}}
-\newlabel{fig:2a}{{38(a)}{46}}
+\newlabel{fig:2b}{{38(c)}{45}}
+\newlabel{sub@fig:2b}{{(c)}{45}}
+\@writefile{lof}{\contentsline {figure}{\numberline {38}{\ignorespaces 98\% imbalance, varying levels of transfer learning\relax }}{45}}
+\newlabel{fig:2}{{38}{45}}
+\@writefile{lof}{\contentsline {figure}{\numberline {39}{\ignorespaces Clamp Detection, Full Backpropagation\relax }}{46}}
+\newlabel{fig:2a}{{40(a)}{46}}
 \newlabel{sub@fig:2a}{{(a)}{46}}
-\newlabel{fig:2b}{{38(b)}{46}}
+\newlabel{fig:2b}{{40(b)}{46}}
 \newlabel{sub@fig:2b}{{(b)}{46}}
-\newlabel{fig:2b}{{38(c)}{46}}
-\newlabel{sub@fig:2b}{{(c)}{46}}
-\@writefile{lof}{\contentsline {figure}{\numberline {38}{\ignorespaces 98\% imbalance, varying levels of transfer learning\relax }}{46}}
-\newlabel{fig:2}{{38}{46}}
-\@writefile{lof}{\contentsline {figure}{\numberline {39}{\ignorespaces Clamp Detection, Full Backpropagation\relax }}{47}}
-\newlabel{fig:2a}{{40(a)}{47}}
-\newlabel{sub@fig:2a}{{(a)}{47}}
-\newlabel{fig:2b}{{40(b)}{47}}
-\newlabel{sub@fig:2b}{{(b)}{47}}
-\@writefile{lof}{\contentsline {figure}{\numberline {40}{\ignorespaces 98\% imbalance, different mini-batch sizes\relax }}{47}}
-\newlabel{fig:2}{{40}{47}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.4}Learning Rate}{47}}
+\@writefile{lof}{\contentsline {figure}{\numberline {40}{\ignorespaces 98\% imbalance, different mini-batch sizes\relax }}{46}}
+\newlabel{fig:2}{{40}{46}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.4}Learning Rate}{46}}
 \citation{f-measure}
-\newlabel{fig:2a}{{41(a)}{48}}
+\newlabel{fig:2a}{{41(a)}{47}}
+\newlabel{sub@fig:2a}{{(a)}{47}}
+\newlabel{fig:2b}{{41(b)}{47}}
+\newlabel{sub@fig:2b}{{(b)}{47}}
+\@writefile{lof}{\contentsline {figure}{\numberline {41}{\ignorespaces 98\% imbalance, different learning rates\relax }}{47}}
+\newlabel{fig:2}{{41}{47}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.5}Bayesian Cross Entropy Cost Function}{47}}
+\@writefile{toc}{\contentsline {paragraph}{Motivations}{47}}
+\newlabel{fig:2a}{{42(a)}{48}}
 \newlabel{sub@fig:2a}{{(a)}{48}}
-\newlabel{fig:2b}{{41(b)}{48}}
+\newlabel{fig:2b}{{42(b)}{48}}
 \newlabel{sub@fig:2b}{{(b)}{48}}
-\@writefile{lof}{\contentsline {figure}{\numberline {41}{\ignorespaces 98\% imbalance, different learning rates\relax }}{48}}
-\newlabel{fig:2}{{41}{48}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.5}Bayesian Cross Entropy Cost Function}{48}}
-\@writefile{toc}{\contentsline {paragraph}{Motivations}{48}}
-\newlabel{fig:2a}{{42(a)}{49}}
+\@writefile{lof}{\contentsline {figure}{\numberline {42}{\ignorespaces Ground Sheet detection, different backpropagation formulae\relax }}{48}}
+\newlabel{fig:2}{{42}{48}}
+\@writefile{toc}{\contentsline {paragraph}{Implementation}{48}}
+\@writefile{toc}{\contentsline {paragraph}{Results}{48}}
+\newlabel{fig:2a}{{43(a)}{49}}
 \newlabel{sub@fig:2a}{{(a)}{49}}
-\newlabel{fig:2b}{{42(b)}{49}}
+\newlabel{fig:2b}{{43(b)}{49}}
 \newlabel{sub@fig:2b}{{(b)}{49}}
-\@writefile{lof}{\contentsline {figure}{\numberline {42}{\ignorespaces Ground Sheet detection, different backpropagation formulae\relax }}{49}}
-\newlabel{fig:2}{{42}{49}}
-\@writefile{toc}{\contentsline {paragraph}{Implementation}{49}}
-\@writefile{toc}{\contentsline {paragraph}{Results}{49}}
-\newlabel{fig:2a}{{43(a)}{50}}
-\newlabel{sub@fig:2a}{{(a)}{50}}
-\newlabel{fig:2b}{{43(b)}{50}}
-\newlabel{sub@fig:2b}{{(b)}{50}}
-\@writefile{lof}{\contentsline {figure}{\numberline {43}{\ignorespaces 98\% imbalance, different cost functions\relax }}{50}}
-\newlabel{fig:2}{{43}{50}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.6}Under-Sampling}{50}}
-\@writefile{toc}{\contentsline {paragraph}{Overfitting consequences of under-sampling}{50}}
-\@writefile{lof}{\contentsline {figure}{\numberline {44}{\ignorespaces Clamp Detection, Full Backpropagation\relax }}{51}}
-\@writefile{lof}{\contentsline {figure}{\numberline {45}{\ignorespaces Clamp Detection, Full Backpropagation\relax }}{51}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.7}Over-Sampling}{51}}
-\@writefile{lof}{\contentsline {figure}{\numberline {46}{\ignorespaces Clamp Detection, Full Backpropagation\relax }}{52}}
-\@writefile{lof}{\contentsline {figure}{\numberline {47}{\ignorespaces Clamp Detection, Full Backpropagation\relax }}{52}}
-\@writefile{lof}{\contentsline {figure}{\numberline {48}{\ignorespaces Clamp Detection, Full Backpropagation\relax }}{53}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.8}Test-time threshold}{53}}
-\@writefile{toc}{\contentsline {section}{\numberline {8}Task 4: Conserving Spatial Information}{53}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Motivations}{53}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Implementation}{54}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}Experimentation}{54}}
-\@writefile{toc}{\contentsline {paragraph}{Test Run}{54}}
-\@writefile{toc}{\contentsline {paragraph}{Remove pooling and an fc layer}{54}}
-\@writefile{toc}{\contentsline {paragraph}{Softmax Bayesian Cross Entropy}{54}}
-\@writefile{toc}{\contentsline {section}{\numberline {9}Final Results}{54}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}Merging Classes}{54}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.2}Learning Rate}{55}}
-\@writefile{toc}{\contentsline {paragraph}{Step}{55}}
-\@writefile{toc}{\contentsline {paragraph}{Exp}{55}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.3}Soil Risk Contamination Task}{55}}
-\@writefile{lof}{\contentsline {figure}{\numberline {49}{\ignorespaces Clamp Detection, Full Backpropagation\relax }}{55}}
-\@writefile{toc}{\contentsline {paragraph}{Test Run}{56}}
-\@writefile{toc}{\contentsline {subparagraph}{Training Results}{56}}
-\@writefile{toc}{\contentsline {subparagraph}{Observations}{56}}
-\@writefile{toc}{\contentsline {paragraph}{Get more evidence}{56}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {9.4}Hatch Markings}{57}}
-\@writefile{lof}{\contentsline {figure}{\numberline {50}{\ignorespaces Clamp Detection, Full Backpropagation\relax }}{57}}
+\@writefile{lof}{\contentsline {figure}{\numberline {43}{\ignorespaces 98\% imbalance, different cost functions\relax }}{49}}
+\newlabel{fig:2}{{43}{49}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.6}Under-Sampling}{49}}
+\@writefile{toc}{\contentsline {paragraph}{Overfitting consequences of under-sampling}{49}}
+\@writefile{lof}{\contentsline {figure}{\numberline {44}{\ignorespaces Clamp Detection, Full Backpropagation\relax }}{50}}
+\@writefile{lof}{\contentsline {figure}{\numberline {45}{\ignorespaces Clamp Detection, Full Backpropagation\relax }}{50}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.7}Over-Sampling}{50}}
+\@writefile{lof}{\contentsline {figure}{\numberline {46}{\ignorespaces Clamp Detection, Full Backpropagation\relax }}{51}}
+\@writefile{lof}{\contentsline {figure}{\numberline {47}{\ignorespaces Clamp Detection, Full Backpropagation\relax }}{51}}
+\@writefile{lof}{\contentsline {figure}{\numberline {48}{\ignorespaces Clamp Detection, Full Backpropagation\relax }}{52}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {7.3.8}Test-time threshold}{52}}
+\@writefile{toc}{\contentsline {section}{\numberline {8}Task 4: Conserving Spatial Information}{52}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.1}Motivations}{52}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.2}Implementation}{53}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {8.3}Experimentation}{53}}
+\@writefile{toc}{\contentsline {paragraph}{Test Run}{53}}
+\@writefile{toc}{\contentsline {paragraph}{Remove pooling and an fc layer}{53}}
+\@writefile{toc}{\contentsline {paragraph}{Softmax Bayesian Cross Entropy}{53}}
+\@writefile{toc}{\contentsline {section}{\numberline {9}Final Results}{53}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.1}Merging Classes}{53}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.2}Learning Rate}{54}}
+\@writefile{toc}{\contentsline {paragraph}{Step}{54}}
+\@writefile{toc}{\contentsline {paragraph}{Exp}{54}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.3}Soil Risk Contamination Task}{54}}
+\@writefile{lof}{\contentsline {figure}{\numberline {49}{\ignorespaces Clamp Detection, Full Backpropagation\relax }}{54}}
+\@writefile{toc}{\contentsline {paragraph}{Test Run}{55}}
+\@writefile{toc}{\contentsline {subparagraph}{Training Results}{55}}
+\@writefile{toc}{\contentsline {subparagraph}{Observations}{55}}
+\@writefile{toc}{\contentsline {paragraph}{Get more evidence}{55}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {9.4}Hatch Markings}{56}}
+\@writefile{lof}{\contentsline {figure}{\numberline {50}{\ignorespaces Clamp Detection, Full Backpropagation\relax }}{56}}
 \bibcite{krizhevsky}{1}
 \bibcite{rectifier}{2}
 \bibcite{SIFT}{3}
 \bibcite{goodfellow_street_view}{4}
 \bibcite{ReLU_RBM}{5}
 \bibcite{dropout}{6}
-\@writefile{toc}{\contentsline {section}{\numberline {10}Conclusions and Future Work}{58}}
+\@writefile{toc}{\contentsline {section}{\numberline {10}Conclusions and Future Work}{57}}
 \bibcite{data-aug}{7}
 \bibcite{decaf}{8}
 \bibcite{fergus_tutorial}{9}
@@ -312,3 +313,4 @@
 \bibcite{cuda-convnet}{24}
 \bibcite{caffe-website}{25}
 \bibcite{nips-tut}{26}
+\bibcite{soumith-benchmark}{27}

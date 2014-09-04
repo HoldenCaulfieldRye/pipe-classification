@@ -95,8 +95,6 @@ Contributions (beyond training accurate pipe weld classifiers for ControlPoint):
 - f measure for caffe
 - data augmentation for caffe \\
 
-
-
 This project aims to automate the classification of pipe weld images with deep neural networks. After explaining and formalising the problem, we will explain fundamental concepts in machine learning, then go on to explain the architecture of a deep convolutional neural network with restricted linear units, and finally explain how the network is trained with stochastic gradient descent, backpropagation and dropout. The last sections focus on three challenges specific to the pipe weld image classification task: multi-tagging, learning features from a restricted training set, and class imbalance.
 
 
@@ -596,7 +594,7 @@ Take a $k \times k$ spatial neighbourhood of the feature map, and compute some s
 
 In general, a potential advantage of average over max is that it conserves more information; on the other hand, it will dilute an activation that is strong in a single location of the given neighbourhood and weak in the others. In the worst case, opposing activations will cancel each other out, and result in the pooled value as that for a neighbourhood with zero activations (however, note that this does not occur with ReLUs since they are not antisymmetric). \\
 
-The key contribution of pooling is invariance to small transformations, since the same pooling output is obtained regardless of where in the neighbourhood the activations occur. At higher convolutional layers, the resulting invariance can be spectacular. For example, below are kernel maps for a certain feature of the 5-th convolutional layer of a net from (Zeiler and Fergus 2013) \cite{zeiler_fergus}, computed for 9 different input images from the same class ("human"), which obtain similar pooled activation values. One may be struck by the fact that they receive similar pooled activation values, since one can tell that the similarities between the kernel maps are complex and would be difficult to describe in terms of "small transformations". \\
+The key contribution of max pooling is robustness to noise and invariance to small transformations, since the same max pooling output is obtained regardless of where in the neighbourhood the maximal feature activation occurs, and regardless of what is present elsewhere in the neighbourhood. At higher convolutional layers, the resulting invariance can be spectacular. For example, below are kernel maps for a certain feature of the 5-th convolutional layer of a net from (Zeiler and Fergus 2013) \cite{zeiler_fergus}, computed for 9 different input images from the same class ("human"), which obtain similar pooled activation values. One may be struck by the fact that they receive similar pooled activation values, since one can tell that the similarities between the kernel maps are complex and would be difficult to describe in terms of "small transformations". \\
 
 \begin{figure}
     \centering
@@ -622,6 +620,7 @@ By stacking n convolutional layers with $k \times k$ pooling operations, the out
 \subsubsection{Contrast Normalisation}
 
 Pick a single location of the output, have a little spatial neighbourhood around that, and perform the linear transformation on all the output values in this neighourhood that results in the best fit of a zero mean, unit standard deviation Gaussian. These transformations are used in image processing to handle images where contrast intensity varies across different areas of the image. The neighbourhood can be defined geographically over isolated kernel maps, or across kernel maps. This normalisation achieves a rescaling of the features at each layer. For example, if in a certain neighbourhood output values are all low and in another neighbourhood all output values are high, this may be due to photographical factors (e.g.\ different expositions to light) which have nothing to do with the underlying objects of interest; local contrast normalisation will pull up the values of the low value neighbourhood and reduce those of the high value neighbourhood to put both neighbourhoods on an equal footing for the next layer to receive unbiased data. \\
+
 
 \clearpage
 
@@ -804,7 +803,6 @@ I've been thinking about it in terms of early stopping. early stopping seems rea
 
 \section{Task 1: Generic Clamp Detection}
 
-
 \subsection{Motivations}
 
 Clamp detection was suggested by ControlPoint as a simple test run for training a CNN on their dataset. Since computer vision had never been attempted on ControlPoint's dataset, there was no benchmark from which to evaluate the difficulty of the task. The test run was seen as a way of estimating the difficulty, in case the task would turn out to be too ambitious for the scope of the MSc project. Clamp detection was advised on the intuitive basis that, since clamps are large objects, they would be easy to see. \\
@@ -813,11 +811,11 @@ Clamp detection was suggested by ControlPoint as a simple test run for training 
 
 Due to its success and frequent re-use \cite{rectifier} \cite{goodfellow_street_view} \cite{decaf} \cite{fergus_tutorial} \cite{colah} \cite{zeiler_fergus} \cite{transfer-learning} \cite{caffe-website}, the network architecture from (Krizhevsky et al 2012), often referred to as AlexNet, was chosen for this task (and throughout most of the project).
 
-Cuda-Convnet is an open-source GPU implementation of a deep convolutional neural network written in CUDA C++ and python by Alex Krizhevsky to train AlexNet. It was therefore convenient to use it for the task, especially since  it had already been used for the MSc group project. However, a shortcoming with the API is that it expects data in the form of batches consisting of numpy arrays of stacked jpg values in matrix format with RGB values split across, and a dictionary of labels and metadata. Python programs were written to achieve this and extract training data from the log files and plotting it. By re-using code written during the group project, the additional code needing to be written was limited to approx.\ 400 lines. The hardware used for training the network was an nVidia GeForce GTX 780 with 4GB RAM. \\
+Cuda-Convnet is an open-source GPU implementation for training deep convolutional neural networks with stochastic gradient descent, written in CUDA C++ and python by Alex Krizhevsky. GPU implementations enable twenty-fold speedups\cite{soumith-benchmark} in training time. Knowledge of its use existed prior to this project since it had already been used for a group project. A shortcoming with the API is that it expects data in the form of batches consisting of numpy arrays of stacked jpg values in matrix format with RGB values split across, and a dictionary of labels and metadata. Python programs were written to achieve this and extract training data from the log files and plotting it. By re-using code written during the group project, the additional code needing to be written was limited to approx.\ 400 lines. The hardware used for training the network was an nVidia GeForce GTX 780 with 4GB RAM, which enables a twenty-fold increase in training speed compared to the CPU. \\
 
 \subsection{Experimentation}
 
-Training occurred over the Redbox dataset only, to exclude domain change as a potential reason for weak performance if it were to occur. Time series for training and validation errors were extracted, but not the test error, since it serves no purpose in training the model. Note that training occurs by Stochastic
+Training occurred over the Redbox dataset only, to exclude domain change as a potential reason for weak performance if it were to occur. The task consists in learning three classes: `No Clamps Used', `Photo Does Not Show Enough Of Clamps', and `Clamp Detected' -- which in fact is the default class: an image belongs to it if none of the two mentioned flags have been raised. Time series for training and validation errors were extracted, but not the test error, since it serves no purpose in training the model. 
 
 The error being computed and minimised by Cuda-Convnet is the negative of the log probability of the likelihood function:
 \begin{equation}
@@ -827,103 +825,100 @@ Where f is the learned function, a.k.a\ the model i.e.\ the neural network. This
 
 \subsubsection{Non-Converging Error Rates}
 
-Training produced worryingly results: none of the training sessions showed any signs of parameter convergence, as the below plot of the training and validation errors over batch iterations can show. These results were confusing: backpropagation is guaranteed to converge \cite{DL-book}, and yet both training and validation errors seem stuck in volatile periodicity.
+Training produced worrying results: none of the models trained showed signs of learning anything. The below plot of the training and validation errors covers 11 of the 44 epochs over which the model was trained, which amounts to two consecutive days of training. The errors display no trends, and this extends to all 44 epochs.
 
 \begin{figure}[!h]
 	\centering
 	\includegraphics[scale=0.5]{images/test_run.png}
-	\caption{Test Run Training Results}
+	\caption{Test Run Training Results\footnote{the Y axis label should read logprob error, not \% error rate}}
 \end{figure}
 
-A number of potential explanations for the volatile periodic error rates were considered:
+These results were confusing: the fact that the training error does not converge to zero means that the model is unable to perfectly fit the training set. This should be impossible, since the 60 million parameters of AlexNet make it a very powerful model\footnote{powerful as an approximator, i.e.\ as a `fitter to the data'.} for which (Krizhevsky et al 2012) report overfitting to be `a significant problem', even on the 1000 class, 1.3 million image dataset of the ILSVRC 2012 competition. It makes no sense that the same model would fail to fit a 3-class, 113,000 image dataset.
+
+Moreover, with backpropagation, the network parameters are guaranteed to converge \cite{DL-book} since gradient descent will update weights by zero values once the error-weight partial derivatives are all zero. Such a point in the parameter space exists if there is a local minimum in the error surface at this point. If so, then gradient descent is guaranteed to reach a minimum: intuitively, if one is in a mountain range, then by walking downhill, one is bound to reach some morsel of flat ground at some point. Once the parameters have converged, the model is fixed, so its error is expected to be similar across random samples of the training and validation sets. In this case, the persistent high amplitude of the training and validation errors means that the error is heavily changing all the time.
+
+A number of potential explanations for the high amplitude of the error rates were considered:
 \begin{itemize}
-\item The learning rates are too high: the minimum gets 'overshot' even when the direction of partial derivatives is correct.
-\item The dropout rate is too high: since neurons are randomly dropped at every iteration, a different model is tested every time; this is known to increase the volatility of the training error.
+\item The learning rates are too high: the minimum keeps getting 'overshot', the weights move endlessly around the rims of a bowl on the error surface\footnote{This interpretation was supported by the Google+ community when the plots were posted.}.
+\item The dropout rate is too high: since neurons are randomly dropped at every iteration, a different model is tested every time. The errors correspond to partial derivatives of different models every time, so the amplitude is high. 
 \item The number of parameters is too high: AlexNet contains 60 million parameters, far more than than the number of training cases, so collinearities between the parameters cannot even be broken, and most of them are rendered useless.
-\item Class imbalance: there is not enough information about the "No Clamp" class to be able to learn features for them.
-\item Mislabelled data: the images were not tagged correctly, so members of one class appear in the other and vice versa. \ldots
-\item The error rates are not computed correctly \ldots
+\item The error rates are not computed correctly.
+\item Class imbalance: with 90\% of the data belonging to the same class, there is not enough information about the `No Clamps Used' and `Photo Does Not Show Enough of Clamps' classes to be able to learn features for them.
+\item Mislabelled data: the images were not tagged correctly, too many members of one class appear in the other and vice versa, so nothing can be learned.
 \end{itemize}
 
-\paragraph{Increase Validation Error Precision}
+The learning and dropout rates were modified to no avail. (Jarrett et al 2009) report successful training of networks for which `the number of parameters greatly outstrips the number of samples'.\\
 
-If the set of images that the validation error is computed against varies from one iteration to the next, then the variations in validation error are not necessarily solely explainable by the changes in the model parameters; they may also be due to changes in the validation set. Secondly,  By computing the validation error on a larger sample of images, the measure becomes more precise. More importantly,  to another by making sure each validation error is computer over the same sample, one obtains measures which can truly be compared relative to one another.
+\subsubsection{Increase Validation Error Precision}
+
+If the set of images that the validation error is computed against varies from one iteration to the next, then the variations in validation error are not solely explained by the changes in the model parameters; they may also be due to changes in the validation set. Secondly, precision increases with the size of the set. Therefore, by computing the validation error on a larger and unchanging sample of images, one obtains stable, more precise measures that truly reflect what the model is learning. 
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.5]{images/increase_test_precision.png}
-	\caption{Test Run with validation errors computed over an unchanging set}
+	\caption{Test Run with validation errors computed over an unchanging set\footnote{the Y axis label should read logprob error, not \% error rate}}
 \end{figure}
 
-I trained AlexNet on 100k images of 3 different classes with class imbalance (1 class takes up 90\% of data), ~40\% mis-labelling, and a very small learning rate (0.0001). The emerging periodicity of the training error corresponds to the number of batches, so it looks like the parameters have stopped changing, ie the network has reached a local minimum (flesh out the intuition for why periodicity implies convergence, just going around in the same circle). Why does no overfitting take place? There is not much data compared to capacity of the network, there is a weight decay of 0.0005,  there is no dropout. Since overfitting hasn't been reached, maybe this is a poor local minimum?﻿\\
-
-Francis Quintal Lauzon: I would tend to think learning was indeed stuck, though I would not go so far as to suggest this is caused by a local minimum.
-Indeed, I have sometimes seen long plateaus followed by sudden steep drop in error.  One way I see this is learning with a given learning rate and reducing the learning rate when validation error (or rather, a smoothed version of the validation error) stops going down.  This suggest than rather being stuck at a local minima, learning is simply blundering around some minimum, may be because of a combination of the local shape of the cost surface and learning steps too large. \\
-
-Plateau hypothesis: on the image I show only 10 epochs, but I trained it for 44 epochs and the periodicity extends all the way. When you were experiencing plateaus, did they stretch over more than 1 epoch? because to me, this periodicity suggests roughly the same gradients are repetitively being computed at the same locations on the error surface, so no good keeping on going. 
-
-Learning rate hypothesis: so you are suggesting that the minimum keeps getting overshot. But 0.0001 learning rate is already very small no?
-
-I guess another possibility is that I'm zigzagging in a very tight bowl, but seems unlikely it would go on for as long as 40 epochs?﻿\\
-
-Francis Quintal Lauzon: I trained on much larger (though highly correlated) dataset so I never trained for 44 epochs.  I did use learning rate of the same magnitude you are using and still, reducing it after a plateau does help (in my experience).  If you are using momentum, you also might want to reset any momentum to zero after facing a plateau (this might helps as well).﻿\\
+With better validation error measures, one notices that the validation error is flat throughout most of training, confirming that nothing is learned during the corresponding time interval. There is some movement during the first thousand iterations, suggesting in fact that backpropagation converged within 1000 iterations, a small amount relative to comparable tasks \cite{decaf} \cite{fergus_tutorial} cite{transfer-learning} \cite{caffe-website}. One may be tempted to conclude that the model is able to learn only very little.
 
 
-Another striking aspect is how volatile the training error is, even when the test error is stable. That the training error is computed correctly was checked by training an out-of-the-box net on a well-documented task: MNIST. Therefore, it was established that in this setup, the training error is indeed volatile and periodic despite the validation error converging, and that an explanation must exist. This could be interpreted as the network's parameters having converged to values that make it good on certain batches, and bad on others. What is curious is that this would suggest that the contents of some batches are very different from one another (unless one considers the paper "Intriguing Properties of Neural Networks"). Therefore, it might be interesting to look at these batches in detail. \\
+\subsubsection{Periodicity of the training error}
 
-\paragraph{Alter Momentum}
+What remains striking and unexplained is the high amplitude of the training error, and its refusal to converge to zero. Another intriguing aspect is its periodicity: its period corresponds to the number of mini-batches in an epoch. Since the same error is obtained on a mini-batch from one period to the next, the network parameters are therefore not changing from an epoch to the next. Therefore, backpropagation does indeed converge: it does so within a mere 1000 mini-batch passes, at which it attains a local minimum. At this point, the training error has not reached zero; therefore, the model is stuck in a poor local minimum. This is unusual for deep convolutional neural nets, which unlike deep fully connected neural networks are known for being easy to train i.e.\ not getting stuck in poor local minima \cite{DL-book}\footnote{Members of the Google+ Deep Learning community who were interacting on the thread were reluctant to believe that AlexNet could be stuck in a poor local minimum}. 
 
-What is momentum for?
+%Plateau hypothesis: on the image I show only 10 epochs, but I trained it for 44 epochs and the periodicity extends all the way. When you were experiencing plateaus, did they stretch over more than 1 epoch? because to me, this periodicity suggests roughly the same gradients are repetitively being computed at the same locations on the error surface, so no good keeping on going. 
+%
+%Learning rate hypothesis: so you are suggesting that the minimum keeps getting overshot. But 0.0001 learning rate is already very small no?
+%
+%I guess another possibility is that I'm zigzagging in a very tight bowl, but seems unlikely it would go on for as long as 40 epochs?﻿\\
+%
+%Francis Quintal Lauzon: I trained on much larger (though highly correlated) dataset so I never trained for 44 epochs.  I did use learning rate of the same magnitude you are using and still, reducing it after a plateau does help (in my experience).  If you are using momentum, you also might want to reset any momentum to zero after facing a plateau (this might helps as well).﻿\\
+%
+%
+%\paragraph{Alter Momentum}
+%
+%What is momentum for?
+%
+%the intuition (maybe wrong): if a smaller learning rate and zero momentum could help you deal with a plateau, it means that moving in very small steps is better. but if a plateau is a continuous flat surface, then surely a smaller step will take you longer to reach the other side? 
+%on the other hand, if you're in a very tight and stretched bowl, or if there's a very narrow ditch surrounded by a plateau, then the smaller step will help?﻿
+%
+%\subparagraph{Increase}
+%
+%Is that used to get past the local minimum? Or is it used to rush past a plateau?
+%
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[scale=0.5]{images/raise_momentum.png}
+%	\caption{test and validation error rates for clamp detection after raising momentum}
+%\end{figure}
+%
+%Barely noticeable change in train error: still periodic, slightly different shape of period. Slight increase in test error though. Can interpret that weight updates are slightly less optimal since they don't follow the direction given by the gradients, since there's this extra momentum factor, which is bigger.
+%
+%\subparagraph{Decrease}
+%
+%Because Francis Quintal Lauzon says so. But does he mean to reduce it once you're done with the plateau?
+%
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[scale=0.5]{images/change_momentum.png}
+%	\caption{test and validation error rates for clamp detection after setting momentum to zero}
+%\end{figure}
+%
+%The training error decreases a little on average (would be good to assert this statistically). Once again, because momentum is not 	distorting direction of descent.
+%
+%The test error stops to jitter completely. So the tiny pulses observed during convergence (i.e. between 5000 batches and 35000) were caused by momentum. I guess it's the result of going upslope a bit just in case there's a better minimum nearby. Could be interesting to put a stupidly high momentum like 1.5 to double check that jittering indeed gets even bigger. Who knows, this might settle the network in another minimum. 
+%
+%
+%\paragraph{Reduce Learning Rate}
+%
+%$train_output.txt$ contains data to plot this. Good to put it in to show that you have checked everything meticulously, and to show that it's evidence for the hypothesis of stuck in corner solution.
 
-the intuition (maybe wrong): if a smaller learning rate and zero momentum could help you deal with a plateau, it means that moving in very small steps is better. but if a plateau is a continuous flat surface, then surely a smaller step will take you longer to reach the other side? 
-on the other hand, if you're in a very tight and stretched bowl, or if there's a very narrow ditch surrounded by a plateau, then the smaller step will help?﻿
-
-\subparagraph{Increase}
-
-Is that used to get past the local minimum? Or is it used to rush past a plateau?
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/raise_momentum.png}
-	\caption{test and validation error rates for clamp detection after raising momentum}
-\end{figure}
-
-Barely noticeable change in train error: still periodic, slightly different shape of period. Slight increase in test error though. Can interpret that weight updates are slightly less optimal since they don't follow the direction given by the gradients, since there's this extra momentum factor, which is bigger.
-
-\subparagraph{Decrease}
-
-Because Francis Quintal Lauzon says so. But does he mean to reduce it once you're done with the plateau?
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/change_momentum.png}
-	\caption{test and validation error rates for clamp detection after setting momentum to zero}
-\end{figure}
-
-The training error decreases a little on average (would be good to assert this statistically). Once again, because momentum is not 	distorting direction of descent.
-
-The test error stops to jitter completely. So the tiny pulses observed during convergence (i.e. between 5000 batches and 35000) were caused by momentum. I guess it's the result of going upslope a bit just in case there's a better minimum nearby. Could be interesting to put a stupidly high momentum like 1.5 to double check that jittering indeed gets even bigger. Who knows, this might settle the network in another minimum. 
+%I played around with momentum and the learning rate, which typically help to deal with plateaus, tight bowls, and poor local minima. (you can see it on the graph, the test error jitters a bit more, and then becomes completely constant, and the amplitude of the training error varies a bit). It didn't help.
 
 
-\paragraph{Reduce Learning Rate}
+\subsubsection{Poor, Sampling-Induced Corner Minima}
 
-$train_output.txt$ contains data to plot this. Good to put it in to show that you have checked everything meticulously, and to show that it's evidence for the hypothesis of stuck in corner solution.
-
-
-
-\subsubsection{Class Imbalance}
-
-Here you just need to show that there is class imbalance.
-
-\paragraph{Stuck in Sampling-Induced, "fake" Corner Minimum}
-
-I trained a neural network to detect clamps in the images. It very quickly converged to logprob 0.4, i.e. 10\% classification error, as can be seen in attachment.
-
-But what is surprising is that the training error remains in the neighbourhood of the test error, without converging to zero and without the network overfitting (should converge to zero since neural networks are 'good' universal approximators).
-
-I played around with momentum and the learning rate, which typically help to deal with plateaus, tight bowls, and poor local minima. (you can see it on the graph, the test error jitters a bit more, and then becomes completely constant, and the amplitude of the training error varies a bit). It didn't help.
-
-The reason for why the network converges quickly to logprob 0.4 minimum, and stays there, without ever overfitting, is because severe class imbalance has introduced a "fake" minimum in a "corner" of the error surface. (By error surface, I mean error on the z axis, and parameter values on all the other axes). This local minimum is very hard to get out of because it's quite deep (you get 10\% error rate - it might even be the global minimum), and it's far away from where the "real" minima are. \\
+An intriguing aspect is that the 0.4 validation (logprob) error that the model converges to corresponds to a 10\%  error rate, which is the proportion of images that belong to the majority class "Clamp Detected". Therefore, an explanation for why the network converges relatively fast to logprob 0.4 minimum, and stays there, without ever overfitting, is because class imbalance has introduced a `fake' minimum in a `corner' of the error-parameter space. This location in the parameter space corresponds to the model being a constant function that always outputs $(1, 0, 0)$, where the first entry is the probability score for the majority class `Clamp Detected'. This minimum is very hard to get out of because it is deep: it enables the model to score a 10\% error rate, which might be better than a number of other local minima. It is far away from where the `real' minima are because the `real' minima are in a region of the parameter space that corresponds to the network having learned meaningful features (e.g.\ in the case of the convolutional layers, actual Gabor filters). \\
 
 To find evidence to support this claim, we can use the periodicity in the training error to verify the claim that the network is stuck in this deep, fake, corner minimum: take the batches that consistently score very high train error, take those that consistently score very low, and look at the images. Between the top scoring ones and the low scoring ones, is there a significant different in the proportion of "clamp detected" images? Or is there a significant difference in something else (eg unsuitable photos, mis-labelling)?
 
@@ -942,7 +937,7 @@ worst performing batches: 152, (302, 162, 105, 87, 60, 39, 736, 710, 643, 631 an
    \centering
     \begin{tabular}{|l|c|c|c|}
     \hline
-    Training Error   & ~  "Clamps Detected"  & ~ "No Clamps"        & ~ "Clamps Not Sufficiently Visible" \\ \hline
+    Training Error   & ~  "Clamps Detected"  & ~ "No Clamps"        & ~ "Photo Does Not Show Enough Of Clamps" \\ \hline
     18-22\%          & ~  0.96484375        & ~  0.0234375         & ~  0.01171875 \\
     20-29\%          & ~  0.94161184        & ~  0.03371711        & ~  0.02467105 \\
     60-69\%          & ~  0.81534091        & ~  0.10795455        & ~  0.07670455 \\
@@ -973,6 +968,7 @@ It can also be interesting to notice that no meaningful features are learned: fo
 	\caption{filters learned at lowest convolutional layer of this network}
 \end{figure}
 
+This local minimum is `fake' because, with perfect class imbalance, it would not exist. Or at least, it would correspond to a $\frac{1}{K}$ error rate (where $k$ is the number of classes), the neighbourhood defined by all 
 
 \subsubsection{Mislabelling}
 
@@ -1864,14 +1860,18 @@ Copy paste from your emacs sheet everything! Talk about domain change as well be
  arXiv:1312.6229
    
 \bibitem{cuda-convnet}  
+ \emph{Cuda-ConvNet: High-performance C++/CUDA implementation of convolutional neural networks}
  URL: \url{https://code.google.com/p/cuda-convnet/}, last accessed 6th June 2014.
 
-\bibitem{caffe-website}  
+\bibitem{caffe-website} 
+ \emph{Caffe: a deep learning framework} 
  URL: \url{http://caffe.berkeleyvision.org/getting_pretrained_models.html}, last accessed 6th June 2014.
 
 \bibitem{nips-tut}  
  URL: \url{http://research.microsoft.com/apps/video/default.aspx?id=206976&l=i}, last accessed 6th August 2014.
 
+\bibitem{soumith-benchmark}
+ URL: \url{https://github.com/soumith/convnet-benchmarks}, last accessed 2nd September 2014.
 
 \end{thebibliography}
 
