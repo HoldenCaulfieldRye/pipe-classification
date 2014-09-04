@@ -33,6 +33,7 @@
 \contentsline {subsubsection}{\numberline {2.8.2}Non-linear Activation}{23}
 \contentsline {subsubsection}{\numberline {2.8.3}Pooling aka Spatial Feature}{23}
 \contentsline {subsubsection}{\numberline {2.8.4}Contrast Normalisation}{23}
+\contentsline {subsection}{\numberline {2.9}Local vs Global Optimisation}{24}
 \contentsline {section}{\numberline {3}Analysis 1: ReLU Activation}{25}
 \contentsline {subsection}{\numberline {3.1}Motivations}{25}
 \contentsline {subsection}{\numberline {3.2}Mathematical Analysis}{26}
@@ -53,46 +54,48 @@
 \contentsline {subsubsection}{\numberline {5.3.5}Mislabelling}{35}
 \contentsline {section}{\numberline {6}Task 2: Transfer Learning}{37}
 \contentsline {subsection}{\numberline {6.1}Motivations}{37}
-\contentsline {subsection}{\numberline {6.2}Implementation: Caffe}{37}
-\contentsline {paragraph}{leveldb}{37}
-\contentsline {paragraph}{Class Imbalance Solver}{37}
-\contentsline {subsection}{\numberline {6.3}Experimentation}{38}
-\contentsline {subsubsection}{\numberline {6.3.1}Test Run}{38}
+\contentsline {subsection}{\numberline {6.2}Implementation}{37}
+\contentsline {subsubsection}{\numberline {6.2.1}Caffe}{37}
+\contentsline {subsection}{\numberline {6.3}Experimentation}{37}
+\contentsline {subsubsection}{\numberline {6.3.1}Test Run}{37}
+\contentsline {paragraph}{Zig-zag}{38}
 \contentsline {subsubsection}{\numberline {6.3.2}Initialising Free Layers}{39}
 \contentsline {subsubsection}{\numberline {6.3.3}Freezing Backprop on various layers}{39}
-\contentsline {subsubsection}{\numberline {6.3.4}Parametric vs Non-parametric}{41}
-\contentsline {section}{\numberline {7}Task 3: Class Imbalance}{43}
-\contentsline {subsection}{\numberline {7.1}Motivations}{43}
-\contentsline {subsection}{\numberline {7.2}Implementation}{43}
+\contentsline {subsubsection}{\numberline {6.3.4}Parametric vs Non-parametric}{40}
+\contentsline {section}{\numberline {7}Task 3: Class Imbalance}{42}
+\contentsline {subsection}{\numberline {7.1}Motivations}{42}
+\contentsline {subsection}{\numberline {7.2}Implementation}{42}
+\contentsline {subsubsection}{\numberline {7.2.1}Class Imbalance Solver}{42}
 \contentsline {subsection}{\numberline {7.3}Experimentation}{43}
-\contentsline {subsubsection}{\numberline {7.3.1}Test Run}{44}
-\contentsline {subsubsection}{\numberline {7.3.2}Transfer Learning}{44}
-\contentsline {subsubsection}{\numberline {7.3.3}Batch Size}{44}
-\contentsline {subsubsection}{\numberline {7.3.4}Learning Rate}{46}
-\contentsline {subsubsection}{\numberline {7.3.5}Bayesian Cross Entropy Cost Function}{47}
+\contentsline {subsubsection}{\numberline {7.3.1}Test Run}{43}
+\contentsline {subsubsection}{\numberline {7.3.2}Transfer Learning}{43}
+\contentsline {subsubsection}{\numberline {7.3.3}Batch Size}{45}
+\contentsline {subsubsection}{\numberline {7.3.4}Learning Rate}{45}
+\contentsline {subsubsection}{\numberline {7.3.5}Bayesian Cross Entropy Cost Function}{45}
 \contentsline {paragraph}{Motivations}{47}
-\contentsline {paragraph}{Implementation}{48}
+\contentsline {paragraph}{Implementation}{47}
 \contentsline {paragraph}{Results}{48}
 \contentsline {subsubsection}{\numberline {7.3.6}Under-Sampling}{49}
 \contentsline {paragraph}{Overfitting consequences of under-sampling}{49}
-\contentsline {subsubsection}{\numberline {7.3.7}Over-Sampling}{50}
-\contentsline {subsubsection}{\numberline {7.3.8}Test-time threshold}{52}
+\contentsline {subsubsection}{\numberline {7.3.7}Over-Sampling}{49}
+\contentsline {subsubsection}{\numberline {7.3.8}Test-time threshold}{51}
 \contentsline {section}{\numberline {8}Task 4: Conserving Spatial Information}{52}
 \contentsline {subsection}{\numberline {8.1}Motivations}{52}
-\contentsline {subsection}{\numberline {8.2}Implementation}{53}
-\contentsline {subsection}{\numberline {8.3}Experimentation}{53}
-\contentsline {paragraph}{Test Run}{53}
-\contentsline {paragraph}{Remove pooling and an fc layer}{53}
-\contentsline {paragraph}{Softmax Bayesian Cross Entropy}{53}
+\contentsline {subsection}{\numberline {8.2}Implementation}{52}
+\contentsline {subsection}{\numberline {8.3}Experimentation}{52}
+\contentsline {paragraph}{Test Run}{52}
+\contentsline {paragraph}{Remove pooling and an fc layer}{52}
+\contentsline {paragraph}{Softmax Bayesian Cross Entropy}{52}
 \contentsline {section}{\numberline {9}Final Results}{53}
 \contentsline {subsection}{\numberline {9.1}Merging Classes}{53}
-\contentsline {subsection}{\numberline {9.2}Learning Rate}{54}
-\contentsline {paragraph}{Step}{54}
+\contentsline {subsection}{\numberline {9.2}Independent Binary Classifiers}{53}
+\contentsline {subsection}{\numberline {9.3}Learning Rate}{53}
+\contentsline {paragraph}{Step}{53}
 \contentsline {paragraph}{Exp}{54}
-\contentsline {subsection}{\numberline {9.3}Soil Risk Contamination Task}{54}
-\contentsline {paragraph}{Test Run}{55}
+\contentsline {subsection}{\numberline {9.4}Soil Risk Contamination Task}{54}
+\contentsline {paragraph}{Test Run}{54}
 \contentsline {subparagraph}{Training Results}{55}
 \contentsline {subparagraph}{Observations}{55}
 \contentsline {paragraph}{Get more evidence}{55}
-\contentsline {subsection}{\numberline {9.4}Hatch Markings}{56}
+\contentsline {subsection}{\numberline {9.5}Hatch Markings}{55}
 \contentsline {section}{\numberline {10}Conclusions and Future Work}{57}

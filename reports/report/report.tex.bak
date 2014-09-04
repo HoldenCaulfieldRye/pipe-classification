@@ -622,6 +622,16 @@ By stacking n convolutional layers with $k \times k$ pooling operations, the out
 Pick a single location of the output, have a little spatial neighbourhood around that, and perform the linear transformation on all the output values in this neighourhood that results in the best fit of a zero mean, unit standard deviation Gaussian. These transformations are used in image processing to handle images where contrast intensity varies across different areas of the image. The neighbourhood can be defined geographically over isolated kernel maps, or across kernel maps. This normalisation achieves a rescaling of the features at each layer. For example, if in a certain neighbourhood output values are all low and in another neighbourhood all output values are high, this may be due to photographical factors (e.g.\ different expositions to light) which have nothing to do with the underlying objects of interest; local contrast normalisation will pull up the values of the low value neighbourhood and reduce those of the high value neighbourhood to put both neighbourhoods on an equal footing for the next layer to receive unbiased data. \\
 
 
+\subsection{Local vs Global Optimisation}
+
+Gradient descent is a local optimisation algorithm in that it ends when the first local minimum has been met. This is a major shortcoming when the error surface -- defined by the deep architecture and the dataset -- has minima that vary significantly in depth. However, empirical evidence suggests that this is not the case for convolutional neural networks \cite{DL-book}. Given a sufficiently large labelled dataset, the performance difference reached by a CNN trained with backpropagation with and without unsupervised pretraining on another dataset is negligible \cite{rectifier}. 
+
+One can imagine that the requirement of a large enough dataset is to obtain a sufficiently precise approximation of the `true' error surface, i.e.\ the error surface that would be obtained by integrating the gradient over all possible configurations of the class. But the theoretical explanation for depth similarities across local minima remain a mystery. The question was asked by this author to Yann LeCun at a conference for students in Paris on 12th June 2014. The answer was that: 
+
+\textit{`The optimisation is simple because there are results from random matrix theory that seem to suggest that when you build those systems, the function you are trying to optimise is akin to a high degree polynomial on the sphere, with lots of monomials. The properties of the critical points which are saddle points are relatively well analysed by people who have traditionally worked on things like spin glass theory. What is known is that the minima are clustered within a very small narrow band of energies, so if you have a process that's going to find a minimum, it will find one that will be as good as any minimum. The likelihood of being trapped in a bad minimum is small because there are exponentially more good minima than bad ones. Of course, there is an even larger number of saddle points, so you have to figure out how to avoid saddle points; but you don't get trapped by saddle points, you only get slowed down by them`} \cite{labex-bezout}.
+
+No papers regarding this research were found. When the question was reposted to the Google+ Deep Learning community, Yann LeCun answered that \textit{`This work is not yet published. Stay tuned'}.
+
 \clearpage
 
 \section{Analysis 1: ReLU Activation}
@@ -805,13 +815,13 @@ I've been thinking about it in terms of early stopping. early stopping seems rea
 
 \subsection{Motivations}
 
-Clamp detection was suggested by ControlPoint as a simple test run for training a CNN on their dataset. Since computer vision had never been attempted on ControlPoint's dataset, there was no benchmark from which to evaluate the difficulty of the task. The test run was seen as a way of estimating the difficulty, in case the task would turn out to be too ambitious for the scope of the MSc project. Clamp detection was advised on the intuitive basis that, since clamps are large objects, they would be easy to see. \\
+Clamp detection was suggested by ControlPoint as a simple test run for training a CNN on their dataset. Since computer vision had never been attempted on ControlPoint's dataset, there was no benchmark from which to evaluate the difficulty of the task. The test run was seen as a way of estimating the difficulty, in case the task would turn out to be too ambitious for the scope of the MSc project. Clamp detection was advised on the intuitive basis that, since clamps are large objects, they would be easy to see. 
 
 \subsection{Implementation: Cuda-Convnet}
 
 Due to its success and frequent re-use \cite{rectifier} \cite{goodfellow_street_view} \cite{decaf} \cite{fergus_tutorial} \cite{colah} \cite{zeiler_fergus} \cite{transfer-learning} \cite{caffe-website}, the network architecture from (Krizhevsky et al 2012), often referred to as AlexNet, was chosen for this task (and throughout most of the project).
 
-Cuda-Convnet is an open-source GPU implementation for training deep convolutional neural networks with stochastic gradient descent, written in CUDA C++ and python by Alex Krizhevsky. GPU implementations enable twenty-fold speedups\cite{soumith-benchmark} in training time. Knowledge of its use existed prior to this project since it had already been used for a group project. A shortcoming with the API is that it expects data in the form of batches consisting of numpy arrays of stacked jpg values in matrix format with RGB values split across, and a dictionary of labels and metadata. Python programs were written to achieve this and extract training data from the log files and plotting it. By re-using code written during the group project, the additional code needing to be written was limited to approx.\ 400 lines. The hardware used for training the network was an nVidia GeForce GTX 780 with 4GB RAM, which enables a twenty-fold increase in training speed compared to the CPU. \\
+Cuda-Convnet is an open-source GPU implementation for training deep convolutional neural networks with stochastic gradient descent, written in CUDA C++ and python by Alex Krizhevsky. GPU implementations enable twenty-fold speedups\cite{soumith-benchmark} in training time. Knowledge of its use existed prior to this project since it had already been used for a group project. A shortcoming with the API is that it expects data in the form of batches consisting of numpy arrays of stacked jpg values in matrix format with RGB values split across, and a dictionary of labels and metadata. Python programs were written to achieve this and extract training data from the log files and plotting it. By re-using code written during the group project, the additional code needing to be written was limited to approx.\ 400 lines. The hardware used for training the network was an nVidia GeForce GTX 780 with 4GB RAM, which enables a twenty-fold increase in training speed compared to the CPU. 
 
 \subsection{Experimentation}
 
@@ -821,7 +831,8 @@ The error being computed and minimised by Cuda-Convnet is the negative of the lo
 \begin{equation}
 -\frac{1}{n}\sum\limits_{i=1}^n log(f(W|x_i))
 \end{equation}
-Where f is the learned function, a.k.a\ the model i.e.\ the neural network. This is also known as Maximum Likelihood Estimation; therefore backpropagation converges to the parameter values that maximise the joint likelihood of the training data. It can be shown that this is equal to the cross entropy of the softmax layer's output \cite{DL-book}. This is discussed in greater length in the experimentation section of Task 3 on class imbalance. \\
+Where f is the learned function, a.k.a\ the model i.e.\ the neural network. This is also known as Maximum Likelihood Estimation; therefore backpropagation converges to the parameter values that maximise the joint likelihood of the training data. It can be shown that this is equal to the cross entropy of the softmax layer's output \cite{DL-book}. This is discussed in greater length in the experimentation section of Task 3 on class imbalance. 
+
 
 \subsubsection{Non-Converging Error Rates}
 
@@ -847,7 +858,7 @@ A number of potential explanations for the high amplitude of the error rates wer
 \item Mislabelled data: the images were not tagged correctly, too many members of one class appear in the other and vice versa, so nothing can be learned.
 \end{itemize}
 
-The learning and dropout rates were modified to no avail. (Jarrett et al 2009) report successful training of networks for which `the number of parameters greatly outstrips the number of samples'.\\
+The learning and dropout rates were modified to no avail. (Jarrett et al 2009) report successful training of networks for which `the number of parameters greatly outstrips the number of samples'.
 
 \subsubsection{Increase Validation Error Precision}
 
@@ -859,7 +870,7 @@ If the set of images that the validation error is computed against varies from o
 	\caption{Test Run with validation errors computed over an unchanging set}
 \end{figure}
 
-With better validation error measures, one notices that the validation error is flat throughout most of training, confirming that nothing is learned during the corresponding time interval. There is some movement during the first thousand iterations, suggesting in fact that backpropagation converged within 1000 iterations, a small amount relative to comparable tasks \cite{decaf} \cite{fergus_tutorial} cite{transfer-learning} \cite{caffe-website}. One may be tempted to conclude that the model is able to learn only very little.
+With better validation error measures, one notices that the validation error is flat throughout most of training, indicating that little is learned. There is some movement during the first thousand iterations, suggesting in fact that backpropagation converged within 1000 iterations, which is highly rapid compared to similar tasks \cite{decaf} \cite{fergus_tutorial} cite{transfer-learning} \cite{caffe-website}. One may be tempted to conclude that the model is able to learn only very little.
 
 
 \subsubsection{Periodicity of the training error}
@@ -918,11 +929,11 @@ What remains striking and unexplained is the high amplitude of the training erro
 
 \subsubsection{Poor, Sampling-Induced Corner Minima}
 
-An intriguing aspect is that the 0.419515 validation (logprob) error that the model converges to corresponds to a 10.791\%  error rate, which is the proportion $\frac{12,287}{113,865}$ of Redbox images that belong to the majority class "Clamp Detected". Furthermore, the error rate on each batch was verified to correspond exactly the proportion of non majority class images within the batch. For example, batch 280 is the best performing batch of the entire set, obtaining 0.315\% error rate at every epoch after model convergence, which is the proportion of `No Clamp' or `Photo Does Not Show Enough Of Clamps' images within; batch 152 is the worst performing and obtains 0.23\% error rate, which is the proportion of non majority class images within. 
+An intriguing aspect is that the 0.419515 validation (logprob) error that the model converges to corresponds to a 10.791\%  error rate, which is the proportion $\frac{12,287}{113,865}$ of Redbox images that belong to the majority class `Clamp Detected'. Furthermore, the error rate on each batch was verified to correspond exactly the proportion of non majority class images within the batch. For example, batch 280 is the best performing batch of the entire set, obtaining 0.315\% error rate at every epoch after model convergence, which is the proportion of `No Clamp' or `Photo Does Not Show Enough Of Clamps' images within; batch 152 is the worst performing and obtains 0.23\% error rate, which is the proportion of non majority class images within. 
 
 Therefore, the reason for why the network converges relatively fast to logprob 0.4 minimum, and stays there, without ever overfitting, is that class imbalance has introduced a `fake' minimum in a `corner' of the error-parameter space. This location in the parameter space corresponds to the model being a constant function that always outputs $(1, 0, 0)$, where the first entry is the probability score for the majority class `Clamp Detected'. This minimum is very hard to get out of because it is deep: it enables the model to score a 10\% error rate, which might be better than a number of other local minima. It is in  `corner' in the sense that it is far away from where the `real' minima are because the `real' minima are in a region of the parameter space that corresponds to the network having learned visually meaningful features rather than being a constant function. \\
 
-The high amplitude of the training error despite parameter convergence is therefore explained by the variation in proportion of "Clamp Detected" images across batches. \\
+The high amplitude of the training error despite parameter convergence is therefore explained by the variation in proportion of `Clamp Detected' images across batches. \\
 
 It can also be interesting to notice that no meaningful features are learned: for example, the filters learned at the lowest convolutional layer in optimised networks usually resemble edge or contrast detectors: in this case, they are noisy, and bear no resemblance with the Gabor filters that are learned by a successfully trained CNN. 
 
@@ -940,7 +951,7 @@ Note that class imbalance is a danger not necessarily when there exists a class 
 
 \subsubsection{Mislabelling}
 
-It came as a surprise that, when the same clamp detection task was trained on the tenfold smaller 13,790 Bluebox dataset for which the majority class represents 88\% of images, the model succeeded in some learning, as the downward trend in training error and convex trend in validation error show.
+It came as a surprise that, when the same clamp detection task was trained on the tenfold smaller 13,790 Bluebox dataset for which the majority class represents 88\% of images, the model succeeded in learning, as the downward trend in training error and convex trend in validation error show. The achieved performance was 83.9\% validation accuracy.
 
 \begin{figure}[h!]
 	\centering
@@ -968,13 +979,13 @@ A smaller training set is supposed to deliver weaker performance, because it pro
     \label{materialflowChart}
 \end{figure}
 
-As can be seen, the image to the left should have received the `Unsuitable Photo' flag (it would have been merged into the "Photo Does Not Show Enough of Clamps" class for training). However, since this one bears no flags, for the clamp detection task it is shown to the network as an example of a weld installation with clamps; for the scrape zone detection task, it is an example of a weld installation with visible scrape zones; etc. The middle case is almost comical: it too is shown to the network as an example of a weld installation with clamps, despite it being \textit{literally} obvious that clamps are not present. Finally, the image to the right is zoomed in too closely for clamps to be visible. 
+As can be seen, the image to the left should have received the `Unsuitable Photo' flag (it would have been merged into the `Photo Does Not Show Enough of Clamps' class for training). However, since this one bears no flags, for the clamp detection task it is shown to the network as an example of a weld installation with clamps; for the scrape zone detection task, it is an example of a weld installation with visible scrape zones; etc. The middle case is almost comical: it too is shown to the network as an example of a weld installation with clamps, despite it being \textit{literally} obvious that clamps are not present. Finally, the image to the right is zoomed in too closely for clamps to be visible. 
 
 Discussion elucidated that the beginnings of ControlPoint's pipe weld monitoring services were met with human and technical difficulties which may have resulted in data being misclassified. This would explain why learning is more successful on the Bluebox data: the Bluebox apparatus was shipped to clients later, at a stage when these difficulties had been overcome.
 
-Deep neural networks have been reported to be robust to mislabelled data \cite{DL-book}, but if the proportion of correctly labelled examples is lower than the proportion of majority class examples, then bad minima are not just likely to occur, they are inevitable. Consider a hypothetical classifier with perfect understanding of the classes (e.g.\ a human expert from ControlPoint) which always assigns the true label to any image, and a `lazy' classifier which always assigns the majority class label to any image. Consider also a dataset with majority class proportion $k$ and random assignment of incorrect class labels to a proportion $r$ of that dataset. The perfect classifier will obtain a $1-r$ error rate, whereas the lazy classifier will obtain a $k$ error rate. If $r > 1-k$ then the lazy classifier will beat the perfect classifier. For clamp detection on the Redbox dataset, this is the case if more than $10.8\%$ of images are missing a "No Clamps Used" or a "Photo Does Not Show Enough Of Clamps" flag. 8/50 of the randomly sampled flagless images were failed images akin to the unsuitable image shown above, and 4/50 were of the type shown in the middle or on the right. Since flagless images make up 43\% of the training set, this estimate\footcite{One must conceed that the estimate is imprecise due to the small size of the sample.} suggests that approximately $0.43\cdot\frac{8+4}{50} = 10.3\%$ of Redbox images are mislabelled with regards to clamp detection. This would also imply that none of six other, less frequent flags can be learned using the Redbox dataset.
+Deep neural networks have been reported to be robust to mislabelled data \cite{DL-book}, but if the proportion of correctly labelled examples is lower than the proportion of majority class examples, then bad minima are not just likely to occur, they are inevitable. Consider a hypothetical classifier with perfect understanding of the classes (e.g.\ a human expert from ControlPoint) which always assigns the true label to any image, and a `lazy' classifier which always assigns the majority class label to any image. Consider also a dataset with majority class proportion $k$ and random assignment of incorrect class labels to a proportion $r$ of that dataset. The perfect classifier will obtain a $1-r$ error rate, whereas the lazy classifier will obtain a $k$ error rate. If $r > 1-k$ then the lazy classifier will beat the perfect classifier. For clamp detection on the Redbox dataset, this is the case if more than $10.8\%$ of images are missing a `No Clamps Used' or a `Photo Does Not Show Enough Of Clamps' flag. 8/50 of the randomly sampled flagless images were failed images akin to the unsuitable image shown above, and 4/50 were of the type shown in the middle or on the right. Since flagless images make up 43\% of the training set, this estimate\footnote{One must concede that the estimate is imprecise due to the small size of the sample.} suggests that approximately $0.43\cdot\frac{8+4}{50} = 10.3\%$ of Redbox images are mislabelled with regards to clamp detection. This would also imply that none of six other, less frequent flags can be learned using the Redbox dataset.
 
-In order to limit the impact of mislabelling, the rest of the project was conducted solely with the use of Bluebox data. This heavily reduced the amount of training data, motivating the use of transfer learning. It is worth noting that there is probably scope for making use of some of the Redbox data by exploring ways of filtering out some of mislabelled data; this is discussed in the conclusions of the report. This path was not chosen because making use of transfer learning seemed to offer more focus on deep learning techniques than on characteristics specific to the datasets.\\
+In order to limit the impact of mislabelling, the rest of the project was conducted solely with the use of Bluebox data. This heavily reduced the amount of training data, motivating the use of transfer learning. It is worth noting that there is probably scope for making use of some of the Redbox data by exploring ways of filtering out some of mislabelled data; this is discussed in the conclusions of the report. This path was not chosen because making use of transfer learning seemed to offer more focus on deep learning techniques than on characteristics specific to the datasets.
 
 
 \clearpage
@@ -982,73 +993,65 @@ In order to limit the impact of mislabelling, the rest of the project was conduc
 
 \subsection{Motivations}
 
-Because training set restricted. The objective here is to optimise transfer learning.
-2 aspects: re-initialise weights, freeze backprop.
-
-\subsection{Implementation: Caffe}
-
-Caffe is a framework for convolutional neural network algorithms, created by Yangqing Jia, and is in active development by the Berkeley Vision and Learning Center. It was chosen in order to implement transfer learning, or pretraining. Not like standard unsupervised pretraining, since this time, training was supervised, but on another dataset. So end result is pretty much the same, though it would be interesting to compare the two approaches. (unsupervised pretraining on ImageNet vs supervised pretraining on ImageNet). \\
- 
-The network pretrained on ImageNet is licensed for academic research, and is for non-commercial use only. Therefore, if ControlPoint wishes to make commercial use of a network whose weights were initialised from it, it would have to pretrain its own net on a dataset on which there are no such licensing restrictions. \\
+Transfer learning consists in initialising the weights of layers of the network to those of dimensionally identical layers of a network trained in a supervised fashion on a similar task. Until 2013, the established approach consisted in transferring the weights of a Deep Belief Net trained (in an unsupervised fashion) on a `source' unlabelled dataset \cite{microsoft-book}. However, the 2014 paper "CNN Features off-the-shelf: an Astounding Baseline for Recognition" by Razavian et al shows that transferring the weights of OverFeat, the winning model of ILSVRC 2013 \cite{transfer-learning}, to train classifiers on 11 well known computer vision recognition tasks, establishes state-of-the-art results on 10 of them\cite{off-the-shelf}. These results, combined with the data limitations of restricting ourselves to the Bluebos dataset, motivate the use of transfer learning in this project. This section consists in exploring and understanding the effects of transfer learning on the clamp detection task. Restricting work to the clamp detection task rather than all tasks enabled faster evaluation of alternative approaches to transfer learning, which was crucial given that a single model took 2-30 hours to train. 
 
 
-\textit{Caffe Reference ImageNet Model: Our reference implementation of an ImageNet model trained on ILSVRC-2012 is the iteration 310,000 snapshot. The best validation performance during training was iteration 313,000 with validation accuracy 57.412\% and loss 1.82328. This model obtains a top-1 accuracy 57.4\% and a top-5 accuracy 80.4\% on the validation set.} \cite{caffe-website} \\
+\subsection{Implementation}
 
-Contributed to Caffe by making it more space efficient: instead of the data being copied to the task directory, it is symlinked. The batching code tests for whether files are symlinks, and follows the link if that is the case. Caffe has a low-level tier written in C++ and a high-level tier written in Python; in this case, the modification was in C++. Note that before, it could get really inefficient to make copies of the data for every task. (One could use the same directory for several tasks, but if we want to keep control of class imbalance, we need flexibility in taking subsets of the training set. Therefore, one usually ends up requiring multiple different data directories, which makes the case for symlinked data all the more compelling.) \\
+\subsubsection{Caffe}
 
-Caffe benchmark: https://github.com/soumith/convnet-benchmarks 
+Since the open-sourcing of Cuda-Convnet, other deep learning labs have made use of Krizhevsky's CUDA code to develop more modular APIs for GPU implementations and additional features \cite{caffe} \cite{theano} \cite{torch7}. One that is noted for its transfer learning feature is Caffe, an open source framework for convolutional neural network algorithms, developed by Yangqing Jia's team at the Berkeley Vision and Learning Center. It provides the Caffe Reference ImageNet Model, a slightly lesser performing imitation of AlexNet \cite{decaf} that is the 313,000th iteration of training an identical architecture on the 1.3 million image ILSVRC 2012 labelled data. This model achieves 19.6\% top-5 validation accuracy, compared to 18.2\% for (Krizhevsky et al 2012). Caffe also provides an interface and underlying back end for choosing which layers to transfer. In terms of computational efficiency during backpropagation, Caffe is currently the best, requiring 1.787 seconds per mini-batch training iteration for a 128 image mini-batch size and 224x224 images \cite{soumith-benchmark}. Caffe is the only implementation for which backpropagation is written entirely in C++ and CUDA, so this may be why. 
 
+An important note is that the Caffe Reference ImageNet model is licensed for academic research, and is for non-commercial use only. Therefore, if ControlPoint wishes to make commercial use of a network whose weights were initialised from it, it would have to pretrain its own net on a dataset on which there are no such licensing restrictions. \\
 
-
-\paragraph{leveldb}
-
-More efficient implementation that does not require to create batches. Describe a bit what is going on under the hood, it seems that lookup tables are created for each image so that they can be dynamically pulled in (in constant time) to create batches on the fly. But find out more, it's cool. \\
-
-\paragraph{Class Imbalance Solver}
-
-Note that class imbalance ratio i.e.\ size of largest class relative to smallest class is not the right metric to consider. The right metric to consider is the proportion of the largest class, since this is what provides a bad/fake local minimum. This may not seem to be significant but it can be. Consider the 3 class case where we have 10, 100, 500 images for each respective class. Class imbalance ratio is 0.05, and proportion of largest class is approximately 0.82. If we wanted to attain a class imbalance ratio of 0.2, no class would be permitted to have more than 5*10=50 images, and we would be left with a training set of size 110. On the other hand, if we wanted to attain a proportion of largest class of 0.8, we would merely have to remove 12 images from the largest class, and we would be left with a training set of size 598. Interestingly, in the two class case, optimising with respect to either of the two metrics is equivalent. \\
-
-Ok, but do we care about this for this project? Are we ever going to be training multi-class classifiers? Yes, if we think that it may help training to distinguish multiple cases. Intuitively, if two classes contain similar semantic content (e.g. inadequate clamp fitting and no clamp detected both involve clamps), then it could be better to train a single classifier on a 3-class task rather than 2 binary classifiers, because in the latter case, we lose potentially useful information that the images contain about clamps. In other words, to detect whether clamps are fitted properly, it helps to know what a clamp looks like, i.e.\ it helps to know which images do and don't have clamps. \\
-
-t: target bad min
-N: total number of current images
-n: number of majority class images
-k: number of majority class images to kill
-
-when n-k is optimal, we have t = (n-k)/(N-k)
-<=> t*N - t*k = n - k
-<=> (1-t)*k = n - t*N
-<=> k = (n-t*N)/(1-t) \\
-
-so solution is to randomly delete $n - n^{*}$ images from the majority class. \\
+It took two weeks to install Caffe, write data batching scripts in Python, understand how to manipulate it and successfully start training. A small contribution to the Caffe open source project was made: symlinking data to the task directory instead of copying it. Previously, copies of the data were made for every task. One could use the same directory for several tasks, but in the context of tackling class imbalance, it is desirable to keep control of class proportions in the training set; flexibility is therefore required to be able to take several different subsets of the training set. As a result, one usually ends up requiring multiple different data directories, hence the benefits of symlinking the data. \\
 
 
 \subsection{Experimentation}
 
-This section is a fucking mess. To bring order, you might have to train nets again. Structure should be as follows:
-- pick a task: clampdet (easy) or hatch markings (hard)
-- learn on top of conv feature space of fc feature space
-- freeze backprop 1/2/3/4/5/6/7 layers
-- import weights or re-initialise them
-
 \subsubsection{Test Run}
 
-This should just be the simple case of transfer learning (no weight re-initialisation, backprop everywhere) vs no transfer learning. 
+As a test run, the most straightforward form of transfer learning was implemented on a network with the same architecture as was previously used, AlexNet.  This consists in taking the Caffe Reference Imagenet model, removing the 1000-output softmax layer (since the model was trained on the 1000 class ILSVRC 2012 challenge), and replacing it with a 2-output softmax layer with randomly initialised weights. The training data, as is the case for all subsequent experiments, consists in the Bluebox dataset. Below are the training results compared to training the same model, but with all weights randomly initialised.
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_tl_wout.png}
-	\caption{Without transfer learning}
+	\begin{subfigure}{.5\textwidth}
+  		\centering
+		\includegraphics[scale=0.4]{images/plot_clampdet_tl_wout.png}
+		\caption{Clamp Detection on Redbox}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+  		\centering
+		\includegraphics[scale=0.4]{images/plot_clampdet_none.png}
+		\caption{Clamp Detection on Bluebox}
+	\end{subfigure}
 \end{figure}
+
+As can be seen, the model with transfer learning reaches its minimum validation error ten times faster than the model without, and this error is logprob 0.4 lower, which corresponds to pushing validation accuracy up from 83.9\% to 93.5\%. The gain in convergence comes a significant advantage for coping with the time constraints of the research project. 
+
+
+\paragraph{Zig-zag}
+
+Two noticeable aspects in training without transfer learning are the higher training error amplitude, and the increasing frequency of outlying training error values as training progresses. Both are likely due to the fact that the learning rate is too high; as a result, the network parameters zig zag towards the minimum with greater strides , and the zig zag is accentuated. A graphical example where the error surface is simplified to a quadratic bowl is given below. 
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
-	\caption{With transfer learning}
+	\begin{subfigure}{.5\textwidth}
+  		\centering
+		\includegraphics[scale=0.4]{images/gradient_descent_ellipses.png}
+		\caption{Vertical and horizontal slices of the quadratic bowl error surface}
+	\end{subfigure}%
+	\begin{subfigure}{.5\textwidth}
+  		\centering
+		\includegraphics[scale=0.4]{images/gradient_descent_zigzag.png}
+		\caption{Directions of steepest descent lead to zig zag towards minimum}
+	\end{subfigure}
+	\caption{source: Coursera, Neural Networks for Machine Learning}
 \end{figure}
 
+In light of this explanation, faster convergence for the no transfer learning task could have been obtained by using a smaller learning rate, but the objective of the test run was to train two networks, identical across all aspects save for transfer learning. One conclusion is that transfer learning enables the use of a higher learning rate, which partly explains why convergence is faster.
 
-Without transfer learning, impossible to train. With transfer learning, it is! (at least not with this task). The conclusion is that initialisation of the parameters is very important, even in convolutional neural networks, at least when the dataset is not large! (Quote deep sparse rectifier network paper and maybe another, just to show that your observations are consistent with the literature). Ideally, show the features or filters or something. \\
+The essential takeaway from the test run is that initialisation of the parameters is very important, even in convolutional neural networks, at least when the dataset is not large! (Quote deep sparse rectifier network paper and maybe another, just to show that your observations are consistent with the literature). Ideally, show the features or filters or something. \\
 
 \subsubsection{Initialising Free Layers}
 
@@ -1080,7 +1083,7 @@ There currently exists no way of visualising the semantic content in fully conne
 
 Are below comments still true once retrained no mistake long time for both? \\
 
-Re-initialising the weights has other effects too. It initialises the network in an area of the parameter space which is further away from the optimal region, which is why the training error starts higher. Secondly, the training error is more volatile: this is a result of the network having "more space to move". As a result, overfit occurs sooner too. What is slightly surprising is that re-initialising the weights does not increase performance overall, despite advice from Soumith Chintala to the contrary (any paper?). Perhaps, if data had been more plentiful, re-initialisation would have proven superior. However, given that the backpropagation is fully enabled in such a network that is very large relative to the dataset (remember this network size was trained on ImageNet), overfit occurs quickly. \\
+Re-initialising the weights has other effects too. It initialises the network in an area of the parameter space which is further away from the optimal region, which is why the training error starts higher. Secondly, the training error is more volatile: this is a result of the network having `more space to move'. As a result, overfit occurs sooner too. What is slightly surprising is that re-initialising the weights does not increase performance overall, despite advice from Soumith Chintala to the contrary (any paper?). Perhaps, if data had been more plentiful, re-initialisation would have proven superior. However, given that the backpropagation is fully enabled in such a network that is very large relative to the dataset (remember this network size was trained on ImageNet), overfit occurs quickly. \\
 
 
 \subsubsection{Freezing Backprop on various layers}
@@ -1189,7 +1192,7 @@ $C++$ per class accuracy layer as an indicator for bad min: do the maths to expl
 
 It will be crucial to keep in mind throughout that the per class accuracy layer provides per class accuracy, but the log prob which it outputs is not 
 
-that's also why we thought the per class accuracy was "fucked up": it was outputting per class accuracy, but OVERALL softmax loss
+that's also why we thought the per class accuracy was messed up: it was outputting per class accuracy, but OVERALL softmax loss
 hence why the 2 didn't always vary in the same direction!
 
 python script. \\
@@ -1200,6 +1203,23 @@ target*total_num - target*delete_min = max_num
 target*delete_min = target*total_num - max_num
 delete_min = total_num - (max_num/target)$
 
+\subsubsection{Class Imbalance Solver}
+
+Note that class imbalance ratio i.e.\ size of largest class relative to smallest class is not the right metric to consider. The right metric to consider is the proportion of the largest class, since this is what provides a bad/fake local minimum. This may not seem to be significant but it can be. Consider the 3 class case where we have 10, 100, 500 images for each respective class. Class imbalance ratio is 0.05, and proportion of largest class is approximately 0.82. If we wanted to attain a class imbalance ratio of 0.2, no class would be permitted to have more than 5*10=50 images, and we would be left with a training set of size 110. On the other hand, if we wanted to attain a proportion of largest class of 0.8, we would merely have to remove 12 images from the largest class, and we would be left with a training set of size 598. Interestingly, in the two class case, optimising with respect to either of the two metrics is equivalent. \\
+
+Ok, but do we care about this for this project? Are we ever going to be training multi-class classifiers? Yes, if we think that it may help training to distinguish multiple cases. Intuitively, if two classes contain similar semantic content (e.g. inadequate clamp fitting and no clamp detected both involve clamps), then it could be better to train a single classifier on a 3-class task rather than 2 binary classifiers, because in the latter case, we lose potentially useful information that the images contain about clamps. In other words, to detect whether clamps are fitted properly, it helps to know what a clamp looks like, i.e.\ it helps to know which images do and don't have clamps. \\
+
+t: target bad min
+N: total number of current images
+n: number of majority class images
+k: number of majority class images to kill
+
+when n-k is optimal, we have t = (n-k)/(N-k)
+<=> t*N - t*k = n - k
+<=> (1-t)*k = n - t*N
+<=> k = (n-t*N)/(1-t) \\
+
+so solution is to randomly delete $n - n^{*}$ images from the majority class. \\
 
 \subsection{Experimentation}
 
@@ -1395,10 +1415,10 @@ When gradient not correctly propagated, backpropagation does not converge. \\
 
 Makes gradient a noiser because class imbalance from one minibatch to another varies. This could be improved by making sure same class proportion in every batch. Note that validation error is noisy here because 1 validation batch is tested at a time (for faster evaluation of implementation). \\
 
-I had thought that the "bayesian softmax loss" had failed
+I had thought that the `bayesian softmax loss' had failed
 because the models trained on it were not hitting as low a validation error minimum as were the models trained on normal softmax loss
 HOWEVER 
-scarcity of minority class cases makes the class harder to learn, no matter what tricks you use to get the net to "focus on it more"
+scarcity of minority class cases makes the class harder to learn, no matter what tricks you use to get the net to `focus on it more'
 since softmax bayesian loss is a kind of per class average softmax loss, it will always be higher than sotmax loss when there is class imbalance
 even if it achieves in getting the net to learn the minority class better!
 
@@ -1406,8 +1426,8 @@ I'm going to run the models on the test set
 look at the accuracy on positives and negatives
 and if I get better accuracy on the positives, it's great. 
 
-no free lunch: if you're making minority class cases stand out disproportionately, you're telling the net "screw overall performance, try to get the minority class good"
-"at the expense of performance on the majority class"
+no free lunch: if you're making minority class cases stand out disproportionately, you're telling the net `screw overall performance, try to get the minority class good'
+`at the expense of performance on the majority class'
 which, when you're taking an unweighted measure of performance such as softmax loss, lowers performance.
 
 \paragraph{Results}
@@ -1550,7 +1570,7 @@ however, the NN will compute the probabilities p(label | data) ~ p(data | label)
 and a class imbalance means the priors p(label) are different
 so you just need to correct for that by multiplying, for instance, the probability of p(label = 1 | data) outputted by the NN by the factor p(label=2) / p(label=1) and renormalizing \\
 
-I get why it's called threshold: suppose $p(c_1)=0.1$. the threshold for classifying as $c_1$ moves from 0.5 to 0.1. Illustrate this point with one or two simple examples ("intuitively, ").  (that's pretty much what the "sig level" script I mentioned intends to do, except script has a flexible sig level.)
+I get why it's called threshold: suppose $p(c_1)=0.1$. the threshold for classifying as $c_1$ moves from 0.5 to 0.1. Illustrate this point with one or two simple examples (`intuitively, ').  (that's pretty much what the "sig level" script I mentioned intends to do, except script has a flexible sig level.)
 Also, I think that if we wanted to implement the threshold directly in the net, we might need to put the threshold layer after the softmax layer (and have it renormalise by $1/num_classes$). cos it's non-linear so you can't be sure that their output will be renormalised in the same way. \\
 
 Rather than have a fixed threshold hard-coded into the network, I propose to use a sig level script, for greater flexibility. \\
@@ -1572,13 +1592,18 @@ Whereas pooling in convolutional layers condenses the visual information and ach
 
 The architecture of the network was easily modified thanks to the prototxt interface featured in caffe. 
 
+Note that above batch size 96 saturates gpu memory. The reason for why this model cann take up more space is because without pool, the partial derivatives between conv5 and fc6 are twice as large, and that already constitutes the largest Jacobian in the model: we go from a (bSize*256*6*6) x (bSize*4096) Jacobian to a (bSize*256*13*13) x (bSize*4096), i.e.\ four times as large. However, the reason for why the GPU is unable to support is probably due to CUDA implementation details, and how many cores have been allocated to that specific Jacobian. After all, the Titan Black has 6GB of memory, which should be ample space. In the interest of time, the issue was not explored further. 
+
 \subsection{Experimentation}
+
+good to make standard deviation of the weights proportional to the square root of the fan in. 
+since the weights are random it scales with the square root of the of the weights, so good to make size fo the weights proportional to the square root of the fan-in. 
 
 \paragraph{Test Run}
 %     soil_contam/tl_wout
 %     soil_contam/none_lr5_sbl
 
-Note that above batch size 96 saturates gpu memory. The reason for why this model cann take up more space is because without pool, the partial derivatives between conv5 and fc6 are twice as large, and that already constitutes the largest Jacobian in the model: we go from a (bSize*256*6*6) x (bSize*4096) Jacobian to a (bSize*256*13*13) x (bSize*4096), i.e.\ four times as large. However, the reason for why the GPU is unable to support is probably due to CUDA implementation details, and how many cores have been allocated to that specific Jacobian. After all, the Titan Black has 6GB of memory, which should be ample space. In the interest of time, the issue was not explored further. \\
+
      
      
 \paragraph{Remove pooling and an fc layer}
@@ -1603,6 +1628,10 @@ CNNs were trained on all of the "No Clamps" or "Clamps Not Sufficiently Visible"
 
 Note that the two minority classes were merged: because it is suspected that there is barely any semantic difference between them (will have to draw random samples to verify this), and because this reduces the number of majority class instances to remove, since it makes it easier to reach a good balance ratio. \\
 
+
+\subsection{Independent Binary Classifiers}
+
+Instead of doing multi image multi instance tagging, independent binary classifiers were chosen. This implies not making use of correlations between the labels to increase precision. This was intentional, in order to keep each binary classifier `impartial and unprejudiced'. For example, if images with missing clamps are more frequently associated with contamination risk, making use of this correlation would imply raising the probability of contamination risk regardless of the visual features that specifically define contamination risk in the image. ControlPoint reports that employees adopt similar behaviour in the case of gas vs water piping: gas pipes tend to be much cleaner to install than water pipes since they are less frequently buried in the ground; as a result, employees become less vigilant in raising flags for them, and overly prone to do so in the case of water pipes. When training classifiers, exploiting between-flag correlations can be avoided by training independent binary classifiers.
 
 \subsection{Learning Rate}
 
@@ -1800,6 +1829,13 @@ Copy paste from your emacs sheet everything! Talk about domain change as well be
  \emph{Company Description}\\
  URL: \url{http://www.fusionprovida.com/companies/control-point}, last accessed 5th June 2014. 
   
+\bibitem{labex-bezout}
+ LeCun, Yann;
+ \emph{The Unreasonable Effectiveness of Deep Learning}
+ Journee du Labez Bexout
+ 12 June 2014  
+ URL: \url{https://www.youtube.com/watch?v=zPVHH7ZJi9Q&list=PLYTk9IwHBb2ANKHc2feIso7tL1slpuVPY&index=1}, last accessed 4th September 2014/
+  
 \bibitem{univ-approx}
  Barron, Andrew R.,
  \emph{Universal Approximation Bounds for Superpositions of a Sigmoidal Function}\\
@@ -1823,6 +1859,11 @@ Copy paste from your emacs sheet everything! Talk about domain change as well be
  Zeiler, Matthew; Fergus, Robert;
  Visualizing and Understanding Convolutional Networks
  arXiv 2013
+
+\bibitem{off-the-shelf}
+ Ali Sharif Razavian, Hossein Azizpour, Josephine Sullivan, Stefan Carlsson;
+ \emph{CNN Features off-the-shelf: an Astounding Baseline for Recognition}
+ arXiv 2014
 
 \bibitem{Russel & Norvig}
  Russell, Stuart J; Norvig, Peter;
@@ -1858,6 +1899,12 @@ Copy paste from your emacs sheet everything! Talk about domain change as well be
  Krizhevsky, Alex; 
  \emph{Cuda-ConvNet: High-performance C++/CUDA implementation of convolutional neural networks}
  URL: \url{https://code.google.com/p/cuda-convnet/}, last accessed 6th June 2014.
+ 
+\bibitem{microsoft-book}
+ Deng, Li; Yu, Dong;
+ \emph{Deep Learning Methods and Applications}
+ Foundations and Trends in Signal Processing
+ 7:3-4 2014
 
 \bibitem{caffe-website} 
  Jia, Yangqing;
@@ -1865,10 +1912,18 @@ Copy paste from your emacs sheet everything! Talk about domain change as well be
  URL: \url{http://caffe.berkeleyvision.org/getting_pretrained_models.html}, last accessed 6th June 2014.
 
 \bibitem{nips-tut}  
+ Fergus, Robert;
+ \emph{NIPS 2013 Tutorial - Deep Learning for Computer Vision}
  URL: \url{http://research.microsoft.com/apps/video/default.aspx?id=206976&l=i}, last accessed 6th August 2014.
 
 \bibitem{soumith-benchmark}
  URL: \url{https://github.com/soumith/convnet-benchmarks}, last accessed 2nd September 2014.
+ 
+\bibitem{theano}
+ URL: \url{http://deeplearning.net/software/theano/}
+ 
+ \bibitem{torch7}
+ URL: \url{http://torch.ch/} 
 
 \end{thebibliography}
 
