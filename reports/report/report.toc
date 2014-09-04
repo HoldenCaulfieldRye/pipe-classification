@@ -23,15 +23,16 @@
 \contentsline {subsection}{\numberline {2.6}Backpropagation}{16}
 \contentsline {subsubsection}{\numberline {2.6.1}Compute Error-Weight Partial Derivatives}{16}
 \contentsline {subsubsection}{\numberline {2.6.2}Update Weight Values with Gradient Descent}{16}
+\contentsline {subsubsection}{\numberline {2.6.3}Stochastic Gradient Descent}{16}
 \contentsline {subsection}{\numberline {2.7}Overfit}{16}
 \contentsline {subsubsection}{\numberline {2.7.1}Cross Validation}{17}
 \contentsline {subsubsection}{\numberline {2.7.2}Data Augmentation}{18}
 \contentsline {subsubsection}{\numberline {2.7.3}Dropout}{18}
 \contentsline {subsection}{\numberline {2.8}Deep Convolutional Neural Networks}{20}
 \contentsline {subsubsection}{\numberline {2.8.1}Pixel Feature}{21}
-\contentsline {subsubsection}{\numberline {2.8.2}Non-linear Activation}{22}
+\contentsline {subsubsection}{\numberline {2.8.2}Non-linear Activation}{23}
 \contentsline {subsubsection}{\numberline {2.8.3}Pooling aka Spatial Feature}{23}
-\contentsline {subsubsection}{\numberline {2.8.4}Contrast Normalisation}{24}
+\contentsline {subsubsection}{\numberline {2.8.4}Contrast Normalisation}{23}
 \contentsline {section}{\numberline {3}Analysis 1: ReLU Activation}{25}
 \contentsline {subsection}{\numberline {3.1}Motivations}{25}
 \contentsline {subsection}{\numberline {3.2}Mathematical Analysis}{26}
@@ -46,11 +47,11 @@
 \contentsline {subsection}{\numberline {5.2}Implementation: Cuda-Convnet}{31}
 \contentsline {subsection}{\numberline {5.3}Experimentation}{31}
 \contentsline {subsubsection}{\numberline {5.3.1}Non-Converging Error Rates}{31}
-\contentsline {paragraph}{Increase Test Error Precision}{32}
+\contentsline {paragraph}{Increase Validation Error Precision}{32}
 \contentsline {paragraph}{Alter Momentum}{33}
 \contentsline {subparagraph}{Increase}{33}
 \contentsline {subparagraph}{Decrease}{34}
-\contentsline {paragraph}{Reduce Learning Rate}{34}
+\contentsline {paragraph}{Reduce Learning Rate}{35}
 \contentsline {subsubsection}{\numberline {5.3.2}Class Imbalance}{35}
 \contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{35}
 \contentsline {subsubsection}{\numberline {5.3.3}Mislabelling}{36}

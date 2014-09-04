@@ -95,8 +95,6 @@ Contributions (beyond training accurate pipe weld classifiers for ControlPoint):
 - f measure for caffe
 - data augmentation for caffe \\
 
-
-
 This project aims to automate the classification of pipe weld images with deep neural networks. After explaining and formalising the problem, we will explain fundamental concepts in machine learning, then go on to explain the architecture of a deep convolutional neural network with restricted linear units, and finally explain how the network is trained with stochastic gradient descent, backpropagation and dropout. The last sections focus on three challenges specific to the pipe weld image classification task: multi-tagging, learning features from a restricted training set, and class imbalance.
 
 
@@ -131,7 +129,7 @@ The problem consists in building a classifier of pipe weld images capable of det
     \caption {Code Coverage for Request Server}
 \end{table} 
 
-At this point, it may help to explain the procedure through which these welds are made, and how pictures of them are taken. The situation is that of fitting two disjoint polyethylene pipes with electrofusion joints \cite{control-point}, in the context of gas or water infrastructure. Since the jointing is done by hand, in an industry affected with alleged "poor quality workmanship", and is most often followed by burial of the pipe under the ground, poor joints occur with relative frequency \cite{control-point}. Since a contamination can cost up to £100,000 \cite{control-point}, there exists a strong case for putting in place protocols to reduce the likelihood of such an event. ControlPoint currently has one in place in which, following the welding of a joint, the on-site worker sends one or more photos, at arm's length, of the completed joint. \\
+At this point, it may help to explain the procedure through which these welds are made, and how pictures of them are taken. The situation is that of fitting two disjoint polyethylene pipes with electrofusion joints \cite{control-point}, in the context of gas or water infrastructure. Since the jointing is done by hand, in an industry affected with alleged `poor quality workmanship', and is most often followed by burial of the pipe under the ground, poor joints occur with relative frequency \cite{control-point}. Since a contamination can cost up to £100,000 \cite{control-point}, there exists a strong case for putting in place protocols to reduce the likelihood of such an event. ControlPoint currently has one in place in which, following the welding of a joint, the on-site worker sends one or more photos, at arm's length, of the completed joint. \\
 
 \begin{figure}[h!]       
     \fbox{\includegraphics[scale=0.22]{images/soilcontam2.jpg}}   
@@ -224,7 +222,7 @@ Certain visual characteristics are semantically more complex than normal object 
 	\caption{The clamp wraps around under the pipe - the glint of a metal rod gives it away}
 \end{figure}
 
-Worse still, sometimes the presence of clamps "does not count": these are cases for which the purpose of the clamp is other than to secure the welding. Therefore, if such a clamp is present, but the clamp that serves to secure the weld is absent, then the image is assigned the "No Clamps" label. For example, bottom left, a clamp can clearly be seen, but it's not a weld clamp. So this image should have a "No Clamps" flag raised (sadly, it doesn't). Bottom right: the thin metallic clamp that is fastened on the vertical pipe is not the clamp we're interested in. The glint from the thin metallic rod going along the thick, horizontal pipe tells us that a tapping-T clamp is present, even though that clamp is hidden underneath the pipe. 
+Worse still, sometimes the presence of clamps `does not count': these are cases for which the purpose of the clamp is other than to secure the welding. Therefore, if such a clamp is present, but the clamp that serves to secure the weld is absent, then the image is assigned the `No Clamps' label. For example, bottom left, a clamp can clearly be seen, but it's not a weld clamp. So this image should have a `No Clamps' flag raised (sadly, it doesn't). Bottom right: the thin metallic clamp that is fastened on the vertical pipe is not the clamp we're interested in. The glint from the thin metallic rod going along the thick, horizontal pipe tells us that a tapping-T clamp is present, even though that clamp is hidden underneath the pipe. 
 
 \begin{figure}
     \centering
@@ -274,7 +272,7 @@ Nevertheless, evidence has been found to suggest that deep neural networks are r
 
 \subsubsection{Small Dataset Size}
 
-Alex Krizhevsky's record-breaking CNN was trained on 1 million images \cite{krizhevsky}. Such a large dataset enabled the training of a 60-million parameter neural network, without leading to overfit. In this case, there are 'only' 5,000, and 43\% of them are images of "perfect" welds, meaning that these are label-less. Training a similarly sized network leads to overfit, but training a smaller network could prevent the network from learning sufficiently abstract and complex features for the task at hand. A solution to consider is that of transfer learning \cite{transfer-learning}, which consists in importing a net which has been pretrained in a similar task with vast amounts of data, and to use it as a feature extractor. This would bring the major advantage that a large network architecture can be used, but the number of free parameters can be reduced to fit the size of the training set by "freezing" backpropagation on the lower layers of the network. Intuitively, it would make sense to freeze the lower (convolutional) layers and to re-train the higher ones, since low-level features (such as edges and corners) are likely to be similar across any object recognition task, but the way in which these features are combined are specific to the objects to detect.
+Alex Krizhevsky's record-breaking CNN was trained on 1 million images \cite{krizhevsky}. Such a large dataset enabled the training of a 60-million parameter neural network, without leading to overfit. In this case, there are 'only' 5,000, and 43\% of them are images of `perfect' welds, meaning that these are label-less. Training a similarly sized network leads to overfit, but training a smaller network could prevent the network from learning sufficiently abstract and complex features for the task at hand. A solution to consider is that of transfer learning \cite{transfer-learning}, which consists in importing a net which has been pretrained in a similar task with vast amounts of data, and to use it as a feature extractor. This would bring the major advantage that a large network architecture can be used, but the number of free parameters can be reduced to fit the size of the training set by `freezing' backpropagation on the lower layers of the network. Intuitively, it would make sense to freeze the lower (convolutional) layers and to re-train the higher ones, since low-level features (such as edges and corners) are likely to be similar across any object recognition task, but the way in which these features are combined are specific to the objects to detect.
 
 \subsubsection{Class Imbalance}
 
@@ -307,7 +305,7 @@ It is important to note that supervised learning does not consist in merely find
 
 Learning a hypothesis function $f^{h}$ comes down to searching a target function space for the function which minimises the cost function. A function space is defined by a parametrised function equation, and a parameter space. Choosing a deep convolutional neural network with rectified linear neurons sets the parametrised function equation. By explaining the architecture of such a neural network, this subsection justifies the chosen function equation. As for the parameter space, it is $\mathbb{R^{P}}$ (where P is the number of parameters in the network); its continuity must be noted as this enables the use of gradient descent as the optimisation algorithm (as is discussed later). \\
 
-Before we consider the neural network architecture as a whole, let us start with the building block of a neural network: the neuron (mathematically referred to as the \textit{activation function}). Two types of neuron models are used in current state-of-the-art implementations of deep convolutional neural networks: the rectified linear unit and the softmax unit (note that the terms "neuron" and "unit" are used interchangeably). In order to bring out their specific characteristics, we shall first consider two other compatible neuron models: the binary threshold neuron, which is the most intuitive, and the hyperbolic tangent neuron, which is the most analytically appealing. It may also help to know what is being modelled, so a very brief look at a biological neuron shall first be given.
+Before we consider the neural network architecture as a whole, let us start with the building block of a neural network: the neuron (mathematically referred to as the \textit{activation function}). Two types of neuron models are used in current state-of-the-art implementations of deep convolutional neural networks: the rectified linear unit and the softmax unit (note that the terms `neuron' and `unit' are used interchangeably). In order to bring out their specific characteristics, we shall first consider two other compatible neuron models: the binary threshold neuron, which is the most intuitive, and the hyperbolic tangent neuron, which is the most analytically appealing. It may also help to know what is being modelled, so a very brief look at a biological neuron shall first be given.
 
 \paragraph{Multipolar Biological Neuron}
 
@@ -370,9 +368,6 @@ y_{j} = \frac{\exp(z_{j})}{\sum\limits_{i=1}^k\exp(z_{i})} \text{, where } z_{j}
 
 The equation of a softmax neuron needs to be understood in the context of a layer of $k$ such neurons within a neural network: therefore, the notation $y_{j}$ corresponds to the output of the $j^{th}$ softmax neuron, and $w_{i,j}$ corresponds to the weight of $x_{i}$ as in input for the $j^{th}$ softmax neuron. A layer of softmax neurons distinguishes itself from others in that neighbouring neurons interact with each other: as can be seen from the equation, the input vectors of all the softmax neurons $z_{1}, z_{2}, ..., z_{k}$ serve to enforce $\sum\limits_{i=1}^k y_{i} = 1$. In other words, the vector $(y_{1}, y_{2}, ..., y_{k})$ defines a probability mass function. This makes the softmax layer ideal for classification: neuron $j$ can be made to represent the probability that the input is an instance of class $j$. Another attractive aspect of the softmax neuron is that its derivative is quick to compute: it is given by $\frac{dy}{dz} = \frac{y}{1-y}$. \\
 
-intuition: Bishop textbook: "softmax function, as it represents
-a smoothed version of the ‘max’ function because, if ak ? aj for all j ?= k, then p(Ck|x) ? 1, and p(Cj|x) ? 0."
-
 
 \subsection{Feed-forward Architecture}
 
@@ -388,11 +383,11 @@ The architecture is feed-forward in the sense that data travels in one direction
 
 \paragraph{Shallow Feed-Forward Neural Networks: the Perceptron} 
 
-A feed-forward neural net is called a perceptron if there exist no layers between the input and output layers. The first neural networks, introduced in the 1960s \cite{DL-book}, were of this kind. This architecture severely reduces the function space: for example, with $g_{1}: x \rightarrow sin(s)$, $g_{2}: x,y \rightarrow x*y$, $g_{3}: x,y \rightarrow x+y$ as activation functions (i.e.\ neurons), it cannot represent $f(x) \rightarrow x*sin(a*x+b)$ mentioned above \cite{DL-book}. This was generalised and proved in \textit{Perceptrons: an Introduction to Computation Geometry} by Minsky and Papert (1969) and lead to a move away from artificial neural networks for machine learning by the academic community throughout the 1970s: the so-called "AI Winter" \cite{Russel & Norvig}. 
+A feed-forward neural net is called a perceptron if there exist no layers between the input and output layers. The first neural networks, introduced in the 1960s \cite{DL-book}, were of this kind. This architecture severely reduces the function space: for example, with $g_{1}: x \rightarrow sin(s)$, $g_{2}: x,y \rightarrow x*y$, $g_{3}: x,y \rightarrow x+y$ as activation functions (i.e.\ neurons), it cannot represent $f(x) \rightarrow x*sin(a*x+b)$ mentioned above \cite{DL-book}. This was generalised and proved in \textit{Perceptrons: an Introduction to Computation Geometry} by Minsky and Papert (1969) and lead to a move away from artificial neural networks for machine learning by the academic community throughout the 1970s: the so-called `AI Winter' \cite{Russel & Norvig}. 
 
 \paragraph{Deep Feed-Forward Neural Networks: the Multilayer Perceptron} 
 
-The official name for a deep neural network is Multilayer Perceptron (MLP), and can be represented by a directed acyclic graph made up of more than two layers (i.e.\ not just an input and an output layer). These other layers are called hidden layers, because the "roles" of the neurons within them are not set from the start, but learned throughout training. When training is successful, each neuron becomes a feature detector. At this point, it is important to note that feature learning is what sets machine learning with MLPs apart from most other machine learning techniques, in which features are specified by the programmer \cite{DL-book}. It is therefore a strong candidate for classification tasks where features are too numerous, complex or abstract to be hand-coded - which is arguably the case with pipe weld images.\\ 
+The official name for a deep neural network is Multilayer Perceptron (MLP), and can be represented by a directed acyclic graph made up of more than two layers (i.e.\ not just an input and an output layer). These other layers are called hidden layers, because the `roles' of the neurons within them are not set from the start, but learned throughout training. When training is successful, each neuron becomes a feature detector. At this point, it is important to note that feature learning is what sets machine learning with MLPs apart from most other machine learning techniques, in which features are specified by the programmer \cite{DL-book}. It is therefore a strong candidate for classification tasks where features are too numerous, complex or abstract to be hand-coded - which is arguably the case with pipe weld images.\\ 
 
 \begin{figure}[h!]
 	\centering
@@ -418,7 +413,7 @@ As a formalisation of the intuition given above, (Bengio 2009) \cite{DL-book} ad
 
 (Bengio 2009) \cite{DL-book} details the belief that a deep architecture incites such representations, since, by having a neuron feed into multiple neurons of another hidden layer above, the feature it learns will be used by several feature detectors (or eventually, class detectors) above. The crucial benefit of this is generalisation: features learned from data in a specific region of the input space (a.k.a\ data space) are used in other regions of the input space, even if little to no data from this region is present to learn from. It is in this sense that the representation is general, not local. \\
 
-However, it may seem "risky" to be imposing the use of features in regions of the input space that are unknown. "As usual in ML, there is no real free lunch" \cite{Bengio_G+}. Indeed, one can think of this as imposing a prior on the function space to be searched, that is of the form: the observed data can be explained by a number of underlying factors which can be learned without seeing all of their configurations. If the prior is true for the classes we are learning, the gains are large. Successes in deep learning seem to indicate that this prior covers many tasks that humans deal with \cite{Bengio_G+}. This prior is particularly powerful when learning from high dimensional data, where the curse of dimensionality means that a vast majority of the configurations are missing from the training set. \\
+However, it may seem `risky' to be imposing the use of features in regions of the input space that are unknown. `As usual in ML, there is no real free lunch' \cite{Bengio_G+}. Indeed, one can think of this as imposing a prior on the function space to be searched, that is of the form: the observed data can be explained by a number of underlying factors which can be learned without seeing all of their configurations. If the prior is true for the classes we are learning, the gains are large. Successes in deep learning seem to indicate that this prior covers many tasks that humans deal with \cite{Bengio_G+}. This prior is particularly powerful when learning from high dimensional data, where the curse of dimensionality means that a vast majority of the configurations are missing from the training set. \\
 
 \clearpage
 
@@ -460,6 +455,10 @@ Visually, this means that weight values move in the direction that will (locally
 	\caption{an error surface with poor local minima}
 \end{figure}
 
+
+\subsubsection{Stochastic Gradient Descent}
+
+In practice, in order to ensure use precise weight updates, the partial derivatives are obtained by averaging over a number of training cases (which are often said to be grouped in `mini batches'). This is called Stochastic Gradient Descent \cite{DL-book}, and is also referred to as `mini batch training'.
 
 % \paragraph{cost functions}
 % MSE, cross-entropy for softmax
@@ -504,7 +503,7 @@ Dropout reduces over-fitting by being equivalent to training an exponential numb
 
 A convolutional neural network is a deep feed-forward neural network with at least one convolutional layer. A convolutional layer differs from a traditional fully connected layer in that it imposes specific operations on the data before and after the data is fed through the activation functions. These specific operations are taken from the pre deep learning era of computer vision, and are detailed in this subsection. \\
 
-Before diving into the details, a notable point to bear in mind is that these operations impose a prior on the underlying structure of the observed data: translation invariance of the features. Consider the following image of a geranium: a good (albeit complex) feature to classify this image would be the blue flower, regardless of the location of the blue flower. This feature could appear anywhere on the image; therefore, if the network can learn it, it should then sweep the entire image to look for it. It is in this sense that the pixel feature is "convolved" over the image. \\
+Before diving into the details, a notable point to bear in mind is that these operations impose a prior on the underlying structure of the observed data: translation invariance of the features. Consider the following image of a geranium: a good (albeit complex) feature to classify this image would be the blue flower, regardless of the location of the blue flower. This feature could appear anywhere on the image; therefore, if the network can learn it, it should then sweep the entire image to look for it. It is in this sense that the pixel feature is `convolved' over the image. \\
 
 \begin{figure}[h!]
 	\centering
@@ -556,7 +555,7 @@ Another advantage of such pixel features is that one can make sense of what the 
     \label{materialflowChart}
 \end{figure}
 
-A zero value is obtained when pixel $(1,0)$ and pixel $(1,1)$ have the same value, which is likely to be the case, hence why most of the kernel map is black. A high value is obtained when pixel $(1,0)$ is of a much lower value than pixel $(1,1)$, which occurs most often when the window is on a vertical edge separating a dark region to the left from a light region to the right. Therefore, an intuitive representation for the kernel matrix is the pixel window below, which has become a popular way of representing "deep learning [computer vision] features":
+A zero value is obtained when pixel $(1,0)$ and pixel $(1,1)$ have the same value, which is likely to be the case, hence why most of the kernel map is black. The dot product is maximised when pixel $(1,0)$ is of a much lower value than pixel $(1,1)$, which occurs most often when the window is on a vertical edge separating a dark region to the left from a light region to the right. Therefore, an intuitive representation for the kernel matrix is the pixel window below \footnote{the pixel representation indeed has more pixels than the kernel has entries. but one can see that the dot product is maximal when the kernel is applied in the upper middle area of the pixel representation}, which has become a popular way of representing `deep learning [computer vision] features' \cite{zeiler_fergus}. One therefore realises that this feature visualisation technique does not show a set of weights learned by the network, but the pixel window which maximises the dot product between them and the set of learned weights.
 
 \begin{figure}
     \centering
@@ -595,7 +594,7 @@ Take a $k \times k$ spatial neighbourhood of the feature map, and compute some s
 
 In general, a potential advantage of average over max is that it conserves more information; on the other hand, it will dilute an activation that is strong in a single location of the given neighbourhood and weak in the others. In the worst case, opposing activations will cancel each other out, and result in the pooled value as that for a neighbourhood with zero activations (however, note that this does not occur with ReLUs since they are not antisymmetric). \\
 
-The key contribution of pooling is invariance to small transformations, since the same pooling output is obtained regardless of where in the neighbourhood the activations occur. At higher convolutional layers, the resulting invariance can be spectacular. For example, below are kernel maps for a certain feature of the 5-th convolutional layer of a net from (Zeiler and Fergus 2013) \cite{zeiler_fergus}, computed for 9 different input images from the same class ("human"), which obtain similar pooled activation values. One may be struck by the fact that they receive similar pooled activation values, since one can tell that the similarities between the kernel maps are complex and would be difficult to describe in terms of "small transformations". \\
+The key contribution of max pooling is robustness to noise and invariance to small transformations, since the same max pooling output is obtained regardless of where in the neighbourhood the maximal feature activation occurs, and regardless of what is present elsewhere in the neighbourhood. At higher convolutional layers, the resulting invariance can be spectacular. For example, below are kernel maps for a certain feature of the 5-th convolutional layer of a net from (Zeiler and Fergus 2013) \cite{zeiler_fergus}, computed for 9 different input images from the same class ("human"), which obtain similar pooled activation values. One may be struck by the fact that they receive similar pooled activation values, since one can tell that the similarities between the kernel maps are complex and would be difficult to describe in terms of "small transformations". \\
 
 \begin{figure}
     \centering
@@ -621,6 +620,7 @@ By stacking n convolutional layers with $k \times k$ pooling operations, the out
 \subsubsection{Contrast Normalisation}
 
 Pick a single location of the output, have a little spatial neighbourhood around that, and perform the linear transformation on all the output values in this neighourhood that results in the best fit of a zero mean, unit standard deviation Gaussian. These transformations are used in image processing to handle images where contrast intensity varies across different areas of the image. The neighbourhood can be defined geographically over isolated kernel maps, or across kernel maps. This normalisation achieves a rescaling of the features at each layer. For example, if in a certain neighbourhood output values are all low and in another neighbourhood all output values are high, this may be due to photographical factors (e.g.\ different expositions to light) which have nothing to do with the underlying objects of interest; local contrast normalisation will pull up the values of the low value neighbourhood and reduce those of the high value neighbourhood to put both neighbourhoods on an equal footing for the next layer to receive unbiased data. \\
+
 
 \clearpage
 
@@ -803,7 +803,6 @@ I've been thinking about it in terms of early stopping. early stopping seems rea
 
 \section{Task 1: Generic Clamp Detection}
 
-
 \subsection{Motivations}
 
 Clamp detection was suggested by ControlPoint as a simple test run for training a CNN on their dataset. Since computer vision had never been attempted on ControlPoint's dataset, there was no benchmark from which to evaluate the difficulty of the task. The test run was seen as a way of estimating the difficulty, in case the task would turn out to be too ambitious for the scope of the MSc project. Clamp detection was advised on the intuitive basis that, since clamps are large objects, they would be easy to see. \\
@@ -812,53 +811,66 @@ Clamp detection was suggested by ControlPoint as a simple test run for training 
 
 Due to its success and frequent re-use \cite{rectifier} \cite{goodfellow_street_view} \cite{decaf} \cite{fergus_tutorial} \cite{colah} \cite{zeiler_fergus} \cite{transfer-learning} \cite{caffe-website}, the network architecture from (Krizhevsky et al 2012), often referred to as AlexNet, was chosen for this task (and throughout most of the project).
 
-Cuda-Convnet is an open-source GPU implementation of a deep convolutional neural network written in CUDA C++ and python by Alex Krizhevsky to train AlexNet. It was therefore convenient to use it for the task, especially since  it had already been used for the MSc group project. However, a shortcoming with the API is that it expects data in the form of batches consisting of numpy arrays of stacked jpg values in matrix format with RGB values split across, and a dictionary of labels and metadata. Python programs were written to achieve this and extract training data from the log files and plotting it. By re-using code written during the group project, the additional code needing to be written was limited to approx.\ 400 lines. The hardware used for training the network was an nVidia GeForce GTX 780 with 4GB RAM. \\
+Cuda-Convnet is an open-source GPU implementation for training deep convolutional neural networks with stochastic gradient descent, written in CUDA C++ and python by Alex Krizhevsky. GPU implementations enable twenty-fold speedups\cite{soumith-benchmark} in training time. Knowledge of its use existed prior to this project since it had already been used for a group project. A shortcoming with the API is that it expects data in the form of batches consisting of numpy arrays of stacked jpg values in matrix format with RGB values split across, and a dictionary of labels and metadata. Python programs were written to achieve this and extract training data from the log files and plotting it. By re-using code written during the group project, the additional code needing to be written was limited to approx.\ 400 lines. The hardware used for training the network was an nVidia GeForce GTX 780 with 4GB RAM, which enables a twenty-fold increase in training speed compared to the CPU. \\
 
 \subsection{Experimentation}
 
-Training occurred over the Redbox dataset only, to exclude domain change as a potential reason for weak performance if it were to occur. Time series for training and validation errors were extracted, but not the test error, since it serves no purpose in training the model.
+Training occurred over the Redbox dataset only, to exclude domain change as a potential reason for weak performance if it were to occur. The task consists in learning three classes: `Ǹo Clamps Used', `Photo Does Not Show Enough Of Clamps', and `Clamp Detected' -- which in fact is the default class: an image belongs to it if none of the two mentioned flags have been raised. Time series for training and validation errors were extracted, but not the test error, since it serves no purpose in training the model. 
 
 The error being computed and minimised by Cuda-Convnet is the negative of the log probability of the likelihood function:
 \begin{equation}
--\frac{1}{n}\sum\limits_{i=1}^n ln(f(W|x_i))
+-\frac{1}{n}\sum\limits_{i=1}^n log(f(W|x_i))
 \end{equation}
 Where f is the learned function, a.k.a\ the model i.e.\ the neural network. This is also known as Maximum Likelihood Estimation; therefore backpropagation converges to the parameter values that maximise the joint likelihood of the training data. It can be shown that this is equal to the cross entropy of the softmax layer's output \cite{DL-book}. This is discussed in greater length in the experimentation section of Task 3 on class imbalance. \\
 
 \subsubsection{Non-Converging Error Rates}
 
-Training produced worryingly results: none of the training sessions showed any signs of parameter convergence, as the below plot of the training and validation errors over batch iterations can show. These results were confusing: backpropagation is guaranteed to converge \cite{DL-book}, and yet both training and validation errors seem stuck in volatile periodicity.
+Training produced worrying results: none of the models trained showed signs of learning anything. The below plot of the training and validation errors covers 11 of the 44 epochs over which the model was trained, which amounts to two consecutive days of training. The errors display no trends, and this extends to all 44 epochs.
 
-\begin{figure}[h!]
+\begin{figure}[!h]
 	\centering
 	\includegraphics[scale=0.5]{images/test_run.png}
 	\caption{Test Run Training Results}
 \end{figure}
 
-A number of potential explanations for the volatile periodic error rates were considered:
+These results were confusing: the fact that the training error does not converge to zero means that the model is unable to perfectly fit the training set. This should be impossible, since the 60 million parameters of AlexNet make it a very powerful model\footnote{powerful as an approximator, i.e.\ as a `fitter to the data'.} for which (Krizhevsky et al 2012) report overfitting to be `a significant problem', even on the 1.3 million image dataset of the ILSVRC 2012 competition. It makes no sense that the same model would fail to fit a 3-class 
+
+Moreover, with backpropagation, the network parameters are guaranteed to converge \cite{DL-book} since gradient descent will update weights by zero values once the error-weight partial derivatives are all zero. Such a point in the parameter space exists if there is a local minimum in the error surface at this point. If so, then gradient descent is guaranteed to reach a minimum: intuitively, if one is in a mountain range, then by walking downhill, one is bound to reach some morsel of flat ground at some point. Once the parameters have converged, the model is fixed, so its error is expected to be similar across random samples of the training and validation sets. In this case, the persistent high amplitude of the training and validation errors means that the error is heavily changing all the time.
+
+A number of potential explanations for the high amplitude of the error rates were considered:
 \begin{itemize}
-\item The learning rates are too high: the minimum gets 'overshot' even when the direction of partial derivatives is correct.
-\item The dropout rate is too high: since neurons are randomly dropped at every iteration, a different model is tested every time; this is known to increase volatility of training error.
-\item The number of parameters is too high: AlexNet contains millions of parameters, which is more than than the number of training cases, so collinearities between the parameters cannot even be broken, and most of them are rendered useless.
-\item Class imbalance: there is not enough information about the "No Clamp" class to be able to learn features for them.
-\item Mislabelled data: the images were not tagged correctly, so members of one class appear in the other and vice versa. \ldots
-\item The error rates are not computed correctly \ldots
+\item The learning rates are too high: the minimum keeps getting 'overshot', the weights move endlessly around the rims of a bowl on the error surface\footnote{This interpretation was supported by the Google+ community when the plots were posted.}.
+\item The dropout rate is too high: since neurons are randomly dropped at every iteration, a different model is tested every time. The errors correspond to partial derivatives of different models every time, so the amplitude is high. 
+\item The number of parameters is too high: AlexNet contains 60 million parameters, far more than than the number of training cases, so collinearities between the parameters cannot even be broken, and most of them are rendered useless.
+\item The error rates are not computed correctly.
+\item Class imbalance: with 90\% of the data belonging to the same class, there is not enough information about the `No Clamps Used' and `Photo Does Not Show Enough of Clamps' classes to be able to learn features for them.
+\item Mislabelled data: the images were not tagged correctly, too many members of one class appear in the other and vice versa, so nothing can be learned.
 \end{itemize}
 
+The learning and dropout rates were modified to no avail. (Jarrett et al 2009) report successful training of networks for which `the number parameters greatly outstrips the number of samples'.\\
 
-\paragraph{Increase Test Error Precision}
+\paragraph{Increase Validation Error Precision}
 
-By computing the test error on a large and unchanging sample of images, one obtains more precise estimates, and convergence can clearly be seen.
+If the set of images that the validation error is computed against varies from one iteration to the next, then the variations in validation error are not solely explained by the changes in the model parameters; they may also be due to changes in the validation set. Secondly, precision increases with the size of the set. Therefore, by computing the validation error on a larger and unchanging sample of images, one obtains stable, more precise measures that truly reflect what the model is learning. 
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[scale=0.5]{images/increase_test_precision.png}
-	\caption{test and validation error rates for clamp detection after fixing a large test range}
+	\caption{Test Run with validation errors computed over an unchanging set}
 \end{figure}
 
-I trained AlexNet on 100k images of 3 different classes with class imbalance (1 class takes up 90\% of data), ~40\% mis-labelling, and a very small learning rate (0.0001). The emerging periodicity of the training error corresponds to the number of batches, so it looks like the parameters have stopped changing, ie the network has reached a local minimum (flesh out the intuition for why periodicity implies convergence, just going around in the same circle). Why does no overfitting take place? There is not much data compared to capacity of the network, there is a weight decay of 0.0005,  there is no dropout. Since overfitting hasn't been reached, maybe this is a poor local minimum?﻿\\
+With better validation error measures, one notices that the validation error is flat throughout most of training, confirming that nothing is learned during the corresponding time interval. There is some movement during the first thousand iterations, suggesting in fact that backpropagation converged within 1000 iterations, a small amount relative to comparable tasks \cite{decaf} \cite{fergus_tutorial} cite{transfer-learning} \cite{caffe-website}. One may be tempted to conclude that the model is able to learn only very little.
 
-Francis Quintal Lauzon: I would tend to think learning was indeed stuck, though I would not go so far as to suggest this is caused by a local minimum.
-Indeed, I have sometimes seen long plateaus followed by sudden steep drop in error.  One way I see this is learning with a given learning rate and reducing the learning rate when validation error (or rather, a smoothed version of the validation error) stops going down.  This suggest than rather being stuck at a local minima, learning is simply blundering around some minimum, may be because of a combination of the local shape of the cost surface and learning steps too large. \\
+
+\paragraph{Periodicity of the training error}
+
+What remains striking and unexplained is the high amplitude of the training error, and its refusal to converge to zero. Another intriguing aspect is its periodicity: its period corresponds to the number of mini-batches in an epoch. Since the same error is obtained on a mini-batch from one period to the next, the network parameters are therefore not changing from an epoch to the next. Therefore, backpropagation does indeed converge: it does so within a mere 1000 mini-batch passes, at which it attains a local minimum. At this point, the training error has not reached zero; therefore, the model is stuck in a poor local minimum. This is strikingly unusual for deep convolutional neural nets, which unlike deep fully connected neural networks are known for being easy to train i.e.\ not getting stuck in poor local minima. 
+
+
+The latter point means that the model is unable to perfectly fit the training set. This should be impossible, since the 60 million parameters of AlexNet make it a very powerful model\footnote{powerful as an approximator, i.e.\ as a `fitter to the data'.} for which (Krizhevsky et al 2012) report overfitting to be `a significant problem', even on the 1.3 million image dataset of the ILSVRC 2012 competition. 
+
+. That the training error is computed correctly was checked by training an out-of-the-box net on a well-documented task: MNIST. Therefore, it was established that in this setup, the training error is indeed volatile and periodic despite the validation error converging, and that an explanation must exist. This could be interpreted as the network's parameters having converged to values that make it good on certain batches, and bad on others. What is curious is that this would suggest that the contents of some batches are very different from one another (unless one considers the paper "Intriguing Properties of Neural Networks"). Therefore, it might be interesting to look at these batches in detail. \\
+
 
 Plateau hypothesis: on the image I show only 10 epochs, but I trained it for 44 epochs and the periodicity extends all the way. When you were experiencing plateaus, did they stretch over more than 1 epoch? because to me, this periodicity suggests roughly the same gradients are repetitively being computed at the same locations on the error surface, so no good keeping on going. 
 
@@ -868,8 +880,6 @@ I guess another possibility is that I'm zigzagging in a very tight bowl, but see
 
 Francis Quintal Lauzon: I trained on much larger (though highly correlated) dataset so I never trained for 44 epochs.  I did use learning rate of the same magnitude you are using and still, reducing it after a plateau does help (in my experience).  If you are using momentum, you also might want to reset any momentum to zero after facing a plateau (this might helps as well).﻿\\
 
-
-Another striking aspect is how volatile the training error is, even when the test error is stable. That the training error is computed correctly was checked by training an out-of-the-box net on a well-documented task: MNIST. Therefore, it was established that in this setup, the training error is indeed volatile and periodic despite the validation error converging, and that an explanation must exist. This could be interpreted as the network's parameters having converged to values that make it good on certain batches, and bad on others. What is curious is that this would suggest that the contents of some batches are very different from one another (unless one considers the paper "Intriguing Properties of Neural Networks"). Therefore, it might be interesting to look at these batches in detail. \\
 
 \paragraph{Alter Momentum}
 
@@ -1864,14 +1874,18 @@ Copy paste from your emacs sheet everything! Talk about domain change as well be
  arXiv:1312.6229
    
 \bibitem{cuda-convnet}  
+ \emph{Cuda-ConvNet: High-performance C++/CUDA implementation of convolutional neural networks}
  URL: \url{https://code.google.com/p/cuda-convnet/}, last accessed 6th June 2014.
 
-\bibitem{caffe-website}  
+\bibitem{caffe-website} 
+ \emph{Caffe: a deep learning framework} 
  URL: \url{http://caffe.berkeleyvision.org/getting_pretrained_models.html}, last accessed 6th June 2014.
 
 \bibitem{nips-tut}  
  URL: \url{http://research.microsoft.com/apps/video/default.aspx?id=206976&l=i}, last accessed 6th August 2014.
 
+\bibitem{soumith-benchmark}
+ URL: \url{https://github.com/soumith/convnet-benchmarks}, last accessed 2nd September 2014.
 
 \end{thebibliography}
 

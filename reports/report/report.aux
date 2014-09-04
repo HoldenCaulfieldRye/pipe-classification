@@ -51,10 +51,10 @@
 \newlabel{sigmoid neuron}{{3}{11}}
 \@writefile{toc}{\contentsline {paragraph}{Rectified Linear Neuron}{11}}
 \newlabel{relu}{{4}{11}}
+\citation{DL-book}
 \@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces single-input logistic sigmoid neuron\relax }}{12}}
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces single-input rectified linear neuron\relax }}{12}}
 \@writefile{toc}{\contentsline {paragraph}{Softmax Neuron}{12}}
-\citation{DL-book}
 \citation{DL-book}
 \citation{DL-book}
 \citation{Russel&Norvig}
@@ -72,10 +72,12 @@
 \citation{DL-book}
 \citation{Bengio_G+}
 \citation{Bengio_G+}
+\citation{DL-book}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Backpropagation}{16}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.6.1}Compute Error-Weight Partial Derivatives}{16}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.6.2}Update Weight Values with Gradient Descent}{16}}
 \newlabel{eqn:learning_rule}{{8}{16}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.6.3}Stochastic Gradient Descent}{16}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.7}Overfit}{16}}
 \@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces an error surface with poor local minima\relax }}{17}}
 \@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Overfit as polynomial order increases (source: Bishop 2010)\relax }}{17}}
@@ -85,7 +87,7 @@
 \citation{dropout}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.7.2}Data Augmentation}{18}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.7.3}Dropout}{18}}
-\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces source: (Hinton et al 2012)\relax }}{18}}
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces source: (Hinton et al 2012)\relax }}{19}}
 \citation{rectifier}
 \citation{goodfellow_street_view}
 \citation{decaf}
@@ -100,6 +102,7 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {2.8}Deep Convolutional Neural Networks}{20}}
 \@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces LeNet7 architecture: each square is a kernel\relax }}{20}}
 \citation{SIFT}
+\citation{zeiler_fergus}
 \@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces Architecture of CNN from (Krizhevsky et al 2012)\relax }}{21}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.8.1}Pixel Feature}{21}}
 \@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces Selecting a pixel window and applying a kernel to it (source: convmatrix Gimp documentation)\relax }}{21}}
@@ -107,19 +110,19 @@
 \@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces Image, kernel and resulting kernel map (source: convmatrix Gip documentation\relax }}{22}}
 \newlabel{materialflowChart}{{18}{22}}
 \newlabel{eqn:conv_learning_rule}{{9}{22}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.8.2}Non-linear Activation}{22}}
 \newlabel{fig:2a}{{19(a)}{22}}
 \newlabel{sub@fig:2a}{{(a)}{22}}
 \newlabel{fig:2b}{{19(b)}{22}}
 \newlabel{sub@fig:2b}{{(b)}{22}}
 \citation{zeiler_fergus}
-\newlabel{fig:2b}{{20(a)}{23}}
-\newlabel{sub@fig:2b}{{(a)}{23}}
-\newlabel{fig:2a}{{20(b)}{23}}
-\newlabel{sub@fig:2a}{{(b)}{23}}
-\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces source: (Zeiler and Fergus 2013)\relax }}{23}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.8.2}Non-linear Activation}{23}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {2.8.3}Pooling aka Spatial Feature}{23}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.8.4}Contrast Normalisation}{24}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.8.4}Contrast Normalisation}{23}}
+\newlabel{fig:2b}{{20(a)}{24}}
+\newlabel{sub@fig:2b}{{(a)}{24}}
+\newlabel{fig:2a}{{20(b)}{24}}
+\newlabel{sub@fig:2a}{{(b)}{24}}
+\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces source: (Zeiler and Fergus 2013)\relax }}{24}}
 \citation{krizhevsky}
 \citation{rectifier}
 \newlabel{fig:2a}{{21(a)}{25}}
@@ -154,14 +157,14 @@
 \@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Experimentation}{31}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.1}Non-Converging Error Rates}{31}}
 \@writefile{lof}{\contentsline {figure}{\numberline {25}{\ignorespaces Test Run Training Results\relax }}{32}}
-\@writefile{toc}{\contentsline {paragraph}{Increase Test Error Precision}{32}}
-\@writefile{lof}{\contentsline {figure}{\numberline {26}{\ignorespaces test and validation error rates for clamp detection after fixing a large test range\relax }}{32}}
+\@writefile{toc}{\contentsline {paragraph}{Increase Validation Error Precision}{32}}
+\@writefile{lof}{\contentsline {figure}{\numberline {26}{\ignorespaces Test Run with validation errors computed over an unchanging set\relax }}{33}}
 \@writefile{toc}{\contentsline {paragraph}{Alter Momentum}{33}}
 \@writefile{toc}{\contentsline {subparagraph}{Increase}{33}}
 \@writefile{lof}{\contentsline {figure}{\numberline {27}{\ignorespaces test and validation error rates for clamp detection after raising momentum\relax }}{34}}
 \@writefile{toc}{\contentsline {subparagraph}{Decrease}{34}}
 \@writefile{lof}{\contentsline {figure}{\numberline {28}{\ignorespaces test and validation error rates for clamp detection after setting momentum to zero\relax }}{34}}
-\@writefile{toc}{\contentsline {paragraph}{Reduce Learning Rate}{34}}
+\@writefile{toc}{\contentsline {paragraph}{Reduce Learning Rate}{35}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {5.3.2}Class Imbalance}{35}}
 \@writefile{toc}{\contentsline {paragraph}{Stuck in Sampling-Induced, "fake" Corner Minimum}{35}}
 \@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Class Proportions Across Batches that Score Different Training Errors\relax }}{35}}
