@@ -1143,7 +1143,11 @@ Results suggest that randomly initialising the weights initialises the network i
 
 \subsubsection{Softmax vs linear SVM}
 
-`CNN features off the shelf' by Razavian et al \cite{off-the-shelf} established state-of-the-art results by training linear SVMs on the features from the 7th, fully connected layer of OverFeat. One may wonder why `CNN features off the shelf' trains a linear SVM rather than a conventional softmax layer. What follows is a mathematical comparison of the two \footnote{Heavily drawn from (Bishop 2010)}. 
+`CNN features off the shelf' by Razavian et al \cite{off-the-shelf} established state-of-the-art results by training linear SVMs on the features from the 7th, fully connected layer of OverFeat. One may wonder why `CNN features off the shelf' trains a linear SVM rather than a conventional softmax layer, and whether the difference in performance is substantial. A second motivation for this comparison is to reproducing the technique of (Razavian et al 2014)\footnote{with the exception that the transfer model used here is not OverFeat, but the slightly lesser performing Caffe Reference ImageNet model.} to provide a benchmark for the optimisations and results produced by this research project. 
+
+
+\paragraph{Numerical Analysis}
+The difference between the two can be fully expressed as a difference between cost functions\cite{ML-book}: hinge loss and cross entropy loss. What follows is a numerical comparison of the two \footnote{Heavily drawn from (Bishop 2010)}. 
 
 (Razavian et al 2014) implement transfer learning by freezing backpropagation on all transferred layers, replacing the softmax output layer with an inner product layer containing as many output units, and training by minimising a hinge loss. Indeed, the SVM optimisation problem exposed in the literature review can be reformulated as the minimisation of the $L_2$ regularised hinge loss cost function \cite{ML-book}, given by:
 
@@ -1159,13 +1163,15 @@ On the other hand, a softmax output layer with two output units performs a logis
 \psi(\textbf{x}) = \frac{1}{1+\exp(\textbf{w}^T \phi(\textbf{x}) + b)}
 \end{equation}
 
-Since logistic regression has range [0, 1] but linear SVM has range [-1, 1], we need to rescale logistic regression output values for the ranges to match. This can be done by taking $\psi_2(\textbf{x}) = t_i \psi(\textbf{x}_i)$ for the ranges to match, and for the two associated cost functions to be comparable. The maximum likelihood estimates of the parameters with logistic regression are obtained by minimising the negative of the log-likelihood function over the training set (i.e.\ the cross entropy), which when reformulated with SVM target labels is given by: 
+Since logistic regression has range [0, 1] but linear SVM has range [-1, 1], we need to rescale logistic regression output values for the ranges to match, in order to define the hinge and softmax cost functions over the same domain. This can be done by taking $\psi_{rescaled}(\textbf{x}) = t_i \psi(\textbf{x}_i)$. The maximum likelihood estimates of the parameters with logistic regression are obtained by minimising the negative of the log-likelihood function over the training set; this is colloquially referred to as the logprob and can be proved to be the cross entropy. When reformulated with SVM target labels it is given by: 
 
 \begin{equation}
 \mathcal{C}_{CE}(\textbf{w}, b) = \frac{1}{n} \sum\limits_{i=1}^{n}\log(1 + \exp(-t_i(\textbf{w}^T \phi(\textbf{x}) + b)))
 \end{equation}
 
-The graphical representations below show both error functions for a single training case. 
+In order to compare the two cost functions, we first needed the definition domains to match. Since a cost function takes a model's output as input, this meant ensuring that the output domains of a softmax layer and a linear SVM match; hence the rescaling of the logistic regression output values. However, we also need to rescale the \textit{output} values of one of the cost functions so as to make both cost functions have the same output for a specific input value, and then see how the two compare for the rest of the definition domain. The reason for this is that a model's parameters are trained by minimising a cost function, so the value of this minimum is irrelevant. Just because one cost function's minimum value is 0 and another's is 10 does not mean that the latter model performs worse than the former. In order to see whether cost function A punishes a certain type i of error more heavily than function B does, one must see whether punishment for type i error compared to punishment for type ii error is different with cost function A than with cost function B. Numerically, this can be done by rescaling the output of a cost function for it to equal the output of the other cost function at a specific point, and then see how the outputs for the two cost functions differ along the rest of the definition domain.
+
+In this case, by rescaling the softmax error by $\frac{1}{\log(2)}$, we get equal output for input value 0. A graphical representation can be seen below.
 
 \begin{figure}[h!]
 	\centering
@@ -1173,9 +1179,9 @@ The graphical representations below show both error functions for a single train
 	\caption{Hinge (blue), cross entropy (red), mean squared error (green). source: (Bishop 2010)}
 \end{figure}
 
-Therefore, the hinge loss encourages sparser output probabilities, which can be understood as more confidence as to which class an input belongs to. Note that this could be considered as `over-confidence', since logistic regression produces a Maximum Likelihood Estimation of the parameters; therefore its output probabilities are the most likely i.e.\ `truest' values, based on the probability distributions inferred from the training set. \\
+With target labels \{-1, 1\}, 0 corresponds to total classification uncertainty (i.e.\ input is considered as likely to belong to one class as the other). For $z \in (0,1]$ (i.e.\ correct classification), the softmax loss is above the hinge loss, and for $z \in [-1,0)$ (i.e.\ incorrect classification), the softmax loss is under the hinge loss. In intuitive (and slightly abusive) terms, this means that the hinge loss continues to penalise even when the classification is in the correct region, but is more lenient when the classification is in the incorrect region. In colloquial terms, this is like saying `make highly confident predictions, even if that means sometimes making mistakes'. The bottom line is that this encourages sparser output probabilities.
 
-This experimental section consisted in reproducing the results of (Razavian et al 2014)\footnote{with the exception that the transfer model used here is not OverFeat, but the slightly lesser performing Caffe Reference ImageNet model.} to use them as a benchmark against the optimisations and results produced during this research project.
+\paragraph{Empirical Results}
 
 The linear SVM was implemented in Caffe by designing an 8-layer model, with the 7 bottom layers transferred from the Caffe Reference Imagenet model, the top layer an inner product layer with element-wise product activation functions: in other words, no non-linear activation, just the linear operation $\textbf{w}^T \textbf{x} + b = 0$, where \textbf{x} is the output of the 7th layer. Finally, the model is equipped with a hinge-loss layer. Note that it was not equipped with a hinge loss (validation) accuracy layer, but was rather given the standard per class accuracy layer, which outputs the softmax cross entropy as validation error. 
 
@@ -1198,10 +1204,10 @@ The linear SVM was implemented in Caffe by designing an 8-layer model, with the 
     \end{minipage}%
 \end{figure}
 
-Results:
-Comment in light Are All Loss Functions The Same? http://arxiv.org/pdf/1306.0239v1.pdf
+We observe that the training error does not converge to zero with the hinge loss, which means that the training data projected on fc7 space is not linearly separable. This does not come as a surprise and confirms the complexity of the clamp detection task. As discussed in the numerical analysis, the errors between these two models are not comparable since they are of different nature. Just because the hinge loss is higher in absolute terms than the cross entropy does not mean that test run performance is lower. 
 
-We observe that the training error does not converge to zero with the hinge loss, which means that the training data projected on fc7 space is not linearly separable. This does not come as a surprise and confirms the complexity of the clamp detection task. Note also that the errors between these two models are not comparable since they are of different nature. Just because the hinge loss is higher in absolute terms than the cross entropy does not mean that test run performance is lower. The way to compare the two models is to look at average per class validation accuracy: \\
+The way to compare performance in the two models is to look at average per class validation accuracy: 85.4\% for linear SVM versus 85.1\% for softmax. The difference is only very slight. This also casts in good light the optimisation achieved by freezing backpropagation on the first four convolutional layers, since by achieveing 89.2\% it beats the technique adopted by (Razavian et al 2014) by nearly 4 percentage points.
+
 
 \clearpage
 \section{Task 3: Class Imbalance}

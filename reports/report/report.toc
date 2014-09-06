@@ -66,6 +66,8 @@
 \contentsline {subsubsection}{\numberline {7.3.2}Freezing Backprop on various layers}{40}
 \contentsline {subsubsection}{\numberline {7.3.3}Initialising Free Layers}{41}
 \contentsline {subsubsection}{\numberline {7.3.4}Softmax vs linear SVM}{42}
+\contentsline {paragraph}{Numerical Analysis}{42}
+\contentsline {paragraph}{Empirical Results}{43}
 \contentsline {section}{\numberline {8}Task 3: Class Imbalance}{45}
 \contentsline {subsection}{\numberline {8.1}Motivations}{45}
 \contentsline {subsection}{\numberline {8.2}Implementation}{45}

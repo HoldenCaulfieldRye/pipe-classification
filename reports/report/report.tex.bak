@@ -1138,12 +1138,14 @@ A further motivation is existing empirical research \cite{transfer-learning} \ci
     \end{minipage}%
 \end{figure}
 
-Results suggest that randomly initialising the weights initialises the network in an area of the parameter space which is further away from the optimal region, which is why the training error starts higher. Secondly, the training error is more volatile: this is a result of the network having `more space to move'. As a result, overfit occurs sooner too. What is slightly surprising is that re-initialising the weights does not increase performance overall; since is not in line with other experimental results \cite{transfer-learning}. Perhaps, if data had been more plentiful, re-initialisation would have proven superior. However, given that the backpropagation is fully enabled in such a network that is very large relative to the dataset (remember this network size was trained on ImageNet), overfit occurs quickly.
+Results show that
+
+Another observation is that with randomly re-initialisation of weights, the training error starts higher. This is understandable and could be explained by the fact that the network starts in an area of the parameter space which is further away from the optimal region. Secondly, the training error is more volatile: this is a result of the network having `more space to move'. As a result, overfit occurs sooner too. What is slightly surprising is that re-initialising the weights does not increase performance overall; since is not in line with other experimental results \cite{transfer-learning}. Perhaps, if data had been more plentiful, re-initialisation would have proven superior. However, given that the backpropagation is fully enabled in such a network that is very large relative to the dataset (remember this network size was trained on ImageNet), overfit occurs quickly.
 
 
 \subsubsection{Softmax vs linear SVM}
 
-`CNN features off the shelf' by Razavian et al \cite{off-the-shelf} established state-of-the-art results by training linear SVMs on the features from the 7th, fully connected layer of OverFeat. One may wonder why `CNN features off the shelf' trains a linear SVM rather than a conventional softmax layer, and whether the difference in performance is substantial. A second motivation for this comparison is to reproducing the technique of (Razavian et al 2014)\footnote{with the exception that the transfer model used here is not OverFeat, but the slightly lesser performing Caffe Reference ImageNet model.} to provide a benchmark for the optimisations and results produced by this research project. 
+`CNN features off the shelf' by Razavian et al, 2014, \cite{off-the-shelf} established state-of-the-art results by training linear SVMs on the features from the 7th, fully connected layer of OverFeat. One may wonder why Razavian et al train a linear SVM rather than a conventional softmax layer, and whether the difference in performance is substantial. A second motivation for this comparison is to reproducing the technique of (Razavian et al 2014)\footnote{with the exception that the transfer model used here is not OverFeat, but the slightly lesser performing Caffe Reference ImageNet model.} to provide a benchmark for the optimisations and results produced by this research project. 
 
 
 \paragraph{Numerical Analysis}
@@ -1171,7 +1173,7 @@ Since logistic regression has range [0, 1] but linear SVM has range [-1, 1], we 
 
 In order to compare the two cost functions, we first needed the definition domains to match. Since a cost function takes a model's output as input, this meant ensuring that the output domains of a softmax layer and a linear SVM match; hence the rescaling of the logistic regression output values. However, we also need to rescale the \textit{output} values of one of the cost functions so as to make both cost functions have the same output for a specific input value, and then see how the two compare for the rest of the definition domain. The reason for this is that a model's parameters are trained by minimising a cost function, so the value of this minimum is irrelevant. Just because one cost function's minimum value is 0 and another's is 10 does not mean that the latter model performs worse than the former. In order to see whether cost function A punishes a certain type i of error more heavily than function B does, one must see whether punishment for type i error compared to punishment for type ii error is different with cost function A than with cost function B. Numerically, this can be done by rescaling the output of a cost function for it to equal the output of the other cost function at a specific point, and then see how the outputs for the two cost functions differ along the rest of the definition domain.
 
-In this case, by rescaling the softmax error by $\frac{1}{\log(2)}$, we get equal output for input value 0. A graphical representation can be seen below.
+In this case, by rescaling the softmax error by $\frac{1}{\log(2)}$, we get equal output for input value 0. A graphical representation can be seen below. \\
 
 \begin{figure}[h!]
 	\centering
@@ -1183,7 +1185,7 @@ With target labels \{-1, 1\}, 0 corresponds to total classification uncertainty 
 
 \paragraph{Empirical Results}
 
-The linear SVM was implemented in Caffe by designing an 8-layer model, with the 7 bottom layers transferred from the Caffe Reference Imagenet model, the top layer an inner product layer with element-wise product activation functions: in other words, no non-linear activation, just the linear operation $\textbf{w}^T \textbf{x} + b = 0$, where \textbf{x} is the output of the 7th layer. Finally, the model is equipped with a hinge-loss layer. Note that it was not equipped with a hinge loss (validation) accuracy layer, but was rather given the standard per class accuracy layer, which outputs the softmax cross entropy as validation error. 
+The linear SVM was implemented in Caffe by designing an 8-layer model, with the 7 bottom layers transferred from the Caffe Reference Imagenet model, the top layer an inner product layer with element-wise product activation functions: in other words, no non-linear activation, just the linear operation $\textbf{w}^T \textbf{x} + b = 0$, where \textbf{x} is the output of the 7th layer. Finally, the model is equipped with a hinge-loss layer. Note that it was not equipped with a hinge loss (validation) accuracy layer, but was rather given the standard per class accuracy layer, which outputs the softmax cross entropy as validation error. \\
 
 \begin{figure}
     \centering
@@ -1204,7 +1206,10 @@ The linear SVM was implemented in Caffe by designing an 8-layer model, with the 
     \end{minipage}%
 \end{figure}
 
-We observe that the training error does not converge to zero with the hinge loss, which means that the training data projected on fc7 space is not linearly separable. This does not come as a surprise and confirms the complexity of the clamp detection task. As discussed in the numerical analysis, the errors between these two models are not comparable since they are of different nature. Just because the hinge loss is higher in absolute terms than the cross entropy does not mean that test run performance is lower. The way to compare performance in the two models is to look at average per class validation accuracy: 85.4\% for linear SVM versus \\
+We observe that the training error does not converge to zero with the hinge loss, which means that the training data projected on fc7 space is not linearly separable. This does not come as a surprise and confirms the complexity of the clamp detection task. As discussed in the numerical analysis, the errors between these two models are not comparable since they are of different nature. Just because the hinge loss is higher in absolute terms than the cross entropy does not mean that test run performance is lower. 
+
+The way to compare performance in the two models is to look at average per class validation accuracy: 85.4\% for linear SVM versus 85.1\% for softmax. The difference is only very slight. This also casts in good light the optimisation achieved by freezing backpropagation on the first four convolutional layers, since by achieveing 89.2\% it beats the technique adopted by (Razavian et al 2014) by nearly 4 percentage points.
+
 
 \clearpage
 \section{Task 3: Class Imbalance}
