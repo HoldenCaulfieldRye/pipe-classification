@@ -1159,7 +1159,7 @@ On the other hand, a softmax output layer with two output units performs a logis
 \psi(\textbf{x}) = \frac{1}{1+\exp(\textbf{w}^T \phi(\textbf{x}) + b)}
 \end{equation}
 
-From this, we can obtain the MLE formula i.e.\ the negative of the log-likelihood function over the training set can be reformulated with SVM target labels as: 
+Since logistic regression has range [0, 1] but linear SVM has range [-1, 1], we need to rescale logistic regression output values by taking $t_i \psi(\textbf{x}_i)$ for the ranges to match, and for the two associated cost functions to be comparable. The maximum likelihood estimates of the parameters with logistic regression are obtained by minimising the negative of the log-likelihood function over the training set (i.e.\ the cross entropy), which when reformulated with SVM target labels is given by: 
 
 \begin{equation}
 \mathcal{C}_{CE}(\textbf{w}, b) = \frac{1}{n} \sum\limits_{i=1}^{n}\log(1 + \exp(-t_i(\textbf{w}^T \phi(\textbf{x}) + b)))
