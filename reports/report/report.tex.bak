@@ -1145,12 +1145,13 @@ Results suggest that randomly initialising the weights initialises the network i
 
 `CNN features off the shelf' by Razavian et al \cite{off-the-shelf} established state-of-the-art results by training linear SVMs on the features from the 7th, fully connected layer of AlexNet. One may wonder why `CNN features off the shelf' trains a linear SVM rather than a conventional softmax layer. 
 
-
-
-
-\paragraph{Logistic Regression}
 A softmax output layer with two output units performs a logistic regression \cite{ML-book}.  	
 
+The SVM optimisation problem can be reformulated as the minimisation of the $L_2$ regularised hinge loss error function \cite{ML-book}, given by:
+
+\begin{equation}
+\mathcal{C}(y_i) = \sum \limits_{i=1}^{n} max(0, 1 - y_i t_i) + \lambda ||\textbf{w}||^2
+\end{equation}
 
 The differences between training a linear SVM and a standard softmax layer are:
 - SVM fits the best separating hyperplane. this assumes linear separability. 
