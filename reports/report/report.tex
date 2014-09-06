@@ -350,7 +350,7 @@ Explain also the no neighbouring cancellations in pooling. \\
 y_{j} = \frac{\exp(z_{j})}{\sum\limits_{i=1}^k\exp(z_{i})} \text{, where } z_{j} = \sum\limits_{i=1}^k x_{i}\cdot w_{i,j} + b
 \end{equation}
 
-The equation of a softmax neuron needs to be understood in the context of a layer of $k$ such neurons within a neural network: therefore, the notation $y_{j}$ corresponds to the output of the $j^{th}$ softmax neuron, and $w_{i,j}$ corresponds to the weight of $x_{i}$ as in input for the $j^{th}$ softmax neuron. A layer of softmax neurons distinguishes itself from others in that neighbouring neurons interact with each other: as can be seen from the equation, the input vectors of all the softmax neurons $z_{1}, z_{2}, ..., z_{k}$ serve to enforce $\sum\limits_{i=1}^k y_{i} = 1$. In other words, the vector $(y_{1}, y_{2}, ..., y_{k})$ defines a probability mass function. This makes the softmax layer ideal for classification: neuron $j$ can be made to represent the probability that the input is an instance of class $j$. Another attractive aspect of the softmax neuron is that its derivative is quick to compute: it is given by $\frac{dy}{dz} = \frac{y}{1-y}$. \\
+The equation of a softmax neuron needs to be understood in the context of a layer of $k$ such neurons within a neural network: therefore, the notation $y_{j}$ corresponds to the output of the $j^{th}$ softmax neuron, and $w_{i,j}$ corresponds to the weight of $x_{i}$ as in input for the $j^{th}$ softmax neuron. A layer of softmax neurons distinguishes itself from others in that neighbouring neurons interact with each other: as can be seen from the equation, the input vectors of all the softmax neurons $z_{1}, z_{2}, ..., z_{k}$ serve to enforce $\sum\limits_{i=1}^k y_{i} = 1$. In other words, the vector $(y_{1}, y_{2}, ..., y_{k})$ defines a probability mass function. This makes the softmax layer ideal for classification: neuron $j$ can be made to represent the probability that the input is an instance of class $j$. Another attractive aspect of the softmax neuron is that its derivative is quick to compute: it is given by $\frac{dy}{dz} = \frac{y}{1-y}$. Note that the name `softmax' comes from the fact that competition between the neurons of a softmax layer results in a sort of smooth indicator function for the max: if a softmax neuron's input is maximal across the inputs of the softmax layer, then the maximum is present there and not anywhere else; the output for that softmax neuron will be close to 1 and the output for the other neurons will be close to zero.\\
 
 
 \subsection{Feed-forward Architecture}
@@ -1025,7 +1025,7 @@ As a test run, transfer learning was implemented on a network with the same arch
 	\end{subfigure}
 \end{figure}
 
-As can be seen, the model with transfer learning reaches its minimum validation error ten times faster than the model without, and this error is logprob 0.4 lower, which corresponds to pushing validation accuracy up from 83.9\% to 88\%. The gain in convergence comes a significant advantage for coping with the time constraints of the research project. 
+As can be seen, the model with transfer learning reaches its minimum validation error ten times faster than the model without, and this error is logprob 0.4 lower, which corresponds to pushing average per class validation accuracy up from 83.9\% to 88\%. The gain in convergence comes a significant advantage for coping with the time constraints of the research project. 
 
 
 \paragraph{Zig-zag}
@@ -1078,9 +1078,9 @@ Experiments were run by training 8 models identically in all respects save for t
     \end{minipage}%
 \end{figure}
 
-The main difference is in the training error: when backpropagation is restricted to a single layer, the model is unable to perfectly fit the data. This is simply a result of having constrained the expressiveness of the model, much like trying to fit a curve with a lower-order polynomial. However, the advantage is that the model does not overfit. Between the two extreme cases, full backpropagation achieves 88\% validation accuracy at best, whereas minimal backpropagation achieves 85.1\%. 
+The main difference is in the training error: when backpropagation is restricted to a single layer, the model is unable to perfectly fit the data. This is simply a result of having constrained the expressiveness of the model, much like trying to fit a curve with a lower-order polynomial. However, the advantage is that the model does not overfit. Between the two extreme cases, full backpropagation achieves 88\% average per class validation accuracy at best, whereas minimal backpropagation achieves 85.1\%. 
 
-However, there is an optimal middle ground: freezing backpropagation on four of the five convolutional layers achieves a maximal validation accuracy of 89.2\%. A potential explanation for this is the one given above, namely that freezing backpropagation on lower layers conserves optimal features, forces the model to make more effort to fit the data with the limited use of the upper layers, and generalises better. \\
+However, there is an optimal middle ground: freezing backpropagation on four of the five convolutional layers achieves a maximal average per class validation accuracy of 89.2\%. A potential explanation for this is the one given above, namely that freezing backpropagation on lower layers conserves optimal features, forces the model to make more effort to fit the data with the limited use of the upper layers, and generalises better. \\
 
 
 \subsubsection{Initialising Free Layers}
@@ -1134,6 +1134,7 @@ The intuition behind the mathematical formula is that the distance from a point 
 \paragraph{Logistic Regression}
 
 
+
 The differences between training a linear SVM and a standard softmax layer are:
 - SVM fits the best separating hyperplane. this assumes linear separability. 
 - softmax performs logistic regression. does this assume linear separability?
@@ -1141,12 +1142,7 @@ put this at the beginning of the section!
 - optimise margin-based loss rather than log probability of the data
 {cite arxiv.org/pdf/1306.0239.pdf}
 
-
-Implementation:
-- for linear SVM: a single inner product layer with elementwise product activation functions (to achieve linearity), then a hinge-loss layer.
-- for standard deep neural network: we take the best performing network obtained from previous experimentations.
-
-Note that the linear SVM model was not equipped with a hinge loss accuracy layer, but was rather given the standard per class accuracy layer, which outputs the log probability as validation error. 
+The linear SVM was implemented in Caffe by designing an 8-layer model, with the 7 bottom layers transferred from the Caffe Reference Imagenet model, the top layer an inner product layer with element-wise product activation functions: in other words, no non-linear activation, just the linear operation $\textbf{w}^T \textbf{x} + b = 0$, where \textbf{x} is the output of the 7th layer. Finally, the model is equipped with a hinge-loss layer. Note that it was not equipped with a hinge loss (validation) accuracy layer, but was rather given the standard per class accuracy layer, which outputs the softmax cross entropy as validation error. 
 
 \begin{figure}
     \centering
@@ -1170,9 +1166,7 @@ Note that the linear SVM model was not equipped with a hinge loss accuracy layer
 Results:
 Comment in light Are All Loss Functions The Same? http://arxiv.org/pdf/1306.0239v1.pdf
 
-We observe that the training error does not converge to zero with the hinge loss, which means that the training data projected on fc7 space is not linearly separable. This is understandable. \\
-
-The errors between these two models are not comparable since they are of different nature. Just because the hinge loss is higher in absolute terms than the log probabity does not mean that test run performance is lower. The way to compare the two models is to look at classification performance on the test set. \\
+We observe that the training error does not converge to zero with the hinge loss, which means that the training data projected on fc7 space is not linearly separable. This does not come as a surprise and confirms the complexity of the clamp detection task. Note also that the errors between these two models are not comparable since they are of different nature. Just because the hinge loss is higher in absolute terms than the cross entropy does not mean that test run performance is lower. The way to compare the two models is to look at average per class validation accuracy: \\
 
 \clearpage
 \section{Task 3: Class Imbalance}
