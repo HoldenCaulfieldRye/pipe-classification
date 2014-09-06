@@ -1215,7 +1215,7 @@ The way to compare performance in the two models is to look at average per class
 
 \subsection{Motivations}
 
-The first challenge posed by the Bluebox dataset was its small size, the second one was class imbalance. Although transfer learning by itself delivered strong results for clamp detection (including dealing with class imbalance), this was not the case for the following tasks: [...] \\
+The first challenge posed by the Bluebox dataset was its small size, the second was class imbalance. Although transfer learning by itself delivered strong results for clamp detection and other tasks, models failed to learn (in the sense that average per class accuracy remained at 0.5) for tasks where class imbalance was more pronounced: [...] \\
 
 Therefore, additional approaches for dealing with class imbalance were sought out. However, instead of trying them out on the unsatisfactory tasks, they were tried on a subset of the clamp detection dataset where class imbalance was increased (simply by throwing out training cases without clamps). This way, one knows that the only thing preventing performance on the task is class imbalance, and the impact of an approach on classification performance is a good measure of the impact of the approach on class imbalance. \\
 
