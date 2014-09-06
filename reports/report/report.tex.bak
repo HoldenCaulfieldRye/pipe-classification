@@ -619,11 +619,13 @@ No papers regarding this research were found. When the question was reposted to 
 
 \subsection{Transfer Learning}
 
-Transfer learning consists in initialising the weights of layers of a network to those of dimensionally identical layers of a network trained in a supervised fashion on a similar task. Until 2013, the established approach consisted in transferring the weights of a Deep Belief Net trained (in an unsupervised fashion) on a `source' unlabelled dataset \cite{microsoft-book}. However, the 2014 paper "CNN Features off-the-shelf: an Astounding Baseline for Recognition" by Razavian et al shows that transferring the weights of OverFeat, the winning model of ILSVRC 2013 \cite{transfer-learning}, to train classifiers on 11 well known computer vision recognition tasks, establishes state-of-the-art results on 10 of them\cite{off-the-shelf}.
+Transfer learning consists in initialising the weights of layers of a network to those of dimensionally identical layers of a network trained in a supervised fashion on a similar task. Until 2013, the established approach consisted in transferring the weights of a Deep Belief Net trained (in an unsupervised fashion) on a `source' unlabelled dataset \cite{microsoft-book}. However, the 2014 paper "CNN Features off-the-shelf: an Astounding Baseline for Recognition" by Razavian et al shows that transferring the weights of OverFeat -- a model that is identical to AlexNet in architecture and winner of the ILSVRC 2013 challenge \cite{transfer-learning} -- to initialise the training of classifiers on 11 well known computer vision recognition tasks, establishes state-of-the-art results on 10 of them\cite{off-the-shelf}.
+
+The transfer models are obtained by training linear Support Vector Machines on the feature space defined by the bottom seven layers of OverFeat. The subsection below is therefore a rapid overview of the mathematics that underlie the training of a linear SVM. 
 
 \subsubsection{Linear Support Vector Machines}
 
-`CNN features off the shelf: an astounding baseline for recognition' by Razavian et al 2014 motivates the use of transfer learning for the image classification tasks of this projects. Its models are implemented by freezing backpropagation on all transferred layers, replacing the softmax output layer with an inner product layer containing as many output units, and training by minimising a hinge loss. The hinge loss learns the linear decision boundary for classifying inputs which minimises the number of mis-classifications and maximises the \textit{margin}, which is defined as the smallest distance between the decision boundary and any of the training cases \cite{ML-book}. Mathematically, the decision boundary is the hyperplane defined by the equation $\textbf{w}^T \phi(\textbf{x}) + b = 0$ where the parameters $\textbf{w}$ and $b$ are solution to:
+(Razavian et al 2014) implements transfer learning by freezing backpropagation on all transferred layers, replacing the softmax output layer with an inner product layer containing as many output units, and training by minimising a hinge loss. The hinge loss learns the linear decision boundary for classifying inputs which minimises the number of mis-classifications and maximises the \textit{margin}, which is defined as the smallest distance between the decision boundary and any of the training cases \cite{ML-book}. Mathematically, the decision boundary is the hyperplane defined by the equation $\textbf{w}^T \phi(\textbf{x}) + b = 0$ where the parameters $\textbf{w}$ and $b$ are solution to:
 
 \begin{equation}
 arg\max\limits_{\textbf{w},b}\{\frac{1}{||\textbf{w}||} \min\limits_{1 \leq i \leq n}\{t_i (\textbf{w}^T \phi(\textbf{x}_i)+b)\}\}
@@ -1141,27 +1143,8 @@ Results suggest that randomly initialising the weights initialises the network i
 
 \subsubsection{Parametric vs Non-parametric}
 
-`CNN features off the shelf' by Razavian et al \cite{off-the-shelf} established state-of-the-art results by training linear SVMs on the features from the 7th, fully connected layer of AlexNet. One may wonder why `CNN features off the shelf' trains a linear SVM rather than a conventional softmax layer. The subsection that follows is an overview of the mathematics and statistics behind a linear SVM compared to a softmax layer.
+`CNN features off the shelf' by Razavian et al \cite{off-the-shelf} established state-of-the-art results by training linear SVMs on the features from the 7th, fully connected layer of AlexNet. One may wonder why `CNN features off the shelf' trains a linear SVM rather than a conventional softmax layer. 
 
-\paragraph{Linear SVM}
-`CNN features off the shelf' implements its models by freezing backpropagation on all transferred layers, replacing the softmax output layer with an inner product layer containing as many output units, and training by minimising a hinge loss. The hinge loss learns the linear decision boundary for classifying inputs which minimises the number of mis-classifications and maximises the \textit{margin}, which is defined as the smallest distance between the decision boundary and any of the training cases \cite{ML-book}. Mathematically, the decision boundary is the hyperplane defined by the equation $\textbf{w}^T \phi(\textbf{x}) + b = 0$ where the parameters $\textbf{w}$ and $b$ are solution to:
-
-\begin{equation}
-arg\max\limits_{\textbf{w},b}\{\frac{1}{||\textbf{w}||} \min\limits_{1 \leq i \leq n}\{t_i (\textbf{w}^T \phi(\textbf{x}_i)+b)\}\}
-\end{equation}
-
-Where $n$ is the size of the training set, $t_i \in \{-1,1\}$ is the label for training case $\textbf{x}_i$, $\phi$ is the function represented by the first seven layers of the transferred model, and $\textbf{w},b$ define the linear computation that produces classification predictions, namely: \\
-
-$\textbf{w}^T \phi(\textbf{x}) + b > 0 \rightarrow $predicted label value is 1 \\
-$\textbf{w}^T \phi(\textbf{x}) + b < 0 \rightarrow $predicted label value is -1 \\
-
-The intuition behind the mathematical formula is that the distance from a point $\textbf{x}_1$ to a hyperplane defined by the equation $h(\textbf{x}) = \textbf{w}^T \phi(\textbf{x}) + b = 0$ is given by $\frac{|h(\textbf{x}_1)|}{||\textbf{w}||}$. In the case of classification, when the decision boundary correctly separates the entire trainin set, $|h(\textbf{x}_1)| = t_1 h(\textbf{x}_1)$. $\min\limits_{1 \leq i \leq n}\{t_i (\textbf{w}^T \phi(\textbf{x}_i)+b)\}$ finds the points closest to the decision boundary. 
-
-Solving this optimisation problem with brute force would be intractable \cite{ML-book}, but it can be shown that it is equivalent to the following constrained optimisation problem:
-
-\begin{equation}
-arg\min \limits_{\textbf{w},b} ||w||^2 \text{, subject to } \forall 1 \leq i \leq n, t_i(\textbf{w}^T \phi(\textbf{x}_i)+b) = 1
-\end{equation}
 
 
 
