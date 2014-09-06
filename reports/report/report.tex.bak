@@ -1142,11 +1142,7 @@ put this at the beginning of the section!
 - optimise margin-based loss rather than log probability of the data
 {cite arxiv.org/pdf/1306.0239.pdf}
 
-
-The linear SVM was implemented in Caffe by constructing an 8-layer model, with the 7 bottom layers transferred from the Caffe Reference Imagenet model, the top layer an inner product layer with element-wise product activation functions (in other word(to achieve linearity), then a hinge-loss layer.
-- for standard deep neural network: we take the best performing network obtained from previous experimentations.
-
-Note that the linear SVM model was not equipped with a hinge loss accuracy layer, but was rather given the standard per class accuracy layer, which outputs the log probability as validation error. 
+The linear SVM was implemented in Caffe by designing an 8-layer model, with the 7 bottom layers transferred from the Caffe Reference Imagenet model, the top layer an inner product layer with element-wise product activation functions: in other words, no non-linear activation, just the linear operation $\textbf{w}^T \textbf{x} + b = 0$, where \textbf{x} is the output of the 7th layer. Finally, the model is equipped with a hinge-loss layer. Note that it was not equipped with a hinge loss (validation) accuracy layer, but was rather given the standard per class accuracy layer, which outputs the softmax cross entropy as validation error. 
 
 \begin{figure}
     \centering
@@ -1170,9 +1166,7 @@ Note that the linear SVM model was not equipped with a hinge loss accuracy layer
 Results:
 Comment in light Are All Loss Functions The Same? http://arxiv.org/pdf/1306.0239v1.pdf
 
-We observe that the training error does not converge to zero with the hinge loss, which means that the training data projected on fc7 space is not linearly separable. This is understandable. \\
-
-The errors between these two models are not comparable since they are of different nature. Just because the hinge loss is higher in absolute terms than the log probabity does not mean that test run performance is lower. The way to compare the two models is to look at classification performance on the test set. \\
+We observe that the training error does not converge to zero with the hinge loss, which means that the training data projected on fc7 space is not linearly separable. This does not come as a surprise and confirms the complexity of the clamp detection task. Note also that the errors between these two models are not comparable since they are of different nature. Just because the hinge loss is higher in absolute terms than the cross entropy does not mean that test run performance is lower. The way to compare the two models is to look at average per class validation accuracy: the linear SVM scores a maximum of 85.4\% at the 13,400th iteration, which is barely superior to the 85\1\% accuracy obtained with lower than the 89.2\% obtained \\
 
 \clearpage
 \section{Task 3: Class Imbalance}
