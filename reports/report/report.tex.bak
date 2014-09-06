@@ -1151,7 +1151,7 @@ Results suggest that randomly initialising the weights initialises the network i
 \mathcal{C}_{hinge}(\textbf{w}, b) = \frac{1}{n}\sum \limits_{i=1}^{n} max(0, 1 - t_i(\textbf{w}^T \phi(\textbf{x}) + b))
 \end{equation}
 
-Note that the cost function is denoted as a function of the weights and bias, since these are the parameters that are allowed to vary in order to minimise the expression. The formula can understood by bearing in mind that with binary SVMs, target label values are \{1, -1\}. \\
+Note that the cost function is denoted as a function of the weights and bias, since these are the parameters that are allowed to vary in order to minimise the expression. The formula can understood by bearing in mind that with binary SVMs, target label values are \{1, -1\}. Therefore, when the prediction is perfect, $t_i(\textbf{w}^T \phi(\textbf{x}) + b) = 1$.\\
 
 On the other hand, a softmax output layer with two output units performs a logistic regression \cite{ML-book}:
 
@@ -1159,13 +1159,16 @@ On the other hand, a softmax output layer with two output units performs a logis
 \psi(\textbf{x}) = \frac{1}{1+\exp(\textbf{w}^T \phi(\textbf{x}) + b)}
 \end{equation}
 
-Since logistic regression has range [0, 1] but linear SVM has range [-1, 1], we need to rescale logistic regression output values by taking $t_i \psi(\textbf{x}_i)$ for the ranges to match, and for the two associated cost functions to be comparable. The maximum likelihood estimates of the parameters with logistic regression are obtained by minimising the negative of the log-likelihood function over the training set (i.e.\ the cross entropy), which when reformulated with SVM target labels is given by: 
+Since logistic regression has range [0, 1] but linear SVM has range [-1, 1], we need to rescale logistic regression output values for the ranges to match, in order to define the hinge and softmax cost functions over the same domain. This can be done by taking $\psi_{rescaled}(\textbf{x}) = t_i \psi(\textbf{x}_i)$. The maximum likelihood estimates of the parameters with logistic regression are obtained by minimising the negative of the log-likelihood function over the training set (i.e.\ the cross entropy), which when reformulated with SVM target labels is given by: 
 
 \begin{equation}
 \mathcal{C}_{CE}(\textbf{w}, b) = \frac{1}{n} \sum\limits_{i=1}^{n}\log(1 + \exp(-t_i(\textbf{w}^T \phi(\textbf{x}) + b)))
 \end{equation}
 
-The graphical representations below show both error functions for a single training case. 
+In order to compare the two cost functions, we first needed the definition domains to match. Since a cost function takes a model's output as input, this meant ensuring that the output domains of a softmax layer and a linear SVM would match; hence the rescaling of the logistic regression output values. However, we still need to rescale the output values of one of the cost functions so as to place 
+
+
+for the definition domains to match. We also need to rescale the output  one needs to perform another rescaling: The graphical representations below show both error functions for a single training case. 
 
 \begin{figure}[h!]
 	\centering
