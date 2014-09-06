@@ -1107,7 +1107,10 @@ Results suggest that randomly initialising the weights initialises the network i
 
 \subsubsection{Parametric vs Non-parametric}
 
-`CNN features off the shelf' by Razavian et al \cite{off-the-shelf} established state-of-the-art results by training linear SVMs on the features from the 7th, fully connected layer of AlexNet; in other words, by freezing backpropagation on all transferred layers, replacing the softmax output layer with an inner product layer containing as many output units, and training by minimising a hinge loss. This learns the linear decision boundary for classifying inputs which minimises the number of mis-classifications and maximises the \textit{margin}, which is defined as the smallest distance between the decision boundary and any of the training cases \cite{ML-book}. Mathematically, the decision boundary is the hyperplane defined by the equation $\textbf{w}^T \phi(\textbf{x}) + b = 0$ where the parameters $\textbf{w}$ and $b$ are solution to:
+`CNN features off the shelf' by Razavian et al \cite{off-the-shelf} established state-of-the-art results by training linear SVMs on the features from the 7th, fully connected layer of AlexNet. One may wonder why `CNN features off the shelf' trains a linear SVM rather than a conventional softmax layer. The subsection that follows is an overview of the mathematics and statistics behind a linear SVM compared to a softmax layer.
+
+\paragraph{Linear SVM}
+`CNN features off the shelf' implements its models by freezing backpropagation on all transferred layers, replacing the softmax output layer with an inner product layer containing as many output units, and training by minimising a hinge loss. The hinge loss learns the linear decision boundary for classifying inputs which minimises the number of mis-classifications and maximises the \textit{margin}, which is defined as the smallest distance between the decision boundary and any of the training cases \cite{ML-book}. Mathematically, the decision boundary is the hyperplane defined by the equation $\textbf{w}^T \phi(\textbf{x}) + b = 0$ where the parameters $\textbf{w}$ and $b$ are solution to:
 
 \begin{equation}
 arg\max\limits_{\textbf{w},b}\{\frac{1}{||\textbf{w}||} \min\limits_{1 \leq i \leq n}\{t_i (\textbf{w}^T \phi(\textbf{x}_i)+b)\}\}
@@ -1118,15 +1121,16 @@ Where $n$ is the size of the training set, $t_i \in \{-1,1\}$ is the label for t
 $\textbf{w}^T \phi(\textbf{x}) + b > 0 \rightarrow $predicted label value is 1 \\
 $\textbf{w}^T \phi(\textbf{x}) + b < 0 \rightarrow $predicted label value is -1 \\
 
-The intuition behind the mathematical formula is that the distance from a point \textbf{x_1} to a hyperplane defined by the equation $h(\textbf{x}) = \textbf{w}^T \phi(\textbf{x}) + b = 0$ is given by $\frac{h(\textbf{x_1})}{||\textbf{w}||}$, and   $\min\limits_{1 \leq i \leq n}\{t_i (\textbf{w}^T \phi(\textbf{x}_i)+b)\}$ finds the 
+The intuition behind the mathematical formula is that the distance from a point $\textbf{x}_1$ to a hyperplane defined by the equation $h(\textbf{x}) = \textbf{w}^T \phi(\textbf{x}) + b = 0$ is given by $\frac{|h(\textbf{x}_1)|}{||\textbf{w}||}$. In the case of classification, when the decision boundary correctly separates the entire trainin set, $|h(\textbf{x}_1)| = t_1 h(\textbf{x}_1)$. $\min\limits_{1 \leq i \leq n}\{t_i (\textbf{w}^T \phi(\textbf{x}_i)+b)\}$ finds the points closest to the decision boundary. \\
 
 
-Motivation:
-Still on the topic of whether features in the fully connected layers are of transferrable use, the results of 'CNN features off the shelf' offer guidance. The paper achieves quasi state of the art performance by merely training a linear SVM on the feature space given by the penultimate fully connected layer of OverFeat. Note that using the final layer would not have made sense, since it outputs classification probabilities for the specific ILSVRC task. 
+\paragraph{Logistic Regression}
 
-The difference between training a linear SVM and a standard softmax layer are:
+
+The differences between training a linear SVM and a standard softmax layer are:
 - SVM fits the best separating hyperplane. this assumes linear separability. 
 - softmax performs logistic regression. does this assume linear separability?
+put this at the beginning of the section!
 
 Expound:
 Softmax logistic regression: %http://ufldl.stanford.edu/wiki/index.php/Softmax_Regression

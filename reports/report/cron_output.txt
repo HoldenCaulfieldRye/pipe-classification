@@ -1736,3 +1736,17 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 alex      3154  2152 12 19:51 pts/11   00:01:06 texmaker report.tex
+[master bf06425] auto-commit progress on report
+ 13 files changed, 761 insertions(+), 953 deletions(-)
+ delete mode 100755 cuda_convnet/bin/linux/release/_ConvNet.so
+ delete mode 100644 noccn/noccn/label_dict_.txt
+ delete mode 100644 noccn/noccn/label_dict_sample_Redbox.txt
+ delete mode 100644 noccn/noccn/predict.py
+ rewrite reports/report/report.synctex.gz (92%)
+ rewrite reports/report/report.toc (83%)
+ssh: Could not resolve hostname github.com: Name or service not known
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+alex      3154  2152  2 19:51 pts/11   00:01:11 texmaker report.tex
