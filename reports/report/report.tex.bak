@@ -1132,7 +1132,7 @@ The intuition behind the mathematical formula is that the distance from a point 
 
 
 \paragraph{Logistic Regression}
-
+A softmax output layer with two output units performs a logistic regression. 	
 
 
 The differences between training a linear SVM and a standard softmax layer are:
@@ -1166,7 +1166,7 @@ The linear SVM was implemented in Caffe by designing an 8-layer model, with the 
 Results:
 Comment in light Are All Loss Functions The Same? http://arxiv.org/pdf/1306.0239v1.pdf
 
-We observe that the training error does not converge to zero with the hinge loss, which means that the training data projected on fc7 space is not linearly separable. This does not come as a surprise and confirms the complexity of the clamp detection task. Note also that the errors between these two models are not comparable since they are of different nature. Just because the hinge loss is higher in absolute terms than the cross entropy does not mean that test run performance is lower. The way to compare the two models is to look at average per class validation accuracy: the linear SVM scores a maximum of 85.4\% at the 13,400th iteration, which is barely superior to the 85\1\% accuracy obtained with lower than the 89.2\% obtained \\
+We observe that the training error does not converge to zero with the hinge loss, which means that the training data projected on fc7 space is not linearly separable. This does not come as a surprise and confirms the complexity of the clamp detection task. Note also that the errors between these two models are not comparable since they are of different nature. Just because the hinge loss is higher in absolute terms than the cross entropy does not mean that test run performance is lower. The way to compare the two models is to look at average per class validation accuracy: \\
 
 \clearpage
 \section{Task 3: Class Imbalance}
