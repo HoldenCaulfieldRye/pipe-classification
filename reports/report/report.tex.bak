@@ -1058,7 +1058,8 @@ As a test run, transfer learning was implemented on a network with the same arch
 
 As can be seen, the model with transfer learning reaches its minimum validation error ten times faster than the model without, and this error is logprob 0.4 lower, which corresponds to pushing average per class validation accuracy up from 83.9\% to 88\%. The gain in convergence comes a significant advantage for coping with the time constraints of the research project. 
 
-A surprising observation is that the per class accuracy continues to rise long after the validation error reaches its minimum. Maximum accuracy is reached at a point where the model is well into overfit. The only 
+A surprising observation is that the per class accuracy continues to rise long after the validation error reaches its minimum. Maximum accuracy is reached at a point where the model is well into overfit. One wonders what happens to the model throughout this period. One possibility is that the model increases its precision on the minority class at the slight expense of precision on the majority class: this results in a higher per class accuracy, but the validation error is weighed down by the net increase in misclassified cases caused by the greater proportion of majority class cases. This hypothetical explanation is based on the mismatch between averaging the performance metric across the dataset and averaging across classes. 
+Another possibility is that the model continues to learn salient features of the data which enable it to correctly classify a greater number of cases, and lead it to output sparser probabilities (i.e.\ with greater confidence). The result , throughout this period where the validation error rises but per class accuracy continues to improve, 
 
 
 \paragraph{Zig-zag}
