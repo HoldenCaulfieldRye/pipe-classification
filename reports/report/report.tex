@@ -1141,7 +1141,7 @@ A further motivation is existing empirical research \cite{transfer-learning} \ci
 Results suggest that randomly initialising the weights initialises the network in an area of the parameter space which is further away from the optimal region, which is why the training error starts higher. Secondly, the training error is more volatile: this is a result of the network having `more space to move'. As a result, overfit occurs sooner too. What is slightly surprising is that re-initialising the weights does not increase performance overall; since is not in line with other experimental results \cite{transfer-learning}. Perhaps, if data had been more plentiful, re-initialisation would have proven superior. However, given that the backpropagation is fully enabled in such a network that is very large relative to the dataset (remember this network size was trained on ImageNet), overfit occurs quickly.
 
 
-\subsubsection{Softmax vs SVM}
+\subsubsection{Softmax vs linear SVM}
 
 `CNN features off the shelf' by Razavian et al \cite{off-the-shelf} established state-of-the-art results by training linear SVMs on the features from the 7th, fully connected layer of OverFeat. One may wonder why `CNN features off the shelf' trains a linear SVM rather than a conventional softmax layer. What follows is a mathematical comparison of the two \footnote{Heavily drawn from (Bishop 2010)}. 
 
@@ -1153,22 +1153,23 @@ Results suggest that randomly initialising the weights initialises the network i
 
 Note that the cost function is denoted as a function of the weights and bias, since these are the parameters that are allowed to vary in order to minimise the expression. The formula can understood by bearing in mind that with binary SVMs, target label values are \{1, -1\}.
 
-A softmax output layer with two output units performs a logistic regression \cite{ML-book} which can reformulated with SVM target labels as 
+A softmax output layer with two output units performs a logistic regression \cite{ML-book} which can reformulated with SVM target labels as: 
 
 \begin{equation}
 \mathcal{C}_{CE}(\textbf{w}, b) = \frac{1}{n} \sum\limits_{i=1}^{n}\log(1 + \exp(-t_i(\textbf{w}^T \phi(\textbf{x}) + b)))
 \end{equation}
 
- In order to compare it with the linear SVM, the regression must be recast with \{1, -1\} target labels rather than \{0, 1\} that is conventional for logistic regression. 
+The graphical representations below show both error functions for a single training case. 
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/hinge_vs_ce.png}
+	\caption{Hinge (blue), cross entropy (red), mean squared error (green). source: (Bishop 2010)}
+\end{figure}
 
+Therefore, the hinge loss encourages sparser output probabilities, which can be understood as more confidence as to which class an input belongs to. Note that this could be considered as `over-confidence', since logistic regression produces a Maximum Likelihood Estimation of the parameters; therefore its output probabilities are the most likely i.e.\ `truest' values, based on the probability distributions inferred from the training set. \\
 
-The differences between training a linear SVM and a standard softmax layer are:
-- SVM fits the best separating hyperplane. this assumes linear separability. 
-- softmax performs logistic regression. does this assume linear separability?
-put this at the beginning of the section!
-- optimise \{1, -1\}margin-based loss rather than log probability of the data
-{cite arxiv.org/pdf/1306.0239.pdf}
+This experimental section consisted in reproducing the results of (Razavian et al 2014)\footnote{with the exception that the transfer model used here is not OverFeat, but the slightly lesser performing Caffe Reference ImageNet model.} to use them as a benchmark against the optimisations and results produced during this research project.
 
 The linear SVM was implemented in Caffe by designing an 8-layer model, with the 7 bottom layers transferred from the Caffe Reference Imagenet model, the top layer an inner product layer with element-wise product activation functions: in other words, no non-linear activation, just the linear operation $\textbf{w}^T \textbf{x} + b = 0$, where \textbf{x} is the output of the 7th layer. Finally, the model is equipped with a hinge-loss layer. Note that it was not equipped with a hinge loss (validation) accuracy layer, but was rather given the standard per class accuracy layer, which outputs the softmax cross entropy as validation error. 
 

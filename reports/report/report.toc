@@ -65,7 +65,7 @@
 \contentsline {paragraph}{Zig-zag}{39}
 \contentsline {subsubsection}{\numberline {7.3.2}Freezing Backprop on various layers}{40}
 \contentsline {subsubsection}{\numberline {7.3.3}Initialising Free Layers}{41}
-\contentsline {subsubsection}{\numberline {7.3.4}Softmax vs SVM}{42}
+\contentsline {subsubsection}{\numberline {7.3.4}Softmax vs linear SVM}{42}
 \contentsline {section}{\numberline {8}Task 3: Class Imbalance}{44}
 \contentsline {subsection}{\numberline {8.1}Motivations}{44}
 \contentsline {subsection}{\numberline {8.2}Implementation}{44}

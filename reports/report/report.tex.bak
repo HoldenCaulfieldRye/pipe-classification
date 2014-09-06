@@ -1163,8 +1163,8 @@ The graphical representations below show both error functions for a single train
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.5]{images/hinge_vs_ce.png}
-	\caption{Test Run with validation errors computed over an unchanging set}
+	\includegraphics[scale=0.3]{images/hinge_vs_ce.png}
+	\caption{Hinge (blue), cross entropy (red), mean squared error (green). source: (Bishop 2010)}
 \end{figure}
 
 Therefore, the hinge loss encourages sparser output probabilities, which can be understood as more confidence as to which class an input belongs to. Note that this could be considered as `over-confidence', since logistic regression produces a Maximum Likelihood Estimation of the parameters; therefore its output probabilities are the most likely i.e.\ `truest' values, based on the probability distributions inferred from the training set. \\
