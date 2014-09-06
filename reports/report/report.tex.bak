@@ -1151,9 +1151,15 @@ Results suggest that randomly initialising the weights initialises the network i
 \mathcal{C}_{hinge}(\textbf{w}, b) = \frac{1}{n}\sum \limits_{i=1}^{n} max(0, 1 - t_i(\textbf{w}^T \phi(\textbf{x}) + b))
 \end{equation}
 
-Note that the cost function is denoted as a function of the weights and bias, since these are the parameters that are allowed to vary in order to minimise the expression. The formula can understood by bearing in mind that with binary SVMs, target label values are \{1, -1\}.
+Note that the cost function is denoted as a function of the weights and bias, since these are the parameters that are allowed to vary in order to minimise the expression. The formula can understood by bearing in mind that with binary SVMs, target label values are \{1, -1\}. \\
 
-A softmax output layer with two output units performs a logistic regression \cite{ML-book} which can reformulated with SVM target labels as: 
+On the other hand, a softmax output layer with two output units performs a logistic regression \cite{ML-book}:
+
+\begin{equation}
+\psi(\textbf{x}) = \frac{1}{1+\exp(\textbf{w}^T \phi(\textbf{x}) + b)}
+\end{equation}
+
+From this, we can obtain the MLE formula i.e.\ the negative of the log-likelihood function over the training set can be reformulated with SVM target labels as: 
 
 \begin{equation}
 \mathcal{C}_{CE}(\textbf{w}, b) = \frac{1}{n} \sum\limits_{i=1}^{n}\log(1 + \exp(-t_i(\textbf{w}^T \phi(\textbf{x}) + b)))
