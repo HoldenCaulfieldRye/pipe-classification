@@ -1148,15 +1148,15 @@ Results suggest that randomly initialising the weights initialises the network i
 (Razavian et al 2014) implement transfer learning by freezing backpropagation on all transferred layers, replacing the softmax output layer with an inner product layer containing as many output units, and training by minimising a hinge loss. Indeed, the SVM optimisation problem exposed in the literature review can be reformulated as the minimisation of the $L_2$ regularised hinge loss cost function \cite{ML-book}, given by:
 
 \begin{equation}
-\mathcal{C}_hinge(\textbf{w}, b) = \sum \limits_{i=1}^{n} max(0, 1 - t_i(\textbf{w}^T \phi(\textbf{x}) + b)) + \lambda ||\textbf{w}||^2
+\mathcal{C}_{hinge}(\textbf{w}, b) = \frac{1}{n}\sum \limits_{i=1}^{n} max(0, 1 - t_i(\textbf{w}^T \phi(\textbf{x}) + b))
 \end{equation}
 
-Note that the cost function is denotes as a function of the weights and bias, since these are the parameters that are allowed to vary in order to minimise the expression. The $L_2$ regularisation component is $\lambda ||\textbf{w}||^2$, which penalises high weight values in order to reduce overfitting. The other component is the hinge loss itself, which can understood by bearing in mind that with binary SVMs, target label values are \{1, -1\}.
+Note that the cost function is denoted as a function of the weights and bias, since these are the parameters that are allowed to vary in order to minimise the expression. The formula can understood by bearing in mind that with binary SVMs, target label values are \{1, -1\}.
 
-A softmax output layer with two output units performs a logistic regression \cite{ML-book} i.e.\ the minimisation of the cross entropy error:
+A softmax output layer with two output units performs a logistic regression \cite{ML-book} which can reformulated with SVM target labels as 
 
 \begin{equation}
-\mathcal{C}_{CE}(\textbf{w}, b) = \frac{1}{n}\sum \limits_{i=1}^{n} t_i \log(\textbf{w}^T \phi(\textbf{x}) + b) + (1-t_i)\log(1-\textbf{w}^T \phi(\textbf{x}) + b)
+\mathcal{C}_{CE}(\textbf{w}, b) = \frac{1}{n} \sum\limits_{i=1}^{n}\log(1 + \exp(-t_i(\textbf{w}^T \phi(\textbf{x}) + b)))
 \end{equation}
 
  In order to compare it with the linear SVM, the regression must be recast with \{1, -1\} target labels rather than \{0, 1\} that is conventional for logistic regression. 
