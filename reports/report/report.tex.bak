@@ -1060,11 +1060,11 @@ As can be seen, the model with transfer learning reaches its minimum validation 
 
 \paragraph{Accuracy - error mismatch}
 
-A surprising observation is that the per class accuracy continues to rise long after the validation error reaches its minimum. Maximum accuracy is reached at a point where the model is well into overfit. One wonders what happens to the model throughout this period. One possibility is that the model increases its precision on the minority class at the slight expense of precision on the majority class: this results in a higher per class accuracy, but since the validation error is weighed more heavily by the majority class, .it rises This hypothetical explanation is based on the mismatch between averaging the performance metric across the dataset and averaging across classes. \\
+A surprising observation is that the per class accuracy continues to rise long after the validation error reaches its minimum. Maximum accuracy is reached at a point where the model is well into overfit. One wonders what happens to the model throughout this period. One possibility is that the model increases its precision on the minority class at the slight expense of precision on the majority class: this results in a higher per class accuracy, but since the validation error is weighed more heavily by the majority class, it rises. This hypothetical explanation is based on the mismatch between averaging the performance metric across the dataset and averaging across classes. \\
 
 Another possibility is that the model continues to learn features of the data which enable it to correctly classify a slightly higher number of cases, and somehow also lead it to output significantly sparser probabilities (i.e.\ to be highly confident about its predictions) in cases where classification is incorrect. As a result, the number of mistakes decreases, but the euclidean distance between prediction and target within the leftover mistakes increases a lot more. The latter consequence penalises validation error but not percentage accuracy, hence the growth in both. This hypothetical explanation is based on the fact that cross entropy takes a continuous measure of error per case, whereas accuracy takes a binary measure of error per case. \\
 
-Sadly
+Experiments in the next section, on class imbalance, with the softmax Bayesian cross entropy, provided evidence to support the first explanation. The case is then discussed at greater length.
 
 \paragraph{Zig-zag}
 
@@ -1499,6 +1499,12 @@ Need to mathematically derive how imbalance affects the modulus of the gradient,
 Compare the two nets with run classifier script, to see whether they have same sig values. If they do, then SBL is just doing thresholding, nothing more. Otherwise, it's doing something better. \\
 
 Performance improvement could be obtained by enforcing the same class proportions at every iteration. \\
+
+\paragraph{Error - accuracy mismatch revisited}
+
+The surprising observation made on all previous training results was that per class accuracy tends to continue improving long after the validation error begins to deteriorate. One advanced potential explanation was that, during this period, the model increases its precision on the minority class at the slight expense of precision on the majority class. It was based on the mismatch between averaging the performance metric across the dataset and averaging across classes. In the training results for Bayesian cross entropy, the validation error is also averaged per class, and indeed, error and accuracy appear strongly negatively correlated. This is substantial evidence in favour of this explanation.
+
+However, what remains
 
 
 \subsubsection{Under-Sampling}
