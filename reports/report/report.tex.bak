@@ -1058,6 +1058,8 @@ As a test run, transfer learning was implemented on a network with the same arch
 
 As can be seen, the model with transfer learning reaches its minimum validation error ten times faster than the model without, and this error is logprob 0.4 lower, which corresponds to pushing average per class validation accuracy up from 83.9\% to 88\%. The gain in convergence comes a significant advantage for coping with the time constraints of the research project. 
 
+A surprising observation is that the per class accuracy continues to rise long after the validation error reaches its minimum. Maximum accuracy is reached at a point where the model is well into overfit. The only 
+
 
 \paragraph{Zig-zag}
 
@@ -1253,9 +1255,10 @@ Several class imbalance-tackling techniques that were experimented with required
 
 \subsection{Experimentation}
 
-Several approaches were taken to tackle class imbalance. Successful ones accumulated as experimentation went along. A fixed architecture and training strategy were kept throughout the experiments: backprop on all layers, all weights transferred. Although this was not the best performing architecture from the previous section, it was kept for its simplicity. The objective of this section is not to achieve the highest absolute accuracy, b\\
+Several approaches were taken to tackle class imbalance. Successful ones accumulated as experimentation went along. A fixed architecture and training strategy were kept throughout the experiments: backprop on all layers, all weights transferred. Although this was not the best performing architecture from the previous section, it was kept for its simplicity. The objective of this section is not to achieve the highest absolute accuracy, but rather to compare relative successes of different approaches to tackling class imbalance. \\
 
-The level of class imbalance to impose on the clamp detection task was chosen such that the optimal transfer learning setup obtained from previous experimentation no longer enables successful learning of the task, and puts the network in bad local minimum instead. This corresponds to 98\%, from an original imbalance ratio of 0.88\%. This corresponds to going from 1323 minority class training cases to 193. \\
+The level of class imbalance to impose on the clamp detection task was chosen such that the optimal transfer learning setup obtained from previous experimentation no longer enables successful learning of the task, and puts the network in bad local minimum instead. This is 98\%, from an original imbalance ratio of 88\%. This corresponds to going from 1323 minority class training cases to 193. \\
+
 
 \subsubsection{Test Run}
 
@@ -1280,7 +1283,7 @@ To evaluate the difficulty of the clamp detection task with increased class imba
     \end{minipage}%
 \end{figure}
 
-Whereas 88\% imbalance made it difficult to learn without transfer learning, 98\% imbalance makes it impossible. The model becomes a constant function. Note that although the 
+Whereas with 88\% imbalance, it is possible to learn without transfer learning, 98\% imbalance makes it impossible. The model becomes a constant function. Note that although the 
 
 \subsubsection{Transfer Learning}
 
