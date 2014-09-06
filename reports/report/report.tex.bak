@@ -625,7 +625,7 @@ The transfer models are obtained by training linear Support Vector Machines on t
 
 \subsubsection{Linear Support Vector Machines}
 
-(Razavian et al 2014) implements transfer learning by freezing backpropagation on all transferred layers, replacing the softmax output layer with an inner product layer containing as many output units, and training by minimising a hinge loss. The hinge loss learns the linear decision boundary for classifying inputs which minimises the number of mis-classifications and maximises the \textit{margin}, which is defined as the smallest distance between the decision boundary and any of the training cases \cite{ML-book}. Mathematically, the decision boundary is the hyperplane defined by the equation $\textbf{w}^T \phi(\textbf{x}) + b = 0$ where the parameters $\textbf{w}$ and $b$ are solution to:
+The hinge loss learns the linear decision boundary for classifying inputs which minimises the number of mis-classifications and maximises the \textit{margin}, which is defined as the smallest distance between the decision boundary and any of the training cases \cite{ML-book}. Mathematically, the decision boundary is the hyperplane defined by the equation $\textbf{w}^T \phi(\textbf{x}) + b = 0$ where the parameters $\textbf{w}$ and $b$ are solution to:
 
 \begin{equation}
 arg\max\limits_{\textbf{w},b}\{\frac{1}{||\textbf{w}||} \min\limits_{1 \leq i \leq n}\{t_i (\textbf{w}^T \phi(\textbf{x}_i)+b)\}\}
@@ -1143,15 +1143,17 @@ Results suggest that randomly initialising the weights initialises the network i
 
 \subsubsection{Softmax vs SVM}
 
-`CNN features off the shelf' by Razavian et al \cite{off-the-shelf} established state-of-the-art results by training linear SVMs on the features from the 7th, fully connected layer of AlexNet. One may wonder why `CNN features off the shelf' trains a linear SVM rather than a conventional softmax layer. 
+`CNN features off the shelf' by Razavian et al \cite{off-the-shelf} established state-of-the-art results by training linear SVMs on the features from the 7th, fully connected layer of OverFeat. One may wonder why `CNN features off the shelf' trains a linear SVM rather than a conventional softmax layer. 
 
 A softmax output layer with two output units performs a logistic regression \cite{ML-book}.  	
 
-The SVM optimisation problem can be reformulated as the minimisation of the $L_2$ regularised hinge loss error function \cite{ML-book}, given by:
+(Razavian et al 2014) implements transfer learning by freezing backpropagation on all transferred layers, replacing the softmax output layer with an inner product layer containing as many output units, and training by minimising a hinge loss. Indeed, the SVM optimisation problem exposed in the literature review can be reformulated as the minimisation of the $L_2$ regularised hinge loss error function \cite{ML-book}, given by:
 
 \begin{equation}
 \mathcal{C}(y_i) = \sum \limits_{i=1}^{n} max(0, 1 - y_i t_i) + \lambda ||\textbf{w}||^2
 \end{equation}
+
+The $L_2$ regularisation component is $\lambda ||\textbf{w}||^2$, which penalises high weight values in order to reduce overfitting. The other component is the hinge loss itself, which can understood by bearing in mind that with binary SVMs, target label values are \{1, -1\}.
 
 The differences between training a linear SVM and a standard softmax layer are:
 - SVM fits the best separating hyperplane. this assumes linear separability. 
