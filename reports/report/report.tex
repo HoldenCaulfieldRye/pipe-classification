@@ -991,6 +991,13 @@ An important note is that the Caffe Reference ImageNet model is licensed for aca
 It took two weeks to install Caffe, write data batching scripts in Python, understand how to manipulate it and successfully start training. A small contribution to the Caffe open source project was made: symlinking data to the task directory instead of copying it. Previously, copies of the data were made for every task. One could use the same directory for several tasks, but in the context of tackling class imbalance, it is desirable to keep control of class proportions in the training set; flexibility is therefore required to be able to take several different subsets of the training set. As a result, one usually ends up requiring multiple different data directories, hence the benefits of symlinking the data. 
 
 
+\paragraph{Per Class Accuracy Layer}
+
+A new per class accuracy layer was written in C++ to replace the accuracy layer used to compute validation error and validation accuracy. It was also contributed to the Caffe open source project. It computes the same softmax cross entropy for the error, but instead of computing the percentage accuracy over the validation set, it computes the average per class accuracy over the validation set. This metric is arguably the real metric of interest for this task: ControlPoint have explicitly stated that there would be no value in using a classifier that is a constant function in the case of detecting a flag that, for example, occurs only 1\% of the time. Such a classifier would score 99\% accuracy but only 50\% average per class accuracy.
+
+Another useful aspect of the average per class accuracy layer is that it serves as a symptom checker for class imbalanced-induced bad minima: indeed, if the model is stuck in such a bad minimum, then it is a constant function; therefore, in the case of a binary classifier, its per class accuracy can only be 50\%, regardless of the class imbalance. However, a limitation of such a layer is that 0.5 per class accuracy could in principle be caused by other factors than a bad minimum - it is in this sense that it can serve as a symptom checker rather than a true detector. This aspect was overlooked at first and lead to misleading conclusions during research which have since been revised. 
+
+
 \subsection{Experimentation}
 
 Transfer learning for clamp detection consists in taking the Caffe Reference Imagenet model, removing the 1000-output softmax layer (since the model was trained on the 1000 class ILSVRC 2012 challenge), and replacing it with a 2-output softmax layer the with randomly initialised weights. Since the features are encoded by the weights, copying the weights amounts to transferring the learned features.
@@ -1107,7 +1114,10 @@ Results suggest that randomly initialising the weights initialises the network i
 
 \subsubsection{Parametric vs Non-parametric}
 
-`CNN features off the shelf' by Razavian et al \cite{off-the-shelf} established state-of-the-art results by training linear SVMs on the features from the 7th, fully connected layer of AlexNet; in other words, by freezing backpropagation on all transferred layers, replacing the softmax output layer with an inner product layer containing as many output units, and training by minimising a hinge loss. This learns the linear decision boundary for classifying inputs which minimises the number of mis-classifications and maximises the \textit{margin}, which is defined as the smallest distance between the decision boundary and any of the training cases \cite{ML-book}. Mathematically, the decision boundary is the hyperplane defined by the equation $\textbf{w}^T \phi(\textbf{x}) + b = 0$ where the parameters $\textbf{w}$ and $b$ are solution to:
+`CNN features off the shelf' by Razavian et al \cite{off-the-shelf} established state-of-the-art results by training linear SVMs on the features from the 7th, fully connected layer of AlexNet. One may wonder why `CNN features off the shelf' trains a linear SVM rather than a conventional softmax layer. The subsection that follows is an overview of the mathematics and statistics behind a linear SVM compared to a softmax layer.
+
+\paragraph{Linear SVM}
+`CNN features off the shelf' implements its models by freezing backpropagation on all transferred layers, replacing the softmax output layer with an inner product layer containing as many output units, and training by minimising a hinge loss. The hinge loss learns the linear decision boundary for classifying inputs which minimises the number of mis-classifications and maximises the \textit{margin}, which is defined as the smallest distance between the decision boundary and any of the training cases \cite{ML-book}. Mathematically, the decision boundary is the hyperplane defined by the equation $\textbf{w}^T \phi(\textbf{x}) + b = 0$ where the parameters $\textbf{w}$ and $b$ are solution to:
 
 \begin{equation}
 arg\max\limits_{\textbf{w},b}\{\frac{1}{||\textbf{w}||} \min\limits_{1 \leq i \leq n}\{t_i (\textbf{w}^T \phi(\textbf{x}_i)+b)\}\}
@@ -1118,22 +1128,19 @@ Where $n$ is the size of the training set, $t_i \in \{-1,1\}$ is the label for t
 $\textbf{w}^T \phi(\textbf{x}) + b > 0 \rightarrow $predicted label value is 1 \\
 $\textbf{w}^T \phi(\textbf{x}) + b < 0 \rightarrow $predicted label value is -1 \\
 
-The intuition behind the mathematical formula is that the distance from a point $\textbf{x}_1$ to a hyperplane defined by the equation $h(\textbf{x}) = \textbf{w}^T \phi(\textbf{x}) + b = 0$ is given by $\frac{|h(\textbf{x}_1)|}{||\textbf{w}||}$. In the case of classification, when the decision boundary correctly separates the entire trainin set, $|h(\textbf{x}_1)| = t_1 h(\textbf{x}_1)$. $\min\limits_{1 \leq i \leq n}\{t_i (\textbf{w}^T \phi(\textbf{x}_i)+b)\}$ finds the points closest to the decision boundary.
+The intuition behind the mathematical formula is that the distance from a point $\textbf{x}_1$ to a hyperplane defined by the equation $h(\textbf{x}) = \textbf{w}^T \phi(\textbf{x}) + b = 0$ is given by $\frac{|h(\textbf{x}_1)|}{||\textbf{w}||}$. In the case of classification, when the decision boundary correctly separates the entire trainin set, $|h(\textbf{x}_1)| = t_1 h(\textbf{x}_1)$. $\min\limits_{1 \leq i \leq n}\{t_i (\textbf{w}^T \phi(\textbf{x}_i)+b)\}$ finds the points closest to the decision boundary. \\
 
 
-Motivation:
-Still on the topic of whether features in the fully connected layers are of transferrable use, the results of 'CNN features off the shelf' offer guidance. The paper achieves quasi state of the art performance by merely training a linear SVM on the feature space given by the penultimate fully connected layer of OverFeat. Note that using the final layer would not have made sense, since it outputs classification probabilities for the specific ILSVRC task. 
+\paragraph{Logistic Regression}
 
-The difference between training a linear SVM and a standard softmax layer are:
+
+The differences between training a linear SVM and a standard softmax layer are:
 - SVM fits the best separating hyperplane. this assumes linear separability. 
 - softmax performs logistic regression. does this assume linear separability?
-
-Expound:
-Softmax logistic regression: %http://ufldl.stanford.edu/wiki/index.php/Softmax_Regression
-SVM maths + illustration
-
-optimise margin-based loss rather than log probability of the data
+put this at the beginning of the section!
+- optimise margin-based loss rather than log probability of the data
 {cite arxiv.org/pdf/1306.0239.pdf}
+
 
 Implementation:
 - for linear SVM: a single inner product layer with elementwise product activation functions (to achieve linearity), then a hinge-loss layer.
@@ -1181,10 +1188,6 @@ Were this tactic not adopted, it would not be possible to ascertain whether an a
 \subsection{Implementation}
 
 c++ per class accuracy layer, threshold layer. bayesian softmax loss layer. bayesian layer abstract class with OOP from which the previous two inherit, which has access to minibatch labels and can compute the prior for the specific batch. More precise than assuming each minibatch has the same prior as the entire training set. \\
-
-$C++$ per class accuracy layer as an indicator for bad min: do the maths to explain how bad min necessarily implies 0.5 per class accuracy. A flaw is that 0.5 per class accuracy can be caused by other things than bad min - and this did throw me off guard during the project on an occasion. Therefore, it is not a detector! To make sure that we are indeed in bad min, we can run the net and look at the output probabilities. \\
-
-It will be crucial to keep in mind throughout that the per class accuracy layer provides per class accuracy, but the log prob which it outputs is not 
 
 that's also why we thought the per class accuracy was messed up: it was outputting per class accuracy, but OVERALL softmax loss
 hence why the 2 didn't always vary in the same direction!
