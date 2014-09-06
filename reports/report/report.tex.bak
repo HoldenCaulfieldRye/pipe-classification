@@ -991,6 +991,13 @@ An important note is that the Caffe Reference ImageNet model is licensed for aca
 It took two weeks to install Caffe, write data batching scripts in Python, understand how to manipulate it and successfully start training. A small contribution to the Caffe open source project was made: symlinking data to the task directory instead of copying it. Previously, copies of the data were made for every task. One could use the same directory for several tasks, but in the context of tackling class imbalance, it is desirable to keep control of class proportions in the training set; flexibility is therefore required to be able to take several different subsets of the training set. As a result, one usually ends up requiring multiple different data directories, hence the benefits of symlinking the data. 
 
 
+\paragraph{Per Class Accuracy Layer}
+
+A new per class accuracy layer was written in C++ to replace the accuracy layer used to compute validation error and validation accuracy. It computes the same softmax cross entropy for the error, but instead of computing the percentage accuracy over the validation set, it computes the average per class accuracy over the validation set. This serves as a symptom checker for class imbalanced-induced bad minima: indeed, if the model is stuck in such a bad minimum, then it is a constant function; therefore, in the case of a binary classifier, its per class accuracy can only be 50\%, regardless of the class imbalance. However, a limitation of such a layer is that 0.5 per class accuracy can be caused by other factors than a bad minimum - it is in this sense that it can serve a symptom checker rather than a true detector. This did throw me off guard during the project on an occasion. Therefore, it is not a detector! To make sure that we are indeed in bad min, we can run the net and look at the output probabilities. \\
+
+It will be crucial to keep in mind throughout that the per class accuracy layer provides per class accuracy, but the log prob which it outputs is not 
+
+
 \subsection{Experimentation}
 
 Transfer learning for clamp detection consists in taking the Caffe Reference Imagenet model, removing the 1000-output softmax layer (since the model was trained on the 1000 class ILSVRC 2012 challenge), and replacing it with a 2-output softmax layer the with randomly initialised weights. Since the features are encoded by the weights, copying the weights amounts to transferring the learned features.
@@ -1181,10 +1188,6 @@ Were this tactic not adopted, it would not be possible to ascertain whether an a
 \subsection{Implementation}
 
 c++ per class accuracy layer, threshold layer. bayesian softmax loss layer. bayesian layer abstract class with OOP from which the previous two inherit, which has access to minibatch labels and can compute the prior for the specific batch. More precise than assuming each minibatch has the same prior as the entire training set. \\
-
-$C++$ per class accuracy layer as an indicator for bad min: do the maths to explain how bad min necessarily implies 0.5 per class accuracy. A flaw is that 0.5 per class accuracy can be caused by other things than bad min - and this did throw me off guard during the project on an occasion. Therefore, it is not a detector! To make sure that we are indeed in bad min, we can run the net and look at the output probabilities. \\
-
-It will be crucial to keep in mind throughout that the per class accuracy layer provides per class accuracy, but the log prob which it outputs is not 
 
 that's also why we thought the per class accuracy was messed up: it was outputting per class accuracy, but OVERALL softmax loss
 hence why the 2 didn't always vary in the same direction!
