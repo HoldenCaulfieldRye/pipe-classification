@@ -1225,42 +1225,35 @@ Were this tactic not adopted, it would not be possible to ascertain whether an a
 
 \subsection{Implementation}
 
-Several class imbalance-tackling techniques that were experimented with required development. A Python program was written to merge, rename, randomly reduce,  threshold layer. bayesian softmax loss layer. bayesian layer abstract class with OOP from which the previous two inherit, which has access to minibatch labels and can compute the prior for the specific batch. More precise than assuming each minibatch has the same prior as the entire training set. \\
+Several class imbalance-tackling techniques that were experimented with required development. A Python program was written to merge, rename, reduce, under-sample or over-sample from a class. Three new Caffe layers were written in C++: a `threshold' layer embeddable between any two other layers, a `Bayesian softmax loss layer' for training a CNN on a novel cost function, and a `Bayesian per class accuracy' layer for computing validation error with the same cost function. Specific motivations and formulae for each are detailed in the experimentation subsection of this section. Following the success of the latter two, they were contributed to the Caffe open source project.
 
-that's also why we thought the per class accuracy was messed up: it was outputting per class accuracy, but OVERALL softmax loss
-hence why the 2 didn't always vary in the same direction!
+%increase class imbalance:
+%$target = (max_num) / (total_num - delete_min)
+%target*total_num - target*delete_min = max_num
+%target*delete_min = target*total_num - max_num
+%delete_min = total_num - (max_num/target)$
 
-python script. \\
-
-increase class imbalance:
-$target = (max_num) / (total_num - delete_min)
-target*total_num - target*delete_min = max_num
-target*delete_min = target*total_num - max_num
-delete_min = total_num - (max_num/target)$
-
-\subsubsection{Class Imbalance Solver}
-
-Note that class imbalance ratio i.e.\ size of largest class relative to smallest class is not the right metric to consider. The right metric to consider is the proportion of the largest class, since this is what provides a bad/fake local minimum. This may not seem to be significant but it can be. Consider the 3 class case where we have 10, 100, 500 images for each respective class. Class imbalance ratio is 0.05, and proportion of largest class is approximately 0.82. If we wanted to attain a class imbalance ratio of 0.2, no class would be permitted to have more than 5*10=50 images, and we would be left with a training set of size 110. On the other hand, if we wanted to attain a proportion of largest class of 0.8, we would merely have to remove 12 images from the largest class, and we would be left with a training set of size 598. Interestingly, in the two class case, optimising with respect to either of the two metrics is equivalent. \\
-
-Ok, but do we care about this for this project? Are we ever going to be training multi-class classifiers? Yes, if we think that it may help training to distinguish multiple cases. Intuitively, if two classes contain similar semantic content (e.g. inadequate clamp fitting and no clamp detected both involve clamps), then it could be better to train a single classifier on a 3-class task rather than 2 binary classifiers, because in the latter case, we lose potentially useful information that the images contain about clamps. In other words, to detect whether clamps are fitted properly, it helps to know what a clamp looks like, i.e.\ it helps to know which images do and don't have clamps. \\
-
-t: target bad min
-N: total number of current images
-n: number of majority class images
-k: number of majority class images to kill
-
-when n-k is optimal, we have t = (n-k)/(N-k)
-<=> t*N - t*k = n - k
-<=> (1-t)*k = n - t*N
-<=> k = (n-t*N)/(1-t) \\
-
-so solution is to randomly delete $n - n^{*}$ images from the majority class. \\
+%\subsubsection{Class Imbalance Solver}
+%
+%Note that class imbalance ratio i.e.\ size of largest class relative to smallest class is not the right metric to consider. The right metric to consider is the proportion of the largest class, since this is what provides a bad/fake local minimum. This may not seem to be significant but it can be. Consider the 3 class case where we have 10, 100, 500 images for each respective class. Class imbalance ratio is 0.05, and proportion of largest class is approximately 0.82. If we wanted to attain a class imbalance ratio of 0.2, no class would be permitted to have more than 5*10=50 images, and we would be left with a training set of size 110. On the other hand, if we wanted to attain a proportion of largest class of 0.8, we would merely have to remove 12 images from the largest class, and we would be left with a training set of size 598. Interestingly, in the two class case, optimising with respect to either of the two metrics is equivalent. \\
+%
+%Ok, but do we care about this for this project? Are we ever going to be training multi-class classifiers? Yes, if we think that it may help training to distinguish multiple cases. Intuitively, if two classes contain similar semantic content (e.g. inadequate clamp fitting and no clamp detected both involve clamps), then it could be better to train a single classifier on a 3-class task rather than 2 binary classifiers, because in the latter case, we lose potentially useful information that the images contain about clamps. In other words, to detect whether clamps are fitted properly, it helps to know what a clamp looks like, i.e.\ it helps to know which images do and don't have clamps. \\
+%
+%t: target bad min
+%N: total number of current images
+%n: number of majority class images
+%k: number of majority class images to kill
+%
+%when n-k is optimal, we have t = (n-k)/(N-k)
+%<=> t*N - t*k = n - k
+%<=> (1-t)*k = n - t*N
+%<=> k = (n-t*N)/(1-t) \\
+%
+%so solution is to randomly delete $n - n^{*}$ images from the majority class. \\
 
 \subsection{Experimentation}
 
-Several approaches were taken to tackle class imbalance. Successful ones accumulated as experimentation went along. \\
-
-A fixed architecture and training strategy are kept throughout the experiments: backprop on all layers, all weights transferred. \\
+Several approaches were taken to tackle class imbalance. Successful ones accumulated as experimentation went along. A fixed architecture and training strategy were kept throughout the experiments: backprop on all layers, all weights transferred. Although this was not the best performing architecture from the previous section, it was kept for its simplicity. The objective of this section is not to achieve the highest absolute accuracy, b\\
 
 The level of class imbalance to impose on the clamp detection task was chosen such that the optimal transfer learning setup obtained from previous experimentation no longer enables successful learning of the task, and puts the network in bad local minimum instead. This corresponds to 98\%, from an original imbalance ratio of 0.88\%. This corresponds to going from 1323 minority class training cases to 193. \\
 
