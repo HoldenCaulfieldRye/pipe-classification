@@ -1131,13 +1131,9 @@ The differences between training a linear SVM and a standard softmax layer are:
 - SVM fits the best separating hyperplane. this assumes linear separability. 
 - softmax performs logistic regression. does this assume linear separability?
 put this at the beginning of the section!
-
-Expound:
-Softmax logistic regression: %http://ufldl.stanford.edu/wiki/index.php/Softmax_Regression
-SVM maths + illustration
-
-optimise margin-based loss rather than log probability of the data
+- optimise margin-based loss rather than log probability of the data
 {cite arxiv.org/pdf/1306.0239.pdf}
+
 
 Implementation:
 - for linear SVM: a single inner product layer with elementwise product activation functions (to achieve linearity), then a hinge-loss layer.
