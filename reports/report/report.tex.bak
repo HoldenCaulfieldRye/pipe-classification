@@ -1141,7 +1141,7 @@ A further motivation is existing empirical research \cite{transfer-learning} \ci
 Results suggest that randomly initialising the weights initialises the network in an area of the parameter space which is further away from the optimal region, which is why the training error starts higher. Secondly, the training error is more volatile: this is a result of the network having `more space to move'. As a result, overfit occurs sooner too. What is slightly surprising is that re-initialising the weights does not increase performance overall; since is not in line with other experimental results \cite{transfer-learning}. Perhaps, if data had been more plentiful, re-initialisation would have proven superior. However, given that the backpropagation is fully enabled in such a network that is very large relative to the dataset (remember this network size was trained on ImageNet), overfit occurs quickly.
 
 
-\subsubsection{Parametric vs Non-parametric}
+\subsubsection{Softmax vs SVM}
 
 `CNN features off the shelf' by Razavian et al \cite{off-the-shelf} established state-of-the-art results by training linear SVMs on the features from the 7th, fully connected layer of AlexNet. One may wonder why `CNN features off the shelf' trains a linear SVM rather than a conventional softmax layer. 
 
