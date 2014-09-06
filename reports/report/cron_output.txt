@@ -2032,3 +2032,11 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 alex      3282  3238  2 19:29 pts/2    00:01:08 texmaker report.tex
+[master 1fade35] auto-commit progress on report
+ 1 file changed, 8 insertions(+)
+ssh: Could not resolve hostname github.com: Name or service not known
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+alex      3282  3238  2 19:29 pts/2    00:01:21 texmaker report.tex

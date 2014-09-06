@@ -1225,7 +1225,7 @@ Were this tactic not adopted, it would not be possible to ascertain whether an a
 
 \subsection{Implementation}
 
-threshold layer. bayesian softmax loss layer. bayesian layer abstract class with OOP from which the previous two inherit, which has access to minibatch labels and can compute the prior for the specific batch. More precise than assuming each minibatch has the same prior as the entire training set. \\
+Several class imbalance-tackling techniques that were experimented with required development. A Python program was written to merge, rename, randomly reduce,  threshold layer. bayesian softmax loss layer. bayesian layer abstract class with OOP from which the previous two inherit, which has access to minibatch labels and can compute the prior for the specific batch. More precise than assuming each minibatch has the same prior as the entire training set. \\
 
 that's also why we thought the per class accuracy was messed up: it was outputting per class accuracy, but OVERALL softmax loss
 hence why the 2 didn't always vary in the same direction!
