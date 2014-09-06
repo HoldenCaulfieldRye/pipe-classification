@@ -58,9 +58,7 @@
 {
 Automatic image classification experienced a breakthrough in 2012 with the advent of GPU implementations of deep convolutional neural networks (CNNs). These models distinguish themselves by learning features, convolving them to achieve feature equivariance, making use of max pooling operations to achieve robustness to cluttered backgrounds, and a hierarchical structure to enable the learning of complex features with high generalisation performance. This has motivated ControlPoint LLP, a gas \& water infrastructure monitoring company, to explore whether deep learning could be used to automate one of its business services: inspecting photos of polyethylene pipe weld installations to ascertain weld quality. The company reports having previously explored automation with existing businesses, but that the semantic complexity of the visual characteristics to recognise made the task technologically infeasible. \\
 
-After framing the task, this report provides an overview of supervised deep learning, followed by an in-depth explanation of the workings of a deep convolutional neural network, which despite its performance, gathers criticism for its tendency to be used as a black box. The rest of the report goes over the research that was carried out. The first two are mathematical analyses, one of which proposes an explanation for the recent success of the Rectified Linear Unit as the chief activation function of CNNs, the other an explanation for the success of early stopping as a regularisation technique\footnote{Both came about as the result of seeking to understand, with limited assistance, aspects of training deep neural networks; it is uncertain whether existing research exceeds them.}. The next sections are applied and specific to the main task: understanding why learning failed during the first attempts; finding the optimal way to use transfer learning, exploring ways of tackling class imbalance -- including a novel cost function justified by statistical theory which delivered up to 9 additional percentage points in performance; moving away from the common `AlexNet' CNN architecture to conserve spatial information; and final performance results across all tasks. \\
-
-A meeting summarising then-current research results took place at ControlPoint's headquarters in mid-August. It was concluded that little more needed to be done to produce commercially deployable models, and talks for a licensing partnership have begun. Due to the belief that automation of human classification tasks and learning from high dimensional sensory data have the potential to deliver value in other industries such as construction, oil \& gas and medicine, a technology company has been founded as the result of this research project, with the aim of carrying out this vision. \\
+After framing the task, this report provides an overview of supervised deep learning, followed by an in-depth explanation of the workings of a deep convolutional neural network, which despite its performance, gathers criticism for its tendency to be used as a black box. The rest of the report goes over the research that was carried out. The first two are mathematical analyses, one of which proposes an explanation for the recent success of the Rectified Linear Unit as the chief activation function of CNNs, the other an explanation for the success of early stopping as a regularisation technique\footnote{Both came about as the result of seeking to understand, with limited assistance, aspects of training deep neural networks; it is uncertain whether existing research exceeds them.}. The next sections are applied and specific to the main task: understanding why learning failed during the first attempts; finding the optimal way to use transfer learning, exploring ways of tackling class imbalance -- including a novel cost function justified by statistical theory which delivered up to 9 additional percentage points in performance; moving away from the common `AlexNet' CNN architecture to conserve spatial information; and final performance results across all tasks.
 }
 \end{abstract}
 
@@ -69,34 +67,20 @@ A meeting summarising then-current research results took place at ControlPoint's
 
 \clearpage
 
-Thanks to my supervisors Jack Kelly for ... and Prof Murray Shanahan for ...
-Thanks to Razvan Ranca for wonderful strategic advice on which experiments to choose for the exploration of hypotheses, help with C++, musical and caffeine tricks for staying up all night, and much else. I look excitingly forward to the times ahead cofounding a machine learning startup together.
+\section{Acknowledgements}
+
+Many thanks to Prof Murray Shanahan for having been the chief supervisor of this research project; it would not have been possible to pursue it otherwise. 
+
+Thanks to Jack Kelly, the second supervisor of this project, for having created it. Were it not for Jack Kelly, ControlPoint would not have heard of deep learning as a potential technological solution, and I would not have been able to carry out exciting, meaningful research for a real world problem. Jack Kelly shaped not just the research project but a significant portion of my year at Imperial College, by providing guidance towards teaching material on deep learning, encouragement to pursue it, and a group project to apply it. I owe him the discovery of a new passion.
+
+Thanks to Razvan Ranca for precious strategic advice on which experiments to choose for the exploration of hypotheses, help with C++, feedback on the report, as well as musical and caffeine tricks for staying up all night. I look excitingly forward to the times ahead cofounding a machine learning startup together.
+
 Thanks to Alexandre de Brebisson for his great insights into convnet architecture that helped me make sense of experimental results, and the great conversations we had sharing our passion for deep learning.
-The Google+ Deep Learning community was perhaps the 2nd most precious resource, after arXiv and before stackoverflow. It provided a large and steady stream of useful resources, comments and guidance. It seemed like a revolutionary way to be in touch with the world's leading researchers such as Prof Yann LeCun and Prof Yoshua Bengio. I owe particular thanks to Dr Soumith Chintala for his comments on transfer learning and Prof Francisco Zamora-Martinez for his on class imbalance.
+
+The Google+ Deep Learning community was perhaps the 2nd most precious resource for this project, after arXiv and before stackoverflow. It provided a large and steady stream of useful resources, comments and guidance. It also seemed like a revolutionary way to be in touch with the world's leading researchers such as Prof Yann LeCun and Prof Yoshua Bengio. I owe particular thanks to Dr Soumith Chintala for his comments on transfer learning and Prof Francisco Zamora-Martinez for his on class imbalance.
 
 \clearpage
 \section{Introduction}
-
-The background goes through the essential material regarding machine learning with feed-forward neural networks. Since this project was experimental from an early phase, the rest of the report is divided into chapters each of which go over the conceptual motivations, the design and the implementation of a main experiment. \\
-
-Deep learning has proved its prowess at extracting high-level representations from high-dimensional sensory data in fields such as visual object recognition, information retrieval, natural language processing, and speech perception. \\
-
-Contributions (beyond training accurate pipe weld classifiers for ControlPoint):
-1. theory
--  intuition for ReLU vs sigmoid activation function (mention that since then you have found Quoc Le people at Google Brain thinking the same bit.ly/1ohsQcb)	
-2. empirics
-- class imbalance rule of thumb?
-3. software
-- data provider for cuda convnet
-- class imbalance controller for cuda convnet
-- training time series plotter for cuda convnet
-- symlink lookup for caffe
-- class imbalance controller for caffe
-- f measure for caffe
-- data augmentation for caffe \\
-
-This project aims to automate the classification of pipe weld images with deep neural networks. After explaining and formalising the problem, we will explain fundamental concepts in machine learning, then go on to explain the architecture of a deep convolutional neural network with restricted linear units, and finally explain how the network is trained with stochastic gradient descent, backpropagation and dropout. The last sections focus on three challenges specific to the pipe weld image classification task: multi-tagging, learning features from a restricted training set, and class imbalance.
-
 
 \subsection{Explaining the Problem}
 
@@ -1000,18 +984,25 @@ Transfer learning consists in initialising the weights of layers of the network 
 
 \subsubsection{Caffe}
 
-Since the open-sourcing of Cuda-Convnet, other deep learning labs have made use of Krizhevsky's CUDA code to develop more modular APIs for GPU implementations and additional features \cite{caffe} \cite{theano} \cite{torch7}. One that is noted for its transfer learning feature is Caffe, an open source framework for convolutional neural network algorithms, developed by Yangqing Jia's team at the Berkeley Vision and Learning Center. It provides the Caffe Reference ImageNet Model, a slightly lesser performing imitation of AlexNet \cite{decaf} that is the 313,000th iteration of training an identical architecture on the 1.3 million image ILSVRC 2012 labelled data. This model achieves 19.6\% top-5 validation accuracy, compared to 18.2\% for (Krizhevsky et al 2012). Caffe also provides an interface and underlying back end for choosing which layers to transfer. In terms of computational efficiency during backpropagation, Caffe is currently the best, requiring 1.787 seconds per mini-batch training iteration for a 128 image mini-batch size and 224x224 images \cite{soumith-benchmark}. Caffe is the only implementation for which backpropagation is written entirely in C++ and CUDA, so this may be why. 
+Since the open-sourcing of Cuda-Convnet, other deep learning labs have made use of Krizhevsky's CUDA code to develop more modular APIs for GPU implementations and additional features \cite{caffe} \cite{theano} \cite{torch7}. One that is noted for its transfer learning feature is Caffe, an open source framework for convolutional neural network algorithms, developed by Yangqing Jia's team at the Berkeley Vision and Learning Center. It provides the Caffe Reference ImageNet Model, a slightly lesser performing imitation of AlexNet \cite{decaf} that is the 313,000th iteration of training an identical architecture on the 1.3 million image ILSVRC 2012 labelled data. This model achieves 19.6\% top-5 validation error, compared to 18.2\% for (Krizhevsky et al 2012). Caffe also provides an interface and underlying back end for choosing which layers to transfer. In terms of computational efficiency during backpropagation, Caffe is currently the best, requiring 1.787 seconds per mini-batch training iteration for a 128 image mini-batch size and 224x224 images \cite{soumith-benchmark}. Caffe is the only implementation for which backpropagation is written entirely in C++ and CUDA, so this may be why. 
 
 An important note is that the Caffe Reference ImageNet model is licensed for academic research, and is for non-commercial use only. Therefore, if ControlPoint wishes to make commercial use of a network whose weights were initialised from it, it would have to pretrain its own net on a dataset on which there are no such licensing restrictions. \\
 
-It took two weeks to install Caffe, write data batching scripts in Python, understand how to manipulate it and successfully start training. A small contribution to the Caffe open source project was made: symlinking data to the task directory instead of copying it. Previously, copies of the data were made for every task. One could use the same directory for several tasks, but in the context of tackling class imbalance, it is desirable to keep control of class proportions in the training set; flexibility is therefore required to be able to take several different subsets of the training set. As a result, one usually ends up requiring multiple different data directories, hence the benefits of symlinking the data. \\
+It took two weeks to install Caffe, write data batching scripts in Python, understand how to manipulate it and successfully start training. A small contribution to the Caffe open source project was made: symlinking data to the task directory instead of copying it. Previously, copies of the data were made for every task. One could use the same directory for several tasks, but in the context of tackling class imbalance, it is desirable to keep control of class proportions in the training set; flexibility is therefore required to be able to take several different subsets of the training set. As a result, one usually ends up requiring multiple different data directories, hence the benefits of symlinking the data. 
 
 
 \subsection{Experimentation}
 
+Transfer learning for clamp detection consists in taking the Caffe Reference Imagenet model, removing the 1000-output softmax layer (since the model was trained on the 1000 class ILSVRC 2012 challenge), and replacing it with a 2-output softmax layer the with randomly initialised weights. Since the features are encoded by the weights, copying the weights amounts to transferring the learned features.
+
+Note that following visual inspection of the `No Clamps Used' and 'Photo Does Not Show Enough of Clamps` classes, the boundary between the two appeared to be very fuzzy; this was confirmed by the fact that ControlPoint employees themselves tended to disagree on which of the two flags was more suitable for certain images. As a result, the two classes were combined into a `No Clamps' class for the rest of the project. \\
+
+Experimentation consisted in exploring three hyperparameters related to transfer learning: whether to freeze backpropagation on any layers in order to maintain the features of the transferred model, whether to randomly initialise rather than copy the weights of certain layers in order to give these layers `greater freedom' to learn \cite{transfer-learning}, and finally, whether to learn weights by minimising a logistic, therefore parametric loss function, or a hinge loss function, which is non-parametric and amounts to training a Support Vector Machine. 
+
+
 \subsubsection{Test Run}
 
-As a test run, the most straightforward form of transfer learning was implemented on a network with the same architecture as was previously used, AlexNet.  This consists in taking the Caffe Reference Imagenet model, removing the 1000-output softmax layer (since the model was trained on the 1000 class ILSVRC 2012 challenge), and replacing it with a 2-output softmax layer with randomly initialised weights. The training data, as is the case for all subsequent experiments, consists in the Bluebox dataset. Below are the training results compared to training the same model, but with all weights randomly initialised.
+As a test run, transfer learning was implemented on a network with the same architecture as was previously used, AlexNet. The training data, as is the case for all subsequent experiments, consists in the Bluebox dataset. Below are the training results alongside those for a model trained identically in all respects apart from weight intialisation, which was fully random. 
 
 \begin{figure}[h!]
 	\centering
@@ -1027,12 +1018,12 @@ As a test run, the most straightforward form of transfer learning was implemente
 	\end{subfigure}
 \end{figure}
 
-As can be seen, the model with transfer learning reaches its minimum validation error ten times faster than the model without, and this error is logprob 0.4 lower, which corresponds to pushing validation accuracy up from 83.9\% to 93.5\%. The gain in convergence comes a significant advantage for coping with the time constraints of the research project. 
+As can be seen, the model with transfer learning reaches its minimum validation error ten times faster than the model without, and this error is logprob 0.4 lower, which corresponds to pushing validation accuracy up from 83.9\% to 88\%. The gain in convergence comes a significant advantage for coping with the time constraints of the research project. 
 
 
 \paragraph{Zig-zag}
 
-Two noticeable aspects in training without transfer learning are the higher training error amplitude, and the increasing frequency of outlying training error values as training progresses. Both are likely due to the fact that the learning rate is too high; as a result, the network parameters zig zag towards the minimum with greater strides , and the zig zag is accentuated. A graphical example where the error surface is simplified to a quadratic bowl is given below. 
+Two noticeable aspects in training without transfer learning are the higher training error amplitude, and the increasing frequency of outlying training error values as training progresses. Both are likely due to the fact that the learning rate is too high; as a result, the network parameters zig zag towards the minimum with greater strides, and the zig zag is accentuated. A graphical illustration of zig-zag where the error surface is simplified to a quadratic bowl is given below. 
 
 \begin{figure}[h!]
 	\centering
@@ -1049,46 +1040,18 @@ Two noticeable aspects in training without transfer learning are the higher trai
 	\caption{source: Coursera, Neural Networks for Machine Learning}
 \end{figure}
 
+If greater zig-zag occurs on the net without transfer learning, one may wonder why. This may come across as contradictory: it can be seen on the graphical illustration that as the parameters come closer to the minimum, smaller steps (i.e.\ learning rate) are required. SGD tricks lecture 6 provides an answer: the bias is optimal with transfer learning, so bowls are rounder.
+
 In light of this explanation, faster convergence for the no transfer learning task could have been obtained by using a smaller learning rate, but the objective of the test run was to train two networks, identical across all aspects save for transfer learning. One conclusion is that transfer learning enables the use of a higher learning rate, which partly explains why convergence is faster. \\
 
-The essential takeaway from the test run is that initialisation of the parameters is very important, even in convolutional neural networks, at least when the dataset is not large as is the case with the Bluebox dataset. This is consistent with previously mentioned findings by (Glorot et al 2013) \cite{rectifier}. 
-
-\subsubsection{Initialising Free Layers}
-
-Another hyperparameter in transfer learning is whether to initialise the layers in which backpropagation has been enabled to the transferred network's weights, or to randomly initialise them. A way to think about this intuitively is to wonder: do we want to keep the features learned at the given layer or not? \\
-
-The features on convolutional layers are easy to visualise, and the success of transfer learning in computer vision rests on the fact that pixel features good for one computer vision task are also good for others. This makes intuitive sense for low level shapes: our visual world is made up of combinations of edges, corners, textures and shapes. But what about the features in the fully connected layers? \\
-
-There currently exists no way of visualising the semantic content in fully connected layers: the Intruiguing properties paper suggests that an individual neuron does not contain a semantic feature, but that it is distributed among the units of the layer. So it is not obvious whether or not the features in the fully connected layers are of any use for transfer tasks. That is the motivation for experimenting with weight re-initialisation. \\
-
-
-\begin{figure}
-    \centering
-    \begin{minipage}[b]{\textwidth}
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_clampdet_none_reinit.png}
-        % Add \par\vspace*{20pt} here and...
-        \caption{backprop on all layers}\label{fig:2a}
-      \end{subfigure}%
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_clampdet_none-10k.png}
-        % ...here to lower the subcaptions and...
-        \caption{backprop on top layer only}\label{fig:2b}
-      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-      \caption{Another figure}\label{fig:2}
-    \end{minipage}%
-\end{figure}
-
-Are below comments still true once retrained no mistake long time for both? \\
-
-Re-initialising the weights has other effects too. It initialises the network in an area of the parameter space which is further away from the optimal region, which is why the training error starts higher. Secondly, the training error is more volatile: this is a result of the network having `more space to move'. As a result, overfit occurs sooner too. What is slightly surprising is that re-initialising the weights does not increase performance overall, despite advice from Soumith Chintala to the contrary (any paper?). Perhaps, if data had been more plentiful, re-initialisation would have proven superior. However, given that the backpropagation is fully enabled in such a network that is very large relative to the dataset (remember this network size was trained on ImageNet), overfit occurs quickly. \\
+The essential takeaway from the test run is that initialisation of the parameters is very important, even in convolutional neural networks, at least when the dataset is not large as is the case with the Bluebox dataset. This is consistent with previously mentioned findings by (Glorot et al 2013) \cite{rectifier}. \\
 
 
 \subsubsection{Freezing Backprop on various layers}
 
-Note: under-sampling, weights initialised to AlexNet for all nets in this section. Assume these aspects cannot be optimised. \\
+An aspect of transfer learning that can be explored is whether to freeze backpropagation on part of the network during training. Since the error-weight partial derivatives are computed using the chain rule, the feed-forward architecture of a network implies that computing them for one layer requires computing those in the layers above. However, one may wish to propagate the gradient back to only a certain layer in the network, in order to hold fixed the features that have been learned in the lower layers. In the case of CNNs, a potential motivation would be to maintain the convolutional filters of the lower layers, which tend to generalise best to any computer vision task \cite{transfer-learning}, and constrain the network to optimise over the training set only with the use of fully connected layers. The intuition here would be that, by enabling full backpropagation, weights would be updated in directions that are optimal for fitting the training data, but that may not generalise well to unseen data. \\
+
+Experiments were run by training 8 models identically in all respects save for the number of layers on which to freeze backpropagation. Training results are not all illustrated below because incremental differences are indistinguishable; instead, the two sides of the spectrum are given: backpropagation enabled on all layers (i.e.\ the test run transfer learning model) and backpropagation enabled only on the randomly initialised softmax output layer. 
 
 \begin{figure}
     \centering
@@ -1105,30 +1068,61 @@ Note: under-sampling, weights initialised to AlexNet for all nets in this sectio
         % ...here to lower the subcaptions and...
         \caption{backprop on top layer only}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-      \caption{Another figure}\label{fig:2}
     \end{minipage}%
 \end{figure}
 
+The main difference is in the training error: when backpropagation is restricted to a single layer, the model is unable to perfectly fit the data. This is simply a result of having constrained the expressiveness of the model, much like trying to fit a curve with a lower-order polynomial. However, the advantage is that the model does not overfit. Between the two extreme cases, full backpropagation achieves 88\% validation accuracy at best, whereas minimal backpropagation achieves 85.1\%. 
 
-Do NOT take nets in which weights have been re-initialised. \\
+However, there is an optimal middle ground: freezing backpropagation on four of the five convolutional layers achieves a maximal validation accuracy of 89.2\%. A potential explanation for this is the one given above, namely that freezing backpropagation on lower layers conserves optimal features, forces the model to make more effort to fit the data with the limited use of the upper layers, and generalises better. \\
 
 
-Illustrates how the extent to which backrpop is freed up alters the expressive power of the network and its tendency to overfit (have you got a section in your paper explaining overfit? use the polynomials from Bishop, or the MLNC slides from A. Faisal to illustrate it, then link up with ). \\
+\subsubsection{Initialising Free Layers}
 
-Is there an optimal middle ground (i.e.\ non-monotonous error) number of layers to free up. In our case, freeing up [???] layers is optimal. This middle ground is surprising: I'm surprised, I would expect more overfit when more layers are freed for backprop. Could anyone explain this?﻿//
+Another hyperparameter is whether to re-initialise the layers in which backpropagation has been enabled to the transferred network's weights, or to randomly initialise them. A way to think about this intuitively is to wonder: do we want to keep the features learned at the given layer or not? 
 
-Soumith's opinion: Are you resetting the weights in the layers FC6,FC7 or are you just backproping from the AlexNet weights? I think if you reset the weights, you will see what you are expecting.﻿\\
-Me: Yeah, weights initialised to alexnet's. Why do you think that makes a difference? The local minima from alexnet's region leave less room for the net to learn meaningful patterns and push it more quickly into overfitting? \\ ﻿
-Soumith: when doing transfer learning, if you kept alexnet weights you are already in a well-settled local minima for that layer, so there wont be much movement I think.﻿\\
+The features on convolutional layers are easy to visualise, and the success of transfer learning in computer vision rests on the fact that pixel features good for one computer vision task are also good for others. This makes intuitive sense for low level shapes: our visual world is made up of combinations of edges, corners, textures and shapes. But what about the features in the fully connected layers? There currently exists no way of visualising the semantic content in fully connected layers, so it is not obvious whether or not the features in the fully connected layers are of any use for transfer tasks. This motivates experimentation with weight re-initialisation. 
 
-The middle ground is the result of the usual expressiveness tradeoff: movement in function space versus over-fitting of the model. \\
+A further motivation is existing empirical research \cite{transfer-learning} \cite{decaf} on transfer learning which finds that re-initialising weights gives the layers `more freedom' to learn. In light of Yann LeCun's recent comments regarding the training of CNNs\cite{labex-bezout}, one could visualise this as initialising the weights inside or outside the `narrow band' where the minima are `clustered'. It would be harder to navigate inside a region that were densely filled with extrema that are optimal for the source task but not the target task.  \\
 
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdet_none_reinit.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{Random initialisation of fully connected layers}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdet_none-10k.png}
+        % ...here to lower the subcaptions and...
+        \caption{Full transfer of weights}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+    \end{minipage}%
+\end{figure}
+
+Results suggest that randomly initialising the weights initialises the network in an area of the parameter space which is further away from the optimal region, which is why the training error starts higher. Secondly, the training error is more volatile: this is a result of the network having `more space to move'. As a result, overfit occurs sooner too. What is slightly surprising is that re-initialising the weights does not increase performance overall; since is not in line with other experimental results \cite{transfer-learning}. Perhaps, if data had been more plentiful, re-initialisation would have proven superior. However, given that the backpropagation is fully enabled in such a network that is very large relative to the dataset (remember this network size was trained on ImageNet), overfit occurs quickly.
 
 
 \subsubsection{Parametric vs Non-parametric}
 
+`CNN features off the shelf' by Razavian et al \cite{off-the-shelf} established state-of-the-art results by training linear SVMs on the features from the 7th, fully connected layer of AlexNet; in other words, by freezing backpropagation on all transferred layers, replacing the softmax output layer with an inner product layer containing as many output units, and training by minimising a hinge loss. This learns the linear decision boundary for classifying inputs which minimises the number of mis-classifications and maximises the \textit{margin}, which is defined as the smallest distance between the decision boundary and any of the training cases \cite{ML-book}. Mathematically, the decision boundary is the hyperplane defined by the equation $\textbf{w}^T \phi(\textbf{x}) + b = 0$ where the parameters $\textbf{w}$ and $b$ are solution to:
+
+\begin{equation}
+arg\max\limits_{\textbf{w},b}\{\frac{1}{||\textbf{w}||} \min\limits_{1 \leq i \leq n}\{t_i (\textbf{w}^T \phi(\textbf{x}_i)+b)\}\}
+\end{equation}
+
+Where $n$ is the size of the training set, $t_i \in \{-1,1\}$ is the label for training case $\textbf{x}_i$, $\phi$ is the function represented by the first seven layers of the transferred model, and $\textbf{w},b$ define the linear computation that produces classification predictions, namely: \\
+
+$\textbf{w}^T \phi(\textbf{x}) + b > 0 \rightarrow $predicted label value is 1 \\
+$\textbf{w}^T \phi(\textbf{x}) + b < 0 \rightarrow $predicted label value is -1 \\
+
+The intuition behind the mathematical formula is that the distance from a point $\textbf{x}_1$ to a hyperplane defined by the equation $h(\textbf{x}) = \textbf{w}^T \phi(\textbf{x}) + b = 0$ is given by $\frac{|h(\textbf{x}_1)|}{||\textbf{w}||}$. In the case of classification, when the decision boundary correctly separates the entire trainin set, $|h(\textbf{x}_1)| = t_1 h(\textbf{x}_1)$. $\min\limits_{1 \leq i \leq n}\{t_i (\textbf{w}^T \phi(\textbf{x}_i)+b)\}$ finds the points closest to the decision boundary.
+
+
 Motivation:
-Still on the topic of whether features in the fully connected layers are of transferrable use, the results of 'CNN features off the shelf' offer guidance. The paper achieves quasi state of the art performance by trianing a very simple linear SVM on the feature space of the penultimate fully connected layer (obviously not the highest one, since this one is specifically trained for distinguishing among the classes is the source task).  
+Still on the topic of whether features in the fully connected layers are of transferrable use, the results of 'CNN features off the shelf' offer guidance. The paper achieves quasi state of the art performance by merely training a linear SVM on the feature space given by the penultimate fully connected layer of OverFeat. Note that using the final layer would not have made sense, since it outputs classification probabilities for the specific ILSVRC task. 
 
 The difference between training a linear SVM and a standard softmax layer are:
 - SVM fits the best separating hyperplane. this assumes linear separability. 
@@ -1805,6 +1799,11 @@ Copy paste from your emacs sheet everything! Talk about domain change as well be
  \emph{Tutorials Session A - Deep Learning for Computer Vision}
  NIPS 2013  
   
+\bibitem{off-the-shelf}
+ Ali Sharif Razavian, Hossein Azizpour, Josephine Sullivan, Stefan Carlsson;
+ \emph{CNN Features off-the-shelf: an Astounding Baseline for Recognition}
+ arXiv 2014
+ 
 \bibitem{colah}
  Olah, Christopher;
  \emph{Understanding Convolutions}
@@ -1860,10 +1859,6 @@ Copy paste from your emacs sheet everything! Talk about domain change as well be
  Visualizing and Understanding Convolutional Networks
  arXiv 2013
 
-\bibitem{off-the-shelf}
- Ali Sharif Razavian, Hossein Azizpour, Josephine Sullivan, Stefan Carlsson;
- \emph{CNN Features off-the-shelf: an Astounding Baseline for Recognition}
- arXiv 2014
 
 \bibitem{Russel & Norvig}
  Russell, Stuart J; Norvig, Peter;
