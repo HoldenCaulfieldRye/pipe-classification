@@ -75,9 +75,9 @@
 \contentsline {subsection}{\numberline {8.3}Experimentation}{46}
 \contentsline {subsubsection}{\numberline {8.3.1}Test Run}{46}
 \contentsline {subsubsection}{\numberline {8.3.2}Transfer Learning}{48}
-\contentsline {subsubsection}{\numberline {8.3.3}Batch Size}{49}
+\contentsline {subsubsection}{\numberline {8.3.3}Mini-batch Size}{49}
 \contentsline {subsubsection}{\numberline {8.3.4}Learning Rate}{49}
-\contentsline {subsubsection}{\numberline {8.3.5}Bayesian Cross Entropy Cost Function}{50}
+\contentsline {subsubsection}{\numberline {8.3.5}Bayesian Cross Entropy Cost Function}{49}
 \contentsline {paragraph}{Motivations}{50}
 \contentsline {paragraph}{Implementation}{50}
 \contentsline {paragraph}{Results}{51}
@@ -85,7 +85,7 @@
 \contentsline {paragraph}{SGD mechanics}{52}
 \contentsline {subsubsection}{\numberline {8.3.7}Under-Sampling}{53}
 \contentsline {paragraph}{Overfitting consequences of under-sampling}{53}
-\contentsline {subsubsection}{\numberline {8.3.8}Over-Sampling}{54}
+\contentsline {subsubsection}{\numberline {8.3.8}Over-Sampling}{53}
 \contentsline {subsubsection}{\numberline {8.3.9}Test-time threshold}{55}
 \contentsline {section}{\numberline {9}Task 4: Conserving Spatial Information}{56}
 \contentsline {subsection}{\numberline {9.1}Motivations}{56}

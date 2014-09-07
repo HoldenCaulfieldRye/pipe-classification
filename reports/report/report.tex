@@ -1302,7 +1302,7 @@ This provides clues about the shape of the error surface in the neighbourhood of
 
 One would be tempted to conjecture that the steepness of the error surface along these dimensions decreases with the extent of class imbalance, and approaches 0 as class imbalance approaches 100\%. This would explain why at some point class imbalance is too high for the model to escape. 
 
-Further analysis and experimentation would perhaps make for interesting further work. In order to maintain generality, these points on the error surface will now be referred to as sampling-induced critical points, or simply bad critical points. \\
+Further analysis and experimentation, especially by seeing whether individual weights in the softmax layer do indeed cease to update, would perhaps make for interesting further work. In the meantime, in order to maintain generality, these points on the error surface will now be referred to as sampling-induced critical points, or simply bad critical points. \\
 
 
 \subsubsection{Transfer Learning}
@@ -1332,12 +1332,16 @@ Further analysis and experimentation would perhaps make for interesting further 
     \end{minipage}%
 \end{figure}
 
-Transfer learning keeps the net's parameters from bad critical points, so the model is not a constant function. Notice this enables it to perfectly fit the training set. However, little is learned that generalises: maximum validation accuracy is 60.1\%. Transferring the fully connected layer weights helps bring this up to 65.4\%. Note that validation error is very low because it is not a per class average: the transfer learning models quickly obtain high precision on the majority class, but struggle to learn the minority one. \\
+Transfer learning keeps the net's parameters from bad critical points, so the model is not a constant function. Notice this enables it to perfectly fit the training set. However, little is learned that generalises: maximum validation accuracy is 60.1\%. Transferring the fully connected layer weights helps bring this up to 65.4\%. \\
+
+Note that validation error is very low because it is not a per class average: the transfer learning models quickly obtain high precision on the majority class, but struggle to learn the minority one. 
+
+Note also that validation error appears
 
 What is arguably a crucial question is whether the difficulty in learning the minority class is the inevitable consequence of having few training examples to learn from, or whether the imbalance ratio is preventing generalising features of the minority class from being learned. If the former, there is no use in searching for ways to tackle class imbalance without throwing away majority class data.  
 
 
-\subsubsection{Batch Size}
+\subsubsection{Mini-batch Size}
 
 %Notice what happens when validation batch size too small:
 %
@@ -1358,6 +1362,7 @@ What is arguably a crucial question is whether the difficulty in learning the mi
 %	\caption{Clamp Detection, Full Backpropagation}
 %\end{figure}
 
+Since class imbalance reduces the number of minority class cases, it could arguable make information relating to minority class misclassification contained in the gradient more noisy. If so, increasing the mini-batch size should improve performance.
 
 \begin{figure}
     \centering
