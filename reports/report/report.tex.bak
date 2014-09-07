@@ -1477,7 +1477,9 @@ Under-sampling rebalances the training set by removing majority class examples. 
 	\end{enumerate}
 \end{enumerate} \\
 
-To the best of our understanding, it is unclear from the paper whether training in 3(e) uses initial weights taken from the previous model or randomly samples them. The former would be faster, but the latter would mean that examples which made it by luck early into the training set will be over-represented throughout overall training, which will increase overfit. Rega
+To the best of our understanding, it is unclear from the paper whether training in 3(e) uses randomly initialised weights, or whether they are transferred from the previous model. From our experiments on transfer learning, the former would train significantly faster. However, it would also mean that examples which made it by luck early into the training set will be over-represented throughout overall training, which will increase overfit. Given that the authors reproach this over-representation in the case of over-sampling but not under-sampling, and that no mention of transfer learning is ever made \cite{zhou}, the latter is assumed.
+
+Given this assumption, the time complexity of the under-sampling algorithm is $\bigodot$
 
 \begin{figure}
     \centering

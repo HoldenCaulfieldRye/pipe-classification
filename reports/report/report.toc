@@ -83,7 +83,7 @@
 \contentsline {paragraph}{Learning Rate}{51}
 \contentsline {subsubsection}{\numberline {8.4.4}Under-Sampling}{52}
 \contentsline {paragraph}{Under-Sampling algorithm}{52}
-\contentsline {subsubsection}{\numberline {8.4.5}Over-Sampling}{52}
+\contentsline {subsubsection}{\numberline {8.4.5}Over-Sampling}{53}
 \contentsline {subsubsection}{\numberline {8.4.6}Test-time threshold}{54}
 \contentsline {subsubsection}{\numberline {8.4.7}Bayesian Cross Entropy Cost Function}{55}
 \contentsline {paragraph}{Motivations}{55}
@@ -110,4 +110,4 @@
 \contentsline {subparagraph}{Observations}{61}
 \contentsline {paragraph}{Get more evidence}{61}
 \contentsline {subsection}{\numberline {10.5}Hatch Markings}{61}
-\contentsline {section}{\numberline {11}Conclusions and Future Work}{62}
+\contentsline {section}{\numberline {11}Conclusions and Future Work}{63}

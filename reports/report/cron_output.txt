@@ -3054,3 +3054,13 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 alex      2536  2491  1 13:19 pts/26   00:08:36 texmaker report.tex
+[master 7aa5935] auto-commit progress on report
+ 10 files changed, 107 insertions(+), 91 deletions(-)
+ create mode 100644 reports/report/images/oversampling_algo.png
+ create mode 100644 reports/report/images/threshold_algo.png
+ssh: Could not resolve hostname github.com: Name or service not known
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+alex      2536  2491  1 13:19 pts/26   00:09:07 texmaker report.tex
