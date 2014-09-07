@@ -1288,7 +1288,7 @@ To evaluate the difficulty of the clamp detection task with increased class imba
     \end{minipage}%
 \end{figure}
 
-Whereas with 88\% imbalance it is possible to learn without transfer learning, 98\% imbalance makes it impossible, the model converges within one iteration to a constant function\footnote{Note that the reason for why the validation error seems to take 200 iterations to suddenly drop is because the validation frequency was set to a large interval of 200 training mini-batch passes, in order to speed up training.} and remains there. In other words, standard levels of momentum and weight decay, as well as the sheer expressive power of the model are not enough for any local parameter configuration to be a better fit for the training data.
+Whereas with 88\% imbalance it is possible to learn without transfer learning, 98\% imbalance makes it impossible, the model converges within one iteration to a constant function\footnote{Note that the reason for why the validation error seems to take 200 iterations to suddenly drop is because the validation frequency was set to a large interval of 200 training mini-batch passes, in order to speed up training.} and remains there. In other words, standard levels of momentum and weight decay, as well as the sheer expressive power of the model are not enough for any local parameter configuration to be a better fit for the training data. \\
 
 Note that for lower levels of class imbalance, the model is able to escape the sample-induced bad minimum. The plot below shows that with 90\% class imbalance for example, the model becomes a constant function at first, and eventually is able to `creep out' of the sample-induced minimum.
 
@@ -1297,6 +1297,9 @@ Note that for lower levels of class imbalance, the model is able to escape the s
 	\includegraphics[scale=0.5]{images/plot_clampdetCI_none.png}
 	\caption{Clamp Detection, Full Backpropagation}
 \end{figure}
+
+This informs us on the shape of the error surface in the neighbourhood of this bad minimum and how varying the level of class imbalance affects it. Since 
+
 
 \subsubsection{Transfer Learning}
 
@@ -1507,11 +1510,11 @@ Compare the two nets with run classifier script, to see whether they have same s
 
 Performance improvement could be obtained by enforcing the same class proportions at every iteration. \\
 
-\paragraph{Error - accuracy mismatch revisited}
+\paragraph{Error-accuracy mismatch revisited}
 
-The surprising observation made on all previous training results was that per class accuracy tends to continue improving long after the validation error begins to deteriorate. One advanced potential explanation was that, during this period, the model increases its precision on the minority class at the slight expense of precision on the majority class. It was based on the mismatch between averaging the performance metric across the dataset and averaging across classes. In the training results for Bayesian cross entropy, the validation error is also averaged per class, and indeed, error and accuracy appear strongly negatively correlated. This is substantial evidence in favour of this explanation.
+A surprising observation made on all previous training results was that per class accuracy tends to continue improving long after the validation error begins to deteriorate. One advanced potential explanation was that, during this period, the model increases its precision on the minority class at the slight expense of precision on the majority class. It was based on the mismatch between averaging the performance metric across the dataset and averaging across classes. In the training results for Bayesian cross entropy, the validation error is also averaged per class, and indeed, error and accuracy appear strongly negatively correlated. This is substantial evidence in favour of this explanation.
 
-However, what remains a curiosity are the implications that this explanation has for the dynamics of learning: it would imply that when using cross entropy error, learning `focuses' on the majority class first, and afterwards focuses on the learning the minority class. This makes strategic sense, since there are more gains from improving on the majority class when using an error that is averaged across the min-batch. But it seems surprising that this could occur in the mechanics of gradient descent. Such work would perhaps make for interesting further research.
+However, what remains a curiosity are the implications that this explanation has for the dynamics of learning: it would imply that when using cross entropy error, learning `focuses' on the majority class first, and afterwards focuses on the learning the minority class. This makes strategic sense, since there are more gains from improving on the majority class when using an error that is averaged across the min-batch. One may wonder how this could translate from the mechanics of gradient descent. In the two class case, for each softmax neuron, the gradient entering it from a non-perfect classification of a class A instance is always of opposite sign to that from a non-perfect classification of a class B instance\footnote{This can be shown analytically, but due to time constraints was not written up in this report}. Therefore, when backpropagating a gradient that has been averaged over a mini-batch with class imbalance, assuming that the average per-case error on  gradient Such work would perhaps make for interesting further research.
 
 %Since gradient descent works byne way that this could occur would be for the representation of the data to project class A cases to some dimensions and class B cases to other dimensions. 
 %
