@@ -618,7 +618,7 @@ No papers regarding this research were found. When the question was reposted to 
 
 \clearpage
 
-The objective of the literature review until now has been to serve as a preamble, in order to understand the models which were used throughout the project. The two subsections that follow are more specific and relate to challenges encountered when training classifiers for ControlPoint. The papers mentioned were chosen in an ad hoc manner, so their relevance will become clearer later on in the later Experiments sections that bear the same name. 
+The objective of the literature review until now has been to serve as a preamble, in order to understand the models which were used throughout the project. The two subsections that follow are more specific and relate to challenges encountered when training classifiers for ControlPoint. The papers discussed were chosen in an ad hoc manner, so their relevance will become clearer later on in the Experiments sections that bear the same name. We apologise for any lack of clarity that may arise from grouping literature review under one section
 
 \subsection{Transfer Learning}
 
@@ -650,7 +650,7 @@ arg\min \limits_{\textbf{w},b} ||w||^2 \text{, subject to } \forall 1 \leq i \le
 
 \subsection{Class Imbalance}
 
-Class imbalance is defined in this report by the situation where there exists a class that takes up a majority of the training set. Others have defined class imbalance more lightly and intuitively as the situation where there exists a class of significantly smaller size than another \cite{f-measure} \cite{imbalance}, i.e.\ when the sample distribution of classes is significantly non-uniform. 
+Class imbalance is defined in this report by the situation where there exists a class that takes up a majority of the training set. Others have defined class imbalance more lightly and intuitively as the situation where there exists a class of significantly smaller size than another \cite{f-measure} \cite{imbalance}, i.e.\ when the sample distribution of classes is significantly non-uniform. However, as it will be observed and proved later, this report's definition is the largest set of conditions that are necessary for the detrimental phenomenon of interest to occur during backpropagation with standard cost functions. 
 
 The literature on deep learning with class imbalance was found to be scarce. `Training cost sensitive neural networks with methods addressing the class imbalance problem' by Zhou and Liu, 2005 \cite{zhou}, and `Learning when data sets are imbalanced and when costs are unequal and unknown' by Maloof, 2003 \cite{maloof}, both cover \textbf{under-sampling}, textbf{over-sampling} and \textbf{threshold-moving}. Both find threshold-moving to perform best. Similar approaches to these three techniques were implemented on the clamp detection task and are later discussed in the experimentation subsection. 
 
