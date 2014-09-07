@@ -75,33 +75,34 @@
 \contentsline {subsection}{\numberline {8.3}Experimentation}{46}
 \contentsline {subsubsection}{\numberline {8.3.1}Test Run}{46}
 \contentsline {subsubsection}{\numberline {8.3.2}Transfer Learning}{48}
-\contentsline {subsubsection}{\numberline {8.3.3}Mini-batch Size}{49}
-\contentsline {subsubsection}{\numberline {8.3.4}Learning Rate}{49}
-\contentsline {subsubsection}{\numberline {8.3.5}Bayesian Cross Entropy Cost Function}{49}
+\contentsline {subsubsection}{\numberline {8.3.3}Hyperparameter Optimisation}{48}
+\contentsline {paragraph}{Mini-batch Size}{48}
+\contentsline {paragraph}{Learning Rate}{50}
+\contentsline {subsubsection}{\numberline {8.3.4}Bayesian Cross Entropy Cost Function}{50}
 \contentsline {paragraph}{Motivations}{50}
-\contentsline {paragraph}{Implementation}{50}
-\contentsline {paragraph}{Results}{51}
-\contentsline {subsubsection}{\numberline {8.3.6}Error-accuracy mismatch revisited}{52}
-\contentsline {paragraph}{SGD mechanics}{52}
-\contentsline {subsubsection}{\numberline {8.3.7}Under-Sampling}{53}
+\contentsline {paragraph}{Implementation}{51}
+\contentsline {paragraph}{Results}{52}
+\contentsline {subsubsection}{\numberline {8.3.5}Error-accuracy mismatch revisited}{52}
+\contentsline {paragraph}{SGD mechanics}{53}
+\contentsline {subsubsection}{\numberline {8.3.6}Under-Sampling}{53}
 \contentsline {paragraph}{Overfitting consequences of under-sampling}{53}
-\contentsline {subsubsection}{\numberline {8.3.8}Over-Sampling}{53}
-\contentsline {subsubsection}{\numberline {8.3.9}Test-time threshold}{55}
+\contentsline {subsubsection}{\numberline {8.3.7}Over-Sampling}{53}
+\contentsline {subsubsection}{\numberline {8.3.8}Test-time threshold}{55}
 \contentsline {section}{\numberline {9}Task 4: Conserving Spatial Information}{56}
 \contentsline {subsection}{\numberline {9.1}Motivations}{56}
 \contentsline {subsection}{\numberline {9.2}Implementation}{56}
-\contentsline {subsection}{\numberline {9.3}Experimentation}{56}
-\contentsline {paragraph}{Test Run}{56}
+\contentsline {subsection}{\numberline {9.3}Experimentation}{57}
+\contentsline {paragraph}{Test Run}{57}
 \contentsline {paragraph}{Remove pooling and an fc layer}{57}
 \contentsline {paragraph}{Softmax Bayesian Cross Entropy}{57}
 \contentsline {section}{\numberline {10}Final Results}{57}
 \contentsline {subsection}{\numberline {10.1}Merging Classes}{57}
 \contentsline {subsection}{\numberline {10.2}Independent Binary Classifiers}{57}
-\contentsline {subsection}{\numberline {10.3}Learning Rate}{57}
-\contentsline {paragraph}{Step}{57}
+\contentsline {subsection}{\numberline {10.3}Learning Rate}{58}
+\contentsline {paragraph}{Step}{58}
 \contentsline {paragraph}{Exp}{58}
 \contentsline {subsection}{\numberline {10.4}Soil Risk Contamination Task}{58}
-\contentsline {paragraph}{Test Run}{58}
+\contentsline {paragraph}{Test Run}{59}
 \contentsline {subparagraph}{Training Results}{59}
 \contentsline {subparagraph}{Observations}{59}
 \contentsline {paragraph}{Get more evidence}{59}

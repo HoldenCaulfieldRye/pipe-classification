@@ -1304,6 +1304,8 @@ One would be tempted to conjecture that the steepness of the error surface along
 
 Further analysis and experimentation, especially by seeing whether individual weights in the softmax layer do indeed cease to update, would perhaps make for interesting further work. In the meantime, in order to maintain generality, these points on the error surface will now be referred to as sampling-induced critical points, or simply bad critical points. \\
 
+A final observation to explain is that although the validation error improves smoothly, the validation per class accuracy improves in sudden increments, i.e.\ discontinuously. This is likely a direct consequence of class imbalance in the validation set. Indeed, a weight adjustment that brings the predicted probability of a single minority class case in the validation set from below 0.5 to above 0.5 will decrease the validation error by $\frac{1}{n}$ and increase the validation per class accuracy by $\frac{1}{2n_{min}}$, where $n$ is the validation set size and $n_{min}$ is the number of minority class cases in the validation set. For sufficiently large $n$ and sufficiently high class imbalance, the error change will be infinitesimal but the accuracy change will be discrete.
+
 
 \subsubsection{Transfer Learning}
 
@@ -1341,7 +1343,7 @@ Note also that validation error appears
 What is arguably a crucial question is whether the difficulty in learning the minority class is the inevitable consequence of having few training examples to learn from, or whether the imbalance ratio is preventing generalising features of the minority class from being learned. If the former, there is no use in searching for ways to tackle class imbalance without throwing away majority class data.  
 
 
-\subsubsection{Mini-batch Size}
+\subsubsection{Hyperparameter Optimisation}
 
 %Notice what happens when validation batch size too small:
 %
@@ -1362,8 +1364,7 @@ What is arguably a crucial question is whether the difficulty in learning the mi
 %	\caption{Clamp Detection, Full Backpropagation}
 %\end{figure}
 
-
-Argh 
+\paragraph{Mini-batch Size}
 
 Since class imbalance reduces the number of minority class cases, it could arguable make information relating to minority class misclassification contained in the gradient more noisy. If so, increasing the mini-batch size should improve performance.
 
@@ -1386,13 +1387,16 @@ Since class imbalance reduces the number of minority class cases, it could argua
     \end{minipage}%
 \end{figure}
 
+These results are surprising: they seem to suggest that increasing mini-batch size decreases performance. Since increasing mini-batch size only reduces noise in the gradient, this would attribute performance increase to greater noise in the gradient. 
 
-Increasing batch size certainly helps, which shows that the gradient is noisy, so the network parameters head in a suboptimal direction. Noisiness of the gradient is understandable given the class imbalance. \\
+However, one notices that from the 1000th iteration onwards, in the 128 mini-batch size network, the time series of the per class validation accuracy (and if one looks closely, of the validation error too) is not convex. In fact, it appears to be random. The fact that per class validation accuracy will increase discontinuously for a single additional correct minority class classification in the validation set supports this claim. Indeed, random weight changes are bound to lead to small increases and decreases in the number of correct minority class classifications. The plot shows indeed as many increases as decreases. These seem substantial but this is only the result of per class accuracy being heavily weighted by minority class cases. \\
+
+Note that a foolproof test of this explanation would be to run both models on a test set, and see whether the number of correctly classified minority class cases is significantly greater for the model trained on smaller mini-batch size.
 
 
-\subsubsection{Learning Rate}
+\paragraph{Learning Rate}
 
-Decreasing the learning rate helps if it prevents a good minimum from being overshot (elaborate, illustration?). \\ 
+Decreasing the learning rate helps if it prevents a good minimum from being overshot. \\ 
 
 \begin{figure}
     \centering
@@ -1413,7 +1417,7 @@ Decreasing the learning rate helps if it prevents a good minimum from being over
     \end{minipage}%
 \end{figure}
 
-With a lower learning rate, the net learns the same thing, but a lot slower. This confirms that there was no overshooting, the model converges towards the same minimum. So 0.0001 is a good learning rate for this task. \\
+With a lower learning rate, the validation accuracy seems to increase at a far slower pace. This suggests that there was no overshooting when using the original learning rate value, and that 0.0001 is a good learning rate for this task. \\
 
 
 \subsubsection{Bayesian Cross Entropy Cost Function}
