@@ -650,7 +650,7 @@ arg\min \limits_{\textbf{w},b} ||w||^2 \text{, subject to } \forall 1 \leq i \le
 
 \subsection{Class Imbalance}
 
-Class imbalance is defined  when there exists a class that takes up a vast majority of the training set.
+Class imbalance is defined in this report by the situation where there exists a class that takes up a majority of the training set. Others have defined class imbalance more lightly and intuitively as the situation where there exists a class of significantly smaller size than another \cite{f-measure} \cite{imbalance}, i.e.\ when the sample distribution of classes is significantly non-uniform. 
 
 The literature on deep learning with class imbalance was found to be scarce. `Training cost sensitive neural networks with methods addressing the class imbalance problem' by Zhou and Liu, 2005 \cite{zhou}, and `Learning when data sets are imbalanced and when costs are unequal and unknown' by Maloof, 2003 \cite{maloof}, both cover \textbf{under-sampling}, textbf{over-sampling} and \textbf{threshold-moving}. Both find threshold-moving to perform best. Similar approaches to these three techniques were implemented on the clamp detection task and are later discussed in the experimentation subsection. 
 
@@ -1892,6 +1892,9 @@ Copy paste from your emacs sheet everything! Talk about domain change as well be
 
 Elucidate error accuracy mismatch. Class imbalance impact on mechanics of backpropagation at the softmax layer.
 
+Better definition
+
+
 \begin{thebibliography}{1}
 % Example: \bibitem{One}
 % a better way of doing it: a .bib file or something. bit.ly/1kqg2Qe
@@ -2073,6 +2076,12 @@ Elucidate error accuracy mismatch. Class imbalance impact on mechanics of backpr
  \emph{F-Measure as the Error Function to Train Neural Networks}\\
  Advances in Computational Intelligence
  Volume 7902, 2013, pp 376-384
+ 
+\bibitem{imbalance}
+ He, Haibo;
+ \emph{Learning from imbalanced data}\\
+ IEEE Transactions on Knowledge and Data Engineering
+ Volume 21, no 9, 2009
  
 \bibitem{coursera}
  Hinton, Geoffrey;
