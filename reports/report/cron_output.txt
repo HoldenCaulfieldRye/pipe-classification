@@ -2459,3 +2459,11 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 alex      3282  3238  1 Sep06 pts/2    00:14:38 texmaker report.tex
+[master 1b53323] auto-commit progress on report
+ 1 file changed, 8 insertions(+)
+ssh: connect to host github.com port 22: Connection timed out
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+alex      3282  3238  1 Sep06 pts/2    00:14:38 texmaker report.tex
