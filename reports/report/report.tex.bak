@@ -650,7 +650,7 @@ arg\min \limits_{\textbf{w},b} ||w||^2 \text{, subject to } \forall 1 \leq i \le
 
 \subsection{Class Imbalance}
 
-Class imbalance is defined in this report by the situation where the sample distribution of classes in the training set enables a classifier that is a constant function to perform significantly better than randomly outputting each class with the same probability. This somewhat abstract definition is the result of experimentation 
+Class imbalance is defined in this report by the situation where the sample distribution of classes in the training set enables a classifier that is a constant function to perform significantly better than randomly outputting each class with the same probability. This somewhat abstract definition is the result of experimentation, so its justification is left for then. \\
 
 Others \cite{f-measure} \cite{imbalance} have defined class imbalance more lightly and intuitively as the situation where there exists a class of significantly smaller size than another, i.e.\ when the sample distribution of classes is significantly non-uniform. However, as it will be observed and proved later, this report's definition is the largest set of conditions that are necessary for the detrimental phenomenon of interest to occur when training classifiers with stochastic gradient descent and standard cost functions. \\
 
@@ -976,9 +976,13 @@ It can also be interesting to notice that no meaningful features are learned: fo
 	\caption{filters learned at lowest convolutional layer of this network}
 \end{figure}
 
-This local minimum is `fake' because, with perfect class imbalance, it would not exist. Or at least, it would correspond to a $\frac{1}{K}$ error rate (where $K$ is the number of classes). One may even call such a minimum `lazy': it would correspond to a human not wanting to make the effort of learning, using instead a strategy of calling out the same label every time without inspecting the image, and still scoring 90\% accuracy in this case. Note that accuracy refers to the percentage of correctly classified cases in the validation set.
+This local minimum is `fake' because, with perfect class balance, it would not exist. Or at least, it would correspond to a $\frac{1}{K}$ error rate (where $K$ is the number of classes). One may even call such a minimum `lazy': it would correspond to a human not wanting to make the effort of learning, using instead a strategy of calling out the same label every time without inspecting the image, and still scoring 90\% accuracy in this case. Note that accuracy refers to the percentage of correctly classified cases in the validation set. \\
 
-Note that class imbalance is a danger not necessarily when there exists a class that is far more present than another, but when there exists a class that takes up a vast majority of the training set. Indeed, the value of the `fake' minimum in terms of error rate is $1 - p_K$, where $p_K$ is the proportion of majority class cases. This may shed light on why class imbalance is not a richly documented issue in the deep learning literature: all benchmark image classification datasets (such as CIFAR, MNIST and ImageNet) involve at least ten classes, so the class imbalance `fake' minima never deliver less than 90\% error rate, which is unlikely to be an àttractive minimum. 
+With this experiment, it becomes clear that class imbalance is a danger not sufficiently when there exists a class that is far more present than another, but sufficiently when there exists a class that takes up a vast majority of the training set. Indeed, the value of the `fake' minimum in terms of error rate is $1 - p_K$, where $p_K$ is the proportion of majority class cases. 
+
+The two situations are only equivalent in the 2-class case; otherwise, the latter is less likely to occur. This may shed light on why class imbalance is not a richly documented issue in the deep learning literature: benchmark image classification datasets (such as CIFAR, MNIST and ImageNet) involve at 10-1000 classes. 
+
+This experiment provides a sufficient condition for class imbalance to be dangerous
 
 
 \subsubsection{Mislabelling}
