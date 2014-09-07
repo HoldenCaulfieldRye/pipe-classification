@@ -958,7 +958,7 @@ It can also be interesting to notice that no meaningful features are learned: fo
 	\caption{filters learned at lowest convolutional layer of this network}
 \end{figure}
 
-This local minimum is `fake' because, with perfect class imbalance, it would not exist. Or at least, it would correspond to a $\frac{1}{K}$ error rate (where $K$ is the number of classes). One may even call such a minimum `lazy': it would correspond to a human not wanting to make the effort of learning, using instead a strategy of calling out the same label every time without inspecting the image, and still scoring 90\% accuracy in this case.
+This local minimum is `fake' because, with perfect class imbalance, it would not exist. Or at least, it would correspond to a $\frac{1}{K}$ error rate (where $K$ is the number of classes). One may even call such a minimum `lazy': it would correspond to a human not wanting to make the effort of learning, using instead a strategy of calling out the same label every time without inspecting the image, and still scoring 90\% accuracy in this case. Note that accuracy refers to the percentage of correctly classified cases in the validation set.
 
 Note that class imbalance is a danger not necessarily when there exists a class that is far more present than another, but when there exists a class that takes up a vast majority of the training set. Indeed, the value of the `fake' minimum in terms of error rate is $1 - p_K$, where $p_K$ is the proportion of majority class cases. This explains why class imbalance is not a richly documented issue in the literature: all benchmark image classification datasets (such as CIFAR, MNIST and ImageNet) involve at least ten classes, so the class imbalance `fake' minima never deliver less than 90\% error rate, which is unlikely to be an àttractive minimum. 
 
@@ -1298,7 +1298,11 @@ Note that for lower levels of class imbalance, the model is able to escape the s
 	\caption{Clamp Detection, Full Backpropagation}
 \end{figure}
 
-This provides clues about the shape of the error surface in the neighbourhood of this bad minimum, and how varying the level of class imbalance affects it. It suggests that the bad minimum could in fact be a saddle point: a number of weights are at local optimality i.e.\ error-weight partial derivatives are zero, but not all; there is still room for improvement for some of them i.e.\ the error surf, and this slowly but eventually moves the network away from the saddle point. Training deep neural networks along saddle points is known to exhibit this type of behaviour\cite{DL-book}; training is slowed down there is still a direction for since otherwise it would be 
+This provides clues about the shape of the error surface in the neighbourhood of this bad minimum, and how varying the level of class imbalance affects it. It suggests that the bad minimum could in fact be a saddle point: a number of weights are at local optimality i.e.\ error-weight partial derivatives are zero, but not all; there is still room for improvement for some of them i.e.\ the error surface remains locally monotonous along some dimensions. This slowly but eventually moves the network away from the saddle point. Training deep neural networks along saddle points is known to exhibit this type of behaviour: training is slowed down but not stopped\cite{DL-book}.
+
+Intuitively, there would be reason to think that the dimensions along which the error surface is locally monotonous i.e.\ correspond to weights which can be adjusted to improve precision on the minority class without 
+
+An interesting observation that remains unexplained is the reason for why the validation error improves smoothly but the validation accuracy improves incrementally, discontinuously. It implies that probability predictions for a number of minority class cases 
 
 
 \subsubsection{Transfer Learning}
