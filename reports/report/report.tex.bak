@@ -1334,23 +1334,22 @@ Further analysis and experimentation would perhaps make for interesting further 
 
 Transfer learning keeps the net's parameters from bad critical points, so the model is not a constant function. Notice this enables it to perfectly fit the training set. However, little is learned that generalises: maximum validation accuracy is 60.1\%. Transferring the fully connected layer weights helps bring this up to 65.4\%. Note that validation error is very low because it is not a per class average: the transfer learning models quickly obtain high precision on the majority class, but struggle to learn the minority one. \\
 
-The question is whether the difficulty in learning the minority class is the inevitable consequence of having few training examples to learn from, or whether the imbalance is penalising the minority class from being learned. If the latter case is correct, one should strive to find a way to remedy this.  
-
+What is arguably a crucial question is whether the difficulty in learning the minority class is the inevitable consequence of having few training examples to learn from, or whether the imbalance ratio is preventing generalising features of the minority class from being learned. If the former, there is no use in searching for ways to tackle class imbalance without throwing away majority class data.  
 
 
 \subsubsection{Batch Size}
 
-Notice what happens when validation batch size too small:
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdetCI_none_testrun.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-(training files for above now in clampdetCI/BULLSHIT)
-
-Class imbalance is so high that it is sometimes not present in the subset of the validation set that is being tested. In that case, if the model is in bad min, its per class accuracy will be equal to its accuracy on the majority class. We obtain the confusing output above. (Still got to do some maths to prove that assigning majrity class randomly with probability p (not 0.5) will lead to per class accuracy being 0.5 or p depending on whether minority class present). Hence this confusing output, which could wrongly be interpreted as the network steadily learning but sometimes getting stuck in bad min (and getting back out thanks to momentum). \\
+%Notice what happens when validation batch size too small:
+%
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[scale=0.5]{images/plot_clampdetCI_none_testrun.png}
+%	\caption{Clamp Detection, Full Backpropagation}
+%\end{figure}
+%
+%(training files for above now in clampdetCI/BULLSHIT)
+%
+%Class imbalance is so high that it is sometimes not present in the subset of the validation set that is being tested. In that case, if the model is in bad min, its per class accuracy will be equal to its accuracy on the majority class. We obtain the confusing output above. (Still got to do some maths to prove that assigning majrity class randomly with probability p (not 0.5) will lead to per class accuracy being 0.5 or p depending on whether minority class present). Hence this confusing output, which could wrongly be interpreted as the network steadily learning but sometimes getting stuck in bad min (and getting back out thanks to momentum). \\
 
 
 %\begin{figure}[h!]
@@ -1358,8 +1357,6 @@ Class imbalance is so high that it is sometimes not present in the subset of the
 %	\includegraphics[width=0.8	extwidth,natwidth=610,natheight=642]{images/plot_clampdetCI_testrun_higherbatchsize.png}
 %	\caption{Clamp Detection, Full Backpropagation}
 %\end{figure}
-
-(training files for that in clampdetCI/none on graphic06)
 
 
 \begin{figure}
