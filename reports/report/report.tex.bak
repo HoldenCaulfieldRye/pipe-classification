@@ -1482,8 +1482,10 @@ To the best of our understanding, it is unclear from the paper whether training 
 
 %We also make the empirically verified \cite{soumith-benchmark} assumption that $T_{forward_pass} = O(T_{backward_pass})$. Therefore, 
 Training a net has time complexity $T_{backprop} = \Theta(m (T_{forward_pass}+T_{backward_pass})) = O(m \cdot T_{backward_pass})$, where $m$ is the number of mini-batch iterations. We make the trivial assumption that 3a occurs in constant time. Classifying k examples is a single forward pass with mini-batch size k. Thanks to the empirically verified \cite{soumith-benchmark} assumption that $T_{forward_pass} = O(T_{backward_pass})$ holds none-tightly, we can comfortably say that 3b has asymptotic time complexity $O(T_{backprop})$. Computing the distance between two inputs in feature space amounts to two forward passes until the penultimate layer -- because the coordinates of an input in feature space is the output of the penultimate layer) -- followed by a constant number of vector operations between the two outputs to compute euclidean distance, which we assume to be computable in constant time. Therefore, 3c has time complexity $\Theta(T_{backward_pass}) = O(T_{backprop})$. We trivially assume that 3d occurs in constant time. 3e is backpropagation, so its time complexity is $T_{backprop}$.
-We now have that the body of the while loop has time complexity $\Theta(T_{backprop})$. The body of the while loop will execute $O(log_{1.5}(\frac{n_1}{n_0} n_1 n_{min})$ times, where $n_{max}$ is the size of the majority class and $n_{min}$ the size of the minority class, since the number of additional examples to examine increases by 
-$O(T_{backprop}\cdot log_2(n_{max}-n_{min}))$
+
+We now have that the body of the while loop has time complexity $T_{backprop}$. The body of the while loop will execute $log_{1.5}(\frac{n_1}{n_0}$ times, where $n_1$ is the size of the most heavily reduced class and $n_0$ its size after reduction. The 1.5 is because the number of new examples to examine increases by 50\% at every iteration, so $log_{1.5}(\frac{n_1}{n_0}$ is the number of iterations required to get from the reduced set back to the original set with a 50\% growth rate.
+
+This algorithm therefore has time complexity $T_{backprop}\cdot log_{1.5}(\frac{n_1}{n_0})$
 
 \begin{figure}
     \centering

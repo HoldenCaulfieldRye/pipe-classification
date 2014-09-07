@@ -1461,12 +1461,13 @@ With a lower learning rate, the validation accuracy seems to increase at a far s
 
 \subsubsection{Under-Sampling}
 
-Under-sampling rebalances the training set by removing majority class examples. The brute force approach is to randomly remove these cases and train on the remaining set. However, (Zhou and Liu 2005) \cite{zhou} describe an algorithm for removing selectively. It was not implemented during this project mainly due to its time complexity, which is analysed below. 
+Under-sampling rebalances the training set to desired levels of imbalance by removing majority class examples. The brute force approach is to randomly remove these cases and train on the remaining set. However, (Zhou and Liu 2005) \cite{zhou} describe an algorithm for removing selectively. It was not implemented during this project mainly due to its time complexity, which is analysed below. 
 
 \paragraph{Under-Sampling algorithm}
 \begin{enumerate}
-\item Obtain a perfectly balanced training set by randomly setting aside non-minority class examples.
-\item Train a net on the set.
+\item Choose desired imbalance ratios for each non-minority class.
+\item Reach desired imbalance levels in training set by randomly setting aside non-minority class examples.
+\item Train a net.
 \item While there remains examples set aside:
 	\begin{enumerate}
 	\item Increase training set by bringing in 50\% additional non minority class examples.
@@ -1479,8 +1480,12 @@ Under-sampling rebalances the training set by removing majority class examples. 
 
 To the best of our understanding, it is unclear from the paper whether training in 3(e) uses randomly initialised weights, or whether they are transferred from the previous model. From our experiments on transfer learning, the former would train significantly faster. However, it would also mean that examples which made it by luck early into the training set will be over-represented throughout overall training, which will increase overfit. Given that the authors reproach this over-representation in the case of over-sampling but not under-sampling, and that no mention of transfer learning is ever made \cite{zhou}, the latter is assumed.
 
-Given this assumption, the time complexity of the under-sampling algorithm is \\ 
-$O(T_{backprop}\cdot \ceil{log_2(n_{max}-n_{min})})$
+%We also make the empirically verified \cite{soumith-benchmark} assumption that $T_{forward_pass} = O(T_{backward_pass})$. Therefore, 
+Training a net has time complexity $T_{backprop} = \Theta(m (T_{forward_pass}+T_{backward_pass})) = O(m \cdot T_{backward_pass})$, where $m$ is the number of mini-batch iterations. We make the trivial assumption that 3a occurs in constant time. Classifying k examples is a single forward pass with mini-batch size k. Thanks to the empirically verified \cite{soumith-benchmark} assumption that $T_{forward_pass} = O(T_{backward_pass})$ holds none-tightly, we can comfortably say that 3b has asymptotic time complexity $O(T_{backprop})$. Computing the distance between two inputs in feature space amounts to two forward passes until the penultimate layer -- because the coordinates of an input in feature space is the output of the penultimate layer) -- followed by a constant number of vector operations between the two outputs to compute euclidean distance, which we assume to be computable in constant time. Therefore, 3c has time complexity $\Theta(T_{backward_pass}) = O(T_{backprop})$. We trivially assume that 3d occurs in constant time. 3e is backpropagation, so its time complexity is $T_{backprop}$.
+
+We now have that the body of the while loop has time complexity $\Theta(T_{backprop})$. The body of the while loop will execute $log_{1.5}(\frac{n_1}{n_0}$ times, where $n_1$ is the size of the most heavily reduced class and $n_0$ its size after reduction. The 1.5 is because the number of new examples to examine increases by 50\% at every iteration, so $log_{1.5}(\frac{n_1}{n_0}$ is the number of iterations required to get from the reduced set back to the original set with a 50\% growth rate.
+
+This algorithm therefore has time complexity $\Theta(T_{backprop}\cdot log_{1.5}(\frac{n_1}{n_0}))$
 
 \begin{figure}
     \centering
