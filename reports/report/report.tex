@@ -1058,7 +1058,7 @@ As a test run, transfer learning was implemented on a network with the same arch
 
 As can be seen, the model with transfer learning reaches its minimum validation error ten times faster than the model without, and this error is logprob 0.4 lower, which corresponds to pushing average per class validation accuracy up from 83.9\% to 88\%. The gain in convergence comes a significant advantage for coping with the time constraints of the research project. 
 
-\paragraph{Accuracy - error mismatch}
+\paragraph{Error-accuracy mismatch}
 
 A surprising observation is that the per class accuracy continues to rise long after the validation error reaches its minimum. Maximum accuracy is reached at a point where the model is well into overfit. One wonders what happens to the model throughout this period. One possibility is that the model increases its precision on the minority class at the slight expense of precision on the majority class: this results in a higher per class accuracy, but since the validation error is weighed more heavily by the majority class, it rises. This hypothetical explanation is based on the mismatch between averaging the performance metric across the dataset and averaging across classes. \\
 
@@ -1260,9 +1260,9 @@ Several class imbalance-tackling techniques that were experimented with required
 
 \subsection{Experimentation}
 
-This section begins with a test run, intended to serve as a benchmark against which to subsequently evaluate six different approaches to tackling class imbalance. The first approach discussed below is transfer learning, so as to form a transition from the previous set of experiments. The second is the simplest, because it merely consists in tuning model hyperparameters. The three that follow are techniques explored by (Maloof 2003) \cite{maloof} to specifically tackle class imbalance. Finally, the sixth is a novel cost function. \\
+This section begins with a test run, intended to serve as a benchmark against which to subsequently evaluate six different approaches to tackling class imbalance. The first approach discussed below is transfer learning, so as to form a transition from the previous set of experiments. The second is the simplest, because it merely consists in tuning model hyperparameters. The three that follow are techniques explored by (Maloof 2003) \cite{maloof} to specifically tackle class imbalance. The sixth is a novel cost function. A final subsection branches off from an observation concerning training results for this cost function, providing a credible explanation to the error-accuracy mismatch mentioned in the test run of the previous set of experiments. \\
 
-The level of class imbalance to impose on the clamp detection task was chosen such that the optimal transfer learning setup obtained from previous experimentation no longer enables successful learning of the task, and puts the network in bad local minimum instead. This is 98\%, from an original imbalance ratio of 88\%. This corresponds to going from 1323 minority class training cases to 193. \\
+The amount of additional class imbalance to impose on the clamp detection task was chosen such that the optimal transfer learning setup obtained from previous experimentation no longer enables successful learning of the task, and puts the network in bad local minimum instead. This is 98\%, from an original imbalance ratio of 88\%. This corresponds to going from 1323 minority class training cases to 193. \\
 
 \subsubsection{Test Run}
 
@@ -1633,7 +1633,7 @@ Performance improvement could be obtained by enforcing the same class proportion
 
 \subsubsection{Error-accuracy mismatch revisited}
 
-A surprising observation made on all previous training results was that per class accuracy tends to continue improving long after the validation error begins to deteriorate. One advanced potential explanation was that, during this period, the model increases its precision on the minority class at the slight expense of precision on the majority class. It was based on the mismatch between averaging the performance metric across the dataset and averaging across classes. In the training results for Bayesian cross entropy, the validation error is also averaged per class, and indeed, error and accuracy appear strongly negatively correlated. This is substantial evidence in favour of this explanation. \\
+A surprising observation made on all previous training results was that per class accuracy tends to continue improving long after the validation error begins to deteriorate. A proposed explanation was that, during this period, the model increases its precision on the minority class at the slight expense of precision on the majority class. It was based on the mismatch between averaging the performance metric across the dataset and averaging across classes. In the training results for Bayesian cross entropy, the validation error is also averaged per class, and indeed, error and accuracy appear strongly negatively correlated. This is substantial evidence in favour of this explanation. \\
 
 However, what remains a curiosity are the implications that this explanation has for the dynamics of learning: it would imply that when using cross entropy error, learning `focuses' on the majority class first, and afterwards focuses on learning the minority class. This makes `strategic' sense, since there are more gains from improving on the majority class when using an error that is averaged across the min-batch. 
 

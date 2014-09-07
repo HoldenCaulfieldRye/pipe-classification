@@ -62,7 +62,7 @@
 \contentsline {subsubsection}{\numberline {7.2.2}Per Class Accuracy Layer}{38}
 \contentsline {subsection}{\numberline {7.3}Experimentation}{39}
 \contentsline {subsubsection}{\numberline {7.3.1}Test Run}{39}
-\contentsline {paragraph}{Accuracy - error mismatch}{40}
+\contentsline {paragraph}{Error-accuracy mismatch}{40}
 \contentsline {paragraph}{Zig-zag}{40}
 \contentsline {subsubsection}{\numberline {7.3.2}Freezing Backprop on various layers}{41}
 \contentsline {subsubsection}{\numberline {7.3.3}Initialising Free Layers}{42}
@@ -73,7 +73,7 @@
 \contentsline {subsection}{\numberline {8.1}Motivations}{46}
 \contentsline {subsection}{\numberline {8.2}Implementation}{46}
 \contentsline {subsection}{\numberline {8.3}Experimentation}{46}
-\contentsline {subsubsection}{\numberline {8.3.1}Test Run}{46}
+\contentsline {subsubsection}{\numberline {8.3.1}Test Run}{47}
 \contentsline {subsubsection}{\numberline {8.3.2}Transfer Learning}{48}
 \contentsline {subsubsection}{\numberline {8.3.3}Hyperparameter Optimisation}{48}
 \contentsline {paragraph}{Mini-batch Size}{48}
@@ -102,7 +102,7 @@
 \contentsline {paragraph}{Step}{58}
 \contentsline {paragraph}{Exp}{58}
 \contentsline {subsection}{\numberline {10.4}Soil Risk Contamination Task}{58}
-\contentsline {paragraph}{Test Run}{59}
+\contentsline {paragraph}{Test Run}{58}
 \contentsline {subparagraph}{Training Results}{59}
 \contentsline {subparagraph}{Observations}{59}
 \contentsline {paragraph}{Get more evidence}{60}
