@@ -2207,3 +2207,12 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 alex      3282  3238  1 Sep06 pts/2    00:10:06 texmaker report.tex
+[master 7f64207] auto-commit progress on report
+ 9 files changed, 139 insertions(+), 117 deletions(-)
+ rewrite reports/report/images/plot_clampdetCI98_none_bs128_lr4.png (99%)
+ssh: connect to host github.com port 22: Connection timed out
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+alex      3282  3238  1 Sep06 pts/2    00:10:42 texmaker report.tex

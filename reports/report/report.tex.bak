@@ -1362,6 +1362,9 @@ What is arguably a crucial question is whether the difficulty in learning the mi
 %	\caption{Clamp Detection, Full Backpropagation}
 %\end{figure}
 
+
+Argh 
+
 Since class imbalance reduces the number of minority class cases, it could arguable make information relating to minority class misclassification contained in the gradient more noisy. If so, increasing the mini-batch size should improve performance.
 
 \begin{figure}
@@ -1383,8 +1386,7 @@ Since class imbalance reduces the number of minority class cases, it could argua
     \end{minipage}%
 \end{figure}
 
-
-Increasing batch size certainly helps, which shows that the gradient is noisy, so the network parameters head in a suboptimal direction. Noisiness of the gradient is understandable given the class imbalance. \\
+These results as surprising. For some reason \\
 
 
 \subsubsection{Learning Rate}
