@@ -1526,7 +1526,7 @@ We now have that the body of the while loop has time complexity $T_{backprop}$. 
 
 This algorithm therefore has time complexity $T_{backprop}\cdot log_{1.5}(\frac{n_1}{n_0})$. So in the case of clamp detection with 98\% class imbalance, training with under-sampling at 88\% target imbalance -- which was the imbalance ratio at which clamp detection was successfully learned in previous sections -- would have taken 5 times longer than training with simple brute force under-sampling. Considering on top of this the time that would have been spent in implementation, it was deemed impractical, especially since the authors report better performance with threshold. \\
 
-Instead, brute force under-sampling was implemented as in (Maloof 2003) \cite{maloof}. Results are shown below.
+Instead, brute force under-sampling was implemented as in (Maloof 2003) \cite{maloof}. Note that in order to do so, minority class examples from the clamp detection dataset were first deleted in order to achieve 98\% imbalance, followed by deletion of majority class examples in the training set to bring the dataset back to 88\% imbalance. Results are shown below.
 
 \begin{figure}
     \centering
@@ -1535,13 +1535,13 @@ Instead, brute force under-sampling was implemented as in (Maloof 2003) \cite{ma
         \centering
         %\includegraphics[scale=0.4]{images/plot_clampdetCI98_us_none_bs128_lr4.png}
         % Add \par\vspace*{20pt} here and...
-        \caption{learning rate 0.0001}\label{fig:2a}
+        \caption{98\% class imbalance}\label{fig:2a}
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
         %\includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs128_lr5.png}
         % ...here to lower the subcaptions and...
-        \caption{learning rate 0.00001}\label{fig:2b}
+        \caption{98\% class imbalance undersampled to 88\% imbalance}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{98\% imbalance, different learning rates}\label{fig:2}
     \end{minipage}%
