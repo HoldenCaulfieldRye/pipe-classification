@@ -618,7 +618,7 @@ No papers regarding this research were found. When the question was reposted to 
 
 \clearpage
 
-Unlike the literature review until now, the two subsections that follow are not general topics regarding deep learning
+The objective of the literature review until now has been to serve as a preamble, in order to understand the models which were used throughout the project. The two subsections that follow are more specific and relate to challenges encountered when training classifiers for ControlPoint. The papers mentioned were chosen in an ad hoc manner, so their relevance will become clearer later on in the later Experiments sections that bear the same name. 
 
 \subsection{Transfer Learning}
 
@@ -648,7 +648,9 @@ arg\min \limits_{\textbf{w},b} ||w||^2 \text{, subject to } \forall 1 \leq i \le
 \end{equation}
 
 
-\subsubsection{Literature Review}
+\subsubsection{Class Imbalance}
+
+Class imbalance occurs when a class in the training set significantly outnumbers ano
 
 The literature on deep learning with class imbalance was found to be scarce. `Training cost sensitive neural networks with methods addressing the class imbalance problem' by Zhou and Liu, 2005 \cite{zhou}, and `Learning when data sets are imbalanced and when costs are unequal and unknown' by Maloof, 2003 \cite{maloof}, both cover \textbf{under-sampling}, textbf{over-sampling} and \textbf{threshold-moving}. Both find threshold-moving to perform best. Similar approaches to these three techniques were implemented on the clamp detection task and are later discussed in the experimentation subsection. 
 
