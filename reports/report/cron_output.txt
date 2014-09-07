@@ -2093,3 +2093,11 @@ alex      3282  3238  3 19:29 pts/2    00:04:28 texmaker report.tex
 To git@github.com:HoldenCaulfieldRye/pipe-classification.git
    69b3e95..f77e2fa  master -> master
 alex      3282  3238  1 Sep06 pts/2    00:05:01 texmaker report.tex
+[master 537152f] auto-commit progress on report
+ 3 files changed, 56 insertions(+), 36 deletions(-)
+ssh: connect to host github.com port 22: Connection timed out
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+alex      3282  3238  1 Sep06 pts/2    00:05:21 texmaker report.tex

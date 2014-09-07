@@ -1260,7 +1260,7 @@ Several class imbalance-tackling techniques that were experimented with required
 
 \subsection{Experimentation}
 
-Several approaches were taken to tackle class imbalance. Successful ones accumulated as experimentation went along. A fixed architecture and training strategy were kept throughout the experiments: backprop on all layers, all weights transferred. Although this was not the best performing architecture from the previous section, it was kept for its simplicity. The objective of this section is not to achieve the highest absolute accuracy, but rather to compare relative successes of different approaches to tackling class imbalance. \\
+Several approaches were taken to tackle class imbalance. Unless explicitly experimented with, a fixed architecture and training strategy were kept throughout the experiments: backpropagation on all layers, all weights transferred. Although this was not the best performing architecture from the previous section, it was kept for its simplicity. The objective of this section is not to achieve the highest absolute accuracy, but rather to compare relative successes of different approaches to tackling class imbalance. \\
 
 The level of class imbalance to impose on the clamp detection task was chosen such that the optimal transfer learning setup obtained from previous experimentation no longer enables successful learning of the task, and puts the network in bad local minimum instead. This is 98\%, from an original imbalance ratio of 88\%. This corresponds to going from 1323 minority class training cases to 193. \\
 
@@ -1288,10 +1288,9 @@ To evaluate the difficulty of the clamp detection task with increased class imba
     \end{minipage}%
 \end{figure}
 
-Whereas with 88\% imbalance, it is possible to learn without transfer learning, 98\% imbalance makes it impossible. The model becomes a constant function. Note that although the 
+Whereas with 88\% imbalance, it is possible to learn without transfer learning, 98\% imbalance makes it impossible, the model converges within one iteration to a constant function. Note that the reason for why the validation error seems to take 200 iterations to suddenly drop is because the validation frequency was set to a large interval of 200 training mini-batch passes, in order to speed up training.
 
 \subsubsection{Transfer Learning}
-
 
 \begin{figure}
     \centering
@@ -1504,11 +1503,13 @@ Performance improvement could be obtained by enforcing the same class proportion
 
 The surprising observation made on all previous training results was that per class accuracy tends to continue improving long after the validation error begins to deteriorate. One advanced potential explanation was that, during this period, the model increases its precision on the minority class at the slight expense of precision on the majority class. It was based on the mismatch between averaging the performance metric across the dataset and averaging across classes. In the training results for Bayesian cross entropy, the validation error is also averaged per class, and indeed, error and accuracy appear strongly negatively correlated. This is substantial evidence in favour of this explanation.
 
-However, what remains a curiosity is the implications that this explanation has for the dynamics of learning: it would imply that when using cross entropy error, learning `focuses' on the majority class first, and afterwards focuses on the learning the minority class. This makes strategic sense, since there are more gains from improving on the majority class when using an error that is averaged across the min-batch. But it seems surprising that this could occur in the mechanics of gradient descent. Since gradient descent works byne way that this could occur would be for the representation of the data to project class A cases to some dimensions and class B cases to other dimensions. 
+However, what remains a curiosity are the implications that this explanation has for the dynamics of learning: it would imply that when using cross entropy error, learning `focuses' on the majority class first, and afterwards focuses on the learning the minority class. This makes strategic sense, since there are more gains from improving on the majority class when using an error that is averaged across the min-batch. But it seems surprising that this could occur in the mechanics of gradient descent. Such work would perhaps make for interesting further research.
 
-This would occur in the layer of a \textit{sparse rectifier} network if there exists a feature that is present in class A but not class B, whose representation is distributed between a group of neurons in that layer, and there exists a neuron above, whose edges connecting it with the group of neurons below contain all of its nonzero weights. collective set of edges leading to at least one neuron above have the only nonzero weights for that upper neuron. Consider ones to be nonzero. weights are the collectively detect a feature that is present in class A but not class B, which is activated by a ReLU, and which has edges leading to neurons above with zero weight. Indeed, the neuron for that feature does not fire when the input is of class B, so the data is not projected. by virtue of a deep architecture
-
-rephrase that mathematically!
+%Since gradient descent works byne way that this could occur would be for the representation of the data to project class A cases to some dimensions and class B cases to other dimensions. 
+%
+%This would occur in the layer of a \textit{sparse rectifier} network if there exists a feature that is present in class A but not class B, whose representation is distributed between a group of neurons in that layer, and there exists a neuron above, whose edges connecting it with the group of neurons below contain all of its nonzero weights. collective set of edges leading to at least one neuron above have the only nonzero weights for that upper neuron. Consider ones to be nonzero. weights are the collectively detect a feature that is present in class A but not class B, which is activated by a ReLU, and which has edges leading to neurons above with zero weight. Indeed, the neuron for that feature does not fire when the input is of class B, so the data is not projected. by virtue of a deep architecture
+%
+%rephrase that mathematically!
 
 
 \subsubsection{Under-Sampling}
