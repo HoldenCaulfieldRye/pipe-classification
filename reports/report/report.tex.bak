@@ -1230,7 +1230,7 @@ Therefore, additional approaches for dealing with class imbalance were sought ou
 
 Were this tactic not adopted, it would not be possible to ascertain whether an approach failing to deliver a performance increase were due to its inability to tackle class imbalance, or to the fact that the task is difficult  for other reasons. For example, water contamination risk is defined by the presence of droplets on the pipe fitting. However, when images are downsized to 256x256 pixels for AlexNet, droplets become invisible to the naked eye. This task could therefore be impossible to learn with networks the size of AlexNet, for a reason not related to the strong class imbalance that the task also presents (92.5\%). \\
 
-Little literature 
+The literature on deep learning with class imbalance was found to be scarce. `Training cost sensitive neural networks with Methods addressing the class imbalance problem' by Zhou and Liu, 2005, discusses 
 
 \subsection{Implementation}
 
@@ -1262,7 +1262,7 @@ Several class imbalance-tackling techniques that were experimented with required
 
 \subsection{Experimentation}
 
-This section begins with a test run, intended to serve as a benchmark against which to subsequently evaluate six different approaches to tackling class imbalance. The first approach discussed below is transfer learning, so as to form a transition from the previous set of experiments. The second is the simplest, because it merely consists in tuning model hyperparameters. The three that follow are those explored by (Maloof 2003) \cite{maloof} to specifically tackle class imbalance. The sixth is a novel cost function. A final subsection branches off from an observation concerning training results for this cost function, providing a credible explanation to the error-accuracy mismatch mentioned in the test run of the previous set of experiments. \\
+This section begins with a test run, intended to serve as a benchmark against which to subsequently evaluate six different approaches to tackling class imbalance. The first approach discussed below is transfer learning, so as to form a transition from the previous set of experiments. The second is the simplest, because it merely consists in tuning model hyperparameters. The three that follow are those explored by (Zhou and Liu 2005) \cite{zhou} to specifically tackle class imbalance. The sixth is a novel cost function. A final subsection branches off from an observation concerning training results for this cost function, providing a credible explanation to the error-accuracy mismatch mentioned in the test run of the previous set of experiments. \\
 
 The amount of additional class imbalance to impose on the clamp detection task was chosen in order to trap the model in a bad, sampling-induced local minimum on the Bluebox dataset. This brought the imbalance ratio from 88\% to 98\%, and corresponds to going from 1,323 minority class training cases to 193. \\
 
@@ -1921,12 +1921,6 @@ Elucidate error accuracy mismatch. Class imbalance impact on mechanics of backpr
   Vancouver, British Columbia, Canada, 
   December 4-7, 2006
 
-\bibitem{f-measure}
- Joan Pastor-Pellicer, Francisco Zamora-Martínez, Salvador España-Boquera, María José Castro-Bleda;
- \emph{F-Measure as the Error Function to Train Neural Networks}\\
- Advances in Computational Intelligence
- Volume 7902, 2013, pp 376-384
-
 \bibitem{control-point}
  Fusion Group - ControlPoint LLP,
  \emph{Company Description}\\
@@ -2021,8 +2015,14 @@ Elucidate error accuracy mismatch. Class imbalance impact on mechanics of backpr
 \bibitem{maloof}
  Maloof, Marcus A;
  \emph{Learning when data sets are imbalanced and when costs are unequal and unknown}\\
- Workshop on Learning from Imbalanced Data Sets II
+ Workshop on Learning from Imbalanced Data Sets II,
  ICML 2003
+ 
+\bibitem{zhou}
+ Zhi-Hua, Zhou; Xu-Ying, Liu;
+ \emph{Training Cost-Sensitive Neural Networks with Methods Addressing the Class Imbalance Problem}\\
+ IEEE Transactions on Knowledge and Data Engineering,
+ 2005 
  
 \bibitem{theano}
  Theano,
