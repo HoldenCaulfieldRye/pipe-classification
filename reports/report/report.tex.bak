@@ -1304,7 +1304,7 @@ One would be tempted to conjecture that the steepness of the error surface along
 
 Further analysis and experimentation, especially by seeing whether individual weights in the softmax layer do indeed cease to update, would perhaps make for interesting further work. In the meantime, in order to maintain generality, these points on the error surface will now be referred to as sampling-induced critical points, or simply bad critical points. \\
 
-A final observation to explain is that although the validation error improves smoothly, the validation per class accuracy improves in sudden increments, i.e.\ discontinuously. This is likely a direct consequence of class imbalance in the validation set. Indeed, a weight adjustment that brings the predicted probability of a single minority class case in the validation set from below 0.5 to above 0.5 will decrease the validation error by $\frac{1}{n}$ and increase the validation per class accuracy by $\frac{1}{2n_{min}}$, where $n$ is the validation set size and $n_{min}$ is the number of minority class cases in the validation set. For sufficiently large $n$ and sufficiently high class imbalance, the validation error change wi
+A final observation to explain is that although the validation error improves smoothly, the validation per class accuracy improves in sudden increments, i.e.\ discontinuously. This is likely a direct consequence of class imbalance in the validation set. Indeed, a weight adjustment that brings the predicted probability of a single minority class case in the validation set from below 0.5 to above 0.5 will decrease the validation error by $\frac{1}{n}$ and increase the validation per class accuracy by $\frac{1}{2n_{min}}$, where $n$ is the validation set size and $n_{min}$ is the number of minority class cases in the validation set. For sufficiently large $n$ and sufficiently high class imbalance, the error change will be infinitesimal but the accuracy change will be discrete.
 
 
 \subsubsection{Transfer Learning}
@@ -1388,7 +1388,9 @@ Since class imbalance reduces the number of minority class cases, it could argua
     \end{minipage}%
 \end{figure}
 
-These results as surprising as they suggest that increasing the batch size decreases performance. A potential explanation is that noise can be beneficial to training\\
+These results are surprising: they seem to suggest that increasing mini-batch size decreases performance. Since increasing mini-batch size only reduces noise in the gradient, this would attribute performance increase to greater noise in the gradient. 
+
+However, one notices that from the 1000th iteration onwards, in the 128 mini-batch size network, the time series of the per class validation accuracy (and if one looks closely, of the validation error too) is not convex. In fact, it appears to be random. The fact that per class validation accuracy will increase discontinuously for a single additional correct minority class classification in the validation set supports this claim. Indeed, random weight changes are bound to lead to small increases and decreases in the number of correct minority class classifications \\
 
 
 \subsubsection{Learning Rate}
