@@ -1388,9 +1388,9 @@ Since class imbalance reduces the number of minority class cases, it could argua
 
 These results are surprising: they seem to suggest that increasing mini-batch size decreases performance. Since increasing mini-batch size only reduces noise in the gradient, this would attribute performance increase to greater noise in the gradient. 
 
-However, one notices that from the 1000th iteration onwards, in the 128 mini-batch size network, the time series of the per class validation accuracy (and if one looks closely, of the validation error too) is not convex. In fact, it appears to be random. The fact that per class validation accuracy will increase discontinuously for a single additional correct minority class classification in the validation set supports this claim. Indeed, random weight changes are bound to lead to small increases and decreases in the number of correct minority class classifications. The plot shows indeed as many increases as decreases. These seem substantial but this is only the result of per class accuracy being heavily weighted by minority class cases. \\
+However, one notices that from the 1000th iteration onwards, in the 128 mini-batch size network, the time series of the per class validation accuracy (and if one looks closely, of the validation error too) is not convex. In fact, it appears to be random. The fact that per class validation accuracy will increase discontinuously for a single additional correct minority class classification in the validation set supports this claim. Indeed, random weight changes are bound to lead to small increases and decreases in the number of correct minority class classifications. The plot shows indeed as many increases as decreases. These seem substantial but this is only the result of per class accuracy being heavily weighted by minority class cases. If improvements are indeed random, they will not generalise to the test set. \\
 
-Note that a foolproof test of this explanation would be to run both models on a test set, and see whether the number of correctly classified minority class cases is significantly greater for the model trained on smaller mini-batch size.
+A foolproof verification of this explanation would be to run both models on a test set, and see whether there is indeed no significant difference in true performance between the two models. \\	
 
 
 \paragraph{Learning Rate}
@@ -1418,20 +1418,23 @@ Decreasing the learning rate helps if it prevents a good minimum from being over
 
 With a lower learning rate, the validation accuracy seems to increase at a far slower pace. This suggests that there was no overshooting when using the original learning rate value, and that 0.0001 is a good learning rate for this task. \\
 
+
 \subsubsection{Under-Sampling}
+
+Under-sampling 
 
 \begin{figure}
     \centering
     \begin{minipage}[b]{\textwidth}
       \begin{subfigure}{.5\textwidth} 
         \centering
-        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_us_none_bs128_lr4.png}
         % Add \par\vspace*{20pt} here and...
         \caption{learning rate 0.0001}\label{fig:2a}
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
-        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5.png}
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs128_lr5.png}
         % ...here to lower the subcaptions and...
         \caption{learning rate 0.00001}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
