@@ -1241,18 +1241,23 @@ The way to compare performance in the two models is to look at average per class
 \clearpage
 \section{Experiments 3: Class Imbalance}
 
-
 \subsection{Definition}
 
 Before detailing the motivations for the experiments that took place, we properly return to the definition of class imbalance mentioned in the literature review and during the discussion of results on simple clamp detection. An extension to this definition is proposed to encompass \textit{dangerous} class imbalance. Having such a definition provides a framework for reasoning about the problem.
 
-Class imbalance has been defined as the situation where the sample distribution of classes is significantly non-uniform. For example, (Pastor-Pellicer 2013) \cite{f-measure} defines it as when `the number of patterns of one class is significantly lower than other classes'. However, consider a 12-class training set where 11 each take up 9\% of the dataset and the 12-th takes up 1\%. Outputting the same class all the time cannot provide more than 9\% accuracy, which is only slightly better than `completely random guessing', which would achieve 8.3\% accuracy.
+Class imbalance has been defined as the situation where the sample distribution of classes is significantly non-uniform. For example, (Pastor-Pellicer 2013) \cite{f-measure} defines it as when `the number of patterns of one class is significantly lower than other classes'. However, consider a 12-class training set where 11 each take up 9\% of the dataset and the 12-th takes up 1\%. Outputting the same class all the time cannot provide more than 9\% accuracy, which is only slightly better than `completely random guessing', which would achieve 8.3\% accuracy\footnote{To the best of our knowledge, in this case there is no classification strategy that would score higher than 9\% without making use of information contained in the input. It would be preferable to prove it, but due to time constraints, this has been left for further research.}. 
 
 Class imbalance is defined in this report by the situation where \textbf{a classifier that constantly outputs the class priors performs significantly better than randomly outputting each class with the same probability}. 
 
-For example, given a 2-class dataset with distribution of classes (0.9,0.1), a classifier which outputs (0.9,0.1) all the time will classify all cases into the majority class, and obtain 90\% accuracy, whereas randomly outputting them uniformly obtains only 50\%. 
+To better understand this definition, one can take note of the property that outputting the prior classifies all input into the majority class. What follows are examples that justify this non-trivial definition.
 
-It is not necessary for a class to occupy the vast majority of the training set: consider a 1000-class training set where one class takes up 20\%. A classifier which outputs this class all the time obtains 20\% top-1 accuracy, compared to 0.1\% for random uniform. 
+\begin{li}
+\item Given a 2-class dataset with distribution of classes (0.9,0.1), a classifier which outputs (0.9,0.1) all the time will classify all cases into the majority class, and obtain 90\% accuracy. On the other hand, randomly outputting them uniformly obtains only 50\%. 
+\item It is not necessary for a class to occupy the vast majority of the training set: consider a 1000-class training set where one class takes up 20\%. A classifier which outputs the prior all the time will classify everything as belonging the ma class all the time obtains 20\% top-1 accuracy, compared to 0.1\% for random uniform. 
+\item 
+\end{enumerate} 
+
+
 
 It is not necessary for a class to occupy far more space than any other. Consider a 1000-class training set where 5 classes each take up 17\%. A classifier which always outputs these 5 as its top-5 obtains 85\% top-5 accuracy, which is higher even than the score of (Krizhevsky et al 2012) at ILSVRC 2012 \cite{krizhevsky}.
 
@@ -1895,14 +1900,10 @@ Copy paste from your emacs sheet everything! Talk about domain change as well be
 
 What we learned:
 - class imbalance + mislabelling lethal combo
+- more precise class imbalance definition, specifically tailored to training classifiers with stochastic gradient descent.
 - error accuracy mismatch implications for dynamics of learning.
 - conjecture that the steepness of the error surface along these dimensions decreases with the extent of class imbalance, and approaches 0 as a limit as class imbalance approaches 100\%.
-
-
-
-Elucidate error accuracy mismatch. Class imbalance impact on mechanics of backpropagation at the softmax layer.
-
-Different class imbalance definition, specifically tailored to training classifiers with stochastic gradient descent.
+- error accuracy mismatch, class imbalance impact on mechanics of backpropagation at the softmax layer.
 
 
 
