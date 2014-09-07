@@ -1494,9 +1494,6 @@ Interpretations:
 How can per class accuracy be below 0.5? that's worse than random! It may be due to the fact that copies are made in the training set, but not in the test and validation sets. 
 When comparing these networks, should we not be using the same validation set for all? No, we should be using the same test set (and testing will come in the next section). We should choose the validation set that we deem best for early stopping. In the case of over-sampling, makes no sense to include duplicates. 
 
-There might be bugs in the implementation. Check in this paper: http://sci2s.ugr.es/keel/pdf/algorithm/articulo/2006%20-%20IEEE_TKDE%20-%20Zhou_Liu.pdf
-whether what it says can be linked to what you got. Otherwise, just omit it from your report. \\
-
 
 \subsubsection{Under-Sampling}
 

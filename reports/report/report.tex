@@ -1461,22 +1461,7 @@ With a lower learning rate, the validation accuracy seems to increase at a far s
 
 \subsubsection{Over-Sampling}
 
-Over-sampling rebalances the training set to desired levels of imbalance by removing majority class examples. The brute force approach, implemented in (Maloof 2003) \cite{maloof}, is to randomly remove these cases and train on the remaining set.
-
-And now for an alternative to under-sampling. 
-
-For the implementation: 
-(min + copy) / (max + min + copy) = target
-
-min + copy = copy*target + target*(max+min)
-
-copy = copy*target + target*(max+min) - min
-
-(1-target)*copy = target*(max+min) - min
-
-copy = ( target*(max+min) - min ) / (1 - target)
-
-Duplicates are created in training set, but we don't want them in the validation or test sets as this will slow down the algorithms (though it wouldn't bias the results aka metrics). 
+Over-sampling \cite{zhou} \cite{maloof} rebalances the training set to desired levels of imbalance by increasing the occurrence of majority class examples. This was implemented by creating duplicates in the training set -- but not in the validation or test sets, as this would have slowed down the algorithms and biased any performance metric not averaged across classes. Moreover, in order to compare the performance of models trained with different techniques, the same validation set needs to be the same for all models.
 
 \begin{figure}[h!]
 	\centering
@@ -1509,9 +1494,6 @@ Interpretations:
 How can per class accuracy be below 0.5? that's worse than random! It may be due to the fact that copies are made in the training set, but not in the test and validation sets. 
 When comparing these networks, should we not be using the same validation set for all? No, we should be using the same test set (and testing will come in the next section). We should choose the validation set that we deem best for early stopping. In the case of over-sampling, makes no sense to include duplicates. 
 
-There might be bugs in the implementation. Check in this paper: http://sci2s.ugr.es/keel/pdf/algorithm/articulo/2006%20-%20IEEE_TKDE%20-%20Zhou_Liu.pdf
-whether what it says can be linked to what you got. Otherwise, just omit it from your report. \\
-
 
 \subsubsection{Under-Sampling}
 
@@ -1541,7 +1523,7 @@ We now have that the body of the while loop has time complexity $T_{backprop}$. 
 
 This algorithm therefore has time complexity $T_{backprop}\cdot log_{1.5}(\frac{n_1}{n_0})$. So in the case of clamp detection with 98\% class imbalance, training with under-sampling at 88\% target imbalance -- which was the imbalance ratio at which clamp detection was successfully learned in previous sections -- would have taken 5 times longer than training with simple brute force under-sampling. Considering on top of this the time that would have been spent in implementation, it was deemed impractical, especially since the authors report better performance with threshold. \\
 
-Instead, brute force under-sampling was implemented as in (Maloof 2003) \cite{maloof}. Results are shown below.
+Instead, brute force under-sampling was implemented as in (Maloof 2003) \cite{maloof}. Note that in order to do so, minority class examples from the clamp detection dataset were first deleted in order to achieve 98\% imbalance, followed by deletion of majority class examples in the training set to bring the dataset back to 88\% imbalance. Results are shown below.
 
 \begin{figure}
     \centering
@@ -1550,13 +1532,13 @@ Instead, brute force under-sampling was implemented as in (Maloof 2003) \cite{ma
         \centering
         %\includegraphics[scale=0.4]{images/plot_clampdetCI98_us_none_bs128_lr4.png}
         % Add \par\vspace*{20pt} here and...
-        \caption{learning rate 0.0001}\label{fig:2a}
+        \caption{98\% class imbalance}\label{fig:2a}
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
         %\includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs128_lr5.png}
         % ...here to lower the subcaptions and...
-        \caption{learning rate 0.00001}\label{fig:2b}
+        \caption{98\% class imbalance undersampled to 88\% imbalance}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{98\% imbalance, different learning rates}\label{fig:2}
     \end{minipage}%
