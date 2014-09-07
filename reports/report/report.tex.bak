@@ -650,15 +650,7 @@ arg\min \limits_{\textbf{w},b} ||w||^2 \text{, subject to } \forall 1 \leq i \le
 
 \subsection{Class Imbalance}
 
-Class imbalance is defined in this report by the situation where the sample distribution of classes in the training set enables a classifier that is a constant function to perform significantly better than randomly outputting each class with the same probability.
-
-For example, given a 2-class training set with class distribution (0.9,0.1), a classifier which outputs the first class all the time obtains 90\% accuracy, whereas randomly outputting them uniformly obtains 50\%. 
-
-It is not necessary for a class to occupy the vast majority of the training set: consider a 1000-class training set where one class takes up 20\%. A classifier which outputs this class all the time obtains 20\% top-1 accuracy, compared to 0.1\% for random uniform. 
-
-It is not necessary for a class to occupy far more space than any other. Consider a 1000-class training set where 5 classes each take up 17\% of the training set. A classifier which always outputs these 5 as its top-5 obtains 85\% top-5 accuracy, which is higher than the score of (Krizhevsky et al 2012) at ILSVRC 2012 \cite{krizhevsky}.
-
-It is not sufficient for a class to occupy far less space than any other.
+Class imbalance is defined in this report by the situation where the sample distribution of classes in the training set enables a classifier that is a constant function to perform significantly better than randomly outputting each class with the same probability. This somewhat abstract definition is the result of experimentation 
 
 Others \cite{f-measure} \cite{imbalance} have defined class imbalance more lightly and intuitively as the situation where there exists a class of significantly smaller size than another, i.e.\ when the sample distribution of classes is significantly non-uniform. However, as it will be observed and proved later, this report's definition is the largest set of conditions that are necessary for the detrimental phenomenon of interest to occur when training classifiers with stochastic gradient descent and standard cost functions. \\
 
@@ -988,6 +980,7 @@ This local minimum is `fake' because, with perfect class imbalance, it would not
 
 Note that class imbalance is a danger not necessarily when there exists a class that is far more present than another, but when there exists a class that takes up a vast majority of the training set. Indeed, the value of the `fake' minimum in terms of error rate is $1 - p_K$, where $p_K$ is the proportion of majority class cases. This may shed light on why class imbalance is not a richly documented issue in the deep learning literature: all benchmark image classification datasets (such as CIFAR, MNIST and ImageNet) involve at least ten classes, so the class imbalance `fake' minima never deliver less than 90\% error rate, which is unlikely to be an àttractive minimum. 
 
+
 \subsubsection{Mislabelling}
 
 It came as a surprise that, when the same clamp detection task was trained on the tenfold smaller 13,790 Bluebox dataset for which the majority class represents 88\% of images, the model succeeded in learning, as the downward trend in training error and convex trend in validation error show. The achieved performance was 83.9\% validation accuracy.
@@ -1247,6 +1240,20 @@ The way to compare performance in the two models is to look at average per class
 
 \clearpage
 \section{Experiments 3: Class Imbalance}
+
+\paragraph{Definition}
+
+Class imbalance is defined in this report by the situation where the sample distribution of classes in the training set enables a classifier that is a constant function to perform significantly better than randomly outputting each class with the same probability. 
+
+For example, given a 2-class training set with class distribution (0.9,0.1), a classifier which outputs the first class all the time obtains 90\% accuracy, whereas randomly outputting them uniformly obtains 50\%. 
+
+It is not necessary for a class to occupy the vast majority of the training set: consider a 1000-class training set where one class takes up 20\%. A classifier which outputs this class all the time obtains 20\% top-1 accuracy, compared to 0.1\% for random uniform. 
+
+It is not necessary for a class to occupy far more space than any other. Consider a 1000-class training set where 5 classes each take up 17\%. A classifier which always outputs these 5 as its top-5 obtains 85\% top-5 accuracy, which is higher even than the score of (Krizhevsky et al 2012) at ILSVRC 2012 \cite{krizhevsky}.
+
+It is not sufficient for a class to occupy far less space than any other. Consider a 12-class training set where 11 take up 9\% each and one takes up 1\%. 
+
+Others \cite{f-measure} \cite{imbalance} have defined class imbalance more lightly and intuitively as the situation where there exists a class of significantly smaller size than another, i.e.\ when the sample distribution of classes is significantly non-uniform. However, as it will be observed and proved later, this report's definition is the largest set of conditions that are necessary for the detrimental phenomenon of interest to occur when training classifiers with stochastic gradient descent and standard cost functions. \\
 
 \subsection{Motivations}
 
