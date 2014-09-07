@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  7 SEP 2014 23:38
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  8 SEP 2014 00:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2435,18 +2435,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 1586--1587
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1588--1593
-
- []
-
-
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
 [53]
-Underfull \hbox (badness 10000) in paragraph at lines 1594--1596
+Underfull \hbox (badness 10000) in paragraph at lines 1588--1593
 
  []
 
@@ -2458,6 +2453,11 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [54 <./images/plot_clampdet_us_none_reinit.png> <./images/plot_clampdet_os_none
 _reinit-5000.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1594--1596
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 1597--1598
 
  []
@@ -2483,17 +2483,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 1611--1612
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1616--1618
-
- []
-
-
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
 [55 <./images/plot_clampdet_os_none_reinit.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1616--1618
+
+ []
+
+
 Underfull \hbox (badness 10000) in paragraph at lines 1619--1620
 
  []
@@ -2535,6 +2535,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 1651--1652
  []
 
 
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[56 <./images/plot_ground_sheet_sbl_pcba.png> <./images/plot_ground_sheet_sbl_p
+cba_all_backprop.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 1670--1671
 
  []
@@ -2545,7 +2552,7 @@ Package pdftex.def Info: images/plot_clampdetCI98_none_bs256_lr4.png used on in
 put line 1677.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-<images/plot_clampdetCI98_none_bs256_lr5_sbl.png, id=286, 578.16pt x 433.62pt>
+<images/plot_clampdetCI98_none_bs256_lr5_sbl.png, id=291, 578.16pt x 433.62pt>
 File: images/plot_clampdetCI98_none_bs256_lr5_sbl.png Graphic file (type png)
 
 <use images/plot_clampdetCI98_none_bs256_lr5_sbl.png>
@@ -2553,14 +2560,6 @@ Package pdftex.def Info: images/plot_clampdetCI98_none_bs256_lr5_sbl.png used o
 n input line 1683.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[56 <./images/plot_ground_sheet_sbl_pcba.png> <./images/plot_ground_sheet_sbl_p
-cba_all_backprop.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 1692--1693
 
  []
@@ -2697,11 +2696,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 1860--1861
  []
 
 
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[61]
 Underfull \hbox (badness 10000) in paragraph at lines 1862--1863
 
  []
 
-<images/plot_hatch_markings_noneC.png, id=307, 578.16pt x 433.62pt>
+<images/plot_hatch_markings_noneC.png, id=311, 578.16pt x 433.62pt>
 File: images/plot_hatch_markings_noneC.png Graphic file (type png)
 
 <use images/plot_hatch_markings_noneC.png>
@@ -2709,13 +2714,6 @@ Package pdftex.def Info: images/plot_hatch_markings_noneC.png used on input lin
 e 1874.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[61]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2801,10 +2799,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 17260 strings out of 494985
- 315945 string characters out of 6180356
- 374984 words of memory out of 5000000
- 20030 multiletter control sequences out of 15000+600000
+ 17261 strings out of 494985
+ 315963 string characters out of 6180356
+ 374982 words of memory out of 5000000
+ 20031 multiletter control sequences out of 15000+600000
  16039 words of font info for 62 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  48i,12n,61p,1621b,527s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -2829,7 +2827,7 @@ ublic/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
 s/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symb
 ols/msbm10.pfb>
-Output written on report.pdf (66 pages, 4878698 bytes).
+Output written on report.pdf (66 pages, 4878896 bytes).
 PDF statistics:
  401 PDF objects out of 1000 (max. 8388607)
  217 compressed objects within 3 object streams

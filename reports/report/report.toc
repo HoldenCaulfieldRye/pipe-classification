@@ -84,12 +84,12 @@
 \contentsline {subsubsection}{\numberline {8.4.4}Under-Sampling}{52}
 \contentsline {paragraph}{Under-Sampling algorithm}{52}
 \contentsline {subsubsection}{\numberline {8.4.5}Over-Sampling}{53}
-\contentsline {subsubsection}{\numberline {8.4.6}Test-time threshold}{53}
+\contentsline {subsubsection}{\numberline {8.4.6}Test-time threshold}{54}
 \contentsline {subsubsection}{\numberline {8.4.7}Bayesian Cross Entropy Cost Function}{55}
 \contentsline {paragraph}{Motivations}{55}
 \contentsline {paragraph}{Implementation}{56}
 \contentsline {paragraph}{Results}{57}
-\contentsline {subsubsection}{\numberline {8.4.8}Error-accuracy mismatch revisited}{57}
+\contentsline {subsubsection}{\numberline {8.4.8}Error-accuracy mismatch revisited}{58}
 \contentsline {paragraph}{SGD mechanics}{58}
 \contentsline {section}{\numberline {9}Experiments 4: Conserving Spatial Information}{58}
 \contentsline {subsection}{\numberline {9.1}Motivations}{58}
@@ -100,7 +100,7 @@
 \contentsline {paragraph}{Softmax Bayesian Cross Entropy}{59}
 \contentsline {section}{\numberline {10}Final Results}{59}
 \contentsline {subsection}{\numberline {10.1}Merging Classes}{59}
-\contentsline {subsection}{\numberline {10.2}Independent Binary Classifiers}{59}
+\contentsline {subsection}{\numberline {10.2}Independent Binary Classifiers}{60}
 \contentsline {subsection}{\numberline {10.3}Learning Rate}{60}
 \contentsline {paragraph}{Step}{60}
 \contentsline {paragraph}{Exp}{60}
