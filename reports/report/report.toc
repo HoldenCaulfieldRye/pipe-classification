@@ -82,29 +82,29 @@
 \contentsline {subsubsection}{\numberline {8.3.4}Under-Sampling}{51}
 \contentsline {subsubsection}{\numberline {8.3.5}Over-Sampling}{51}
 \contentsline {subsubsection}{\numberline {8.3.6}Test-time threshold}{53}
-\contentsline {subsubsection}{\numberline {8.3.7}Bayesian Cross Entropy Cost Function}{53}
+\contentsline {subsubsection}{\numberline {8.3.7}Bayesian Cross Entropy Cost Function}{54}
 \contentsline {paragraph}{Motivations}{54}
 \contentsline {paragraph}{Implementation}{54}
 \contentsline {paragraph}{Results}{55}
 \contentsline {subsubsection}{\numberline {8.3.8}Error-accuracy mismatch revisited}{56}
 \contentsline {paragraph}{SGD mechanics}{56}
-\contentsline {section}{\numberline {9}Experiments 4: Conserving Spatial Information}{56}
-\contentsline {subsection}{\numberline {9.1}Motivations}{56}
+\contentsline {section}{\numberline {9}Experiments 4: Conserving Spatial Information}{57}
+\contentsline {subsection}{\numberline {9.1}Motivations}{57}
 \contentsline {subsection}{\numberline {9.2}Implementation}{57}
 \contentsline {subsection}{\numberline {9.3}Experimentation}{57}
 \contentsline {paragraph}{Test Run}{57}
 \contentsline {paragraph}{Remove pooling and an fc layer}{57}
 \contentsline {paragraph}{Softmax Bayesian Cross Entropy}{57}
-\contentsline {section}{\numberline {10}Final Results}{57}
-\contentsline {subsection}{\numberline {10.1}Merging Classes}{57}
+\contentsline {section}{\numberline {10}Final Results}{58}
+\contentsline {subsection}{\numberline {10.1}Merging Classes}{58}
 \contentsline {subsection}{\numberline {10.2}Independent Binary Classifiers}{58}
 \contentsline {subsection}{\numberline {10.3}Learning Rate}{58}
 \contentsline {paragraph}{Step}{58}
-\contentsline {paragraph}{Exp}{58}
-\contentsline {subsection}{\numberline {10.4}Soil Risk Contamination Task}{58}
-\contentsline {paragraph}{Test Run}{58}
-\contentsline {subparagraph}{Training Results}{59}
-\contentsline {subparagraph}{Observations}{59}
+\contentsline {paragraph}{Exp}{59}
+\contentsline {subsection}{\numberline {10.4}Soil Risk Contamination Task}{59}
+\contentsline {paragraph}{Test Run}{59}
+\contentsline {subparagraph}{Training Results}{60}
+\contentsline {subparagraph}{Observations}{60}
 \contentsline {paragraph}{Get more evidence}{60}
 \contentsline {subsection}{\numberline {10.5}Hatch Markings}{60}
-\contentsline {section}{\numberline {11}Conclusions and Future Work}{61}
+\contentsline {section}{\numberline {11}Conclusions and Future Work}{62}
