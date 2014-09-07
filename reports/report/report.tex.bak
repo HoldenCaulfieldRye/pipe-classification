@@ -650,7 +650,7 @@ arg\min \limits_{\textbf{w},b} ||w||^2 \text{, subject to } \forall 1 \leq i \le
 
 \subsection{Class Imbalance}
 
-Class imbalance is defined in this report by the situation where the sample distribution of classes in the training set enables a classification strategy independent of the input data to perform strongly. For example, a 2-class tr with class distribution (0.9,0.1) 
+Class imbalance is defined in this report by the situation where the sample distribution of classes in the training set enables a classification strategy independent of the input data to perform strongly. For example, given a 2-class training set with class distribution (0.9,0.1), a classifier which outputs the first class all the time obtains 90\% accuracy. One may be tempted to simplify the definition to the situation where a class takes up a vast majority of the training set, but this is too strong: another example is a 1000-class training set where 4 classes each take up 20\% of the training set. A classifier which randomly outputs 
 
 Others \cite{f-measure} \cite{imbalance} have defined class imbalance more lightly and intuitively as the situation where there exists a class of significantly smaller size than another, i.e.\ when the sample distribution of classes is significantly non-uniform. However, as it will be observed and proved later, this report's definition is the largest set of conditions that are necessary for the detrimental phenomenon of interest to occur when training classifiers with stochastic gradient descent and standard cost functions. \\
 
