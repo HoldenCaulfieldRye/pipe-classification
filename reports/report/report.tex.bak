@@ -1463,6 +1463,7 @@ With a lower learning rate, the validation accuracy seems to increase at a far s
 
 Under-sampling rebalances the training set by removing majority class examples. The brute force approach is to randomly remove these cases and train on the remaining set. However, (Zhou and Liu 2005) \cite{zhou} describe an algorithm for removing selectively. It was not implemented during this project mainly due to its time complexity, which is analysed below. 
 
+\paragraph{Under-Sampling algorithm}
 \begin{enumerate}
 \item Obtain a perfectly balanced training set by randomly setting aside non-minority class examples.
 \item Train a net on the set.
@@ -1474,9 +1475,9 @@ Under-sampling rebalances the training set by removing majority class examples. 
 	\item If training set remains unbalanced, randomly remove non minority class examples.
 	\item Train the net on the training set.
 	\end{enumerate}
-\end{enumerate}
+\end{enumerate} \\
 
-To the best of our understanding, it is unclear from the paper whether 
+To the best of our understanding, it is unclear from the paper whether training in 3(e) uses initial weights taken from the previous model or randomly samples them. The former would be faster, but the latter would mean that examples which made it by luck early into the training set will be over-represented throughout overall training, which will increase overfit. Rega
 
 \begin{figure}
     \centering

@@ -82,6 +82,7 @@
 \contentsline {paragraph}{Mini-batch Size}{51}
 \contentsline {paragraph}{Learning Rate}{51}
 \contentsline {subsubsection}{\numberline {8.4.4}Under-Sampling}{52}
+\contentsline {paragraph}{Under-Sampling algorithm}{52}
 \contentsline {subsubsection}{\numberline {8.4.5}Over-Sampling}{52}
 \contentsline {subsubsection}{\numberline {8.4.6}Test-time threshold}{54}
 \contentsline {subsubsection}{\numberline {8.4.7}Bayesian Cross Entropy Cost Function}{55}
