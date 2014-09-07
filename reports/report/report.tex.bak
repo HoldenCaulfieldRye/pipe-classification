@@ -1434,21 +1434,22 @@ With a lower learning rate, the validation accuracy seems to increase at a far s
 Under-sampling rebalances the training set by removing majority class examples. 
 
 Training phase:
-1. Let S be the original training set, Sk be its subset comprising all the k-th class examples (k ∈ {1..C}).
-2. Set S to S∗, for the k-th class (k ∈ {1..C}): 2a. Set (S∗ − Sk) to S∗. If N∗
-k < Nk, randomly remove
-e k/2? number of examples from Sk and put these removed ?N∗
-xamples into S∗; otherwise remove all the examples from Sk and put them into S∗.
-2b.
-If Sk ?= ∅, randomly pick an example x in Sk and classify it in S∗ with the 1-NN rule. If the classification is correct,
-then remove x from Sk. This process is repeated until all the examples in Sk have been examined or the number of removed examples reaches (Nk −N∗
-k ). Merge Sk into S∗. 2c. If there are more than N∗ k number of k-th class examples in
-S∗, randomly pick a k-th class example x and identify its nearest neighbor, say y, in S∗. If y and x belong to different classes and x is the nearest neighbor of y in S∗, then remove x from S∗. This process is repeated until there are exactly N∗
-e k number of k-th class examples in S∗, or all the k-th class
-xamples have been examined. 2d. If there are more than N∗
-k number of k-th class examples in
-S∗, randomly remove some examples until there are exactly N∗
-k number of k-th class examples. 3. Train a neural network from S∗.
+\begin{enumerate}
+\item Let S be the original training set, Sk be its subset comprising all the k-th class examples (k ∈ {1..C}).
+\item Set S to S∗, for the k-th class (k ∈ {1..C}): 
+\begin{enumerate}
+\item Set (S∗ − Sk) to S∗. If N∗ k < Nk, randomly remove k/2? number of examples from Sk and put these removed ?N∗ examples into S∗; otherwise remove all the examples from Sk and put them into S∗.
+\item If Sk ?= ∅, randomly pick an example x in Sk and classify it in S∗ with the 1-NN rule. If the classification is correct, then remove x from Sk. This process is repeated until all the examples in Sk have been examined or the number of removed examples reaches (Nk −N∗k ). Merge Sk into S∗. 2c. 
+\item If there are more than N∗ k number of k-th class examples in
+S∗, randomly pick a k-th class example x and identify its nearest neighbor, say y, in S∗. If y and x belong to different classes and x is the nearest neighbor of y in S∗, then remove x from S∗. This process is repeated until there are exactly N∗ k number of k-th class examples in S∗, or all the k-th class examples have been examined.
+\item If there are more than N∗k number of k-th class examples in S∗, randomly remove some examples until there are exactly N∗k number of k-th class examples.
+\end{enumerate}
+
+2a. 
+\end{enumerate}
+1. 
+2. 
+ 2d.  3. Train a neural network from S∗.
 Test phase: 1. Generate real-value outputs with the trained neural network. 2. Return the class with the biggest output.
 is
 
