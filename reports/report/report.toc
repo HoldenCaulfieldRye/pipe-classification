@@ -75,19 +75,19 @@
 \contentsline {subsection}{\numberline {8.3}Experimentation}{46}
 \contentsline {subsubsection}{\numberline {8.3.1}Test Run}{46}
 \contentsline {subsubsection}{\numberline {8.3.2}Transfer Learning}{48}
-\contentsline {subsubsection}{\numberline {8.3.3}Hyperparameter Optimisation}{48}
-\contentsline {paragraph}{Mini-batch Size}{48}
+\contentsline {subsubsection}{\numberline {8.3.3}Hyperparameter Optimisation}{49}
+\contentsline {paragraph}{Mini-batch Size}{49}
 \contentsline {paragraph}{Learning Rate}{50}
-\contentsline {subsubsection}{\numberline {8.3.4}Bayesian Cross Entropy Cost Function}{50}
-\contentsline {paragraph}{Motivations}{50}
-\contentsline {paragraph}{Implementation}{51}
-\contentsline {paragraph}{Results}{52}
-\contentsline {subsubsection}{\numberline {8.3.5}Error-accuracy mismatch revisited}{52}
-\contentsline {paragraph}{SGD mechanics}{53}
-\contentsline {subsubsection}{\numberline {8.3.6}Under-Sampling}{53}
-\contentsline {paragraph}{Overfitting consequences of under-sampling}{53}
-\contentsline {subsubsection}{\numberline {8.3.7}Over-Sampling}{53}
-\contentsline {subsubsection}{\numberline {8.3.8}Test-time threshold}{55}
+\contentsline {subsubsection}{\numberline {8.3.4}Under-Sampling}{50}
+\contentsline {paragraph}{Overfitting consequences of under-sampling}{50}
+\contentsline {subsubsection}{\numberline {8.3.5}Over-Sampling}{50}
+\contentsline {subsubsection}{\numberline {8.3.6}Test-time threshold}{52}
+\contentsline {subsubsection}{\numberline {8.3.7}Bayesian Cross Entropy Cost Function}{53}
+\contentsline {paragraph}{Motivations}{53}
+\contentsline {paragraph}{Implementation}{54}
+\contentsline {paragraph}{Results}{55}
+\contentsline {subsubsection}{\numberline {8.3.8}Error-accuracy mismatch revisited}{55}
+\contentsline {paragraph}{SGD mechanics}{56}
 \contentsline {section}{\numberline {9}Task 4: Conserving Spatial Information}{56}
 \contentsline {subsection}{\numberline {9.1}Motivations}{56}
 \contentsline {subsection}{\numberline {9.2}Implementation}{56}

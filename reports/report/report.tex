@@ -1260,7 +1260,7 @@ Several class imbalance-tackling techniques that were experimented with required
 
 \subsection{Experimentation}
 
-Several approaches were taken to tackle class imbalance. Unless explicitly experimented with, a fixed architecture and training strategy were kept throughout the experiments: backpropagation on all layers, all weights transferred. Although this was not the best performing architecture from the previous section, it was kept for its simplicity. The objective of this section is not to achieve the highest absolute accuracy, but rather to compare relative successes of different approaches to tackling class imbalance. \\
+Seven different approaches to tackling class imbalance were explored (including transfer learning, which was found to help).  \\
 
 The level of class imbalance to impose on the clamp detection task was chosen such that the optimal transfer learning setup obtained from previous experimentation no longer enables successful learning of the task, and puts the network in bad local minimum instead. This is 98\%, from an original imbalance ratio of 88\%. This corresponds to going from 1323 minority class training cases to 193. \\
 
@@ -1338,10 +1338,9 @@ Transfer learning keeps the net's parameters from bad critical points, so the mo
 
 Note that validation error is very low because it is not a per class average: the transfer learning models quickly obtain high precision on the majority class, but struggle to learn the minority one. 
 
-Note also that validation error appears
+What is arguably a crucial question is whether the difficulty in learning the minority class is the inevitable consequence of having few training examples to learn from, or whether the imbalance ratio is preventing generalising features of the minority class from being learned. If the former, there is no use in searching for ways to tackle class imbalance without throwing away majority class data.  \\
 
-What is arguably a crucial question is whether the difficulty in learning the minority class is the inevitable consequence of having few training examples to learn from, or whether the imbalance ratio is preventing generalising features of the minority class from being learned. If the former, there is no use in searching for ways to tackle class imbalance without throwing away majority class data.  
-
+Note that following evaluation of transfer learning, a fixed architecture and training strategy were kept throughout the experiments below: backpropagation on all layers, all weights transferred. Although freezing backpropagation on the first four convolutional layers was found to perform best during experiments of the previous section, full backpropagation was adopted in this section for the sake of clarity. The objective of this section is not to achieve the highest absolute accuracy, but rather to compare relative successes of different approaches to tackling class imbalance.
 
 \subsubsection{Hyperparameter Optimisation}
 
@@ -1419,6 +1418,115 @@ Decreasing the learning rate helps if it prevents a good minimum from being over
 
 With a lower learning rate, the validation accuracy seems to increase at a far slower pace. This suggests that there was no overshooting when using the original learning rate value, and that 0.0001 is a good learning rate for this task. \\
 
+\subsubsection{Under-Sampling}
+
+Imbalance is obviously reached because most mini-batches do not contain any minority class examples, so the net is only ever being told to output 0. 
+
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[width=0.8	extwidth,natwidth=610,natheight=642]{images/plot_fitting_proximity_tl_wout.png}
+%	\caption{Clamp Detection, Full Backpropagation}
+%\end{figure}
+%
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[width=0.8	extwidth,natwidth=610,natheight=642]{images/plot_fitting_proximity_us_tl_wout.png}
+%	\caption{Clamp Detection, Full Backpropagation}
+%\end{figure}
+
+
+\paragraph{Overfitting consequences of under-sampling}
+
+Here we evaluate impact of under-sampling on clampdet. There is no need to under-sample on clampdet because class imbalance is tackled by transfer learning. But that is the reason for why clampdet is used to illustrate impact on overfitting: apply under-sampling in a case where learning occurs regardless, to see what impact it has on the health. We can't be certain about this impact on fitting proximity, since it just doesn't learn anyway. \\
+
+Comparison 1: without weight re-initialization
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_us_none.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+Notice how under-sampling makes overfit take place so much sooner. As a result, the model cannot pick up any of the higher order generalising patterns, and the performance is not as high (go down from 94\% to 85\% or something right?). This begs for other class imbalance tackling tricks to be combined with under-sampling, in order to limit the extent to which we under-sample, in order to fragilise robustness as little as possibe, so that we can use more expressive models, i.e.\ enable backprop on more layers. \\
+
+
+
+\subsubsection{Over-Sampling}
+
+And now for an alternative to under-sampling. 
+
+For the implementation: 
+(min + copy) / (max + min + copy) = target
+
+min + copy = copy*target + target*(max+min)
+
+copy = copy*target + target*(max+min) - min
+
+(1-target)*copy = target*(max+min) - min
+
+copy = ( target*(max+min) - min ) / (1 - target)
+
+Duplicates are created in training set, but we don't want them in the validation or test sets as this will slow down the algorithms (though it wouldn't bias the results aka metrics). 
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.8\textwidth,natwidth=610,natheight=642]{images/plot_clampdet_us_none_reinit.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_os_none_reinit-5000.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_os_none_reinit.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+Oversampling completely fails. \\
+
+Observations:
+- very weak performance
+- per class accuracy goes below 0.5
+- entire error time series are shifted up by a constant
+- overfit occurs sooner
+
+
+Interpretations:
+How can per class accuracy be below 0.5? that's worse than random! It may be due to the fact that copies are made in the training set, but not in the test and validation sets. 
+When comparing these networks, should we not be using the same validation set for all? No, we should be using the same test set (and testing will come in the next section). We should choose the validation set that we deem best for early stopping. In the case of over-sampling, makes no sense to include duplicates. 
+
+There might be bugs in the implementation. Check in this paper: http://sci2s.ugr.es/keel/pdf/algorithm/articulo/2006%20-%20IEEE_TKDE%20-%20Zhou_Liu.pdf
+whether what it says can be linked to what you got. Otherwise, just omit it from your report. \\
+
+
+\subsubsection{Test-time threshold}
+
+This is great because it enables to set different costs to false positives, which is what ControlPoint is interested in. \\
+
+Papers: 
+http://sci2s.ugr.es/keel/pdf/algorithm/articulo/2006%20-%20IEEE_TKDE%20-%20Zhou_Liu.pdf
+http://www.eiti.uottawa.ca/~nat/Workshop2003/maloof-icml03-wids.pdf
+
+It also allows you to assign different costs to the different misclassifications (i.e. if the algorithm is only supposed to flag potential problems then a false negative is much more expensive than a false positive)
+the idea is that, if we have 2 classes and assign equal cost to both misclassifications, then we would want to pick the label with the biggest p(data | label) probability
+however, the NN will compute the probabilities p(label | data) ~ p(data | label) p(label)
+and a class imbalance means the priors p(label) are different
+so you just need to correct for that by multiplying, for instance, the probability of p(label = 1 | data) outputted by the NN by the factor p(label=2) / p(label=1) and renormalizing \\
+
+I get why it's called threshold: suppose $p(c_1)=0.1$. the threshold for classifying as $c_1$ moves from 0.5 to 0.1. Illustrate this point with one or two simple examples (`intuitively, ').  (that's pretty much what the "sig level" script I mentioned intends to do, except script has a flexible sig level.)
+Also, I think that if we wanted to implement the threshold directly in the net, we might need to put the threshold layer after the softmax layer (and have it renormalise by $1/num_classes$). cos it's non-linear so you can't be sure that their output will be renormalised in the same way. \\
+
+Rather than have a fixed threshold hard-coded into the network, I propose to use a sig level script, for greater flexibility. \\
 
 \subsubsection{Bayesian Cross Entropy Cost Function}
 
@@ -1544,115 +1652,6 @@ All of the above holds only for the softmax output layer and not for lower layer
 %rephrase that mathematically!
 
 
-\subsubsection{Under-Sampling}
-
-Imbalance is obviously reached because most mini-batches do not contain any minority class examples, so the net is only ever being told to output 0. 
-
-%\begin{figure}[h!]
-%	\centering
-%	\includegraphics[width=0.8	extwidth,natwidth=610,natheight=642]{images/plot_fitting_proximity_tl_wout.png}
-%	\caption{Clamp Detection, Full Backpropagation}
-%\end{figure}
-%
-%\begin{figure}[h!]
-%	\centering
-%	\includegraphics[width=0.8	extwidth,natwidth=610,natheight=642]{images/plot_fitting_proximity_us_tl_wout.png}
-%	\caption{Clamp Detection, Full Backpropagation}
-%\end{figure}
-
-
-\paragraph{Overfitting consequences of under-sampling}
-
-Here we evaluate impact of under-sampling on clampdet. There is no need to under-sample on clampdet because class imbalance is tackled by transfer learning. But that is the reason for why clampdet is used to illustrate impact on overfitting: apply under-sampling in a case where learning occurs regardless, to see what impact it has on the health. We can't be certain about this impact on fitting proximity, since it just doesn't learn anyway. \\
-
-Comparison 1: without weight re-initialization
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_us_none.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-Notice how under-sampling makes overfit take place so much sooner. As a result, the model cannot pick up any of the higher order generalising patterns, and the performance is not as high (go down from 94\% to 85\% or something right?). This begs for other class imbalance tackling tricks to be combined with under-sampling, in order to limit the extent to which we under-sample, in order to fragilise robustness as little as possibe, so that we can use more expressive models, i.e.\ enable backprop on more layers. \\
-
-
-
-\subsubsection{Over-Sampling}
-
-And now for an alternative to under-sampling. 
-
-For the implementation: 
-(min + copy) / (max + min + copy) = target
-
-min + copy = copy*target + target*(max+min)
-
-copy = copy*target + target*(max+min) - min
-
-(1-target)*copy = target*(max+min) - min
-
-copy = ( target*(max+min) - min ) / (1 - target)
-
-Duplicates are created in training set, but we don't want them in the validation or test sets as this will slow down the algorithms (though it wouldn't bias the results aka metrics). 
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.8\textwidth,natwidth=610,natheight=642]{images/plot_clampdet_us_none_reinit.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_os_none_reinit-5000.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_os_none_reinit.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-Oversampling completely fails. \\
-
-Observations:
-- very weak performance
-- per class accuracy goes below 0.5
-- entire error time series are shifted up by a constant
-- overfit occurs sooner
-
-
-Interpretations:
-How can per class accuracy be below 0.5? that's worse than random! It may be due to the fact that copies are made in the training set, but not in the test and validation sets. 
-When comparing these networks, should we not be using the same validation set for all? No, we should be using the same test set (and testing will come in the next section). We should choose the validation set that we deem best for early stopping. In the case of over-sampling, makes no sense to include duplicates. 
-
-There might be bugs in the implementation. Check in this paper: http://sci2s.ugr.es/keel/pdf/algorithm/articulo/2006%20-%20IEEE_TKDE%20-%20Zhou_Liu.pdf
-whether what it says can be linked to what you got. Otherwise, just omit it from your report. \\
-
-
-\subsubsection{Test-time threshold}
-
-This is great because it enables to set different costs to false positives, which is what ControlPoint is interested in. \\
-
-Papers: 
-http://sci2s.ugr.es/keel/pdf/algorithm/articulo/2006%20-%20IEEE_TKDE%20-%20Zhou_Liu.pdf
-http://www.eiti.uottawa.ca/~nat/Workshop2003/maloof-icml03-wids.pdf
-
-It also allows you to assign different costs to the different misclassifications (i.e. if the algorithm is only supposed to flag potential problems then a false negative is much more expensive than a false positive)
-the idea is that, if we have 2 classes and assign equal cost to both misclassifications, then we would want to pick the label with the biggest p(data | label) probability
-however, the NN will compute the probabilities p(label | data) ~ p(data | label) p(label)
-and a class imbalance means the priors p(label) are different
-so you just need to correct for that by multiplying, for instance, the probability of p(label = 1 | data) outputted by the NN by the factor p(label=2) / p(label=1) and renormalizing \\
-
-I get why it's called threshold: suppose $p(c_1)=0.1$. the threshold for classifying as $c_1$ moves from 0.5 to 0.1. Illustrate this point with one or two simple examples (`intuitively, ').  (that's pretty much what the "sig level" script I mentioned intends to do, except script has a flexible sig level.)
-Also, I think that if we wanted to implement the threshold directly in the net, we might need to put the threshold layer after the softmax layer (and have it renormalise by $1/num_classes$). cos it's non-linear so you can't be sure that their output will be renormalised in the same way. \\
-
-Rather than have a fixed threshold hard-coded into the network, I propose to use a sig level script, for greater flexibility. \\
 
 
 \section{Task 4: Conserving Spatial Information}
