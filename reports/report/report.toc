@@ -46,7 +46,7 @@
 \contentsline {subsubsection}{\numberline {4.2.4}Impact of the ReLU}{29}
 \contentsline {section}{\numberline {5}Analysis 2: Early Stopping}{31}
 \contentsline {paragraph}{Gradient Descent}{31}
-\contentsline {section}{\numberline {6}Task 1: Generic Clamp Detection}{32}
+\contentsline {section}{\numberline {6}Experiments 1: Generic Clamp Detection}{32}
 \contentsline {subsection}{\numberline {6.1}Motivations}{32}
 \contentsline {subsection}{\numberline {6.2}Implementation: Cuda-Convnet}{32}
 \contentsline {subsection}{\numberline {6.3}Experimentation}{32}
@@ -55,7 +55,7 @@
 \contentsline {subsubsection}{\numberline {6.3.3}Periodicity of the training error}{34}
 \contentsline {subsubsection}{\numberline {6.3.4}Poor, Sampling-Induced Corner Minima}{34}
 \contentsline {subsubsection}{\numberline {6.3.5}Mislabelling}{36}
-\contentsline {section}{\numberline {7}Task 2: Transfer Learning}{38}
+\contentsline {section}{\numberline {7}Experiments 2: Transfer Learning}{38}
 \contentsline {subsection}{\numberline {7.1}Motivations}{38}
 \contentsline {subsection}{\numberline {7.2}Implementation}{38}
 \contentsline {subsubsection}{\numberline {7.2.1}Caffe}{38}
@@ -69,35 +69,35 @@
 \contentsline {subsubsection}{\numberline {7.3.4}Softmax vs linear SVM}{42}
 \contentsline {paragraph}{Numerical Analysis}{43}
 \contentsline {paragraph}{Empirical Results}{44}
-\contentsline {section}{\numberline {8}Task 3: Class Imbalance}{46}
+\contentsline {section}{\numberline {8}Experiments 3: Class Imbalance}{46}
 \contentsline {subsection}{\numberline {8.1}Motivations}{46}
 \contentsline {subsection}{\numberline {8.2}Implementation}{46}
 \contentsline {subsection}{\numberline {8.3}Experimentation}{46}
 \contentsline {subsubsection}{\numberline {8.3.1}Test Run}{46}
 \contentsline {subsubsection}{\numberline {8.3.2}Transfer Learning}{48}
-\contentsline {subsubsection}{\numberline {8.3.3}Hyperparameter Optimisation}{49}
-\contentsline {paragraph}{Mini-batch Size}{49}
+\contentsline {subsubsection}{\numberline {8.3.3}Hyperparameter Optimisation}{48}
+\contentsline {paragraph}{Mini-batch Size}{48}
 \contentsline {paragraph}{Learning Rate}{50}
 \contentsline {subsubsection}{\numberline {8.3.4}Under-Sampling}{50}
 \contentsline {paragraph}{Overfitting consequences of under-sampling}{50}
-\contentsline {subsubsection}{\numberline {8.3.5}Over-Sampling}{50}
-\contentsline {subsubsection}{\numberline {8.3.6}Test-time threshold}{52}
+\contentsline {subsubsection}{\numberline {8.3.5}Over-Sampling}{51}
+\contentsline {subsubsection}{\numberline {8.3.6}Test-time threshold}{53}
 \contentsline {subsubsection}{\numberline {8.3.7}Bayesian Cross Entropy Cost Function}{53}
-\contentsline {paragraph}{Motivations}{53}
+\contentsline {paragraph}{Motivations}{54}
 \contentsline {paragraph}{Implementation}{54}
 \contentsline {paragraph}{Results}{55}
-\contentsline {subsubsection}{\numberline {8.3.8}Error-accuracy mismatch revisited}{55}
+\contentsline {subsubsection}{\numberline {8.3.8}Error-accuracy mismatch revisited}{56}
 \contentsline {paragraph}{SGD mechanics}{56}
-\contentsline {section}{\numberline {9}Task 4: Conserving Spatial Information}{56}
+\contentsline {section}{\numberline {9}Experiments 4: Conserving Spatial Information}{56}
 \contentsline {subsection}{\numberline {9.1}Motivations}{56}
-\contentsline {subsection}{\numberline {9.2}Implementation}{56}
+\contentsline {subsection}{\numberline {9.2}Implementation}{57}
 \contentsline {subsection}{\numberline {9.3}Experimentation}{57}
 \contentsline {paragraph}{Test Run}{57}
 \contentsline {paragraph}{Remove pooling and an fc layer}{57}
 \contentsline {paragraph}{Softmax Bayesian Cross Entropy}{57}
 \contentsline {section}{\numberline {10}Final Results}{57}
 \contentsline {subsection}{\numberline {10.1}Merging Classes}{57}
-\contentsline {subsection}{\numberline {10.2}Independent Binary Classifiers}{57}
+\contentsline {subsection}{\numberline {10.2}Independent Binary Classifiers}{58}
 \contentsline {subsection}{\numberline {10.3}Learning Rate}{58}
 \contentsline {paragraph}{Step}{58}
 \contentsline {paragraph}{Exp}{58}
@@ -105,6 +105,6 @@
 \contentsline {paragraph}{Test Run}{59}
 \contentsline {subparagraph}{Training Results}{59}
 \contentsline {subparagraph}{Observations}{59}
-\contentsline {paragraph}{Get more evidence}{59}
+\contentsline {paragraph}{Get more evidence}{60}
 \contentsline {subsection}{\numberline {10.5}Hatch Markings}{60}
 \contentsline {section}{\numberline {11}Conclusions and Future Work}{61}

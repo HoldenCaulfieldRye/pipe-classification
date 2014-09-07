@@ -824,7 +824,7 @@ I've been thinking about it in terms of early stopping. early stopping seems rea
 
 \clearpage
 
-\section{Task 1: Generic Clamp Detection}
+\section{Experiments 1: Generic Clamp Detection}
 
 \subsection{Motivations}
 
@@ -1002,7 +1002,7 @@ In order to limit the impact of mislabelling, the rest of the project was conduc
 
 
 \clearpage
-\section{Task 2: Transfer Learning}
+\section{Experiments 2: Transfer Learning}
 
 \subsection{Motivations}
 
@@ -1220,7 +1220,7 @@ The way to compare performance in the two models is to look at average per class
 
 
 \clearpage
-\section{Task 3: Class Imbalance}
+\section{Experiments 3: Class Imbalance}
 
 \subsection{Motivations}
 
@@ -1260,10 +1260,9 @@ Several class imbalance-tackling techniques that were experimented with required
 
 \subsection{Experimentation}
 
-Seven different approaches to tackling class imbalance were explored (including transfer learning, which was found to help).  \\
+This section begins with a test run, intended to serve as a benchmark against which to subsequently evaluate six different approaches to tackling class imbalance. The first approach discussed below is transfer learning, so as to form a transition from the previous set of experiments. The second is the simplest, because it merely consists in tuning model hyperparameters. The three that follow are techniques explored by (Maloof 2003) \cite{maloof} to specifically tackle class imbalance. Finally, the sixth is a novel cost function. \\
 
 The level of class imbalance to impose on the clamp detection task was chosen such that the optimal transfer learning setup obtained from previous experimentation no longer enables successful learning of the task, and puts the network in bad local minimum instead. This is 98\%, from an original imbalance ratio of 88\%. This corresponds to going from 1323 minority class training cases to 193. \\
-
 
 \subsubsection{Test Run}
 
@@ -1654,7 +1653,7 @@ All of the above holds only for the softmax output layer and not for lower layer
 
 
 
-\section{Task 4: Conserving Spatial Information}
+\section{Experiments 4: Conserving Spatial Information}
 
 \subsection{Motivations}
 
@@ -1853,8 +1852,8 @@ Elucidate error accuracy mismatch. Class imbalance impact on mechanics of backpr
  
 \bibitem{SIFT}
  Lowe, David
- \emph{Object Recognition From Local Scale-Invariant Features}
- The Proceedings of the Seventh IEEE International Conference on COmputer Vision
+ \emph{Object Recognition From Local Scale-Invariant Features}\\
+ The Proceedings of the Seventh IEEE International Conference on Computer Vision
  1999 
  
 \bibitem{goodfellow_street_view}
@@ -1864,7 +1863,7 @@ Elucidate error accuracy mismatch. Class imbalance impact on mechanics of backpr
 
 \bibitem{svm-nn}
  Tang, Yichuan;
- \emph{Deep Learning using linear Support Vector Machines}
+ \emph{Deep Learning using linear Support Vector Machines}\\
  arXiv 2014
 
 \bibitem{ReLU_RBM}
@@ -1874,12 +1873,12 @@ Elucidate error accuracy mismatch. Class imbalance impact on mechanics of backpr
 
 \bibitem{dropout}
  G. E. Hinton, N. Srivastava, A. Krizhevsky, I. Sutskever and R. R. Salakhutdinov;
- \emph{Improving Neural Networks By Preventing Co-Adaptation of Feature Detectors}
+ \emph{Improving Neural Networks By Preventing Co-Adaptation of Feature Detectors}\\
  arXiv 2012
 
 \bibitem{data-aug}
  Dan C. Cire¸san, Ueli Meier, Jonathan Masci, Luca M. Gambardella, Juergen Schmidhuber;
- \emph{High-Performance Neural Networks for Visual Object Classification}
+ \emph{High-Performance Neural Networks for Visual Object Classification}\\
  arXiv 2011
 
 \bibitem{decaf}
@@ -1889,17 +1888,17 @@ Elucidate error accuracy mismatch. Class imbalance impact on mechanics of backpr
   
 \bibitem{fergus_tutorial}
  Fergus, Robert;
- \emph{Tutorials Session A - Deep Learning for Computer Vision}
+ \emph{Tutorials Session A - Deep Learning for Computer Vision}\\
  NIPS 2013  
   
 \bibitem{off-the-shelf}
  Ali Sharif Razavian, Hossein Azizpour, Josephine Sullivan, Stefan Carlsson;
- \emph{CNN Features off-the-shelf: an Astounding Baseline for Recognition}
+ \emph{CNN Features off-the-shelf: an Astounding Baseline for Recognition}\\
  arXiv 2014
  
 \bibitem{colah}
  Olah, Christopher;
- \emph{Understanding Convolutions}
+ \emph{Understanding Convolutions}\\
  URL: \url{http://colah.github.io/posts/2014-07-Understanding-Convolutions/}, last accessed 1st September 2014.
 
 \bibitem{MIML}
@@ -1919,14 +1918,14 @@ Elucidate error accuracy mismatch. Class imbalance impact on mechanics of backpr
 \bibitem{control-point}
  Fusion Group - ControlPoint LLP,
  \emph{Company Description}\\
- URL: \url{http://www.fusionprovida.com/companies/control-point}, last accessed 5th June 2014. 
+ URL: \url{http://www.fusionprovida.com/companies/control-point}\\ last accessed 5th June 2014. 
   
 \bibitem{labex-bezout}
  LeCun, Yann;
- \emph{The Unreasonable Effectiveness of Deep Learning}
+ \emph{The Unreasonable Effectiveness of Deep Learning}\\
  Journee du Labez Bexout
  12 June 2014  
- URL: \url{https://www.youtube.com/watch?v=zPVHH7ZJi9Q&list=PLYTk9IwHBb2ANKHc2feIso7tL1slpuVPY&index=1}, last accessed 4th September 2014/
+ URL: \url{https://www.youtube.com/watch?v=zPVHH7ZJi9Q&list=PLYTk9IwHBb2ANKHc2feIso7tL1slpuVPY&index=1}\\ last accessed 4th September 2014/
   
 \bibitem{univ-approx}
  Barron, Andrew R.,
@@ -1938,7 +1937,7 @@ Elucidate error accuracy mismatch. Class imbalance impact on mechanics of backpr
 \bibitem{DL-book}
  Bengio, Yoshua;
  \emph{Learning Deep Architectures for AI}\\
- Foundations and Trends in Machine Learning, 
+ Foundations and Trends in Machine Learning 
  Vol. 2, No. 1 (2009) 1-127
  2009
 
@@ -1949,7 +1948,7 @@ Elucidate error accuracy mismatch. Class imbalance impact on mechanics of backpr
 
 \bibitem{zeiler_fergus}
  Zeiler, Matthew; Fergus, Robert;
- Visualizing and Understanding Convolutional Networks
+ Visualizing and Understanding Convolutional Networks\\
  arXiv 2013
 
 
@@ -1970,7 +1969,7 @@ Elucidate error accuracy mismatch. Class imbalance impact on mechanics of backpr
 
 \bibitem{Bengio_G+}
  Bengio, Yoshua;
- \emph{Google+ Deep Learning community post}
+ \emph{Google+ Deep Learning community post}\\
  URL: \url{https://plus.google.com/+YoshuaBengio/posts/GJY53aahqS8}, last accessed 1st September 2014.
  
 \bibitem{surf}
@@ -1985,27 +1984,33 @@ Elucidate error accuracy mismatch. Class imbalance impact on mechanics of backpr
    
 \bibitem{cuda-convnet} 
  Krizhevsky, Alex; 
- \emph{Cuda-ConvNet: High-performance C++/CUDA implementation of convolutional neural networks}
+ \emph{Cuda-ConvNet: High-performance C++/CUDA implementation of convolutional neural networks}\\
  URL: \url{https://code.google.com/p/cuda-convnet/}, last accessed 6th June 2014.
  
 \bibitem{microsoft-book}
  Deng, Li; Yu, Dong;
- \emph{Deep Learning Methods and Applications}
+ \emph{Deep Learning Methods and Applications}\\
  Foundations and Trends in Signal Processing
  7:3-4 2014
 
 \bibitem{caffe-website} 
  Jia, Yangqing;
  \emph{Caffe: a deep learning framework} 
- URL: \url{http://caffe.berkeleyvision.org/getting_pretrained_models.html}, last accessed 6th June 2014.
+ URL: \url{http://caffe.berkeleyvision.org/getting_pretrained_models.html}\\ last accessed 6th June 2014.
 
 \bibitem{nips-tut}  
  Fergus, Robert;
- \emph{NIPS 2013 Tutorial - Deep Learning for Computer Vision}
- URL: \url{http://research.microsoft.com/apps/video/default.aspx?id=206976&l=i}, last accessed 6th August 2014.
+ \emph{NIPS 2013 Tutorial - Deep Learning for Computer Vision},
+ URL: \url{http://research.microsoft.com/apps/video/default.aspx?id=206976&l=i}\\ last accessed 6th August 2014.
 
 \bibitem{soumith-benchmark}
- URL: \url{https://github.com/soumith/convnet-benchmarks}, last accessed 2nd September 2014.
+ URL: \url{https://github.com/soumith/convnet-benchmarks}\\ last accessed 2nd September 2014.
+
+\bibitem{maloof}
+ Maloof, Marcus A;
+ \emph{Learning when data sets are imbalanced and when costs are unequal and unknown}\\
+ Workshop on Learning from Imbalanced Data Sets II
+ ICML 2003
  
 \bibitem{theano}
  Theano,
