@@ -1244,18 +1244,19 @@ The way to compare performance in the two models is to look at average per class
 
 \subsection{Definition}
 
-Before detailing the motivations for the experiments that took place, we properly return to the definition of class imbalance mentioned in the literature review and during the discussion of results on simple clamp detection. The objective of this subsection is to find a precise definition to provide a framework for reasoning about the problem.
+Before detailing the motivations for the experiments that took place, we properly return to the definition of class imbalance mentioned in the literature review and during the discussion of results on simple clamp detection. An extension to this definition is proposed to encompass \textit{dangerous} class imbalance. Having such a definition provides a framework for reasoning about the problem.
 
-As stated in the literature review, class imbalance has been defined as the situation where the sample distribution of classes is significantly non-uniform. However, this  is not sufficient for a class to occupy far less space than any other. Consider a 12-class training set where 11 take up 9\% each and one takes up 1\%. 
+As stated in the literature review, class imbalance has been defined as the situation where the sample distribution of classes is significantly non-uniform. However, this is not necessarily detrimental to learning. Consider a 12-class training set where 11 take up 9\% each and one takes up 1\%. 
 
-Class imbalance is defined in this report by the situation where the sample distribution of classes in the training set enables a classifier that is a constant function to perform significantly better than randomly outputting each class with the same probability. 
+Class imbalance is defined in this report by the situation where a classifier that \textbf{constantly outputs the class priors} performs significantly better than randomly outputting each class with the same probability. 
 
-For example, given a 2-class training set with class distribution (0.9,0.1), a classifier which outputs the first class all the time obtains 90\% accuracy, whereas randomly outputting them uniformly obtains 50\%. 
+For example, given a 2-class dataset with distribution of classes (0.9,0.1), a classifier which outputs (0.9,0.1) all the time will classify all cases into the majority class, and obtain 90\% accuracy, whereas randomly outputting them uniformly obtains only 50\%. 
 
 It is not necessary for a class to occupy the vast majority of the training set: consider a 1000-class training set where one class takes up 20\%. A classifier which outputs this class all the time obtains 20\% top-1 accuracy, compared to 0.1\% for random uniform. 
 
 It is not necessary for a class to occupy far more space than any other. Consider a 1000-class training set where 5 classes each take up 17\%. A classifier which always outputs these 5 as its top-5 obtains 85\% top-5 accuracy, which is higher even than the score of (Krizhevsky et al 2012) at ILSVRC 2012 \cite{krizhevsky}.
 
+It would be tempting to make the conjecture that outputting that class priors is the best performing constant function classifier not just with respect to 
 
 
 Others \cite{f-measure} \cite{imbalance} have defined class imbalance more lightly and intuitively as the situation where there exists a class of significantly smaller size than another, i.e.\ when the sample distribution of classes is significantly non-uniform. However, as it will be observed and proved later, this report's definition is the largest set of conditions that are necessary for the detrimental phenomenon of interest to occur when training classifiers with stochastic gradient descent and standard cost functions. \\
