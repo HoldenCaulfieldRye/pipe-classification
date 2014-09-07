@@ -1230,7 +1230,7 @@ Therefore, additional approaches for dealing with class imbalance were sought ou
 
 Were this tactic not adopted, it would not be possible to ascertain whether an approach failing to deliver a performance increase were due to its inability to tackle class imbalance, or to the fact that the task is difficult  for other reasons. For example, water contamination risk is defined by the presence of droplets on the pipe fitting. However, when images are downsized to 256x256 pixels for AlexNet, droplets become invisible to the naked eye. This task could therefore be impossible to learn with networks the size of AlexNet, for a reason not related to the strong class imbalance that the task also presents (92.5\%). \\
 
-The literature on deep learning with class imbalance was found to be scarce. `Training cost sensitive neural networks with methods addressing the class imbalance problem' by Zhou and Liu, 2005, and `Learning when data sets are imbalanced and when costs are unequal and unknown' by Maloof, 2003, both cover \textbf{under-sampling}, textbf{over-sampling} and \textbf{threshold-moving}. Both find threshold-moving to perform best. `F-measure as the error function to train neural networks' does not make use of these techniques and instead introduces a cost function for binary classifiers which is the harmonic mean of precision and recall. Deep neural networks are trained on it as well as on the Mean Squared Error for tasks with up to 95.4\% class imbalance. MSE as a cost function for training deep neural network classifiers is known to train slower and rea The findings are that `both training techniques'
+The literature on deep learning with class imbalance was found to be scarce. `Training cost sensitive neural networks with methods addressing the class imbalance problem' by Zhou and Liu, 2005, and `Learning when data sets are imbalanced and when costs are unequal and unknown' by Maloof, 2003, both cover \textbf{under-sampling}, textbf{over-sampling} and \textbf{threshold-moving}. Both find threshold-moving to perform best. `F-measure as the error function to train neural networks' does not make use of these techniques and instead introduces a cost function for binary classifiers which is the harmonic mean of precision and recall. Deep neural networks are trained on it as well as on the Mean Squared Error for 3 image-cleaning tasks with up to 95.4\% class imbalance. The image-cleaning task is framed as a classification task where ea MSE as a cost function for training deep neural network classifiers is known to train slower and converge to the same performance as when the cross entropy error is used \cite{DL-book}. The authors find that `both training techniques perform quite well' on the basis that `a well cleaned image gives good results'
 
 (Maloof 2003) explores five classifiers including the perceptron, finding that it distinguishes itself from the other classifiers by `learning to always predict the majority class'. This coincides with the behaviour of the multi-layer perceptrons used during this project, and suggests that the perceptron learning rule is one of the most sensitive learning algorithms to class imbalance. 
 
@@ -2033,6 +2033,12 @@ Elucidate error accuracy mismatch. Class imbalance impact on mechanics of backpr
  \emph{F-Measure as the Error Function to Train Neural Networks}\\
  Advances in Computational Intelligence
  Volume 7902, 2013, pp 376-384
+ 
+\bibitem{coursera}
+ Hinton, Geoffrey;
+ \emph{Neural Networks for Machine Learning}\\
+ Coursera,
+ URL: \url{http://coursera.com/neuralnets}
  
 \bibitem{theano}
  Theano,
