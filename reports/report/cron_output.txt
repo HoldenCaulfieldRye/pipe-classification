@@ -2149,3 +2149,12 @@ fatal: Could not read from remote repository.
 Please make sure you have the correct access rights
 and the repository exists.
 alex      3282  3238  1 Sep06 pts/2    00:07:38 texmaker report.tex
+[master f19de08] auto-commit progress on report
+ 8 files changed, 286 insertions(+), 241 deletions(-)
+ rewrite reports/report/report.synctex.gz (86%)
+ssh: connect to host github.com port 22: Connection timed out
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+alex      3282  3238  1 Sep06 pts/2    00:08:06 texmaker report.tex

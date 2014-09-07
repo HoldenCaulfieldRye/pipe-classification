@@ -1298,7 +1298,7 @@ Note that for lower levels of class imbalance, the model is able to escape the s
 	\caption{Clamp Detection, Full Backpropagation}
 \end{figure}
 
-This provides clues about the shape of the error surface in the neighbourhood of this bad minimum, and how varying the level of class imbalance affects it. It suggests that the bad minimum is in fact a saddle point
+This provides clues about the shape of the error surface in the neighbourhood of this bad minimum, and how varying the level of class imbalance affects it. It suggests that the bad minimum could in fact be a saddle point: a number of weights are at local optimality i.e.\ error-weight partial derivatives are zero, but not all; there is still room for improvement for some of them i.e.\ the error surf, and this slowly but eventually moves the network away from the saddle point. Training deep neural networks along saddle points is known to exhibit this type of behaviour\cite{DL-book}; training is slowed down there is still a direction for since otherwise it would be 
 
 
 \subsubsection{Transfer Learning}
