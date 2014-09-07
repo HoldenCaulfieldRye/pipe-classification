@@ -824,7 +824,7 @@ I've been thinking about it in terms of early stopping. early stopping seems rea
 
 \clearpage
 
-\section{Task 1: Generic Clamp Detection}
+\section{Experiments 1: Generic Clamp Detection}
 
 \subsection{Motivations}
 
@@ -1002,7 +1002,7 @@ In order to limit the impact of mislabelling, the rest of the project was conduc
 
 
 \clearpage
-\section{Task 2: Transfer Learning}
+\section{Experiments 2: Transfer Learning}
 
 \subsection{Motivations}
 
@@ -1220,7 +1220,7 @@ The way to compare performance in the two models is to look at average per class
 
 
 \clearpage
-\section{Task 3: Class Imbalance}
+\section{Experiments 3: Class Imbalance}
 
 \subsection{Motivations}
 
@@ -1260,10 +1260,9 @@ Several class imbalance-tackling techniques that were experimented with required
 
 \subsection{Experimentation}
 
-Seven different approaches to tackling class imbalance were explored (including transfer learning, which was found to help).  \\
+This section beings with a test run, intended to serve as a benchmark against which to subsequently evaluate the seven different approaches which were explored. , followed by the seven approaches each of them. As a transition from the previous section, the first approach to be reported below is transfer learning.  \\
 
 The level of class imbalance to impose on the clamp detection task was chosen such that the optimal transfer learning setup obtained from previous experimentation no longer enables successful learning of the task, and puts the network in bad local minimum instead. This is 98\%, from an original imbalance ratio of 88\%. This corresponds to going from 1323 minority class training cases to 193. \\
-
 
 \subsubsection{Test Run}
 
@@ -1340,7 +1339,7 @@ Note that validation error is very low because it is not a per class average: th
 
 What is arguably a crucial question is whether the difficulty in learning the minority class is the inevitable consequence of having few training examples to learn from, or whether the imbalance ratio is preventing generalising features of the minority class from being learned. If the former, there is no use in searching for ways to tackle class imbalance without throwing away majority class data.  \\
 
-Note that following evaluation of transfer learning, a fixed architecture and training strategy were kept throughout the experiments below: backpropagation on all layers, all weights transferred. Although freezing backpropagation on the first four convolutional layers was found to perform best during experiments of the previous section, full backpropagation was adopted in this section for the sake of simplcity. The objective of this section is not to achieve the highest absolute accuracy, but rather to compare relative successes of different approaches to tackling class imbalance.
+Note that following evaluation of transfer learning, a fixed architecture and training strategy were kept throughout the experiments below: backpropagation on all layers, all weights transferred. Although freezing backpropagation on the first four convolutional layers was found to perform best during experiments of the previous section, full backpropagation was adopted in this section for the sake of clarity. The objective of this section is not to achieve the highest absolute accuracy, but rather to compare relative successes of different approaches to tackling class imbalance.
 
 \subsubsection{Hyperparameter Optimisation}
 
@@ -1654,7 +1653,7 @@ All of the above holds only for the softmax output layer and not for lower layer
 
 
 
-\section{Task 4: Conserving Spatial Information}
+\section{Experiments 4: Conserving Spatial Information}
 
 \subsection{Motivations}
 
