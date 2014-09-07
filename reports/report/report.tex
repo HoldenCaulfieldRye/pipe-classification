@@ -616,6 +616,9 @@ One can imagine that the requirement of a large enough dataset is to obtain a su
 
 No papers regarding this research were found. When the question was reposted to the Google+ Deep Learning community, Yann LeCun answered that \textit{`This work is not yet published. Stay tuned'}.
 
+\clearpage
+
+The objective of the literature review until now has been to serve as a preamble, in order to understand the models which were used throughout the project. The two subsections that follow are more specific and relate to challenges encountered when training classifiers for ControlPoint. The papers discussed were read in an ad hoc manner, so their relevance will become clearer later on in the Experiments sections that bear the same name. Therefore, especially in the case of the class imbalance literature, deeper examination of the papers is left for then. \\
 
 \subsection{Transfer Learning}
 
@@ -642,8 +645,33 @@ Solving this optimisation problem with brute force would be intractable \cite{ML
 
 \begin{equation}
 arg\min \limits_{\textbf{w},b} ||w||^2 \text{, subject to } \forall 1 \leq i \leq n, t_i(\textbf{w}^T \phi(\textbf{x}_i)+b) = 1
-\end{equation}
+\end{equation} \\
 
+
+\subsection{Class Imbalance}
+
+Class imbalance is defined in this report by the situation where there exists a class that takes up a majority of the training set. Others \cite{f-measure} \cite{imbalance} have defined class imbalance more lightly and intuitively as the situation where there exists a class of significantly smaller size than another, i.e.\ when the sample distribution of classes is significantly non-uniform. However, as it will be observed and proved later, this report's definition is the largest set of conditions that are necessary for the detrimental phenomenon of interest to occur during backpropagation with standard cost functions. \\
+
+The literature on deep learning with class imbalance was found to be scarce. Zhou and Liu in `Training cost sensitive neural networks with methods addressing the class imbalance problem' (2005) \cite{zhou} experiment with \textbf{under-sampling}, textbf{over-sampling} and \textbf{threshold-moving} to deal with class imbalance, and find threshold-moving to perform best. 
+
+`F-measure as the error function to train neural networks' by Pastor-Pellicer et al, 2013 \cite{f-measure}, does not make use of these techniques and instead introduces a cost function for binary classifiers which is the harmonic mean of precision and recall. Deep neural networks are trained on it as well as on the Mean Squared Error for 3 image-cleaning tasks with up to 95.4\% class imbalance. The image-cleaning task is framed as a classification task where the probability of ink in each pixel of the clean image is to be predicted given the noisy image. MSE as a cost function for training deep neural network classifiers is known to train slower and converge to the same performance as when the cross entropy error is used \cite{DL-book}. The authors find that `both training techniques perform quite well' on the basis that `a well cleaned image gives good results on both metrics'. This seems to merely state that the error computed on a correctly classified input is low in absolute terms, for both cost functions. An analytical comparison of the cost functions by rescaling input domain and output range, such as the one between softmax cross entropy and hinge loss in (Bishop 2010) \cite{ML-book} and in the previous section, is not included. An empirical comparison of the cost functions by evaluating a model trained on each against a common performance metric such as percentage classification accuracy is not provided either. It appears that this cost function does not deliver significant performance gains, and was therefore not implemented for this project.
+
+Under-sampling rebalances the training set by removing majority class examples. The brute force approach is to randomly remove these cases and train on the remaining set. However, (Zhou and Liu 2005) \cite{zhou} describe an algorithm for removing selectively. It was not implemented during this project mainly due to its time complexity, which is analysed below. 
+
+\begin{enumerate}
+\item Obtain a perfectly balanced training set by randomly setting aside non-minority class examples.
+\item Train a net on the set.
+\item While there remains examples set aside:
+	\begin{enumerate}
+	\item Increase training set by bringing in 50\% additional non minority class examples.
+	\item Don't train yet, but classify all new arrivals. Remove those correctly classified.
+	\item If training set remains unbalanced, remove non minority class examples whose nearest neighbour in feature space is of a different class.
+	\item If training set remains unbalanced, randomly remove non minority class examples.
+	\item Train the net on the training set.
+	\end{enumerate}
+\end{enumerate}
+
+To the best of our understanding, it is unclear from the paper whether .
 
 \clearpage
 
@@ -960,7 +988,7 @@ It can also be interesting to notice that no meaningful features are learned: fo
 
 This local minimum is `fake' because, with perfect class imbalance, it would not exist. Or at least, it would correspond to a $\frac{1}{K}$ error rate (where $K$ is the number of classes). One may even call such a minimum `lazy': it would correspond to a human not wanting to make the effort of learning, using instead a strategy of calling out the same label every time without inspecting the image, and still scoring 90\% accuracy in this case. Note that accuracy refers to the percentage of correctly classified cases in the validation set.
 
-Note that class imbalance is a danger not necessarily when there exists a class that is far more present than another, but when there exists a class that takes up a vast majority of the training set. Indeed, the value of the `fake' minimum in terms of error rate is $1 - p_K$, where $p_K$ is the proportion of majority class cases. This explains why class imbalance is not a richly documented issue in the literature: all benchmark image classification datasets (such as CIFAR, MNIST and ImageNet) involve at least ten classes, so the class imbalance `fake' minima never deliver less than 90\% error rate, which is unlikely to be an àttractive minimum. 
+Note that class imbalance is a danger not necessarily when there exists a class that is far more present than another, but when there exists a class that takes up a vast majority of the training set. Indeed, the value of the `fake' minimum in terms of error rate is $1 - p_K$, where $p_K$ is the proportion of majority class cases. This may shed light on why class imbalance is not a richly documented issue in the literature: all benchmark image classification datasets (such as CIFAR, MNIST and ImageNet) involve at least ten classes, so the class imbalance `fake' minima never deliver less than 90\% error rate, which is unlikely to be an àttractive minimum. 
 
 \subsubsection{Mislabelling}
 
@@ -1231,13 +1259,6 @@ Therefore, additional approaches for dealing with class imbalance were sought ou
 Were this tactic not adopted, it would not be possible to ascertain whether an approach failing to deliver a performance increase were due to its inability to tackle class imbalance, or to the fact that the task is difficult  for other reasons. For example, water contamination risk is defined by the presence of droplets on the pipe fitting. However, when images are downsized to 256x256 pixels for AlexNet, droplets become invisible to the naked eye. This task could therefore be impossible to learn with networks the size of AlexNet, for a reason not related to the strong class imbalance that the task also presents (92.5\%). \\
 
 
-\subsubsection{Literature Review}
-
-The literature on deep learning with class imbalance was found to be scarce. `Training cost sensitive neural networks with methods addressing the class imbalance problem' by Zhou and Liu, 2005 \cite{zhou}, and `Learning when data sets are imbalanced and when costs are unequal and unknown' by Maloof, 2003 \cite{maloof}, both cover \textbf{under-sampling}, textbf{over-sampling} and \textbf{threshold-moving}. Both find threshold-moving to perform best. Similar approaches to these three techniques were implemented on the clamp detection task and are later discussed in the experimentation subsection. 
-
-(Maloof 2003) explores five classifiers including the perceptron, finding that it distinguishes itself from the other classifiers by `learning to always predict the majority class'. This coincides with the behaviour of the multi-layer perceptrons used during this project, and suggests that the perceptron learning rule is one of the most sensitive learning algorithms to class imbalance. \\
-
-`F-measure as the error function to train neural networks' by Pastor-Pellicer et al, 2013 \cite{f-measure}, does not make use of these techniques and instead introduces a cost function for binary classifiers which is the harmonic mean of precision and recall. Deep neural networks are trained on it as well as on the Mean Squared Error for 3 image-cleaning tasks with up to 95.4\% class imbalance. The image-cleaning task is framed as a classification task where the probability of ink in each pixel of the clean image is to be predicted given the noisy image. MSE as a cost function for training deep neural network classifiers is known to train slower and converge to the same performance as when the cross entropy error is used \cite{DL-book}. The authors find that `both training techniques perform quite well' on the basis that `a well cleaned image gives good results on both metrics'. This seems to merely state that the error computed on a correctly classified input is low in absolute terms, for both cost functions. An analytical comparison of the cost functions by rescaling input domain and output range, such as the one between softmax cross entropy and hinge loss in (Bishop 2010) \cite{ML-book} and in the previous section, is not included. An empirical comparison of the cost functions by evaluating a model trained on each against a common performance metric such as percentage classification accuracy is not provided either. It appears that this cost function does not deliver significant performance gains, and was therefore not implemented for this project.
 
 
 \subsection{Implementation}
@@ -1431,7 +1452,7 @@ With a lower learning rate, the validation accuracy seems to increase at a far s
 
 \subsubsection{Under-Sampling}
 
-Under-sampling rebalances the training set by removing majority class examples. The brute force approach is to randomly remove these cases and train on the remaining set. However, (Zhou and Liu 2005) \cite{zhou} describe an algorithm for removing selectively. It is reformulated below.
+Under-sampling rebalances the training set by removing majority class examples. The brute force approach is to randomly remove these cases and train on the remaining set. However, (Zhou and Liu 2005) \cite{zhou} describe an algorithm for removing selectively. It was not implemented during this project mainly due to its time complexity, which is analysed below. 
 
 \begin{enumerate}
 \item Obtain a perfectly balanced training set by randomly setting aside non-minority class examples.
@@ -1441,19 +1462,12 @@ Under-sampling rebalances the training set by removing majority class examples. 
 	\item Increase training set by bringing in 50\% additional non minority class examples.
 	\item Don't train yet, but classify all new arrivals. Remove those correctly classified.
 	\item If training set remains unbalanced, remove non minority class examples whose nearest neighbour in feature space is of a different class.
-	\item If training set remains unbalanced, randomly randomly remove non minority class examples.
+	\item If training set remains unbalanced, randomly remove non minority class examples.
 	\item Train the net on the training set.
 	\end{enumerate}
 \end{enumerate}
 
-at every iteration:
-a) 
-b) don't train yet but classify all new arrivals. remove from training set those correctly classified.
-c) if training set not perfectly balanced, remove non minority class cases who have a nearest neighbour of different class.
-d) if training set not perfectly balanced, rebalance by random deletion.
-
-
-
+To the best of our understanding, it is unclear from the paper whether 
 
 \begin{figure}
     \centering
@@ -1876,6 +1890,9 @@ Copy paste from your emacs sheet everything! Talk about domain change as well be
 
 Elucidate error accuracy mismatch. Class imbalance impact on mechanics of backpropagation at the softmax layer.
 
+Better definition
+
+
 \begin{thebibliography}{1}
 % Example: \bibitem{One}
 % a better way of doing it: a .bib file or something. bit.ly/1kqg2Qe
@@ -2057,6 +2074,12 @@ Elucidate error accuracy mismatch. Class imbalance impact on mechanics of backpr
  \emph{F-Measure as the Error Function to Train Neural Networks}\\
  Advances in Computational Intelligence
  Volume 7902, 2013, pp 376-384
+ 
+\bibitem{imbalance}
+ He, Haibo;
+ \emph{Learning from imbalanced data}\\
+ IEEE Transactions on Knowledge and Data Engineering
+ Volume 21, no 9, 2009
  
 \bibitem{coursera}
  Hinton, Geoffrey;
