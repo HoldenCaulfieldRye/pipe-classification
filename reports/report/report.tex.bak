@@ -1156,7 +1156,7 @@ Re-initialising the weights barely increases performance when measured by averag
 
 `CNN features off the shelf' by Razavian et al, 2014, \cite{off-the-shelf} established state-of-the-art results by training linear SVMs on the features from the 7th, fully connected layer of OverFeat. One may wonder why Razavian et al train a linear SVM rather than a conventional softmax layer, and whether the difference in performance is substantial. A second motivation for this comparison is to reproducing the technique of (Razavian et al 2014)\footnote{with the exception that the transfer model used here is not OverFeat, but the slightly lesser performing Caffe Reference ImageNet model.} to provide a benchmark for the optimisations and results produced by this research project\footnote{The benchmark would have been better carried out by using OverFeat, but the model is only available for Torch7, an alternative framework to Caffe.}.
 
-\paragraph{Numerical Analysis}
+\paragraph{Analytical Comparison}
 The difference between the two can be fully expressed as a difference between cost functions\cite{ML-book}: hinge loss and cross entropy loss. What follows is a numerical comparison of the two \footnote{Heavily drawn from (Bishop 2010)}. 
 
 (Razavian et al 2014) implement transfer learning by freezing backpropagation on all transferred layers, replacing the softmax output layer with an inner product layer containing as many output units, and training by minimising a hinge loss. Indeed, the SVM optimisation problem exposed in the literature review can be reformulated as the minimisation of the $L_2$ regularised hinge loss cost function \cite{ML-book}, given by:
@@ -1233,11 +1233,11 @@ Were this tactic not adopted, it would not be possible to ascertain whether an a
 
 \subsubsection{Literature Review}
 
-The literature on deep learning with class imbalance was found to be scarce. `Training cost sensitive neural networks with methods addressing the class imbalance problem' by Zhou and Liu, 2005 \cite{zhou}, and `Learning when data sets are imbalanced and when costs are unequal and unknown' by Maloof, 2003 \cite{maloof}, both cover \textbf{under-sampling}, textbf{over-sampling} and \textbf{threshold-moving}. Both find threshold-moving to perform best. These three techniques were implemented and are direproduced on the clamp detection task. 
+The literature on deep learning with class imbalance was found to be scarce. `Training cost sensitive neural networks with methods addressing the class imbalance problem' by Zhou and Liu, 2005 \cite{zhou}, and `Learning when data sets are imbalanced and when costs are unequal and unknown' by Maloof, 2003 \cite{maloof}, both cover \textbf{under-sampling}, textbf{over-sampling} and \textbf{threshold-moving}. Both find threshold-moving to perform best. These three techniques were implemented on the clamp detection task and are later discussed in the experimentation subsection. 
 
 (Maloof 2003) explores five classifiers including the perceptron, finding that it distinguishes itself from the other classifiers by `learning to always predict the majority class'. This coincides with the behaviour of the multi-layer perceptrons used during this project, and suggests that the perceptron learning rule is one of the most sensitive learning algorithms to class imbalance. \\
 
-`F-measure as the error function to train neural networks' by Pastor-Pellicer et al, 2013 \cite{f-measure}, does not make use of these techniques and instead introduces a cost function for binary classifiers which is the harmonic mean of precision and recall. Deep neural networks are trained on it as well as on the Mean Squared Error for 3 image-cleaning tasks with up to 95.4\% class imbalance. The image-cleaning task is framed as a classification task where the probability of ink in each pixel of the clean image is to be predicted given the noisy image. MSE as a cost function for training deep neural network classifiers is known to train slower and converge to the same performance as when the cross entropy error is used \cite{DL-book}. The authors find that `both training techniques perform quite well' on the basis that `a well cleaned image gives good results on both metrics'. This seems to merely state that the error computed on a correctly classified input is low in absolute terms, for both cost functions. An analytical comparison of the cost functions by rescaling input domain and output range, such as the one between softmax cross entropy and hinge loss in (Bishop 2010) and in the previous section, is not included. An empirical comparison of the cost functions by evaluating a model trained on each against a common performance metric such as percentage classification accuracy is not provided either. It appears that 
+`F-measure as the error function to train neural networks' by Pastor-Pellicer et al, 2013 \cite{f-measure}, does not make use of these techniques and instead introduces a cost function for binary classifiers which is the harmonic mean of precision and recall. Deep neural networks are trained on it as well as on the Mean Squared Error for 3 image-cleaning tasks with up to 95.4\% class imbalance. The image-cleaning task is framed as a classification task where the probability of ink in each pixel of the clean image is to be predicted given the noisy image. MSE as a cost function for training deep neural network classifiers is known to train slower and converge to the same performance as when the cross entropy error is used \cite{DL-book}. The authors find that `both training techniques perform quite well' on the basis that `a well cleaned image gives good results on both metrics'. This seems to merely state that the error computed on a correctly classified input is low in absolute terms, for both cost functions. An analytical comparison of the cost functions by rescaling input domain and output range, such as the one between softmax cross entropy and hinge loss in (Bishop 2010) \cite{ML-book} and in the previous section, is not included. An empirical comparison of the cost functions by evaluating a model trained on each against a common performance metric such as percentage classification accuracy is not provided either. It appears that this cost function does not deliver significant performance gains, and was therefore not implemented for this project.
 
 
 \subsection{Implementation}
@@ -1438,13 +1438,13 @@ Under-sampling
     \begin{minipage}[b]{\textwidth}
       \begin{subfigure}{.5\textwidth} 
         \centering
-        \includegraphics[scale=0.4]{images/plot_clampdetCI98_us_none_bs128_lr4.png}
+        %\includegraphics[scale=0.4]{images/plot_clampdetCI98_us_none_bs128_lr4.png}
         % Add \par\vspace*{20pt} here and...
         \caption{learning rate 0.0001}\label{fig:2a}
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
-        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs128_lr5.png}
+        %\includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs128_lr5.png}
         % ...here to lower the subcaptions and...
         \caption{learning rate 0.00001}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
@@ -1453,25 +1453,25 @@ Under-sampling
 \end{figure}
 
 
-\paragraph{Overfitting consequences of under-sampling}
-
-Here we evaluate impact of under-sampling on clampdet. There is no need to under-sample on clampdet because class imbalance is tackled by transfer learning. But that is the reason for why clampdet is used to illustrate impact on overfitting: apply under-sampling in a case where learning occurs regardless, to see what impact it has on the health. We can't be certain about this impact on fitting proximity, since it just doesn't learn anyway. \\
-
-Comparison 1: without weight re-initialization
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_us_none.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-Notice how under-sampling makes overfit take place so much sooner. As a result, the model cannot pick up any of the higher order generalising patterns, and the performance is not as high (go down from 94\% to 85\% or something right?). This begs for other class imbalance tackling tricks to be combined with under-sampling, in order to limit the extent to which we under-sample, in order to fragilise robustness as little as possibe, so that we can use more expressive models, i.e.\ enable backprop on more layers. \\
+%\paragraph{Overfitting consequences of under-sampling}
+%
+%Here we evaluate impact of under-sampling on clampdet. There is no need to under-sample on clampdet because class imbalance is tackled by transfer learning. But that is the reason for why clampdet is used to illustrate impact on overfitting: apply under-sampling in a case where learning occurs regardless, to see what impact it has on the health. We can't be certain about this impact on fitting proximity, since it just doesn't learn anyway. \\
+%
+%Comparison 1: without weight re-initialization
+%
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[scale=0.5]{images/plot_clampdet_none.png}
+%	\caption{Clamp Detection, Full Backpropagation}
+%\end{figure}
+%
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[scale=0.5]{images/plot_clampdet_us_none.png}
+%	\caption{Clamp Detection, Full Backpropagation}
+%\end{figure}
+%
+%Notice how under-sampling makes overfit take place so much sooner. As a result, the model cannot pick up any of the higher order generalising patterns, and the performance is not as high (go down from 94\% to 85\% or something right?). This begs for other class imbalance tackling tricks to be combined with under-sampling, in order to limit the extent to which we under-sample, in order to fragilise robustness as little as possibe, so that we can use more expressive models, i.e.\ enable backprop on more layers. \\
 
 
 
@@ -1530,10 +1530,6 @@ whether what it says can be linked to what you got. Otherwise, just omit it from
 \subsubsection{Test-time threshold}
 
 This is great because it enables to set different costs to false positives, which is what ControlPoint is interested in. \\
-
-Papers: 
-http://sci2s.ugr.es/keel/pdf/algorithm/articulo/2006%20-%20IEEE_TKDE%20-%20Zhou_Liu.pdf
-http://www.eiti.uottawa.ca/~nat/Workshop2003/maloof-icml03-wids.pdf
 
 It also allows you to assign different costs to the different misclassifications (i.e. if the algorithm is only supposed to flag potential problems then a false negative is much more expensive than a false positive)
 the idea is that, if we have 2 classes and assign equal cost to both misclassifications, then we would want to pick the label with the biggest p(data | label) probability
