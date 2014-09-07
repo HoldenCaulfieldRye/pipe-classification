@@ -1233,7 +1233,7 @@ Were this tactic not adopted, it would not be possible to ascertain whether an a
 
 \subsubsection{Literature Review}
 
-The literature on deep learning with class imbalance was found to be scarce. `Training cost sensitive neural networks with methods addressing the class imbalance problem' by Zhou and Liu, 2005 \cite{zhou}, and `Learning when data sets are imbalanced and when costs are unequal and unknown' by Maloof, 2003 \cite{maloof}, both cover \textbf{under-sampling}, textbf{over-sampling} and \textbf{threshold-moving}. Both find threshold-moving to perform best. These three techniques were implemented on the clamp detection task and are later discussed in the experimentation subsection. 
+The literature on deep learning with class imbalance was found to be scarce. `Training cost sensitive neural networks with methods addressing the class imbalance problem' by Zhou and Liu, 2005 \cite{zhou}, and `Learning when data sets are imbalanced and when costs are unequal and unknown' by Maloof, 2003 \cite{maloof}, both cover \textbf{under-sampling}, textbf{over-sampling} and \textbf{threshold-moving}. Both find threshold-moving to perform best. Similar approaches to these three techniques were implemented on the clamp detection task and are later discussed in the experimentation subsection. 
 
 (Maloof 2003) explores five classifiers including the perceptron, finding that it distinguishes itself from the other classifiers by `learning to always predict the majority class'. This coincides with the behaviour of the multi-layer perceptrons used during this project, and suggests that the perceptron learning rule is one of the most sensitive learning algorithms to class imbalance. \\
 
@@ -1431,13 +1431,7 @@ With a lower learning rate, the validation accuracy seems to increase at a far s
 
 \subsubsection{Under-Sampling}
 
-Under-sampling 
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.4]{images/undersampling_algo.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
+Under-sampling rebalances 
 
 \begin{figure}
     \centering
