@@ -1431,7 +1431,7 @@ With a lower learning rate, the validation accuracy seems to increase at a far s
 
 \subsubsection{Under-Sampling}
 
-Under-sampling rebalances 
+Under-sampling rebalances the training set by removing majority class examples. 
 
 \begin{figure}
     \centering
