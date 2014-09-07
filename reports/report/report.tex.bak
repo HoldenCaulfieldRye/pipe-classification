@@ -1475,11 +1475,12 @@ Under-sampling rebalances the training set by removing majority class examples. 
 	\item If training set remains unbalanced, randomly remove non minority class examples.
 	\item Train the net on the training set.
 	\end{enumerate}
-\end{enumerate} \\
+\end{enumerate} 
 
 To the best of our understanding, it is unclear from the paper whether training in 3(e) uses randomly initialised weights, or whether they are transferred from the previous model. From our experiments on transfer learning, the former would train significantly faster. However, it would also mean that examples which made it by luck early into the training set will be over-represented throughout overall training, which will increase overfit. Given that the authors reproach this over-representation in the case of over-sampling but not under-sampling, and that no mention of transfer learning is ever made \cite{zhou}, the latter is assumed.
 
-Given this assumption, the time complexity of the under-sampling algorithm is $\bigodot$
+Given this assumption, as well as the empirically verified assumption that $T_{forward_pass} = O(T_{backward_pass})$ \cite{soumith-benchmark} and the assumption that computing the distance in the space between neighbours in features the time complexity of the under-sampling algorithm is \\ 
+$O(T_{backprop}\cdot log_2(n_{max}-n_{min}))$
 
 \begin{figure}
     \centering
