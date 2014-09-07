@@ -1516,11 +1516,15 @@ A surprising observation made on all previous training results was that per clas
 
 However, what remains a curiosity are the implications that this explanation has for the dynamics of learning: it would imply that when using cross entropy error, learning `focuses' on the majority class first, and afterwards focuses on the learning the minority class. This makes strategic sense, since there are more gains from improving on the majority class when using an error that is averaged across the min-batch. 
 
-One may wonder how this could translate from the mechanics of gradient descent. In the two class case, for each softmax neuron, the gradient entering it from a non-perfect classification of a class A instance is always of opposite sign to that from a non-perfect classification of a class B instance. Therefore, when backpropagating a gradient that has been averaged over a mini-batch with class imbalance, assuming that the average per-case error on the majority class is sufficiently not smaller than on the minority class, then this averaged gradient will be of the same sign as a majority class gradient. Therefore, the weight corrections for the softmax layer will be in the directions that favour learning the majority class and disfavour learning the minority class. 
+One may wonder how this could translate from the mechanics of Stochastic Gradient Descent. In the two class case, for each softmax neuron, the gradient entering it from a non-perfect classification of a class A instance is always of opposite sign to that from a non-perfect classification of a class B instance. Therefore, when backpropagating a gradient that has been averaged over a mini-batch with class imbalance, assuming that the average per-case error on the majority class is sufficiently not smaller than on the minority class, then this averaged gradient will be of the same sign as a majority class gradient. Therefore, the weight corrections for the softmax layer will be in the directions that favour learning the majority class over the minority class. 
+
+This will occur until the per-case error on the majority class is sufficiently reduced as to change the sign of the averaged `stochastic' gradient, and invert the directions of learning in the softmax layer in favour of the minority class\footnote{All these affirmations can be shown analytically, but due to time constraints were not written up in this report.}.
+
+All of the above does not necessarily hold for lower layers, since the sign of a gradient propagating from one neuron to another  so cannot explain how the entire model learns, but provides analytical grounding for what is being observed. Observing and analysing these mechanisms work would perhaps make for interesting further research.
 
 Furthermore, assuming that this continues until a locally optimal parameter configuration for detecting
 
-This does not necessarily hold for lower layers, so cannot explain how the entire model learns, but shows that an area of the model \footnote{All these affirmations can be shown analytically, but due to time constraints were not written up in this report.} Such work would perhaps make for interesting further research.
+
 
 %Since gradient descent works byne way that this could occur would be for the representation of the data to project class A cases to some dimensions and class B cases to other dimensions. 
 %
