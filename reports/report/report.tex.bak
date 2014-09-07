@@ -1431,7 +1431,7 @@ With a lower learning rate, the validation accuracy seems to increase at a far s
 
 \subsubsection{Under-Sampling}
 
-Under-sampling rebalances the training set by removing majority class examples. 
+Under-sampling rebalances the training set by removing majority class examples. The brute force approach is to randomly remove these cases and train on the remaining set. 
 
 Training phase:
 \begin{enumerate}
