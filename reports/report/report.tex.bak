@@ -1288,7 +1288,15 @@ To evaluate the difficulty of the clamp detection task with increased class imba
     \end{minipage}%
 \end{figure}
 
-Whereas with 88\% imbalance, it is possible to learn without transfer learning, 98\% imbalance makes it impossible, the model converges within one iteration to a constant function. Note that the reason for why the validation error seems to take 200 iterations to suddenly drop is because the validation frequency was set to a large interval of 200 training mini-batch passes, in order to speed up training.
+Whereas with 88\% imbalance it is possible to learn without transfer learning, 98\% imbalance makes it impossible, the model converges within one iteration to a constant function\footnote{Note that the reason for why the validation error seems to take 200 iterations to suddenly drop is because the validation frequency was set to a large interval of 200 training mini-batch passes, in order to speed up training.} and remains there. In other words, standard levels of momentum and weight decay, as well as the sheer expressive power of the model are not enough for any local parameter configuration to be a better fit for the training data.
+
+Note that for lower levels of class imbalance, the model is able to escape the sample-induced bad minimum. The plot below shows that with 90\% class imbalance for example, the model becomes a constant function at first, and eventually is able to `creep out' of the sample-induced minimum.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdetCI_none.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
 
 \subsubsection{Transfer Learning}
 
