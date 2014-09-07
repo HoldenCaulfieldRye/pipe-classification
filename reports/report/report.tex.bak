@@ -650,9 +650,9 @@ arg\min \limits_{\textbf{w},b} ||w||^2 \text{, subject to } \forall 1 \leq i \le
 
 \subsection{Class Imbalance}
 
-Class imbalance is defined in this report by the situation where the sample distribution of classes in the training set enables a classifier that is a constant function to perform significantly better than randomly outputting each class with the same probability. This somewhat abstract definition is the result of experimentation, so its justification is left for then. \\
+\paragraph{Definition}
 
-Others \cite{f-measure} \cite{imbalance} have defined class imbalance more lightly and intuitively as the situation where there exists a class of significantly smaller size than another, i.e.\ when the sample distribution of classes is significantly non-uniform. However, as it will be observed and proved later, this report's definition is the largest set of conditions that are necessary for the detrimental phenomenon of interest to occur when training classifiers with stochastic gradient descent and standard cost functions. \\
+The literature \cite{imbalance} \cite{maloof} \cite{zhou} \cite{f-measure} has defined class imbalance as the situation when the sample distribution of classes is significantly non-uniform, i.e.\ where there exists a class of significantly smaller size than another. However, as will be seen later, this definition does not necessarily make class imbalance detrimental to learning. A definition for `dangerous class imbalance' will be given with the aim of being the largest set of conditions that are necessary for class imbalance to be detrimental to training classifiers with stochastic gradient descent and standard cost functions. \\
 
 The literature on deep learning with class imbalance was found to be scarce. This report's definition may shed light on why: benchmark image classification datasets (such as CIFAR, MNIST and ImageNet) involve 10 to 1000 classes, so for a class to take up a majority of the training set is unlikely. Besides, if such a dataset did exist, it would arguably be considered unattractive the class imbalance `fake' minima never deliver less than 90\% error rate, which is unlikely to be an àttractive minimum. 
 
@@ -980,10 +980,9 @@ This local minimum is `fake' because, with perfect class balance, it would not e
 
 With this experiment, it becomes clear that class imbalance is a danger not sufficiently when there exists a class that is far more present than another, but sufficiently when there exists a class that takes up a vast majority of the training set. Indeed, the value of the `fake' minimum in terms of error rate is $1 - p_K$, where $p_K$ is the proportion of majority class cases. 
 
-The two situations are only equivalent in the 2-class case; otherwise, the latter is less likely to occur. This may shed light on why class imbalance is not a richly documented issue in the deep learning literature: benchmark image classification datasets (such as CIFAR, MNIST and ImageNet) involve at 10-1000 classes. 
+The two situations are only equivalent in the 2-class case; otherwise, the latter is less likely to occur. This may shed light on why class imbalance is not a richly documented issue in the deep learning literature, since benchmark image classification datasets (such as CIFAR, MNIST and ImageNet) involve 10-1000 classes. 
 
-This experiment provides a sufficient condition for class imbalance to be dangerous
-
+This experiment provides a sufficient condition for class imbalance to be dangerous; necessary and sufficient conditions are discussed in the Experiments section dedicated to class imbalance.
 
 \subsubsection{Mislabelling}
 

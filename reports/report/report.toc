@@ -38,6 +38,7 @@
 \contentsline {subsection}{\numberline {3.10}Transfer Learning}{25}
 \contentsline {subsubsection}{\numberline {3.10.1}Linear Support Vector Machines}{25}
 \contentsline {subsection}{\numberline {3.11}Class Imbalance}{25}
+\contentsline {paragraph}{Definition}{25}
 \contentsline {section}{\numberline {4}Analysis 1: ReLU Activation}{27}
 \contentsline {subsection}{\numberline {4.1}Motivations}{27}
 \contentsline {subsection}{\numberline {4.2}Mathematical Analysis}{28}
@@ -71,40 +72,41 @@
 \contentsline {paragraph}{Analytical Comparison}{44}
 \contentsline {paragraph}{Empirical Results}{45}
 \contentsline {section}{\numberline {8}Experiments 3: Class Imbalance}{47}
+\contentsline {paragraph}{Definition}{47}
 \contentsline {subsection}{\numberline {8.1}Motivations}{47}
 \contentsline {subsection}{\numberline {8.2}Implementation}{47}
-\contentsline {subsection}{\numberline {8.3}Experimentation}{47}
+\contentsline {subsection}{\numberline {8.3}Experimentation}{48}
 \contentsline {subsubsection}{\numberline {8.3.1}Test Run}{48}
 \contentsline {subsubsection}{\numberline {8.3.2}Transfer Learning}{49}
-\contentsline {subsubsection}{\numberline {8.3.3}Hyperparameter Optimisation}{49}
-\contentsline {paragraph}{Mini-batch Size}{49}
+\contentsline {subsubsection}{\numberline {8.3.3}Hyperparameter Optimisation}{51}
+\contentsline {paragraph}{Mini-batch Size}{51}
 \contentsline {paragraph}{Learning Rate}{51}
-\contentsline {subsubsection}{\numberline {8.3.4}Under-Sampling}{51}
+\contentsline {subsubsection}{\numberline {8.3.4}Under-Sampling}{52}
 \contentsline {subsubsection}{\numberline {8.3.5}Over-Sampling}{52}
-\contentsline {subsubsection}{\numberline {8.3.6}Test-time threshold}{53}
-\contentsline {subsubsection}{\numberline {8.3.7}Bayesian Cross Entropy Cost Function}{54}
-\contentsline {paragraph}{Motivations}{54}
-\contentsline {paragraph}{Implementation}{54}
-\contentsline {paragraph}{Results}{55}
-\contentsline {subsubsection}{\numberline {8.3.8}Error-accuracy mismatch revisited}{56}
-\contentsline {paragraph}{SGD mechanics}{56}
-\contentsline {section}{\numberline {9}Experiments 4: Conserving Spatial Information}{57}
-\contentsline {subsection}{\numberline {9.1}Motivations}{57}
-\contentsline {subsection}{\numberline {9.2}Implementation}{57}
-\contentsline {subsection}{\numberline {9.3}Experimentation}{57}
-\contentsline {paragraph}{Test Run}{57}
-\contentsline {paragraph}{Remove pooling and an fc layer}{57}
-\contentsline {paragraph}{Softmax Bayesian Cross Entropy}{57}
+\contentsline {subsubsection}{\numberline {8.3.6}Test-time threshold}{54}
+\contentsline {subsubsection}{\numberline {8.3.7}Bayesian Cross Entropy Cost Function}{55}
+\contentsline {paragraph}{Motivations}{55}
+\contentsline {paragraph}{Implementation}{55}
+\contentsline {paragraph}{Results}{56}
+\contentsline {subsubsection}{\numberline {8.3.8}Error-accuracy mismatch revisited}{57}
+\contentsline {paragraph}{SGD mechanics}{57}
+\contentsline {section}{\numberline {9}Experiments 4: Conserving Spatial Information}{58}
+\contentsline {subsection}{\numberline {9.1}Motivations}{58}
+\contentsline {subsection}{\numberline {9.2}Implementation}{58}
+\contentsline {subsection}{\numberline {9.3}Experimentation}{58}
+\contentsline {paragraph}{Test Run}{58}
+\contentsline {paragraph}{Remove pooling and an fc layer}{58}
+\contentsline {paragraph}{Softmax Bayesian Cross Entropy}{58}
 \contentsline {section}{\numberline {10}Final Results}{58}
-\contentsline {subsection}{\numberline {10.1}Merging Classes}{58}
-\contentsline {subsection}{\numberline {10.2}Independent Binary Classifiers}{58}
-\contentsline {subsection}{\numberline {10.3}Learning Rate}{58}
-\contentsline {paragraph}{Step}{58}
+\contentsline {subsection}{\numberline {10.1}Merging Classes}{59}
+\contentsline {subsection}{\numberline {10.2}Independent Binary Classifiers}{59}
+\contentsline {subsection}{\numberline {10.3}Learning Rate}{59}
+\contentsline {paragraph}{Step}{59}
 \contentsline {paragraph}{Exp}{59}
 \contentsline {subsection}{\numberline {10.4}Soil Risk Contamination Task}{59}
-\contentsline {paragraph}{Test Run}{59}
+\contentsline {paragraph}{Test Run}{60}
 \contentsline {subparagraph}{Training Results}{60}
-\contentsline {subparagraph}{Observations}{60}
-\contentsline {paragraph}{Get more evidence}{60}
-\contentsline {subsection}{\numberline {10.5}Hatch Markings}{60}
-\contentsline {section}{\numberline {11}Conclusions and Future Work}{62}
+\contentsline {subparagraph}{Observations}{61}
+\contentsline {paragraph}{Get more evidence}{61}
+\contentsline {subsection}{\numberline {10.5}Hatch Markings}{61}
+\contentsline {section}{\numberline {11}Conclusions and Future Work}{63}
