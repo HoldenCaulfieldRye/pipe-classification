@@ -1459,6 +1459,45 @@ Decreasing the learning rate helps if it prevents a good minimum from being over
 With a lower learning rate, the validation accuracy seems to increase at a far slower pace. This suggests that there was no overshooting when using the original learning rate value, and that 0.0001 is a good learning rate for this task. \\
 
 
+\subsubsection{Over-Sampling}
+
+Over-sampling \cite{zhou} \cite{maloof} rebalances the training set to desired levels of imbalance by increasing the occurrence of majority class examples. This was implemented by creating duplicates in the training set -- but not in the validation or test sets, as this would have slowed down the algorithms and biased any performance metric not averaged across classes. Moreover, in order to compare the performance of models trained with different techniques, the same validation set needs to be the same for all models.
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.8\textwidth,natwidth=610,natheight=642]{images/plot_clampdet_us_none_reinit.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_os_none_reinit-5000.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_os_none_reinit.png}
+	\caption{Clamp Detection, Full Backpropagation}
+\end{figure}
+
+Oversampling completely fails. \\
+
+Observations:
+- very weak performance
+- per class accuracy goes below 0.5
+- entire error time series are shifted up by a constant
+- overfit occurs sooner
+
+
+Interpretations:
+How can per class accuracy be below 0.5? that's worse than random! It may be due to the fact that copies are made in the training set, but not in the test and validation sets. 
+When comparing these networks, should we not be using the same validation set for all? No, we should be using the same test set (and testing will come in the next section). We should choose the validation set that we deem best for early stopping. In the case of over-sampling, makes no sense to include duplicates. 
+
+There might be bugs in the implementation. Check in this paper: http://sci2s.ugr.es/keel/pdf/algorithm/articulo/2006%20-%20IEEE_TKDE%20-%20Zhou_Liu.pdf
+whether what it says can be linked to what you got. Otherwise, just omit it from your report. \\
+
+
 \subsubsection{Under-Sampling}
 
 Under-sampling rebalances the training set to desired levels of imbalance by removing majority class examples. The brute force approach, implemented in (Maloof 2003) \cite{maloof}, is to randomly remove these cases and train on the remaining set. However, (Zhou and Liu 2005) \cite{zhou} describe an algorithm for removing selectively. It was not implemented during this project mainly due to its time complexity, which is analysed below. 
@@ -1528,59 +1567,6 @@ Instead, brute force under-sampling was implemented as in (Maloof 2003) \cite{ma
 %\end{figure}
 %
 %Notice how under-sampling makes overfit take place so much sooner. As a result, the model cannot pick up any of the higher order generalising patterns, and the performance is not as high (go down from 94\% to 85\% or something right?). This begs for other class imbalance tackling tricks to be combined with under-sampling, in order to limit the extent to which we under-sample, in order to fragilise robustness as little as possibe, so that we can use more expressive models, i.e.\ enable backprop on more layers. \\
-
-
-
-\subsubsection{Over-Sampling}
-
-And now for an alternative to under-sampling. 
-
-For the implementation: 
-(min + copy) / (max + min + copy) = target
-
-min + copy = copy*target + target*(max+min)
-
-copy = copy*target + target*(max+min) - min
-
-(1-target)*copy = target*(max+min) - min
-
-copy = ( target*(max+min) - min ) / (1 - target)
-
-Duplicates are created in training set, but we don't want them in the validation or test sets as this will slow down the algorithms (though it wouldn't bias the results aka metrics). 
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.8\textwidth,natwidth=610,natheight=642]{images/plot_clampdet_us_none_reinit.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_os_none_reinit-5000.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_os_none_reinit.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-Oversampling completely fails. \\
-
-Observations:
-- very weak performance
-- per class accuracy goes below 0.5
-- entire error time series are shifted up by a constant
-- overfit occurs sooner
-
-
-Interpretations:
-How can per class accuracy be below 0.5? that's worse than random! It may be due to the fact that copies are made in the training set, but not in the test and validation sets. 
-When comparing these networks, should we not be using the same validation set for all? No, we should be using the same test set (and testing will come in the next section). We should choose the validation set that we deem best for early stopping. In the case of over-sampling, makes no sense to include duplicates. 
-
-There might be bugs in the implementation. Check in this paper: http://sci2s.ugr.es/keel/pdf/algorithm/articulo/2006%20-%20IEEE_TKDE%20-%20Zhou_Liu.pdf
-whether what it says can be linked to what you got. Otherwise, just omit it from your report. \\
 
 
 \subsubsection{Test-time threshold}
