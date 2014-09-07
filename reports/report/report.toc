@@ -48,7 +48,7 @@
 \contentsline {subsubsection}{\numberline {4.2.4}Impact of the ReLU}{30}
 \contentsline {section}{\numberline {5}Analysis 2: Early Stopping}{32}
 \contentsline {paragraph}{Gradient Descent}{32}
-\contentsline {section}{\numberline {6}Experiments 1: Generic Clamp Detection}{33}
+\contentsline {section}{\numberline {6}Experiments 1: Simple Clamp Detection}{33}
 \contentsline {subsection}{\numberline {6.1}Motivations}{33}
 \contentsline {subsection}{\numberline {6.2}Implementation: Cuda-Convnet}{33}
 \contentsline {subsection}{\numberline {6.3}Experimentation}{33}
@@ -72,23 +72,23 @@
 \contentsline {paragraph}{Analytical Comparison}{44}
 \contentsline {paragraph}{Empirical Results}{45}
 \contentsline {section}{\numberline {8}Experiments 3: Class Imbalance}{47}
-\contentsline {paragraph}{Definition}{47}
-\contentsline {subsection}{\numberline {8.1}Motivations}{47}
-\contentsline {subsection}{\numberline {8.2}Implementation}{47}
-\contentsline {subsection}{\numberline {8.3}Experimentation}{48}
-\contentsline {subsubsection}{\numberline {8.3.1}Test Run}{48}
-\contentsline {subsubsection}{\numberline {8.3.2}Transfer Learning}{49}
-\contentsline {subsubsection}{\numberline {8.3.3}Hyperparameter Optimisation}{51}
+\contentsline {subsection}{\numberline {8.1}Definition}{47}
+\contentsline {subsection}{\numberline {8.2}Motivations}{47}
+\contentsline {subsection}{\numberline {8.3}Implementation}{48}
+\contentsline {subsection}{\numberline {8.4}Experimentation}{48}
+\contentsline {subsubsection}{\numberline {8.4.1}Test Run}{48}
+\contentsline {subsubsection}{\numberline {8.4.2}Transfer Learning}{50}
+\contentsline {subsubsection}{\numberline {8.4.3}Hyperparameter Optimisation}{51}
 \contentsline {paragraph}{Mini-batch Size}{51}
 \contentsline {paragraph}{Learning Rate}{51}
-\contentsline {subsubsection}{\numberline {8.3.4}Under-Sampling}{52}
-\contentsline {subsubsection}{\numberline {8.3.5}Over-Sampling}{52}
-\contentsline {subsubsection}{\numberline {8.3.6}Test-time threshold}{54}
-\contentsline {subsubsection}{\numberline {8.3.7}Bayesian Cross Entropy Cost Function}{55}
+\contentsline {subsubsection}{\numberline {8.4.4}Under-Sampling}{52}
+\contentsline {subsubsection}{\numberline {8.4.5}Over-Sampling}{52}
+\contentsline {subsubsection}{\numberline {8.4.6}Test-time threshold}{54}
+\contentsline {subsubsection}{\numberline {8.4.7}Bayesian Cross Entropy Cost Function}{55}
 \contentsline {paragraph}{Motivations}{55}
 \contentsline {paragraph}{Implementation}{55}
 \contentsline {paragraph}{Results}{56}
-\contentsline {subsubsection}{\numberline {8.3.8}Error-accuracy mismatch revisited}{57}
+\contentsline {subsubsection}{\numberline {8.4.8}Error-accuracy mismatch revisited}{57}
 \contentsline {paragraph}{SGD mechanics}{57}
 \contentsline {section}{\numberline {9}Experiments 4: Conserving Spatial Information}{58}
 \contentsline {subsection}{\numberline {9.1}Motivations}{58}
@@ -109,4 +109,4 @@
 \contentsline {subparagraph}{Observations}{61}
 \contentsline {paragraph}{Get more evidence}{61}
 \contentsline {subsection}{\numberline {10.5}Hatch Markings}{61}
-\contentsline {section}{\numberline {11}Conclusions and Future Work}{63}
+\contentsline {section}{\numberline {11}Conclusions and Future Work}{62}

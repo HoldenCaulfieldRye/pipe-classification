@@ -652,16 +652,13 @@ arg\min \limits_{\textbf{w},b} ||w||^2 \text{, subject to } \forall 1 \leq i \le
 
 \paragraph{Definition}
 
-The literature \cite{imbalance} \cite{maloof} \cite{zhou} \cite{f-measure} has defined class imbalance as the situation where there exists a class of significantly smaller size than another, i.e.\ when the sample distribution of classes is significantly non-uniform. However, as will be seen later, this definition does not necessarily make class imbalance detrimental to learning. A definition for `dangerous class imbalance' will be given with the aim of being the largest set of conditions that are necessary for class imbalance to be detrimental for training classifiers with stochastic gradient descent and standard cost functions. \\
+The literature \cite{imbalance} \cite{maloof} \cite{zhou} \cite{f-measure} has defined class imbalance as the situation where the sample distribution of classes is significantly non-uniform, i.e.\ where there exists a class of significantly smaller size than another. However, as will be seen later, this definition does not necessarily make class imbalance detrimental to learning. A definition for `dangerous class imbalance' will be given with the aim of being the largest set of conditions that are necessary for class imbalance to be detrimental to training classifiers with stochastic gradient descent and standard cost functions. \\
 
-The literature on deep learning with class imbalance was found to be scarce. This report's definition may shed light on why: benchmark image classification datasets (such as CIFAR, MNIST and ImageNet) involve 10 to 1000 classes, so for a class to take up a majority of the training set is unlikely. Besides, if such a dataset did exist, it would arguably be considered unattractive the class imbalance `fake' minima never deliver less than 90\% error rate, which is unlikely to be an àttractive minimum. 
-
-Zhou and Liu in `Training cost sensitive neural networks with methods addressing the class imbalance problem' (2005) \cite{zhou} experiment with \textbf{under-sampling}, textbf{over-sampling} and \textbf{threshold-moving} to deal with class imbalance, and find threshold-moving to perform best. \\
+The literature on deep learning with class imbalance was found to be scarce. Zhou and Liu in `Training cost sensitive neural networks with methods addressing the class imbalance problem' (2005) \cite{zhou} experiment with \textbf{under-sampling}, textbf{over-sampling} and \textbf{threshold-moving} to deal with class imbalance, and find threshold-moving to perform best.
 
 `F-measure as the error function to train neural networks' by Pastor-Pellicer et al, 2013 \cite{f-measure}, does not make use of these techniques and instead introduces a cost function for binary classifiers which is the harmonic mean of precision and recall. Deep neural networks are trained on it as well as on the Mean Squared Error for 3 image-cleaning tasks with levels of class imbalance below those experimented with in this report. The image-cleaning task is framed as a classification task where the probability of ink in each pixel of the clean image is to be predicted given the noisy image. MSE as a cost function for training deep neural network classifiers is known to train slower and converge to the same performance as when the cross entropy error is used \cite{coursera}. 
 
 The authors find that `both training techniques perform quite well' on the basis that `a well cleaned image gives good results on both metrics'. This seems to merely state that the error computed on a correctly classified input is low in absolute terms, for both cost functions. An analytical comparison of the cost functions by rescaling input domain and output range, such as the one between softmax cross entropy and hinge loss in (Bishop 2010) \cite{ML-book} and in the previous section, is not included. An empirical comparison of the cost functions by evaluating a model trained on each against a common performance metric such as percentage classification accuracy is not provided either. It appears that this cost function does not deliver significant performance gains.
-
 
 \clearpage
 
@@ -842,7 +839,7 @@ I've been thinking about it in terms of early stopping. early stopping seems rea
 
 \clearpage
 
-\section{Experiments 1: Generic Clamp Detection}
+\section{Experiments 1: Simple Clamp Detection}
 
 \subsection{Motivations}
 
@@ -1244,19 +1241,25 @@ The way to compare performance in the two models is to look at average per class
 \clearpage
 \section{Experiments 3: Class Imbalance}
 
-\paragraph{Definition}
+\subsection{Definition}
 
-Class imbalance is defined in this report by the situation where the sample distribution of classes in the training set enables a classifier that is a constant function to perform significantly better than randomly outputting each class with the same probability. 
+Before detailing the motivations for the experiments that took place, we properly return to the definition of class imbalance mentioned in the literature review and during the discussion of results on simple clamp detection. An extension to this definition is proposed to encompass \textit{dangerous} class imbalance. Having such a definition provides a framework for reasoning about the problem.
 
-For example, given a 2-class training set with class distribution (0.9,0.1), a classifier which outputs the first class all the time obtains 90\% accuracy, whereas randomly outputting them uniformly obtains 50\%. 
+Class imbalance has been defined as the situation where the sample distribution of classes is significantly non-uniform. For example, (Pastor-Pellicer et al 2013) \cite{f-measure} define it as when `the number of patterns of one class is significantly lower than other classes'. However, consider a 12-class training set where 11 classes each take up 9\% of the dataset and the 12-th takes up 1\%. Outputting the same class all the time cannot provide more than 9\% accuracy, which is only slightly better than `completely random guessing', which would achieve 8.3\% accuracy\footnote{To the best of our knowledge, in this case there is no classification strategy that would score higher than 9\% without making use of information contained in the input. It would be preferable to prove it, but due to time constraints, this has been left for further research.}. 
 
-It is not necessary for a class to occupy the vast majority of the training set: consider a 1000-class training set where one class takes up 20\%. A classifier which outputs this class all the time obtains 20\% top-1 accuracy, compared to 0.1\% for random uniform. 
+Class imbalance is defined in this report by the situation where \textbf{a classifier that constantly outputs the class priors performs significantly better than randomly outputting each class with the same probability}. 
 
-It is not necessary for a class to occupy far more space than any other. Consider a 1000-class training set where 5 classes each take up 17\%. A classifier which always outputs these 5 as its top-5 obtains 85\% top-5 accuracy, which is higher even than the score of (Krizhevsky et al 2012) at ILSVRC 2012 \cite{krizhevsky}.
+To better understand this definition, one can take note of the property that outputting the prior classifies all input into the majority class. What follows are examples that justify this non-trivial definition.
 
-It is not sufficient for a class to occupy far less space than any other. Consider a 12-class training set where 11 take up 9\% each and one takes up 1\%. 
+\begin{enumerate}
+\item Given a 2-class dataset with distribution of classes (0.9,0.1), a classifier which outputs (0.9,0.1) all the time will classify all cases into the majority class, and obtain 90\% accuracy. On the other hand, randomly outputting them uniformly obtains only 50\%. 
+\item It is not necessary for a class to occupy the vast majority of the training set: consider a 1000-class training set where one class takes up 20\%. A classifier which outputs the prior all the time will obtain 20\% top-1 accuracy, compared to 0.1\% for random uniform. 
+\item It is not necessary for a class to occupy far more space than any other. Consider a 1000-class training set where 5 classes each take up 17\%. Outputting the prior all the time obtains 85\% top-5 accuracy, which for example is higher than the score of (Krizhevsky et al 2012) at ILSVRC 2012 \cite{krizhevsky}.
+\end{enumerate} 
 
-Others \cite{f-measure} \cite{imbalance} have defined class imbalance more lightly and intuitively as the situation where there exists a class of significantly smaller size than another, i.e.\ when the sample distribution of classes is significantly non-uniform. However, as it will be observed and proved later, this report's definition is the largest set of conditions that are necessary for the detrimental phenomenon of interest to occur when training classifiers with stochastic gradient descent and standard cost functions. \\
+It would be tempting to make the conjecture that outputting class priors is the best performing constant function classifier not just with respect to percentage accuracy, but also Maximum Likelihood Estimation (i.e.\ cross entropy when using a softmax layer) and Mean Square Error. However, due to time constraints there was insufficient time to attempt to prove this; it is left for further research. \\
+
+With a clear definition in mind, we now return to motivations for the class imbalance related experiments that were carried out. \\
 
 \subsection{Motivations}
 
@@ -1851,17 +1854,6 @@ Looking for evidence that in a given pot, there is a high number of fake minima 
 
 One could empirically verify this by looking at what the network converges to with and without transfer learning. Also take very different initialisations for non transfer learning. If converged error rate same for all, and indeed sending in a batch of random images to each network spits out same or similar outputs every time, then we've got a few large scale examples as well. \\
 
-It is likely that recent Redbox images also have good labelling. By ranking them chronologically, it may have been possible to determine the optimal cut-off date by using a network trained on Bluebox and testing it on Redbox data, with the cutoff date going steadily back. One would expect test error to rise as the cutoff date is brought earlier ie as the proportion of mislabelled images in the test set rises. \\
-
-transfer learning doesn't work as well with caffe:
-https://github.com/BVLC/caffe/issues/642
-works better with overfeat: http://cilvr.nyu.edu/doku.php?id=software:overfeat:start
-
-What we learned:
-- class imbalance + mislabelling lethal combo
-- error accuracy mismatch implications for dynamics of learning.
-- conjecture that the steepness of the error surface along these dimensions decreases with the extent of class imbalance, and approaches 0 as a limit as class imbalance approaches 100\%.
-
 
 \subsection{Hatch Markings}
 
@@ -1877,6 +1869,8 @@ What we learned:
 \end{figure}
 
 Probably gains to be made from keeping information here. 
+
+
 
 \clearpage
 \section{Conclusions and Future Work}
@@ -1894,11 +1888,21 @@ Conjecture that imbalance-induced fake minima are littered across the entire err
 
 Unsupervised Learning to correct mis-labelling, with encouragements to create clusters initialised by those resulting from supervised learning (maybe could only work well with many false negatives, few false positives, as is the case here?). \\ 
 
+It is likely that recent Redbox images also have good labelling. By ranking them chronologically, it may have been possible to determine the optimal cut-off date by using a network trained on Bluebox and testing it on Redbox data, with the cutoff date going steadily back. One would expect test error to rise as the cutoff date is brought earlier ie as the proportion of mislabelled images in the test set rises. \\
+
+transfer learning doesn't work as well with caffe:
+https://github.com/BVLC/caffe/issues/642
+works better with overfeat: http://cilvr.nyu.edu/doku.php?id=software:overfeat:start
+
 Copy paste from your emacs sheet everything! Talk about domain change as well because it's a challenge mentioned at the top but never addressed throughout research.
 
-Elucidate error accuracy mismatch. Class imbalance impact on mechanics of backpropagation at the softmax layer.
+What we learned:
+- class imbalance + mislabelling lethal combo
+- more precise class imbalance definition, specifically tailored to training classifiers with stochastic gradient descent.
+- error accuracy mismatch implications for dynamics of learning.
+- conjecture that the steepness of the error surface along these dimensions decreases with the extent of class imbalance, and approaches 0 as a limit as class imbalance approaches 100\%.
+- error accuracy mismatch, class imbalance impact on mechanics of backpropagation at the softmax layer.
 
-Different class imbalance definition, specifically tailored to training classifiers with stochastic gradient descent.
 
 
 \begin{thebibliography}{1}
