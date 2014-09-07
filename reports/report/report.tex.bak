@@ -1262,11 +1262,11 @@ Several class imbalance-tackling techniques that were experimented with required
 
 This section begins with a test run, intended to serve as a benchmark against which to subsequently evaluate six different approaches to tackling class imbalance. The first approach discussed below is transfer learning, so as to form a transition from the previous set of experiments. The second is the simplest, because it merely consists in tuning model hyperparameters. The three that follow are techniques explored by (Maloof 2003) \cite{maloof} to specifically tackle class imbalance. The sixth is a novel cost function. A final subsection branches off from an observation concerning training results for this cost function, providing a credible explanation to the error-accuracy mismatch mentioned in the test run of the previous set of experiments. \\
 
-The level of class imbalance to impose on the clamp detection task was chosen such that the optimal transfer learning setup obtained from previous experimentation no longer enables successful learning of the task, and puts the network in bad local minimum instead. This is 98\%, from an original imbalance ratio of 88\%. This corresponds to going from 1323 minority class training cases to 193. \\
+The amount of additional class imbalance to impose on the clamp detection task was chosen in order to trap the model in a bad, sampling-induced local minimum on the Bluebox dataset. This brought the imbalance ratio from 88\% to 98\%, and corresponds to going from 1,323 minority class training cases to 193. \\
 
 \subsubsection{Test Run}
 
-To evaluate the difficulty of the clamp detection task with increased class imbalance, a model was trained from scratch without transfer learning, to be benchmarked with the equivalent trained on the entire dataset. 
+To evaluate the difficulty of the clamp detection task with increased class imbalance, a model was trained from scratch without transfer learning, to be benchmarked with when it was trained on the entire dataset. 
 
 \begin{figure}
     \centering
@@ -1287,7 +1287,7 @@ To evaluate the difficulty of the clamp detection task with increased class imba
     \end{minipage}%
 \end{figure}
 
-Whereas with 88\% imbalance it is possible to learn without transfer learning, 98\% imbalance makes it impossible, the model converges within one iteration to a constant function\footnote{Note that the reason for why the validation error seems to take 200 iterations to suddenly drop is because the validation frequency was set to a large interval of 200 training mini-batch passes, in order to speed up training.} and remains there. In other words, standard levels of momentum and weight decay, as well as the sheer expressive power of the model are not enough for any local parameter configuration to be a better fit for the training data. \\
+Whereas with 88\% imbalance it is possible to learn without transfer learning, with 98\% imbalance it is not. The model converges within one iteration to a constant function\footnote{Note that the reason for why the validation error seems to take 200 iterations to suddenly drop is because the validation frequency was set to a large interval of 200 training mini-batch passes, in order to speed up training.} and remains there. \\
 
 Note that for lower levels of class imbalance, the model is able to escape the sample-induced bad minimum. The plot below shows that with 90\% class imbalance for example, the model becomes a constant function at first, and eventually is able to `creep out' of the sample-induced minimum. \\
 
@@ -1339,7 +1339,8 @@ Note that validation error is very low because it is not a per class average: th
 
 What is arguably a crucial question is whether the difficulty in learning the minority class is the inevitable consequence of having few training examples to learn from, or whether the imbalance ratio is preventing generalising features of the minority class from being learned. If the former, there is no use in searching for ways to tackle class imbalance without throwing away majority class data.  \\
 
-Note that following evaluation of transfer learning, a fixed architecture and training strategy were kept throughout the experiments below: backpropagation on all layers, all weights transferred. Although freezing backpropagation on the first four convolutional layers was found to perform best during experiments of the previous section, full backpropagation was adopted in this section for the sake of clarity. The objective of this section is not to achieve the highest absolute accuracy, but rather to compare relative successes of different approaches to tackling class imbalance.
+Following the evaluation of transfer learning, a fixed architecture and training strategy were kept throughout the experiments below: backpropagation on all layers, all weights transferred. Although freezing backpropagation on the first four convolutional layers was found to perform best during experiments of the previous section, full backpropagation was adopted in this section for the sake of clarity. The objective of this section is not to achieve the highest absolute accuracy, but rather to compare relative successes of different approaches to tackling class imbalance.
+
 
 \subsubsection{Hyperparameter Optimisation}
 
@@ -1419,19 +1420,24 @@ With a lower learning rate, the validation accuracy seems to increase at a far s
 
 \subsubsection{Under-Sampling}
 
-Imbalance is obviously reached because most mini-batches do not contain any minority class examples, so the net is only ever being told to output 0. 
-
-%\begin{figure}[h!]
-%	\centering
-%	\includegraphics[width=0.8	extwidth,natwidth=610,natheight=642]{images/plot_fitting_proximity_tl_wout.png}
-%	\caption{Clamp Detection, Full Backpropagation}
-%\end{figure}
-%
-%\begin{figure}[h!]
-%	\centering
-%	\includegraphics[width=0.8	extwidth,natwidth=610,natheight=642]{images/plot_fitting_proximity_us_tl_wout.png}
-%	\caption{Clamp Detection, Full Backpropagation}
-%\end{figure}
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{learning rate 0.0001}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5.png}
+        % ...here to lower the subcaptions and...
+        \caption{learning rate 0.00001}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{98\% imbalance, different learning rates}\label{fig:2}
+    \end{minipage}%
+\end{figure}
 
 
 \paragraph{Overfitting consequences of under-sampling}
@@ -1796,9 +1802,10 @@ transfer learning doesn't work as well with caffe:
 https://github.com/BVLC/caffe/issues/642
 works better with overfeat: http://cilvr.nyu.edu/doku.php?id=software:overfeat:start
 
-error accuracy mismatch implications for dynamics of learning.
-
-conjecture that the steepness of the error surface along these dimensions decreases with the extent of class imbalance, and approaches 0 as a limit as class imbalance approaches 100\%.
+What we learned:
+- class imbalance + mislabelling lethal combo
+- error accuracy mismatch implications for dynamics of learning.
+- conjecture that the steepness of the error surface along these dimensions decreases with the extent of class imbalance, and approaches 0 as a limit as class imbalance approaches 100\%.
 
 
 \subsection{Hatch Markings}
