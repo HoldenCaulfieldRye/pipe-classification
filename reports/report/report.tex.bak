@@ -1435,7 +1435,7 @@ A foolproof verification of this explanation would be to run both models on a te
 
 \paragraph{Learning Rate}
 
-Decreasing the learning rate helps if it prevents a good minimum from being overshot. \\ 
+Decreasing the learning rate helps if it prevents a good minimum from being overshot. 
 
 \begin{figure}
     \centering
@@ -1461,25 +1461,26 @@ With a lower learning rate, the validation accuracy seems to increase at a far s
 
 \subsubsection{Over-Sampling}
 
-Over-sampling \cite{zhou} \cite{maloof} rebalances the training set to desired levels of imbalance by increasing the occurrence of majority class examples. This was implemented by creating duplicates in the training set -- but not in the validation or test sets, as this would have slowed down the algorithms and biased any performance metric not averaged across classes. Moreover, in order to compare the performance of models trained with different techniques, the same validation set needs to be the same for all models.
+Over-sampling \cite{zhou} \cite{maloof} rebalances the training set to desired levels of imbalance by increasing the occurrence of minority class examples. This was implemented by creating duplicates in the training set -- but not in the validation or test sets, as this would have slowed down the algorithms and biased any performance metric not averaged across classes. Moreover, in order to compare the performance of models trained with different techniques, the same validation set needs to be the same for all models.
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.8\textwidth,natwidth=610,natheight=642]{images/plot_clampdet_us_none_reinit.png}
-	\caption{Clamp Detection, Full Backpropagation}
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs128_lr4.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{98\% imbalance, full backprop, full transfer}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        %\includegraphics[scale=0.4]{images/plot_clampdetCI98_os_none_bs128_lr4.png}
+        % ...here to lower the subcaptions and...
+        \caption{Same with over-sampling to 88\% imbalance}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+    \end{minipage}%
 \end{figure}
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_os_none_reinit-5000.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.5]{images/plot_clampdet_os_none_reinit.png}
-	\caption{Clamp Detection, Full Backpropagation}
-\end{figure}
 
 Oversampling completely fails. \\
 
@@ -1497,7 +1498,7 @@ When comparing these networks, should we not be using the same validation set fo
 
 \subsubsection{Under-Sampling}
 
-Under-sampling rebalances the training set to desired levels of imbalance by removing majority class examples. The brute force approach, implemented in (Maloof 2003) \cite{maloof}, is to randomly remove these cases and train on the remaining set. However, (Zhou and Liu 2005) \cite{zhou} describe an algorithm for removing selectively. It was not implemented during this project mainly due to its time complexity, which is analysed below. 
+Under-sampling rebalances the training set to desired levels of imbalance by removing majority class examples. The brute force approach, implemented in (Maloof 2003) \cite{maloof}, consists in randomly removing these cases and train on the remaining set. However, (Zhou and Liu 2005) \cite{zhou} describe an algorithm for removing selectively. It was not implemented during this project mainly due to its time complexity, which is analysed below. 
 
 \paragraph{Under-Sampling algorithm}
 \begin{enumerate}
@@ -1530,19 +1531,21 @@ Instead, brute force under-sampling was implemented as in (Maloof 2003) \cite{ma
     \begin{minipage}[b]{\textwidth}
       \begin{subfigure}{.5\textwidth} 
         \centering
-        %\includegraphics[scale=0.4]{images/plot_clampdetCI98_us_none_bs128_lr4.png}
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs128_lr4.png}
         % Add \par\vspace*{20pt} here and...
-        \caption{98\% class imbalance}\label{fig:2a}
+        \caption{98\% imbalance, full backprop, full transfer}\label{fig:2a}
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
-        %\includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs128_lr5.png}
+        %\includegraphics[scale=0.4]{images/plot_clampdetCI98_us_none_bs128_lr4.png}
         % ...here to lower the subcaptions and...
-        \caption{98\% class imbalance undersampled to 88\% imbalance}\label{fig:2b}
+        \caption{Same with under-sampling to 88\% imbalance}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-      \caption{98\% imbalance, different learning rates}\label{fig:2}
     \end{minipage}%
 \end{figure}
+
+Observations:
+
 
 
 %\paragraph{Overfitting consequences of under-sampling}
