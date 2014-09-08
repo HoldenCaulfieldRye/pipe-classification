@@ -58,7 +58,7 @@
 {
 Automatic image classification experienced a breakthrough in 2012 with the advent of GPU implementations of deep convolutional neural networks (CNNs). These models distinguish themselves by learning features, convolving them to achieve feature equivariance, making use of max pooling operations to achieve robustness to cluttered backgrounds, and a hierarchical structure to enable the learning of complex features with high generalisation performance. This has motivated ControlPoint LLP, a gas \& water infrastructure monitoring company, to explore whether deep learning could be used to automate one of its business services: inspecting photos of polyethylene pipe weld installations to ascertain weld quality. The company reports having previously explored automation with existing businesses, but that the semantic complexity of the visual characteristics to recognise made the task technologically infeasible. \\
 
-After framing the task, this report provides an overview of supervised deep learning, followed by an in-depth explanation of the workings of a deep convolutional neural network, which despite its performance, gathers criticism for its tendency to be used as a black box. The rest of the report goes over the research that was carried out. The first is a simple mathematical analysis which proposes an explanation for the recent success of the Rectified Linear Unit as the chief activation function of CNNs\footnote{It came about as the result of seeking to understand, with limited assistance, aspects of training deep neural networks; it is uncertain whether existing research exceeds it.}. The next sections are applied and specific to the main task: understanding why learning failed during the first attempts; finding the optimal way to use transfer learning, exploring ways of tackling class imbalance -- including a novel cost function with a probabilistic interpretation which delivered up to 18 additional percentage points in classification performance; moving away from the common `AlexNet' CNN architecture to conserve spatial information; and final performance results across all tasks. \\
+After framing the task, this report provides an overview of supervised deep learning, followed by an in-depth explanation of the workings of a deep convolutional neural network, which despite its performance, gathers criticism for its tendency to be used as a black box. The rest of the report goes over the research that was carried out. The first is a simple mathematical analysis which proposes an explanation for the recent success of the Rectified Linear Unit as the chief activation function of CNNs\footnote{It came about as the result of seeking to understand, with limited assistance, aspects of training deep neural networks; it is uncertain whether existing research exceeds it.}. The next sections are applied and specific to the main task: understanding why learning failed during the first attempts; finding the optimal way to use transfer learning, exploring ways of tackling class imbalance -- including a novel cost function with a probabilistic interpretation which delivered up to 28 additional percentage points in classification performance; moving away from the common `AlexNet' CNN architecture to conserve spatial information; and final performance results across all tasks. \\
 
 The bulk of research undertaken to make more general improvements in understanding deep learning and dealing with class imbalance, combined with time constraints, have restricted the time spent optimising each one of ControlPoint's tasks. For the moment, 3 tasks have per class accuracy in the 85-90\% range, 2 in the 75-80\% range, 1 at 62\%, and 4 have been found impossible to train. However, the recent discovery of the novel cost function means that it was only implemented for one of these tasks; these scores are therefore likely to increase significantly thanks to this straightforward improvement alone.
 }
@@ -1834,6 +1834,28 @@ Transfer learning barely helps.
 Removal of the FC layer was simply for computation to be feasible on the GPU. This also meant using a smaller batch size. The results look as if removing pooling and a fully connected layer improve performance a bit, but these gains seem random, and are therefore likely to be lucky noisy gains such as was explained in greater depth in the previous section. This added noise could be due to the random-reinitialisation of weights in the two fully connected layers. To sum up, there is no compelling evidence that removing pooling and a fully connected layer help.
 
 
+\paragraph{Under-Sampling benchmark}
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_soil_contam_noneC.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{Transfer learning (96\% imbalance)}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_soil_contam_us90_none.png}
+        % ...here to lower the subcaptions and...
+        \caption{Transfer learning, under-sampling to 90\% imbalance}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{Bayesian Cross Entropy by itself}\label{fig:2}
+    \end{minipage}%
+\end{figure}
+
+This is a benchmark against which to evaluate Bayesian cross entropy for the soil contamination task. Both models shown have AlexNet architecture. Under-sampling is less successful on this task than on clamp detection 98\%, it delivers 8 additional classification percentage points. We can see that the model takes over 500 iterations to leave the critical point. 
+
 \paragraph{Remove Pooling, a FC layer and add Bayesian Cross Entropy}
 %     soil_contam/nopool                       TRAINING
 \begin{figure}
@@ -1857,28 +1879,6 @@ Removal of the FC layer was simply for computation to be feasible on the GPU. Th
 
 By adding Bayesian cross entropy, training becomes very noisy, as is already discussed and explained in the previous section. However, once again, there is a performance gain of just under 10 percentage points. Note that the validation error oscillates, suggesting that the model is overshooting a minimum. A smaller lear
 
-\paragraph{Under-Sampling benchmark}
-\begin{figure}
-    \centering
-    \begin{minipage}[b]{\textwidth}
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_soil_contam_noneC.png}
-        % Add \par\vspace*{20pt} here and...
-        \caption{Transfer learning (96\% imbalance)}\label{fig:2a}
-      \end{subfigure}%
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_soil_contam_us90_none.png}
-        % ...here to lower the subcaptions and...
-        \caption{Transfer learning with Under-sampling to 90\% imbalance}\label{fig:2b}
-      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-      \caption{Bayesian Cross Entropy by itself}\label{fig:2}
-    \end{minipage}%
-\end{figure}
-
-This is a benchmark against which to evaluate Bayesian cross entropy for the soil contamination task. Both models shown have AlexNet architecture. Under-sampling 
-
 
 \paragraph{Softmax Bayesian Cross Entropy and lower learning rate}
 %     soil_contam/nopool                       TRAINING
@@ -1901,7 +1901,7 @@ This is a benchmark against which to evaluate Bayesian cross entropy for the soi
     \end{minipage}%
 \end{figure}
 
-Lowering the learning rate from 0.0001 to 0.00001 does wonders. The amplitude of the validation error reduces, the error ceases to oscillate, and a steady downward trend can be observed. This indicates that Bayesian softmax cross entropy by itself on AleNet architecture works best, without removing a pooling layer and a fully connected layer. The cost function delivers remarkable gains, since adding it alone provides 18 additional percentage points in average per class accuracy. Maximum per class accuracy is 78\%, i.e.\ 18 which is truly impressive considering how hard this task his - let us recall that transfer learning barely delivered any gains. Furthermore, learning is halted after 2000 iterations (this was due to time constraints), before overfitting begins, so it seems clear from the plots that more progress can be made by resuming training. \\
+Lowering the learning rate from 0.0001 to 0.00001 does wonders. The amplitude of the validation error reduces, the error ceases to oscillate, and a steady downward trend can be observed. This indicates that Bayesian softmax cross entropy by itself on AleNet architecture works best, without removing a pooling layer and a fully connected layer. The cost function delivers remarkable gains, since adding it alone provides 28 additional percentage points in average per class accuracy. Maximum per class accuracy is 78\%, which is truly impressive considering how hard this task his - let us recall that transfer learning barely delivered any gains. Furthermore, learning is halted after 2000 iterations (this was due to time constraints), before overfitting begins, so it seems clear from the plots that more progress can be made by resuming training. \\
 
 A potential explanation for why the gains from the Bayesian cross entropy are even greater for this task than for clamp detection wit 98\% imbalance is because imbalance is not as stark in this task, so the variance of the modulus of the gradient is lower, i.e.\ the gradient is less noisy. Since this issue could be addressed by ensuring equal class distribution at every mini-batch, the size of gains observed here could also potentially be seen with clampdet detection 98\% and other tasks with similar imbalances. \\
 
@@ -2050,7 +2050,7 @@ This research project was carried out with the aim of using deep CNNs to automat
 
 With regards to the empirical research, it can now be said that ControlPoint's image classification tasks are difficult. At first, it took several weeks to understand why learning was failing completely. The combination of heavy mislabelling on the Redbox dataset and class imbalance were eventually identified as the joint culprits, and the way in which these two factors interact to become a lethal combination for learning was formalised clearly. The second stage of the empirical research consisted in exploring the use of transfer learning, a recently popular technique which addresses two criticisms of deep learning, namely the requirement for large datasets and long training time. On the benchmark clamp detection task, transfer learning also provided a 5 percentage point increase in average per class accuracy. \\
 
-The third stage of the  empirical research focused on formalising class imbalance, understanding how it impacts learning, and seeking ways to deal with it. Despite its dire effects, the topic is significantly undocumented in the field of deep learning, so the research was an opportunity to make new insights and discoveries. It seems that when the distribution of classes in the training set are such that a classifier which constantly outputs the class priors can obtain high performance, the error surface associated with standard cost functions is punctured with bad sampling-induced critical points, which slow down and often even prevent learning with stochastic gradient descent.  After exploring simple techniques as well as some of those advocated by the literature, a novel cost function was proposed. Its ability to tackle class imbalance was found to be substantial, delivering up to 18 additional percentage points in average per class validation accuracy in imbalanced tasks. The performance gains from this Bayesian cross entropy are also likely to be increased by ensuring the same distribution of classes in every mini-batch of the training set, since this would reduce noisiness a.k.a\ variance in the modulus of the gradient. Further empirical research would also need to be conducted by trying out this cost function on benchmark datasets with multiple classes and varying levels of class imbalance. \\
+The third stage of the  empirical research focused on formalising class imbalance, understanding how it impacts learning, and seeking ways to deal with it. Despite its dire effects, the topic is significantly undocumented in the field of deep learning, so the research was an opportunity to make new insights and discoveries. It seems that when the distribution of classes in the training set are such that a classifier which constantly outputs the class priors can obtain high performance, the error surface associated with standard cost functions is punctured with bad sampling-induced critical points, which slow down and often even prevent learning with stochastic gradient descent.  After exploring simple techniques as well as some of those advocated by the literature, a novel cost function was proposed. Its ability to tackle class imbalance was found to be substantial, delivering up to 28 additional percentage points in average per class validation accuracy in imbalanced tasks. The performance gains from this Bayesian cross entropy are also likely to be increased by ensuring the same distribution of classes in every mini-batch of the training set, since this would reduce noisiness a.k.a\ variance in the modulus of the gradient. Further empirical research would also need to be conducted by trying out this cost function on benchmark datasets with multiple classes and varying levels of class imbalance. \\
 
 %Conjecture that the steepness of the error surface along these dimensions decreases with the extent of class imbalance, and approaches 0 as a limit as class imbalance approaches 100\%.
 
