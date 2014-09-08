@@ -58,7 +58,7 @@
 {
 Automatic image classification experienced a breakthrough in 2012 with the advent of GPU implementations of deep convolutional neural networks (CNNs). These models distinguish themselves by learning features, convolving them to achieve feature equivariance, making use of max pooling operations to achieve robustness to cluttered backgrounds, and a hierarchical structure to enable the learning of complex features with high generalisation performance. This has motivated ControlPoint LLP, a gas \& water infrastructure monitoring company, to explore whether deep learning could be used to automate one of its business services: inspecting photos of polyethylene pipe weld installations to ascertain weld quality. The company reports having previously explored automation with existing businesses, but that the semantic complexity of the visual characteristics to recognise made the task technologically infeasible. \\
 
-After framing the task, this report provides an overview of supervised deep learning, followed by an in-depth explanation of the workings of a deep convolutional neural network, which despite its performance, gathers criticism for its tendency to be used as a black box. The rest of the report goes over the research that was carried out. The first two are mathematical analyses, one of which proposes an explanation for the recent success of the Rectified Linear Unit as the chief activation function of CNNs, the other an explanation for the success of early stopping as a regularisation technique\footnote{Both came about as the result of seeking to understand, with limited assistance, aspects of training deep neural networks; it is uncertain whether existing research exceeds them.}. The next sections are applied and specific to the main task: understanding why learning failed during the first attempts; finding the optimal way to use transfer learning, exploring ways of tackling class imbalance -- including a novel cost function with a probabilistic interpretation which delivered up to 18 additional percentage points in classification performance; moving away from the common `AlexNet' CNN architecture to conserve spatial information; and final performance results across all tasks. \\
+After framing the task, this report provides an overview of supervised deep learning, followed by an in-depth explanation of the workings of a deep convolutional neural network, which despite its performance, gathers criticism for its tendency to be used as a black box. The rest of the report goes over the research that was carried out. The first is a simple mathematical analysis which proposes an explanation for the recent success of the Rectified Linear Unit as the chief activation function of CNNs\footnote{It came about as the result of seeking to understand, with limited assistance, aspects of training deep neural networks; it is uncertain whether existing research exceeds it.}. The next sections are applied and specific to the main task: understanding why learning failed during the first attempts; finding the optimal way to use transfer learning, exploring ways of tackling class imbalance -- including a novel cost function with a probabilistic interpretation which delivered up to 18 additional percentage points in classification performance; moving away from the common `AlexNet' CNN architecture to conserve spatial information; and final performance results across all tasks. \\
 
 The bulk of research undertaken to make more general improvements in understanding deep learning and dealing with class imbalance, combined with time constraints, have restricted the time spent optimising each one of ControlPoint's tasks. For the moment, 3 tasks have per class accuracy in the 85-90\% range, 2 in the 75-80\% range, 1 at 62\%, 2 have been found impossible to train and 2 others have not been attempted. However, the recent discovery of the novel cost function means that it was only implemented for one of these tasks; these scores are therefore likely to increase significantly thanks to this straightforward improvement alone.
 }
@@ -130,7 +130,7 @@ At this point, it may help to explain the procedure through which these welds ar
 
 These images are then manually inspected at the ControlPoint headquarters and checked for the presence of the adverse characteristics listed above. The joint is accepted and counted as finished if the number of penalty points is sufficiently low (the threshold varies from an installation contractor to the next, but 50 and above is generally considered as unacceptable). Although these characteristics are all outer observations of the pipe fitting, they have shown to be very good indicators of the quality of the weld \cite{control-point}. Manual inspection of the pipes is not only expensive, but also delaying: as images are queued for inspection, so is the completion of a pipe fitting. Contractors are often under tight operational time constraints in order to keep the shutting off of gas or water access to a minimum, so the protocol can be a significant impediment. Automated, immediate classification would therefore bring strong benefits.
 
-\subsection{Formalising the problem: Multi-Instance Multi-Label Supervised Learning}
+\subsection{Formalising the problem}
 
 The problem of learning to classify pipe weld images from a labelled dataset is a Multi-Instance Multi-Label (MIML) supervised learning classification problem \cite{MIML}: \\
 
@@ -820,27 +820,27 @@ A final remark concerning ReLUs is that they reduce the computation in both forw
 
 \clearpage
 
-\section{Analysis 2: Early Stopping}
-
-Early stopping is a form of regularisation to prevent overfitting. It makes use of cross validation: separating the dataset into a training set, a validation set and a test set. The model's parameters are optimised with respect to the training set (i.e.\ backpropagation is run on the training set only), but are considered optimal at the point which minimises the model's error on the validation set. \\
-
-But maybe be taken for granted but is in fact shocking is that when learning a DNN with backpropagation and first order gradient descent, the time series of the validation error always assumes a strictly convex curve (bar some noise). In other words, the validation error has a unique minimum, is strictly decreasing before it, and strictly increasing afterwards. It presents the simplest most convenient shape possible. This is what enables the straightforward strategy of early stopping: (write this as a little algorithm to make it look more classy) while validation error is decreasing, train. \\
-
-One may wonder why the validation error time series is shaped so: why is it not more random? A theoretical and intuitive answer may lie in the optimisation algorithm that is used, first order gradient descent.
-
-\paragraph{Gradient Descent}
-
-Gradient descent consists in finding the weights of the model that locally minimise the model's error. Therefore, if we consider $E : \mathbb{R}^n -> \mathbb{R}$ to be the error function (also referred to as surface) which to a set of $n$ parameters associates the model's error, then the problem can be reformulated as finding the minimum of $E$. 
-
-(erase this?) In the optimisation literature, $E$ is assumed to be strictly convex, because this is the necessary and sufficient condition for gradient descent to be a globally valid algorithm. 
-
-For the sake of providing mathematical intuition as to why early stopping and validation error behave the way they do, assume that $E$ is of the form $E(x) = \frac{1}{2}x^T Ax - b^T x$, where $A$ is an $n \times n$ positive definite matrix and $b$ is a vector. (For 
-$ w_k = ( \sum_{t=0}^{T} (I - A')^k)b'$ where 
-
-
-Combine your intuition with the stuff from that conference, about gradient descent and extra polynomial order.
-
-I've been thinking about it in terms of early stopping. early stopping seems really neat in that it first learns patterns that generalise and then eventually learns patterns that don't generalise, which is when we stop training. I was wondering why  it works so nicely, and thought this inverse approximation formulation of grad descent makes it look like you're adding ever higher order polynomials as you go along. so maybe what's happening is that you're not learning first the patterns that generalise per se, but rather the simplest patterns (that can be fitted with low order polynomial), and as you go along, increasingly complex ones. if you have a large enough dataset the patterns that don't generalise are going to be really complex and require really high order polynomials to fit them, hence why overfit only takes place later.
+%\section{Analysis 2: Early Stopping}
+%
+%Early stopping is a form of regularisation to prevent overfitting. It makes use of cross validation: separating the dataset into a training set, a validation set and a test set. The model's parameters are optimised with respect to the training set (i.e.\ backpropagation is run on the training set only), but are considered optimal at the point which minimises the model's error on the validation set. \\
+%
+%But maybe be taken for granted but is in fact shocking is that when learning a DNN with backpropagation and first order gradient descent, the time series of the validation error always assumes a strictly convex curve (bar some noise). In other words, the validation error has a unique minimum, is strictly decreasing before it, and strictly increasing afterwards. It presents the simplest most convenient shape possible. This is what enables the straightforward strategy of early stopping: (write this as a little algorithm to make it look more classy) while validation error is decreasing, train. \\
+%
+%One may wonder why the validation error time series is shaped so: why is it not more random? A theoretical and intuitive answer may lie in the optimisation algorithm that is used, first order gradient descent.
+%
+%\paragraph{Gradient Descent}
+%
+%Gradient descent consists in finding the weights of the model that locally minimise the model's error. Therefore, if we consider $E : \mathbb{R}^n -> \mathbb{R}$ to be the error function (also referred to as surface) which to a set of $n$ parameters associates the model's error, then the problem can be reformulated as finding the minimum of $E$. 
+%
+%(erase this?) In the optimisation literature, $E$ is assumed to be strictly convex, because this is the necessary and sufficient condition for gradient descent to be a globally valid algorithm. 
+%
+%For the sake of providing mathematical intuition as to why early stopping and validation error behave the way they do, assume that $E$ is of the form $E(x) = \frac{1}{2}x^T Ax - b^T x$, where $A$ is an $n \times n$ positive definite matrix and $b$ is a vector. (For 
+%$ w_k = ( \sum_{t=0}^{T} (I - A')^k)b'$ where 
+%
+%
+%Combine your intuition with the stuff from that conference, about gradient descent and extra polynomial order.
+%
+%I've been thinking about it in terms of early stopping. early stopping seems really neat in that it first learns patterns that generalise and then eventually learns patterns that don't generalise, which is when we stop training. I was wondering why  it works so nicely, and thought this inverse approximation formulation of grad descent makes it look like you're adding ever higher order polynomials as you go along. so maybe what's happening is that you're not learning first the patterns that generalise per se, but rather the simplest patterns (that can be fitted with low order polynomial), and as you go along, increasingly complex ones. if you have a large enough dataset the patterns that don't generalise are going to be really complex and require really high order polynomials to fit them, hence why overfit only takes place later.
 
 \clearpage
 
