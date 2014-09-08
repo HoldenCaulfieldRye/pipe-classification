@@ -1515,6 +1515,8 @@ Under-sampling rebalances the training set to desired levels of imbalance by rem
 	\end{enumerate}
 \end{enumerate} 
 
+Notice that the removal of majority class examples is selective based first on a `redundant' criterion, then on a `potentially noisy' criterion. The underlying assumption for the first criterion is that examples which can already be classified will not contribute to learning. However, this is only true if the 
+
 To the best of our understanding, it is unclear from the paper whether training in 3(e) uses randomly initialised weights, or whether they are transferred from the previous model. From our experiments on transfer learning, the former would train significantly faster. However, it would also mean that examples which made it by luck early into the training set will be over-represented throughout overall training, which will increase overfit. Given that the authors reproach this over-representation in the case of over-sampling but not under-sampling, and that no mention of transfer learning is ever made \cite{zhou}, the latter is assumed.
 
 %We also make the empirically verified \cite{soumith-benchmark} assumption that $T_{forward_pass} = O(T_{backward_pass})$. Therefore, 
@@ -1569,9 +1571,9 @@ Observations:
 %Notice how under-sampling makes overfit take place so much sooner. As a result, the model cannot pick up any of the higher order generalising patterns, and the performance is not as high (go down from 94\% to 85\% or something right?). This begs for other class imbalance tackling tricks to be combined with under-sampling, in order to limit the extent to which we under-sample, in order to fragilise robustness as little as possibe, so that we can use more expressive models, i.e.\ enable backprop on more layers. \\
 
 
-\subsubsection{Test-time threshold}
+\subsubsection{Threshold-Moving}
 
-This is great because it enables to set different costs to false positives, which is what ControlPoint is interested in. \\
+(Maloof 2003) and (Zhou and Liu 2005) both find threshold-moving to be the best technique for tackling class imbalance. as the This is great because it enables to set different costs to false positives, which is what ControlPoint is interested in. \\
 
 It also allows you to assign different costs to the different misclassifications (i.e. if the algorithm is only supposed to flag potential problems then a false negative is much more expensive than a false positive)
 the idea is that, if we have 2 classes and assign equal cost to both misclassifications, then we would want to pick the label with the biggest p(data | label) probability
