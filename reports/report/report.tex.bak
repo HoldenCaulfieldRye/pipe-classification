@@ -857,9 +857,9 @@ Training occurred over the 113,865 image Redbox dataset only, to exclude domain 
 
 The error being computed and minimised by Cuda-Convnet is the negative of the log probability of the likelihood function:
 \begin{equation}
--\frac{1}{n}\sum\limits_{i=1}^n log(f(W|x_i))
+-\frac{1}{n}\sum\limits_{i=1}^{n} log(f(x_i,l_i,W))
 \end{equation}
-Where f is the learned function, a.k.a\ the model i.e.\ the neural network. This is also known as Maximum Likelihood Estimation; therefore backpropagation converges to the parameter values that maximise the joint likelihood of the training data. It can be shown that this is equal to the cross entropy of the softmax layer's output \cite{DL-book}. This is discussed in greater length in the experimentation section of Task 3 on class imbalance. 
+where $f(x_i,l_i,W)$ is the model's predicted probability for input $x_i$'s label to be $l_i$, $W$ are its parameters, $n$ is the mini-batch size. This is also known as Maximum Likelihood Estimation; therefore backpropagation converges to the parameter values that maximise the joint likelihood of the training data. It can be shown that this is equal to the cross entropy of the softmax layer's output \cite{DL-book}. This is discussed in greater length in the experimentation section of Task 3 on class imbalance. 
 
 
 \subsubsection{Non-Converging Error Rates}
@@ -1616,30 +1616,30 @@ In the context of trying different approaches to tackle class imbalance, thresho
 It was wondered whether the best performing techniques discovered until now could also be combined with a modified cost function. Indeed, threshold re-normalisation does not change the fact that most of the errors computed throughout a SGD mini-batch pass come from majority class examples. Since the stochastic gradient is an average across the mini-batch, it carries more `teaching material' for learning the majority class than the minority class. If we want the stochastic gradient to reflect as much of the $C_1$ errors as the $C_2$ errors on average, then perhaps we need to renormalise the errors based on class priors as well. This would result in modifying the cross entropy cost function from: 
 
 \begin{equation}
--\frac{1}{n}\sum\limits_{i=1}^{n} log(f(x_i,W))
+-\frac{1}{n}\sum\limits_{i=1}^{n} log(f(x_i,l_i,W))
 \end{equation}
 
-where $f$ is the model i.e.\ the classifier, $W$ are its parameters, $n$ is the mini-batch size, $x_i$ is an input i.e.\ a class instance, to:
+where $f(x_i,l_i,W)$ is the model's predicted probability for input $x_i$'s label to be $l_i$, $W$ are its parameters, $n$ is the mini-batch size, to:
 
 \begin{equation}
--\frac{1}{K \cdot n}\sum\limits_{i=1}^{n} \frac{log(f(x_i,W))}{p(class(x_i))} 
+-\frac{1}{K \cdot n}\sum\limits_{i=1}^{n} \frac{log(f(x_i,l_i,W))}{p(class(x_i))} 
 \end{equation}
 
 where $K$ is the number of classes in the classification task.
 There is a parametric justification for this cost function, which can be intuited when the cross entropy cost function is seen as a formula for Maximum Likelihood Estimation. This latter aspect is first shown. \\
 
 As explained in the literature review, placing a softmax layer as the output layer of a deep neural network forces it to output a probability distribution for the label of the input. This makes deep neural networks probabilistic inference models, since the weights are now parameters that define a probability distribution conditional on the training data for the discrete random variable that takes a value for each class. Each input defines a different random variable, and the model uses its parameters to output what it thinks is that random variable's probability distribution, conditional on the events it has been trained on and the information it has about the input. 
+% Hey, I realise that with softmax we are placing no prior on the type of probability distribution. What if we did? e.g. if the NN were learning not to classify but to predict the probability of receiving 1,2,3,... letter this week conditional on date, number of friends, location etc, we might want to impose a Poisson constraint on the softmax. how would we do that? 
 
 The idea behind Maximum Likelihood Estimation is that the best parameters are the ones that make the model output that probability distribution for each training example's random variable which assigns as high a probability as possible to the training example's outcome. In the case of clamp detection, the input is an image $x_i$, its random variable is the label $L_i$, $L_i$ is a random variable defined over the event space $\Omega(L_i) = \{\text{`Clamp Detected'},\text{`No Clamps'}\}$, and the training example's outcome is the value of the label $l_i$. The maximum likelihood estimates for the parameters of the model are therefore:
 
 \begin{equation}
-arg\max\limits_{} P\{\intersect \limits \}
+arg\max\limits_{W \in \mathcal{R}^D} P\{\intersect \limits_{1 \leq i \leq n} [L_i = l_i]|x_i,W\}
+
+= arg\max\limits_{W \in \mathcal{R}^D}
 \end{equation}
 
 
-
-Therefore, the best model is the one that reproduces the true probability distribution of the labels, i.e.\ the one that occurs in nature. If we assume that the training set is made up of observations that were sampled randomly i.e.\ directly from the  Suppose that we wanted to choose values for these parameters such that the joint probability of observing every labelled example in the training set is as high as possible. The assumption here is that the training set intuition behind so is that, since the tr
-% Hey, I realise that with softmax we are placing no prior on the type of probability distribution. What if we did? e.g. if the NN were learning not to classify but to predict the probability of receiving 1,2,3,... letter this week conditional on date, number of friends, location etc, we might want to impose a Poisson constraint on the softmax. how would we do that? 
 
 Maximum Likelihood Estimation consists in finding the parameter values that maximise the joint probability
 
