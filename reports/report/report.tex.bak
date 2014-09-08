@@ -1878,12 +1878,16 @@ By adding Bayesian cross entropy, training becomes very noisy, as is already dis
     \end{minipage}%
 \end{figure}
 
-Lowering the learning rate from 0.0001 to 0.00001 does wonders. The amplitude of the validation error reduces, the error ceases to oscillate, and a steady downward trend can be observed. This indicates that Bayesian softmax cross entropy by itself on AleNet architecture works best, without removing a pooling layer and a fully connected layer. Maximum per class accuracy is 78\%, which is truly impressive considering how hard this task his - let that transfer learning barely helped. Furthermore, learning was halted after 2000 iterations, before overfitting began, so more progress can be made.
+Lowering the learning rate from 0.0001 to 0.00001 does wonders. The amplitude of the validation error reduces, the error ceases to oscillate, and a steady downward trend can be observed. This indicates that Bayesian softmax cross entropy by itself on AleNet architecture works best, without removing a pooling layer and a fully connected layer. The cost function delivers remarkable gains, since adding it alone provides 18 additional percentage points in average per class accuracy. Maximum per class accuracy is 78\%, i.e.\ 18 which is truly impressive considering how hard this task his - let us recall that transfer learning barely delivered any gains. Furthermore, learning is halted after 2000 iterations (this was due to time constraints), before overfitting begins, so it seems clear from the plots that more progress can be made by resuming training. \\
+
+A potential explanation for why the gains from the Bayesian cross entropy are even greater for this task than for clamp detection wit 98\% imbalance is because imbalance is not as stark in this task, so the variance of the modulus of the gradient is lower, i.e.\ the gradient is less noisy. Since this issue could be addressed by ensuring equal class distribution at every mini-batch, the size of gains observed here could also potentially be seen with clampdet detection 98\% and other tasks with similar imbalances. \\
+
+This section marks a failure for modifying the architecture of AlexNet, but it marks a victory for the Bayesian cross entropy, and encourages further empirical research into the benefits that this novel cost function can bring to training deep neural networks.
 
 
 \section{Final Results}
 
-This presents best results (accuracy overall, on pos, on neg, sig level) for each binary classifier. \\
+This presents best results for each binary classifier. \\
 
 \begin{table}[h!]
    \centering
