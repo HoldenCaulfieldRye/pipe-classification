@@ -666,7 +666,7 @@ The authors find that `both training techniques perform quite well' on the basis
 
 \subsection{Motivations}
 
-Differentiable, symmetric, bounded activation functions that introduce a non-linearity smoothly over the entire input domain were the activation units of choice in deep feed-forward neural networks, until Rectified Linear Units were used for CNNs in 2012 \cite{krizhevsky} and found to outperform their counterparts. They make the observations that $f(x) = \tanh x = \frac{1 - e^{-2x}}{1 + e^{-2x}}$ or $f(x) = (1+ exp^{-x})^{-1}$ "saturating non-linearities" are slower to train than the $f(x) = max(0,x)$ "non-saturating non-linearity", and report an "accelerated ability to fit the training set", but do not provide any explanations.   \\
+Differentiable, symmetric, bounded activation functions that introduce a non-linearity smoothly over the entire input domain were the activation units of choice in deep feed-forward neural networks, until Rectified Linear Units were used for CNNs in 2012 \cite{krizhevsky} and found to outperform their counterparts. They make the observations that $f(x) = \tanh x = \frac{1 - e^{-2x}}{1 + e^{-2x}}$ or $f(x) = (1+ e^{-x})^{-1}$ "saturating non-linearities" are slower to train than the $f(x) = max(0,x)$ "non-saturating non-linearity", and report an "accelerated ability to fit the training set", but do not provide any explanations.   \\
 
 \begin{figure}
     \centering
@@ -791,7 +791,7 @@ The formulae do not lend themselves to intuition, but their graphical representa
 	\begin{subfigure}{.5\textwidth}
   		\centering
 		\includegraphics[scale=0.4]{images/logistic_derivative.png}
-		\caption{derivative fot he tanh and sigmoid}
+		\caption{derivative for the tanh and sigmoid}
 	\end{subfigure}
 \end{figure}
 
@@ -803,7 +803,7 @@ One may argue that a unit which has learned a feature that is useful for the tas
 On the other hand, the derivative of the ReLU is given by:
 
 \begin{equation}
-ReLU'(x) = \begin{cases} 1 & \mbox{if } x < 1\\ 
+ReLU'(x) = \begin{cases} 1 & \mbox{if } x > 0\\ 
 				  0 & \mbox{otherwise} \end{cases}
 \end{equation} 
 
