@@ -158,7 +158,7 @@ This task can also be carried out by training independent binary classifiers. Th
 
 \subsection{Challenges specific to the Pipe Weld Classification Task}
 
-A number of significant challenges arise from this task: multi-tagging, semantic complexity, domain change, small dataset size and class imbalance. Before going into them, an overview of the data is given below. \\
+A number of significant challenges arise from this task: multi-tagging, semantic complexity, domain change, small dataset size and class imbalance. Before going into them, an overview of the data is given on figure ~\ref{f3}. \\
 
 \subsubsection{Data Overview}
 % \subsubsection{Visual Inspection}
@@ -560,7 +560,7 @@ Another advantage of such pixel features is that one can make sense of what the 
     \label{f21}
 \end{figure}
 
-A zero value is obtained when pixel $(1,0)$ and pixel $(1,1)$ have the same value, which is likely to be the case, hence why most of the kernel map is black. The dot product is maximised when pixel $(1,0)$ is of a much lower value than pixel $(1,1)$, which occurs most often when the window is on a vertical edge separating a dark region to the left from a light region to the right. Therefore, an intuitive representation for the kernel matrix is the pixel window on figure ~\ref{f2} \footnote{the pixel representation indeed has more pixels than the kernel has entries. but one can see that the dot product is maximal when the kernel is applied in the upper middle area of the pixel representation}, which has become a popular way of representing `deep learning [computer vision] features' \cite{zeiler_fergus}. One therefore realises that this feature visualisation technique does not show a set of weights learned by the network, but the pixel window which maximises the dot product between them and the set of learned weights.
+A zero value is obtained when pixel $(1,0)$ and pixel $(1,1)$ have the same value, which is likely to be the case, hence why most of the kernel map is black. The dot product is maximised when pixel $(1,0)$ is of a much lower value than pixel $(1,1)$, which occurs most often when the window is on a vertical edge separating a dark region to the left from a light region to the right. Therefore, an intuitive representation for the kernel matrix is the pixel window on figure ~\ref{f22} \footnote{the pixel representation indeed has more pixels than the kernel has entries. but one can see that the dot product is maximal when the kernel is applied in the upper middle area of the pixel representation}, which has become a popular way of representing `deep learning [computer vision] features' \cite{zeiler_fergus}. One therefore realises that this feature visualisation technique does not show a set of weights learned by the network, but the pixel window which maximises the dot product between them and the set of learned weights.
 
 \begin{figure}
     \centering
@@ -600,7 +600,7 @@ Take a $k \times k$ spatial neighbourhood of the feature map, and compute some s
 
 In general, a potential advantage of average over max is that it conserves more information; on the other hand, it will dilute an activation that is strong in a single location of the given neighbourhood and weak in the others. In the worst case, opposing activations will cancel each other out, and result in the pooled value as that for a neighbourhood with zero activations (however, note that this does not occur with ReLUs since they are not antisymmetric). \\
 
-The key contribution of max pooling is robustness to noise and invariance to small transformations, since the same max pooling output is obtained regardless of where in the neighbourhood the maximal feature activation occurs, and regardless of what is present elsewhere in the neighbourhood. At higher convolutional layers, the resulting invariance can be spectacular. For example, below are kernel maps for a certain feature of the 5-th convolutional layer of a net from (Zeiler and Fergus 2013) \cite{zeiler_fergus}, computed for 9 different input images from the same class ("human"), which obtain similar pooled activation values. One may be struck by the fact that they receive similar pooled activation values, since one can tell that the similarities between the kernel maps are complex and would be difficult to describe in terms of "small transformations". \\
+The key contribution of max pooling is robustness to noise and invariance to small transformations, since the same max pooling output is obtained regardless of where in the neighbourhood the maximal feature activation occurs, and regardless of what is present elsewhere in the neighbourhood. At higher convolutional layers, the resulting invariance can be spectacular. For example, figure ~\ref{f23} shows kernel maps for a certain feature of the 5-th convolutional layer of a net from (Zeiler and Fergus 2013) \cite{zeiler_fergus}, computed for 9 different input images from the same class ("human"), which obtain similar pooled activation values. One may be struck by the fact that they receive similar pooled activation values, since one can tell that the similarities between the kernel maps are complex and would be difficult to describe in terms of "small transformations". \\
 
 \begin{figure}
     \centering
@@ -806,7 +806,7 @@ tan'(x) = 1 - tan^2(x)  \\
 sigmoid'(x) = \frac{e^x}{(1 + e^x)^2}
 \end{equation} \\
 
-The formulae do not lend themselves to intuition, but their graphical representation given below does \footnote{both are the same up to a scaling factor, therefore only one is given.}. Such functions are called "saturating" by (Krizhevsky et al 2012) because, when the input is high in absolute value, the derivative approaches zero. In the context of backpropagation, this means that a tanh or sigmoid unit that is "heavily activated" during the forward pass will strongly reduce the gradient as it propagates through it during the backward pass. Moreover, this will affect the partial derivative of every weight that lies behind the unit in some input-output path. As a result, during training it becomes slow to alter any such weight when the unit's weights are on average high in absolute value. This difficulty increases with the depth of the network, since in order to reach a weight that is low down in the network, the gradient must propagate through a higher number of units, so its probability of vanishing increases. This is consistent with empirical findings \cite{DL-book}. \\
+The formulae do not lend themselves to intuition, but their graphical representation given on figure ~\ref{f27} does \footnote{both are the same up to a scaling factor, therefore only one is given.}. Such functions are called "saturating" by (Krizhevsky et al 2012) because, when the input is high in absolute value, the derivative approaches zero. In the context of backpropagation, this means that a tanh or sigmoid unit that is "heavily activated" during the forward pass will strongly reduce the gradient as it propagates through it during the backward pass. Moreover, this will affect the partial derivative of every weight that lies behind the unit in some input-output path. As a result, during training it becomes slow to alter any such weight when the unit's weights are on average high in absolute value. This difficulty increases with the depth of the network, since in order to reach a weight that is low down in the network, the gradient must propagate through a higher number of units, so its probability of vanishing increases. This is consistent with empirical findings \cite{DL-book}. \\
 
 \begin{figure}[h!]
 	\centering
@@ -892,7 +892,7 @@ where $f(x_i,l_i,W)$ is the model's predicted probability for input $x_i$'s labe
 
 \subsubsection{Non-Converging Error Rates}
 
-Training produced worrying results: none of the models trained showed signs of learning anything. The below plot of the training and validation errors covers 11 of the 44 epochs over which the model was trained, which amounts to two consecutive days of training. The errors display no trends, and this extends to all 44 epochs.
+Training produced worrying results: none of the models trained showed signs of learning anything. The figure ~\ref{f28} plot of the training and validation errors covers 11 of the 44 epochs over which the model was trained, which amounts to two consecutive days of training. The errors display no trends, and this extends to all 44 epochs.
 
 \begin{figure}[!h]
 	\centering
@@ -1031,7 +1031,7 @@ It came as a surprise that, when the same clamp detection task was trained on th
     \label{f34}
 \end{figure}
 
-A smaller training set is supposed to deliver weaker performance, because it provides the model with less information to learn from, and is more sensitive to overfit. However, after visually inspecting random samples from the Redbox training set, it was discovered that it suffered from heavy mislabelling. For example, out of 50 images randomly sampled from those Redbox images for which no flags were recorded - which are therefore supposed to be images of perfect weld installations - visual inspection performed with the help of a trained ControlPoint employee revealed that 22 of them should have received at least one flag. Three of them are given below.
+A smaller training set is supposed to deliver weaker performance, because it provides the model with less information to learn from, and is more sensitive to overfit. However, after visually inspecting random samples from the Redbox training set, it was discovered that it suffered from heavy mislabelling. For example, out of 50 images randomly sampled from those Redbox images for which no flags were recorded - which are therefore supposed to be images of perfect weld installations - visual inspection performed with the help of a trained ControlPoint employee revealed that 22 of them should have received at least one flag. Three of them are given on figure ~\ref{f35}.
 
 \begin{figure}[h]       
     \fbox{\includegraphics[scale=0.23]{images/66347.jpg}}   
@@ -1092,7 +1092,7 @@ Experimentation consisted in exploring three hyperparameters related to transfer
 
 \subsubsection{Test Run}
 
-As a test run, transfer learning was implemented on a network with the same architecture as was previously used, AlexNet. The training data, as is the case for all subsequent experiments, consists in the Bluebox dataset. Below are the training results alongside those for a model trained identically in all respects apart from weight intialisation, which was fully random. 
+As a test run, transfer learning was implemented on a network with the same architecture as was previously used, AlexNet. The training data, as is the case for all subsequent experiments, consists in the Bluebox dataset. Figure ~\ref{f36} shows the training results alongside those for a model trained identically in all respects apart from weight intialisation, which was fully random. 
 
 \begin{figure}[h!]
 	\centering
@@ -1121,7 +1121,7 @@ Experiments in the next section, on class imbalance, with the Bayesian cross ent
 
 \paragraph{Zig-zag}
 
-Two other noticeable aspects in training without transfer learning are the higher training error amplitude, and the increasing frequency of outlying training error values as training progresses. Both are likely due to the fact that the learning rate is too high; as a result, the network parameters zig zag towards the minimum with greater strides, and the zig zag is accentuated. A graphical illustration of zig-zag where the error surface is simplified to a quadratic bowl is given below. 
+Two other noticeable aspects in training without transfer learning are the higher training error amplitude, and the increasing frequency of outlying training error values as training progresses. Both are likely due to the fact that the learning rate is too high; as a result, the network parameters zig zag towards the minimum with greater strides, and the zig zag is accentuated. A graphical illustration of zig-zag where the error surface is simplified to a quadratic bowl is given on figure ~\ref{f37}. 
 
 \begin{figure}[h!]
 	\centering
@@ -1150,7 +1150,7 @@ The essential takeaway from the test run is that initialisation of the parameter
 
 An aspect of transfer learning that can be explored is whether to freeze backpropagation on part of the network during training. Since the error-weight partial derivatives are computed using the chain rule, the feed-forward architecture of a network implies that computing them for one layer requires computing those in the layers above. However, one may wish to propagate the gradient back to only a certain layer in the network, in order to hold fixed the features that have been learned in the lower layers. In the case of CNNs, a potential motivation would be to maintain the convolutional filters of the lower layers, which tend to generalise best to any computer vision task \cite{transfer-learning}, and constrain the network to optimise over the training set only with the use of fully connected layers. The intuition here would be that, by enabling full backpropagation, weights would be updated in directions that are optimal for fitting the training data, but that may not generalise well to unseen data. \\
 
-Experiments were run by training 8 models identically in all respects save for the number of layers on which to freeze backpropagation. Training results are not all illustrated below because incremental differences are indistinguishable; instead, the two sides of the spectrum are given: backpropagation enabled on all layers (i.e.\ the test run transfer learning model) and backpropagation enabled only on the randomly initialised softmax output layer. 
+Experiments were run by training 8 models identically in all respects save for the number of layers on which to freeze backpropagation. Training results are not all illustrated on figure ~\ref{f38} because incremental differences are indistinguishable; instead, the two sides of the spectrum are given: backpropagation enabled on all layers (i.e.\ the test run transfer learning model) and backpropagation enabled only on the randomly initialised softmax output layer. 
 
 \begin{figure}
     \centering
@@ -1237,7 +1237,7 @@ Since logistic regression has range [0, 1] but linear SVM has range [-1, 1], we 
 
 In order to compare the two cost functions, we first needed the definition domains to match. Since a cost function takes a model's output as input, this meant ensuring that the output domains of a softmax layer and a linear SVM match; hence the rescaling of the logistic regression output values. However, we also need to rescale the \textit{output} values of one of the cost functions so as to make both cost functions have the same output for a specific input value, and then see how the two compare for the rest of the definition domain. The reason for this is that a model's parameters are trained by minimising a cost function, so the value of this minimum is irrelevant. Just because one cost function's minimum value is 0 and another's is 10 does not mean that the latter model performs worse than the former. In order to see whether cost function A punishes a certain type i of error more heavily than function B does, one must see whether punishment for type i error compared to punishment for type ii error is different with cost function A than with cost function B. Numerically, this can be done by rescaling the output of a cost function for it to equal the output of the other cost function at a specific point, and then see how the outputs for the two cost functions differ along the rest of the definition domain.
 
-In this case, by rescaling the softmax error by $\frac{1}{\log(2)}$, we get equal output for input value 0. A graphical representation can be seen below. \\
+In this case, by rescaling the softmax error by $\frac{1}{\log(2)}$, we get equal output for input value 0. A graphical representation can be seen on figure ~\ref{f40}. \\
 
 \begin{figure}[h!]
 	\centering
@@ -1369,7 +1369,7 @@ To evaluate the difficulty of the clamp detection task with increased class imba
 
 Whereas with 88\% imbalance it is possible to learn without transfer learning, with 98\% imbalance it is not. The model converges within one iteration to a constant function\footnote{Note that the reason for why the validation error seems to take 200 iterations to suddenly drop is because the validation frequency was set to a large interval of 200 training mini-batch passes, in order to speed up training.} and remains there. \\
 
-Note that for lower levels of class imbalance, the model is able to escape the sample-induced bad minimum. The plot below shows that with 90\% class imbalance for example, the model becomes a constant function at first, and eventually is able to `creep out' of the sample-induced minimum. \\
+Note that for lower levels of class imbalance, the model is able to escape the sample-induced bad minimum. The plot on figure ~\ref{f44} shows that with 90\% class imbalance for example, the model becomes a constant function at first, and eventually is able to `creep out' of the sample-induced minimum. \\
 
 \begin{figure}[h!]
 	\centering
@@ -1582,7 +1582,7 @@ We now have that the body of the while loop has time complexity $T_{backprop}$. 
 
 This algorithm therefore has time complexity $T_{backprop}\cdot log_{1.5}(\frac{n_1}{n_0})$. So in the case of clamp detection with 98\% class imbalance, training with under-sampling at 88\% target imbalance -- which was the imbalance ratio at which clamp detection was successfully learned in previous sections -- would have taken 5 times longer than training with simple brute force under-sampling. Considering on top of this the time that would have been spent in implementation, it was deemed impractical, especially since the authors report better performance with threshold. \\
 
-Instead, brute force under-sampling was implemented as in (Maloof 2003) \cite{maloof}. Note that in order to do so, minority class examples from the clamp detection dataset were first deleted in order to achieve 98\% imbalance, followed by deletion of majority class examples in the training set to bring the dataset back to 88\% imbalance. Results are shown below.
+Instead, brute force under-sampling was implemented as in (Maloof 2003) \cite{maloof}. Note that in order to do so, minority class examples from the clamp detection dataset were first deleted in order to achieve 98\% imbalance, followed by deletion of majority class examples in the training set to bring the dataset back to 88\% imbalance. Results are shown on figure ~\ref{f50}.
 
 \begin{figure}
     \centering
