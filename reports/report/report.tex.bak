@@ -1887,7 +1887,7 @@ This section marks a failure for modifying the architecture of AlexNet, but it m
 
 \section{Final Results}
 
-This presents best results for each binary classifier. \\
+This presents best results for each binary classifier. The first three columns are indicators of the difficulty of the task: amount of available Bluebox examples, whether the task requires precise spatial information, whether the downsizing of the images to 256x256 prevented a human expert from carrying out classification. The last two columns are measures success: maximum average per class validation accuracy, and percentage of work that could be automated by setting the threshold so as to obtain 95\% accuracy on true positives. Note that as of this writing, Bayesian cross entropy was only tested on the soil contamination task, so in light of its success on that task as well as on clamp detection 98\%, scores are likely to increase significantly. \\
 
 \begin{table}[h!]
    \centering
@@ -1895,13 +1895,13 @@ This presents best results for each binary classifier. \\
     \hline
     Model & ~ Count & ~ Need Spatial? & ~ Need HD? & ~ PC Val Acc & ~ Automation  \\ 
     \hline
-    Clamp               & ~ 1,323  & ~     & ~    & ~ 89.2\%  & ~ 78\% \\
-    Ground Sheet        & ~ 5,541  & ~     & ~    & ~ 88.6\%  & ~ 76\%    \\
-    Hatch Markings      & ~ 3,793  & ~     & ~    & ~ 77.4\%  & ~ 53\%    \\
-    Insertion Depth     & ~ 897    & ~     & ~    & ~ 86\%    & ~ 73\%      \\
-    Soil Contam         & ~ 532    & ~ X   & ~ X  & ~ 78\%+   & ~ 56\%      \\
+    Clamp               & ~ 1,323  & ~     & ~    & ~ 89.2\%  & ~ 73\% \\
+    Ground Sheet        & ~ 5,541  & ~     & ~    & ~ 88.6\%  & ~ 68\%    \\
+    Hatch Markings      & ~ 3,793  & ~     & ~    & ~ 77.4\%  & ~ 42\%    \\
+    Insertion Depth     & ~ 897    & ~     & ~    & ~ 86.3\%  & ~ 65\%      \\
+    Soil Contam         & ~ 532    & ~ X   & ~ X  & ~ 78.1\%+ & ~ 43\%+      \\
     Water Contam        & ~ 312    & ~ X   & ~ X  & ~ 50\%    & ~ 0\%    \\
-    Scrape Zones        & ~ 2,545  & ~ X   & ~    & ~ 60\%    & ~ 0\%     \\
+    Scrape Zones        & ~ 2,545  & ~ X   & ~    & ~ 61.6\%  & ~ 18.5\%     \\
     Scraping or Peeling & ~ 292    & ~ X   & ~ X  & ~ 50\%    & ~ 0\%     \\
     Joint Misalignment  & ~ 35     & ~     & ~    & ~ N/A     & ~ N/A \\
     Fitting Proximity   & ~ 32     & ~ X   & ~    & ~ N/A     & ~ N/A \\
@@ -2023,9 +2023,9 @@ This presents best results for each binary classifier. \\
 \clearpage
 \section{Conclusions and Future Work}
 
-The realisation that weird sampling can heavily dent the approximation of the error surface has raised questions:
+The conclusion of this report is that ControlPoint's image classification tasks are difficult. At first, it took several weeks to understand why learning was failing completely. The combination of heavy mislabelling on the Redbox dataset and class imbalance were eventually identified as the joint culprits, and the way in which they interact to impede learning was formalised clearly. The second stage of 
 
-How does the training set provide an approximation of the true error surface? Since it can introduce dangerous minima, does that mean that, formally, it does not always provide an extrema-conserving approximation of the true error surface? Theoretically, what are the conditions for obtaining an extrema-conserving approximation (i.e. that doesn't introduce fake minima)? Practically, can we perform transformations on the cost function, or do stuff to our data (sampling), to limit the introduction of fake minima?  \\
+The realisation that imbalanced sampling can heavily dent the approximation of the error surface has raised questions: how does the training set provide an approximation of the true error surface? Since it can introduce dangerous minima, does that mean that, formally, it does not always provide an extrema-conserving approximation of the true error surface? Theoretically, what are the conditions for obtaining an extrema-conserving approximation (i.e. that doesn't introduce fake minima)? Practically, can we perform transformations on the cost function, or do stuff to our data (sampling), to limit the introduction of fake minima?  \\
 
 Could we answer these questions if, instead of facing the usual problem of having a training set sampled from an unknown distribution, we ran a completely artificial experiment where we start with a known distribution? That way, we know the true error surface, and as we draw samples from the distribution, we can look at how each one approximates the true error surface, how it introduces bad minima? \\
 
