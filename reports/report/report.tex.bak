@@ -1803,23 +1803,23 @@ This presents best results (accuracy overall, on pos, on neg, sig level) for eac
 
 \begin{table}[h!]
    \centering
-    \begin{tabular}{|l|c|c|}
+    \begin{tabular}{|l|c|c|c|c|c|}
     \hline
-    Model                      & ~ Per Class Validation Accuracy & ~ Bluebox Count  \\ 
+    Model & ~ Count & ~ Need Spatial? & ~ Need HD? & ~ PC Val Acc & ~ Automation  \\ 
     \hline
-    Clamp                      & ~  1,233           & ~ 32      \\
-    Ground Sheet               & ~ 1,               & ~ 83      \\
-    Hatch Markings             & ~  1,233           & ~ 32      \\
-    Insertion Depth Markings     & ~ 1,               & ~ 83      \\
-    Soil Contamination Risk             & ~  1,233           & ~ 32      \\
-    Water Contamination Risk     & ~ 1,               & ~ 83      \\
-    Scrape Zones             & ~  1,233           & ~ 32      \\
-    Scraping or Peeling     & ~ 1,               & ~ 83      \\
-    Joint Misalignment
-    Fitting Proximity
-    \hline
+    Clamp               & ~ 1,233  & ~ 32   & ~ 0  & ~ 0\%  & ~ 0\% \\
+    Ground Sheet        & ~ 5,541      & ~ 83   & ~ 0  & ~ 0\%  & ~ 0\%    \\
+    Hatch Markings      & ~ 3,793  & ~ 32   & ~ 0  & ~ 0\%  & ~ 0\%    \\
+    Insertion Depth     & ~ 897      & ~ 83   & ~ 0  & ~ 0\%  & ~ 0\%      \\
+    Soil Contam         & ~ 532  & ~ 32   & ~ 0  & ~ 0\%  & ~ 0\%      \\
+    Water Contam        & ~ 312      & ~ 83   & ~ 0  & ~ 0\%  & ~ 0\%    \\
+    Scrape Zones        & ~ 2,545  & ~ 32   & ~ 0  & ~ 0\%  & ~ 0\%     \\
+    Scraping or Peeling & ~ 292      & ~ 83   & ~ 0  & ~ 0\%  & ~ 0\%     \\
+    Joint Misalignment  & ~ 35       & ~ 0    & ~ 0  & ~ 0\%  & ~ 0\% \\
+    Fitting Proximity   & ~ 32       & ~ 0    & ~ 0  & ~ 0\%  & ~ 0\% \\
+    \hlin
     \end{tabular}
-    \caption {Impact of threshold-moving}
+    \caption {Final Results}
 \end{table} 
 
 %To sum up, the two greatest challenges with the Bluebox dataset is small size and class imbalance. Small size can be dealt with by transferring knowledge from another task by initialising weights. Class imbalance can be cruelly dealt with using under-sampling, but this decreases the size of the dataset even more, making robustness ie generalisation the second challenge. Therefore, we use [..] and [..] to help with dealing with class imbalance and mitigate the extent of under-sampling. \\

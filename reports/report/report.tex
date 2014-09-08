@@ -1803,18 +1803,20 @@ This presents best results (accuracy overall, on pos, on neg, sig level) for eac
 
 \begin{table}[h!]
    \centering
-    \begin{tabular}{|l|c|c|}
+    \begin{tabular}{|l|c|c|c|c|c|}
     \hline
-    Model                            & ~ Per Class Validation Accuracy & ~ Bluebox Count  \\ 
+    Model & ~ Count & ~ Need Spatial? & ~ Need HD? & ~ PC Val Acc & ~ \% Automation  \\ 
     \hline
-    Clamp                      & ~  1,233           & ~ 32      \\
-    Ground Sheet     & ~ 1,               & ~ 83      \\
-    Hatch Markings             & ~  1,233           & ~ 32      \\
-    Insertion Depth Markings     & ~ 1,               & ~ 83      \\
-    No transfer learning             & ~  1,233           & ~ 32      \\
-    Transfer learning, threshold     & ~ 1,               & ~ 83      \\
-    No transfer learning             & ~  1,233           & ~ 32      \\
-    Transfer learning, threshold     & ~ 1,               & ~ 83      \\
+    Clamp                   & ~  1,233  & ~ 32  & ~ 0  & ~ 0  & ~ 0 \\
+    Ground Sheet               & ~ 1,               & ~ 83   & ~ 0  & ~ 0  & ~ 0    \\
+    Hatch Markings             & ~  1,233           & ~ 32   & ~ 0  & ~ 0  & ~ 0    \\
+    Insertion Depth       & ~ 1,               & ~ 83 & ~ 0  & ~ 0  & ~ 0      \\
+    Soil Contam             & ~  1,233           & ~ 32 & ~ 0  & ~ 0  & ~ 0      \\
+    Water Contam     & ~ 1,               & ~ 83   & ~ 0  & ~ 0  & ~ 0    \\
+    Scrape Zones             & ~  1,233           & ~ 32  & ~ 0  & ~ 0  & ~ 0     \\
+    Scraping or Peeling     & ~ 1,               & ~ 83  & ~ 0  & ~ 0  & ~ 0     \\
+    Joint Misalignment & ~ 0 & ~ 0 & ~ 0  & ~ 0  & ~ 0 \\
+    Fitting Proximity & ~ 0 & ~ 0 & ~ 0  & ~ 0  & ~ 0 \\
     \hline
     \end{tabular}
     \caption {Impact of threshold-moving}
