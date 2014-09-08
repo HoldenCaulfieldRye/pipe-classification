@@ -1474,7 +1474,7 @@ Over-sampling \cite{zhou} \cite{maloof} rebalances the training set to desired l
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
-        %\includegraphics[scale=0.4]{images/plot_clampdetCI98_os_none_bs128_lr4.png}
+        \includegraphics[scale=0.4]{images/plot_clampdet_os_none_reinit-5000.png}
         % ...here to lower the subcaptions and...
         \caption{Same with over-sampling to 88\% imbalance}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
@@ -1619,7 +1619,7 @@ It was wondered whether the best performing techniques discovered until now coul
 -\frac{1}{n}\sum\limits_{i=1}^{n} log(f(x_i,l_i,W))
 \end{equation}
 
-where $f(x_i,l_i,W)$ is the model's predicted probability for input $x_i$'s label to be $l_i$, $W$ are its parameters, $n$ is the mini-batch size, to:
+where $f(x_i,l_i,W)$ is the model's predicted probability for input $x_i$'s label to be $l_i$, $W$ are its parameters, $l_i$ is the true label for $x_i$, $n$ is the mini-batch size, to:
 
 \begin{equation}
 -\frac{1}{K \cdot n}\sum\limits_{i=1}^{n} \frac{log(f(x_i,l_i,W))}{p(class(x_i))} 

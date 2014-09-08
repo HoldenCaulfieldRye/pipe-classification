@@ -1460,8 +1460,8 @@ With a lower learning rate, the validation accuracy seems to increase at a far s
 
 
 \subsubsection{Over-Sampling}
-
-Over-sampling \cite{zhou} \cite{maloof} rebalances the training set to desired levels of imbalance by increasing the occurrence of minority class examples. This was implemented by creating duplicates in the training set -- but not in the validation or test sets, as this would have slowed down the algorithms and biased any performance metric not averaged across classes. Moreover, in order to compare the performance of models trained with different techniques, the same validation set needs to be the same for all models.
+%Over-sampling \cite{zhou} \cite{maloof} rebalances the training set to desired levels of imbalance by increasing the occurrence of minority class examples. This was implemented by creating duplicates in the training set -- but not in the validation or test sets, as this would have slowed down the algorithms and biased any performance metric not averaged across classes. Moreover, in order to compare the performance of models trained with different techniques, the same validation set needs to be the same for all models.
+Over-sampling \cite{zhou} \cite{maloof} rebalances the training set to desired levels of imbalance by increasing the occurrence of minority class examples. This was implemented by creating duplicates in the dataset. 
 
 \begin{figure}[!]
     \centering
@@ -1474,7 +1474,7 @@ Over-sampling \cite{zhou} \cite{maloof} rebalances the training set to desired l
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
-        %\includegraphics[scale=0.4]{images/plot_clampdetCI98_os_none_bs128_lr4.png}
+        \includegraphics[scale=0.4]{images/plot_clampdet_os_none_reinit-5000.png}
         % ...here to lower the subcaptions and...
         \caption{Same with over-sampling to 88\% imbalance}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
@@ -1482,7 +1482,7 @@ Over-sampling \cite{zhou} \cite{maloof} rebalances the training set to desired l
 \end{figure}
 
 
-Oversampling completely fails. \\
+Oversampling does not produce good results. Overfits
 
 Observations:
 - very weak performance
@@ -1492,7 +1492,7 @@ Observations:
 
 
 Interpretations:
-How can per class accuracy be below 0.5? that's worse than random! It may be due to the fact that copies are made in the training set, but not in the test and validation sets. 
+%How can per class accuracy be below 0.5? that's worse than random! It may be due to the fact that copies are made in the training set, but not in the test and validation sets. 
 When comparing these networks, should we not be using the same validation set for all? No, we should be using the same test set (and testing will come in the next section). We should choose the validation set that we deem best for early stopping. In the case of over-sampling, makes no sense to include duplicates. 
 
 
