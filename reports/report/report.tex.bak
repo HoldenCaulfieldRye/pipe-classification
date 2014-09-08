@@ -1857,6 +1857,27 @@ Removal of the FC layer was simply for computation to be feasible on the GPU. Th
 
 By adding Bayesian cross entropy, training becomes very noisy, as is already discussed and explained in the previous section. However, once again, there is a performance gain of just under 10 percentage points. Note that the validation error oscillates, suggesting that the model is overshooting a minimum. A smaller lear
 
+\paragraph{Under-Sampling benchmark}
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_soil_contam_noneC.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{Transfer learning}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_soil_contam_none_lr5_sbl.png}
+        % ...here to lower the subcaptions and...
+        \caption{Transfer learning and Bayesian cross entropy}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{Bayesian Cross Entropy by itself}\label{fig:2}
+    \end{minipage}%
+\end{figure}
+
+
 
 \paragraph{Softmax Bayesian Cross Entropy and lower learning rate}
 %     soil_contam/nopool                       TRAINING
