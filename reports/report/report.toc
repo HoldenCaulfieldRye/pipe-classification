@@ -88,7 +88,7 @@
 \contentsline {paragraph}{Motivations}{55}
 \contentsline {paragraph}{Implementation}{55}
 \contentsline {paragraph}{Results}{55}
-\contentsline {subsubsection}{\numberline {8.4.7}Bayesian Cross Entropy Cost Function}{55}
+\contentsline {subsubsection}{\numberline {8.4.7}Bayesian Cross Entropy Cost Function}{56}
 \contentsline {paragraph}{Motivations}{56}
 \contentsline {paragraph}{Implementation}{56}
 \contentsline {paragraph}{Results}{57}

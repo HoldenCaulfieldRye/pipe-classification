@@ -1616,14 +1616,19 @@ In the context of trying different approaches to tackle class imbalance, thresho
 It was wondered whether the best performing techniques discovered until now could also be combined with a modified cost function. Indeed, threshold re-normalisation does not change the fact that most of the errors computed throughout a SGD mini-batch pass come from majority class examples. Since the stochastic gradient is an average across the mini-batch, it carries more `teaching material' for learning the majority class than the minority class. If we want the stochastic gradient to reflect as much of the $C_1$ errors as the $C_2$ errors on average, then perhaps we need to renormalise the errors based on class priors as well. This would result in modifying the cross entropy cost function from: 
 
 \begin{equation}
--\frac{1}{n_{batch}}\sum\limits_{i=1}^{n_{batch}} log(f(W|x_i))
+-\frac{1}{n}\sum\limits_{i=1}^{n} log(f(x_i,W))
 \end{equation}
 
-to:
+where $f$ is the model i.e.\ the classifier, $W$ are its parameters, $n$ is the mini-batch size, $x_i$ is an input i.e.\ a class instance, to:
 
 \begin{equation}
--\frac{1}{n}\sum\limits_{i=1}^n log(f(W|x_i))
+-\frac{1}{K \cdot n}\sum\limits_{i=1}^{n} \frac{log(f(x_i,W))}{p(class(x_i))} 
 \end{equation}
+
+where $K$ is the number of classes in the classification task.
+There is a parametric justification for this cost function, which can be intuited when the cross entropy cost function is seen as a formula for Maximum Likelihood Estimation. This latter aspect is first shown. \\
+
+As discussed in the literature review, placing a softmax layer as the output layer of a deep neural network forces it to output a probability distribution for the label of the input. This makes deep neural networks parametric models, Maximum Likelihood Estimation consists in finding the parameter values that maximise the joint probability
 
 The cross entropy also elegantly evaluates to MLE. In other words, we are choosing the parameters of the model to maximise the likelihood of the data (to make the observed events i.e.\ the training set as highly probable as possible). Do the proof with joint probability of independent events etc. \\
 
