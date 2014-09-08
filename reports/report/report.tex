@@ -60,7 +60,7 @@ Automatic image classification experienced a breakthrough in 2012 with the adven
 
 After framing the task, this report provides an overview of supervised deep learning, followed by an in-depth explanation of the workings of a deep convolutional neural network, which despite its performance, gathers criticism for its tendency to be used as a black box. The rest of the report goes over the research that was carried out. The first is a simple mathematical analysis which proposes an explanation for the recent success of the Rectified Linear Unit as the chief activation function of CNNs\footnote{It came about as the result of seeking to understand, with limited assistance, aspects of training deep neural networks; it is uncertain whether existing research exceeds it.}. The next sections are applied and specific to the main task: understanding why learning failed during the first attempts; finding the optimal way to use transfer learning, exploring ways of tackling class imbalance -- including a novel cost function with a probabilistic interpretation which delivered up to 18 additional percentage points in classification performance; moving away from the common `AlexNet' CNN architecture to conserve spatial information; and final performance results across all tasks. \\
 
-The bulk of research undertaken to make more general improvements in understanding deep learning and dealing with class imbalance, combined with time constraints, have restricted the time spent optimising each one of ControlPoint's tasks. For the moment, 3 tasks have per class accuracy in the 85-90\% range, 2 in the 75-80\% range, 1 at 62\%, 2 have been found impossible to train and 2 others have not been attempted. However, the recent discovery of the novel cost function means that it was only implemented for one of these tasks; these scores are therefore likely to increase significantly thanks to this straightforward improvement alone.
+The bulk of research undertaken to make more general improvements in understanding deep learning and dealing with class imbalance, combined with time constraints, have restricted the time spent optimising each one of ControlPoint's tasks. For the moment, 3 tasks have per class accuracy in the 85-90\% range, 2 in the 75-80\% range, 1 at 62\%, and 4 have been found impossible to train. However, the recent discovery of the novel cost function means that it was only implemented for one of these tasks; these scores are therefore likely to increase significantly thanks to this straightforward improvement alone.
 }
 \end{abstract}
 
@@ -1904,8 +1904,8 @@ This presents best results for each binary classifier. The first three columns a
     Water Contam        & ~ 312    & ~ X   & ~ X  & ~ 50\%    & ~ 0\%    \\
     Scrape Zones        & ~ 2,545  & ~ X   & ~    & ~ 61.6\%  & ~ 18.5\%     \\
     Scraping or Peeling & ~ 292    & ~ X   & ~ X  & ~ 50\%    & ~ 0\%     \\
-    Joint Misalignment  & ~ 35     & ~     & ~    & ~ N/A     & ~ N/A \\
-    Fitting Proximity   & ~ 32     & ~ X   & ~    & ~ N/A     & ~ N/A \\
+    Fitting Proximity   & ~ 32     & ~ X   & ~    & ~ 50\%    & ~ 0\% \\
+    Joint Misalignment  & ~ 35     & ~     & ~    & ~ 50\%    & ~ 0\% \\
     \hline
     \end{tabular}
     \caption {Final Results}
