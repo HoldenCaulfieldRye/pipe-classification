@@ -1613,17 +1613,23 @@ In the context of trying different approaches to tackle class imbalance, thresho
 \subsubsection{Bayesian Cross Entropy Cost Function}
 
 \paragraph{Motivations}
-It was wondered whether the best performing techniques discovered until now could also be combined with a modified cost function. Threshold re-normalisation does not change the fact that most of the error computed at the end of a SGD mini-batch pass comes from majority class examples. As a result, the gradient carries more teaching material for the majority class than the minority class. If we want the stochastic gradient to reflect as much of the $C_1$ errors as the $C_2$ errors on average, then perhaps we need to renormalise the errors based on class priors as well. This is done with bayesian cross entropy: [formula here] \\
+It was wondered whether the best performing techniques discovered until now could also be combined with a modified cost function. Indeed, threshold re-normalisation does not change the fact that most of the errors computed throughout a SGD mini-batch pass come from majority class examples. Since the stochastic gradient is an average across the mini-batch, it carries more `teaching material' for learning the majority class than the minority class. If we want the stochastic gradient to reflect as much of the $C_1$ errors as the $C_2$ errors on average, then perhaps we need to renormalise the errors based on class priors as well. This would result in modifying the cross entropy cost function from: 
 
-When viewed as MLE estimation, the Bayesian cross entropy can be interpreted as follows: instead of trying to maximise the joint probability of the data under the assumption that each observed event has the same probability, we are assigning higher probability to minority class events. \\
-
-Recall that the error being shown is the negative of the log probability of the likelihood function:
 \begin{equation}
--\frac{1}{n}\sum\limits_{i=1}^n ln(f(W|x_i))
+-\frac{1}{n_{batch}}\sum\limits_{i=1}^{n_{batch}} log(f(W|x_i))
 \end{equation}
-Where f is the learned function. This is the cross entropy, but it also elegantly evaluates to MLE. In other words, we are choosing the parameters of the model to maximise the likelihood of the data (to make the observed events i.e.\ the training set as highly probable as possible). Do the proof with joint probability of independent events etc. \\
 
-Blow us away with some nice maths here! Also need the background maths for cross entropy that is the same as MLE. \\
+to:
+
+\begin{equation}
+-\frac{1}{n}\sum\limits_{i=1}^n log(f(W|x_i))
+\end{equation}
+
+The cross entropy also elegantly evaluates to MLE. In other words, we are choosing the parameters of the model to maximise the likelihood of the data (to make the observed events i.e.\ the training set as highly probable as possible). Do the proof with joint probability of independent events etc. \\
+
+Therefore, when viewed as MLE estimation, the Bayesian cross entropy can be interpreted as follows: instead of trying to maximise the joint probability of the data under the assumption that each observed event has the same probability, we are assigning higher probability to minority class events. \\
+
+
 
 
 \paragraph{Implementation}
