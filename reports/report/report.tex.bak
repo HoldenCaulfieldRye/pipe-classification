@@ -1636,29 +1636,30 @@ The idea behind Maximum Likelihood Estimation is that the best parameters are th
 \begin{equation}
 arg\max\limits_{W \in \mathcal{R}^D} P\{\intersect \limits_{1 \leq i \leq n} [L_i = l_i]|x_i,W\}
 
-= arg\max\limits_{W \in \mathcal{R}^D} \prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\} \text{assuming that the $X_i$ are independently and identically distributed}
+&= arg\max\limits_{W \in \mathcal{R}^D} \prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\} \text{assuming that the $X_i$ are independently and identically distributed}
 
-= arg\max\limits_{W \in \mathcal{R}^D} \log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\}) \text{since log is a monotonous strictly increasing function, the coordinates of W at which max is reached are the same}
+&= arg\max\limits_{W \in \mathcal{R}^D} \log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\}) \text{since log is a monotonous strictly increasing function, the coordinates of W at which max is reached are the same}
 
-= arg\min\limits_{W \in \mathcal{R}^D} -\log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\}) \text{since taking the opposite function turns maximum into minimum}
+&= arg\min\limits_{W \in \mathcal{R}^D} -\log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\}) \text{since taking the opposite function turns maximum into minimum}
 
-= arg\min\limits_{W \in \mathcal{R}^D} -\sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\})
+&= arg\min\limits_{W \in \mathcal{R}^D} -\sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\})
 
-= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\}) \text{since scaling the function by a constant preserves extrema}
+&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\}) \text{since scaling the function by a constant preserves extrema}
 
-= arg\min\limits_{W \in \mathcal{R}^D} \frac{1}{n} \sum\limits_{1 \leq i \leq n} \sum\limits_{l \in \Omega(L_i)} P\{L_i = l\} \cdot \log(P\{[L_i = l]|x_i,W\}) \text{since $P\{L_i = l\} = 1$ if $l = l_i$ and 0 otherwise}
+&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \sum\limits_{l \in \Omega(L_i)} P\{L_i = l\} \cdot \log(P\{[L_i = l]|x_i,W\}) \text{since $P\{L_i = l\} = 1$ if $l = l_i$ and 0 otherwise}
 
+&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} KL(P\{L_i\},P\{L_i|x_i,W\}) \text{where KL is the Kullback-Leibler divergence}
 
+&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},P\{L_i|x_i,W\}) \text{where CE is the cross entropy}
 
+&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},f(x_i,l_i,W)) 
+
+&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n}\sum\limits_{i=1}^{n} log(f(x_i,l_i,W))
 \end{equation}
 
+This optimisation problem is, as we know, tentatively solved by local optimisation with gradient descent.
 
-
-Maximum Likelihood Estimation consists in finding the parameter values that maximise the joint probability
-
-The cross entropy also elegantly evaluates to MLE. In other words, we are choosing the parameters of the model to maximise the likelihood of the data (to make the observed events i.e.\ the training set as highly probable as possible). Do the proof with joint probability of independent events etc. \\
-
-Therefore, when viewed as MLE estimation, the Bayesian cross entropy can be interpreted as follows: instead of trying to maximise the joint probability of the data under the assumption that each observed event has the same probability, we are assigning higher probability to minority class events. \\
+Therefore, when viewed as MLE estimation, the Bayesian cross entropy can be interpreted as follows: instead of trying to maximise the joint probability of the data under the assumption that each observed event has the same probability, we are assigning higher probability to minority class events. In a way, we are supposing that the `identically' distributed assumption is violated,\\
 
 
 
