@@ -1,7 +1,7 @@
 \contentsline {section}{\numberline {1}Acknowledgements}{4}
 \contentsline {section}{\numberline {2}Introduction}{5}
 \contentsline {subsection}{\numberline {2.1}Explaining the Problem}{5}
-\contentsline {subsection}{\numberline {2.2}Formalising the problem: Multi-Instance Multi-Label Supervised Learning}{6}
+\contentsline {subsection}{\numberline {2.2}Formalising the problem}{6}
 \contentsline {paragraph}{Independent Binary Classifiers}{6}
 \contentsline {subsection}{\numberline {2.3}Challenges specific to the Pipe Weld Classification Task}{6}
 \contentsline {subsubsection}{\numberline {2.3.1}Data Overview}{7}
@@ -47,62 +47,60 @@
 \contentsline {subsubsection}{\numberline {4.2.2}An Example}{28}
 \contentsline {subsubsection}{\numberline {4.2.3}Vanishing Gradient}{29}
 \contentsline {subsubsection}{\numberline {4.2.4}Impact of the ReLU}{30}
-\contentsline {section}{\numberline {5}Analysis 2: Early Stopping}{32}
-\contentsline {paragraph}{Gradient Descent}{32}
-\contentsline {section}{\numberline {6}Experiments 1: Simple Clamp Detection}{33}
-\contentsline {subsection}{\numberline {6.1}Motivations}{33}
-\contentsline {subsection}{\numberline {6.2}Implementation: Cuda-Convnet}{33}
-\contentsline {subsection}{\numberline {6.3}Experimentation}{33}
-\contentsline {subsubsection}{\numberline {6.3.1}Non-Converging Error Rates}{33}
-\contentsline {subsubsection}{\numberline {6.3.2}Increase Validation Error Precision}{35}
-\contentsline {subsubsection}{\numberline {6.3.3}Periodicity of the training error}{35}
-\contentsline {subsubsection}{\numberline {6.3.4}Poor, Sampling-Induced Corner Minima}{35}
-\contentsline {subsubsection}{\numberline {6.3.5}Mislabelling}{37}
-\contentsline {section}{\numberline {7}Experiments 2: Transfer Learning}{39}
-\contentsline {subsection}{\numberline {7.1}Motivations}{39}
-\contentsline {subsection}{\numberline {7.2}Implementation}{39}
-\contentsline {subsubsection}{\numberline {7.2.1}Caffe}{39}
-\contentsline {subsubsection}{\numberline {7.2.2}Per Class Accuracy Layer}{39}
-\contentsline {subsection}{\numberline {7.3}Experimentation}{40}
-\contentsline {subsubsection}{\numberline {7.3.1}Test Run}{40}
-\contentsline {paragraph}{Error-accuracy mismatch}{41}
-\contentsline {paragraph}{Zig-zag}{41}
-\contentsline {subsubsection}{\numberline {7.3.2}Freezing Backprop on various layers}{42}
-\contentsline {subsubsection}{\numberline {7.3.3}Initialising Free Layers}{43}
-\contentsline {subsubsection}{\numberline {7.3.4}Softmax vs linear SVM}{43}
-\contentsline {paragraph}{Analytical Comparison}{44}
-\contentsline {paragraph}{Empirical Results}{45}
-\contentsline {section}{\numberline {8}Experiments 3: Class Imbalance}{47}
-\contentsline {subsection}{\numberline {8.1}Definition}{47}
-\contentsline {subsection}{\numberline {8.2}Motivations}{47}
-\contentsline {subsection}{\numberline {8.3}Implementation}{48}
-\contentsline {subsection}{\numberline {8.4}Experimentation}{48}
-\contentsline {subsubsection}{\numberline {8.4.1}Test Run}{48}
-\contentsline {subsubsection}{\numberline {8.4.2}Transfer Learning}{50}
-\contentsline {subsubsection}{\numberline {8.4.3}Hyperparameter Optimisation}{50}
-\contentsline {paragraph}{Mini-batch Size}{50}
-\contentsline {paragraph}{Learning Rate}{52}
-\contentsline {subsubsection}{\numberline {8.4.4}Over-Sampling}{52}
-\contentsline {subsubsection}{\numberline {8.4.5}Under-Sampling}{52}
-\contentsline {paragraph}{Under-Sampling algorithm}{53}
-\contentsline {subsubsection}{\numberline {8.4.6}Threshold-Moving}{55}
+\contentsline {section}{\numberline {5}Experiments 1: Simple Clamp Detection}{32}
+\contentsline {subsection}{\numberline {5.1}Motivations}{32}
+\contentsline {subsection}{\numberline {5.2}Implementation: Cuda-Convnet}{32}
+\contentsline {subsection}{\numberline {5.3}Experimentation}{32}
+\contentsline {subsubsection}{\numberline {5.3.1}Non-Converging Error Rates}{32}
+\contentsline {subsubsection}{\numberline {5.3.2}Increase Validation Error Precision}{34}
+\contentsline {subsubsection}{\numberline {5.3.3}Periodicity of the training error}{34}
+\contentsline {subsubsection}{\numberline {5.3.4}Poor, Sampling-Induced Corner Minima}{34}
+\contentsline {subsubsection}{\numberline {5.3.5}Mislabelling}{36}
+\contentsline {section}{\numberline {6}Experiments 2: Transfer Learning}{38}
+\contentsline {subsection}{\numberline {6.1}Motivations}{38}
+\contentsline {subsection}{\numberline {6.2}Implementation}{38}
+\contentsline {subsubsection}{\numberline {6.2.1}Caffe}{38}
+\contentsline {subsubsection}{\numberline {6.2.2}Per Class Accuracy Layer}{38}
+\contentsline {subsection}{\numberline {6.3}Experimentation}{39}
+\contentsline {subsubsection}{\numberline {6.3.1}Test Run}{39}
+\contentsline {paragraph}{Error-accuracy mismatch}{40}
+\contentsline {paragraph}{Zig-zag}{40}
+\contentsline {subsubsection}{\numberline {6.3.2}Freezing Backprop on various layers}{41}
+\contentsline {subsubsection}{\numberline {6.3.3}Initialising Free Layers}{42}
+\contentsline {subsubsection}{\numberline {6.3.4}Softmax vs linear SVM}{42}
+\contentsline {paragraph}{Analytical Comparison}{43}
+\contentsline {paragraph}{Empirical Results}{44}
+\contentsline {section}{\numberline {7}Experiments 3: Class Imbalance}{46}
+\contentsline {subsection}{\numberline {7.1}Definition}{46}
+\contentsline {subsection}{\numberline {7.2}Motivations}{46}
+\contentsline {subsection}{\numberline {7.3}Implementation}{47}
+\contentsline {subsection}{\numberline {7.4}Experimentation}{47}
+\contentsline {subsubsection}{\numberline {7.4.1}Test Run}{47}
+\contentsline {subsubsection}{\numberline {7.4.2}Transfer Learning}{49}
+\contentsline {subsubsection}{\numberline {7.4.3}Hyperparameter Optimisation}{49}
+\contentsline {paragraph}{Mini-batch Size}{49}
+\contentsline {paragraph}{Learning Rate}{51}
+\contentsline {subsubsection}{\numberline {7.4.4}Over-Sampling}{51}
+\contentsline {subsubsection}{\numberline {7.4.5}Under-Sampling}{51}
+\contentsline {paragraph}{Under-Sampling algorithm}{52}
+\contentsline {subsubsection}{\numberline {7.4.6}Threshold-Moving}{54}
+\contentsline {paragraph}{Motivations}{54}
+\contentsline {paragraph}{Implementation}{54}
+\contentsline {paragraph}{Results}{54}
+\contentsline {subsubsection}{\numberline {7.4.7}Bayesian Cross Entropy Cost Function}{55}
 \contentsline {paragraph}{Motivations}{55}
-\contentsline {paragraph}{Implementation}{55}
-\contentsline {paragraph}{Results}{55}
-\contentsline {subsubsection}{\numberline {8.4.7}Bayesian Cross Entropy Cost Function}{56}
-\contentsline {paragraph}{Motivations}{56}
-\contentsline {paragraph}{Implementation}{58}
-\contentsline {paragraph}{Results}{58}
-\contentsline {paragraph}{Further Research}{59}
-\contentsline {subsubsection}{\numberline {8.4.8}Error-accuracy mismatch revisited}{60}
-\contentsline {paragraph}{SGD mechanics}{60}
-\contentsline {section}{\numberline {9}Experiments 4: Conserving Spatial Information}{60}
-\contentsline {subsection}{\numberline {9.1}Motivations}{60}
-\contentsline {subsection}{\numberline {9.2}Implementation}{61}
-\contentsline {subsection}{\numberline {9.3}Experimentation}{61}
-\contentsline {paragraph}{Test Run}{61}
-\contentsline {paragraph}{Remove pooling and a fc layer}{61}
-\contentsline {paragraph}{Remove Pooling, a FC layer and add Bayesian Cross Entropy}{61}
-\contentsline {paragraph}{Softmax Bayesian Cross Entropy and lower learning rate}{61}
-\contentsline {section}{\numberline {10}Final Results}{63}
-\contentsline {section}{\numberline {11}Conclusions and Future Work}{64}
+\contentsline {paragraph}{Implementation}{57}
+\contentsline {paragraph}{Results}{57}
+\contentsline {paragraph}{Further Research}{58}
+\contentsline {subsubsection}{\numberline {7.4.8}Error-accuracy mismatch revisited}{59}
+\contentsline {paragraph}{SGD mechanics}{59}
+\contentsline {section}{\numberline {8}Experiments 4: Conserving Spatial Information}{59}
+\contentsline {subsection}{\numberline {8.1}Motivations}{59}
+\contentsline {subsection}{\numberline {8.2}Implementation}{60}
+\contentsline {subsection}{\numberline {8.3}Experimentation}{60}
+\contentsline {paragraph}{Test Run}{60}
+\contentsline {paragraph}{Remove pooling and a fc layer}{60}
+\contentsline {paragraph}{Remove Pooling, a FC layer and add Bayesian Cross Entropy}{60}
+\contentsline {paragraph}{Softmax Bayesian Cross Entropy and lower learning rate}{60}
+\contentsline {section}{\numberline {9}Final Results}{62}
+\contentsline {section}{\numberline {10}Conclusions and Future Work}{63}
