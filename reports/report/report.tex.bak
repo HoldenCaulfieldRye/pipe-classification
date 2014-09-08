@@ -1644,25 +1644,23 @@ The idea behind Maximum Likelihood Estimation is that the best parameters are th
 
 
 
-\begin{align}
-arg\max\limits_{W \in \mathcal{R}^D} P\{\intersect \limits_{1 \leq i \leq n} [L_i = l_i]|x_i,W\}
-&= arg\max\limits_{W \in \mathcal{R}^D} \prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\} \text{assuming that the $X_i$ are independently and identically distributed}
-\end{
+\begin{align*}
+arg\max\limits_{W \in \mathbb{R}^D} P\{\bigcap \limits_{1 \leq i \leq n} [L_i = l_i]|x_i,W\}
+&= arg\max\limits_{W \in \mathbb{R}^D} \prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\};\\ 
+\intertext{assuming that the $X_i$ are independently and identically distributed}
+&= arg\max\limits_{W \in \mathbb{R}^D} \log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\});\\ 
+\intertext{since log is a monotonous strictly increasing function, the coordinates of W at which max is reached are the same}
+&= arg\min\limits_{W \in \mathbb{R}^D} -\log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\});\\ 
+\intertext{since taking the opposite function turns maximum into minimum}
+\end{align*}
+%&= arg\min\limits_{W \in \mathbb{R}^D} -\sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\})
+%&= arg\min\limits_{W \in \mathbb{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\}) \text{since scaling the function by a constant preserves extrema}
+%&= arg\min\limits_{W \in \mathbb{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \sum\limits_{l \in \Omega(L_i)} P\{L_i = l\} \cdot \log(P\{[L_i = l]|x_i,W\}) \text{since $P\{L_i = l\} = 1$ if $l = l_i$ and 0 otherwise}
+%&= arg\min\limits_{W \in \mathbb{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} KL(P\{L_i\},P\{L_i|x_i,W\}) \text{where KL is the Kullback-Leibler divergence}
+%&= arg\min\limits_{W \in \mathbb{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},P\{L_i|x_i,W\}) \text{where CE is the cross entropy}
+%&= arg\min\limits_{W \in \mathbb{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},f(x_i,l_i,W)) 
+%&= arg\min\limits_{W \in \mathbb{R}^D} -\frac{1}{n}\sum\limits_{i=1}^{n} log(f(x_i,l_i,W))
 
-\begin{align}
-arg\max\limits_{W \in \mathcal{R}^D} P\{\intersect \limits_{1 \leq i \leq n} [L_i = l_i]|x_i,W\}
-&= arg\max\limits_{W \in \mathcal{R}^D} \prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\} \text{assuming that the $X_i$ are independently and identically distributed}
-&= arg\max\limits_{W \in \mathcal{R}^D} \log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\}) \text{since log is a monotonous strictly increasing function, the coordinates of W at which max is reached are the same}
-&= arg\min\limits_{W \in \mathcal{R}^D} -\log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\}) \text{since taking the opposite function turns maximum into minimum}
-&= arg\min\limits_{W \in \mathcal{R}^D} -\sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\})
-&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\}) \text{since scaling the function by a constant preserves extrema}
-&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \sum\limits_{l \in \Omega(L_i)} P\{L_i = l\} \cdot \log(P\{[L_i = l]|x_i,W\}) \text{since $P\{L_i = l\} = 1$ if $l = l_i$ and 0 otherwise}
-&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} KL(P\{L_i\},P\{L_i|x_i,W\}) \text{where KL is the Kullback-Leibler divergence}
-&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},P\{L_i|x_i,W\}) \text{where CE is the cross entropy}
-&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},f(x_i,l_i,W)) 
-&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n}\sum\limits_{i=1}^{n} log(f(x_i,l_i,W))
-\end{align}
-%\end{equation}
 
 This optimisation problem is, as we know, tentatively solved by local optimisation with gradient descent.
 
