@@ -86,7 +86,7 @@ The Google+ Deep Learning community was perhaps the 2nd most precious resource f
 
 \subsection{Explaining the Problem}
 
-The problem consists in building a classifier of pipe weld images capable of detecting the presence of multiple characteristics in each image. Practically speaking, the reason for why this task involves multiple tags per image is because the quality of a pipe weld is assessed not on one, but 17 characteristics, as shown below.
+The problem consists in building a classifier of pipe weld images capable of detecting the presence of multiple characteristics in each image. Practically speaking, the reason for why this task involves multiple tags per image is because the quality of a pipe weld is assessed not on one, but 17 characteristics, as shown on figure ~\ref{f1}.
 
 \begin{table}[h]
    \centering
@@ -113,6 +113,7 @@ The problem consists in building a classifier of pipe weld images capable of det
     \hline
     \end{tabular}
     \caption {Code Coverage for Request Server}
+    \label{f1}
 \end{table} 
 
 At this point, it may help to explain the procedure through which these welds are made, and how pictures of them are taken. The situation is that of fitting two disjoint polyethylene pipes with electrofusion joints \cite{control-point}, in the context of gas or water infrastructure. Since the jointing is done by hand, in an industry affected with alleged `poor quality workmanship', and is most often followed by burial of the pipe under the ground, poor joints occur with relative frequency \cite{control-point}. Since a contamination can cost up to £100,000 \cite{control-point}, there exists a strong case for putting in place protocols to reduce the likelihood of such an event. ControlPoint currently has one in place in which, following the welding of a joint, the on-site worker sends one or more photos, at arm's length, of the completed joint. \\
@@ -124,7 +125,7 @@ At this point, it may help to explain the procedure through which these welds ar
     \hspace{5px}
     \fbox{\includegraphics[scale=0.22]{images/perfect2.jpg}}
     \caption{soil contamination risk, water contamination risk, no risk}
-    \label{materialflowChart}
+    \label{f2}
 \end{figure}
 
 
@@ -197,6 +198,7 @@ ControlPoint recently upgraded the photographical equipment with which photos ar
     \hline
     \end{tabular}
     \caption {Count of Redbox images with given label}
+    \label{f3}
 \end{table} 
 
 
@@ -208,6 +210,7 @@ Certain visual characteristics are semantically more complex than normal object 
 	\centering
 	\includegraphics[width=0.35\linewidth]{images/tapping-T.jpg}
 	\caption{The clamp wraps around under the pipe - the glint of a metal rod gives it away}
+    \label{f4}
 \end{figure}
 
 Worse still, sometimes the presence of clamps `does not count': these are cases for which the purpose of the clamp is other than to secure the welding. Therefore, if such a clamp is present, but the clamp that serves to secure the weld is absent, then the image is assigned the `No Clamps' label. For example, bottom left, a clamp can clearly be seen, but it's not a weld clamp. So this image should have a `No Clamps' flag raised (sadly, it doesn't). Bottom right: the thin metallic clamp that is fastened on the vertical pipe is not the clamp we're interested in. The glint from the thin metallic rod going along the thick, horizontal pipe tells us that a tapping-T clamp is present, even though that clamp is hidden underneath the pipe. 
@@ -228,6 +231,7 @@ Worse still, sometimes the presence of clamps `does not count': these are cases 
         \caption{The clamp on the vertical rod is not a weld clamp}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
     \end{minipage}%
+    \label{f5}
 \end{figure}
 
 
@@ -253,6 +257,7 @@ Domain change can be lethal to computer vision algorithms: for example, a featur
         \caption{A Bluebox photo}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
     \end{minipage}%
+    \label{f6}
 \end{figure}
 
 Nevertheless, evidence has been found to suggest that deep neural networks are robust to it: an experiment run by Donahue et al on the \textit{Office} dataset \cite{office}, consisting of images of the same products taken with three different types of photographical equipment (professional studio equipment, digital SLR, webcam) found that their implementation of a deep convolutional neural network produced similar feature representations of two images of the same object even when the two images were taken with different equipment, but that this was not the case when using SURF, the currently best performing set of hand-coded features on the \textit{Office} dataset \cite{surf}. \\
@@ -279,8 +284,8 @@ Learning in the case of classification consists in using the dataset $\mathcal{D
 Formally, supervised learning therefore consists in finding
 
 \begin{equation}
-\label{learning: optimisation equation}
   f^{h} = \operatornamewithlimits{argmin}\limits_{\mathcal{F}}\operatorname{\mathcal{C}}(\mathcal{D})
+\label{f7}
 \end{equation}
   
 where $\mathcal{F}$ is the chosen target function space in which to search for $f^{h}$ . \\
@@ -301,6 +306,7 @@ Before we consider the neural network architecture as a whole, let us start with
 	\centering
 	\includegraphics[scale=0.3]{images/Biological_Neuron.png}
 	\caption{a multipolar biological neuron}
+    \label{f8}
 \end{figure}
 
 A multipolar neuron receives electric charges from neighbouring incoming neurons through its dendritic branches, and sends electric charges to its neighbouring outgoing neurons through its axon. Neurons connect at synapses, which is where the tip of the telodendria of one neuron is in close vicinity of the dendritic branch of another neuron. Because a single axon feeds into all of the telodendria but mutiple dendritic branches feed into the axon hillock, a neuron receives multiple inputs and sends out a single output. Similarly, all of the neuron models below are functions from a multidimensional space to a unidimensional one.\\
@@ -325,6 +331,7 @@ Like the binary threshold neuron, the output domain of this neuron is bounded by
 	\centering
 	\includegraphics[scale=0.3]{images/sigmoid.png}
 	\caption{single-input logistic sigmoid neuron}
+    \label{f9}
 \end{figure}
 
 This is like saying that to completely convince y of the total presence or absence of the feature, a lot of evidence is required. However, if there is not much evidence for either case, then y is more lenient. 
@@ -345,6 +352,7 @@ ReLU introduces a non-linearity with its angular point (a smooth approximation t
 	\centering
 	\includegraphics[scale=0.3]{images/rectifier.png}
 	\caption{single-input rectified linear neuron}
+    \label{f10}
 \end{figure}
 
 \paragraph{Softmax Neuron}
@@ -364,6 +372,7 @@ A feed-forward neural network is a representation of a function in the form of a
 	\centering
 	\includegraphics[scale=0.3]{images/NN_math_rep.png}
 	\caption{graphical representation of $y = x*sin(a*x+b)$ (source: Bengio 2009)}
+    \label{f11}
 \end{figure}
 
 The architecture is feed-forward in the sense that data travels in one direction, from one layer to the other. This defines an input layer (at the bottom) and an output layer (at the top) and enables the representation of a mathematical function.
@@ -380,6 +389,7 @@ The official name for a deep neural network is Multilayer Perceptron (MLP), and 
 	\centering
 	\includegraphics[scale=0.4]{images/MLP.png}
 	\caption{Multi Layer Perceptron with 2 hidden layers}
+    \label{f12}
 \end{figure}
 
 Mathematically, it was proved in 1989 that MLPs are universal approximators \cite{MLP-univ-approx}; hidden layers therefore increase the size of the function space, and solve the initial limitation faced by perceptrons. \\
@@ -394,6 +404,7 @@ To make the case for deep architectures, consider a model with the same number o
 	\centering
 	\includegraphics[scale=0.3]{images/more_layers_better.png}
 	\caption{LeNet7 architecture: each square is a kernel}
+    \label{f13}
 \end{figure}
 
 As a formalisation of the intuition given above, (Bengio 2009) \cite{DL-book} advances that having multiple layers creates a \textbf{distributed representation} of the data, rather than a \textbf{local representation}. Consider for example the one-hot encoding of the integer set $\{0, .., n-1\}$, consisting of n-bit vectors where the i-th bit is 1 if the vector represents the integer i. This encoding is sparse, because every element of the set is represented by a vector of n-1 zeros and one 1. Moreover, it is local, because the k-th vector entry marks the presence of a feature that is present in only a single element, the integer k. On the other hand, the binary representation of the integers ${0, .., n-1}$ is a dense distributed representation, because it requires only $log_2(n)$ bits, and the k-th vector entry marks the presence of a feature that is shared by multiple elements of the set: whether or not not the integer is $\geq 2^k$. The binary representation is richer and more powerful than the one-hot representation because its features are not mutually exclusive: each class (i.e.\ each integer) is represented by a combination of features rather than a unique one. It is in this sense that the representation is distributed, and that the features are general. \\
@@ -440,6 +451,7 @@ Visually, this means that weight values move in the direction that will (locally
 	\centering
 	\includegraphics[scale=0.8]{images/local_minima.png}
 	\caption{an error surface with poor local minima}
+    \label{f14}
 \end{figure}
 
 
@@ -458,6 +470,7 @@ As mentioned previously, learning is not a mere approximation problem because th
 	\centering
 	\includegraphics[scale=0.8]{images/overfit.png}
 	\caption{Overfit as polynomial order increases (source: Bishop 2010)}
+    \label{f15}
 \end{figure}
 
 $M$ is the order of the polynomial used and governs the expressiveness of the model. Clearly, the fit of the model increases with $M$, but one can see that for the case $M = 9$, the given polynomial fits the true (green) function poorly: in other words, the model generalises poorly. How well the model generalises can be evaluated by measuring the fit an another sample of points. \\
@@ -480,6 +493,7 @@ Dropout is a regularisation technique for deep neural networks introduced by (Hi
 	\centering
 	\includegraphics[scale=0.4]{images/dropout.png}
 	\caption{source: (Hinton et al 2012)}
+    \label{f16}
 \end{figure}
 
 Dropout reduces over-fitting by being equivalent to training an exponential number of models that share weights in reasonable time: there exists an exponential number of different dropout configurations for a given training iteration, so a different model is almost certainly trained every time. At test time, the average of all models is used, which can be seen as a powerful ensemble method. \\
@@ -496,6 +510,7 @@ Before diving into the details, a notable point to bear in mind is that these op
 	\centering
 	\includegraphics[scale=0.2]{images/geranium.jpg}
 	\caption{LeNet7 architecture: each square is a kernel}
+    \label{f17}
 \end{figure}
 
 The following subsection is an explanation of the computation that occurs in a convolutional layer. Users of Convolutional Neural Networks for classification tasks are sometimes accused of using them as a black box without understanding them; therefore, this section is crucial in establishing an in-depth understanding of how they function and why they might be so successful. \\
@@ -506,6 +521,7 @@ The architecture from (Krizhevsky et al 2012)'s record-breaking image classifica
 	\centering
 	\includegraphics[scale=0.3]{images/alexnet_architecture_simple.png}
 	\caption{Architecture of CNN from (Krizhevsky et al 2012)}
+    \label{f18}
 \end{figure}
 
 A\footnote{A large portion of the content from this subsection on explaining the operations in a convolutional layer is heavily inspired from Prof Robert Fergus's NIPS 2013 tutorial \cite{fergus_tutorial}.} convolution layer has a pixel feature i.e. filter which is convolved over the entire image, followed by a non-linearity, followed by a spatial feature, optionally followed by a normalisation between feature responses. This structure is similar to hand-crafted features in computer vision such as SIFT and HOG \cite{SIFT}. The key difference is that each operation is learned, i.e.\ optimised to maximise performance on the training set. \\
@@ -518,6 +534,7 @@ A\footnote{This subsection on explaining sliding kernels is heavily inspired fro
 	\centering
 	\includegraphics[scale=0.3]{images/window_x_kernel.png}
 	\caption{Selecting a pixel window and applying a kernel to it (source: convmatrix Gimp documentation)}
+    \label{f19}
 \end{figure}
 
 Notice that this is equivalent to the vector product component of the generic neural network inputs combination $z = b + \sum\limits_{i=0}^{n-1} x_{i}\cdot w_{i}$, where the pixel matrix representation of the entire image is flattened into the vector $\textbf{x}$, the weights of the kernel are flattened into a portion of the weight vector $\textbf{w}$, and all weights corresponding to a pixel that is not part of the window are set (and fixed) to zero. Fixing many weights to zero imposes a strong prior on the network and significantly reduces the function space, making it easier to search for good functions. The crucial aspect of CNNs is that, by representing these kernels as weight vectors of the network, a large set of optimal features can be learned over the dataset without having to handcraft them, as were for example SIFT and HOG \cite{SIFT}. \\
@@ -528,6 +545,7 @@ By convolving the kernel over the image, one obtains a feature response map (ref
 	\centering
 	\includegraphics[scale=0.3]{images/kernel_map.png}
 	\caption{Producing a kernel map (source: River Trail documentation)}
+    \label{f20}
 \end{figure}
 
 Another advantage of such pixel features is that one can make sense of what the weights represent i.e.\ what the network is learning. For example, consider the following image, sliding kernel and resulting kernel map:
@@ -539,7 +557,7 @@ Another advantage of such pixel features is that one can make sense of what the 
     \hspace{30px}
     \fbox{\includegraphics[scale=0.23]{images/kernel_edge_enhance_result.png}}
     \caption{Image, kernel and resulting kernel map (source: convmatrix Gip documentation}
-    \label{materialflowChart}
+    \label{f21}
 \end{figure}
 
 A zero value is obtained when pixel $(1,0)$ and pixel $(1,1)$ have the same value, which is likely to be the case, hence why most of the kernel map is black. The dot product is maximised when pixel $(1,0)$ is of a much lower value than pixel $(1,1)$, which occurs most often when the window is on a vertical edge separating a dark region to the left from a light region to the right. Therefore, an intuitive representation for the kernel matrix is the pixel window below \footnote{the pixel representation indeed has more pixels than the kernel has entries. but one can see that the dot product is maximal when the kernel is applied in the upper middle area of the pixel representation}, which has become a popular way of representing `deep learning [computer vision] features' \cite{zeiler_fergus}. One therefore realises that this feature visualisation technique does not show a set of weights learned by the network, but the pixel window which maximises the dot product between them and the set of learned weights.
@@ -560,6 +578,7 @@ A zero value is obtained when pixel $(1,0)$ and pixel $(1,1)$ have the same valu
         \caption{(Approximate) intuitive representation}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
     \end{minipage}%
+    \label{f22}
 \end{figure}
 
 In order to impose convolution i.e.\ application of the same kernel over the entire image, the learning rule \eqref{eqn:learning_rule} given in section 3.3.2 is modified to:
@@ -600,6 +619,7 @@ The key contribution of max pooling is robustness to noise and invariance to sma
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
     \caption{source: (Zeiler and Fergus 2013)}
     \end{minipage}%
+    \label{f23}
 \end{figure}
 
 By stacking n convolutional layers with $k \times k$ pooling operations, the output of a pooling neuron on the n-th layer has a $k^n \times k^n$ receptive field over the image. Choosing the number of convolutional layers is therefore a matter of finding n such that $k^{2n}$ equals the dimensionality of the input set, i.e.\ such that the highest convolutional layer can recognise complex features spanning the entire image, which is when total translation invariance is achieved. \\
@@ -687,6 +707,7 @@ Differentiable, symmetric, bounded activation functions that introduce a non-lin
         \caption{source: Krizhevsky et al 2012}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
     \end{minipage}%
+    \label{f24}
 \end{figure}
 
 The importance attributed to non-linearity of activation functions is due to the function space that is spanned by composing such functions as deep neural networks do. If activation functions are linear, the overall network is linear too, and as seen in section 3.2.2, such networks are greatly limited in what they can learn. Therefore, one may wonder whether or how the function space is reduced by using an activation function such as the ReLU that is non-linear only in the neighbourhood of $0$.  \\
@@ -697,6 +718,7 @@ The importance attributed to non-linearity of activation functions is due to the
 	\centering
 	\includegraphics[scale=0.4]{images/ReLU_path_selection.png}
 	\caption{ReLU path selection (source: Glorot et al 2013)}
+    \label{f25}
 \end{figure}
 
 (Glorot, Bordes and Bengio 2013) also remark that "because of [the ReLU's] linearity, gradients flow well on the active paths of neurons (there is no gradient vanishing effect due to activation non-linearities of sigmoid or tanh units)", but no explanations of enhanced flow or vanishing gradient are given (instead, the paper focuses on the benefits of sparse representations and their greater resemblance to neuron activations in the brain). Another empirical finding of the paper is that "deep rectifier networks can reach their best performance without requiring any unsupervised pretraining". This section of the report is a simple mathematical analysis of backpropagation that conveniently provides an explanation for these points as well as (Krizhevsky et al 2012)'s observations. In the context of building pipe weld classifiers, the motivation for doing is to understand the mechanics of training for the CNNs to be subsequently used. \\
@@ -758,6 +780,7 @@ The backpropagation algorithm can be formulated as a set of rules for propagatin
 	\centering
 	\includegraphics[scale=0.4]{images/gradient_propagates.png}
 	\caption{$\mathbb{R}^3 \rightarrow \mathbb{R}$ MLP with 1 hidden layer}
+    \label{f26}
 \end{figure}
 
 Given the figure above:
@@ -797,6 +820,7 @@ The formulae do not lend themselves to intuition, but their graphical representa
 		\includegraphics[scale=0.4]{images/logistic_derivative.png}
 		\caption{derivative for the tanh and sigmoid}
 	\end{subfigure}
+    \label{f27}
 \end{figure}
 
 One may argue that a unit which has learned a feature that is useful for the task is one that is heavily activated for certain inputs. Therefore, it is a good thing that it becomes rigid to change. However, traditional training of deep neural networks occurs by first randomly initialising the weights. At first, it is therefore unlikely that a unit is heavily activated because it is a detector for a meaningful feature. If the network is built on saturating activations, such non-meaningful features will be harder to get rid of. \\
@@ -874,6 +898,7 @@ Training produced worrying results: none of the models trained showed signs of l
 	\centering
 	\includegraphics[scale=0.5]{images/test_run.png}
 	\caption{Test Run Training Results}
+    \label{f28}
 \end{figure}
 
 These results were confusing: the fact that the training error does not converge to zero means that the model is unable to perfectly fit the training set. This should be impossible, since the 60 million parameters of AlexNet make it a very powerful model\footnote{powerful as an approximator, i.e.\ as a `fitter to the data'.} for which (Krizhevsky et al 2012) report overfitting to be `a significant problem', even on the 1000 class, 1.3 million image dataset of the ILSVRC 2012 competition. It makes no sense that the same model would fail to fit a 3-class, 113,000 image dataset.
@@ -900,6 +925,7 @@ If the set of images that the validation error is computed against varies from o
 	\centering
 	\includegraphics[scale=0.5]{images/increase_test_precision.png}
 	\caption{Test Run with validation errors computed over an unchanging set}
+    \label{f29}
 \end{figure}
 
 With better validation error measures, one notices that the validation error is flat throughout most of training, indicating that little is learned. There is some movement during the first thousand iterations, suggesting in fact that backpropagation converged within 1000 iterations, which is highly rapid compared to similar tasks \cite{decaf} \cite{fergus_tutorial} cite{transfer-learning} \cite{caffe-website}. One may be tempted to conclude that the model is able to learn only very little.
@@ -975,6 +1001,7 @@ It can also be interesting to notice that no meaningful features are learned: fo
 	\caption{filters learned in a successfully optimised lowest convolutional layer} 
 	\includegraphics[scale=0.5]{images/bad_filters.png}  % need to crop to get side by side
 	\caption{filters learned at lowest convolutional layer of this network}
+    \label{f30}
 \end{figure}
 
 This local minimum is `fake' because, with perfect class balance, it would not exist. Or at least, it would correspond to a $\frac{1}{K}$ error rate (where $K$ is the number of classes). One may even call such a minimum `lazy': it would correspond to a human not wanting to make the effort of learning, using instead a strategy of calling out the same label every time without inspecting the image, and still scoring 90\% accuracy in this case. Note that accuracy refers to the percentage of correctly classified cases in the validation set. \\
@@ -1001,6 +1028,7 @@ It came as a surprise that, when the same clamp detection task was trained on th
 		\includegraphics[scale=0.4]{images/plot_clampdet_tl_wout.png}
 		\caption{Clamp Detection on Bluebox}
 	\end{subfigure}
+    \label{f34}
 \end{figure}
 
 A smaller training set is supposed to deliver weaker performance, because it provides the model with less information to learn from, and is more sensitive to overfit. However, after visually inspecting random samples from the Redbox training set, it was discovered that it suffered from heavy mislabelling. For example, out of 50 images randomly sampled from those Redbox images for which no flags were recorded - which are therefore supposed to be images of perfect weld installations - visual inspection performed with the help of a trained ControlPoint employee revealed that 22 of them should have received at least one flag. Three of them are given below.
@@ -1013,6 +1041,7 @@ A smaller training set is supposed to deliver weaker performance, because it pro
     \fbox{\includegraphics[scale=0.115]{images/100979.jpg}}
     \caption{Redbox images with no flags}
     \label{materialflowChart}
+    \label{f35}
 \end{figure}
 
 As can be seen, the image to the left should have received the `Unsuitable Photo' flag (it would have been merged into the `Photo Does Not Show Enough of Clamps' class for training). However, since this one bears no flags, for the clamp detection task it is shown to the network as an example of a weld installation with clamps; for the scrape zone detection task, it is an example of a weld installation with visible scrape zones; etc. The middle case is almost comical: it too is shown to the network as an example of a weld installation with clamps, despite it being \textit{literally} obvious that clamps are not present. Finally, the image to the right is zoomed in too closely for clamps to be visible. 
@@ -1077,6 +1106,7 @@ As a test run, transfer learning was implemented on a network with the same arch
 		\includegraphics[scale=0.4]{images/plot_clampdet_none.png}
 		\caption{Clamp Detection on Bluebox}
 	\end{subfigure}
+    \label{f36}
 \end{figure}
 
 As can be seen, the model with transfer learning reaches its minimum validation error ten times faster than the model without, and this error is logprob 0.4 lower, which corresponds to pushing average per class validation accuracy up from 83.9\% to 88\%. The gain in convergence comes a significant advantage for coping with the time constraints of the research project. 
@@ -1106,6 +1136,7 @@ Two other noticeable aspects in training without transfer learning are the highe
 		\caption{Steepest descent causes zig zags}
 	\end{subfigure}
 	\caption{source: Coursera, Neural Networks for Machine Learning}
+    \label{f37}
 \end{figure}
 
 If greater zig-zag occurs on the net without transfer learning, one may wonder why. This may come across as contradictory: it can be seen on the graphical illustration that as the parameters come closer to the minimum, smaller steps (i.e.\ learning rate) are required. SGD tricks lecture 6 provides an answer: the bias is optimal with transfer learning, so bowls are rounder.
@@ -1137,6 +1168,7 @@ Experiments were run by training 8 models identically in all respects save for t
         \caption{backprop on top layer only}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
     \end{minipage}%
+    \label{f38}
 \end{figure}
 
 The main difference is in the training error: when backpropagation is restricted to a single layer, the model is unable to perfectly fit the data. This is simply a result of having constrained the expressiveness of the model, much like trying to fit a curve with a lower-order polynomial. However, the advantage is that the model does not overfit. Between the two extreme cases, full backpropagation achieves 88\% average per class validation accuracy at best, whereas minimal backpropagation achieves 85.1\%. 
@@ -1168,6 +1200,7 @@ A further motivation is existing empirical research \cite{transfer-learning} \ci
         \caption{Full transfer of weights}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
     \end{minipage}%
+    \label{f39}
 \end{figure}
 
 One observes that with randomly re-initialisation of weights, the training error starts higher. This is understandable and could be explained by the fact that the network starts in an area of the parameter space which is further away from the `minima cluster band'. Secondly, the training error is more volatile: this is a result of the network having `more space to move'. As a result, overfit occurs sooner too. 
@@ -1210,6 +1243,7 @@ In this case, by rescaling the softmax error by $\frac{1}{\log(2)}$, we get equa
 	\centering
 	\includegraphics[scale=0.3]{images/hinge_vs_ce.png}
 	\caption{Hinge (blue), cross entropy (red), mean squared error (green). source: (Bishop 2010)}
+    \label{f40}
 \end{figure}
 
 With target labels \{-1, 1\}, 0 corresponds to total classification uncertainty (i.e.\ input is considered as likely to belong to one class as the other). For $z \in (0,1]$ (i.e.\ correct classification), the softmax loss is above the hinge loss, and for $z \in [-1,0)$ (i.e.\ incorrect classification), the softmax loss is under the hinge loss. In intuitive (and slightly abusive) terms, this means that the hinge loss continues to penalise even when the classification is in the correct region, but is more lenient when the classification is in the incorrect region. In colloquial terms, this is like saying `make highly confident predictions, even if that means sometimes making mistakes'. The bottom line is that this encourages sparser output probabilities.
@@ -1235,6 +1269,7 @@ The linear SVM was implemented in Caffe by designing an 8-layer model, with the 
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{hinge loss}\label{fig:2}
     \end{minipage}%
+    \label{f42}
 \end{figure}
 
 We observe that the training error does not converge to zero with the hinge loss, which means that the training data projected on fc7 space is not linearly separable. This does not come as a surprise and confirms the complexity of the clamp detection task. As discussed in the numerical analysis, the errors between these two models are not comparable since they are of different nature. Just because the hinge loss is higher in absolute terms than the cross entropy does not mean that test run performance is lower. 
@@ -1329,6 +1364,7 @@ To evaluate the difficulty of the clamp detection task with increased class imba
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{no transfer learning}\label{fig:2}
     \end{minipage}%
+    \label{f43}
 \end{figure}
 
 Whereas with 88\% imbalance it is possible to learn without transfer learning, with 98\% imbalance it is not. The model converges within one iteration to a constant function\footnote{Note that the reason for why the validation error seems to take 200 iterations to suddenly drop is because the validation frequency was set to a large interval of 200 training mini-batch passes, in order to speed up training.} and remains there. \\
@@ -1339,6 +1375,7 @@ Note that for lower levels of class imbalance, the model is able to escape the s
 	\centering
 	\includegraphics[scale=0.5]{images/plot_clampdetCI_none.png}
 	\caption{Clamp Detection, Full Backpropagation}
+    \label{f44}
 \end{figure}
 
 This provides clues about the shape of the error surface in the neighbourhood of this bad minimum, and how varying the level of class imbalance affects it. It suggests that the bad minimum could in fact be a saddle point: a number of weights are at local optimality i.e.\ error-weight partial derivatives are zero, but not all; there is still room for improvement for some of them i.e.\ the error surface remains locally monotonous along some dimensions. This slowly but eventually moves the network away from the saddle point. Training deep neural networks along saddle points is known to exhibit this type of behaviour: training is slowed down but not stopped\cite{DL-book}.
@@ -1347,6 +1384,7 @@ This provides clues about the shape of the error surface in the neighbourhood of
 	\centering
 	\includegraphics[scale=0.4]{images/saddle_point.png}
 	\caption{Example saddle point in 3D space}
+    \label{f45}
 \end{figure}
 
 One would be tempted to conjecture that the steepness of the error surface along these dimensions decreases with the extent of class imbalance, and approaches 0 as class imbalance approaches 100\%. This would explain why at some point class imbalance is too high for the model to escape. 
@@ -1381,6 +1419,7 @@ A final observation to explain is that although the validation error improves sm
       \end{subfigure} \par \vspace*{3pt} % ...remove them from here
       \caption{98\% imbalance, varying levels of transfer learning}\label{fig:2}
     \end{minipage}%
+    \label{f46}
 \end{figure}
 
 Transfer learning keeps the net's parameters from bad critical points, so the model is not a constant function. Notice this enables it to perfectly fit the training set. However, little is learned that generalises: maximum validation accuracy is 60.1\%. Transferring the fully connected layer weights helps bring this up to 65.4\%. \\
@@ -1434,6 +1473,7 @@ Since class imbalance reduces the number of minority class cases, it could argua
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{98\% imbalance, different mini-batch sizes}\label{fig:2}
     \end{minipage}%
+    \label{f47}
 \end{figure}
 
 These results are surprising: they seem to suggest that increasing mini-batch size decreases performance. Since increasing mini-batch size only reduces noise in the gradient, this would attribute performance increase to greater noise in the gradient. 
@@ -1464,6 +1504,7 @@ Decreasing the learning rate helps if it prevents a good minimum from being over
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{98\% imbalance, different learning rates}\label{fig:2}
     \end{minipage}%
+    \label{f48}
 \end{figure}
 
 With a lower learning rate, the validation accuracy seems to increase at a far slower pace. This suggests that there was no overshooting when using the original learning rate value, and that 0.0001 is a good learning rate for this task. \\
@@ -1489,6 +1530,7 @@ Over-sampling \cite{zhou} \cite{maloof} rebalances the training set to desired l
         \caption{Same with over-sampling to 88\% imbalance}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
     \end{minipage}%
+    \label{f49}
 \end{figure}
 
 
@@ -1558,6 +1600,7 @@ Instead, brute force under-sampling was implemented as in (Maloof 2003) \cite{ma
         \caption{Same with under-sampling to 88\% imbalance}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
     \end{minipage}%
+    \label{f50}
 \end{figure}
 
 The results show that under-sampling is very effective: the model does not get stuck in any seeming critical point, obtains an additional 15 percentage points in classification accuracy,to obtain 80.8\% validation accuracy. This is substantial and shows how strikingly detrimental class imbalance is: we have eliminated 58.7\% of the data to get rid of it, and yet this sacrifice is highly worthwhile. This sets a high benchmark for other techniques for tackling class imbalance. Since we are throwing data, it also implies that if there exists a technique for solving class imbalance without losing data, performance could be even higher. The assumption that underlies this is that providing the model with additional information i.e.\ data is in theory purely beneficial, therefore there must exist a way for doing so.
@@ -1615,6 +1658,7 @@ The python threshold-moving script was run on a model trained on the 98\% imbala
     \hline
     \end{tabular}
     \caption {Impact of threshold-moving}
+    \label{f51}
 \end{table} 
 
 Since the threshold does not improve per class accuracy in the no transfer learning case, solving the probability mismatch does not solve the bad critical point problem; the two problems are therefore distinct. Indeed, inspection of the output probabilities for the no transfer learning model reveals that every output is the binary vector (0,1), where the 2nd entry corresponds to classification probability for the majority class. Therefore, no amount of threshold moving can prevent such a model from being a constant function. This suggests that the literature on class imbalance has until now not documented the occurrence of bad critical points when class imbalance is dangerous, since it has only focused on the probability mismatch. \\
@@ -1695,6 +1739,7 @@ For testing and debugging, the cost function was used on one of the simpler task
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{Ground Sheet detection, different backpropagation formulae}\label{fig:2}
     \end{minipage}%
+    \label{f52}
 \end{figure}
 
 
@@ -1719,6 +1764,7 @@ Full transfer learning, backpropagation on all layers, batch size 256. \\
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{98\% imbalance, different cost functions}\label{fig:2}
     \end{minipage}%
+    \label{f53}
 \end{figure}
 
 With Bayesian cross entropy, training is far less clean, but the highest per class classification accuracy reached is nearly 10 percentage points higher. The training is less clean because the modulus of the gradient is strongly influenced by imbalance within the mini-batch, and this value can greatly vary from a mini batch to the next, since a mini batch with 3/256 minority class cases has minority class proportion 3 times that of a mini batch with 1/256 minority class cases, and both are likely to occur in sampling. This could be improved by making sure every mini-batch has the same class proportions as the training set. This would also save us from having to compute the within-batch prior at every iteration, and deliver a slight speed increase.  \\
@@ -1805,6 +1851,7 @@ since the weights are random it scales with the square root of the of the weight
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{Test Run}\label{fig:2}
     \end{minipage}%
+    \label{f54}
 \end{figure}
 
 Transfer learning barely helps. 
@@ -1829,6 +1876,7 @@ Transfer learning barely helps.
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{Remove pooling and a fc layer}\label{fig:2}
     \end{minipage}%
+    \label{f55}
 \end{figure}
 
 Removal of the FC layer was simply for computation to be feasible on the GPU. This also meant using a smaller batch size. The results look as if removing pooling and a fully connected layer improve performance a bit, but these gains seem random, and are therefore likely to be lucky noisy gains such as was explained in greater depth in the previous section. This added noise could be due to the random-reinitialisation of weights in the two fully connected layers. To sum up, there is no compelling evidence that removing pooling and a fully connected layer help.
@@ -1852,6 +1900,7 @@ Removal of the FC layer was simply for computation to be feasible on the GPU. Th
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{Bayesian Cross Entropy by itself}\label{fig:2}
     \end{minipage}%
+    \label{f56}
 \end{figure}
 
 This is a benchmark against which to evaluate Bayesian cross entropy for the soil contamination task. Both models shown have AlexNet architecture. Under-sampling is less successful on this task than on clamp detection 98\%, it delivers 8 additional classification percentage points. We can see that the model takes over 500 iterations to leave the critical point. 
@@ -1875,6 +1924,7 @@ This is a benchmark against which to evaluate Bayesian cross entropy for the soi
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{Combining Less Pooling and Bayesian Cross Entropy}\label{fig:2}
     \end{minipage}%
+    \label{f57}
 \end{figure}
 
 By adding Bayesian cross entropy, training becomes very noisy, as is already discussed and explained in the previous section. However, once again, there is a performance gain of just under 10 percentage points. Note that the validation error oscillates, suggesting that the model is overshooting a minimum. A smaller lear
@@ -1899,6 +1949,7 @@ By adding Bayesian cross entropy, training becomes very noisy, as is already dis
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{Bayesian Cross Entropy by itself}\label{fig:2}
     \end{minipage}%
+    \label{f58}
 \end{figure}
 
 Lowering the learning rate from 0.0001 to 0.00001 does wonders. The amplitude of the validation error reduces, the error ceases to oscillate, and a steady downward trend can be observed. This indicates that Bayesian softmax cross entropy by itself on AleNet architecture works best, without removing a pooling layer and a fully connected layer. The cost function delivers remarkable gains, since adding it alone provides 28 additional percentage points in average per class accuracy. Maximum per class accuracy is 78\%, which is truly impressive considering how hard this task his - let us recall that transfer learning barely delivered any gains. Furthermore, learning is halted after 2000 iterations (this was due to time constraints), before overfitting begins, so it seems clear from the plots that more progress can be made by resuming training. \\
@@ -1931,6 +1982,7 @@ This presents best results for each binary classifier. The first three columns a
     \hline
     \end{tabular}
     \caption {Final Results}
+    \label{f59}
 \end{table} 
 
 %To sum up, the two greatest challenges with the Bluebox dataset is small size and class imbalance. Small size can be dealt with by transferring knowledge from another task by initialising weights. Class imbalance can be cruelly dealt with using under-sampling, but this decreases the size of the dataset even more, making robustness ie generalisation the second challenge. Therefore, we use [..] and [..] to help with dealing with class imbalance and mitigate the extent of under-sampling. \\
