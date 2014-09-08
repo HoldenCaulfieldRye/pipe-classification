@@ -58,7 +58,9 @@
 {
 Automatic image classification experienced a breakthrough in 2012 with the advent of GPU implementations of deep convolutional neural networks (CNNs). These models distinguish themselves by learning features, convolving them to achieve feature equivariance, making use of max pooling operations to achieve robustness to cluttered backgrounds, and a hierarchical structure to enable the learning of complex features with high generalisation performance. This has motivated ControlPoint LLP, a gas \& water infrastructure monitoring company, to explore whether deep learning could be used to automate one of its business services: inspecting photos of polyethylene pipe weld installations to ascertain weld quality. The company reports having previously explored automation with existing businesses, but that the semantic complexity of the visual characteristics to recognise made the task technologically infeasible. \\
 
-After framing the task, this report provides an overview of supervised deep learning, followed by an in-depth explanation of the workings of a deep convolutional neural network, which despite its performance, gathers criticism for its tendency to be used as a black box. The rest of the report goes over the research that was carried out. The first two are mathematical analyses, one of which proposes an explanation for the recent success of the Rectified Linear Unit as the chief activation function of CNNs, the other an explanation for the success of early stopping as a regularisation technique\footnote{Both came about as the result of seeking to understand, with limited assistance, aspects of training deep neural networks; it is uncertain whether existing research exceeds them.}. The next sections are applied and specific to the main task: understanding why learning failed during the first attempts; finding the optimal way to use transfer learning, exploring ways of tackling class imbalance -- including a novel cost function with a probabilistic interpretation which delivered up to 9 additional percentage points in performance; moving away from the common `AlexNet' CNN architecture to conserve spatial information; and final performance results across all tasks.
+After framing the task, this report provides an overview of supervised deep learning, followed by an in-depth explanation of the workings of a deep convolutional neural network, which despite its performance, gathers criticism for its tendency to be used as a black box. The rest of the report goes over the research that was carried out. The first two are mathematical analyses, one of which proposes an explanation for the recent success of the Rectified Linear Unit as the chief activation function of CNNs, the other an explanation for the success of early stopping as a regularisation technique\footnote{Both came about as the result of seeking to understand, with limited assistance, aspects of training deep neural networks; it is uncertain whether existing research exceeds them.}. The next sections are applied and specific to the main task: understanding why learning failed during the first attempts; finding the optimal way to use transfer learning, exploring ways of tackling class imbalance -- including a novel cost function with a probabilistic interpretation which delivered up to 18 additional percentage points in classification performance; moving away from the common `AlexNet' CNN architecture to conserve spatial information; and final performance results across all tasks. \\
+
+The bulk of research undertaken to make more general improvements in understanding deep learning and dealing with class imbalance, combined with time constraints, have restricted the time spent optimising each one of ControlPoint's tasks. For the moment, 3 tasks have per class accuracy in the 85-90\% range, 2 in the 75-80\% range, 1 at 62\%, 2 have been found impossible to train and 2 others have not been attempted. However, the recent discovery of the novel cost function means that it was only implemented for one of these tasks; these scores are therefore likely to increase significantly thanks to this straightforward improvement alone.
 }
 \end{abstract}
 
@@ -1086,7 +1088,7 @@ A surprising observation is that the per class accuracy continues to rise long a
 
 Another possibility is that the model continues to learn features of the data which enable it to correctly classify a slightly higher number of cases, and somehow also lead it to output significantly sparser probabilities (i.e.\ to be highly confident about its predictions) in cases where classification is incorrect. As a result, the number of mistakes decreases, but the euclidean distance between prediction and target within the leftover mistakes increases a lot more. The latter consequence penalises validation error but not percentage accuracy, hence the growth in both. This hypothetical explanation is based on the fact that cross entropy takes a continuous measure of error per case, whereas accuracy takes a binary measure of error per case. \\
 
-Experiments in the next section, on class imbalance, with the softmax Bayesian cross entropy, provided evidence to support the first explanation. The case is then discussed at greater length.
+Experiments in the next section, on class imbalance, with the Bayesian cross entropy, provided evidence to support the first explanation. The case is then discussed at greater length.
 
 \paragraph{Zig-zag}
 
@@ -1830,7 +1832,7 @@ Transfer learning barely helps.
     \end{minipage}%
 \end{figure}
 
-Removal of the FC layer was simply for computation to be feasible on the GPU. This also meant using a smaller batch size. 
+Removal of the FC layer was simply for computation to be feasible on the GPU. This also meant using a smaller batch size. The results look as if removing pooling and a fully connected layer improve performance a bit, but these gains seem random, and are therefore likely to be lucky noisy gains such as was explained in greater depth in the previous section. This added noise could be due to the random-reinitialisation of weights in the two fully connected layers. To sum up, there is no compelling evidence that removing pooling and a fully connected layer help.
 
 
 \paragraph{Remove Pooling, a FC layer and add Bayesian Cross Entropy}
@@ -1854,8 +1856,10 @@ Removal of the FC layer was simply for computation to be feasible on the GPU. Th
     \end{minipage}%
 \end{figure}
 
+By adding Bayesian cross entropy, training becomes very noisy, as is already discussed and explained in the previous section. However, once again, there is a performance gain of just under 10 percentage points. Note that the validation error oscillates, suggesting that the model is overshooting a minimum. A smaller lear
 
-\paragraph{Softmax Bayesian Cross Entropy}
+
+\paragraph{Softmax Bayesian Cross Entropy and lower learning rate}
 %     soil_contam/nopool                       TRAINING
 \begin{figure}
     \centering
@@ -1876,12 +1880,16 @@ Removal of the FC layer was simply for computation to be feasible on the GPU. Th
     \end{minipage}%
 \end{figure}
 
-In fact, Bayesian softmax cross entropy by itself on AleNet architecture works best. Maximum per class accuracy is 78\%, which is truly impressive considering that this task was so difficult that transfer learning barely helped. Furthermore, learning was halted after 2000 iterations, before overfitting began, so more progress can be made.
+Lowering the learning rate from 0.0001 to 0.00001 does wonders. The amplitude of the validation error reduces, the error ceases to oscillate, and a steady downward trend can be observed. This indicates that Bayesian softmax cross entropy by itself on AleNet architecture works best, without removing a pooling layer and a fully connected layer. The cost function delivers remarkable gains, since adding it alone provides 18 additional percentage points in average per class accuracy. Maximum per class accuracy is 78\%, i.e.\ 18 which is truly impressive considering how hard this task his - let us recall that transfer learning barely delivered any gains. Furthermore, learning is halted after 2000 iterations (this was due to time constraints), before overfitting begins, so it seems clear from the plots that more progress can be made by resuming training. \\
+
+A potential explanation for why the gains from the Bayesian cross entropy are even greater for this task than for clamp detection wit 98\% imbalance is because imbalance is not as stark in this task, so the variance of the modulus of the gradient is lower, i.e.\ the gradient is less noisy. Since this issue could be addressed by ensuring equal class distribution at every mini-batch, the size of gains observed here could also potentially be seen with clampdet detection 98\% and other tasks with similar imbalances. \\
+
+This section marks a failure for modifying the architecture of AlexNet, but it marks a victory for the Bayesian cross entropy, and encourages further empirical research into the benefits that this novel cost function can bring to training deep neural networks.
 
 
 \section{Final Results}
 
-This presents best results (accuracy overall, on pos, on neg, sig level) for each binary classifier. \\
+This presents best results for each binary classifier. The first three columns are indicators of the difficulty of the task: amount of available Bluebox examples, whether the task requires precise spatial information, whether the downsizing of the images to 256x256 prevented a human expert from carrying out classification. The last two columns are measures success: maximum average per class validation accuracy, and percentage of work that could be automated by setting the threshold so as to obtain 95\% accuracy on true positives. Note that as of this writing, Bayesian cross entropy was only tested on the soil contamination task, so in light of its success on that task as well as on clamp detection 98\%, scores are likely to increase significantly. \\
 
 \begin{table}[h!]
    \centering
@@ -1889,16 +1897,16 @@ This presents best results (accuracy overall, on pos, on neg, sig level) for eac
     \hline
     Model & ~ Count & ~ Need Spatial? & ~ Need HD? & ~ PC Val Acc & ~ Automation  \\ 
     \hline
-    Clamp               & ~ 1,323  & ~     & ~    & ~ 0\%  & ~ 0\% \\
-    Ground Sheet        & ~ 5,541  & ~     & ~    & ~ 0\%  & ~ 0\%    \\
-    Hatch Markings      & ~ 3,793  & ~     & ~    & ~ 0\%  & ~ 0\%    \\
-    Insertion Depth     & ~ 897    & ~     & ~    & ~ 0\%  & ~ 0\%      \\
-    Soil Contam         & ~ 532    & ~ X   & ~ X  & ~ 78\%+  & ~ 0\%      \\
-    Water Contam        & ~ 312    & ~ X   & ~ X  & ~ 0\%  & ~ 0\%    \\
-    Scrape Zones        & ~ 2,545  & ~ X   & ~    & ~ 0\%  & ~ 0\%     \\
-    Scraping or Peeling & ~ 292    & ~ X   & ~ X  & ~ 0\%  & ~ 0\%     \\
-    Joint Misalignment  & ~ 35     & ~     & ~    & ~ 0\%  & ~ 0\% \\
-    Fitting Proximity   & ~ 32     & ~ X   & ~    & ~ 0\%  & ~ 0\% \\
+    Clamp               & ~ 1,323  & ~     & ~    & ~ 89.2\%  & ~ 73\% \\
+    Ground Sheet        & ~ 5,541  & ~     & ~    & ~ 88.6\%  & ~ 68\%    \\
+    Hatch Markings      & ~ 3,793  & ~     & ~    & ~ 77.4\%  & ~ 42\%    \\
+    Insertion Depth     & ~ 897    & ~     & ~    & ~ 86.3\%  & ~ 65\%      \\
+    Soil Contam         & ~ 532    & ~ X   & ~ X  & ~ 78.1\%+ & ~ 43\%+      \\
+    Water Contam        & ~ 312    & ~ X   & ~ X  & ~ 50\%    & ~ 0\%    \\
+    Scrape Zones        & ~ 2,545  & ~ X   & ~    & ~ 61.6\%  & ~ 18.5\%     \\
+    Scraping or Peeling & ~ 292    & ~ X   & ~ X  & ~ 50\%    & ~ 0\%     \\
+    Joint Misalignment  & ~ 35     & ~     & ~    & ~ N/A     & ~ N/A \\
+    Fitting Proximity   & ~ 32     & ~ X   & ~    & ~ N/A     & ~ N/A \\
     \hline
     \end{tabular}
     \caption {Final Results}
@@ -2017,38 +2025,29 @@ This presents best results (accuracy overall, on pos, on neg, sig level) for eac
 \clearpage
 \section{Conclusions and Future Work}
 
-The realisation that weird sampling can heavily dent the approximation of the error surface has raised questions:
+This research project was carried out with the aim of using deep CNNs to automate the classification of pipe weld images for ControlPoint. The need to understand the workings of supervised deep learning models before attempting this task stimulated the analytical exploration of two important aspects: explaining the faster convergence of deep sparse rectifier networks compared to nets equipped with saturating activation functions, and explaining the convenient observed behaviour of early stopping.
 
-How does the training set provide an approximation of the true error surface? Since it can introduce dangerous minima, does that mean that, formally, it does not always provide an extrema-conserving approximation of the true error surface? Theoretically, what are the conditions for obtaining an extrema-conserving approximation (i.e. that doesn't introduce fake minima)? Practically, can we perform transformations on the cost function, or do stuff to our data (sampling), to limit the introduction of fake minima?  \\
+With regards to the empirical research, it can now be said that ControlPoint's image classification tasks are difficult. At first, it took several weeks to understand why learning was failing completely. The combination of heavy mislabelling on the Redbox dataset and class imbalance were eventually identified as the joint culprits, and the way in which these two factors interact to become a lethal combination for learning was formalised clearly. The second stage of the empirical research consisted in exploring the use of transfer learning, a recently popular technique which addresses two criticisms of deep learning, namely the requirement for large datasets and long training time. On the benchmark clamp detection task, transfer learning also provided a 5 percentage point increase in average per class accuracy. 
 
-Could we answer these questions if, instead of facing the usual problem of having a training set sampled from an unknown distribution, we ran a completely artificial experiment where we start with a known distribution? That way, we know the true error surface, and as we draw samples from the distribution, we can look at how each one approximates the true error surface, how it introduces bad minima? \\
+The third stage of the  empirical research focused on formalising class imbalance, understanding how it impacts learning, and seeking ways to deal with it. Despite its dire effects, the topic is significantly undocumented in the field of deep learning, so the research was an opportunity to make new insights and discoveries. It seems that when the distribution of classes in the training set are such that a classifier which constantly outputs the class priors can obtain high performance, the error surface associated with standard cost functions is punctured with bad sampling-induced critical points, which slow down and often even prevent learning with stochastic gradient descent.  After exploring simple techniques as well as some of those advocated by the literature, a novel cost function was proposed. Its ability to tackle class imbalance was found to be substantial, delivering up to 18 additional percentage points in average per class validation accuracy in imbalanced tasks. The performance gains from this Bayesian cross entropy are also likely to be increased by ensuring the same distribution of classes in every mini-batch of the training set, since this would reduce noisiness a.k.a\ variance in the modulus of the gradient. Further empirical research would also need to be conducted by trying out this cost function on benchmark datasets with multiple classes and varying levels of class imbalance. 
 
-How does mis-labelling alter the error surface? Intuitively, it would seem that it lifts up the true minima only, making the false minima even more attractive (e.g.\ "labelling is so bad it's too confusing, there's just nothing to distinguish them, so I might as well go for the blind strategy of outputting clamp detected all the time"). \\
+%Conjecture that the steepness of the error surface along these dimensions decreases with the extent of class imbalance, and approaches 0 as a limit as class imbalance approaches 100\%.
 
-because exists injection of parameter space into function space, and because of what Yann says, can view the error surface as a replication of side-by-side identical pots with jagged bottom. However, seeing as we run into imbalance-induced fake minima with transfer learning as well, despite
-Conjecture that imbalance-induced fake minima are littered across the entire error surface, also present in the sweet spot zone. Conjecture further that they are as dense as the relative size between parameter space and function space. Could be interesting to think about how the choice of a network architecture affects this injectivity.
+%The realisation that imbalanced sampling can heavily dent the approximation of the error surface has raised questions: how does the training set provide an approximation of the true error surface? Since it can introduce dangerous minima, does that mean that, formally, it does not always provide an extrema-conserving approximation of the true error surface? Theoretically, what are the conditions for obtaining an extrema-conserving approximation (i.e. that doesn't introduce fake minima)? Practically, can we perform transformations on the cost function, or do stuff to our data (sampling), to limit the introduction of fake minima?  \\
+%
+%Could we answer these questions if, instead of facing the usual problem of having a training set sampled from an unknown distribution, we ran a completely artificial experiment where we start with a known distribution? That way, we know the true error surface, and as we draw samples from the distribution, we can look at how each one approximates the true error surface, how it introduces bad minima? \\
+%
+%How does mis-labelling alter the error surface? Intuitively, it would seem that it lifts up the true minima only, making the false minima even more attractive (e.g.\ "labelling is so bad it's too confusing, there's just nothing to distinguish them, so I might as well go for the blind strategy of outputting clamp detected all the time"). \\
+%
+%because exists injection of parameter space into function space, and because of what Yann says, can view the error surface as a replication of side-by-side identical pots with jagged bottom. However, seeing as we run into imbalance-induced fake minima with transfer learning as well, despite
+%Conjecture that imbalance-induced fake minima are littered across the entire error surface, also present in the sweet spot zone. Conjecture further that they are as dense as the relative size between parameter space and function space. Could be interesting to think about how the choice of a network architecture affects this injectivity.
+%
+%Unsupervised Learning to correct mis-labelling, with encouragements to create clusters initialised by those resulting from supervised learning (maybe could only work well with many false negatives, few false positives, as is the case here?). \\ 
 
-Unsupervised Learning to correct mis-labelling, with encouragements to create clusters initialised by those resulting from supervised learning (maybe could only work well with many false negatives, few false positives, as is the case here?). \\ 
+Although the empirical research was almost entirely carried out on the small Bluebox dataset due to heavy mislabelling in the Redbox dataset, it is likely that a significant portion of Redbox images also have good labelling. By ranking them chronologically, it may have been possible to determine the optimal cut-off date by using a model trained on the Bluebox datset and testing it on Redbox data, with the cutoff date going steadily back. One would expect test error to rise as the cutoff date is brought earlier ie as the proportion of mislabelled images in the test set rises. Such task-specific optimisations as these were left aside from the project, as it was preferred to follow paths that could lead to new insights into deep learning. As a result, little time was devoted to optimising certain tasks, and the best performance achieved varies across the tasks from 50\% average per class accuracy to 89.2\%.\\
 
-It is likely that recent Redbox images also have good labelling. By ranking them chronologically, it may have been possible to determine the optimal cut-off date by using a network trained on Bluebox and testing it on Redbox data, with the cutoff date going steadily back. One would expect test error to rise as the cutoff date is brought earlier ie as the proportion of mislabelled images in the test set rises. \\
 
-transfer learning doesn't work as well with caffe:
-https://github.com/BVLC/caffe/issues/642
-works better with overfeat: http://cilvr.nyu.edu/doku.php?id=software:overfeat:start
-
-Copy paste from your emacs sheet everything! Talk about domain change as well because it's a challenge mentioned at the top but never addressed throughout research.
-
-What we learned:
-- class imbalance + mislabelling lethal combo
-- more precise class imbalance definition, specifically tailored to training classifiers with stochastic gradient descent: \textbf{a classifier that constantly outputs the class priors performs significantly better than randomly outputting each class with the same probability}
-- error accuracy mismatch implications for dynamics of learning.
-- conjecture that the steepness of the error surface along these dimensions decreases with the extent of class imbalance, and approaches 0 as a limit as class imbalance approaches 100\%.
-- error accuracy mismatch, class imbalance impact on mechanics of backpropagation at the softmax layer.
-
-Bayesian interpretation of what the model learns and what it should learn: we would want the model to predict the label $arg\max\limits_{l \in \{l_1,l_2\}} \{p(\mathcal{c} | l)\}$. However, the model will output the probabilities $(p(l_1 | \mathcal{c}), p(l_2 | \mathcal{c})) = (p(\mathcal{c} | l_1) p(l_1), p(\mathcal{c} | l_2) p(l_2)$.
-
-SBL is better than Zhou under-sampling because much better time complexity and uses parametric criterion for a parametric model.
-
+\clearpage
 
 \begin{thebibliography}{1}
 % Example: \bibitem{One}
