@@ -1581,7 +1581,7 @@ Observations:
 Threshold-moving is a technique that operates on the model only at test time. It is implemented by taking the predictions of the model at test time, dividing them by the prior probabilities of the classes i.e.\ their proportions in the training set, and renormalising. This may remind one of Bayes' theorem; indeed, threshold-moving has an elegant probabilistic interpretation. Consider a model trained on a 2-class task with assignment of equal cost to both mis-classifications, and its output on an example $c$ from the test set. We would want the model to predict the label $arg\max\limits_{l \in \{l_1,l_2\}} \{p(c | l)\}$. However, the model will output the probabilities $(p(l_1 | c), p(l_2 | c)) = (p(c | l_1) p(l_1), p(c | l_2) p(l_2)$.
 The model will output exactly what we want when classes are distributed uniformly in the training set, since the $p(l_i)$ will all be the same. This fails if the priors are different, and can be corrected simply by exploiting Bayes' theorem: dividing the output by the prior and renormalising. The reason for why this is called threshold-moving can be explained as follows: assume the prior probability for class $C_1$ is $p(C_1)=0.1$. The threshold for classifying in input as $C_1$ given its predicted probability for belonging to $C_1$ moves from 0.5 to 0.1. \\
 
-Note that the mismatch between desired and outputted probabilities, exposed by this Bayesian conceptual framework, occurs as soon as classes are not uniformly distributed, which corresponds to the literature's definition of class imbalance rather than the definition of `dangerous' class imbalance proposed by this report. This has one of two implications: either this probability mismatch and the introduction of bad critical points in the error surface relate to two different phenomena, or they relate to the same one, and the problems observed with class imbalance until now have been wrongly interpreted, wrongly explained. This can be verified by seeing whether threshold-moving solves this hypothetical bad critical point problem, i.e. if it stops the model from outputting the same classification for all inputs at test time. \\
+Note that the mismatch between desired and outputted probabilities, exposed by this Bayesian conceptual framework, occurs as soon as classes are not uniformly distributed, which corresponds to the literature's definition of class imbalance rather than the definition of `dangerous' class imbalance proposed by this report. This has one of two implications: either -- as the difference in definitions suggest -- probability mismatch and introduction of bad critical points in the error surface are two different problems, or they are the same one, and the problems observed with class imbalance until now have been wrongly interpreted, wrongly explained. This can be verified by seeing whether threshold-moving solves this hypothetical bad critical point problem, i.e. if it stops the model from outputting the same classification for all inputs at test time. \\
 
 \paragraph{Implementation}
 Threshold-moving can be relatively easily implemented by writing a Python script that runs a trained model on a test set, obtains the predicted probabilities, and classifies according to the modified threshold, given by the prior probabilities of the classes. Also, if we choose to make the threshold flexible rather than determined by the prior probabilities, then we have a way to increase the relative cost of a false negative at will. This can be used to build classifiers for ControlPoint that are very good at flagging potential defects in pipe weld installations for a human expert to examine, even if it means producing many false positives. The result would be automation of a portion of the work without any increased risk of letting false positives slip through. \\
@@ -1593,17 +1593,22 @@ The python threshold-moving script was run on a model trained on the 98\% imbala
    \centering
     \begin{tabular}{|l|c|c|}
     \hline
-    Model                                & ~ Redbox Count  & ~ Bluebox Count  \ 
+    Model                            & ~ Per Class Accuracy  & ~ Bluebox Count  \\ 
     \hline
-    No transfer learning                          & ~  1,233        & ~ 32      \\
-    No transfer learning \textit{with threshold}  & ~  1,233        & ~ 32      \\
+    No transfer learning             & ~  1,233        & ~ 32      \\
+    No transfer learning, threshold  & ~  1,233        & ~ 32      \\
     \hline
-    Full transfer & backprop                   & ~ 1,401         & ~ 83      \\
-    Full transfer & backprop  \textit{with threshold}  & ~ 1,401         & ~ 83      \\
+    Transfer learning                & ~ 1,401         & ~ 83      \\
+    Transfer learning, threshold     & ~ 1,401         & ~ 83      \\
     \hline
     \end{tabular}
     \caption {Impact of threshold-moving}
 \end{table} 
+
+The conclusion is that probability mismatch and introduction of bad critical points in the error surface are (not) two different problems.
+
+In the context of trying different approaches to tackle class imbalance, threshold-moving is (not) bett
+
 
 \subsubsection{Bayesian Cross Entropy Cost Function}
 
