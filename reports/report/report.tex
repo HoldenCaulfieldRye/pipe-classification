@@ -1642,28 +1642,26 @@ As explained in the literature review, placing a softmax layer as the output lay
 
 The idea behind Maximum Likelihood Estimation is that the best parameters are the ones that make the model output that probability distribution for each training example's random variable which assigns as high a probability as possible to the training example's outcome. In the case of clamp detection, the training example is an image $x_i$, its random variable is the label $L_i$, $L_i$ is a random variable defined over the event space $\Omega(L_i) = \{\text{`Clamp Detected'},\text{`No Clamps'}\}$, and the training example's outcome is the value of the label $l_i$. The maximum likelihood estimates for the parameters of the model are therefore found by solving:
 
-%\begin{equation}
-%arg\max\limits_{W \in \mathcal{R}^D} P\{\intersect \limits_{1 \leq i \leq n} [L_i = l_i]|x_i,W\}
-%
-%&= arg\max\limits_{W \in \mathcal{R}^D} \prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\} \text{assuming that the $X_i$ are independently and identically distributed}
-%
-%&= arg\max\limits_{W \in \mathcal{R}^D} \log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\}) \text{since log is a monotonous strictly increasing function, the coordinates of W at which max is reached are the same}
-%
-%&= arg\min\limits_{W \in \mathcal{R}^D} -\log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\}) \text{since taking the opposite function turns maximum into minimum}
-%
-%&= arg\min\limits_{W \in \mathcal{R}^D} -\sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\})
-%
-%&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\}) \text{since scaling the function by a constant preserves extrema}
-%
-%&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \sum\limits_{l \in \Omega(L_i)} P\{L_i = l\} \cdot \log(P\{[L_i = l]|x_i,W\}) \text{since $P\{L_i = l\} = 1$ if $l = l_i$ and 0 otherwise}
-%
-%&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} KL(P\{L_i\},P\{L_i|x_i,W\}) \text{where KL is the Kullback-Leibler divergence}
-%
-%&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},P\{L_i|x_i,W\}) \text{where CE is the cross entropy}
-%
-%&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},f(x_i,l_i,W)) 
-%
-%&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n}\sum\limits_{i=1}^{n} log(f(x_i,l_i,W))
+
+
+\begin{align}
+arg\max\limits_{W \in \mathcal{R}^D} P\{\bigcap \limits_{1 \leq i \leq n} [L_i = l_i]|x_i,W\}
+&= arg\max\limits_{W \in \mathcal{R}^D} \prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\} 
+\end{align}
+
+\begin{align}
+arg\max\limits_{W \in \mathcal{R}^D} P\{\intersect \limits_{1 \leq i \leq n} [L_i = l_i]|x_i,W\}
+&= arg\max\limits_{W \in \mathcal{R}^D} \prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\} \text{assuming that the $X_i$ are independently and identically distributed}
+&= arg\max\limits_{W \in \mathcal{R}^D} \log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\}) \text{since log is a monotonous strictly increasing function, the coordinates of W at which max is reached are the same}
+&= arg\min\limits_{W \in \mathcal{R}^D} -\log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\}) \text{since taking the opposite function turns maximum into minimum}
+&= arg\min\limits_{W \in \mathcal{R}^D} -\sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\})
+&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\}) \text{since scaling the function by a constant preserves extrema}
+&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \sum\limits_{l \in \Omega(L_i)} P\{L_i = l\} \cdot \log(P\{[L_i = l]|x_i,W\}) \text{since $P\{L_i = l\} = 1$ if $l = l_i$ and 0 otherwise}
+&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} KL(P\{L_i\},P\{L_i|x_i,W\}) \text{where KL is the Kullback-Leibler divergence}
+&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},P\{L_i|x_i,W\}) \text{where CE is the cross entropy}
+&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},f(x_i,l_i,W)) 
+&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n}\sum\limits_{i=1}^{n} log(f(x_i,l_i,W))
+\end{align}
 %\end{equation}
 
 This optimisation problem is, as we know, tentatively solved by local optimisation with gradient descent.
@@ -1708,7 +1706,7 @@ Full transfer learning, backpropagation on all layers, batch size 256. \\
     \begin{minipage}[b]{\textwidth}
       \begin{subfigure}{.5\textwidth} 
         \centering
-        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr4.png}
+        \includegraphics[scale=0.4]{images/plot_clampdetCI98_none_bs256_lr5(copy).png}
         % Add \par\vspace*{20pt} here and...
         \caption{Cross entropy}\label{fig:2a}
       \end{subfigure}%
@@ -1804,6 +1802,25 @@ since the weights are random it scales with the square root of the of the weight
 \section{Final Results}
 
 This presents best results (accuracy overall, on pos, on neg, sig level) for each binary classifier and discusses further improvements. All successfull tricks were accumulated to produce these results. \\
+
+\begin{table}[h!]
+   \centering
+    \begin{tabular}{|l|c|c|}
+    \hline
+    Model                            & ~ Per Class Validation Accuracy & ~ Bluebox Count  \\ 
+    \hline
+    Clamp                      & ~  1,233           & ~ 32      \\
+    Ground Sheet     & ~ 1,               & ~ 83      \\
+    Hatch Markings             & ~  1,233           & ~ 32      \\
+    Insertion Depth Markings     & ~ 1,               & ~ 83      \\
+    No transfer learning             & ~  1,233           & ~ 32      \\
+    Transfer learning, threshold     & ~ 1,               & ~ 83      \\
+    No transfer learning             & ~  1,233           & ~ 32      \\
+    Transfer learning, threshold     & ~ 1,               & ~ 83      \\
+    \hline
+    \end{tabular}
+    \caption {Impact of threshold-moving}
+\end{table} 
 
 %To sum up, the two greatest challenges with the Bluebox dataset is small size and class imbalance. Small size can be dealt with by transferring knowledge from another task by initialising weights. Class imbalance can be cruelly dealt with using under-sampling, but this decreases the size of the dataset even more, making robustness ie generalisation the second challenge. Therefore, we use [..] and [..] to help with dealing with class imbalance and mitigate the extent of under-sampling. \\
 %
