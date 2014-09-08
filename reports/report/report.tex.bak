@@ -1607,20 +1607,13 @@ The python threshold-moving script was run on a model trained on the 98\% imbala
 
 The conclusion is that probability mismatch and introduction of bad critical points in the error surface are (not) two different problems.
 
-In the context of trying different approaches to tackle class imbalance, threshold-moving is (not) bett
+In the context of trying different approaches to tackle class imbalance, threshold-moving was found to be better than (transfer learning, under-sampling, over-sampling), but worse than (transfer learning, under-sampling, over-sampling), in terms of per class accuracy. Overall, the best combination is ???.
 
 
 \subsubsection{Bayesian Cross Entropy Cost Function}
 
-One possible solution would be to use a different cost function: the F-measure \cite{f-measure}, which is known to deal with these circumstances. Although the F-measure has been adapted to into a fully differentiable cost function (which is mandatory for gradient descent), there currently exists no generalisation of it for the case of $n \ge 2$
-classes. Moreover, one would need to ensure that the range of the error is as large as possible for a softmax activation unit, whose own output range is merely $[0;1]$. \\ 
-
-If hypothesis supported, maybe rebalancing costs with a different cost function can allow us to under-sample less severely? \\
-
-
 \paragraph{Motivations}
-
-I also wonder whether it should be used in conjunction with a modified cost function. the threshold renormalisation won't change the fact that most of the error will come from $c_2$ examples, so the net would still be encouraged to learn $c_2$ more than $c_1$. [Provide a simple mathematical example of this]. If we want the stochastic gradient to reflect as much of the $c_1$ errors as the $c_2$ errors on average, then we need to renormalise the errors based on priors as well. This is done with bayesian cross entropy: [formula here] \\
+It was wondered whether the best performing techniques discovered until now could also be combined with a modified cost function. Threshold re-normalisation does not change the fact that most of the error computed at the end of a SGD mini-batch pass comes from majority class examples. As a result, the gradient carries more teaching material for the majority class than the minority class. If we want the stochastic gradient to reflect as much of the $C_1$ errors as the $C_2$ errors on average, then perhaps we need to renormalise the errors based on class priors as well. This is done with bayesian cross entropy: [formula here] \\
 
 When viewed as MLE estimation, the Bayesian cross entropy can be interpreted as follows: instead of trying to maximise the joint probability of the data under the assumption that each observed event has the same probability, we are assigning higher probability to minority class events. \\
 
