@@ -1560,7 +1560,7 @@ Instead, brute force under-sampling was implemented as in (Maloof 2003) \cite{ma
     \end{minipage}%
 \end{figure}
 
-Observations:
+The results show that under-sampling is very effective: the model does not get stuck in any seeming critical point and obtains an additional 15 percentage points in classification accuracy. This is substantial and reminds us of how strikingly detrimental class imbalance is: we have eliminated 58.7\% of the data to get rid of class imbalance, and yet this trade-off is highly worthwhile. This sets a high benchmark for other 
 
 
 
@@ -1865,13 +1865,13 @@ By adding Bayesian cross entropy, training becomes very noisy, as is already dis
         \centering
         \includegraphics[scale=0.4]{images/plot_soil_contam_noneC.png}
         % Add \par\vspace*{20pt} here and...
-        \caption{Transfer learning}\label{fig:2a}
+        \caption{Transfer learning (96\% imbalance)}\label{fig:2a}
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
-        \includegraphics[scale=0.4]{images/plot_soil_contam_none_lr5_sbl.png}
+        \includegraphics[scale=0.4]{images/plot_soil_contam_us_none.png}
         % ...here to lower the subcaptions and...
-        \caption{Transfer learning and Bayesian cross entropy}\label{fig:2b}
+        \caption{Transfer learning with Under-sampling to 90\% imbalance}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{Bayesian Cross Entropy by itself}\label{fig:2}
     \end{minipage}%
