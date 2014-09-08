@@ -1596,7 +1596,7 @@ The model will output exactly what we want when classes are distributed uniforml
 Note that the mismatch between desired and outputted probabilities, exposed by this Bayesian conceptual framework, occurs as soon as classes are not uniformly distributed, which corresponds to the literature's definition of class imbalance rather than the definition of `dangerous' class imbalance proposed by this report. This has one of two implications: either -- as the difference in definitions suggest -- probability mismatch and introduction of bad critical points in the error surface are two different problems, or they are the same one, and the problems observed with class imbalance until now have been wrongly interpreted, wrongly explained. This can be verified by seeing whether threshold-moving solves this hypothetical bad critical point problem, i.e. if it stops the model from outputting the same classification for all inputs at test time. \\
 
 \paragraph{Implementation}
-Threshold-moving can be relatively easily implemented by writing a Python script that runs a trained model on a test set, obtains the predicted probabilities, and classifies according to the modified threshold, given by the prior probabilities of the classes. Also, if we choose to make the threshold flexible rather than determined by the prior probabilities, then we have a way to increase the relative cost of a false negative at will. This can be used to build classifiers for ControlPoint that are very good at flagging potential defects in pipe weld installations for a human expert to examine, even if it means producing many false positives. The result would be automation of a portion of the work without any increased risk of letting false positives slip through. \\
+Threshold-moving can be relatively easily implemented by writing a Python script that runs a trained model on a test set, obtains the predicted probabilities, and classifies according to the modified threshold, given by the prior probabilities of the classes. Also, if we choose to make the threshold flexible rather than determined by the prior probabilities, then we have a way to increase the relative cost of a false negative at will. This can be used to set a threshold that guarantees, say, 95\% accuracy on true positives, with a consequential much lower accuracy on true negatives, the extent of which would depend on how well the model has learned, and would be correlated positively with average per class accuracy. Note that practically, this would enable the automation of a portion of the work without any increased risk of letting false positives slip through. \\
 
 \paragraph{Results}
 The python threshold-moving script was run on a model trained on the 98\% imbalance clamp detection task with no transfer learning, and another with transfer learning (full transfer of weights, backpropagation enabled on all layers). 
@@ -1607,17 +1607,17 @@ The python threshold-moving script was run on a model trained on the 98\% imbala
     \hline
     Model                            & ~ Per Class Accuracy  & ~ Bluebox Count  \\ 
     \hline
-    No transfer learning             & ~  1,233        & ~ 32      \\
-    No transfer learning, threshold  & ~  1,233        & ~ 32      \\
+    No transfer learning             & ~  50\%               & ~ 32      \\
+    No transfer learning, threshold  & ~  50\%               & ~ 32      \\
     \hline
-    Transfer learning                & ~ 1,401         & ~ 83      \\
-    Transfer learning, threshold     & ~ 1,401         & ~ 83      \\
+    Transfer learning                & ~  59\%               & ~ 83      \\
+    Transfer learning, threshold     & ~  64\%               & ~ 83      \\
     \hline
     \end{tabular}
     \caption {Impact of threshold-moving}
 \end{table} 
 
-The conclusion is that probability mismatch and introduction of bad critical points in the error surface are (not) two different problems.
+The conclusion is that probability mismatch and introduction of bad critical points in the error surface are two different problems.
 
 In the context of trying different approaches to tackle class imbalance, threshold-moving was found to be better than (transfer learning, under-sampling, over-sampling), but worse than (transfer learning, under-sampling, over-sampling), in terms of per class accuracy. Overall, the best combination is ???.
 
@@ -2043,7 +2043,7 @@ The third stage of the  empirical research focused on formalising class imbalanc
 %
 %Unsupervised Learning to correct mis-labelling, with encouragements to create clusters initialised by those resulting from supervised learning (maybe could only work well with many false negatives, few false positives, as is the case here?). \\ 
 
-Although the empirical research was almost entirely carried out on the small Bluebox dataset due to heavy mislabelling in the Redbox dataset, it is likely that a significant portion of Redbox images also have good labelling. By ranking them chronologically, it may have been possible to determine the optimal cut-off date by using a model trained on the Bluebox datset and testing it on Redbox data, with the cutoff date going steadily back. One would expect test error to rise as the cutoff date is brought earlier ie as the proportion of mislabelled images in the test set rises. Such task-specific optimisations as these were left aside from the project, as it was preferred to follow paths that could lead to new insights into deep learning. As a result, little time was devoted to optimising certain tasks, and the best performance achieved varies across the tasks from 50\% average per class accuracy to 89.2\%.\\
+Although the empirical research was almost entirely carried out on the small Bluebox dataset due to heavy mislabelling in the Redbox dataset, it is likely that a significant portion of Redbox images also have good labelling. By ranking them chronologically, it may have been possible to determine the optimal cut-off date by using a model trained on the Bluebox datset and testing it on Redbox data, with the cutoff date going steadily back. One would expect test error to rise as the cutoff date is brought earlier ie as the proportion of mislabelled images in the test set rises. Such task-specific optimisations as these were left aside from the project, as it was preferred to follow paths that could lead to new insights into deep learning. As a result, little time was devoted to optimising certain tasks, and the best performance achieved varies across the tasks from 50\% average per class accuracy to 89.2\%. However, a significant practical implementation is the flexible threshold-moving script. It can be used to guarantees, for example, 95\% accuracy on true positives, with a consequentially lower accuracy on true negatives dete the extent of which would depend on how well the model has learned, and would be correlated positively with average per class accuracy. Note that practically, this would enable the automation of a portion of the work without any increased risk of letting false positives slip through.\\
 
 
 \clearpage
