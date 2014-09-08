@@ -1086,7 +1086,7 @@ A surprising observation is that the per class accuracy continues to rise long a
 
 Another possibility is that the model continues to learn features of the data which enable it to correctly classify a slightly higher number of cases, and somehow also lead it to output significantly sparser probabilities (i.e.\ to be highly confident about its predictions) in cases where classification is incorrect. As a result, the number of mistakes decreases, but the euclidean distance between prediction and target within the leftover mistakes increases a lot more. The latter consequence penalises validation error but not percentage accuracy, hence the growth in both. This hypothetical explanation is based on the fact that cross entropy takes a continuous measure of error per case, whereas accuracy takes a binary measure of error per case. \\
 
-Experiments in the next section, on class imbalance, with the softmax Bayesian cross entropy, provided evidence to support the first explanation. The case is then discussed at greater length.
+Experiments in the next section, on class imbalance, with the Bayesian cross entropy, provided evidence to support the first explanation. The case is then discussed at greater length.
 
 \paragraph{Zig-zag}
 
@@ -1895,16 +1895,16 @@ This presents best results for each binary classifier. \\
     \hline
     Model & ~ Count & ~ Need Spatial? & ~ Need HD? & ~ PC Val Acc & ~ Automation  \\ 
     \hline
-    Clamp               & ~ 1,323  & ~     & ~    & ~ 0\%  & ~ 0\% \\
-    Ground Sheet        & ~ 5,541  & ~     & ~    & ~ 0\%  & ~ 0\%    \\
-    Hatch Markings      & ~ 3,793  & ~     & ~    & ~ 0\%  & ~ 0\%    \\
-    Insertion Depth     & ~ 897    & ~     & ~    & ~ 0\%  & ~ 0\%      \\
-    Soil Contam         & ~ 532    & ~ X   & ~ X  & ~ 78\%+  & ~ 0\%      \\
-    Water Contam        & ~ 312    & ~ X   & ~ X  & ~ 0\%  & ~ 0\%    \\
-    Scrape Zones        & ~ 2,545  & ~ X   & ~    & ~ 0\%  & ~ 0\%     \\
-    Scraping or Peeling & ~ 292    & ~ X   & ~ X  & ~ 0\%  & ~ 0\%     \\
-    Joint Misalignment  & ~ 35     & ~     & ~    & ~ 0\%  & ~ 0\% \\
-    Fitting Proximity   & ~ 32     & ~ X   & ~    & ~ 0\%  & ~ 0\% \\
+    Clamp               & ~ 1,323  & ~     & ~    & ~ 89.2\%  & ~ 78\% \\
+    Ground Sheet        & ~ 5,541  & ~     & ~    & ~ 88.6\%  & ~ 76\%    \\
+    Hatch Markings      & ~ 3,793  & ~     & ~    & ~ 77.4\%  & ~ 53\%    \\
+    Insertion Depth     & ~ 897    & ~     & ~    & ~ 86\%    & ~ 73\%      \\
+    Soil Contam         & ~ 532    & ~ X   & ~ X  & ~ 78\%+   & ~ 56\%      \\
+    Water Contam        & ~ 312    & ~ X   & ~ X  & ~ 50\%    & ~ 0\%    \\
+    Scrape Zones        & ~ 2,545  & ~ X   & ~    & ~ 60\%    & ~ 0\%     \\
+    Scraping or Peeling & ~ 292    & ~ X   & ~ X  & ~ 50\%    & ~ 0\%     \\
+    Joint Misalignment  & ~ 35     & ~     & ~    & ~ N/A     & ~ N/A \\
+    Fitting Proximity   & ~ 32     & ~ X   & ~    & ~ N/A     & ~ N/A \\
     \hline
     \end{tabular}
     \caption {Final Results}
