@@ -58,7 +58,7 @@
 {
 Automatic image classification experienced a breakthrough in 2012 with the advent of GPU implementations of deep convolutional neural networks (CNNs). These models distinguish themselves by learning features, convolving them to achieve feature equivariance, making use of max pooling operations to achieve robustness to cluttered backgrounds, and a hierarchical structure to enable the learning of complex features with high generalisation performance. This has motivated ControlPoint LLP, a gas \& water infrastructure monitoring company, to explore whether deep learning could be used to automate one of its business services: inspecting photos of polyethylene pipe weld installations to ascertain weld quality. The company reports having previously explored automation with existing businesses, but that the semantic complexity of the visual characteristics to recognise made the task technologically infeasible. \\
 
-After framing the task, this report provides an overview of supervised deep learning, followed by an in-depth explanation of the workings of a deep convolutional neural network, which despite its performance, gathers criticism for its tendency to be used as a black box. The rest of the report goes over the research that was carried out. The first two are mathematical analyses, one of which proposes an explanation for the recent success of the Rectified Linear Unit as the chief activation function of CNNs, the other an explanation for the success of early stopping as a regularisation technique\footnote{Both came about as the result of seeking to understand, with limited assistance, aspects of training deep neural networks; it is uncertain whether existing research exceeds them.}. The next sections are applied and specific to the main task: understanding why learning failed during the first attempts; finding the optimal way to use transfer learning, exploring ways of tackling class imbalance -- including a novel cost function justified by statistical theory which delivered up to 9 additional percentage points in performance; moving away from the common `AlexNet' CNN architecture to conserve spatial information; and final performance results across all tasks.
+After framing the task, this report provides an overview of supervised deep learning, followed by an in-depth explanation of the workings of a deep convolutional neural network, which despite its performance, gathers criticism for its tendency to be used as a black box. The rest of the report goes over the research that was carried out. The first two are mathematical analyses, one of which proposes an explanation for the recent success of the Rectified Linear Unit as the chief activation function of CNNs, the other an explanation for the success of early stopping as a regularisation technique\footnote{Both came about as the result of seeking to understand, with limited assistance, aspects of training deep neural networks; it is uncertain whether existing research exceeds them.}. The next sections are applied and specific to the main task: understanding why learning failed during the first attempts; finding the optimal way to use transfer learning, exploring ways of tackling class imbalance -- including a novel cost function with a probabilistic interpretation which delivered up to 9 additional percentage points in performance; moving away from the common `AlexNet' CNN architecture to conserve spatial information; and final performance results across all tasks.
 }
 \end{abstract}
 
@@ -1659,14 +1659,14 @@ arg\max\limits_{W \in \mathcal{R}^D} P\{\intersect \limits_{1 \leq i \leq n} [L_
 
 This optimisation problem is, as we know, tentatively solved by local optimisation with gradient descent.
 
-Therefore, when viewed as MLE estimation, the Bayesian cross entropy can be interpreted as follows: instead of trying to maximise the joint probability of the data under the assumption that each observed event has the same probability, we are assigning higher probability to minority class events. In a way, we are supposing that the `identically' distributed assumption is violated,\\
+Therefore, when viewed as MLE estimation, the Bayesian cross entropy can be interpreted as follows: instead of trying to maximise the joint probability of the data under the assumption that each observed event has the same probability, we are assigning higher probability to minority class events. In a way, we are supposing that the `identically distributed' assumption is violated.
 
-
+The Bayesian cross entropy has several advantages. The key one is that it should rebalance the gradient without requiring us to throw away any data or slow down training. Under-sampling throws away data, over-sampling slows down training, threshold does not rebalance the gradient. It can be combined with transfer learning and has a probabilistic interpretation in line with the Maximum Likelihood Estimation framework on which softmax deep neural networks are trained. \\
 
 
 \paragraph{Implementation}
 
-Implement a softmax bayesian loss layer, and a per class bayesian accuracy layer, in C++. \\
+The Caffe Implement a softmax bayesian loss layer, and a per class bayesian accuracy layer, in C++. \\
 
 A difficulty implementing this was small batches with a missing class, the loss would be infinite and weight updates would screw up the net. \\
 
