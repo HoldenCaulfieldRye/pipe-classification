@@ -1811,10 +1811,13 @@ This presents best results (accuracy overall, on pos, on neg, sig level) for eac
     \hline
     Model                            & ~ Per Class Validation Accuracy & ~ Bluebox Count  \\ 
     \hline
+    Clamp                      & ~  1,233           & ~ 32      \\
+    Ground Sheet     & ~ 1,               & ~ 83      \\
+    Hatch Markings             & ~  1,233           & ~ 32      \\
+    Insertion Depth Markings     & ~ 1,               & ~ 83      \\
     No transfer learning             & ~  1,233           & ~ 32      \\
-    No transfer learning, threshold  & ~  1,233           & ~ 32      \\
-    \hline
-    Transfer learning                & ~ 1,401            & ~ 83      \\
+    Transfer learning, threshold     & ~ 1,               & ~ 83      \\
+    No transfer learning             & ~  1,233           & ~ 32      \\
     Transfer learning, threshold     & ~ 1,               & ~ 83      \\
     \hline
     \end{tabular}
