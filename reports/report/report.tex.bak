@@ -1646,21 +1646,21 @@ The idea behind Maximum Likelihood Estimation is that the best parameters are th
 
 \begin{align*}
 arg\max\limits_{W \in \mathbb{R}^D} P\{\bigcap \limits_{1 \leq i \leq n} [L_i = l_i]|x_i,W\}
-&= arg\max\limits_{W \in \mathbb{R}^D} \prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\};\\ 
-\intertext{assuming that the $X_i$ are independently and identically distributed}
-&= arg\max\limits_{W \in \mathbb{R}^D} \log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\});\\ 
-\intertext{since log is a monotonous strictly increasing function, the coordinates of W at which max is reached are the same}
-&= arg\min\limits_{W \in \mathbb{R}^D} -\log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\});\\ 
-\intertext{since taking the opposite function turns maximum into minimum}
+&= arg\max\limits_{W \in \mathbb{R}^D} \prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\}\\ 
+\intertext{assuming that the $X_i$ are independently and identically distributed;}
+&= arg\max\limits_{W \in \mathbb{R}^D} \log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\})\\ 
+\intertext{since log is a monotonous strictly increasing function, the coordinates of W at which max is reached are the same;}
+&= arg\min\limits_{W \in \mathbb{R}^D} -\log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\})\\ 
+\intertext{since taking the opposite function turns maximum into minimum;}
+&= arg\min\limits_{W \in \mathbb{R}^D} -\sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\})\\
+&= arg\min\limits_{W \in \mathbb{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\})\\ \intertext{since scaling the function by a constant preserves extrema;}
+&= arg\min\limits_{W \in \mathbb{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \sum\limits_{l \in \Omega(L_i)} P\{L_i = l\} \cdot \log(P\{[L_i = l]|x_i,W\})\\ 
+\intertext{since $P\{L_i = l\} = 1$ if $l = l_i$ and 0 otherwise;}
+&= arg\min\limits_{W \in \mathbb{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} KL(P\{L_i\},P\{L_i|x_i,W\})\\ \intertext{where KL is the Kullback-Leibler divergence;}
+&= arg\min\limits_{W \in \mathbb{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},P\{L_i|x_i,W\})\\ \intertext{where CE is the cross entropy;}
+&= arg\min\limits_{W \in \mathbb{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},f(x_i,l_i,W))\\ 
+&= arg\min\limits_{W \in \mathbb{R}^D} -\frac{1}{n}\sum\limits_{i=1}^{n} log(f(x_i,l_i,W))
 \end{align*}
-%&= arg\min\limits_{W \in \mathbb{R}^D} -\sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\})
-%&= arg\min\limits_{W \in \mathbb{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\}) \text{since scaling the function by a constant preserves extrema}
-%&= arg\min\limits_{W \in \mathbb{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \sum\limits_{l \in \Omega(L_i)} P\{L_i = l\} \cdot \log(P\{[L_i = l]|x_i,W\}) \text{since $P\{L_i = l\} = 1$ if $l = l_i$ and 0 otherwise}
-%&= arg\min\limits_{W \in \mathbb{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} KL(P\{L_i\},P\{L_i|x_i,W\}) \text{where KL is the Kullback-Leibler divergence}
-%&= arg\min\limits_{W \in \mathbb{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},P\{L_i|x_i,W\}) \text{where CE is the cross entropy}
-%&= arg\min\limits_{W \in \mathbb{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},f(x_i,l_i,W)) 
-%&= arg\min\limits_{W \in \mathbb{R}^D} -\frac{1}{n}\sum\limits_{i=1}^{n} log(f(x_i,l_i,W))
-
 
 This optimisation problem is, as we know, tentatively solved by local optimisation with gradient descent.
 
@@ -1805,16 +1805,18 @@ This presents best results (accuracy overall, on pos, on neg, sig level) for eac
    \centering
     \begin{tabular}{|l|c|c|}
     \hline
-    Model                            & ~ Per Class Validation Accuracy & ~ Bluebox Count  \\ 
+    Model                      & ~ Per Class Validation Accuracy & ~ Bluebox Count  \\ 
     \hline
     Clamp                      & ~  1,233           & ~ 32      \\
-    Ground Sheet     & ~ 1,               & ~ 83      \\
+    Ground Sheet               & ~ 1,               & ~ 83      \\
     Hatch Markings             & ~  1,233           & ~ 32      \\
     Insertion Depth Markings     & ~ 1,               & ~ 83      \\
-    No transfer learning             & ~  1,233           & ~ 32      \\
-    Transfer learning, threshold     & ~ 1,               & ~ 83      \\
-    No transfer learning             & ~  1,233           & ~ 32      \\
-    Transfer learning, threshold     & ~ 1,               & ~ 83      \\
+    Soil Contamination Risk             & ~  1,233           & ~ 32      \\
+    Water Contamination Risk     & ~ 1,               & ~ 83      \\
+    Scrape Zones             & ~  1,233           & ~ 32      \\
+    Scraping or Peeling     & ~ 1,               & ~ 83      \\
+    Joint Misalignment
+    Fitting Proximity
     \hline
     \end{tabular}
     \caption {Impact of threshold-moving}

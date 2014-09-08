@@ -90,8 +90,8 @@
 \contentsline {paragraph}{Results}{55}
 \contentsline {subsubsection}{\numberline {8.4.7}Bayesian Cross Entropy Cost Function}{56}
 \contentsline {paragraph}{Motivations}{56}
-\contentsline {paragraph}{Implementation}{57}
-\contentsline {paragraph}{Results}{59}
+\contentsline {paragraph}{Implementation}{58}
+\contentsline {paragraph}{Results}{58}
 \contentsline {paragraph}{Further Research}{59}
 \contentsline {subsubsection}{\numberline {8.4.8}Error-accuracy mismatch revisited}{60}
 \contentsline {paragraph}{SGD mechanics}{60}
