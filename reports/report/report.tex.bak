@@ -1798,7 +1798,7 @@ since the weights are random it scales with the square root of the of the weight
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
-        \includegraphics[scale=0.4]{images/plot_soil_contam_noneC.png}
+        \includegraphics[scale=0.4]{images/plot_soil_contam_noneC_long.png}
         % ...here to lower the subcaptions and...
         \caption{Transfer learning}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
@@ -1830,7 +1830,7 @@ Transfer learning barely helps.
     \end{minipage}%
 \end{figure}
 
-Removal of the FC layer was simply for computation to be feasible on the GPU. This also meant using a smaller batch size. 
+Removal of the FC layer was simply for computation to be feasible on the GPU. This also meant using a smaller batch size. The results look as if removing pooling and a fully connected layer improve performance a bit, but these gains seem random, and are therefore likely to be lucky noisy gains such as was explained in greater depth in the previous section. This added noise could be due to the random-reinitialisation of weights in the two fully connected layers. To sum up, there is no compelling evidence that removing pooling and a fully connected layer help.
 
 
 \paragraph{Remove Pooling, a FC layer and add Bayesian Cross Entropy}
@@ -1854,8 +1854,10 @@ Removal of the FC layer was simply for computation to be feasible on the GPU. Th
     \end{minipage}%
 \end{figure}
 
+By adding Bayesian cross entropy, training becomes very noisy, as is already discussed and explained in the previous section. However, once again, there is a performance gain of just under 10 percentage points. Note that the validation error oscillates, suggesting that the model is overshooting a minimum. A smaller lear
 
-\paragraph{Softmax Bayesian Cross Entropy}
+
+\paragraph{Softmax Bayesian Cross Entropy and lower learning rate}
 %     soil_contam/nopool                       TRAINING
 \begin{figure}
     \centering
@@ -1876,7 +1878,7 @@ Removal of the FC layer was simply for computation to be feasible on the GPU. Th
     \end{minipage}%
 \end{figure}
 
-In fact, Bayesian softmax cross entropy by itself on AleNet architecture works best. Maximum per class accuracy is 78\%, which is truly impressive considering that this task was so difficult that transfer learning barely helped. Furthermore, learning was halted after 2000 iterations, before overfitting began, so more progress can be made.
+Lowering the learning rate from 0.0001 to 0.00001 does wonders. The amplitude of the validation error reduces, the error ceases to oscillate, and a steady downward trend can be observed. This indicates that Bayesian softmax cross entropy by itself on AleNet architecture works best, without removing a pooling layer and a fully connected layer. Maximum per class accuracy is 78\%, which is truly impressive considering how hard this task his - let that transfer learning barely helped. Furthermore, learning was halted after 2000 iterations, before overfitting began, so more progress can be made.
 
 
 \section{Final Results}
