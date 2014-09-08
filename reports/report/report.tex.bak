@@ -1575,18 +1575,12 @@ Observations:
 
 \subsubsection{Threshold-Moving}
 
-
-
-Threshold-moving is a technique that operates on the model only at test time. It is implemented by taking the predictions of the model at test time, dividing them by the prior probabilities of the classes i.e.\ their proportions in the training set, and renormalising. This may remind one of Bayes' theorem; indeed, threshold-moving has an elegant probabilistic interpretation. Consider a model trained on a 2-class task with assignment of equal cost to both mis-classifications, and its output on an example $\mathcal{c}$ from the test set. We would want the model to predict the label $arg\max\limits_{l \in \{l_1,l_2\}} \{p(\mathcal{c} | l)\}$. However, the model will output the probabilities $(p(l_1 | \mathcal{c}), p(l_2 | \mathcal{c})) = (p(\mathcal{c} | l_1) p(l_1), p(\mathcal{c} | l_2) p(l_2)$.
-and a class imbalance means the priors p(label) are different
-so you just need to correct for that by multiplying, for instance, the probability of p(label = 1 | data) outputted by the NN by the factor p(label=2) / p(label=1) and renormalizing \\
-
-
 (Maloof 2003) and (Zhou and Liu 2005) both find threshold-moving to be the best technique for tackling class imbalance. It allows one to set different costs to mis-classifications on different classes; in the 2-class case, this means that we can assign different costs to false positives than to false negatives. As with detecting the presence of a pathogen in a patient in the medical industry \cite{imbalance}, one could argue that a false negative is more expensive to ControlPoint: it is worse to classify a bad joint as good than to classify a good joint as bad, since in the latter case, no potential damage is done to the installation. When the idea of assigning different costs was suggested to ControlPoint, the reply was positive. \\
 
+Threshold-moving is a technique that operates on the model only at test time. It is implemented by taking the predictions of the model at test time, dividing them by the prior probabilities of the classes i.e.\ their proportions in the training set, and renormalising. This may remind one of Bayes' theorem; indeed, threshold-moving has an elegant probabilistic interpretation. Consider a model trained on a 2-class task with assignment of equal cost to both mis-classifications, and its output on an example $\mathcal{c}$ from the test set. We would want the model to predict the label $arg\max\limits_{l \in \{l_1,l_2\}} \{p(\mathcal{c} | l)\}$. However, the model will output the probabilities $(p(l_1 | \mathcal{c}), p(l_2 | \mathcal{c})) = (p(\mathcal{c} | l_1) p(l_1), p(\mathcal{c} | l_2) p(l_2)$.
+The model will output exactly what we want when classes are distributed uniformly in the training set, since the $p(l_i)$ will all be the same. This fails if the priors are different, and can be corrected simply by exploiting Bayes' theorem: dividing the output by the prior and renormalising. The reason for why this is called threshold-moving can be explained as follows: assume the prior probability for class $c_1$ is $p(c_1)=0.1$. The threshold for classifying in input as $c_1$ given its predicted probability for belonging to $c_1$ moves from 0.5 to 0.1. \\
 
-I get why it's called threshold: suppose $p(c_1)=0.1$. the threshold for classifying as $c_1$ moves from 0.5 to 0.1. Illustrate this point with one or two simple examples (`intuitively, ').  (that's pretty much what the "sig level" script I mentioned intends to do, except script has a flexible sig level.)
-Also, I think that if we wanted to implement the threshold directly in the net, we might need to put the threshold layer after the softmax layer (and have it renormalise by $1/num_classes$). cos it's non-linear so you can't be sure that their output will be renormalised in the same way. \\
+Note that the issue 
 
 Rather than have a fixed threshold hard-coded into the network, I propose to use a sig level script, for greater flexibility. \\
 
@@ -1903,6 +1897,8 @@ What we learned:
 - error accuracy mismatch implications for dynamics of learning.
 - conjecture that the steepness of the error surface along these dimensions decreases with the extent of class imbalance, and approaches 0 as a limit as class imbalance approaches 100\%.
 - error accuracy mismatch, class imbalance impact on mechanics of backpropagation at the softmax layer.
+
+Bayesian interpretation of what the model learns and what it should learn: we would want the model to predict the label $arg\max\limits_{l \in \{l_1,l_2\}} \{p(\mathcal{c} | l)\}$. However, the model will output the probabilities $(p(l_1 | \mathcal{c}), p(l_2 | \mathcal{c})) = (p(\mathcal{c} | l_1) p(l_1), p(\mathcal{c} | l_2) p(l_2)$.
 
 SBL is better than Zhou under-sampling because much better time complexity and uses parametric criterion for a parametric model.
 
