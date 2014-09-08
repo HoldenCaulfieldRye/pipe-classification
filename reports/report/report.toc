@@ -87,21 +87,22 @@
 \contentsline {subsubsection}{\numberline {8.4.6}Threshold-Moving}{54}
 \contentsline {paragraph}{Motivations}{55}
 \contentsline {paragraph}{Implementation}{55}
+\contentsline {paragraph}{Results}{55}
 \contentsline {subsubsection}{\numberline {8.4.7}Bayesian Cross Entropy Cost Function}{55}
-\contentsline {paragraph}{Motivations}{55}
+\contentsline {paragraph}{Motivations}{56}
 \contentsline {paragraph}{Implementation}{56}
 \contentsline {paragraph}{Results}{57}
 \contentsline {subsubsection}{\numberline {8.4.8}Error-accuracy mismatch revisited}{58}
 \contentsline {paragraph}{SGD mechanics}{58}
-\contentsline {section}{\numberline {9}Experiments 4: Conserving Spatial Information}{58}
-\contentsline {subsection}{\numberline {9.1}Motivations}{58}
+\contentsline {section}{\numberline {9}Experiments 4: Conserving Spatial Information}{59}
+\contentsline {subsection}{\numberline {9.1}Motivations}{59}
 \contentsline {subsection}{\numberline {9.2}Implementation}{59}
 \contentsline {subsection}{\numberline {9.3}Experimentation}{59}
 \contentsline {paragraph}{Test Run}{59}
 \contentsline {paragraph}{Remove pooling and an fc layer}{59}
 \contentsline {paragraph}{Softmax Bayesian Cross Entropy}{59}
 \contentsline {section}{\numberline {10}Final Results}{59}
-\contentsline {subsection}{\numberline {10.1}Merging Classes}{59}
+\contentsline {subsection}{\numberline {10.1}Merging Classes}{60}
 \contentsline {subsection}{\numberline {10.2}Independent Binary Classifiers}{60}
 \contentsline {subsection}{\numberline {10.3}Learning Rate}{60}
 \contentsline {paragraph}{Step}{60}
@@ -109,7 +110,7 @@
 \contentsline {subsection}{\numberline {10.4}Soil Risk Contamination Task}{60}
 \contentsline {paragraph}{Test Run}{61}
 \contentsline {subparagraph}{Training Results}{61}
-\contentsline {subparagraph}{Observations}{61}
-\contentsline {paragraph}{Get more evidence}{61}
+\contentsline {subparagraph}{Observations}{62}
+\contentsline {paragraph}{Get more evidence}{62}
 \contentsline {subsection}{\numberline {10.5}Hatch Markings}{62}
 \contentsline {section}{\numberline {11}Conclusions and Future Work}{63}
