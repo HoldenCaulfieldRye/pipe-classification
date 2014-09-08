@@ -86,21 +86,22 @@
 \contentsline {subsubsection}{\numberline {7.4.6}Threshold-Moving}{54}
 \contentsline {paragraph}{Motivations}{54}
 \contentsline {paragraph}{Implementation}{54}
-\contentsline {paragraph}{Results}{54}
+\contentsline {paragraph}{Results}{55}
 \contentsline {subsubsection}{\numberline {7.4.7}Bayesian Cross Entropy Cost Function}{55}
 \contentsline {paragraph}{Motivations}{55}
 \contentsline {paragraph}{Implementation}{57}
 \contentsline {paragraph}{Results}{57}
-\contentsline {paragraph}{Further Research}{58}
+\contentsline {paragraph}{Further Research}{59}
 \contentsline {subsubsection}{\numberline {7.4.8}Error-accuracy mismatch revisited}{59}
 \contentsline {paragraph}{SGD mechanics}{59}
-\contentsline {section}{\numberline {8}Experiments 4: Conserving Spatial Information}{59}
-\contentsline {subsection}{\numberline {8.1}Motivations}{59}
+\contentsline {section}{\numberline {8}Experiments 4: Conserving Spatial Information}{60}
+\contentsline {subsection}{\numberline {8.1}Motivations}{60}
 \contentsline {subsection}{\numberline {8.2}Implementation}{60}
 \contentsline {subsection}{\numberline {8.3}Experimentation}{60}
 \contentsline {paragraph}{Test Run}{60}
 \contentsline {paragraph}{Remove pooling and a fc layer}{60}
-\contentsline {paragraph}{Remove Pooling, a FC layer and add Bayesian Cross Entropy}{60}
-\contentsline {paragraph}{Softmax Bayesian Cross Entropy and lower learning rate}{60}
-\contentsline {section}{\numberline {9}Final Results}{62}
-\contentsline {section}{\numberline {10}Conclusions and Future Work}{63}
+\contentsline {paragraph}{Remove Pooling, a FC layer and add Bayesian Cross Entropy}{61}
+\contentsline {paragraph}{Under-Sampling benchmark}{61}
+\contentsline {paragraph}{Softmax Bayesian Cross Entropy and lower learning rate}{61}
+\contentsline {section}{\numberline {9}Final Results}{63}
+\contentsline {section}{\numberline {10}Conclusions and Future Work}{64}

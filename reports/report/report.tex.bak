@@ -1560,7 +1560,7 @@ Instead, brute force under-sampling was implemented as in (Maloof 2003) \cite{ma
     \end{minipage}%
 \end{figure}
 
-The results show that under-sampling is very effective: the model does not get stuck in any seeming critical point and obtains an additional 15 percentage points in classification accuracy. This is substantial and reminds us of how strikingly detrimental class imbalance is: we have eliminated 58.7\% of the data to get rid of class imbalance, and yet this trade-off is highly worthwhile. This sets a high benchmark for other 
+The results show that under-sampling is very effective: the model does not get stuck in any seeming critical point, obtains an additional 15 percentage points in classification accuracy,to obtain 80.8\% validation accuracy. This is substantial and shows how strikingly detrimental class imbalance is: we have eliminated 58.7\% of the data to get rid of it, and yet this sacrifice is highly worthwhile. This sets a high benchmark for other techniques for tackling class imbalance. Since we are throwing data, it also implies that if there exists a technique for solving class imbalance without losing data, performance could be even higher. The assumption that underlies this is that providing the model with additional information i.e.\ data is in theory purely beneficial, therefore there must exist a way for doing so.
 
 
 
@@ -1869,7 +1869,7 @@ By adding Bayesian cross entropy, training becomes very noisy, as is already dis
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
-        \includegraphics[scale=0.4]{images/plot_soil_contam_us_none.png}
+        \includegraphics[scale=0.4]{images/plot_soil_contam_us90_none.png}
         % ...here to lower the subcaptions and...
         \caption{Transfer learning with Under-sampling to 90\% imbalance}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
@@ -1877,6 +1877,7 @@ By adding Bayesian cross entropy, training becomes very noisy, as is already dis
     \end{minipage}%
 \end{figure}
 
+This is a benchmark against which to evaluate Bayesian cross entropy for the soil contamination task. Both models shown have AlexNet architecture. Under-sampling 
 
 
 \paragraph{Softmax Bayesian Cross Entropy and lower learning rate}
