@@ -58,7 +58,7 @@
 {
 Automatic image classification experienced a breakthrough in 2012 with the advent of GPU implementations of deep convolutional neural networks (CNNs). These models distinguish themselves by learning features, convolving them to achieve feature equivariance, making use of max pooling operations to achieve robustness to cluttered backgrounds, and a hierarchical structure to enable the learning of complex features with high generalisation performance. This has motivated ControlPoint LLP, a gas \& water infrastructure monitoring company, to explore whether deep learning could be used to automate one of its business services: inspecting photos of polyethylene pipe weld installations to ascertain weld quality. The company reports having previously explored automation with existing businesses, but that the semantic complexity of the visual characteristics to recognise made the task technologically infeasible. \\
 
-After framing the task, this report provides an overview of supervised deep learning, followed by an in-depth explanation of the workings of a deep convolutional neural network, which despite its performance, gathers criticism for its tendency to be used as a black box. The rest of the report goes over the research that was carried out. The first two are mathematical analyses, one of which proposes an explanation for the recent success of the Rectified Linear Unit as the chief activation function of CNNs, the other an explanation for the success of early stopping as a regularisation technique\footnote{Both came about as the result of seeking to understand, with limited assistance, aspects of training deep neural networks; it is uncertain whether existing research exceeds them.}. The next sections are applied and specific to the main task: understanding why learning failed during the first attempts; finding the optimal way to use transfer learning, exploring ways of tackling class imbalance -- including a novel cost function justified by statistical theory which delivered up to 9 additional percentage points in performance; moving away from the common `AlexNet' CNN architecture to conserve spatial information; and final performance results across all tasks.
+After framing the task, this report provides an overview of supervised deep learning, followed by an in-depth explanation of the workings of a deep convolutional neural network, which despite its performance, gathers criticism for its tendency to be used as a black box. The rest of the report goes over the research that was carried out. The first two are mathematical analyses, one of which proposes an explanation for the recent success of the Rectified Linear Unit as the chief activation function of CNNs, the other an explanation for the success of early stopping as a regularisation technique\footnote{Both came about as the result of seeking to understand, with limited assistance, aspects of training deep neural networks; it is uncertain whether existing research exceeds them.}. The next sections are applied and specific to the main task: understanding why learning failed during the first attempts; finding the optimal way to use transfer learning, exploring ways of tackling class imbalance -- including a novel cost function with a probabilistic interpretation which delivered up to 9 additional percentage points in performance; moving away from the common `AlexNet' CNN architecture to conserve spatial information; and final performance results across all tasks.
 }
 \end{abstract}
 
@@ -857,9 +857,9 @@ Training occurred over the 113,865 image Redbox dataset only, to exclude domain 
 
 The error being computed and minimised by Cuda-Convnet is the negative of the log probability of the likelihood function:
 \begin{equation}
--\frac{1}{n}\sum\limits_{i=1}^n log(f(W|x_i))
+-\frac{1}{n}\sum\limits_{i=1}^{n} log(f(x_i,l_i,W))
 \end{equation}
-Where f is the learned function, a.k.a\ the model i.e.\ the neural network. This is also known as Maximum Likelihood Estimation; therefore backpropagation converges to the parameter values that maximise the joint likelihood of the training data. It can be shown that this is equal to the cross entropy of the softmax layer's output \cite{DL-book}. This is discussed in greater length in the experimentation section of Task 3 on class imbalance. 
+where $f(x_i,l_i,W)$ is the model's predicted probability for input $x_i$'s label to be $l_i$, $W$ are its parameters, $n$ is the mini-batch size. This is also known as Maximum Likelihood Estimation; therefore backpropagation converges to the parameter values that maximise the joint likelihood of the training data. It can be shown that this is equal to the cross entropy of the softmax layer's output \cite{DL-book}. This is discussed in greater length in the experimentation section of Task 3 on class imbalance. 
 
 
 \subsubsection{Non-Converging Error Rates}
@@ -1616,45 +1616,59 @@ In the context of trying different approaches to tackle class imbalance, thresho
 It was wondered whether the best performing techniques discovered until now could also be combined with a modified cost function. Indeed, threshold re-normalisation does not change the fact that most of the errors computed throughout a SGD mini-batch pass come from majority class examples. Since the stochastic gradient is an average across the mini-batch, it carries more `teaching material' for learning the majority class than the minority class. If we want the stochastic gradient to reflect as much of the $C_1$ errors as the $C_2$ errors on average, then perhaps we need to renormalise the errors based on class priors as well. This would result in modifying the cross entropy cost function from: 
 
 \begin{equation}
--\frac{1}{n}\sum\limits_{i=1}^{n} log(f(x_i,W))
+-\frac{1}{n}\sum\limits_{i=1}^{n} log(f(x_i,l_i,W))
 \end{equation}
 
-where $f$ is the model i.e.\ the classifier, $W$ are its parameters, $n$ is the mini-batch size, $x_i$ is an input i.e.\ a class instance, to:
+where $f(x_i,l_i,W)$ is the model's predicted probability for input $x_i$'s label to be $l_i$, $W$ are its parameters, $n$ is the mini-batch size, to:
 
 \begin{equation}
--\frac{1}{K \cdot n}\sum\limits_{i=1}^{n} \frac{log(f(x_i,W))}{p(class(x_i))} 
+-\frac{1}{K \cdot n}\sum\limits_{i=1}^{n} \frac{log(f(x_i,l_i,W))}{p(class(x_i))} 
 \end{equation}
 
 where $K$ is the number of classes in the classification task.
 There is a parametric justification for this cost function, which can be intuited when the cross entropy cost function is seen as a formula for Maximum Likelihood Estimation. This latter aspect is first shown. \\
 
-As explained in the literature review, placing a softmax layer as the output layer of a deep neural network forces it to output a probability distribution for the label of the input. This makes deep neural networks probabilistic inference models, since the weights are now parameters that define a \textbf{probability distribution conditional on the training data for the discrete random variable that takes a value for each class}. In the case of clamp detection, each image defines a different Bernoulli random variable, and the model uses its parameters to output what it thinks is that random variable's probability distribution, conditional on the events it has been trained on. 
-
-The idea behind Maximum Likelihood Estimation is that the best parameters are be the ones that make the model output that probability distribution for each training example's random variable which assigns as high a probability as possible to the training example's outcome. In the case of clamp detection, the training example's outcome is its label $l \in \{\text{"Clamp Detected"},\text{"No Clamps"}\}$ (either  or ). The maximum 
-
-
-
-Therefore, the best model is the one that reproduces the true probability distribution of the labels, i.e.\ the one that occurs in nature. If we assume that the training set is made up of observations that were sampled randomly i.e.\ directly from the  Suppose that we wanted to choose values for these parameters such that the joint probability of observing every labelled example in the training set is as high as possible. The assumption here is that the training set intuition behind so is that, since the tr
+As explained in the literature review, placing a softmax layer as the output layer of a deep neural network forces it to output a probability distribution for the label of the input. This makes deep neural networks probabilistic inference models, since the weights are now parameters that define a probability distribution conditional on the training data for the discrete random variable that takes a value for each class. Each input defines a different random variable, and the model uses its parameters to output what it thinks is that random variable's probability distribution, conditional on the events it has been trained on and the information it has about the input. 
 % Hey, I realise that with softmax we are placing no prior on the type of probability distribution. What if we did? e.g. if the NN were learning not to classify but to predict the probability of receiving 1,2,3,... letter this week conditional on date, number of friends, location etc, we might want to impose a Poisson constraint on the softmax. how would we do that? 
 
-Maximum Likelihood Estimation consists in finding the parameter values that maximise the joint probability
+The idea behind Maximum Likelihood Estimation is that the best parameters are the ones that make the model output that probability distribution for each training example's random variable which assigns as high a probability as possible to the training example's outcome. In the case of clamp detection, the training example is an image $x_i$, its random variable is the label $L_i$, $L_i$ is a random variable defined over the event space $\Omega(L_i) = \{\text{`Clamp Detected'},\text{`No Clamps'}\}$, and the training example's outcome is the value of the label $l_i$. The maximum likelihood estimates for the parameters of the model are therefore found by solving:
 
-The cross entropy also elegantly evaluates to MLE. In other words, we are choosing the parameters of the model to maximise the likelihood of the data (to make the observed events i.e.\ the training set as highly probable as possible). Do the proof with joint probability of independent events etc. \\
+\begin{equation}
+arg\max\limits_{W \in \mathcal{R}^D} P\{\intersect \limits_{1 \leq i \leq n} [L_i = l_i]|x_i,W\}
 
-Therefore, when viewed as MLE estimation, the Bayesian cross entropy can be interpreted as follows: instead of trying to maximise the joint probability of the data under the assumption that each observed event has the same probability, we are assigning higher probability to minority class events. \\
+&= arg\max\limits_{W \in \mathcal{R}^D} \prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\} \text{assuming that the $X_i$ are independently and identically distributed}
 
+&= arg\max\limits_{W \in \mathcal{R}^D} \log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\}) \text{since log is a monotonous strictly increasing function, the coordinates of W at which max is reached are the same}
 
+&= arg\min\limits_{W \in \mathcal{R}^D} -\log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\}) \text{since taking the opposite function turns maximum into minimum}
+
+&= arg\min\limits_{W \in \mathcal{R}^D} -\sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\})
+
+&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\}) \text{since scaling the function by a constant preserves extrema}
+
+&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \sum\limits_{l \in \Omega(L_i)} P\{L_i = l\} \cdot \log(P\{[L_i = l]|x_i,W\}) \text{since $P\{L_i = l\} = 1$ if $l = l_i$ and 0 otherwise}
+
+&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} KL(P\{L_i\},P\{L_i|x_i,W\}) \text{where KL is the Kullback-Leibler divergence}
+
+&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},P\{L_i|x_i,W\}) \text{where CE is the cross entropy}
+
+&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},f(x_i,l_i,W)) 
+
+&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n}\sum\limits_{i=1}^{n} log(f(x_i,l_i,W))
+\end{equation}
+
+This optimisation problem is, as we know, tentatively solved by local optimisation with gradient descent.
+
+Therefore, when viewed as MLE estimation, the Bayesian cross entropy can be interpreted as follows: instead of trying to maximise the joint probability of the data under the assumption that each observed event has the same probability, we are assigning higher probability to minority class events. In a way, we are supposing that the `identically distributed' assumption is violated.
+
+The Bayesian cross entropy has several advantages. The key one is that it should rebalance the gradient without requiring us to throw away any data or slow down training. Under-sampling throws away data, over-sampling slows down training, threshold does not rebalance the gradient. It can be combined with transfer learning and has a probabilistic interpretation in line with the Maximum Likelihood Estimation framework on which softmax deep neural networks are trained. \\
 
 
 \paragraph{Implementation}
 
-Implement a softmax bayesian loss layer, and a per class bayesian accuracy layer, in C++. \\
+The Caffe framework does not separate output layer from cost function, so a softmax bayesian loss layer and a per class bayesian accuracy layer were written, in C++. The layer computes the prior class probabilities within the mini-batch so as to be more precise than by taking the priors over the training set. The implementation of backpropagation within the softmax layer also had to be updated since the Jacobian entries all had to be divided by the prior for the true label of the training case. One of the difficulties encountered during development was that if a class were absent from a single mini-batch, the prior for it would be zero, loss computed on it infinite, and weight updates would diverge. \\
 
-A difficulty implementing this was small batches with a missing class, the loss would be infinite and weight updates would screw up the net. \\
-
-For testing and debugging, the cost function was used on one of the simpler tasks with little imbalance: ground sheet detection. 
-
-When gradient not correctly propagated, backpropagation does not converge. \\
+For testing and debugging, the cost function was used on one of the simpler tasks with little imbalance: ground sheet detection. Once can notice that when the gradient is not correctly propagated, backpropagation does not converge. The plot on the left shows training results when only the softmax layer's Jacobian's diagonal entries are renormalised by the prior. \\
 
 \begin{figure}
     \centering
@@ -1675,22 +1689,6 @@ When gradient not correctly propagated, backpropagation does not converge. \\
     \end{minipage}%
 \end{figure}
 
-Makes gradient a noiser because class imbalance from one minibatch to another varies. This could be improved by making sure same class proportion in every batch. Note that validation error is noisy here because 1 validation batch is tested at a time (for faster evaluation of implementation). \\
-
-I had thought that the `bayesian softmax loss' had failed
-because the models trained on it were not hitting as low a validation error minimum as were the models trained on normal softmax loss
-HOWEVER 
-scarcity of minority class cases makes the class harder to learn, no matter what tricks you use to get the net to `focus on it more'
-since softmax bayesian loss is a kind of per class average softmax loss, it will always be higher than sotmax loss when there is class imbalance
-even if it achieves in getting the net to learn the minority class better!
-
-I'm going to run the models on the test set
-look at the accuracy on positives and negatives
-and if I get better accuracy on the positives, it's great. 
-
-no free lunch: if you're making minority class cases stand out disproportionately, you're telling the net `screw overall performance, try to get the minority class good'
-`at the expense of performance on the majority class'
-which, when you're taking an unweighted measure of performance such as softmax loss, lowers performance.
 
 \paragraph{Results}
 
@@ -1715,20 +1713,25 @@ Full transfer learning, backpropagation on all layers, batch size 256. \\
     \end{minipage}%
 \end{figure}
 
+With Bayesian cross entropy, training is far less clean, but the highest per class classification accuracy reached is nearly 10 percentage points higher. The training is less clean because the modulus of the gradient is strongly influenced by imbalance within the mini-batch, and this value can greatly vary from a mini batch to the next, since a mini batch with 3/256 minority class cases has minority class proportion 3 times that of a mini batch with 1/256 minority class cases, and both are likely to occur in sampling. This could be improved by making sure every mini-batch has the same class proportions as the training set. This would also save us from having to compute the within-batch prior at every iteration, and deliver a slight speed increase.  \\
 
-With softmax bayesian cross entropy, the training is far less clean, but the highest per class classification accuracy reached is nearly 10 percentage points higher. \\
+One may get the impression that Bayesian cross entropy fails because the models trained on it do not hit as low a validation error minimum as training the same models trained on normal cross entropy. Firstly, such an interpretation is wrong: comparing two cost functions in absolute terms makes no sense; their relative impact on the performance of a model can only be assessed by measuring performance on both models by the same metric, such as per class accuracy. In this regard, for the clamp detection task with 98\% imbalance, Bayesian cross entropy scores nearly 10 percentage points higher.
 
-The training is less clean because the modulus of the gradient is strongly influenced by imbalance within the mini-batch, and this value can greatly vary from a mini batch to the next, since a mini batch with 3/256 minority class cases has minority class proportion 3 times that of a mini batch with 1/256 minority class cases, and both are likely to occur in sampling. \\
+Nevertheless, because cross entropy and Bayesian cross entropy have similar formulae, it is still possible to explain why minimum validation cross entropy is below minimum validation Bayesian cross entropy. Scarcity of minority class cases makes this class harder to learn, so by using tricks to get the net to `focus on it more', one is telling the net to forego opportunities to learn majority class patterns that have higher return across the training set, in favour of minority class patterns. Since Bayesian cross entropy is a kind of average per class cross entropy, it will almost \textit{always} be higher in absolute terms than cross entropy when there is class imbalance, since the minority class will almost always be harder to learn due to scarcer information. This will occur even if the Bayesian cross entropy achieves in getting the net to learn the minority class significantly better, and per class accuracy improves! 
 
-Need to mathematically derive how imbalance affects the modulus of the gradient, and how the standard deviation of the modulus with SBL is much greater than with SL. \\
-
-Compare the two nets with run classifier script, to see whether they have same sig values. If they do, then SBL is just doing thresholding, nothing more. Otherwise, it's doing something better. \\
-
-Performance improvement could be obtained by enforcing the same class proportions at every iteration. \\
+As is often said in machine learning, there is no free lunch: if one makes minority class cases stand out disproportionately, one is telling the net `never mind per case performance, maximise per class performance: seize opportunities to improve on the minority class even if it's at the smaller expense of performance on the majority class'. When taking a measure of performance weighted by class, this is beneficial; when taking a measure of performance weighted by case in an unbalanced dataset, such as cross entropy, this is detrimental. It all depends on what we wish to optimise. In the case of ControlPoint, per class accuracy is preferred.
 
 Why does SBL perform better than threshold-moving? A potential explanation would be that, by acting only at test time, threshold-moving does not interfere with the mechanics of learning. This is good if one believes these mechanics to be set up optimally. However, we would argue from the experiments carried out in this project that when there is dangerous class imbalance, standard mechanics of learning are suboptimal because bad critical points are introduced on the error surface, and need to be removed. SBL is designed for this; the superior performance results support the claim that it achieves this. \\ 
 
-These results are encouraging and further experiments with benchmark multi-class datasets such as MNIST, CIFAR and ImageNet would allow to situate the performance gains from using SBL in a wider academic context, particularly since (Zhou and Liu 2005) find that `almost all the techniques are effective on two-class tasks, while most are ineffective on multi-class tasks'.
+
+\paragraph{Further Research}
+
+It would be interesting to mathematically derive how imbalance affects the modulus of the gradient, and how the standard deviation of the modulus with  with Bayesian cross entropy is much greater than with cross entropy. As mentioned, the variance of the gradient could also be reduced by making sure every mini-batch has the same class proportions as the training set. This would also save us from having to compute the within-batch prior at every iteration, and deliver a slight speed increase.  
+
+It would also be interesting to confirm that Bayesian cross entropy achieves something different to threshold-moving. This could be achieved with the threshold-moving Python script, which contains code that, given a model and target ratio of false positives to total positives, returns the proportion of predicted negatives, when the threshold level that is required to attain this target ratio is used. The extent to which this proportion is greater for the model trained with Bayesian cross entropy than for the same model trained with cross entropy would be a measure of the additional semantic content learned.
+
+Overall, these results are encouraging and further experiments with benchmark multi-class datasets such as MNIST, CIFAR and ImageNet would allow to situate the performance gains from using SBL in a wider academic context. 
+%particularly since (Zhou and Liu 2005) find that `almost all the techniques are effective on two-class tasks, while most are ineffective on multi-class tasks'.
 
 
 \subsubsection{Error-accuracy mismatch revisited}

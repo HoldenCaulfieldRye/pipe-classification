@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  8 SEP 2014 05:18
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  8 SEP 2014 07:06
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2455,25 +2455,352 @@ Underfull \hbox (badness 10000) in paragraph at lines 1628--1630
 
  []
 
+! Undefined control sequence.
+l.1637 ...mits_{W \in \mathcal{R}^D} P\{\intersect
+                                                   \limits_{1 \leq i \leq n}...
+The control sequence at the end of the top line
+of your error message was never \def'ed. If you have
+misspelled it (e.g., `\hobx'), type `I' and the correct
+spelling (e.g., `I\hbox'). Otherwise just continue,
+and I'll forget about whatever was undefined.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1642--1643
+! Limit controls must follow a math operator.
+l.1637 ...\in \mathcal{R}^D} P\{\intersect \limits
+                                                  _{1 \leq i \leq n} [L_i = ...
+I'm ignoring this misplaced \limits or \nolimits command.
 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1638 
+       
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Display math should end with $$.
+<to be read again> 
+                   \par 
+l.1638 
+       
+The `$' that I just saw supposedly matches a previous `$$'.
+So I shall assume that you typed `$$' both times.
+
+! Misplaced alignment tab character &.
+l.1639 &
+        = arg\max\limits_{W \in \mathcal{R}^D} \prod\limits_{1 \leq i \leq n...
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1639 &= arg\max
+                 \limits_{W \in \mathcal{R}^D} \prod\limits_{1 \leq i \leq n...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1640 
+       
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (33.6332pt too wide) in paragraph at lines 1639--1640
+[]\OT1/cmr/m/n/10.95 = arg$[] [] \OML/cmm/m/it/10.95 P\OMS/cmsy/m/n/10.95 f\OT1
+/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 L[] \OT1/cmr/m/n/10.95 = \OML/cmm/m/it/10.9
+5 l[]\OT1/cmr/m/n/10.95 ]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 x[]; W\OMS/cm
+sy/m/n/10.95 g[]$ 
  []
 
+! Misplaced alignment tab character &.
+l.1641 &
+        = arg\max\limits_{W \in \mathcal{R}^D} \log(\prod\limits_{1 \leq i \...
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1644--1645
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1641 &= arg\max
+                 \limits_{W \in \mathcal{R}^D} \log(\prod\limits_{1 \leq i \...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1642 
+       
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (279.95264pt too wide) in paragraph at lines 1641--1642
+[]\OT1/cmr/m/n/10.95 = arg$[] []([] \OML/cmm/m/it/10.95 P\OMS/cmsy/m/n/10.95 f\
+OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 L[] \OT1/cmr/m/n/10.95 = \OML/cmm/m/it/1
+0.95 l[]\OT1/cmr/m/n/10.95 ]\OMS/cmsy/m/n/10.95 j\OML/cmm/m/it/10.95 x[]; W\OMS
+/cmsy/m/n/10.95 g\OT1/cmr/m/n/10.95 )[]$ 
  []
 
+! Misplaced alignment tab character &.
+l.1643 &
+        = arg\min\limits_{W \in \mathcal{R}^D} -\log(\prod\limits_{1 \leq i ...
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1651--1652
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1643 &= arg\min
+                 \limits_{W \in \mathcal{R}^D} -\log(\prod\limits_{1 \leq i ...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1644 
+       
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (57.78915pt too wide) in paragraph at lines 1643--1644
+[]\OT1/cmr/m/n/10.95 = arg$[] \OMS/cmsy/m/n/10.95 ^^@ []\OT1/cmr/m/n/10.95 ([] 
+\OML/cmm/m/it/10.95 P\OMS/cmsy/m/n/10.95 f\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.
+95 L[] \OT1/cmr/m/n/10.95 = \OML/cmm/m/it/10.95 l[]\OT1/cmr/m/n/10.95 ]\OMS/cms
+y/m/n/10.95 j\OML/cmm/m/it/10.95 x[]; W\OMS/cmsy/m/n/10.95 g\OT1/cmr/m/n/10.95 
+)[]$ 
  []
 
+! Misplaced alignment tab character &.
+l.1645 &
+        = arg\min\limits_{W \in \mathcal{R}^D} -\sum\limits_{1 \leq i \leq n...
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1653--1654
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1645 &= arg\min
+                 \limits_{W \in \mathcal{R}^D} -\sum\limits_{1 \leq i \leq n...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
 
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1646 
+       
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Misplaced alignment tab character &.
+l.1647 &
+        = arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \...
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1647 &= arg\min
+                 \limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1648 
+       
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (30.85402pt too wide) in paragraph at lines 1647--1648
+[]\OT1/cmr/m/n/10.95 = arg$[] \OMS/cmsy/m/n/10.95 ^^@[] [] []\OT1/cmr/m/n/10.95
+ (\OML/cmm/m/it/10.95 P\OMS/cmsy/m/n/10.95 f\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/1
+0.95 L[] \OT1/cmr/m/n/10.95 = \OML/cmm/m/it/10.95 l[]\OT1/cmr/m/n/10.95 ]\OMS/c
+msy/m/n/10.95 j\OML/cmm/m/it/10.95 x[]; W\OMS/cmsy/m/n/10.95 g\OT1/cmr/m/n/10.9
+5 )[]$ 
  []
+
+! Misplaced alignment tab character &.
+l.1649 &
+        = arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \...
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1649 &= arg\min
+                 \limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1650 
+       
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+
+Overfull \hbox (45.20473pt too wide) in paragraph at lines 1649--1650
+[]\OT1/cmr/m/n/10.95 = arg$[] \OMS/cmsy/m/n/10.95 ^^@[] [] [] \OML/cmm/m/it/10.
+95 P\OMS/cmsy/m/n/10.95 f\OML/cmm/m/it/10.95 L[] \OT1/cmr/m/n/10.95 = \OML/cmm/
+m/it/10.95 l\OMS/cmsy/m/n/10.95 g ^^A []\OT1/cmr/m/n/10.95 (\OML/cmm/m/it/10.95
+ P\OMS/cmsy/m/n/10.95 f\OT1/cmr/m/n/10.95 [\OML/cmm/m/it/10.95 L[] \OT1/cmr/m/n
+/10.95 = \OML/cmm/m/it/10.95 l\OT1/cmr/m/n/10.95 ]\OMS/cmsy/m/n/10.95 j\OML/cmm
+/m/it/10.95 x[]; W\OMS/cmsy/m/n/10.95 g\OT1/cmr/m/n/10.95 )[]$ 
+ []
+
+! Misplaced alignment tab character &.
+l.1651 &
+        = arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \...
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1651 &= arg\min
+                 \limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1652 
+       
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Misplaced alignment tab character &.
+l.1653 &
+        = arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \...
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1653 &= arg\min
+                 \limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1654 
+       
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Misplaced alignment tab character &.
+l.1655 &
+        = arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \...
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1655 &= arg\min
+                 \limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1656 
+       
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! Misplaced alignment tab character &.
+l.1657 &
+        = arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n}\sum\limits_{i=1}...
+I can't figure out why you would want to use a tab mark
+here. If you just want an ampersand, the remedy is
+simple: Just type `I\&' now. But if some right brace
+up above has ended a previous alignment prematurely,
+you're probably due for more error messages, and you
+might try typing `S' now just to see what is salvageable.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1657 &= arg\min
+                 \limits_{W \in \mathcal{R}^D} -\frac{1}{n}\sum\limits_{i=1}...
+I've inserted a begin-math/end-math symbol since I think
+you left one out. Proceed, with fingers crossed.
+
+! You can't use `\eqno' in math mode.
+\endmathdisplay@a ...\df@tag \@empty \else \veqno 
+                                                  \alt@tag \df@tag \fi \ifx ...
+l.1658 \end{equation}
+                     
+Sorry, but I'm not programmed to handle this case;
+I'll just pretend that you didn't ask for it.
+If you're in the wrong mode, you might be able to
+return to the right one by typing `I}' or `I$' or `I\par'.
+
+! Missing $ inserted.
+<inserted text> 
+                $
+l.1658 \end{equation}
+                     
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2482,7 +2809,17 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [56]
-Underfull \hbox (badness 10000) in paragraph at lines 1657--1658
+Underfull \hbox (badness 10000) in paragraph at lines 1664--1665
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1669--1670
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1671--1672
 
  []
 
@@ -2491,7 +2828,7 @@ File: images/plot_ground_sheet_sbl_pcba.png Graphic file (type png)
 
 <use images/plot_ground_sheet_sbl_pcba.png>
 Package pdftex.def Info: images/plot_ground_sheet_sbl_pcba.png used on input li
-ne 1664.
+ne 1678.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
 <images/plot_ground_sheet_sbl_pcba_all_backprop.png, id=282, 578.16pt x 433.62p
@@ -2500,22 +2837,17 @@ File: images/plot_ground_sheet_sbl_pcba_all_backprop.png Graphic file (type png
 )
  <use images/plot_ground_sheet_sbl_pcba_all_backprop.png>
 Package pdftex.def Info: images/plot_ground_sheet_sbl_pcba_all_backprop.png use
-d on input line 1670.
+d on input line 1684.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1678--1679
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1697--1698
+Underfull \hbox (badness 10000) in paragraph at lines 1695--1696
 
  []
 
 File: images/plot_clampdetCI98_none_bs256_lr4.png Graphic file (type png)
 <use images/plot_clampdetCI98_none_bs256_lr4.png>
 Package pdftex.def Info: images/plot_clampdetCI98_none_bs256_lr4.png used on in
-put line 1704.
+put line 1702.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
 <images/plot_clampdetCI98_none_bs256_lr5_sbl.png, id=283, 578.16pt x 433.62pt>
@@ -2523,20 +2855,10 @@ File: images/plot_clampdetCI98_none_bs256_lr5_sbl.png Graphic file (type png)
 
 <use images/plot_clampdetCI98_none_bs256_lr5_sbl.png>
 Package pdftex.def Info: images/plot_clampdetCI98_none_bs256_lr5_sbl.png used o
-n input line 1710.
+n input line 1708.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1719--1720
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1721--1722
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1723--1724
+Underfull \hbox (badness 10000) in paragraph at lines 1716--1717
 
  []
 
@@ -2548,22 +2870,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [57 <./images/plot_ground_sheet_sbl_pcba.png> <./images/plot_ground_sheet_sbl_p
 cba_all_backprop.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1725--1726
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1727--1728
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1729--1730
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1736--1737
+Underfull \hbox (badness 10000) in paragraph at lines 1724--1725
 
  []
 
@@ -2574,12 +2881,18 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [58 <./images/plot_clampdetCI98_none_bs256_lr5_sbl.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1743--1744
+Overfull \hbox (4.82706pt too wide) in paragraph at lines 1733--1735
+[]\OT1/cmr/m/n/10.95 Overall, these re-sults are en-cour-ag-ing and fur-ther ex
+-per-i-ments with bench-mark multi-class datasets
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1739--1740
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1766--1767
+Underfull \hbox (badness 10000) in paragraph at lines 1746--1747
 
  []
 
@@ -2590,32 +2903,17 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [59]
-Underfull \hbox (badness 10000) in paragraph at lines 1796--1797
+Underfull \hbox (badness 10000) in paragraph at lines 1769--1770
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1798--1799
+Underfull \hbox (badness 10000) in paragraph at lines 1799--1800
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1800--1801
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1804--1805
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1806--1807
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1828--1829
+Underfull \hbox (badness 10000) in paragraph at lines 1801--1802
 
  []
 
@@ -2626,12 +2924,32 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [60]
-Underfull \hbox (badness 10000) in paragraph at lines 1830--1831
+Underfull \hbox (badness 10000) in paragraph at lines 1803--1804
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1834--1835
+Underfull \hbox (badness 10000) in paragraph at lines 1807--1808
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1809--1810
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1831--1832
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1833--1834
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1837--1838
 
  []
 
@@ -2640,62 +2958,62 @@ File: images/plot_soil_contam_noneC.png Graphic file (type png)
 
 <use images/plot_soil_contam_noneC.png>
 Package pdftex.def Info: images/plot_soil_contam_noneC.png used on input line 1
-844.
-(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
-
-Underfull \hbox (badness 10000) in paragraph at lines 1848--1849
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1854--1855
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1856--1857
-
- []
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[61 <./images/plot_soil_contam_noneC.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1884--1885
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1889--1890
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1891--1892
-
- []
-
-<images/plot_hatch_markings_noneC.png, id=305, 578.16pt x 433.62pt>
-File: images/plot_hatch_markings_noneC.png Graphic file (type png)
-
-<use images/plot_hatch_markings_noneC.png>
-Package pdftex.def Info: images/plot_hatch_markings_noneC.png used on input lin
-e 1903.
+847.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 1851--1852
+
+ []
+
+
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[62]
+[61]
+Underfull \hbox (badness 10000) in paragraph at lines 1857--1858
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1859--1860
+
+ []
+
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[62 <./images/plot_soil_contam_noneC.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1887--1888
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1892--1893
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 1894--1895
+
+ []
+
+<images/plot_hatch_markings_noneC.png, id=308, 578.16pt x 433.62pt>
+File: images/plot_hatch_markings_noneC.png Graphic file (type png)
+
+<use images/plot_hatch_markings_noneC.png>
+Package pdftex.def Info: images/plot_hatch_markings_noneC.png used on input lin
+e 1906.
+(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2703,27 +3021,27 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [63 <./images/plot_hatch_markings_noneC.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1916--1917
+Underfull \hbox (badness 10000) in paragraph at lines 1919--1920
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1918--1919
+Underfull \hbox (badness 10000) in paragraph at lines 1921--1922
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1920--1921
+Underfull \hbox (badness 10000) in paragraph at lines 1923--1924
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1925--1926
+Underfull \hbox (badness 10000) in paragraph at lines 1928--1929
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1927--1928
+Underfull \hbox (badness 10000) in paragraph at lines 1930--1931
 
  []
 
@@ -2746,7 +3064,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [65]
-Underfull \hbox (badness 10000) in paragraph at lines 2073--2076
+Underfull \hbox (badness 10000) in paragraph at lines 2076--2079
 \OT1/cmr/m/n/10.95 URL: $\OT1/cmtt/m/n/10.95 https : / / plus . google . com / 
 +YoshuaBengio / posts / GJY53aahqS8$\OT1/cmr/m/n/10.95 , last ac-cessed 1st
  []
@@ -2810,7 +3128,7 @@ ublic/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
 s/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symb
 ols/msbm10.pfb>
-Output written on report.pdf (67 pages, 4737079 bytes).
+Output written on report.pdf (67 pages, 4742575 bytes).
 PDF statistics:
  399 PDF objects out of 1000 (max. 8388607)
  220 compressed objects within 3 object streams

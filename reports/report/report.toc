@@ -90,27 +90,28 @@
 \contentsline {paragraph}{Results}{55}
 \contentsline {subsubsection}{\numberline {8.4.7}Bayesian Cross Entropy Cost Function}{56}
 \contentsline {paragraph}{Motivations}{56}
-\contentsline {paragraph}{Implementation}{56}
+\contentsline {paragraph}{Implementation}{57}
 \contentsline {paragraph}{Results}{57}
-\contentsline {subsubsection}{\numberline {8.4.8}Error-accuracy mismatch revisited}{58}
+\contentsline {paragraph}{Further Research}{59}
+\contentsline {subsubsection}{\numberline {8.4.8}Error-accuracy mismatch revisited}{59}
 \contentsline {paragraph}{SGD mechanics}{59}
-\contentsline {section}{\numberline {9}Experiments 4: Conserving Spatial Information}{59}
-\contentsline {subsection}{\numberline {9.1}Motivations}{59}
-\contentsline {subsection}{\numberline {9.2}Implementation}{59}
-\contentsline {subsection}{\numberline {9.3}Experimentation}{59}
+\contentsline {section}{\numberline {9}Experiments 4: Conserving Spatial Information}{60}
+\contentsline {subsection}{\numberline {9.1}Motivations}{60}
+\contentsline {subsection}{\numberline {9.2}Implementation}{60}
+\contentsline {subsection}{\numberline {9.3}Experimentation}{60}
 \contentsline {paragraph}{Test Run}{60}
 \contentsline {paragraph}{Remove pooling and an fc layer}{60}
 \contentsline {paragraph}{Softmax Bayesian Cross Entropy}{60}
 \contentsline {section}{\numberline {10}Final Results}{60}
-\contentsline {subsection}{\numberline {10.1}Merging Classes}{60}
-\contentsline {subsection}{\numberline {10.2}Independent Binary Classifiers}{60}
-\contentsline {subsection}{\numberline {10.3}Learning Rate}{60}
-\contentsline {paragraph}{Step}{60}
+\contentsline {subsection}{\numberline {10.1}Merging Classes}{61}
+\contentsline {subsection}{\numberline {10.2}Independent Binary Classifiers}{61}
+\contentsline {subsection}{\numberline {10.3}Learning Rate}{61}
+\contentsline {paragraph}{Step}{61}
 \contentsline {paragraph}{Exp}{61}
 \contentsline {subsection}{\numberline {10.4}Soil Risk Contamination Task}{61}
-\contentsline {paragraph}{Test Run}{61}
+\contentsline {paragraph}{Test Run}{62}
 \contentsline {subparagraph}{Training Results}{62}
-\contentsline {subparagraph}{Observations}{62}
-\contentsline {paragraph}{Get more evidence}{62}
-\contentsline {subsection}{\numberline {10.5}Hatch Markings}{62}
+\contentsline {subparagraph}{Observations}{63}
+\contentsline {paragraph}{Get more evidence}{63}
+\contentsline {subsection}{\numberline {10.5}Hatch Markings}{63}
 \contentsline {section}{\numberline {11}Conclusions and Future Work}{64}
