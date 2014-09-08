@@ -735,7 +735,8 @@ It may be useful for intuition to think of $\frac{\partial{E}}{\partial{w}}$ in 
 \item $y_{j}$, the output of unit (a.k.a\ neuron) $j$, but also used to refer to the unit $j$ itself
 \item $w_{ij}$, the weight of the edge connecting lower-layer neuron $y_{i}$ to upper-layer neuron $y_{j}$
 \item $z_{j} := b+ \langle x,w \rangle = b + \sum\limits_{i=1}^k x_{i}\cdot w_{ij}$, the input vector for $y_{j}$
-\item $\psi$, the activation function used -- therefore $y_{j} = \psi(z_{j})$ \\
+\item $\psi$ the activation function used -- therefore $y_{j} = \psi(z_{j})$ 
+\item $f'$ to denote the derivative of any function $f$ that takes a 1-dimensional input
 \end{itemize}
 
 The backpropagation algorithm can be formulated as a set of rules for propagating the gradient through the network:
@@ -776,7 +777,7 @@ Notice that $\psi'(z_1)$ is a factor in both partial derivatives. Now, consider 
 tan'(x) = 1 - tan^2(x)  \\
 \end{equation} \\
 \begin{equation}
-sigmoid'(x) = \frac{1}{1 + e^{-x}}
+sigmoid'(x) = \frac{e^x}{(1 + e^x)^2}
 \end{equation} \\
 
 The formulae do not lend themselves to intuition, but their graphical representation given below does \footnote{both are the same up to a scaling factor, therefore only one is given.}. Such functions are called "saturating" by (Krizhevsky et al 2012) because, when the input is high in absolute value, the derivative approaches zero. In the context of backpropagation, this means that a tanh or sigmoid unit that is "heavily activated" during the forward pass will strongly reduce the gradient as it propagates through it during the backward pass. Moreover, this will affect the partial derivative of every weight that lies behind the unit in some input-output path. As a result, during training it becomes slow to alter any such weight when the unit's weights are on average high in absolute value. This difficulty increases with the depth of the network, since in order to reach a weight that is low down in the network, the gradient must propagate through a higher number of units, so its probability of vanishing increases. This is consistent with empirical findings \cite{DL-book}. \\
@@ -1339,6 +1340,12 @@ Note that for lower levels of class imbalance, the model is able to escape the s
 
 This provides clues about the shape of the error surface in the neighbourhood of this bad minimum, and how varying the level of class imbalance affects it. It suggests that the bad minimum could in fact be a saddle point: a number of weights are at local optimality i.e.\ error-weight partial derivatives are zero, but not all; there is still room for improvement for some of them i.e.\ the error surface remains locally monotonous along some dimensions. This slowly but eventually moves the network away from the saddle point. Training deep neural networks along saddle points is known to exhibit this type of behaviour: training is slowed down but not stopped\cite{DL-book}.
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.4]{images/saddle_point.png}
+	\caption{Example saddle point in 3D space}
+\end{figure}
+
 One would be tempted to conjecture that the steepness of the error surface along these dimensions decreases with the extent of class imbalance, and approaches 0 as class imbalance approaches 100\%. This would explain why at some point class imbalance is too high for the model to escape. 
 
 Further analysis and experimentation, especially by seeing whether individual weights in the softmax layer do indeed cease to update, would perhaps make for interesting further work. In the meantime, in order to maintain generality, these points on the error surface will now be referred to as sampling-induced critical points, or simply bad critical points. \\
@@ -1797,6 +1804,22 @@ since the weights are random it scales with the square root of the of the weight
 \section{Final Results}
 
 This presents best results (accuracy overall, on pos, on neg, sig level) for each binary classifier and discusses further improvements. All successfull tricks were accumulated to produce these results. \\
+
+\begin{table}[h!]
+   \centering
+    \begin{tabular}{|l|c|c|}
+    \hline
+    Model                            & ~ Per Class Validation Accuracy & ~ Bluebox Count  \\ 
+    \hline
+    No transfer learning             & ~  1,233           & ~ 32      \\
+    No transfer learning, threshold  & ~  1,233           & ~ 32      \\
+    \hline
+    Transfer learning                & ~ 1,401            & ~ 83      \\
+    Transfer learning, threshold     & ~ 1,               & ~ 83      \\
+    \hline
+    \end{tabular}
+    \caption {Impact of threshold-moving}
+\end{table} 
 
 %To sum up, the two greatest challenges with the Bluebox dataset is small size and class imbalance. Small size can be dealt with by transferring knowledge from another task by initialising weights. Class imbalance can be cruelly dealt with using under-sampling, but this decreases the size of the dataset even more, making robustness ie generalisation the second challenge. Therefore, we use [..] and [..] to help with dealing with class imbalance and mitigate the extent of under-sampling. \\
 %

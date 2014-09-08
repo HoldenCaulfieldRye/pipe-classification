@@ -735,7 +735,8 @@ It may be useful for intuition to think of $\frac{\partial{E}}{\partial{w}}$ in 
 \item $y_{j}$, the output of unit (a.k.a\ neuron) $j$, but also used to refer to the unit $j$ itself
 \item $w_{ij}$, the weight of the edge connecting lower-layer neuron $y_{i}$ to upper-layer neuron $y_{j}$
 \item $z_{j} := b+ \langle x,w \rangle = b + \sum\limits_{i=1}^k x_{i}\cdot w_{ij}$, the input vector for $y_{j}$
-\item $\psi$, the activation function used -- therefore $y_{j} = \psi(z_{j})$ \\
+\item $\psi$ the activation function used -- therefore $y_{j} = \psi(z_{j})$ 
+\item $f'$ to denote the derivative of any function $f$ that takes a 1-dimensional input
 \end{itemize}
 
 The backpropagation algorithm can be formulated as a set of rules for propagating the gradient through the network:
@@ -776,7 +777,7 @@ Notice that $\psi'(z_1)$ is a factor in both partial derivatives. Now, consider 
 tan'(x) = 1 - tan^2(x)  \\
 \end{equation} \\
 \begin{equation}
-sigmoid'(x) = \frac{1}{1 + e^{-x}}
+sigmoid'(x) = \frac{e^x}{(1 + e^x)^2}
 \end{equation} \\
 
 The formulae do not lend themselves to intuition, but their graphical representation given below does \footnote{both are the same up to a scaling factor, therefore only one is given.}. Such functions are called "saturating" by (Krizhevsky et al 2012) because, when the input is high in absolute value, the derivative approaches zero. In the context of backpropagation, this means that a tanh or sigmoid unit that is "heavily activated" during the forward pass will strongly reduce the gradient as it propagates through it during the backward pass. Moreover, this will affect the partial derivative of every weight that lies behind the unit in some input-output path. As a result, during training it becomes slow to alter any such weight when the unit's weights are on average high in absolute value. This difficulty increases with the depth of the network, since in order to reach a weight that is low down in the network, the gradient must propagate through a higher number of units, so its probability of vanishing increases. This is consistent with empirical findings \cite{DL-book}. \\
@@ -1341,8 +1342,8 @@ This provides clues about the shape of the error surface in the neighbourhood of
 
 \begin{figure}[h!]
 	\centering
-	\includegraphics[scale=0.5]{images/saddle_point.png}
-	\caption{}
+	\includegraphics[scale=0.4]{images/saddle_point.png}
+	\caption{Example saddle point in 3D space}
 \end{figure}
 
 One would be tempted to conjecture that the steepness of the error surface along these dimensions decreases with the extent of class imbalance, and approaches 0 as class imbalance approaches 100\%. This would explain why at some point class imbalance is too high for the model to escape. 
