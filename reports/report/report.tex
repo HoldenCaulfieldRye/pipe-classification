@@ -140,7 +140,6 @@ The problem of learning to classify pipe weld images from a labelled dataset is 
 \indent \indent $p_{i}$ is the number of class instances (i.e.\ labels) present in $X_{i}$.\\
 %\end{changemargin}
 
-
 This differs from the traditional supervised learning classification task, formally given by: \\ 
 
 \indent Given an instance space $\mathcal{X}$, a set of class labels $\mathcal{Y}$, a dataset $\{(x_{1},y_{1}),(x_{2},y_{2}), ..., (x_{n},y_{n})\}$,\\ 
@@ -150,10 +149,13 @@ This differs from the traditional supervised learning classification task, forma
 
 In the case of MIML, not only are there multiple instances present in each case, but the number of instances is unknown. MIML has been used in the image classification literature when one wishes to identify all objects which are present in the image \cite{MIML}. Although in this case, the motivation is to look out for a specific set of pipe weld visual characteristics, the problem is actually conceptually the same; the number of identifiable classes is simply lower. \\
 
+\paragraph{Independent Binary Classifiers}
+
+This task can also be carried out by training independent binary classifiers. This method was chosen because it implies not making use of correlations between the labels to increase precision. This keeps each binary classifier `impartial and unprejudiced'. For example, if images with missing clamps are more frequently associated with contamination risk, making use of this correlation would imply raising the probability of contamination risk regardless of the visual features that specifically define contamination risk in the image. ControlPoint reports that employees adopt similar behaviour in the case of gas vs water piping: gas pipes tend to be much cleaner to install than water pipes since they are less frequently buried in the ground; as a result, employees become less vigilant in raising flags for them, and overly prone to do so in the case of water pipes. When training classifiers, exploiting between-flag correlations can be avoided by training independent binary classifiers.
 
 \subsection{Challenges specific to the Pipe Weld Classification Task}
 
-A number of significant challenges have arisen from this task: multi-tagging, domain change, small dataset size (by deep learning standards) and class imbalance. Before going into them, an overview of the data is given below. \\
+A number of significant challenges arise from this task: multi-tagging, semantic complexity, domain change, small dataset size and class imbalance. Before going into them, an overview of the data is given below. \\
 
 \subsubsection{Data Overview}
 % \subsubsection{Visual Inspection}
@@ -1236,7 +1238,7 @@ The linear SVM was implemented in Caffe by designing an 8-layer model, with the 
 
 We observe that the training error does not converge to zero with the hinge loss, which means that the training data projected on fc7 space is not linearly separable. This does not come as a surprise and confirms the complexity of the clamp detection task. As discussed in the numerical analysis, the errors between these two models are not comparable since they are of different nature. Just because the hinge loss is higher in absolute terms than the cross entropy does not mean that test run performance is lower. 
 
-The way to compare performance in the two models is to look at average per class validation accuracy: 85.4\% for linear SVM versus 85.1\% for softmax. The difference is only very slight, but is consistent with the choice of Razavian et al to train a linear SVM, as well as other recent empirical results \cite{svm-nn}. This also casts in good light the optimisation achieved by freezing backpropagation on the first four convolutional layers, since by achieveing 89.2\% it beats the technique adopted by (Razavian et al 2014) by nearly 4 percentage points.
+The way to compare performance in the two models is to look at average per class validation accuracy: 85.4\% for linear SVM versus 85.1\% for softmax. The difference is only very slight, but is consistent with the choice of Razavian et al to train a linear SVM, as well as other recent empirical results \cite{svm-nn}. This also casts in good light the optimisation achieved by freezing backpropagation on the first four convolutional layers, since by achieving 89.2\% it beats the technique adopted by (Razavian et al 2014) by nearly 4 percentage points.
 
 
 \clearpage
@@ -1799,27 +1801,27 @@ since the weights are random it scales with the square root of the of the weight
 
 \section{Final Results}
 
-This presents best results (accuracy overall, on pos, on neg, sig level) for each binary classifier and discusses further improvements. All successfull tricks were accumulated to produce these results. \\
+This presents best results (accuracy overall, on pos, on neg, sig level) for each binary classifier. \\
 
 \begin{table}[h!]
    \centering
     \begin{tabular}{|l|c|c|c|c|c|}
     \hline
-    Model & ~ Count & ~ Need Spatial? & ~ Need HD? & ~ PC Val Acc & ~ \% Automation  \\ 
+    Model & ~ Count & ~ Need Spatial? & ~ Need HD? & ~ PC Val Acc & ~ Automation  \\ 
     \hline
-    Clamp                   & ~  1,233  & ~ 32  & ~ 0  & ~ 0  & ~ 0 \\
-    Ground Sheet               & ~ 1,               & ~ 83   & ~ 0  & ~ 0  & ~ 0    \\
-    Hatch Markings             & ~  1,233           & ~ 32   & ~ 0  & ~ 0  & ~ 0    \\
-    Insertion Depth       & ~ 1,               & ~ 83 & ~ 0  & ~ 0  & ~ 0      \\
-    Soil Contam             & ~  1,233           & ~ 32 & ~ 0  & ~ 0  & ~ 0      \\
-    Water Contam     & ~ 1,               & ~ 83   & ~ 0  & ~ 0  & ~ 0    \\
-    Scrape Zones             & ~  1,233           & ~ 32  & ~ 0  & ~ 0  & ~ 0     \\
-    Scraping or Peeling     & ~ 1,               & ~ 83  & ~ 0  & ~ 0  & ~ 0     \\
-    Joint Misalignment & ~ 0 & ~ 0 & ~ 0  & ~ 0  & ~ 0 \\
-    Fitting Proximity & ~ 0 & ~ 0 & ~ 0  & ~ 0  & ~ 0 \\
-    \hline
+    Clamp               & ~ 1,323  & ~     & ~    & ~ 0\%  & ~ 0\% \\
+    Ground Sheet        & ~ 5,541  & ~     & ~    & ~ 0\%  & ~ 0\%    \\
+    Hatch Markings      & ~ 3,793  & ~     & ~    & ~ 0\%  & ~ 0\%    \\
+    Insertion Depth     & ~ 897    & ~     & ~    & ~ 0\%  & ~ 0\%      \\
+    Soil Contam         & ~ 532    & ~ X   & ~ X  & ~ 0\%  & ~ 0\%      \\
+    Water Contam        & ~ 312    & ~ X   & ~ X  & ~ 0\%  & ~ 0\%    \\
+    Scrape Zones        & ~ 2,545  & ~ X   & ~    & ~ 0\%  & ~ 0\%     \\
+    Scraping or Peeling & ~ 292    & ~ X   & ~ X  & ~ 0\%  & ~ 0\%     \\
+    Joint Misalignment  & ~ 35     & ~     & ~    & ~ 0\%  & ~ 0\% \\
+    Fitting Proximity   & ~ 32     & ~ X   & ~    & ~ 0\%  & ~ 0\% \\
+    \hlin
     \end{tabular}
-    \caption {Impact of threshold-moving}
+    \caption {Final Results}
 \end{table} 
 
 %To sum up, the two greatest challenges with the Bluebox dataset is small size and class imbalance. Small size can be dealt with by transferring knowledge from another task by initialising weights. Class imbalance can be cruelly dealt with using under-sampling, but this decreases the size of the dataset even more, making robustness ie generalisation the second challenge. Therefore, we use [..] and [..] to help with dealing with class imbalance and mitigate the extent of under-sampling. \\
@@ -1833,9 +1835,6 @@ This presents best results (accuracy overall, on pos, on neg, sig level) for eac
 %Note that the two minority classes were merged: because it is suspected that there is barely any semantic difference between them (will have to draw random samples to verify this), and because this reduces the number of majority class instances to remove, since it makes it easier to reach a good balance ratio. \\
 %
 %
-%\subsection{Independent Binary Classifiers}
-%
-%Instead of doing multi image multi instance tagging, independent binary classifiers were chosen. This implies not making use of correlations between the labels to increase precision. This was intentional, in order to keep each binary classifier `impartial and unprejudiced'. For example, if images with missing clamps are more frequently associated with contamination risk, making use of this correlation would imply raising the probability of contamination risk regardless of the visual features that specifically define contamination risk in the image. ControlPoint reports that employees adopt similar behaviour in the case of gas vs water piping: gas pipes tend to be much cleaner to install than water pipes since they are less frequently buried in the ground; as a result, employees become less vigilant in raising flags for them, and overly prone to do so in the case of water pipes. When training classifiers, exploiting between-flag correlations can be avoided by training independent binary classifiers.
 %
 %\subsection{Learning Rate}
 %
