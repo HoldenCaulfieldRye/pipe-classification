@@ -78,25 +78,25 @@
 \contentsline {subsection}{\numberline {8.4}Experimentation}{48}
 \contentsline {subsubsection}{\numberline {8.4.1}Test Run}{48}
 \contentsline {subsubsection}{\numberline {8.4.2}Transfer Learning}{50}
-\contentsline {subsubsection}{\numberline {8.4.3}Hyperparameter Optimisation}{51}
-\contentsline {paragraph}{Mini-batch Size}{51}
-\contentsline {paragraph}{Learning Rate}{51}
+\contentsline {subsubsection}{\numberline {8.4.3}Hyperparameter Optimisation}{50}
+\contentsline {paragraph}{Mini-batch Size}{50}
+\contentsline {paragraph}{Learning Rate}{52}
 \contentsline {subsubsection}{\numberline {8.4.4}Over-Sampling}{52}
 \contentsline {subsubsection}{\numberline {8.4.5}Under-Sampling}{53}
 \contentsline {paragraph}{Under-Sampling algorithm}{53}
 \contentsline {subsubsection}{\numberline {8.4.6}Threshold-Moving}{54}
 \contentsline {paragraph}{Motivations}{55}
 \contentsline {paragraph}{Implementation}{55}
-\contentsline {paragraph}{Results}{55}
+\contentsline {paragraph}{Results}{56}
 \contentsline {subsubsection}{\numberline {8.4.7}Bayesian Cross Entropy Cost Function}{56}
 \contentsline {paragraph}{Motivations}{56}
-\contentsline {paragraph}{Implementation}{56}
+\contentsline {paragraph}{Implementation}{57}
 \contentsline {paragraph}{Results}{57}
-\contentsline {paragraph}{Further Research}{58}
+\contentsline {paragraph}{Further Research}{59}
 \contentsline {subsubsection}{\numberline {8.4.8}Error-accuracy mismatch revisited}{59}
 \contentsline {paragraph}{SGD mechanics}{59}
-\contentsline {section}{\numberline {9}Experiments 4: Conserving Spatial Information}{59}
-\contentsline {subsection}{\numberline {9.1}Motivations}{59}
+\contentsline {section}{\numberline {9}Experiments 4: Conserving Spatial Information}{60}
+\contentsline {subsection}{\numberline {9.1}Motivations}{60}
 \contentsline {subsection}{\numberline {9.2}Implementation}{60}
 \contentsline {subsection}{\numberline {9.3}Experimentation}{60}
 \contentsline {paragraph}{Test Run}{60}

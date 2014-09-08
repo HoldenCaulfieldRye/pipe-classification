@@ -1339,6 +1339,12 @@ Note that for lower levels of class imbalance, the model is able to escape the s
 
 This provides clues about the shape of the error surface in the neighbourhood of this bad minimum, and how varying the level of class imbalance affects it. It suggests that the bad minimum could in fact be a saddle point: a number of weights are at local optimality i.e.\ error-weight partial derivatives are zero, but not all; there is still room for improvement for some of them i.e.\ the error surface remains locally monotonous along some dimensions. This slowly but eventually moves the network away from the saddle point. Training deep neural networks along saddle points is known to exhibit this type of behaviour: training is slowed down but not stopped\cite{DL-book}.
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/saddle_point.png}
+	\caption{}
+\end{figure}
+
 One would be tempted to conjecture that the steepness of the error surface along these dimensions decreases with the extent of class imbalance, and approaches 0 as class imbalance approaches 100\%. This would explain why at some point class imbalance is too high for the model to escape. 
 
 Further analysis and experimentation, especially by seeing whether individual weights in the softmax layer do indeed cease to update, would perhaps make for interesting further work. In the meantime, in order to maintain generality, these points on the error surface will now be referred to as sampling-induced critical points, or simply bad critical points. \\
