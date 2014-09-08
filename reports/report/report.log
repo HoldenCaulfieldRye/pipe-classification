@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  8 SEP 2014 15:58
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  8 SEP 2014 16:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -716,9 +716,6 @@ LaTeX Warning: Label `fig:2b' multiply defined.
 LaTeX Warning: Label `sub@fig:2b' multiply defined.
 
 
-LaTeX Warning: Label `materialflowChart' multiply defined.
-
-
 LaTeX Warning: Label `fig:2a' multiply defined.
 
 
@@ -1202,6 +1199,13 @@ Package pdftex.def Info: images/tapping-T.jpg used on input line 211.
 (pdftex.def)             Requested size: 169.29684pt x 126.97063pt.
 
 
+Package caption Warning: \label without proper \caption on input line 234.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `f5' on page 7 undefined on input line 216.
+
+
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
@@ -1221,6 +1225,13 @@ File: images/truly_confusing_2.jpg Graphic file (type jpg)
 <use images/truly_confusing_2.jpg>
 Package pdftex.def Info: images/truly_confusing_2.jpg used on input line 229.
 (pdftex.def)             Requested size: 192.72148pt x 144.5411pt.
+
+
+Package caption Warning: \label without proper \caption on input line 260.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `f6' on page 8 undefined on input line 242.
 
 <images/perfect3.jpg, id=48, 642.4pt x 481.8pt>
 File: images/perfect3.jpg Graphic file (type jpg)
@@ -1608,6 +1619,13 @@ ne 558.
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
+Package caption Warning: \label without proper \caption on input line 581.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `f22' on page 21 undefined on input line 563.
+
+
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
@@ -1655,6 +1673,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 599--600
 Underfull \hbox (badness 10000) in paragraph at lines 601--602
 
  []
+
+
+Package caption Warning: \label without proper \caption on input line 622.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `f23' on page 23 undefined on input line 603.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 603--604
@@ -1846,6 +1871,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 804--805
 Underfull \hbox (badness 10000) in paragraph at lines 807--808
 
  []
+
+
+Package caption Warning: \label without proper \caption on input line 823.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `f27' on page 29 undefined on input line 809.
 
 
 Underfull \hbox (badness 10000) in paragraph at lines 809--810
@@ -2060,6 +2092,13 @@ Overfull \hbox (7.0171pt too wide) in paragraph at lines 1090--1091
 ram-e-ters re-lated to trans-fer learn-ing: whether
  []
 
+
+Package caption Warning: \label without proper \caption on input line 1109.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `f36' on page 39 undefined on input line 1095.
+
 File: images/plot_clampdet_tl_wout.png Graphic file (type png)
 <use images/plot_clampdet_tl_wout.png>
 Package pdftex.def Info: images/plot_clampdet_tl_wout.png used on input line 11
@@ -2126,6 +2165,13 @@ Underfull \hbox (badness 10000) in paragraph at lines 1146--1147
 Underfull \hbox (badness 10000) in paragraph at lines 1151--1152
 
  []
+
+
+Package caption Warning: \label without proper \caption on input line 1171.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `f38' on page 41 undefined on input line 1153.
 
 File: images/plot_clampdet_none.png Graphic file (type png)
 <use images/plot_clampdet_none.png>
@@ -2465,6 +2511,13 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 Underfull \hbox (badness 10000) in paragraph at lines 1583--1584
 
  []
+
+
+Package caption Warning: \label without proper \caption on input line 1603.
+See the caption package documentation for explanation.
+
+
+LaTeX Warning: Reference `f50' on page 53 undefined on input line 1585.
 
 File: images/plot_clampdetCI98_none_bs128_lr4.png Graphic file (type png)
 <use images/plot_clampdetCI98_none_bs128_lr4.png>
@@ -2833,7 +2886,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  17345 strings out of 494985
  317368 string characters out of 6180356
- 372125 words of memory out of 5000000
+ 373099 words of memory out of 5000000
  20109 multiletter control sequences out of 15000+600000
  16039 words of font info for 62 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
@@ -2859,7 +2912,7 @@ ublic/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
 s/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symb
 ols/msbm10.pfb>
-Output written on report.pdf (67 pages, 5265048 bytes).
+Output written on report.pdf (67 pages, 5265377 bytes).
 PDF statistics:
  417 PDF objects out of 1000 (max. 8388607)
  220 compressed objects within 3 object streams
