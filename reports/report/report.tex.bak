@@ -164,7 +164,7 @@ A number of significant challenges have arisen from this task: multi-tagging, do
 
 ControlPoint recently upgraded the photographical equipment with which photos are taken (from 'Redbox' equipment to 'Bluebox' equipment), which means that the resolution and finishing of the photos has been altered. There are 113,865 640x480 'RedBox' images. There are 13,790 1280x960 'BlueBox' images. Label frequencies for the Redbox images are given below.
 
-\begin{table}[h]
+\begin{table}[h!]
    \centering
     \begin{tabular}{|l|c|c|}
     \hline
@@ -196,7 +196,7 @@ ControlPoint recently upgraded the photographical equipment with which photos ar
 \end{table} 
 
 
-\subsubsection{Semantic Complexity}:
+\subsubsection{Semantic Complexity}
 
 Certain visual characteristics are semantically more complex than normal object classes, because ControlPoint has rules for what counts to raise a flag depending on the nature of the joint. For example, in the case of clamp detection, for tapping-T joints, for the Redbox images, the glint of a slim portion of a clamp is sufficient to judge it present. \\
 
@@ -1437,7 +1437,7 @@ A foolproof verification of this explanation would be to run both models on a te
 
 Decreasing the learning rate helps if it prevents a good minimum from being overshot. 
 
-\begin{figure}
+\begin{figure}[h!]
     \centering
     \begin{minipage}[b]{\textwidth}
       \begin{subfigure}{.5\textwidth} 
@@ -1463,7 +1463,7 @@ With a lower learning rate, the validation accuracy seems to increase at a far s
 
 Over-sampling \cite{zhou} \cite{maloof} rebalances the training set to desired levels of imbalance by increasing the occurrence of minority class examples. This was implemented by creating duplicates in the training set -- but not in the validation or test sets, as this would have slowed down the algorithms and biased any performance metric not averaged across classes. Moreover, in order to compare the performance of models trained with different techniques, the same validation set needs to be the same for all models.
 
-\begin{figure}
+\begin{figure}[!]
     \centering
     \begin{minipage}[b]{\textwidth}
       \begin{subfigure}{.5\textwidth} 
