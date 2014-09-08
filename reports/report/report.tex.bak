@@ -155,7 +155,7 @@ This task can also be carried out by training independent binary classifiers. Th
 
 \subsection{Challenges specific to the Pipe Weld Classification Task}
 
-A number of significant challenges have arisen from this task: multi-tagging, domain change, small dataset size (by deep learning standards) and class imbalance. Before going into them, an overview of the data is given below. \\
+A number of significant challenges arise from this task: multi-tagging, semantic complexity, domain change, small dataset size and class imbalance. Before going into them, an overview of the data is given below. \\
 
 \subsubsection{Data Overview}
 % \subsubsection{Visual Inspection}
