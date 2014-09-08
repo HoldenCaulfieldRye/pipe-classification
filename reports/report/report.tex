@@ -1787,16 +1787,68 @@ since the weights are random it scales with the square root of the of the weight
 \paragraph{Test Run}
 %     soil_contam/tl_wout
 %     soil_contam/none_lr5_sbl
-
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_soil_contam_tl_wout.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{Cross entropy}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_soil_contam_noneC.png}
+        % ...here to lower the subcaptions and...
+        \caption{Bayesian cross entropy}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{Soil Contam Test Run}\label{fig:2}
+    \end{minipage}%
+\end{figure}
 
      
      
-\paragraph{Remove pooling and an fc layer}
+\paragraph{Remove pooling and a fc layer}
 %     soil_contam/nopool_sl                    TRAINING
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_soil_contam_noneC.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{Cross entropy}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_soil_contam_nopool_sl.png}
+        % ...here to lower the subcaptions and...
+        \caption{Bayesian cross entropy}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{Remove pooling and a fc layer}\label{fig:2}
+    \end{minipage}%
+\end{figure}
 
 \paragraph{Softmax Bayesian Cross Entropy}
 %     soil_contam/nopool                       TRAINING
-
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_soil_contam_nopool_sl.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{Cross entropy}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_soil_contam_nopool.png}
+        % ...here to lower the subcaptions and...
+        \caption{Bayesian cross entropy}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{Add Softmax Bayesian Cross Entropy}\label{fig:2}
+    \end{minipage}%
+\end{figure}
 
 
 \section{Final Results}
@@ -1819,7 +1871,7 @@ This presents best results (accuracy overall, on pos, on neg, sig level) for eac
     Scraping or Peeling & ~ 292    & ~ X   & ~ X  & ~ 0\%  & ~ 0\%     \\
     Joint Misalignment  & ~ 35     & ~     & ~    & ~ 0\%  & ~ 0\% \\
     Fitting Proximity   & ~ 32     & ~ X   & ~    & ~ 0\%  & ~ 0\% \\
-    \hlin
+    \hline
     \end{tabular}
     \caption {Final Results}
 \end{table} 

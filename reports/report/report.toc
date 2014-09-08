@@ -2,10 +2,11 @@
 \contentsline {section}{\numberline {2}Introduction}{5}
 \contentsline {subsection}{\numberline {2.1}Explaining the Problem}{5}
 \contentsline {subsection}{\numberline {2.2}Formalising the problem: Multi-Instance Multi-Label Supervised Learning}{6}
+\contentsline {paragraph}{Independent Binary Classifiers}{6}
 \contentsline {subsection}{\numberline {2.3}Challenges specific to the Pipe Weld Classification Task}{6}
-\contentsline {subsubsection}{\numberline {2.3.1}Data Overview}{6}
-\contentsline {subsubsection}{\numberline {2.3.2}Semantic Complexity}{6}
-\contentsline {subsubsection}{\numberline {2.3.3}Domain Change}{7}
+\contentsline {subsubsection}{\numberline {2.3.1}Data Overview}{7}
+\contentsline {subsubsection}{\numberline {2.3.2}Semantic Complexity}{7}
+\contentsline {subsubsection}{\numberline {2.3.3}Domain Change}{8}
 \contentsline {subsubsection}{\numberline {2.3.4}Small Dataset Size}{9}
 \contentsline {subsubsection}{\numberline {2.3.5}Class Imbalance}{9}
 \contentsline {section}{\numberline {3}Literature Review}{10}
@@ -100,7 +101,7 @@
 \contentsline {subsection}{\numberline {9.2}Implementation}{61}
 \contentsline {subsection}{\numberline {9.3}Experimentation}{61}
 \contentsline {paragraph}{Test Run}{61}
-\contentsline {paragraph}{Remove pooling and an fc layer}{61}
+\contentsline {paragraph}{Remove pooling and a fc layer}{61}
 \contentsline {paragraph}{Softmax Bayesian Cross Entropy}{61}
 \contentsline {section}{\numberline {10}Final Results}{61}
-\contentsline {section}{\numberline {11}Conclusions and Future Work}{62}
+\contentsline {section}{\numberline {11}Conclusions and Future Work}{64}
