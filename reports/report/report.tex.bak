@@ -1617,9 +1617,9 @@ The python threshold-moving script was run on a model trained on the 98\% imbala
     \caption {Impact of threshold-moving}
 \end{table} 
 
-Since the threshold does not improve per class accuracy in the no transfer learning case, solving the probability mismatch does not solve the bad critical point problem; the two problems are therefore distinct. Indeed, inspection of the output probabilities for the no transfer learning model reveals that every output is the binary vector (0,1), where the 2nd entry corresponds to classification probability for the majority class. Therefore, no amount of threshold moving can prevent such a model from being a constant function. This suggests that the literature on class imbalance has until now not documented the occurrence of bad critical points when class imbalance is dangerous, since it has only focused on the probability mismatch. 
+Since the threshold does not improve per class accuracy in the no transfer learning case, solving the probability mismatch does not solve the bad critical point problem; the two problems are therefore distinct. Indeed, inspection of the output probabilities for the no transfer learning model reveals that every output is the binary vector (0,1), where the 2nd entry corresponds to classification probability for the majority class. Therefore, no amount of threshold moving can prevent such a model from being a constant function. This suggests that the literature on class imbalance has until now not documented the occurrence of bad critical points when class imbalance is dangerous, since it has only focused on the probability mismatch. \\
 
-In the context of trying different approaches to tackle class imbalance, threshold-moving was however found to be better than (transfer learning, under-sampling, over-sampling), but worse than (transfer learning, under-sampling, over-sampling), in terms of per class accuracy. Overall, the best combination is ???.
+In the context of trying different approaches to tackle class imbalance, threshold-moving was however found to improve average class imbalance, since it provides 5.4 additional percentage points in classification accuracy for the transfer learning model. This suggests that threshold-moving helps as long as the model is not stuck in a bad critical point. 
 
 
 \subsubsection{Bayesian Cross Entropy Cost Function}

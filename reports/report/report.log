@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  8 SEP 2014 13:51
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  8 SEP 2014 14:41
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2498,6 +2498,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 1599--1600
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
+Underfull \hbox (badness 10000) in paragraph at lines 1620--1621
+
+ []
+
+
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
@@ -2798,7 +2803,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  17286 strings out of 494985
  316938 string characters out of 6180356
- 375984 words of memory out of 5000000
+ 371984 words of memory out of 5000000
  20051 multiletter control sequences out of 15000+600000
  16039 words of font info for 62 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
@@ -2824,7 +2829,7 @@ ublic/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
 s/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symb
 ols/msbm10.pfb>
-Output written on report.pdf (66 pages, 5210076 bytes).
+Output written on report.pdf (66 pages, 5215739 bytes).
 PDF statistics:
  411 PDF objects out of 1000 (max. 8388607)
  217 compressed objects within 3 object streams
