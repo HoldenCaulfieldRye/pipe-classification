@@ -1832,6 +1832,29 @@ Transfer learning barely helps.
 
 Removal of the FC layer was simply for computation to be feasible on the GPU. This also meant using a smaller batch size. 
 
+
+\paragraph{Remove Pooling, a FC layer and add Bayesian Cross Entropy}
+%     soil_contam/nopool                       TRAINING
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_soil_contam_nopool_sl.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{Less Pooling}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_soil_contam_nopool.png}
+        % ...here to lower the subcaptions and...
+        \caption{Less Pooling and Bayesian cross entropy}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{Combining Less Pooling and Bayesian Cross Entropy}\label{fig:2}
+    \end{minipage}%
+\end{figure}
+
+
 \paragraph{Softmax Bayesian Cross Entropy}
 %     soil_contam/nopool                       TRAINING
 \begin{figure}
@@ -1849,31 +1872,12 @@ Removal of the FC layer was simply for computation to be feasible on the GPU. Th
         % ...here to lower the subcaptions and...
         \caption{Transfer learning and Bayesian cross entropy}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-      \caption{Softmax Bayesian Cross Entropy}\label{fig:2}
+      \caption{Bayesian Cross Entropy by itself}\label{fig:2}
     \end{minipage}%
 \end{figure}
 
+In fact, Bayesian softmax cross entropy by itself on AleNet architecture works best. Maximum per class accuracy is 78\%, which is truly impressive considering that this task was so difficult that transfer learning barely helped. Furthermore, learning was halted after 2000 iterations, before overfitting began, so more progress can be made.
 
-\paragraph{Remove Pooling, a FC layer and add Softmax Bayesian Cross Entropy}
-%     soil_contam/nopool                       TRAINING
-\begin{figure}
-    \centering
-    \begin{minipage}[b]{\textwidth}
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_soil_contam_nopool_sl.png}
-        % Add \par\vspace*{20pt} here and...
-        \caption{Cross entropy}\label{fig:2a}
-      \end{subfigure}%
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_soil_contam_nopool.png}
-        % ...here to lower the subcaptions and...
-        \caption{Bayesian cross entropy}\label{fig:2b}
-      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-      \caption{Softmax Bayesian Cross Entropy}\label{fig:2}
-    \end{minipage}%
-\end{figure}
 
 \section{Final Results}
 
@@ -1889,7 +1893,7 @@ This presents best results (accuracy overall, on pos, on neg, sig level) for eac
     Ground Sheet        & ~ 5,541  & ~     & ~    & ~ 0\%  & ~ 0\%    \\
     Hatch Markings      & ~ 3,793  & ~     & ~    & ~ 0\%  & ~ 0\%    \\
     Insertion Depth     & ~ 897    & ~     & ~    & ~ 0\%  & ~ 0\%      \\
-    Soil Contam         & ~ 532    & ~ X   & ~ X  & ~ 0\%  & ~ 0\%      \\
+    Soil Contam         & ~ 532    & ~ X   & ~ X  & ~ 78\%+  & ~ 0\%      \\
     Water Contam        & ~ 312    & ~ X   & ~ X  & ~ 0\%  & ~ 0\%    \\
     Scrape Zones        & ~ 2,545  & ~ X   & ~    & ~ 0\%  & ~ 0\%     \\
     Scraping or Peeling & ~ 292    & ~ X   & ~ X  & ~ 0\%  & ~ 0\%     \\

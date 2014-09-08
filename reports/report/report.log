@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  8 SEP 2014 11:47
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  8 SEP 2014 11:57
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -846,6 +846,21 @@ LaTeX Warning: Label `fig:2b' multiply defined.
 
 
 LaTeX Warning: Label `sub@fig:2b' multiply defined.
+
+
+LaTeX Warning: Label `fig:2a' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:2a' multiply defined.
+
+
+LaTeX Warning: Label `fig:2b' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:2b' multiply defined.
+
+
+LaTeX Warning: Label `fig:2' multiply defined.
 
 
 LaTeX Warning: Label `fig:2a' multiply defined.
@@ -2626,13 +2641,15 @@ Package pdftex.def Info: images/plot_soil_contam_tl_wout.png used on input line
  1795.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-<images/plot_soil_contam_noneC.png, id=306, 578.16pt x 433.62pt>
-File: images/plot_soil_contam_noneC.png Graphic file (type png)
+<images/plot_soil_contam_noneC_long.png, id=306, 578.16pt x 433.62pt>
+File: images/plot_soil_contam_noneC_long.png Graphic file (type png)
 
-<use images/plot_soil_contam_noneC.png>
-Package pdftex.def Info: images/plot_soil_contam_noneC.png used on input line 1
-801.
+<use images/plot_soil_contam_noneC_long.png>
+Package pdftex.def Info: images/plot_soil_contam_noneC_long.png used on input l
+ine 1801.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
+
+<images/plot_soil_contam_noneC.png, id=307, 578.16pt x 433.62pt>
 File: images/plot_soil_contam_noneC.png Graphic file (type png)
 
 <use images/plot_soil_contam_noneC.png>
@@ -2640,32 +2657,18 @@ Package pdftex.def Info: images/plot_soil_contam_noneC.png used on input line 1
 819.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-<images/plot_soil_contam_nopool_sl.png, id=307, 578.16pt x 433.62pt>
+<images/plot_soil_contam_nopool_sl.png, id=308, 578.16pt x 433.62pt>
 File: images/plot_soil_contam_nopool_sl.png Graphic file (type png)
 
 <use images/plot_soil_contam_nopool_sl.png>
 Package pdftex.def Info: images/plot_soil_contam_nopool_sl.png used on input li
 ne 1825.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
-File: images/plot_soil_contam_noneC.png Graphic file (type png)
-
-<use images/plot_soil_contam_noneC.png>
-Package pdftex.def Info: images/plot_soil_contam_noneC.png used on input line 1
-842.
-(pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
-
-<images/plot_soil_contam_none_lr5_sbl.png, id=308, 578.16pt x 433.62pt>
-File: images/plot_soil_contam_none_lr5_sbl.png Graphic file (type png)
-
-<use images/plot_soil_contam_none_lr5_sbl.png>
-Package pdftex.def Info: images/plot_soil_contam_none_lr5_sbl.png used on input
- line 1848.
-(pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 File: images/plot_soil_contam_nopool_sl.png Graphic file (type png)
 
 <use images/plot_soil_contam_nopool_sl.png>
 Package pdftex.def Info: images/plot_soil_contam_nopool_sl.png used on input li
-ne 1864.
+ne 1843.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
 <images/plot_soil_contam_nopool.png, id=309, 578.16pt x 433.62pt>
@@ -2673,10 +2676,24 @@ File: images/plot_soil_contam_nopool.png Graphic file (type png)
 
 <use images/plot_soil_contam_nopool.png>
 Package pdftex.def Info: images/plot_soil_contam_nopool.png used on input line 
-1870.
+1849.
+(pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
+File: images/plot_soil_contam_noneC.png Graphic file (type png)
+
+<use images/plot_soil_contam_noneC.png>
+Package pdftex.def Info: images/plot_soil_contam_noneC.png used on input line 1
+865.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1880--1881
+<images/plot_soil_contam_none_lr5_sbl.png, id=310, 578.16pt x 433.62pt>
+File: images/plot_soil_contam_none_lr5_sbl.png Graphic file (type png)
+
+<use images/plot_soil_contam_none_lr5_sbl.png>
+Package pdftex.def Info: images/plot_soil_contam_none_lr5_sbl.png used on input
+ line 1871.
+(pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 1884--1885
 
  []
 
@@ -2689,16 +2706,17 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[61 <./images/plot_soil_contam_tl_wout.png> <./images/plot_soil_contam_noneC.pn
-g>]
+[61 <./images/plot_soil_contam_tl_wout.png> <./images/plot_soil_contam_noneC_lo
+ng.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[62 <./images/plot_soil_contam_nopool_sl.png> <./images/plot_soil_contam_none_l
-r5_sbl.png> <./images/plot_soil_contam_nopool.png>]
+[62 <./images/plot_soil_contam_noneC.png> <./images/plot_soil_contam_nopool_sl.
+png> <./images/plot_soil_contam_nopool.png> <./images/plot_soil_contam_none_lr5
+_sbl.png>]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2706,27 +2724,27 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [63]
-Underfull \hbox (badness 10000) in paragraph at lines 2018--2019
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 2020--2021
-
- []
-
-
 Underfull \hbox (badness 10000) in paragraph at lines 2022--2023
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2027--2028
+Underfull \hbox (badness 10000) in paragraph at lines 2024--2025
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2029--2030
+Underfull \hbox (badness 10000) in paragraph at lines 2026--2027
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2031--2032
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2033--2034
 
  []
 
@@ -2749,7 +2767,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [65]
-Underfull \hbox (badness 10000) in paragraph at lines 2175--2178
+Underfull \hbox (badness 10000) in paragraph at lines 2179--2182
 \OT1/cmr/m/n/10.95 URL: $\OT1/cmtt/m/n/10.95 https : / / plus . google . com / 
 +YoshuaBengio / posts / GJY53aahqS8$\OT1/cmr/m/n/10.95 , last ac-cessed 1st
  []
@@ -2785,10 +2803,10 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 17276 strings out of 494985
- 316494 string characters out of 6180356
+ 17281 strings out of 494985
+ 316696 string characters out of 6180356
  375984 words of memory out of 5000000
- 20043 multiletter control sequences out of 15000+600000
+ 20047 multiletter control sequences out of 15000+600000
  16039 words of font info for 62 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
  48i,12n,61p,1621b,527s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -2813,10 +2831,10 @@ ublic/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
 s/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symb
 ols/msbm10.pfb>
-Output written on report.pdf (67 pages, 5114956 bytes).
+Output written on report.pdf (67 pages, 5174453 bytes).
 PDF statistics:
- 411 PDF objects out of 1000 (max. 8388607)
+ 413 PDF objects out of 1000 (max. 8388607)
  220 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
- 343 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 348 words of extra memory for PDF output out of 10000 (max. 10000000)
 

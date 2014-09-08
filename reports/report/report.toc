@@ -102,7 +102,7 @@
 \contentsline {subsection}{\numberline {9.3}Experimentation}{61}
 \contentsline {paragraph}{Test Run}{61}
 \contentsline {paragraph}{Remove pooling and a fc layer}{61}
+\contentsline {paragraph}{Remove Pooling, a FC layer and add Bayesian Cross Entropy}{61}
 \contentsline {paragraph}{Softmax Bayesian Cross Entropy}{61}
-\contentsline {paragraph}{Remove Pooling, a FC layer and add Softmax Bayesian Cross Entropy}{61}
 \contentsline {section}{\numberline {10}Final Results}{61}
 \contentsline {section}{\numberline {11}Conclusions and Future Work}{64}
