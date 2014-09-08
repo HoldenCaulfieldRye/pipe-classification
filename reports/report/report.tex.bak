@@ -1619,7 +1619,7 @@ It was wondered whether the best performing techniques discovered until now coul
 -\frac{1}{n}\sum\limits_{i=1}^{n} log(f(x_i,l_i,W))
 \end{equation}
 
-where $f(x_i,l_i,W)$ is the model's predicted probability for input $x_i$'s label to be $l_i$, $W$ are its parameters, $n$ is the mini-batch size, to:
+where $f(x_i,l_i,W)$ is the model's predicted probability for input $x_i$'s label to be $l_i$, $W$ are its parameters, $l_i$ is the true label for $x_i$, $n$ is the mini-batch size, to:
 
 \begin{equation}
 -\frac{1}{K \cdot n}\sum\limits_{i=1}^{n} \frac{log(f(x_i,l_i,W))}{p(class(x_i))} 
@@ -1633,29 +1633,29 @@ As explained in the literature review, placing a softmax layer as the output lay
 
 The idea behind Maximum Likelihood Estimation is that the best parameters are the ones that make the model output that probability distribution for each training example's random variable which assigns as high a probability as possible to the training example's outcome. In the case of clamp detection, the training example is an image $x_i$, its random variable is the label $L_i$, $L_i$ is a random variable defined over the event space $\Omega(L_i) = \{\text{`Clamp Detected'},\text{`No Clamps'}\}$, and the training example's outcome is the value of the label $l_i$. The maximum likelihood estimates for the parameters of the model are therefore found by solving:
 
-\begin{equation}
-arg\max\limits_{W \in \mathcal{R}^D} P\{\intersect \limits_{1 \leq i \leq n} [L_i = l_i]|x_i,W\}
-
-&= arg\max\limits_{W \in \mathcal{R}^D} \prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\} \text{assuming that the $X_i$ are independently and identically distributed}
-
-&= arg\max\limits_{W \in \mathcal{R}^D} \log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\}) \text{since log is a monotonous strictly increasing function, the coordinates of W at which max is reached are the same}
-
-&= arg\min\limits_{W \in \mathcal{R}^D} -\log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\}) \text{since taking the opposite function turns maximum into minimum}
-
-&= arg\min\limits_{W \in \mathcal{R}^D} -\sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\})
-
-&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\}) \text{since scaling the function by a constant preserves extrema}
-
-&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \sum\limits_{l \in \Omega(L_i)} P\{L_i = l\} \cdot \log(P\{[L_i = l]|x_i,W\}) \text{since $P\{L_i = l\} = 1$ if $l = l_i$ and 0 otherwise}
-
-&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} KL(P\{L_i\},P\{L_i|x_i,W\}) \text{where KL is the Kullback-Leibler divergence}
-
-&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},P\{L_i|x_i,W\}) \text{where CE is the cross entropy}
-
-&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},f(x_i,l_i,W)) 
-
-&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n}\sum\limits_{i=1}^{n} log(f(x_i,l_i,W))
-\end{equation}
+%\begin{equation}
+%arg\max\limits_{W \in \mathcal{R}^D} P\{\intersect \limits_{1 \leq i \leq n} [L_i = l_i]|x_i,W\}
+%
+%&= arg\max\limits_{W \in \mathcal{R}^D} \prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\} \text{assuming that the $X_i$ are independently and identically distributed}
+%
+%&= arg\max\limits_{W \in \mathcal{R}^D} \log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\}) \text{since log is a monotonous strictly increasing function, the coordinates of W at which max is reached are the same}
+%
+%&= arg\min\limits_{W \in \mathcal{R}^D} -\log(\prod\limits_{1 \leq i \leq n} P\{[L_i = l_i]|x_i,W\}) \text{since taking the opposite function turns maximum into minimum}
+%
+%&= arg\min\limits_{W \in \mathcal{R}^D} -\sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\})
+%
+%&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \log(P\{[L_i = l_i]|x_i,W\}) \text{since scaling the function by a constant preserves extrema}
+%
+%&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} \sum\limits_{l \in \Omega(L_i)} P\{L_i = l\} \cdot \log(P\{[L_i = l]|x_i,W\}) \text{since $P\{L_i = l\} = 1$ if $l = l_i$ and 0 otherwise}
+%
+%&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} KL(P\{L_i\},P\{L_i|x_i,W\}) \text{where KL is the Kullback-Leibler divergence}
+%
+%&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},P\{L_i|x_i,W\}) \text{where CE is the cross entropy}
+%
+%&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n} \sum\limits_{1 \leq i \leq n} CE(P\{L_i\},f(x_i,l_i,W)) 
+%
+%&= arg\min\limits_{W \in \mathcal{R}^D} -\frac{1}{n}\sum\limits_{i=1}^{n} log(f(x_i,l_i,W))
+%\end{equation}
 
 This optimisation problem is, as we know, tentatively solved by local optimisation with gradient descent.
 
