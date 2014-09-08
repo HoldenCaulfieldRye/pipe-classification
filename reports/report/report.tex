@@ -1794,18 +1794,19 @@ since the weights are random it scales with the square root of the of the weight
         \centering
         \includegraphics[scale=0.4]{images/plot_soil_contam_tl_wout.png}
         % Add \par\vspace*{20pt} here and...
-        \caption{Cross entropy}\label{fig:2a}
+        \caption{Nothing special}\label{fig:2a}
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
         \includegraphics[scale=0.4]{images/plot_soil_contam_noneC.png}
         % ...here to lower the subcaptions and...
-        \caption{Bayesian cross entropy}\label{fig:2b}
+        \caption{Transfer learning}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-      \caption{Soil Contam Test Run}\label{fig:2}
+      \caption{Test Run}\label{fig:2}
     \end{minipage}%
 \end{figure}
 
+Transfer learning barely helps. 
      
      
 \paragraph{Remove pooling and a fc layer}
@@ -1817,17 +1818,19 @@ since the weights are random it scales with the square root of the of the weight
         \centering
         \includegraphics[scale=0.4]{images/plot_soil_contam_noneC.png}
         % Add \par\vspace*{20pt} here and...
-        \caption{Cross entropy}\label{fig:2a}
+        \caption{Transfer learning}\label{fig:2a}
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
         \includegraphics[scale=0.4]{images/plot_soil_contam_nopool_sl.png}
         % ...here to lower the subcaptions and...
-        \caption{Bayesian cross entropy}\label{fig:2b}
+        \caption{Less transfer, but remove pooling and a FC layer}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{Remove pooling and a fc layer}\label{fig:2}
     \end{minipage}%
 \end{figure}
+
+Removal of the FC layer was simply for computation to be feasible on the GPU. This also meant using a smaller batch size. 
 
 \paragraph{Softmax Bayesian Cross Entropy}
 %     soil_contam/nopool                       TRAINING
@@ -1836,9 +1839,31 @@ since the weights are random it scales with the square root of the of the weight
     \begin{minipage}[b]{\textwidth}
       \begin{subfigure}{.5\textwidth} 
         \centering
+        \includegraphics[scale=0.4]{images/plot_soil_contam_noneC.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{Transfer learning}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_soil_contam_none_lr5_sbl.png}
+        % ...here to lower the subcaptions and...
+        \caption{Transfer learning and Bayesian cross entropy}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{Softmax Bayesian Cross Entropy by itself}\label{fig:2}
+    \end{minipage}%
+\end{figure}
+
+
+\paragraph{Remove Pooling, a FC layer and add Softmax Bayesian Cross Entropy}
+%     soil_contam/nopool                       TRAINING
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
         \includegraphics[scale=0.4]{images/plot_soil_contam_nopool_sl.png}
         % Add \par\vspace*{20pt} here and...
-        \caption{Cross entropy}\label{fig:2a}
+        \caption{Less Pooling}\label{fig:2a}
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
@@ -1846,10 +1871,9 @@ since the weights are random it scales with the square root of the of the weight
         % ...here to lower the subcaptions and...
         \caption{Bayesian cross entropy}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-      \caption{Add Softmax Bayesian Cross Entropy}\label{fig:2}
+      \caption{Softmax Bayesian Cross Entropy combined with Less Pooling}\label{fig:2}
     \end{minipage}%
 \end{figure}
-
 
 \section{Final Results}
 
