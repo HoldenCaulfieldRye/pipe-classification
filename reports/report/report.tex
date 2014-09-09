@@ -1974,13 +1974,13 @@ This section marks a failure for modifying the architecture of AlexNet, but it m
 
 \section{Final Results}
 
-We present best results for each binary classifier. The first three columns are indicators of the difficulty of the task: amount of available Bluebox examples, whether the task requires precise spatial information, whether the downsizing of the images to 256x256 prevented a human expert from carrying out classification. The last two columns are measures success: maximum average per class validation accuracy, and percentage of work that could be automated by setting the threshold so as to obtain 95\% accuracy on true positives. Note that as of this writing, Bayesian cross entropy was only tested on the soil contamination task, so in light of its success on that task as well as on clamp detection 98\%, scores are likely to increase significantly. \\
+We present best results for each binary classifier. The first three columns of figure ~\ref{f59} are indicators of the difficulty of the task: amount of available Bluebox examples, whether the task requires precise spatial information, whether the downsizing of the images to 256x256 prevented a human expert from carrying out classification. The last two columns are measures success: maximum average per class validation accuracy, and percentage of work that could be automated by setting the threshold so as to obtain 95\% accuracy on true positives. Note that as of this writing, Bayesian cross entropy was only tested on the soil contamination task, so in light of its success on that task as well as on clamp detection 98\%, scores are likely to increase significantly. \\
 
 \begin{table}[h!]
    \centering
     \begin{tabular}{|l|c|c|c|c|c|}
     \hline
-    Model & ~ Count & ~ Need Spatial? & ~ Need HD? & ~ PC Val Acc & ~ Automation  \\ 
+    Model & / Count & ~ Need Spatial? & ~ Need HD? & ~ PC Val Acc & ~ Automation  \\ 
     \hline
     Clamp               & ~ 1,323  & ~     & ~    & ~ 89.2\%  & ~ 73\% \\
     Ground Sheet        & ~ 5,541  & ~     & ~    & ~ 88.6\%  & ~ 68\%    \\
@@ -2016,29 +2016,53 @@ We present best results for each binary classifier. The first three columns are 
         ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth]{images/plot_markings-fine_01-08-2014.png}
-                \caption{Insertion Depth Markings}
+                \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
+                \caption{Hatch Markings}
                 \label{fig:mouse}
         \end{subfigure}
         \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
-                \caption{??}
+                \includegraphics[width=\textwidth]{images/plot_markings-fine_01-08-2014.png}
+                \caption{Insertion Depth Markings}
                 \label{fig:gull}
         \end{subfigure}%
         ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
-                \caption{??}
+                \includegraphics[width=\textwidth]{images/plot_soil_contam_none_lr5_sbl.png}
+                \caption{Soil Contamination}
                 \label{fig:tiger}
         \end{subfigure}
         ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.3\textwidth}
                 \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
-                \caption{??}
+                \caption{Water Contamination}
                 \label{fig:mouse}
-        \end{subfigure}        \caption{Pictures of animals}\label{fig:animals}
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
+                \caption{Scrape Zones}
+                \label{fig:gull}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth]{images/plot_caffe_ground_sheet_conv4.png}
+                \caption{Scraping or Peeling}
+                \label{fig:tiger}
+        \end{subfigure}
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
+                \caption{Fitting Proximity}
+                \label{fig:mouse}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth]{images/plot_markings-fine_01-08-2014.png}
+                \caption{Joint Misalignment}
+                \label{fig:gull}
+        \end{subfigure}%
+        \end{subfigure}        \caption{Training Plots of Best Performing Models}\label{fig:animals}
 \end{figure}
 
 

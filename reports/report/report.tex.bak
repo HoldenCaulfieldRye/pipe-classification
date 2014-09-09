@@ -1984,7 +1984,7 @@ We present best results for each binary classifier. The first three columns of f
     \hline
     Clamp               & ~ 1,323  & ~     & ~    & ~ 89.2\%  & ~ 73\% \\
     Ground Sheet        & ~ 5,541  & ~     & ~    & ~ 88.6\%  & ~ 68\%    \\
-    Hatch Markings      & ~ 3,793  & ~     & ~    & ~ 77.4\%  & ~ 42\%    \\
+    Hatch Markings      & ~ 3,793  & ~     & ~    & ~ 76.9\%  & ~ 42\%    \\
     Insertion Depth     & ~ 897    & ~     & ~    & ~ 89.0\%  & ~ 72\%      \\
     Soil Contam         & ~ 532    & ~ X   & ~ X  & ~ 78.1\%+ & ~ 43\%+      \\
     Water Contam        & ~ 312    & ~ X   & ~ X  & ~ 50\%    & ~ 0\%    \\
@@ -2016,7 +2016,7 @@ We present best results for each binary classifier. The first three columns of f
         ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
+                \includegraphics[width=\textwidth]{images/plot_hatch_markings_noneC.png}
                 \caption{Hatch Markings}
                 \label{fig:mouse}
         \end{subfigure}
@@ -2036,9 +2036,33 @@ We present best results for each binary classifier. The first three columns of f
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.3\textwidth}
                 \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
-                \caption{??}
+                \caption{Water Contamination}
                 \label{fig:mouse}
-        \end{subfigure}        \caption{Pictures of animals}\label{fig:animals}
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
+                \caption{Scrape Zones}
+                \label{fig:gull}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth]{images/plot_caffe_ground_sheet_conv4.png}
+                \caption{Scraping or Peeling}
+                \label{fig:tiger}
+        \end{subfigure}
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
+                \caption{Fitting Proximity}
+                \label{fig:mouse}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth]{images/plot_markings-fine_01-08-2014.png}
+                \caption{Joint Misalignment}
+                \label{fig:gull}
+        \end{subfigure}%
+        \end{subfigure}        \caption{Training Plots of Best Performing Models}\label{fig:animals}
 \end{figure}
 
 
