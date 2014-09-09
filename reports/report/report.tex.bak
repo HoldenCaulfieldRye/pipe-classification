@@ -1833,9 +1833,7 @@ Following discussions with ControlPoint personnel, it was realised that some tas
 
 Pooling in convolutional layers is precious because as seen in the literature review, it condenses visual information and achieves invariance to potentially complex transformations. However it also loses local spatial information: by max-pooling over a $3 \times 3$ region, we know that the max value occurs somewhere in that region, but we do not know where. This may not seem like a high area loss, but consider this type of pooling in the 5th convolutional layer of AlexNet: it already takes input values that are the result of $3 \times 3$ pooling at the 1st and 2nd convolutional layers\footnote{No pooling occurs at the 3rd or 4th convolutional layers, possibly for the very reason of spatial information conservation}. Therefore, the spatial coverage of data being fed as input to the first fully connected layer is $27\times27$ pixels. On $224x224$ images, this may render certain tasks above impossible. For example, there is risk of soil contamination when traces of soil can be seen on the pipe fitting, but not if they are anywhere else. It does not suffice to ascertain that traces of soil can be seen on the image. By removing pooling at the 5th convolutional layer, the spatial coverage of data being fed as input to the first fully connected layer is $9\times9$ pixels. \\
 
-\subsection{Implementation}
-
-The architecture of the network was easily modified thanks to the prototxt interface featured in Caffe. However, note that above batch size 96 saturates gpu memory. The reason for why this model can take up more space is because without pool, the partial derivatives between conv5 and fc6 are twice as large, and that already constitutes the largest Jacobian in the model: we go from a (bSize*256*6*6) x (bSize*4096) Jacobian to a (bSize*256*13*13) x (bSize*4096), i.e.\ 4.7 times as large. Visually, the 5th convolutional layer has 256 kernel maps, which start off at 13x13 `resolution', and get reduced to 6x6 `resolution'. Some intuition for this can be obtained from figure ~\ref{f60}, which can be seen as a heat-map representation of a kernel map. One could visualise that the output of $3 \times 3$ max-pooling on this heat-map would reduce the smoothness of transitions from a color to the next, simplify the shapes, and reduce the pallet of colours (not in range, but in cardinality). \\
+Visually, the 5th convolutional layer has 256 kernel maps, which start off at 13x13 `resolution', and get reduced to 6x6 `resolution'. Some intuition for this can be obtained from figure ~\ref{f60}, which can be seen as a heat-map representation of a kernel map. One could visualise that the output of $3 \times 3$ max-pooling on this heat-map would reduce the smoothness of transitions from a color to the next, simplify the shapes, and reduce the pallet of colours (not in range, but in cardinality). 
 
 \begin{figure}[h!]
 	\centering
@@ -1843,6 +1841,13 @@ The architecture of the network was easily modified thanks to the prototxt inter
 	\caption{Heat-map representation of kernel map}
     \label{f60}
 \end{figure}
+
+
+\subsection{Implementation}
+
+The architecture of the network was easily modified thanks to the prototxt interface featured in Caffe. However, note that above batch size 96 saturates gpu memory. The reason for why this model can takes up so much more space is because removing the $3 \times 3$ pooling at the 5th convolutional layer multiplies by 9 the number of edges between it and the first fully connected layer. Given that it has 256 kernel maps, this introduces an additional \\$8 x 256 x 4096 = 8,388,608$ parameters to the model. because without pooling, the partial derivatives between conv5 and fc6 are twice as large, and that already constitutes the largest Jacobian in the model: we go from a (bSize*256*6*6) x (bSize*4096) Jacobian to a (bSize*256*13*13) x (bSize*4096), i.e.\ 4.7 times as large. \\
+
+
 
 \subsection{Experimentation}
 
@@ -1987,7 +1992,7 @@ The plot on figure ~\ref{f68} shows a model trained with this learning rate betw
 \end{figure}
 
 
-Figure ~\ref{f69} shows a model trained with higher mini-batch size between the 2,000th and 10,000th iterations. The reduced amplitude of the training error indicates that gradient noisiness has decreased, and yet the error still does not converge. Let us reconsider the model shown to the right of figure ~\ref{f57}: it lacks a fully connected layer, performs no pooling at the 5th convolutional layer and was trained with Bayesian cross entropy and mini-batch size 96. Indeed, the extreme amplitude of the training error suggests that the gradient is very noisy. But this and the smaller depth of the architecture do not prevent the model from rapdily fitting the data! These results may suggest something about the impact of removing pooling at the 5th convolutional layer: it leads to learning features that generalise less well, since the model overfits in less than 250 iterations and does not perform well. A likely explanation is that in fact, this model is \textit{not} less powerful than the one represented in figure ~\ref{f57}, because removing the $3 \times 3$ pooling at the 5th convolutional layer multiplies by 9 the number of edges between the layer and the one above. In other words, this introduces an additional \\$8 x (6*6) x 4096 = 1,179,648$ parameters
+Figure ~\ref{f69} shows a model trained with higher mini-batch size between the 2,000th and 10,000th iterations. The reduced amplitude of the training error indicates that gradient noisiness has decreased, and yet the error still does not converge. Let us reconsider the model shown to the right of figure ~\ref{f57}: it lacks a fully connected layer, performs no pooling at the 5th convolutional layer and was trained with Bayesian cross entropy and mini-batch size 96. Indeed, the extreme amplitude of the training error suggests that the gradient is very noisy. But this and the smaller depth of the architecture do not prevent the model from rapdily fitting the data! These results may suggest something about the impact of removing pooling at the 5th convolutional layer: it leads to learning features that generalise less well, since the model overfits in less than 250 iterations and does not perform well. A possible explanation is that in fact, this model is \textit{not} less powerful than the one represented in figure ~\ref{f57}, 
 
 \begin{figure}
     \centering
