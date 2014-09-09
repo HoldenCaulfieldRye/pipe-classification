@@ -63,13 +63,13 @@
 \contentsline {subsubsection}{\numberline {6.2.2}Per Class Accuracy Layer}{38}
 \contentsline {subsection}{\numberline {6.3}Experimentation}{39}
 \contentsline {subsubsection}{\numberline {6.3.1}Test Run}{39}
-\contentsline {paragraph}{Error-accuracy mismatch}{40}
+\contentsline {paragraph}{Error-accuracy mismatch}{39}
 \contentsline {paragraph}{Zig-zag}{40}
 \contentsline {subsubsection}{\numberline {6.3.2}Freezing Backprop on various layers}{41}
 \contentsline {subsubsection}{\numberline {6.3.3}Initialising Free Layers}{42}
 \contentsline {subsubsection}{\numberline {6.3.4}Softmax vs linear SVM}{43}
 \contentsline {paragraph}{Analytical Comparison}{43}
-\contentsline {paragraph}{Empirical Results}{44}
+\contentsline {paragraph}{Empirical Results}{45}
 \contentsline {section}{\numberline {7}Experiments 3: Class Imbalance}{46}
 \contentsline {subsection}{\numberline {7.1}Definition}{46}
 \contentsline {subsection}{\numberline {7.2}Motivations}{46}
@@ -98,12 +98,12 @@
 \contentsline {subsection}{\numberline {8.1}Motivations}{60}
 \contentsline {subsection}{\numberline {8.2}Implementation}{60}
 \contentsline {subsection}{\numberline {8.3}Experimentation}{60}
-\contentsline {paragraph}{Test Run}{60}
-\contentsline {paragraph}{Remove pooling and a fc layer}{60}
-\contentsline {paragraph}{Under-Sampling benchmark}{62}
-\contentsline {paragraph}{Remove Pooling, a FC layer and add Bayesian Cross Entropy}{62}
-\contentsline {paragraph}{Softmax Bayesian Cross Entropy and lower learning rate}{62}
-\contentsline {paragraph}{Reduce gradient noisiness of Bayesian cross entropy}{63}
-\contentsline {paragraph}{Concluding Remarks}{64}
-\contentsline {section}{\numberline {9}Final Results}{64}
+\contentsline {subsubsection}{\numberline {8.3.1}Test Run}{61}
+\contentsline {subsubsection}{\numberline {8.3.2}Remove pooling and a fc layer}{61}
+\contentsline {subsubsection}{\numberline {8.3.3}Under-Sampling benchmark}{61}
+\contentsline {subsubsection}{\numberline {8.3.4}Remove Pooling, a FC layer and add Bayesian Cross Entropy}{62}
+\contentsline {subsubsection}{\numberline {8.3.5}Softmax Bayesian Cross Entropy and lower learning rate}{62}
+\contentsline {subsubsection}{\numberline {8.3.6}Reduce gradient noisiness of Bayesian cross entropy}{63}
+\contentsline {subsubsection}{\numberline {8.3.7}Concluding Remarks}{65}
+\contentsline {section}{\numberline {9}Final Results}{65}
 \contentsline {section}{\numberline {10}Conclusions and Future Work}{67}

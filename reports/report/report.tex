@@ -1845,14 +1845,14 @@ Visually, the 5th convolutional layer has 256 kernel maps, which start off at 13
 
 \subsection{Implementation}
 
-The architecture of the network was easily modified thanks to the prototxt interface featured in Caffe. However, note that above batch size 96 saturates gpu memory. The reason for why this model can take up more space is because without pool, the partial derivatives between conv5 and fc6 are twice as large, and that already constitutes the largest Jacobian in the model: we go from a (bSize*256*6*6) x (bSize*4096) Jacobian to a (bSize*256*13*13) x (bSize*4096), i.e.\ 4.7 times as large. \\
+The architecture of the network was easily modified thanks to the prototxt interface featured in Caffe. However, in order not to saturate GPU memory, a fully connected layer had to be removed, and batch size had to be kept at 96. The reasons for this were understood later, and are given in the experimentation section. \\
 
 \subsection{Experimentation}
 
 good to make standard deviation of the weights proportional to the square root of the fan in. 
 since the weights are random it scales with the square root of the of the weights, so good to make size fo the weights proportional to the square root of the fan-in. 
 
-\paragraph{Test Run}
+\subsubsection{Test Run}
 %     soil_contam/tl_wout
 %     soil_contam/none_lr5_sbl
 \begin{figure}
@@ -1878,7 +1878,7 @@ since the weights are random it scales with the square root of the of the weight
 Transfer learning barely helps. 
      
      
-\paragraph{Remove pooling and a fc layer}
+\subsubsection{Remove pooling and a fc layer}
 %     soil_contam/nopool_sl                    TRAINING
 \begin{figure}
     \centering
@@ -1903,7 +1903,7 @@ Transfer learning barely helps.
 Removal of the FC layer was simply for computation to be feasible on the GPU. This also meant using a smaller batch size. The results look as if removing pooling and a fully connected layer improve performance a bit, but these gains seem random, and are therefore likely to be lucky noisy gains such as was explained in greater depth in the previous section. This added noise could be due to the random-reinitialisation of weights in the two fully connected layers. To sum up, there is no compelling evidence that removing pooling and a fully connected layer help.
 
 
-\paragraph{Under-Sampling benchmark}
+\subsubsection{Under-Sampling benchmark}
 \begin{figure}
     \centering
     \begin{minipage}[b]{\textwidth}
@@ -1926,7 +1926,7 @@ Removal of the FC layer was simply for computation to be feasible on the GPU. Th
 
 This is a benchmark against which to evaluate Bayesian cross entropy for the soil contamination task. Both models shown have AlexNet architecture. Under-sampling is less successful on this task than on clamp detection 98\%, it delivers 8 additional classification percentage points. We can see that the model takes over 500 iterations to leave the critical point. 
 
-\paragraph{Remove Pooling, a FC layer and add Bayesian Cross Entropy}
+\subsubsection{Remove Pooling, a FC layer and add Bayesian Cross Entropy}
 %     soil_contam/nopool                       TRAINING
 \begin{figure}
     \centering
@@ -1951,7 +1951,7 @@ This is a benchmark against which to evaluate Bayesian cross entropy for the soi
 By adding Bayesian cross entropy, training becomes very noisy, as is already discussed and explained in the previous section. However, once again, there is a performance gain of just under 10 percentage points. Note that the validation error oscillates, suggesting that the model is overshooting a minimum. If so, a smaller learning rate should increase performance. \\
 
 
-\paragraph{Softmax Bayesian Cross Entropy and lower learning rate}
+\subsubsection{Softmax Bayesian Cross Entropy and lower learning rate}
 %     soil_contam/nopool                       TRAINING
 \begin{figure}
     \centering
@@ -1978,7 +1978,7 @@ Lowering the learning rate from 0.0001 to 0.00001 significantly helps. The ampli
 Notice that the training error converges surprisingly slowly, which implies that the model is slow at fitting the data. This is either because fitting the training data requires an even more powerful, highly non-linear, expressive model -- i.e.\ the current error surface does not have very deep minima -- or because the error surface is not being navigated correctly. The former seems unlikely, given that backpropagation is enabled on all layers, and that in the previous experiment (figure ~\ref{f57}), a shallower model equipped with Bayesian cross entropy converged faster. If the latter is true, then this is either because the modulus of the gradient is too high, so the minimum gets overshot, or because the direction of the gradient is too often wrong. In the former case, we would expect the errors to be periodic as they circle the high-dimensional quadratic bowl surrounding the minimum. This is not observed here. Moreover, the minimum gets overshot if and only if the learning rate is too high. We can therefore test this hypothesis by lowering the learning rate yet further, to $10^{-6}$. \\
 
 
-\paragraph{Reduce gradient noisiness of Bayesian cross entropy}
+\subsubsection{Reduce gradient noisiness of Bayesian cross entropy}
 
 The plot on figure ~\ref{f68} shows a model trained with this learning rate between the 5,000th and 10,000th iterations. The training error still does not decrease, and its amplitude remains high. This suggests that the cause for non-fitting is frequently wrong directions of the gradient. A possible cause for this is noisy gradient, which has been consistently observed in models trained on Bayesian cross entropy. As previously stated, this is likely due to varying class proportions across mini-batches. If so, it can be reduced by ensuring equal class proportions across all mini-batches; but time constraints did not leave enough time for this implementation. In the meantime, we can reduce the standard deviation of class proportions across mini-batches by increasing the mini-batch size. What is somewhat consoling is that the batch-size for this training session was 96, which is unusually small: typical batch-size is 128 \cite{soumith-benchmark}, but 96 was chosen in the hope of speeding up training. By significantly raising the mini-batch size, to 256, we can get an idea of how much of the gradient's noisiness is attributable to batch-size. \\  
 
@@ -1990,7 +1990,9 @@ The plot on figure ~\ref{f68} shows a model trained with this learning rate betw
 \end{figure}
 
 
-Figure ~\ref{f69} shows a model trained with higher mini-batch size between the 2,000th and 10,000th iterations. The reduced amplitude of the training error indicates that gradient noisiness has decreased, and yet the error still does not converge. Let us reconsider the model shown to the right of figure ~\ref{f57}: it lacks a fully connected layer, performs no pooling at the 5th convolutional layer and was trained with Bayesian cross entropy and mini-batch size 96. Indeed, the extreme amplitude of the training error suggests that the gradient is very noisy. But this and the smaller depth of the architecture do not prevent the model from rapdily fitting the data! These results may suggest something about the impact of removing pooling at the 5th convolutional layer: it leads to learning features that generalise less well, since the model overfits in less than 250 iterations and does not perform well. A likely explanation is that in fact, this model is \textit{not} less powerful than the one represented in figure ~\ref{f57}, because removing the $3 \times 3$ pooling at the 5th convolutional layer multiplies by 9 the number of edges between the layer and the one above. In other words, this introduces an additional \\$8 x (6*6) x 4096 = 1,179,648$ parameters
+Figure ~\ref{f69} shows a model trained with higher mini-batch size between the 2,000th and 10,000th iterations. The reduced amplitude of the training error indicates that gradient noisiness has decreased, and yet the error still does not converge. Let us reconsider the model shown to the right of figure ~\ref{f57}: it lacks a fully connected layer, performs no pooling at the 5th convolutional layer and was trained with Bayesian cross entropy and mini-batch size 96. Indeed, the extreme amplitude of the training error suggests that the gradient is very noisy. But this and the smaller depth of the architecture do not prevent the model from rapdily fitting the data! These results may suggest something about the impact of removing pooling at the 5th convolutional layer: it leads to learning features that generalise less well, since the model overfits in less than 250 iterations and does not perform well. 
+
+The reason for this is the same as why the GPU could not hold a high mini-batch size and 3 fully connected layers without pooling in the 5th convolutional layer: removing pooling at this specific area in the net dramatically increases the number of parameters. Given that pooling in that layer takes us from 256 $13\times13$ kernel maps to 256 $6\times6$ pooled kernel maps, removing it causes the 4096 units of the fully connected layer above to receive input from 34,048 more units. Since a fully connected layer has no weight sharing, this introduces nearly 140 million additional parameters to the model, which is very large compared to the 60 million parameters \textit{overall} in AlexNet \cite{krizhevsky}. Smaller batch-size alleviates this issue for the indirect reason that Caffe's implementation of Stochastic Gradient privileges speed over space: error-weight partial derivatives are computed for each training case and stored separately in memory before being averaged. This allows to perform a single divison per error-weight derivative computation and to not run the risk of overflow. However, the consequence is that the Jacobians take on another dimension: the batch-size. 
 
 \begin{figure}
     \centering
@@ -2012,13 +2014,14 @@ Figure ~\ref{f69} shows a model trained with higher mini-batch size between the 
     \label{f69}
 \end{figure}
 
-Despite how gradient noisiness decreased by raising the mini-batch size, what remains striking is that in figure ~\ref{f57}, the model represented on the right only has mini-batch size 96
 
 %Furthermore, learning is halted after 2000 iterations (this was due to time constraints), before overfitting begins, so it seems clear from the plots that more progress can be made by resuming training. \\
 
-\paragraph{Concluding Remarks}
+\subsubsection{Concluding Remarks}
 
-A potential explanation for why the gains from the Bayesian cross entropy are much greater for this task than for clamp detection with 98\% imbalance is that imbalance is not as stark in this task, so the variance of the modulus of the gradient is lower, i.e.\ the gradient is less noisy. Since this issue could be addressed by ensuring equal class distribution at every mini-batch, the size of gains observed here could also potentially be seen with clampdet detection 98\% and other tasks with similar imbalances. \\
+Removing pooling from the final convolutional layer was not a good idea. Because this is the only convolutional layer to be linked to a fully connected layer (i.e.\ which does not have any weight sharing), going from $6\times6$ pooled kernel maps to $13\times13$ kernel maps dramatically increases the number of parameters. The result is a model which rapidly overfits the data, even if a fully connected layer is removed: for example, in the context of AlexNet, the former introduces ~140 million parameters versus ~17 million for the latter. A takeaway from this failed experiment is a potential explanation for why it is optimal\footnote{Assuming AlexNet architecture is optimal, which is likely given that its architecture was that of all high performing deep learning teams at ILSVRC 2013.} to pool in the 5th convolutional layer but not the 3rd nor 4th: pooling at high levels can lose important spatial information; as long as the layer above is not fully connected, omitting pooling is feasible. \\
+
+Despite the failure of removing pooling, the experiments showed how successful Bayesian cross entropy could be. Potential explanation for why the gains from the Bayesian cross entropy are much greater for this task than for clamp detection with 98\% imbalance is that imbalance is not as stark in this task, so the variance of the modulus of the gradient is lower, i.e.\ the gradient is less noisy. Since this issue could be addressed by ensuring equal class distribution at every mini-batch, the size of gains observed here could also potentially be seen with clampdet detection 98\% and other tasks with similar imbalances. \\
 
 This section marks a failure for modifying the architecture of AlexNet, but it marks a victory for the Bayesian cross entropy, and encourages further empirical research into the benefits that this novel cost function can bring to training deep neural networks.
 
