@@ -1845,7 +1845,7 @@ Visually, the 5th convolutional layer has 256 kernel maps, which start off at 13
 
 \subsection{Implementation}
 
-The architecture of the network was easily modified thanks to the prototxt interface featured in Caffe. However, note that above batch size 96 saturates gpu memory. The reason for why this model can takes up so much more space is because removing the $3 \times 3$ pooling at the 5th convolutional layer multiplies by 9 the number of edges between it and the first fully connected layer. Given that it has 256 kernel maps, this introduces an additional \\$8 x 256 x 4096 = 8,388,608$ parameters to the model. because without pooling, the partial derivatives between conv5 and fc6 are twice as large, and that already constitutes the largest Jacobian in the model: we go from a (bSize*256*6*6) x (bSize*4096) Jacobian to a (bSize*256*13*13) x (bSize*4096), i.e.\ 4.7 times as large. \\
+The architecture of the network was easily modified thanks to the prototxt interface featured in Caffe. However, note that above batch size 96 saturates gpu memory. The reason for why this model can takes up so much more space is because removing the $3 \times 3$ pooling at the 5th convolutional layer multiplies by 9 the number of edges between it and the first fully connected layer. Given that pooling in that layer takes us from 256 $13\times13$ kernel maps to , this introduces an additional \\$8 \times 256 \times 6 \times 6 \times 4096 = 301,989,888$ parameters to the model. because without pooling, the partial derivatives between conv5 and fc6 are twice as large, and that already constitutes the largest Jacobian in the model: we go from a (bSize*256*6*6) x (bSize*4096) Jacobian to a (bSize*256*13*13) x (bSize*4096), i.e.\ 4.7 times as large. \\
 
 
 
