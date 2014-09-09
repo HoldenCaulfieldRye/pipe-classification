@@ -2036,14 +2036,14 @@ As of this writing, Bayesian cross entropy was only tested on the soil contamina
     \hline
     Model & / Count & ~ Need Spatial? & ~ Need HD? & ~ PC Val Acc & ~ Automation  \\ 
     \hline
-    Clamp               & ~ 1,323  & ~     & ~    & ~ 89.2\%  & ~ 73\% \\
+    Clamp               & ~ 1,323  & ~     & ~    & ~ 89.2\%  & ~ 72\% \\
     Ground Sheet        & ~ 5,541  & ~     & ~    & ~ 88.6\%  & ~ 68\%    \\
-    Hatch Markings      & ~ 3,793  & ~     & ~    & ~ 76.9\%  & ~ 38\%    \\
-    Insertion Depth     & ~ 897    & ~     & ~    & ~ 78.1\%  & ~ 40\%      \\
-    Soil Contam         & ~ 532    & ~ X   & ~ X  & ~ 74.8\%  & ~ 32\%      \\
+    Insertion Depth     & ~ 897    & ~     & ~    & ~ 78.1\%  & ~ 39\%      \\
+    Hatch Markings      & ~ 3,793  & ~     & ~    & ~ 76.9\%  & ~ 37\%    \\
+    Soil Contam         & ~ 532    & ~ X   & ~ X  & ~ 74.8\%  & ~ 35\%      \\
+    Scrape Zones        & ~ 2,545  & ~ X   & ~    & ~ 74.7\%  & ~ 34\%     \\
+    Scraping or Peeling & ~ 292    & ~ X   & ~ X  & ~ 67.3\%  & ~ 18\%     \\
     Water Contam        & ~ 312    & ~ X   & ~ X  & ~ 50\%    & ~ 0\%    \\
-    Scrape Zones        & ~ 2,545  & ~ X   & ~    & ~ 74.7\%  & ~ 32\%     \\
-    Scraping or Peeling & ~ 292    & ~ X   & ~ X  & ~ 50\%    & ~ 0\%     \\
     Fitting Proximity   & ~ 32     & ~ X   & ~    & ~ 50\%    & ~ 0\% \\
     Joint Misalignment  & ~ 35     & ~     & ~    & ~ 50\%    & ~ 0\% \\
     \hline
@@ -2107,7 +2107,7 @@ As of this writing, Bayesian cross entropy was only tested on the soil contamina
         ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
+                \includegraphics[width=\textwidth]{images/plot_scraping_peeling_conv3_bs256_sbl.png}
                 \caption{Scraping or Peeling}
                 \label{fig:tiger}
         \end{subfigure}
