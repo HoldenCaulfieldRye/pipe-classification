@@ -1985,6 +1985,18 @@ This presents best results for each binary classifier. The first three columns a
     \label{f59}
 \end{table} 
 
+
+\begin{figure}[h]       
+    \fbox{\includegraphics[scale=0.9]{images/taj_mahal.jpg}}   
+    \hspace{30px}
+    \fbox{\includegraphics[scale=0.15]{images/kernel_edge_enhance.png}}
+    \hspace{30px}
+    \fbox{\includegraphics[scale=0.23]{images/kernel_edge_enhance_result.png}}
+    \caption{Image, kernel and resulting kernel map (source: convmatrix Gip documentation}
+    \label{f21}
+\end{figure}
+
+
 %To sum up, the two greatest challenges with the Bluebox dataset is small size and class imbalance. Small size can be dealt with by transferring knowledge from another task by initialising weights. Class imbalance can be cruelly dealt with using under-sampling, but this decreases the size of the dataset even more, making robustness ie generalisation the second challenge. Therefore, we use [..] and [..] to help with dealing with class imbalance and mitigate the extent of under-sampling. \\
 %
 %This is where you mention the multi-query issue, the mis-labelling issue. Also mention the things you could not experiment with: the entire list in your .md file. \\

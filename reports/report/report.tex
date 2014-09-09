@@ -1175,6 +1175,13 @@ The main difference is in the training error: when backpropagation is restricted
 
 However, there is an optimal middle ground: freezing backpropagation on four of the five convolutional layers achieves a maximal average per class validation accuracy of 89.2\%. A potential explanation for this is the one given above, namely that freezing backpropagation on lower layers conserves optimal features, forces the model to make more effort to fit the data with the limited use of the upper layers, and generalises better. \\
 
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.5]{images/plot_clampdet_conv4.png}
+	\caption{Test Run with validation errors computed over an unchanging set}
+    \label{f29}
+\end{figure}
+
 
 \subsubsection{Initialising Free Layers}
 
@@ -1984,6 +1991,18 @@ This presents best results for each binary classifier. The first three columns a
     \caption {Final Results}
     \label{f59}
 \end{table} 
+
+
+\begin{figure}[h]       
+    \fbox{\includegraphics[scale=0.28]{images/plot_markings-fine_01-08-2014.png}}   
+    \hspace{30px}
+    \fbox{\includegraphics[scale=0.28]{images/kernel_edge_enhance.png}}
+    \hspace{30px}
+    \fbox{\includegraphics[scale=0.28]{images/kernel_edge_enhance_result.png}}
+    \caption{Image, kernel and resulting kernel map (source: convmatrix Gip documentation}
+    \label{f21}
+\end{figure}
+
 
 %To sum up, the two greatest challenges with the Bluebox dataset is small size and class imbalance. Small size can be dealt with by transferring knowledge from another task by initialising weights. Class imbalance can be cruelly dealt with using under-sampling, but this decreases the size of the dataset even more, making robustness ie generalisation the second challenge. Therefore, we use [..] and [..] to help with dealing with class imbalance and mitigate the extent of under-sampling. \\
 %
