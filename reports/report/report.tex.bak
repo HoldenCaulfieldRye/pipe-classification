@@ -2020,6 +2020,9 @@ We present best results for each binary classifier. The first three columns of f
                 \caption{Hatch Markings}
                 \label{fig:mouse}
         \end{subfigure}
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+         \\
         \begin{subfigure}[b]{0.3\textwidth}
                 \includegraphics[width=\textwidth]{images/plot_markings-fine_01-08-2014.png}
                 \caption{Insertion Depth Markings}
@@ -2038,6 +2041,10 @@ We present best results for each binary classifier. The first three columns of f
                 \includegraphics[width=\textwidth]{images/plot_water_contam(fa).png}
                 \caption{Water Contamination}
                 \label{fig:mouse}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+         \\
         \begin{subfigure}[b]{0.3\textwidth}
                 \includegraphics[width=\textwidth]{images/plot_scrape_zone_peel-fine.png}
                 \caption{Scrape Zones}
@@ -2053,16 +2060,19 @@ We present best results for each binary classifier. The first three columns of f
         ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
+                \includegraphics[width=\textwidth]{images/plot_water_contam(fa).png}
                 \caption{Fitting Proximity}
                 \label{fig:mouse}
         \end{subfigure}
+        \\
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
+                \includegraphics[width=\textwidth]{images/plot_water_contam(fa).png}
                 \caption{Joint Misalignment}
                 \label{fig:gull}
         \end{subfigure}%
-        \end{subfigure}        \caption{Training Plots of Best Performing Models}\label{fig:animals}
+        \caption{Training Plots of Best Performing Models}\label{fig:animals}
 \end{figure}
 
 
