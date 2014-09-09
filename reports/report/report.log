@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  9 SEP 2014 03:05
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  9 SEP 2014 04:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -950,6 +950,24 @@ LaTeX Warning: Label `sub@fig:2b' multiply defined.
 
 
 LaTeX Warning: Label `fig:2' multiply defined.
+
+
+LaTeX Warning: Label `fig:gull' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:gull' multiply defined.
+
+
+LaTeX Warning: Label `fig:tiger' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:tiger' multiply defined.
+
+
+LaTeX Warning: Label `fig:mouse' multiply defined.
+
+
+LaTeX Warning: Label `sub@fig:mouse' multiply defined.
 
 )
 \openout1 = `report.aux'.
@@ -2820,33 +2838,96 @@ File: images/plot_clampdet_conv4.png Graphic file (type png)
 Package pdftex.def Info: images/plot_clampdet_conv4.png used on input line 2005
 .
 (pdftex.def)             Requested size: 145.11053pt x 108.82819pt.
-File: images/plot_clampdet_conv4.png Graphic file (type png)
- <use images/plot_clampdet_conv4.png>
-Package pdftex.def Info: images/plot_clampdet_conv4.png used on input line 2012
-.
-(pdftex.def)             Requested size: 145.11053pt x 108.82819pt.
-File: images/plot_clampdet_conv4.png Graphic file (type png)
 
-<use images/plot_clampdet_conv4.png>
-Package pdftex.def Info: images/plot_clampdet_conv4.png used on input line 2019
-.
-(pdftex.def)             Requested size: 145.11053pt x 108.82819pt.
-File: images/plot_clampdet_conv4.png Graphic file (type png)
- <use images/plot_clampdet_conv4.png>
-Package pdftex.def Info: images/plot_clampdet_conv4.png used on input line 2024
-.
-(pdftex.def)             Requested size: 145.11053pt x 108.82819pt.
-File: images/plot_clampdet_conv4.png Graphic file (type png)
+<images/plot_caffe_ground_sheet_conv4.png, id=330, 578.16pt x 433.62pt>
+File: images/plot_caffe_ground_sheet_conv4.png Graphic file (type png)
 
-<use images/plot_clampdet_conv4.png>
-Package pdftex.def Info: images/plot_clampdet_conv4.png used on input line 2031
-.
+<use images/plot_caffe_ground_sheet_conv4.png>
+Package pdftex.def Info: images/plot_caffe_ground_sheet_conv4.png used on input
+ line 2012.
 (pdftex.def)             Requested size: 145.11053pt x 108.82819pt.
+
+<images/plot_hatch_markings_noneC.png, id=331, 578.16pt x 433.62pt>
+File: images/plot_hatch_markings_noneC.png Graphic file (type png)
+
+<use images/plot_hatch_markings_noneC.png>
+Package pdftex.def Info: images/plot_hatch_markings_noneC.png used on input lin
+e 2019.
+(pdftex.def)             Requested size: 145.11053pt x 108.82819pt.
+
+<images/plot_markings-fine_01-08-2014.png, id=332, 578.16pt x 433.62pt>
+File: images/plot_markings-fine_01-08-2014.png Graphic file (type png)
+
+<use images/plot_markings-fine_01-08-2014.png>
+Package pdftex.def Info: images/plot_markings-fine_01-08-2014.png used on input
+ line 2024.
+(pdftex.def)             Requested size: 145.11053pt x 108.82819pt.
+File: images/plot_soil_contam_none_lr5_sbl.png Graphic file (type png)
+
+<use images/plot_soil_contam_none_lr5_sbl.png>
+Package pdftex.def Info: images/plot_soil_contam_none_lr5_sbl.png used on input
+ line 2031.
+(pdftex.def)             Requested size: 145.11053pt x 108.82819pt.
+
+<images/plot_water_contam(fa).png, id=333, 578.16pt x 433.62pt>
+File: images/plot_water_contam(fa).png Graphic file (type png)
+
+<use images/plot_water_contam(fa).png>
+Package pdftex.def Info: images/plot_water_contam(fa).png used on input line 20
+38.
+(pdftex.def)             Requested size: 145.11053pt x 108.82819pt.
+
+<images/plot_scrape_zone_peel-fine.png, id=334, 578.16pt x 433.62pt>
+File: images/plot_scrape_zone_peel-fine.png Graphic file (type png)
+
+<use images/plot_scrape_zone_peel-fine.png>
+Package pdftex.def Info: images/plot_scrape_zone_peel-fine.png used on input li
+ne 2042.
+(pdftex.def)             Requested size: 43.5336pt x 32.6458pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 2043--2043
+[]\OT1/cmr/m/n/10 (g)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2043--2043
+|\OT1/cmr/m/n/10 Scrape
+ []
+
 File: images/plot_clampdet_conv4.png Graphic file (type png)
- <use images/plot_clampdet_conv4.png>
-Package pdftex.def Info: images/plot_clampdet_conv4.png used on input line 2038
+<use images/plot_clampdet_conv4.png>
+Package pdftex.def Info: images/plot_clampdet_conv4.png used on input line 2049
 .
-(pdftex.def)             Requested size: 145.11053pt x 108.82819pt.
+(pdftex.def)             Requested size: 43.5336pt x 32.6458pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 2050--2050
+[]\OT1/cmr/m/n/10 (h)
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2050--2050
+|\OT1/cmr/m/n/10 Scrap-ing
+ []
+
+File: images/plot_water_contam(fa).png Graphic file (type png)
+<use images/plot_water_contam(fa).png>
+Package pdftex.def Info: images/plot_water_contam(fa).png used on input line 20
+56.
+(pdftex.def)             Requested size: 43.5336pt x 32.6458pt.
+File: images/plot_water_contam(fa).png Graphic file (type png)
+ <use images/plot_water_contam(fa).png>
+Package pdftex.def Info: images/plot_water_contam(fa).png used on input line 20
+61.
+(pdftex.def)             Requested size: 43.5336pt x 32.6458pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 2062--2062
+[]\OT1/cmr/m/n/10 (j) |Joint
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 2062--2062
+\OT1/cmr/m/n/10 Mis-align-
+ []
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2861,23 +2942,25 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[64]
-Underfull \hbox (badness 10000) in paragraph at lines 2186--2187
+[64 <./images/plot_caffe_ground_sheet_conv4.png> <./images/plot_hatch_markings_
+noneC.png> <./images/plot_markings-fine_01-08-2014.png> <./images/plot_water_co
+ntam(fa).png> <./images/plot_scrape_zone_peel-fine.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 2185--2186
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2188--2189
+Underfull \hbox (badness 10000) in paragraph at lines 2187--2188
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2190--2191
+Underfull \hbox (badness 10000) in paragraph at lines 2189--2190
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2205--2206
+Underfull \hbox (badness 10000) in paragraph at lines 2204--2205
 
  []
 
@@ -2902,7 +2985,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [66
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 2336--2339
+Underfull \hbox (badness 10000) in paragraph at lines 2335--2338
 \OT1/cmr/m/n/10.95 URL: $\OT1/cmtt/m/n/10.95 https : / / plus . google . com / 
 +YoshuaBengio / posts / GJY53aahqS8$\OT1/cmr/m/n/10.95 , last ac-cessed 1st
  []
@@ -2937,13 +3020,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 17362 strings out of 494985
- 317704 string characters out of 6180356
- 375221 words of memory out of 5000000
- 20125 multiletter control sequences out of 15000+600000
+ 17387 strings out of 494985
+ 318689 string characters out of 6180356
+ 376221 words of memory out of 5000000
+ 20145 multiletter control sequences out of 15000+600000
  16039 words of font info for 62 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 48i,12n,61p,1621b,572s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,12n,61p,1621b,585s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texli
@@ -2965,10 +3048,10 @@ ublic/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
 s/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symb
 ols/msbm10.pfb>
-Output written on report.pdf (68 pages, 5316634 bytes).
+Output written on report.pdf (68 pages, 5588777 bytes).
 PDF statistics:
- 422 PDF objects out of 1000 (max. 8388607)
+ 432 PDF objects out of 1000 (max. 8388607)
  222 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
- 363 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 388 words of extra memory for PDF output out of 10000 (max. 10000000)
 
