@@ -3863,3 +3863,9 @@ alex      2885  2841  1 Sep08 pts/30   00:24:01 texmaker report.tex
 To git@github.com:HoldenCaulfieldRye/pipe-classification.git
    8782634..77b7025  master -> master
 alex      2885  2841  1 Sep08 pts/30   00:24:28 texmaker report.tex
+[master e16a102] auto-commit progress on report
+ 3 files changed, 14 insertions(+), 2 deletions(-)
+ rewrite reports/report/images/plot_soil_contam_none_lr5_sbl.png (98%)
+To git@github.com:HoldenCaulfieldRye/pipe-classification.git
+   77b7025..e16a102  master -> master
+alex      2885  2841  1 Sep08 pts/30   00:25:16 texmaker report.tex
