@@ -1972,7 +1972,7 @@ Notice that the training error converges surprisingly slowly, which implies that
 
 \paragraph{Reduce gradient noisiness of Bayesian cross entropy}
 
-The plot on figure ~\ref{f68} shows a model trained with this learning rate between the 5,000th and 10,000th iterations. The training error still does not decrease, and its amplitude remains high. This suggests that the cause for non-fitting is frequently wrong directions of the gradient. Another way of formulating this is to say that the gradient is too noisy; this has been consistently observed in models trained on Bayesian cross entropy. As previously stated, this is likely due to varying class proportions across mini-batches. If so, it can be reduced by ensuring equal class proportions across all mini-batches; but time constraints did not leave enough time for this implementation. In the meantime, we can reduce the standard deviation of class proportions across mini-batches by increasing the mini-batch size. What is somewhat consoling is that the batch-size for this training session was 96, which is unusually small: typical batch-size is 128 \cite{soumith-benchmark}, but 96 was chosen in the hope of speeding up training. By significantly raising the mini-batch size, to 256, we can get an idea of how much of the gradient's noisiness is attributable to batch-size. \\  
+The plot on figure ~\ref{f68} shows a model trained with this learning rate between the 5,000th and 10,000th iterations. The training error still does not decrease, and its amplitude remains high. This suggests that the cause for non-fitting is frequently wrong directions of the gradient. A possible cause for this is noisy gradient, which has been consistently observed in models trained on Bayesian cross entropy. As previously stated, this is likely due to varying class proportions across mini-batches. If so, it can be reduced by ensuring equal class proportions across all mini-batches; but time constraints did not leave enough time for this implementation. In the meantime, we can reduce the standard deviation of class proportions across mini-batches by increasing the mini-batch size. What is somewhat consoling is that the batch-size for this training session was 96, which is unusually small: typical batch-size is 128 \cite{soumith-benchmark}, but 96 was chosen in the hope of speeding up training. By significantly raising the mini-batch size, to 256, we can get an idea of how much of the gradient's noisiness is attributable to batch-size. \\  
 
 \begin{figure}[h!]
 	\centering
@@ -1982,7 +1982,7 @@ The plot on figure ~\ref{f68} shows a model trained with this learning rate betw
 \end{figure}
 
 
-Figure ~\ref{f69} shows a model trained with higher min-batch size between the 2,000th and 10,000th iterations. The training error ...
+Figure ~\ref{f69} shows a model trained with higher mini-batch size between the 2,000th and 10,000th iterations. The reduced amplitude of the training error indicates that gradient noisiness has decreased, and yet the error still does not converge. Let us reconsider the model shown to the right of figure ~\ref{f57}: it lacks a fully connected layer, performs no pooling at the 5th convolutional layer and was trained with Bayesian cross entropy and mini-batch size 96. Indeed, the extreme amplitude of the training error suggests that the gradient is very noisy. But this and the smaller depth of the architecture do not prevent the model from fitting the data! These results may suggest something about the impact of removing pooling at the 5th convolutional layer: it does not enable the learning of features
 
 \begin{figure}
     \centering
@@ -1991,13 +1991,13 @@ Figure ~\ref{f69} shows a model trained with higher min-batch size between the 2
         \centering
         \includegraphics[scale=0.4]{images/plot_soil_contam_none_lr5_sbl.png}
         % Add \par\vspace*{20pt} here and...
-        \caption{Mini-batch size 96}\label{fig:2a}
+        \caption{Batch size 96}\label{fig:2a}
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
         \includegraphics[scale=0.4]{images/plot_soil_contam_none_bs256_lr5_sbl.png}
         % ...here to lower the subcaptions and...
-        \caption{Mini-batch size 256}\label{fig:2b}
+        \caption{Batch size 256 from 2000th iter onwards}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{Reduce gradient noisiness with mini-batch size}\label{fig:2}
     \end{minipage}%
