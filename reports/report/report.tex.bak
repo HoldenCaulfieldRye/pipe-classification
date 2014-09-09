@@ -2026,7 +2026,9 @@ This section marks a failure for modifying the architecture of AlexNet, but it m
 
 \section{Final Results}
 
-We present best results for each binary classifier. The first three columns of figure ~\ref{f59} are indicators of the difficulty of the task: amount of available Bluebox examples, whether the task requires precise spatial information, whether the downsizing of the images to 256x256 prevented a human expert from carrying out classification. The last two columns are measures success: maximum average per class validation accuracy, and percentage of work that could be automated by setting the threshold so as to obtain 95\% accuracy on true positives. Note that as of this writing, Bayesian cross entropy was only tested on the soil contamination task, so in light of its success on that task as well as on clamp detection 98\%, scores are likely to increase significantly. \\
+We present best results for each binary classifier. The first three columns of figure ~\ref{f59} are indicators of the difficulty of the task: amount of available Bluebox examples, whether the task requires precise spatial information, whether the downsizing of the images to 256x256 prevented a human expert from carrying out classification. The last two columns are measures success: maximum average per class validation accuracy, and percentage of work that could be automated by setting the threshold so as to obtain 95\% accuracy on true positives. Note that accuracy values performance measures are all in the 88-99\% range, but as is argued at length in this report, this metric is inadequate when there is class imbalance. 
+
+As of this writing, Bayesian cross entropy was only tested on the soil contamination task, so in light of its success on that task as well as on clamp detection 98\%, scores are likely to increase significantly. \\
 
 \begin{table}[h!]
    \centering
@@ -2037,7 +2039,7 @@ We present best results for each binary classifier. The first three columns of f
     Clamp               & ~ 1,323  & ~     & ~    & ~ 89.2\%  & ~ 73\% \\
     Ground Sheet        & ~ 5,541  & ~     & ~    & ~ 88.6\%  & ~ 68\%    \\
     Hatch Markings      & ~ 3,793  & ~     & ~    & ~ 76.9\%  & ~ 38\%    \\
-    Insertion Depth     & ~ 897    & ~     & ~    & ~ 89.0\%  & ~ 72\%      \\
+    Insertion Depth     & ~ 897    & ~     & ~    & ~ 78.1\%  & ~ 40\%      \\
     Soil Contam         & ~ 532    & ~ X   & ~ X  & ~ 74.8\%  & ~ 32\%      \\
     Water Contam        & ~ 312    & ~ X   & ~ X  & ~ 50\%    & ~ 0\%    \\
     Scrape Zones        & ~ 2,545  & ~ X   & ~    & ~ 74.7\%  & ~ 32\%     \\
@@ -2076,7 +2078,7 @@ We present best results for each binary classifier. The first three columns of f
           %(or a blank line to force the subfigure onto a new line)
          \\
         \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth]{images/plot_markings-fine_01-08-2014.png}
+                \includegraphics[width=\textwidth]{images/plot_insertion_markings_conv4_sbl.png}
                 \caption{Insertion Depth Markings}
                 \label{fig:gull}
         \end{subfigure}%

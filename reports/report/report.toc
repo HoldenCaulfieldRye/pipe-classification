@@ -104,6 +104,7 @@
 \contentsline {subsubsection}{\numberline {8.3.4}Remove Pooling, a FC layer and add Bayesian Cross Entropy}{62}
 \contentsline {subsubsection}{\numberline {8.3.5}Softmax Bayesian Cross Entropy and lower learning rate}{62}
 \contentsline {subsubsection}{\numberline {8.3.6}Reduce gradient noisiness of Bayesian cross entropy}{63}
-\contentsline {subsubsection}{\numberline {8.3.7}Concluding Remarks}{65}
+\contentsline {subsection}{\numberline {8.4}Effect of Removing Pooling at conv5}{64}
+\contentsline {subsubsection}{\numberline {8.4.1}Concluding Remarks}{64}
 \contentsline {section}{\numberline {9}Final Results}{65}
 \contentsline {section}{\numberline {10}Conclusions and Future Work}{67}

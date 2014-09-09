@@ -1980,19 +1980,9 @@ Notice that the training error converges surprisingly slowly, which implies that
 
 \subsubsection{Reduce gradient noisiness of Bayesian cross entropy}
 
-The plot on figure ~\ref{f68} shows a model trained with this learning rate between the 5,000th and 10,000th iterations. The training error still does not decrease, and its amplitude remains high. This suggests that the cause for non-fitting is frequently wrong directions of the gradient. A possible cause for this is noisy gradient, which has been consistently observed in models trained on Bayesian cross entropy. As previously stated, this is likely due to varying class proportions across mini-batches. If so, it can be reduced by ensuring equal class proportions across all mini-batches; but time constraints did not leave enough time for this implementation. In the meantime, we can reduce the standard deviation of class proportions across mini-batches by increasing the mini-batch size. What is somewhat consoling is that the batch-size for this training session was 96, which is unusually small: typical batch-size is 128 \cite{soumith-benchmark}, but 96 was chosen in the hope of speeding up training. By significantly raising the mini-batch size, to 256, we can get an idea of how much of the gradient's noisiness is attributable to batch-size. \\  
+The leftward plot on figure ~\ref{f68} shows a model trained with this learning rate between the 5,000th and 10,000th iterations. The training error still does not decrease, and its amplitude remains high. This suggests that the cause for non-fitting is frequently wrong directions of the gradient. A possible cause for this is noisy gradient, which has been consistently observed in models trained on Bayesian cross entropy. As previously stated, this is likely due to varying class proportions across mini-batches. If so, it can be reduced by ensuring equal class proportions across all mini-batches; but time constraints did not leave enough time for this implementation. In the meantime, we can reduce the standard deviation of class proportions across mini-batches by increasing the mini-batch size. What is somewhat consoling is that the batch-size for this training session was 96, which is unusually small: typical batch-size is 128 \cite{soumith-benchmark}, but 96 was chosen in the hope of speeding up training. By significantly raising the mini-batch size, to 256, we can get an idea of how much of the gradient's noisiness is attributable to batch-size.  
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.4]{images/plot_soil_contam_none_lr5_sbl.png}
-	\caption{Failure to fit the data with Bayesian Cross Entropy}
-    \label{f68}
-\end{figure}
-
-
-Figure ~\ref{f69} shows a model trained with higher mini-batch size between the 2,000th and 10,000th iterations. The reduced amplitude of the training error indicates that gradient noisiness has decreased, and yet the error still does not converge. Let us reconsider the model shown to the right of figure ~\ref{f57}: it lacks a fully connected layer, performs no pooling at the 5th convolutional layer and was trained with Bayesian cross entropy and mini-batch size 96. Indeed, the extreme amplitude of the training error suggests that the gradient is very noisy. But this and the smaller depth of the architecture do not prevent the model from rapdily fitting the data! These results may suggest something about the impact of removing pooling at the 5th convolutional layer: it leads to learning features that generalise less well, since the model overfits in less than 250 iterations and does not perform well. 
-
-The reason for this is the same as why the GPU could not hold a high mini-batch size and 3 fully connected layers without pooling in the 5th convolutional layer: removing pooling at this specific area in the net dramatically increases the number of parameters. Given that pooling in that layer takes us from 256 $13\times13$ kernel maps to 256 $6\times6$ pooled kernel maps, removing it causes the 4096 units of the fully connected layer above to receive input from 34,048 more units. Since a fully connected layer has no weight sharing, this introduces nearly 140 million additional parameters to the model, which is very large compared to the 60 million parameters \textit{overall} in AlexNet \cite{krizhevsky}. Smaller batch-size alleviates this issue for the indirect reason that Caffe's implementation of Stochastic Gradient privileges speed over space: error-weight partial derivatives are computed for each training case and stored separately in memory before being averaged. This allows to perform a single divison per error-weight derivative computation and to not run the risk of overflow. However, the consequence is that the Jacobians take on another dimension: the batch-size. 
+The rightward plot of figure ~\ref{f68} shows a model trained with higher mini-batch size between the 2,000th and 10,000th iterations. The reduced amplitude of the training error indicates that gradient noisiness has decreased, and indeed the error converges. 
 
 \begin{figure}
     \centering
@@ -2001,7 +1991,7 @@ The reason for this is the same as why the GPU could not hold a high mini-batch 
         \centering
         \includegraphics[scale=0.4]{images/plot_soil_contam_none_lr5_sbl.png}
         % Add \par\vspace*{20pt} here and...
-        \caption{Batch size 96}\label{fig:2a}
+        \caption{Batch size 96, fail to fit the data}\label{fig:2a}
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
@@ -2011,8 +2001,16 @@ The reason for this is the same as why the GPU could not hold a high mini-batch 
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
       \caption{Reduce gradient noisiness with mini-batch size}\label{fig:2}
     \end{minipage}%
-    \label{f69}
+    \label{f68}
 \end{figure}
+
+
+\subsection{Effect of Removing Pooling at conv5}
+
+Let us reconsider the model shown to the right of figure ~\ref{f57}: it lacks a fully connected layer, performs no pooling at the 5th convolutional layer and was trained with Bayesian cross entropy and mini-batch size 96. Indeed, the extreme amplitude of the training error suggests that the gradient is very noisy. But this and the smaller depth of the architecture do not prevent the model from rapdily fitting the data! These results may suggest something about the impact of removing pooling at the 5th convolutional layer: it leads to learning features that generalise less well, since the model overfits in less than 250 iterations and does not perform well. 
+
+The reason for this is the same as why the GPU could not hold a high mini-batch size and 3 fully connected layers without pooling in the 5th convolutional layer: removing pooling at this specific area in the net dramatically increases the number of parameters. Given that pooling in that layer takes us from 256 $13\times13$ kernel maps to 256 $6\times6$ pooled kernel maps, removing it causes the 4096 units of the fully connected layer above to receive input from 34,048 more units. Since a fully connected layer has no weight sharing, this introduces nearly 140 million additional parameters to the model, which is very large compared to the 60 million parameters \textit{overall} in AlexNet \cite{krizhevsky}. Smaller batch-size alleviates this issue for the indirect reason that Caffe's implementation of Stochastic Gradient privileges speed over space: error-weight partial derivatives are computed for each training case and stored separately in memory before being averaged. This allows to perform a single divison per error-weight derivative computation and to not run the risk of overflow. However, the consequence is that the Jacobians take on another dimension: the batch-size. 
+
 
 
 %Furthermore, learning is halted after 2000 iterations (this was due to time constraints), before overfitting begins, so it seems clear from the plots that more progress can be made by resuming training. \\
@@ -2028,7 +2026,9 @@ This section marks a failure for modifying the architecture of AlexNet, but it m
 
 \section{Final Results}
 
-We present best results for each binary classifier. The first three columns of figure ~\ref{f59} are indicators of the difficulty of the task: amount of available Bluebox examples, whether the task requires precise spatial information, whether the downsizing of the images to 256x256 prevented a human expert from carrying out classification. The last two columns are measures success: maximum average per class validation accuracy, and percentage of work that could be automated by setting the threshold so as to obtain 95\% accuracy on true positives. Note that as of this writing, Bayesian cross entropy was only tested on the soil contamination task, so in light of its success on that task as well as on clamp detection 98\%, scores are likely to increase significantly. \\
+We present best results for each binary classifier. The first three columns of figure ~\ref{f59} are indicators of the difficulty of the task: amount of available Bluebox examples, whether the task requires precise spatial information, whether the downsizing of the images to 256x256 prevented a human expert from carrying out classification. The last two columns are measures success: maximum average per class validation accuracy, and percentage of work that could be automated by setting the threshold so as to obtain 95\% accuracy on true positives. Note that accuracy values performance measures are all in the 88-99\% range, but as is argued at length in this report, this metric is inadequate when there is class imbalance. 
+
+As of this writing, Bayesian cross entropy was only tested on the soil contamination task, so in light of its success on that task as well as on clamp detection 98\%, scores are likely to increase significantly. \\
 
 \begin{table}[h!]
    \centering
@@ -2039,7 +2039,7 @@ We present best results for each binary classifier. The first three columns of f
     Clamp               & ~ 1,323  & ~     & ~    & ~ 89.2\%  & ~ 73\% \\
     Ground Sheet        & ~ 5,541  & ~     & ~    & ~ 88.6\%  & ~ 68\%    \\
     Hatch Markings      & ~ 3,793  & ~     & ~    & ~ 76.9\%  & ~ 38\%    \\
-    Insertion Depth     & ~ 897    & ~     & ~    & ~ 89.0\%  & ~ 72\%      \\
+    Insertion Depth     & ~ 897    & ~     & ~    & ~ 78.1\%  & ~ 40\%      \\
     Soil Contam         & ~ 532    & ~ X   & ~ X  & ~ 74.8\%  & ~ 32\%      \\
     Water Contam        & ~ 312    & ~ X   & ~ X  & ~ 50\%    & ~ 0\%    \\
     Scrape Zones        & ~ 2,545  & ~ X   & ~    & ~ 74.7\%  & ~ 32\%     \\
@@ -2078,7 +2078,7 @@ We present best results for each binary classifier. The first three columns of f
           %(or a blank line to force the subfigure onto a new line)
          \\
         \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth]{images/plot_markings-fine_01-08-2014.png}
+                \includegraphics[width=\textwidth]{images/plot_insertion_markings_conv4_sbl.png}
                 \caption{Insertion Depth Markings}
                 \label{fig:gull}
         \end{subfigure}%
