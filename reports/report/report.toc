@@ -67,7 +67,7 @@
 \contentsline {paragraph}{Zig-zag}{40}
 \contentsline {subsubsection}{\numberline {6.3.2}Freezing Backprop on various layers}{41}
 \contentsline {subsubsection}{\numberline {6.3.3}Initialising Free Layers}{42}
-\contentsline {subsubsection}{\numberline {6.3.4}Softmax vs linear SVM}{42}
+\contentsline {subsubsection}{\numberline {6.3.4}Softmax vs linear SVM}{43}
 \contentsline {paragraph}{Analytical Comparison}{43}
 \contentsline {paragraph}{Empirical Results}{44}
 \contentsline {section}{\numberline {7}Experiments 3: Class Imbalance}{46}
@@ -104,4 +104,4 @@
 \contentsline {paragraph}{Remove Pooling, a FC layer and add Bayesian Cross Entropy}{61}
 \contentsline {paragraph}{Softmax Bayesian Cross Entropy and lower learning rate}{61}
 \contentsline {section}{\numberline {9}Final Results}{63}
-\contentsline {section}{\numberline {10}Conclusions and Future Work}{64}
+\contentsline {section}{\numberline {10}Conclusions and Future Work}{65}

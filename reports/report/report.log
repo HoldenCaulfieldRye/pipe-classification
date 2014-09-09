@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  8 SEP 2014 16:08
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.5.13)  9 SEP 2014 03:05
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -354,11 +354,13 @@ Package: verbatim 2003/08/22 v1.5q LaTeX2e package for verbatim enhancements
 \verbatim@line=\toks33
 \verbatim@in@stream=\read2
 )
+\@float@every@figure=\toks34
+
 (/usr/share/texmf/tex/latex/pgf/frontendlayer/tikz.sty
 (/usr/share/texmf/tex/latex/pgf/basiclayer/pgf.sty
 (/usr/share/texmf/tex/latex/pgf/utilities/pgfrcs.sty
 (/usr/share/texmf/tex/generic/pgf/utilities/pgfutil-common.tex
-\pgfutil@everybye=\toks34
+\pgfutil@everybye=\toks35
 )
 (/usr/share/texmf/tex/generic/pgf/utilities/pgfutil-latex.def
 \pgfutil@abb=\box39
@@ -439,9 +441,9 @@ Package: pgfcore 2010/04/11 v2.10 (rcs-revision 1.7)
 \pgfmath@dimen=\dimen154
 \pgfmath@count=\count148
 \pgfmath@box=\box40
-\pgfmath@toks=\toks35
-\pgfmath@stack@operand=\toks36
-\pgfmath@stack@operation=\toks37
+\pgfmath@toks=\toks36
+\pgfmath@stack@operand=\toks37
+\pgfmath@stack@operation=\toks38
 )
 (/usr/share/texmf/tex/generic/pgf/math/pgfmathfunctions.code.tex
 (/usr/share/texmf/tex/generic/pgf/math/pgfmathfunctions.basic.code.tex)
@@ -551,8 +553,8 @@ Package: pgfcomp-version-1-18 2007/07/23 v2.10 (rcs-revision 1.1)
 Package: pgffor 2010/03/23 v2.10 (rcs-revision 1.18)
 \pgffor@iter=\dimen180
 \pgffor@skip=\dimen181
-\pgffor@stack=\toks38
-\pgffor@toks=\toks39
+\pgffor@stack=\toks39
+\pgffor@toks=\toks40
 ))
 (/usr/share/texmf/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
 Package: tikz 2010/10/13 v2.10 (rcs-revision 1.76)
@@ -726,6 +728,9 @@ LaTeX Warning: Label `fig:2b' multiply defined.
 
 
 LaTeX Warning: Label `sub@fig:2b' multiply defined.
+
+
+LaTeX Warning: Label `f29' multiply defined.
 
 
 LaTeX Warning: Label `fig:2a' multiply defined.
@@ -949,18 +954,18 @@ LaTeX Warning: Label `fig:2' multiply defined.
 )
 \openout1 = `report.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 52.
-LaTeX Font Info:    ... okay on input line 52.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 58.
+LaTeX Font Info:    ... okay on input line 58.
  (/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count165
@@ -968,12 +973,12 @@ LaTeX Font Info:    ... okay on input line 52.
 \scratchbox=\box49
 \nofMPsegments=\count166
 \nofMParguments=\count167
-\everyMPshowfont=\toks40
+\everyMPshowfont=\toks41
 \MPscratchCnt=\count168
 \MPscratchDim=\dimen205
 \MPnumerator=\count169
 \makeMPintoPDFobject=\count170
-\everyMPtoPDFconversion=\toks41
+\everyMPtoPDFconversion=\toks42
 ) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
 Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
 )
@@ -1058,22 +1063,22 @@ e
 ABD: EveryShipout initializing macros
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: End \AtBeginDocument code.
-LaTeX Font Info:    Try loading font information for U+msa on input line 54.
+LaTeX Font Info:    Try loading font information for U+msa on input line 60.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 54.
+LaTeX Font Info:    Try loading font information for U+msb on input line 60.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Underfull \hbox (badness 10000) in paragraph at lines 59--60
+Underfull \hbox (badness 10000) in paragraph at lines 65--66
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 61--62
+Underfull \hbox (badness 10000) in paragraph at lines 67--68
 
  []
 
@@ -1118,7 +1123,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 Missing character: There is no Â in font cmr10!
 Missing character: There is no £ in font cmr10!
 
-Underfull \hbox (badness 10000) in paragraph at lines 119--120
+Underfull \hbox (badness 10000) in paragraph at lines 125--126
 
  []
 
@@ -1126,20 +1131,20 @@ Underfull \hbox (badness 10000) in paragraph at lines 119--120
 File: images/soilcontam2.jpg Graphic file (type jpg)
 
 <use images/soilcontam2.jpg>
-Package pdftex.def Info: images/soilcontam2.jpg used on input line 122.
+Package pdftex.def Info: images/soilcontam2.jpg used on input line 128.
 (pdftex.def)             Requested size: 141.32843pt x 105.99632pt.
 
 <images/watercontam1.jpg, id=27, 642.4pt x 481.8pt>
 File: images/watercontam1.jpg Graphic file (type jpg)
 
 <use images/watercontam1.jpg>
-Package pdftex.def Info: images/watercontam1.jpg used on input line 124.
+Package pdftex.def Info: images/watercontam1.jpg used on input line 130.
 (pdftex.def)             Requested size: 141.32843pt x 105.99632pt.
  <images/perfect2.jpg, id=28, 642.4pt x 481.8pt>
 File: images/perfect2.jpg Graphic file (type jpg)
 
 <use images/perfect2.jpg>
-Package pdftex.def Info: images/perfect2.jpg used on input line 126.
+Package pdftex.def Info: images/perfect2.jpg used on input line 132.
 (pdftex.def)             Requested size: 141.32843pt x 105.99632pt.
 
 
@@ -1152,32 +1157,32 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
  <./images/soilcontam2.jpg> <./images/watercontam1.jpg> <./images/perfect2.jpg>
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 136--137
+Underfull \hbox (badness 10000) in paragraph at lines 142--143
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 139--145
+Underfull \hbox (badness 10000) in paragraph at lines 145--151
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 146--147
+Underfull \hbox (badness 10000) in paragraph at lines 152--153
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 148--152
+Underfull \hbox (badness 10000) in paragraph at lines 154--158
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 153--154
+Underfull \hbox (badness 10000) in paragraph at lines 159--160
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 161--162
+Underfull \hbox (badness 10000) in paragraph at lines 167--168
 
  []
 
@@ -1188,22 +1193,22 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [6]
-Underfull \hbox (badness 10000) in paragraph at lines 207--208
+Underfull \hbox (badness 10000) in paragraph at lines 213--214
 
  []
 
 <images/tapping-T.jpg, id=41, 642.4pt x 481.8pt>
 File: images/tapping-T.jpg Graphic file (type jpg)
  <use images/tapping-T.jpg>
-Package pdftex.def Info: images/tapping-T.jpg used on input line 211.
+Package pdftex.def Info: images/tapping-T.jpg used on input line 217.
 (pdftex.def)             Requested size: 169.29684pt x 126.97063pt.
 
 
-Package caption Warning: \label without proper \caption on input line 234.
+Package caption Warning: \label without proper \caption on input line 240.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `f5' on page 7 undefined on input line 216.
+LaTeX Warning: Reference `f5' on page 7 undefined on input line 222.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1216,37 +1221,37 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 File: images/truly_confusing_1.jpg Graphic file (type jpg)
 
 <use images/truly_confusing_1.jpg>
-Package pdftex.def Info: images/truly_confusing_1.jpg used on input line 223.
+Package pdftex.def Info: images/truly_confusing_1.jpg used on input line 229.
 (pdftex.def)             Requested size: 192.72148pt x 144.5411pt.
 
 <images/truly_confusing_2.jpg, id=47, 642.4pt x 481.8pt>
 File: images/truly_confusing_2.jpg Graphic file (type jpg)
 
 <use images/truly_confusing_2.jpg>
-Package pdftex.def Info: images/truly_confusing_2.jpg used on input line 229.
+Package pdftex.def Info: images/truly_confusing_2.jpg used on input line 235.
 (pdftex.def)             Requested size: 192.72148pt x 144.5411pt.
 
 
-Package caption Warning: \label without proper \caption on input line 260.
+Package caption Warning: \label without proper \caption on input line 266.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `f6' on page 8 undefined on input line 242.
+LaTeX Warning: Reference `f6' on page 8 undefined on input line 248.
 
 <images/perfect3.jpg, id=48, 642.4pt x 481.8pt>
 File: images/perfect3.jpg Graphic file (type jpg)
  <use images/perfect3.jpg>
-Package pdftex.def Info: images/perfect3.jpg used on input line 249.
+Package pdftex.def Info: images/perfect3.jpg used on input line 255.
 (pdftex.def)             Requested size: 218.4131pt x 163.80983pt.
 
 <images/niceBluebox_100974.jpg, id=49, 1284.8pt x 963.6pt>
 File: images/niceBluebox_100974.jpg Graphic file (type jpg)
 
 <use images/niceBluebox_100974.jpg>
-Package pdftex.def Info: images/niceBluebox_100974.jpg used on input line 255.
+Package pdftex.def Info: images/niceBluebox_100974.jpg used on input line 261.
 (pdftex.def)             Requested size: 218.4131pt x 163.80983pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 263--264
+Underfull \hbox (badness 10000) in paragraph at lines 269--270
 
  []
 
@@ -1258,7 +1263,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [8 <./images/truly_confusing_1.jpg> <./images/truly_confusing_2.jpg> <./images/
 perfect3.jpg> <./images/niceBluebox_100974.jpg>]
-Underfull \hbox (badness 10000) in paragraph at lines 272--273
+Underfull \hbox (badness 10000) in paragraph at lines 278--279
 
  []
 
@@ -1269,17 +1274,17 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [9]
-Underfull \hbox (badness 10000) in paragraph at lines 291--292
+Underfull \hbox (badness 10000) in paragraph at lines 297--298
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 295--296
+Underfull \hbox (badness 10000) in paragraph at lines 301--302
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 299--300
+Underfull \hbox (badness 10000) in paragraph at lines 305--306
 
  []
 
@@ -1287,14 +1292,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 299--300
 File: images/Biological_Neuron.png Graphic file (type png)
 
 <use images/Biological_Neuron.png>
-Package pdftex.def Info: images/Biological_Neuron.png used on input line 307.
+Package pdftex.def Info: images/Biological_Neuron.png used on input line 313.
 (pdftex.def)             Requested size: 308.35437pt x 198.74403pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 312--313
+Underfull \hbox (badness 10000) in paragraph at lines 318--319
 
  []
 
@@ -1307,21 +1312,21 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [10
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 318--319
+Underfull \hbox (badness 10000) in paragraph at lines 324--325
 
  []
 
 <images/sigmoid.png, id=63, 602.25pt x 401.5pt>
 File: images/sigmoid.png Graphic file (type png)
  <use images/sigmoid.png>
-Package pdftex.def Info: images/sigmoid.png used on input line 332.
+Package pdftex.def Info: images/sigmoid.png used on input line 338.
 (pdftex.def)             Requested size: 180.67639pt x 120.45091pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 346--347
+Underfull \hbox (badness 10000) in paragraph at lines 352--353
 
  []
 
@@ -1332,7 +1337,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [11 <./images/Biological_Neuron.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 348--349
+Underfull \hbox (badness 10000) in paragraph at lines 354--355
 
  []
 
@@ -1340,10 +1345,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 348--349
 File: images/rectifier.png Graphic file (type png)
 
 <use images/rectifier.png>
-Package pdftex.def Info: images/rectifier.png used on input line 353.
+Package pdftex.def Info: images/rectifier.png used on input line 359.
 (pdftex.def)             Requested size: 185.49443pt x 142.73434pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 364--365
+Underfull \hbox (badness 10000) in paragraph at lines 370--371
 
  []
 
@@ -1358,34 +1363,34 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 File: images/NN_math_rep.png Graphic file (type png)
 
 <use images/NN_math_rep.png>
-Package pdftex.def Info: images/NN_math_rep.png used on input line 373.
+Package pdftex.def Info: images/NN_math_rep.png used on input line 379.
 (pdftex.def)             Requested size: 314.67805pt x 157.79071pt.
 
 
-LaTeX Warning: Citation `Russel&Norvig' on page 13 undefined on input line 382.
+LaTeX Warning: Citation `Russel&Norvig' on page 13 undefined on input line 388.
 
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 386--387
+Underfull \hbox (badness 10000) in paragraph at lines 392--393
 
  []
 
 <images/MLP.png, id=75, 586.19pt x 597.23125pt>
 File: images/MLP.png Graphic file (type png)
  <use images/MLP.png>
-Package pdftex.def Info: images/MLP.png used on input line 390.
+Package pdftex.def Info: images/MLP.png used on input line 396.
 (pdftex.def)             Requested size: 234.47185pt x 238.88826pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 395--396
+Underfull \hbox (badness 10000) in paragraph at lines 401--402
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 397--398
+Underfull \hbox (badness 10000) in paragraph at lines 403--404
 
  []
 
@@ -1396,7 +1401,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [13 <./images/NN_math_rep.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 401--402
+Underfull \hbox (badness 10000) in paragraph at lines 407--408
 
  []
 
@@ -1404,10 +1409,10 @@ Underfull \hbox (badness 10000) in paragraph at lines 401--402
 File: images/more_layers_better.png Graphic file (type png)
 
 <use images/more_layers_better.png>
-Package pdftex.def Info: images/more_layers_better.png used on input line 405.
+Package pdftex.def Info: images/more_layers_better.png used on input line 411.
 (pdftex.def)             Requested size: 314.37692pt x 178.5685pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 410--411
+Underfull \hbox (badness 10000) in paragraph at lines 416--417
 
  []
 
@@ -1418,12 +1423,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [14 <./images/MLP.png> <./images/more_layers_better.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 412--413
+Underfull \hbox (badness 10000) in paragraph at lines 418--419
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 414--415
+Underfull \hbox (badness 10000) in paragraph at lines 420--421
 
  []
 
@@ -1434,7 +1439,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [15]
-Underfull \hbox (badness 10000) in paragraph at lines 437--438
+Underfull \hbox (badness 10000) in paragraph at lines 443--444
 
  []
 
@@ -1442,7 +1447,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 437--438
 File: images/local_minima.png Graphic file (type png)
 
 <use images/local_minima.png>
-Package pdftex.def Info: images/local_minima.png used on input line 452.
+Package pdftex.def Info: images/local_minima.png used on input line 458.
 (pdftex.def)             Requested size: 338.70586pt x 176.33902pt.
 
 
@@ -1460,25 +1465,9 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 File: images/overfit.png Graphic file (type png)
 
 <use images/overfit.png>
-Package pdftex.def Info: images/overfit.png used on input line 471.
+Package pdftex.def Info: images/overfit.png used on input line 477.
 (pdftex.def)             Requested size: 398.69003pt x 295.10289pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 476--477
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 480--481
-
- []
-
-
-Package Fancyhdr Warning: \headheight is too small (12.0pt): 
- Make it at least 13.59999pt.
- We now make it that large for the rest of the document.
- This may cause the page layout to be inconsistent, however.
-
-[17 <./images/local_minima.png> <./images/overfit.png>]
 Underfull \hbox (badness 10000) in paragraph at lines 482--483
 
  []
@@ -1489,21 +1478,37 @@ Underfull \hbox (badness 10000) in paragraph at lines 486--487
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 490--491
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[17 <./images/local_minima.png> <./images/overfit.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 488--489
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 492--493
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 496--497
 
  []
 
 <images/dropout.png, id=95, 614.295pt x 547.04375pt>
 File: images/dropout.png Graphic file (type png)
  <use images/dropout.png>
-Package pdftex.def Info: images/dropout.png used on input line 494.
+Package pdftex.def Info: images/dropout.png used on input line 500.
 (pdftex.def)             Requested size: 245.71364pt x 218.81361pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 499--500
+Underfull \hbox (badness 10000) in paragraph at lines 505--506
 
  []
 
@@ -1521,12 +1526,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [19 <./images/dropout.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 505--506
+Underfull \hbox (badness 10000) in paragraph at lines 511--512
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 507--508
+Underfull \hbox (badness 10000) in paragraph at lines 513--514
 
  []
 
@@ -1534,15 +1539,15 @@ Underfull \hbox (badness 10000) in paragraph at lines 507--508
 File: images/geranium.jpg Graphic file (type jpg)
 
 <use images/geranium.jpg>
-Package pdftex.def Info: images/geranium.jpg used on input line 511.
+Package pdftex.def Info: images/geranium.jpg used on input line 517.
 (pdftex.def)             Requested size: 214.99944pt x 214.99944pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 516--517
+Underfull \hbox (badness 10000) in paragraph at lines 522--523
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 518--519
+Underfull \hbox (badness 10000) in paragraph at lines 524--525
 
  []
 
@@ -1551,14 +1556,14 @@ File: images/alexnet_architecture_simple.png Graphic file (type png)
 
 <use images/alexnet_architecture_simple.png>
 Package pdftex.def Info: images/alexnet_architecture_simple.png used on input l
-ine 522.
+ine 528.
 (pdftex.def)             Requested size: 76.78746pt x 172.84708pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 527--528
+Underfull \hbox (badness 10000) in paragraph at lines 533--534
 
  []
 
@@ -1575,10 +1580,10 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 File: images/window_x_kernel.png Graphic file (type png)
 
 <use images/window_x_kernel.png>
-Package pdftex.def Info: images/window_x_kernel.png used on input line 535.
+Package pdftex.def Info: images/window_x_kernel.png used on input line 541.
 (pdftex.def)             Requested size: 404.11287pt x 97.26411pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 540--541
+Underfull \hbox (badness 10000) in paragraph at lines 546--547
 
  []
 
@@ -1586,7 +1591,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 540--541
 File: images/kernel_map.png Graphic file (type png)
 
 <use images/kernel_map.png>
-Package pdftex.def Info: images/kernel_map.png used on input line 546.
+Package pdftex.def Info: images/kernel_map.png used on input line 552.
 (pdftex.def)             Requested size: 261.98076pt x 152.37042pt.
 
 
@@ -1596,14 +1601,14 @@ LaTeX Warning: `!h' float specifier changed to `!ht'.
 File: images/taj_mahal.jpg Graphic file (type jpg)
 
 <use images/taj_mahal.jpg>
-Package pdftex.def Info: images/taj_mahal.jpg used on input line 554.
+Package pdftex.def Info: images/taj_mahal.jpg used on input line 560.
 (pdftex.def)             Requested size: 135.50497pt x 135.50497pt.
 
 <images/kernel_edge_enhance.png, id=111, 398.48875pt x 406.51875pt>
 File: images/kernel_edge_enhance.png Graphic file (type png)
 
 <use images/kernel_edge_enhance.png>
-Package pdftex.def Info: images/kernel_edge_enhance.png used on input line 556.
+Package pdftex.def Info: images/kernel_edge_enhance.png used on input line 562.
 
 (pdftex.def)             Requested size: 59.77072pt x 60.97517pt.
 
@@ -1612,18 +1617,18 @@ File: images/kernel_edge_enhance_result.png Graphic file (type png)
 
 <use images/kernel_edge_enhance_result.png>
 Package pdftex.def Info: images/kernel_edge_enhance_result.png used on input li
-ne 558.
+ne 564.
 (pdftex.def)             Requested size: 138.51457pt x 138.9763pt.
 
 
 LaTeX Warning: `h' float specifier changed to `ht'.
 
 
-Package caption Warning: \label without proper \caption on input line 581.
+Package caption Warning: \label without proper \caption on input line 587.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `f22' on page 21 undefined on input line 563.
+LaTeX Warning: Reference `f22' on page 21 undefined on input line 569.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -1635,7 +1640,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 File: images/kernel_edge_enhance.png Graphic file (type png)
 
 <use images/kernel_edge_enhance.png>
-Package pdftex.def Info: images/kernel_edge_enhance.png used on input line 570.
+Package pdftex.def Info: images/kernel_edge_enhance.png used on input line 576.
 
 (pdftex.def)             Requested size: 59.77072pt x 60.97517pt.
 
@@ -1643,16 +1648,16 @@ Package pdftex.def Info: images/kernel_edge_enhance.png used on input line 570.
 File: images/kernel_edge_detector.png Graphic file (type png)
 
 <use images/kernel_edge_detector.png>
-Package pdftex.def Info: images/kernel_edge_detector.png used on input line 576
+Package pdftex.def Info: images/kernel_edge_detector.png used on input line 582
 .
 (pdftex.def)             Requested size: 41.35376pt x 43.36122pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 591--592
+Underfull \hbox (badness 10000) in paragraph at lines 597--598
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 595--596
+Underfull \hbox (badness 10000) in paragraph at lines 601--602
 
  []
 
@@ -1665,24 +1670,24 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [22 <./images/kernel_map.png> <./images/taj_mahal.jpg> <./images/kernel_edge_en
 hance.png> <./images/kernel_edge_enhance_result.png> <./images/kernel_edge_dete
 ctor.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 599--600
+Underfull \hbox (badness 10000) in paragraph at lines 605--606
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 601--602
+Underfull \hbox (badness 10000) in paragraph at lines 607--608
 
  []
 
 
-Package caption Warning: \label without proper \caption on input line 622.
+Package caption Warning: \label without proper \caption on input line 628.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `f23' on page 23 undefined on input line 603.
+LaTeX Warning: Reference `f23' on page 23 undefined on input line 609.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 603--604
+Underfull \hbox (badness 10000) in paragraph at lines 609--610
 
  []
 
@@ -1691,23 +1696,23 @@ File: images/high_level_invariance_orig.png Graphic file (type png)
 
 <use images/high_level_invariance_orig.png>
 Package pdftex.def Info: images/high_level_invariance_orig.png used on input li
-ne 610.
+ne 616.
 (pdftex.def)             Requested size: 134.90306pt x 137.01093pt.
 
 <images/high_level_invariance.png, id=121, 191.71625pt x 192.72pt>
 File: images/high_level_invariance.png Graphic file (type png)
 
 <use images/high_level_invariance.png>
-Package pdftex.def Info: images/high_level_invariance.png used on input line 61
-6.
+Package pdftex.def Info: images/high_level_invariance.png used on input line 62
+2.
 (pdftex.def)             Requested size: 134.20045pt x 134.90306pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 625--626
+Underfull \hbox (badness 10000) in paragraph at lines 631--632
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 629--630
+Underfull \hbox (badness 10000) in paragraph at lines 635--636
 
  []
 
@@ -1726,27 +1731,27 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [24 <./images/high_level_invariance_orig.png> <./images/high_level_invariance.p
 ng>]
-Underfull \hbox (badness 10000) in paragraph at lines 644--645
+Underfull \hbox (badness 10000) in paragraph at lines 650--651
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 660--661
+Underfull \hbox (badness 10000) in paragraph at lines 666--667
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 662--664
+Underfull \hbox (badness 10000) in paragraph at lines 668--670
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 671--672
+Underfull \hbox (badness 10000) in paragraph at lines 677--678
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 678--679
+Underfull \hbox (badness 10000) in paragraph at lines 684--685
 
  []
 
@@ -1766,7 +1771,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [26]
-Underfull \hbox (badness 10000) in paragraph at lines 692--693
+Underfull \hbox (badness 10000) in paragraph at lines 698--699
 
  []
 
@@ -1774,7 +1779,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 692--693
 File: images/activation_functions.png Graphic file (type png)
 
 <use images/activation_functions.png>
-Package pdftex.def Info: images/activation_functions.png used on input line 699
+Package pdftex.def Info: images/activation_functions.png used on input line 705
 .
 (pdftex.def)             Requested size: 210.78697pt x 158.09023pt.
 
@@ -1782,15 +1787,15 @@ Package pdftex.def Info: images/activation_functions.png used on input line 699
 File: images/ReLU_train_fast.png Graphic file (type png)
 
 <use images/ReLU_train_fast.png>
-Package pdftex.def Info: images/ReLU_train_fast.png used on input line 705.
+Package pdftex.def Info: images/ReLU_train_fast.png used on input line 711.
 (pdftex.def)             Requested size: 189.36028pt x 205.52089pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 713--714
+Underfull \hbox (badness 10000) in paragraph at lines 719--720
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 715--716
+Underfull \hbox (badness 10000) in paragraph at lines 721--722
 
  []
 
@@ -1798,7 +1803,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 715--716
 File: images/ReLU_path_selection.png Graphic file (type png)
 
 <use images/ReLU_path_selection.png>
-Package pdftex.def Info: images/ReLU_path_selection.png used on input line 719.
+Package pdftex.def Info: images/ReLU_path_selection.png used on input line 725.
 
 (pdftex.def)             Requested size: 189.10315pt x 148.15086pt.
 
@@ -1806,7 +1811,7 @@ Package pdftex.def Info: images/ReLU_path_selection.png used on input line 719.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 724--725
+Underfull \hbox (badness 10000) in paragraph at lines 730--731
 
  []
 
@@ -1819,19 +1824,19 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [27
 
  <./images/activation_functions.png> <./images/ReLU_train_fast.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 753--754
+Underfull \hbox (badness 10000) in paragraph at lines 759--760
 
  []
 
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 760.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 766.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10.95> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 760.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 766.
 
-Underfull \hbox (badness 10000) in paragraph at lines 773--774
+Underfull \hbox (badness 10000) in paragraph at lines 779--780
 
  []
 
@@ -1839,7 +1844,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 773--774
 File: images/gradient_propagates.png Graphic file (type png)
 
 <use images/gradient_propagates.png>
-Package pdftex.def Info: images/gradient_propagates.png used on input line 781.
+Package pdftex.def Info: images/gradient_propagates.png used on input line 787.
 
 (pdftex.def)             Requested size: 255.34947pt x 222.82855pt.
 
@@ -1847,12 +1852,7 @@ Package pdftex.def Info: images/gradient_propagates.png used on input line 781.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 791--793
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 795--796
+Underfull \hbox (badness 10000) in paragraph at lines 797--799
 
  []
 
@@ -1863,24 +1863,29 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [28 <./images/ReLU_path_selection.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 804--805
+Underfull \hbox (badness 10000) in paragraph at lines 801--802
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 807--808
+Underfull \hbox (badness 10000) in paragraph at lines 810--811
 
  []
 
 
-Package caption Warning: \label without proper \caption on input line 823.
+Underfull \hbox (badness 10000) in paragraph at lines 813--814
+
+ []
+
+
+Package caption Warning: \label without proper \caption on input line 829.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `f27' on page 29 undefined on input line 809.
+LaTeX Warning: Reference `f27' on page 29 undefined on input line 815.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 809--810
+Underfull \hbox (badness 10000) in paragraph at lines 815--816
 
  []
 
@@ -1888,14 +1893,14 @@ Underfull \hbox (badness 10000) in paragraph at lines 809--810
 File: images/tanh_sigmoid.png Graphic file (type png)
 
 <use images/tanh_sigmoid.png>
-Package pdftex.def Info: images/tanh_sigmoid.png used on input line 815.
+Package pdftex.def Info: images/tanh_sigmoid.png used on input line 821.
 (pdftex.def)             Requested size: 224.43452pt x 168.22551pt.
 
 <images/logistic_derivative.png, id=149, 577.15625pt x 384.43625pt>
 File: images/logistic_derivative.png Graphic file (type png)
 
 <use images/logistic_derivative.png>
-Package pdftex.def Info: images/logistic_derivative.png used on input line 820.
+Package pdftex.def Info: images/logistic_derivative.png used on input line 826.
 
 (pdftex.def)             Requested size: 230.8584pt x 153.77177pt.
 
@@ -1903,7 +1908,7 @@ Package pdftex.def Info: images/logistic_derivative.png used on input line 820.
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 826--827
+Underfull \hbox (badness 10000) in paragraph at lines 832--833
 
  []
 
@@ -1914,17 +1919,17 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [29 <./images/gradient_propagates.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 838--839
+Underfull \hbox (badness 10000) in paragraph at lines 844--845
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 840--841
+Underfull \hbox (badness 10000) in paragraph at lines 846--847
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 842--843
+Underfull \hbox (badness 10000) in paragraph at lines 848--849
 
  []
 
@@ -1945,7 +1950,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 File: images/test_run.png Graphic file (type png)
 
 <use images/test_run.png>
-Package pdftex.def Info: images/test_run.png used on input line 899.
+Package pdftex.def Info: images/test_run.png used on input line 905.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 
@@ -1973,7 +1978,7 @@ File: images/increase_test_precision.png Graphic file (type png)
 
 <use images/increase_test_precision.png>
 Package pdftex.def Info: images/increase_test_precision.png used on input line 
-926.
+932.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 
@@ -1983,12 +1988,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [34 <./images/increase_test_precision.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 992--993
+Underfull \hbox (badness 10000) in paragraph at lines 998--999
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 994--995
+Underfull \hbox (badness 10000) in paragraph at lines 1000--1001
 
  []
 
@@ -1996,17 +2001,17 @@ Underfull \hbox (badness 10000) in paragraph at lines 994--995
 File: images/good_filters.png Graphic file (type png)
 
 <use images/good_filters.png>
-Package pdftex.def Info: images/good_filters.png used on input line 1000.
+Package pdftex.def Info: images/good_filters.png used on input line 1006.
 (pdftex.def)             Requested size: 235.96097pt x 56.7318pt.
 
 <images/bad_filters.png, id=177, 578.16pt x 433.62pt>
 File: images/bad_filters.png Graphic file (type png)
 
 <use images/bad_filters.png>
-Package pdftex.def Info: images/bad_filters.png used on input line 1002.
+Package pdftex.def Info: images/bad_filters.png used on input line 1008.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1007--1008
+Underfull \hbox (badness 10000) in paragraph at lines 1013--1014
 
  []
 
@@ -2021,7 +2026,7 @@ File: images/increase_test_precision.png Graphic file (type png)
 
 <use images/increase_test_precision.png>
 Package pdftex.def Info: images/increase_test_precision.png used on input line 
-1023.
+1029.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
 <images/plot_clampdet_tl_wout.png, id=183, 578.16pt x 433.62pt>
@@ -2029,25 +2034,25 @@ File: images/plot_clampdet_tl_wout.png Graphic file (type png)
 
 <use images/plot_clampdet_tl_wout.png>
 Package pdftex.def Info: images/plot_clampdet_tl_wout.png used on input line 10
-28.
+34.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
 <images/66347.jpg, id=184, 642.4pt x 481.8pt>
 File: images/66347.jpg Graphic file (type jpg)
  <use images/66347.jpg>
-Package pdftex.def Info: images/66347.jpg used on input line 1037.
+Package pdftex.def Info: images/66347.jpg used on input line 1043.
 (pdftex.def)             Requested size: 147.74889pt x 110.81166pt.
 
 <images/104887.jpg, id=185, 642.4pt x 481.8pt>
 File: images/104887.jpg Graphic file (type jpg)
  <use images/104887.jpg>
-Package pdftex.def Info: images/104887.jpg used on input line 1039.
+Package pdftex.def Info: images/104887.jpg used on input line 1045.
 (pdftex.def)             Requested size: 147.74889pt x 110.81166pt.
 
 <images/100979.jpg, id=186, 1284.8pt x 963.6pt>
 File: images/100979.jpg Graphic file (type jpg)
  <use images/100979.jpg>
-Package pdftex.def Info: images/100979.jpg used on input line 1041.
+Package pdftex.def Info: images/100979.jpg used on input line 1047.
 (pdftex.def)             Requested size: 147.7587pt x 110.81902pt.
 
 
@@ -2066,10 +2071,10 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [37]
 
-LaTeX Warning: Citation `caffe' on page 38 undefined on input line 1068.
+LaTeX Warning: Citation `caffe' on page 38 undefined on input line 1074.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1070--1071
+Underfull \hbox (badness 10000) in paragraph at lines 1076--1077
 
  []
 
@@ -2082,34 +2087,34 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [38
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 1088--1089
+Underfull \hbox (badness 10000) in paragraph at lines 1094--1095
 
  []
 
 
-Overfull \hbox (7.0171pt too wide) in paragraph at lines 1090--1091
+Overfull \hbox (7.0171pt too wide) in paragraph at lines 1096--1097
 []\OT1/cmr/m/n/10.95 Experimentation con-sisted in ex-plor-ing three hy-per-pa-
 ram-e-ters re-lated to trans-fer learn-ing: whether
  []
 
 
-Package caption Warning: \label without proper \caption on input line 1109.
+Package caption Warning: \label without proper \caption on input line 1115.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `f36' on page 39 undefined on input line 1095.
+LaTeX Warning: Reference `f36' on page 39 undefined on input line 1101.
 
 File: images/plot_clampdet_tl_wout.png Graphic file (type png)
 <use images/plot_clampdet_tl_wout.png>
 Package pdftex.def Info: images/plot_clampdet_tl_wout.png used on input line 11
-01.
+07.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
 <images/plot_clampdet_none.png, id=198, 578.16pt x 433.62pt>
 File: images/plot_clampdet_none.png Graphic file (type png)
 
 <use images/plot_clampdet_none.png>
-Package pdftex.def Info: images/plot_clampdet_none.png used on input line 1106.
+Package pdftex.def Info: images/plot_clampdet_none.png used on input line 1112.
 
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
@@ -2120,12 +2125,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [39 <./images/plot_clampdet_none.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1116--1117
+Underfull \hbox (badness 10000) in paragraph at lines 1122--1123
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1118--1119
+Underfull \hbox (badness 10000) in paragraph at lines 1124--1125
 
  []
 
@@ -2134,7 +2139,7 @@ File: images/gradient_descent_ellipses.png Graphic file (type png)
 
 <use images/gradient_descent_ellipses.png>
 Package pdftex.def Info: images/gradient_descent_ellipses.png used on input lin
-e 1130.
+e 1136.
 (pdftex.def)             Requested size: 144.23997pt x 175.55722pt.
 
 <images/gradient_descent_zigzag.png, id=204, 657.45625pt x 371.3875pt>
@@ -2142,10 +2147,10 @@ File: images/gradient_descent_zigzag.png Graphic file (type png)
 
 <use images/gradient_descent_zigzag.png>
 Package pdftex.def Info: images/gradient_descent_zigzag.png used on input line 
-1135.
+1141.
 (pdftex.def)             Requested size: 197.23839pt x 111.4171pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1144--1145
+Underfull \hbox (badness 10000) in paragraph at lines 1150--1151
 
  []
 
@@ -2157,25 +2162,25 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [40 <./images/gradient_descent_ellipses.png> <./images/gradient_descent_zigzag.
 png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1146--1147
+Underfull \hbox (badness 10000) in paragraph at lines 1152--1153
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1151--1152
+Underfull \hbox (badness 10000) in paragraph at lines 1157--1158
 
  []
 
 
-Package caption Warning: \label without proper \caption on input line 1171.
+Package caption Warning: \label without proper \caption on input line 1177.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `f38' on page 41 undefined on input line 1153.
+LaTeX Warning: Reference `f38' on page 41 undefined on input line 1159.
 
 File: images/plot_clampdet_none.png Graphic file (type png)
 <use images/plot_clampdet_none.png>
-Package pdftex.def Info: images/plot_clampdet_none.png used on input line 1160.
+Package pdftex.def Info: images/plot_clampdet_none.png used on input line 1166.
 
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
@@ -2183,12 +2188,20 @@ Package pdftex.def Info: images/plot_clampdet_none.png used on input line 1160.
 File: images/plot_clampdet_fc7.png Graphic file (type png)
 
 <use images/plot_clampdet_fc7.png>
-Package pdftex.def Info: images/plot_clampdet_fc7.png used on input line 1166.
+Package pdftex.def Info: images/plot_clampdet_fc7.png used on input line 1172.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1176--1177
+Underfull \hbox (badness 10000) in paragraph at lines 1182--1183
 
  []
+
+<images/plot_clampdet_conv4.png, id=209, 578.16pt x 433.62pt>
+File: images/plot_clampdet_conv4.png Graphic file (type png)
+
+<use images/plot_clampdet_conv4.png>
+Package pdftex.def Info: images/plot_clampdet_conv4.png used on input line 1186
+.
+(pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2197,24 +2210,24 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [41 <./images/plot_clampdet_fc7.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1185--1186
+Underfull \hbox (badness 10000) in paragraph at lines 1198--1199
 
  []
 
-<images/plot_clampdet_none_reinit.png, id=213, 578.16pt x 433.62pt>
+<images/plot_clampdet_none_reinit.png, id=214, 578.16pt x 433.62pt>
 File: images/plot_clampdet_none_reinit.png Graphic file (type png)
 
 <use images/plot_clampdet_none_reinit.png>
 Package pdftex.def Info: images/plot_clampdet_none_reinit.png used on input lin
-e 1192.
+e 1205.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-<images/plot_clampdet_none-10k.png, id=214, 578.16pt x 433.62pt>
+<images/plot_clampdet_none-10k.png, id=215, 578.16pt x 433.62pt>
 File: images/plot_clampdet_none-10k.png Graphic file (type png)
 
 <use images/plot_clampdet_none-10k.png>
 Package pdftex.def Info: images/plot_clampdet_none-10k.png used on input line 1
-198.
+211.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
 
@@ -2223,14 +2236,8 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[42 <./images/plot_clampdet_none_reinit.png> <./images/plot_clampdet_none-10k.p
-ng>]
-Underfull \hbox (badness 10000) in paragraph at lines 1224--1225
-
- []
-
-
-Underfull \hbox (badness 10000) in paragraph at lines 1240--1241
+[42 <./images/plot_clampdet_conv4.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 1237--1238
 
  []
 
@@ -2240,30 +2247,22 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[43] <images/hinge_vs_ce.png, id=224, 712.6625pt x 562.1pt>
-File: images/hinge_vs_ce.png Graphic file (type png)
-
-<use images/hinge_vs_ce.png>
-Package pdftex.def Info: images/hinge_vs_ce.png used on input line 1244.
-(pdftex.def)             Requested size: 213.8004pt x 168.6313pt.
-
+[43 <./images/plot_clampdet_none_reinit.png> <./images/plot_clampdet_none-10k.p
+ng>]
 Underfull \hbox (badness 10000) in paragraph at lines 1253--1254
 
  []
 
-File: images/plot_clampdet_none.png Graphic file (type png)
-<use images/plot_clampdet_none.png>
-Package pdftex.def Info: images/plot_clampdet_none.png used on input line 1260.
+<images/hinge_vs_ce.png, id=226, 712.6625pt x 562.1pt>
+File: images/hinge_vs_ce.png Graphic file (type png)
 
-(pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
+<use images/hinge_vs_ce.png>
+Package pdftex.def Info: images/hinge_vs_ce.png used on input line 1257.
+(pdftex.def)             Requested size: 213.8004pt x 168.6313pt.
 
-<images/plot_clampdet_linSVM.png, id=225, 578.16pt x 433.62pt>
-File: images/plot_clampdet_linSVM.png Graphic file (type png)
+Underfull \hbox (badness 10000) in paragraph at lines 1266--1267
 
-<use images/plot_clampdet_linSVM.png>
-Package pdftex.def Info: images/plot_clampdet_linSVM.png used on input line 126
-6.
-(pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
+ []
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2272,6 +2271,20 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [44 <./images/hinge_vs_ce.png>]
+File: images/plot_clampdet_none.png Graphic file (type png)
+ <use images/plot_clampdet_none.png>
+Package pdftex.def Info: images/plot_clampdet_none.png used on input line 1273.
+
+(pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
+
+<images/plot_clampdet_linSVM.png, id=230, 578.16pt x 433.62pt>
+File: images/plot_clampdet_linSVM.png Graphic file (type png)
+
+<use images/plot_clampdet_linSVM.png>
+Package pdftex.def Info: images/plot_clampdet_linSVM.png used on input line 127
+9.
+(pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
+
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
@@ -2279,27 +2292,27 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [45 <./images/plot_clampdet_linSVM.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1287--1288
+Underfull \hbox (badness 10000) in paragraph at lines 1300--1301
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1297--1298
+Underfull \hbox (badness 10000) in paragraph at lines 1310--1311
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1299--1300
+Underfull \hbox (badness 10000) in paragraph at lines 1312--1313
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1303--1304
+Underfull \hbox (badness 10000) in paragraph at lines 1316--1317
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1305--1306
+Underfull \hbox (badness 10000) in paragraph at lines 1318--1319
 
  []
 
@@ -2312,49 +2325,49 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 [46
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 1307--1308
+Underfull \hbox (badness 10000) in paragraph at lines 1320--1321
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1342--1343
+Underfull \hbox (badness 10000) in paragraph at lines 1355--1356
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1344--1345
+Underfull \hbox (badness 10000) in paragraph at lines 1357--1358
 
  []
 
 File: images/plot_clampdet_tl_wout.png Graphic file (type png)
 <use images/plot_clampdet_tl_wout.png>
 Package pdftex.def Info: images/plot_clampdet_tl_wout.png used on input line 13
-55.
+68.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-<images/plot_clampdetCI98_tl_wout.png, id=236, 578.16pt x 433.62pt>
+<images/plot_clampdetCI98_tl_wout.png, id=238, 578.16pt x 433.62pt>
 File: images/plot_clampdetCI98_tl_wout.png Graphic file (type png)
 
 <use images/plot_clampdetCI98_tl_wout.png>
 Package pdftex.def Info: images/plot_clampdetCI98_tl_wout.png used on input lin
-e 1361.
+e 1374.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1370--1371
+Underfull \hbox (badness 10000) in paragraph at lines 1383--1384
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1372--1373
+Underfull \hbox (badness 10000) in paragraph at lines 1385--1386
 
  []
 
-<images/plot_clampdetCI_none.png, id=237, 578.16pt x 433.62pt>
+<images/plot_clampdetCI_none.png, id=239, 578.16pt x 433.62pt>
 File: images/plot_clampdetCI_none.png Graphic file (type png)
 
 <use images/plot_clampdetCI_none.png>
-Package pdftex.def Info: images/plot_clampdetCI_none.png used on input line 137
-6.
+Package pdftex.def Info: images/plot_clampdetCI_none.png used on input line 138
+9.
 (pdftex.def)             Requested size: 289.07928pt x 216.80946pt.
 
 
@@ -2366,18 +2379,18 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[47] <images/saddle_point.png, id=241, 406.51875pt x 439.6425pt>
+[47] <images/saddle_point.png, id=243, 406.51875pt x 439.6425pt>
 File: images/saddle_point.png Graphic file (type png)
 
 <use images/saddle_point.png>
-Package pdftex.def Info: images/saddle_point.png used on input line 1385.
+Package pdftex.def Info: images/saddle_point.png used on input line 1398.
 (pdftex.def)             Requested size: 162.60461pt x 175.85388pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1392--1393
+Underfull \hbox (badness 10000) in paragraph at lines 1405--1406
 
  []
 
@@ -2392,50 +2405,50 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 File: images/plot_clampdetCI98_tl_wout.png Graphic file (type png)
  <use images/plot_clampdetCI98_tl_wout.png>
 Package pdftex.def Info: images/plot_clampdetCI98_tl_wout.png used on input lin
-e 1404.
+e 1417.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-<images/plot_clampdetCI98_none_reinit_bs128_lr4.png, id=247, 578.16pt x 433.62p
+<images/plot_clampdetCI98_none_reinit_bs128_lr4.png, id=249, 578.16pt x 433.62p
 t>
 File: images/plot_clampdetCI98_none_reinit_bs128_lr4.png Graphic file (type png
 )
  <use images/plot_clampdetCI98_none_reinit_bs128_lr4.png>
 Package pdftex.def Info: images/plot_clampdetCI98_none_reinit_bs128_lr4.png use
-d on input line 1410.
+d on input line 1423.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-<images/plot_clampdetCI98_none_bs128_lr4.png, id=248, 578.16pt x 433.62pt>
+<images/plot_clampdetCI98_none_bs128_lr4.png, id=250, 578.16pt x 433.62pt>
 File: images/plot_clampdetCI98_none_bs128_lr4.png Graphic file (type png)
 
 <use images/plot_clampdetCI98_none_bs128_lr4.png>
 Package pdftex.def Info: images/plot_clampdetCI98_none_bs128_lr4.png used on in
-put line 1416.
+put line 1429.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1425--1426
+Underfull \hbox (badness 10000) in paragraph at lines 1438--1439
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1429--1430
+Underfull \hbox (badness 10000) in paragraph at lines 1442--1443
 
  []
 
 File: images/plot_clampdetCI98_none_bs128_lr4.png Graphic file (type png)
 <use images/plot_clampdetCI98_none_bs128_lr4.png>
 Package pdftex.def Info: images/plot_clampdetCI98_none_bs128_lr4.png used on in
-put line 1464.
+put line 1477.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-<images/plot_clampdetCI98_none_bs256_lr4.png, id=249, 578.16pt x 433.62pt>
+<images/plot_clampdetCI98_none_bs256_lr4.png, id=251, 578.16pt x 433.62pt>
 File: images/plot_clampdetCI98_none_bs256_lr4.png Graphic file (type png)
 
 <use images/plot_clampdetCI98_none_bs256_lr4.png>
 Package pdftex.def Info: images/plot_clampdetCI98_none_bs256_lr4.png used on in
-put line 1470.
+put line 1483.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1481--1482
+Underfull \hbox (badness 10000) in paragraph at lines 1494--1495
 
  []
 
@@ -2454,44 +2467,44 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [50 <./images/plot_clampdetCI98_none_reinit_bs128_lr4.png> <./images/plot_clamp
 detCI98_none_bs128_lr4.png> <./images/plot_clampdetCI98_none_bs256_lr4.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1483--1484
+Underfull \hbox (badness 10000) in paragraph at lines 1496--1497
 
  []
 
 File: images/plot_clampdetCI98_none_bs256_lr4.png Graphic file (type png)
 <use images/plot_clampdetCI98_none_bs256_lr4.png>
 Package pdftex.def Info: images/plot_clampdetCI98_none_bs256_lr4.png used on in
-put line 1495.
+put line 1508.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-<images/plot_clampdetCI98_none_bs256_lr5.png, id=262, 578.16pt x 433.62pt>
+<images/plot_clampdetCI98_none_bs256_lr5.png, id=264, 578.16pt x 433.62pt>
 File: images/plot_clampdetCI98_none_bs256_lr5.png Graphic file (type png)
 
 <use images/plot_clampdetCI98_none_bs256_lr5.png>
 Package pdftex.def Info: images/plot_clampdetCI98_none_bs256_lr5.png used on in
-put line 1501.
+put line 1514.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1510--1511
+Underfull \hbox (badness 10000) in paragraph at lines 1523--1524
 
  []
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `!tbp') on input line 1517.
+               Default added (so using `!tbp') on input line 1530.
 
 File: images/plot_clampdetCI98_none_bs128_lr4.png Graphic file (type png)
 <use images/plot_clampdetCI98_none_bs128_lr4.png>
 Package pdftex.def Info: images/plot_clampdetCI98_none_bs128_lr4.png used on in
-put line 1522.
+put line 1535.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-<images/plot_clampdet_os_none_reinit.png, id=263, 578.16pt x 433.62pt>
+<images/plot_clampdet_os_none_reinit.png, id=265, 578.16pt x 433.62pt>
 File: images/plot_clampdet_os_none_reinit.png Graphic file (type png)
 
 <use images/plot_clampdet_os_none_reinit.png>
 Package pdftex.def Info: images/plot_clampdet_os_none_reinit.png used on input 
-line 1528.
+line 1541.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
 
@@ -2508,29 +2521,29 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [52 <./images/plot_clampdet_os_none_reinit.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1583--1584
+Underfull \hbox (badness 10000) in paragraph at lines 1596--1597
 
  []
 
 
-Package caption Warning: \label without proper \caption on input line 1603.
+Package caption Warning: \label without proper \caption on input line 1616.
 See the caption package documentation for explanation.
 
 
-LaTeX Warning: Reference `f50' on page 53 undefined on input line 1585.
+LaTeX Warning: Reference `f50' on page 53 undefined on input line 1598.
 
 File: images/plot_clampdetCI98_none_bs128_lr4.png Graphic file (type png)
 <use images/plot_clampdetCI98_none_bs128_lr4.png>
 Package pdftex.def Info: images/plot_clampdetCI98_none_bs128_lr4.png used on in
-put line 1592.
+put line 1605.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-<images/plot_clampdetCI98_us_none_bs128_lr4.png, id=272, 578.16pt x 433.62pt>
+<images/plot_clampdetCI98_us_none_bs128_lr4.png, id=274, 578.16pt x 433.62pt>
 File: images/plot_clampdetCI98_us_none_bs128_lr4.png Graphic file (type png)
 
 <use images/plot_clampdetCI98_us_none_bs128_lr4.png>
 Package pdftex.def Info: images/plot_clampdetCI98_us_none_bs128_lr4.png used on
- input line 1598.
+ input line 1611.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
 
@@ -2540,22 +2553,22 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [53 <./images/plot_clampdetCI98_us_none_bs128_lr4.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1633--1634
+Underfull \hbox (badness 10000) in paragraph at lines 1646--1647
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1636--1638
+Underfull \hbox (badness 10000) in paragraph at lines 1649--1651
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1639--1640
+Underfull \hbox (badness 10000) in paragraph at lines 1652--1653
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1642--1643
+Underfull \hbox (badness 10000) in paragraph at lines 1655--1656
 
  []
 
@@ -2566,12 +2579,12 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [54]
-Underfull \hbox (badness 10000) in paragraph at lines 1664--1665
+Underfull \hbox (badness 10000) in paragraph at lines 1677--1678
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1684--1686
+Underfull \hbox (badness 10000) in paragraph at lines 1697--1699
 
  []
 
@@ -2582,7 +2595,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [55]
-Underfull \hbox (badness 10000) in paragraph at lines 1716--1717
+Underfull \hbox (badness 10000) in paragraph at lines 1729--1730
 
  []
 
@@ -2593,55 +2606,55 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [56]
-Underfull \hbox (badness 10000) in paragraph at lines 1721--1722
+Underfull \hbox (badness 10000) in paragraph at lines 1734--1735
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1723--1724
+Underfull \hbox (badness 10000) in paragraph at lines 1736--1737
 
  []
 
-<images/plot_ground_sheet_sbl_pcba.png, id=287, 578.16pt x 433.62pt>
+<images/plot_ground_sheet_sbl_pcba.png, id=289, 578.16pt x 433.62pt>
 File: images/plot_ground_sheet_sbl_pcba.png Graphic file (type png)
 
 <use images/plot_ground_sheet_sbl_pcba.png>
 Package pdftex.def Info: images/plot_ground_sheet_sbl_pcba.png used on input li
-ne 1730.
+ne 1743.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-<images/plot_ground_sheet_sbl_pcba_all_backprop.png, id=288, 578.16pt x 433.62p
+<images/plot_ground_sheet_sbl_pcba_all_backprop.png, id=290, 578.16pt x 433.62p
 t>
 File: images/plot_ground_sheet_sbl_pcba_all_backprop.png Graphic file (type png
 )
  <use images/plot_ground_sheet_sbl_pcba_all_backprop.png>
 Package pdftex.def Info: images/plot_ground_sheet_sbl_pcba_all_backprop.png use
-d on input line 1736.
+d on input line 1749.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1748--1749
+Underfull \hbox (badness 10000) in paragraph at lines 1761--1762
 
  []
 
 
-<images/plot_clampdetCI98_none_bs256_lr5(copy).png, id=289, 578.16pt x 433.62pt
+<images/plot_clampdetCI98_none_bs256_lr5(copy).png, id=291, 578.16pt x 433.62pt
 >
 File: images/plot_clampdetCI98_none_bs256_lr5(copy).png Graphic file (type png)
 
  <use images/plot_clampdetCI98_none_bs256_lr5(copy).png>
 Package pdftex.def Info: images/plot_clampdetCI98_none_bs256_lr5(copy).png used
- on input line 1755.
+ on input line 1768.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-<images/plot_clampdetCI98_none_bs256_lr5_sbl.png, id=290, 578.16pt x 433.62pt>
+<images/plot_clampdetCI98_none_bs256_lr5_sbl.png, id=292, 578.16pt x 433.62pt>
 File: images/plot_clampdetCI98_none_bs256_lr5_sbl.png Graphic file (type png)
 
 <use images/plot_clampdetCI98_none_bs256_lr5_sbl.png>
 Package pdftex.def Info: images/plot_clampdetCI98_none_bs256_lr5_sbl.png used o
-n input line 1761.
+n input line 1774.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1770--1771
+Underfull \hbox (badness 10000) in paragraph at lines 1783--1784
 
  []
 
@@ -2653,7 +2666,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [57 <./images/plot_ground_sheet_sbl_pcba.png> <./images/plot_ground_sheet_sbl_p
 cba_all_backprop.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1778--1779
+Underfull \hbox (badness 10000) in paragraph at lines 1791--1792
 
  []
 
@@ -2665,18 +2678,18 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [58 <./images/plot_clampdetCI98_none_bs256_lr5(copy).png> <./images/plot_clampd
 etCI98_none_bs256_lr5_sbl.png>]
-Overfull \hbox (4.82706pt too wide) in paragraph at lines 1787--1789
+Overfull \hbox (4.82706pt too wide) in paragraph at lines 1800--1802
 []\OT1/cmr/m/n/10.95 Overall, these re-sults are en-cour-ag-ing and fur-ther ex
 -per-i-ments with bench-mark multi-class datasets
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1793--1794
+Underfull \hbox (badness 10000) in paragraph at lines 1806--1807
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1800--1801
+Underfull \hbox (badness 10000) in paragraph at lines 1813--1814
 
  []
 
@@ -2687,40 +2700,40 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [59]
-Underfull \hbox (badness 10000) in paragraph at lines 1823--1824
+Underfull \hbox (badness 10000) in paragraph at lines 1836--1837
 
  []
 
-<images/plot_soil_contam_tl_wout.png, id=304, 578.16pt x 433.62pt>
+<images/plot_soil_contam_tl_wout.png, id=306, 578.16pt x 433.62pt>
 File: images/plot_soil_contam_tl_wout.png Graphic file (type png)
 
 <use images/plot_soil_contam_tl_wout.png>
 Package pdftex.def Info: images/plot_soil_contam_tl_wout.png used on input line
- 1842.
+ 1855.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-<images/plot_soil_contam_noneC_long.png, id=305, 578.16pt x 433.62pt>
+<images/plot_soil_contam_noneC_long.png, id=307, 578.16pt x 433.62pt>
 File: images/plot_soil_contam_noneC_long.png Graphic file (type png)
 
 <use images/plot_soil_contam_noneC_long.png>
 Package pdftex.def Info: images/plot_soil_contam_noneC_long.png used on input l
-ine 1848.
+ine 1861.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-<images/plot_soil_contam_noneC.png, id=306, 578.16pt x 433.62pt>
+<images/plot_soil_contam_noneC.png, id=308, 578.16pt x 433.62pt>
 File: images/plot_soil_contam_noneC.png Graphic file (type png)
 
 <use images/plot_soil_contam_noneC.png>
 Package pdftex.def Info: images/plot_soil_contam_noneC.png used on input line 1
-867.
+880.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-<images/plot_soil_contam_nopool_sl.png, id=307, 578.16pt x 433.62pt>
+<images/plot_soil_contam_nopool_sl.png, id=309, 578.16pt x 433.62pt>
 File: images/plot_soil_contam_nopool_sl.png Graphic file (type png)
 
 <use images/plot_soil_contam_nopool_sl.png>
 Package pdftex.def Info: images/plot_soil_contam_nopool_sl.png used on input li
-ne 1873.
+ne 1886.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
 
@@ -2734,46 +2747,46 @@ ng.png>]
 File: images/plot_soil_contam_noneC.png Graphic file (type png)
  <use images/plot_soil_contam_noneC.png>
 Package pdftex.def Info: images/plot_soil_contam_noneC.png used on input line 1
-891.
+904.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-<images/plot_soil_contam_us90_none.png, id=313, 578.16pt x 433.62pt>
+<images/plot_soil_contam_us90_none.png, id=315, 578.16pt x 433.62pt>
 File: images/plot_soil_contam_us90_none.png Graphic file (type png)
 
 <use images/plot_soil_contam_us90_none.png>
 Package pdftex.def Info: images/plot_soil_contam_us90_none.png used on input li
-ne 1897.
+ne 1910.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 File: images/plot_soil_contam_nopool_sl.png Graphic file (type png)
 
 <use images/plot_soil_contam_nopool_sl.png>
 Package pdftex.def Info: images/plot_soil_contam_nopool_sl.png used on input li
-ne 1915.
+ne 1928.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-<images/plot_soil_contam_nopool.png, id=314, 578.16pt x 433.62pt>
+<images/plot_soil_contam_nopool.png, id=316, 578.16pt x 433.62pt>
 File: images/plot_soil_contam_nopool.png Graphic file (type png)
 
 <use images/plot_soil_contam_nopool.png>
 Package pdftex.def Info: images/plot_soil_contam_nopool.png used on input line 
-1921.
+1934.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 File: images/plot_soil_contam_noneC.png Graphic file (type png)
 
 <use images/plot_soil_contam_noneC.png>
 Package pdftex.def Info: images/plot_soil_contam_noneC.png used on input line 1
-940.
+953.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-<images/plot_soil_contam_none_lr5_sbl.png, id=315, 578.16pt x 433.62pt>
+<images/plot_soil_contam_none_lr5_sbl.png, id=317, 578.16pt x 433.62pt>
 File: images/plot_soil_contam_none_lr5_sbl.png Graphic file (type png)
 
 <use images/plot_soil_contam_none_lr5_sbl.png>
 Package pdftex.def Info: images/plot_soil_contam_none_lr5_sbl.png used on input
- line 1946.
+ line 1959.
 (pdftex.def)             Requested size: 231.2599pt x 173.44492pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 1955--1956
+Underfull \hbox (badness 10000) in paragraph at lines 1968--1969
 
  []
 
@@ -2793,14 +2806,47 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
 
 [62 <./images/plot_soil_contam_nopool.png> <./images/plot_soil_contam_none_lr5_
 sbl.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 1957--1958
+Underfull \hbox (badness 10000) in paragraph at lines 1970--1971
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 1964--1965
+Underfull \hbox (badness 10000) in paragraph at lines 1977--1978
 
  []
+
+File: images/plot_clampdet_conv4.png Graphic file (type png)
+<use images/plot_clampdet_conv4.png>
+Package pdftex.def Info: images/plot_clampdet_conv4.png used on input line 2005
+.
+(pdftex.def)             Requested size: 145.11053pt x 108.82819pt.
+File: images/plot_clampdet_conv4.png Graphic file (type png)
+ <use images/plot_clampdet_conv4.png>
+Package pdftex.def Info: images/plot_clampdet_conv4.png used on input line 2012
+.
+(pdftex.def)             Requested size: 145.11053pt x 108.82819pt.
+File: images/plot_clampdet_conv4.png Graphic file (type png)
+
+<use images/plot_clampdet_conv4.png>
+Package pdftex.def Info: images/plot_clampdet_conv4.png used on input line 2019
+.
+(pdftex.def)             Requested size: 145.11053pt x 108.82819pt.
+File: images/plot_clampdet_conv4.png Graphic file (type png)
+ <use images/plot_clampdet_conv4.png>
+Package pdftex.def Info: images/plot_clampdet_conv4.png used on input line 2024
+.
+(pdftex.def)             Requested size: 145.11053pt x 108.82819pt.
+File: images/plot_clampdet_conv4.png Graphic file (type png)
+
+<use images/plot_clampdet_conv4.png>
+Package pdftex.def Info: images/plot_clampdet_conv4.png used on input line 2031
+.
+(pdftex.def)             Requested size: 145.11053pt x 108.82819pt.
+File: images/plot_clampdet_conv4.png Graphic file (type png)
+ <use images/plot_clampdet_conv4.png>
+Package pdftex.def Info: images/plot_clampdet_conv4.png used on input line 2038
+.
+(pdftex.def)             Requested size: 145.11053pt x 108.82819pt.
 
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
@@ -2809,22 +2855,29 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  This may cause the page layout to be inconsistent, however.
 
 [63]
-Underfull \hbox (badness 10000) in paragraph at lines 2101--2102
+
+Package Fancyhdr Warning: \headheight is too small (12.0pt): 
+ Make it at least 13.59999pt.
+ We now make it that large for the rest of the document.
+ This may cause the page layout to be inconsistent, however.
+
+[64]
+Underfull \hbox (badness 10000) in paragraph at lines 2186--2187
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2103--2104
+Underfull \hbox (badness 10000) in paragraph at lines 2188--2189
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2105--2106
+Underfull \hbox (badness 10000) in paragraph at lines 2190--2191
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 2120--2121
+Underfull \hbox (badness 10000) in paragraph at lines 2205--2206
 
  []
 
@@ -2834,7 +2887,7 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[64
+[65
 
 ]
 Missing character: There is no Â in font cmr10!
@@ -2846,10 +2899,10 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[65
+[66
 
 ]
-Underfull \hbox (badness 10000) in paragraph at lines 2251--2254
+Underfull \hbox (badness 10000) in paragraph at lines 2336--2339
 \OT1/cmr/m/n/10.95 URL: $\OT1/cmtt/m/n/10.95 https : / / plus . google . com / 
 +YoshuaBengio / posts / GJY53aahqS8$\OT1/cmr/m/n/10.95 , last ac-cessed 1st
  []
@@ -2868,14 +2921,14 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[66]
+[67]
 
 Package Fancyhdr Warning: \headheight is too small (12.0pt): 
  Make it at least 13.59999pt.
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-[67] (./report.aux)
+[68] (./report.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -2884,13 +2937,13 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 17345 strings out of 494985
- 317368 string characters out of 6180356
- 373099 words of memory out of 5000000
- 20109 multiletter control sequences out of 15000+600000
+ 17362 strings out of 494985
+ 317704 string characters out of 6180356
+ 375221 words of memory out of 5000000
+ 20125 multiletter control sequences out of 15000+600000
  16039 words of font info for 62 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 48i,12n,61p,1621b,527s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 48i,12n,61p,1621b,572s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></us
 r/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/shar
 e/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx8.pfb></usr/share/texli
@@ -2912,10 +2965,10 @@ ublic/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/a
 msfonts/cm/cmti10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
 s/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/symb
 ols/msbm10.pfb>
-Output written on report.pdf (67 pages, 5265377 bytes).
+Output written on report.pdf (68 pages, 5316634 bytes).
 PDF statistics:
- 417 PDF objects out of 1000 (max. 8388607)
- 220 compressed objects within 3 object streams
+ 422 PDF objects out of 1000 (max. 8388607)
+ 222 compressed objects within 3 object streams
  0 named destinations out of 1000 (max. 500000)
- 358 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 363 words of extra memory for PDF output out of 10000 (max. 10000000)
 
