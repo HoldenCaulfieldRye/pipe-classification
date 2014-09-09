@@ -2016,20 +2016,20 @@ We present best results for each binary classifier. The first three columns of f
         ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth]{images/plot_markings-fine_01-08-2014.png}
-                \caption{Insertion Depth Markings}
+                \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
+                \caption{Hatch Markings}
                 \label{fig:mouse}
         \end{subfigure}
         \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
-                \caption{??}
+                \includegraphics[width=\textwidth]{images/plot_markings-fine_01-08-2014.png}
+                \caption{Insertion Depth Markings}
                 \label{fig:gull}
         \end{subfigure}%
         ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
-                \caption{??}
+                \includegraphics[width=\textwidth]{images/plot_soil_contam_none_lr5_sbl.png}
+                \caption{Soil Contamination}
                 \label{fig:tiger}
         \end{subfigure}
         ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
