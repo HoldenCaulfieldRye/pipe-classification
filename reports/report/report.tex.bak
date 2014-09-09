@@ -18,6 +18,12 @@
 \usepackage{url}
 \usepackage{verbatim}
 
+\usepackage{float}
+\floatstyle{boxed}
+\restylefloat{figure}
+
+
+
 \usepackage{tikz}
 \usetikzlibrary{matrix,chains,positioning,decorations.pathreplacing,arrows,calc}
 
@@ -1993,17 +1999,49 @@ This presents best results for each binary classifier. The first three columns a
 \end{table} 
 
 
-\begin{figure}[h]       
-    \fbox{\includegraphics[scale=0.28]{images/plot_clampdet_conv4.png}}   
-    \hspace{30px}
-    \fbox{\includegraphics[scale=0.28]{images/plot_caffe_ground_sheet_conv4.png}}   
-    \hspace{30px}
-    \fbox{\includegraphics[scale=0.28]{images/plot_markings-fine_01-08-2014.png}}
-    \hspace{30px}
-    \fbox{\includegraphics[scale=0.28]{images/kernel_edge_enhance_result.png}}
-    \caption{Image, kernel and resulting kernel map (source: convmatrix Gip documentation}
-    \label{f21}
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
+                \caption{Clamp}
+                \label{fig:gull}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth]{images/plot_caffe_ground_sheet_conv4.png}
+                \caption{Ground Sheet}
+                \label{fig:tiger}
+        \end{subfigure}
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth]{images/plot_markings-fine_01-08-2014.png}
+                \caption{Insertion Depth Markings}
+                \label{fig:mouse}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
+                \caption{??}
+                \label{fig:gull}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
+                \caption{??}
+                \label{fig:tiger}
+        \end{subfigure}
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth]{images/plot_clampdet_conv4.png}
+                \caption{??}
+                \label{fig:mouse}
+        \end{subfigure}        \caption{Pictures of animals}\label{fig:animals}
 \end{figure}
+
+
 
 
 
