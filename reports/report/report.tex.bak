@@ -1969,7 +1969,7 @@ Lowering the learning rate from 0.0001 to 0.00001 significantly helps. The ampli
 
 Notice that the training error converges surprisingly slowly, which implies that the model is slow at fitting the data. This is either because fitting the training data requires an even more powerful, highly non-linear, expressive model -- i.e.\ the current error surface does not have very deep minima -- or because the error surface is not being navigated correctly. The former seems unlikely, given that backpropagation is enabled on all layers, and that in the previous experiment (figure ~\ref{f57}), a less powerful model equipped with Bayesian cross entropy converged faster. If the latter is true, then this is either because the modulus of the gradient is too high, so the minimum gets overshot, or because the direction of the gradient is too often wrong. In the former case, we would expect the errors to be periodic as they circle the high-dimensional quadratic bowl surrounding the minimum. This is not observed here. Moreover, the minimum gets overshot if and only if the learning rate is too high. We can therefore test this hypothesis by lowering the learning rate yet further, to $10^{-6}$. \\
 
-The plot on figure ~\ref{f68} shows a model trained with this learning rate between the 5,000th and 10,000th iterations. The training error still does not decrease, and its amplitude remains high. This strongly suggests that the cause for non-fitting is frequently wrong directions of the gradient. Another way of formulating this is to say that the gradient is too noisy, which has been consistently observed in models training on Bayesian cross entropy. However, we re-iterate that this can be remedied by ensuring equal class proportions across all mini-batches -- this is left for further research. In the meantime, another way of dealing with this is to increase the size of the mini-batch. 
+The plot on figure ~\ref{f68} shows a model trained with this learning rate between the 5,000th and 10,000th iterations. The training error still does not decrease, and its amplitude remains high. This strongly suggests that the cause for non-fitting is frequently wrong directions of the gradient. Another way of formulating this is to say that the gradient is too noisy, which has been consistently observed in models trained on Bayesian cross entropy. As previously stated, this is likely due to varying class proportions across mini-batches. If so, it canbe reduced by ensuring equal class proportions across all mini-batches, but time constraints did not leave enough time for this implementation. In the meantime, we can reduce the standard deviation of class proportions across mini-batches by increasing the mini-batch size. What is somewhat consoling is that the batch-size for this training session was 96, which is unusually small: typical batch-size is 128 \cite{soumith-benchmark}, but 96 was in the hope of speeding up training. By significantly raising the mini-batch size, to 256, we can get an idea of how much of the gradient's noisiness is attributable to batch-size. As a passing note, we re-iterate that Bayesian cross entropy  
 
 \begin{figure}[h!]
 	\centering
@@ -1980,6 +1980,26 @@ The plot on figure ~\ref{f68} shows a model trained with this learning rate betw
 
 
 The plot on figure ~\ref{f69} shows a model trained with this learning rate between the 5,000th and 10,000th iterations. The training error still does not decrease, and its amplitude remains high. This strongly suggests that 
+
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_soil_contam_none_lr5_sbl.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{Mini-batch size 96}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_soil_contam_none_bs256_lr5_sbl.png}
+        % ...here to lower the subcaptions and...
+        \caption{Transfer learning and Bayesian cross entropy}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{Mini-batch size 256}\label{fig:2}
+    \end{minipage}%
+    \label{f69}
+\end{figure}
 
 \begin{figure}[h!]
 	\centering
