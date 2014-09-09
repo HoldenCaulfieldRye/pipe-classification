@@ -1837,7 +1837,14 @@ Whereas pooling in convolutional layers condenses the visual information and ach
 
 \subsection{Implementation}
 
-The architecture of the network was easily modified thanks to the prototxt interface featured in Caffe. However, note that above batch size 96 saturates gpu memory. The reason for why this model can take up more space is because without pool, the partial derivatives between conv5 and fc6 are twice as large, and that already constitutes the largest Jacobian in the model: we go from a (bSize*256*6*6) x (bSize*4096) Jacobian to a (bSize*256*13*13) x (bSize*4096), i.e.\ 4.7 times as large. Visually, the 5th convolutional layer has 256 kernel maps, which start off at 13x13 `resolution', and get reduced to 6x6 `resolution'.  \\
+The architecture of the network was easily modified thanks to the prototxt interface featured in Caffe. However, note that above batch size 96 saturates gpu memory. The reason for why this model can take up more space is because without pool, the partial derivatives between conv5 and fc6 are twice as large, and that already constitutes the largest Jacobian in the model: we go from a (bSize*256*6*6) x (bSize*4096) Jacobian to a (bSize*256*13*13) x (bSize*4096), i.e.\ 4.7 times as large. Visually, the 5th convolutional layer has 256 kernel maps, which start off at 13x13 `resolution', and get reduced to 6x6 `resolution'. Some intuition for this can be obtained from figure ~\ref{f60}, which can be seen as a heat-map representation of a kernel map. One can visualise that $3 \times 3$ max-pooling would  \\
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/max_pooling.png}
+	\caption{Heat-map representatio kernel map}
+    \label{f60}
+\end{figure}
 
 \subsection{Experimentation}
 

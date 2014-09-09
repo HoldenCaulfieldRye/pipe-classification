@@ -100,8 +100,10 @@
 \contentsline {subsection}{\numberline {8.3}Experimentation}{60}
 \contentsline {paragraph}{Test Run}{60}
 \contentsline {paragraph}{Remove pooling and a fc layer}{60}
-\contentsline {paragraph}{Under-Sampling benchmark}{61}
-\contentsline {paragraph}{Remove Pooling, a FC layer and add Bayesian Cross Entropy}{61}
-\contentsline {paragraph}{Softmax Bayesian Cross Entropy and lower learning rate}{61}
-\contentsline {section}{\numberline {9}Final Results}{63}
-\contentsline {section}{\numberline {10}Conclusions and Future Work}{65}
+\contentsline {paragraph}{Under-Sampling benchmark}{62}
+\contentsline {paragraph}{Remove Pooling, a FC layer and add Bayesian Cross Entropy}{62}
+\contentsline {paragraph}{Softmax Bayesian Cross Entropy and lower learning rate}{62}
+\contentsline {paragraph}{Reduce gradient noisiness of Bayesian cross entropy}{63}
+\contentsline {paragraph}{Concluding Remarks}{64}
+\contentsline {section}{\numberline {9}Final Results}{64}
+\contentsline {section}{\numberline {10}Conclusions and Future Work}{67}

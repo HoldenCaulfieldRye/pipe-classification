@@ -1837,7 +1837,14 @@ Whereas pooling in convolutional layers condenses the visual information and ach
 
 \subsection{Implementation}
 
-The architecture of the network was easily modified thanks to the prototxt interface featured in Caffe. However, note that above batch size 96 saturates gpu memory. The reason for why this model can take up more space is because without pool, the partial derivatives between conv5 and fc6 are twice as large, and that already constitutes the largest Jacobian in the model: we go from a (bSize*256*6*6) x (bSize*4096) Jacobian to a (bSize*256*13*13) x (bSize*4096), i.e.\ four times as large. However, the reason for why the GPU is unable to support is probably due to CUDA implementation details, and how many cores have been allocated to that specific Jacobian. After all, the Titan Black has 6GB of memory, which should be ample space. In the interest of time, the issue was not explored further. 
+The architecture of the network was easily modified thanks to the prototxt interface featured in Caffe. However, note that above batch size 96 saturates gpu memory. The reason for why this model can take up more space is because without pool, the partial derivatives between conv5 and fc6 are twice as large, and that already constitutes the largest Jacobian in the model: we go from a (bSize*256*6*6) x (bSize*4096) Jacobian to a (bSize*256*13*13) x (bSize*4096), i.e.\ 4.7 times as large. Visually, the 5th convolutional layer has 256 kernel maps, which start off at 13x13 `resolution', and get reduced to 6x6 `resolution'. Some intuition for this can be obtained from figure ~\ref{f60}, which can be seen as a heat-map representation of a kernel map. One can visualise that $3 \times 3$ max-pooling would  \\
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[scale=0.3]{images/max_pooling.png}
+	\caption{Example kernel map}
+    \label{f60}
+\end{figure}
 
 \subsection{Experimentation}
 
@@ -1967,9 +1974,12 @@ By adding Bayesian cross entropy, training becomes very noisy, as is already dis
 
 Lowering the learning rate from 0.0001 to 0.00001 significantly helps. The amplitude of the validation error reduces, the error ceases to oscillate, and a steady downward trend can be observed. This indicates that Bayesian softmax cross entropy by itself on AleNet architecture works best, without removing a pooling layer and a fully connected layer. The cost function delivers remarkable gains, since adding it alone provides just under 25 additional percentage points in average per class accuracy. Maximum per class accuracy is 74.8\%, which is impressive considering how hard this task his - let us recall that neither transfer learning nor under-sampling delivered any gains. \\
 
-Notice that the training error converges surprisingly slowly, which implies that the model is slow at fitting the data. This is either because fitting the training data requires an even more powerful, highly non-linear, expressive model -- i.e.\ the current error surface does not have very deep minima -- or because the error surface is not being navigated correctly. The former seems unlikely, given that backpropagation is enabled on all layers, and that in the previous experiment (figure ~\ref{f57}), a less powerful model equipped with Bayesian cross entropy converged faster. If the latter is true, then this is either because the modulus of the gradient is too high, so the minimum gets overshot, or because the direction of the gradient is too often wrong. In the former case, we would expect the errors to be periodic as they circle the high-dimensional quadratic bowl surrounding the minimum. This is not observed here. Moreover, the minimum gets overshot if and only if the learning rate is too high. We can therefore test this hypothesis by lowering the learning rate yet further, to $10^{-6}$. \\
+Notice that the training error converges surprisingly slowly, which implies that the model is slow at fitting the data. This is either because fitting the training data requires an even more powerful, highly non-linear, expressive model -- i.e.\ the current error surface does not have very deep minima -- or because the error surface is not being navigated correctly. The former seems unlikely, given that backpropagation is enabled on all layers, and that in the previous experiment (figure ~\ref{f57}), a shallower model equipped with Bayesian cross entropy converged faster. If the latter is true, then this is either because the modulus of the gradient is too high, so the minimum gets overshot, or because the direction of the gradient is too often wrong. In the former case, we would expect the errors to be periodic as they circle the high-dimensional quadratic bowl surrounding the minimum. This is not observed here. Moreover, the minimum gets overshot if and only if the learning rate is too high. We can therefore test this hypothesis by lowering the learning rate yet further, to $10^{-6}$. \\
 
-The plot on figure ~\ref{f68} shows a model trained with this learning rate between the 5,000th and 10,000th iterations. The training error still does not decrease, and its amplitude remains high. This strongly suggests that the cause for non-fitting is frequently wrong directions of the gradient. Another way of formulating this is to say that the gradient is too noisy, which has been consistently observed in models training on Bayesian cross entropy. However, we re-iterate that this can be remedied by ensuring equal class proportions across all mini-batches -- this is left for further research. In the meantime, another way of dealing with this is to increase the size of the mini-batch. 
+
+\paragraph{Reduce gradient noisiness of Bayesian cross entropy}
+
+The plot on figure ~\ref{f68} shows a model trained with this learning rate between the 5,000th and 10,000th iterations. The training error still does not decrease, and its amplitude remains high. This suggests that the cause for non-fitting is frequently wrong directions of the gradient. A possible cause for this is noisy gradient, which has been consistently observed in models trained on Bayesian cross entropy. As previously stated, this is likely due to varying class proportions across mini-batches. If so, it can be reduced by ensuring equal class proportions across all mini-batches; but time constraints did not leave enough time for this implementation. In the meantime, we can reduce the standard deviation of class proportions across mini-batches by increasing the mini-batch size. What is somewhat consoling is that the batch-size for this training session was 96, which is unusually small: typical batch-size is 128 \cite{soumith-benchmark}, but 96 was chosen in the hope of speeding up training. By significantly raising the mini-batch size, to 256, we can get an idea of how much of the gradient's noisiness is attributable to batch-size. \\  
 
 \begin{figure}[h!]
 	\centering
@@ -1979,7 +1989,7 @@ The plot on figure ~\ref{f68} shows a model trained with this learning rate betw
 \end{figure}
 
 
-The plot on figure ~\ref{f69} shows a model trained with this learning rate between the 5,000th and 10,000th iterations. The training error still does not decrease, and its amplitude remains high. This strongly suggests that 
+Figure ~\ref{f69} shows a model trained with higher mini-batch size between the 2,000th and 10,000th iterations. The reduced amplitude of the training error indicates that gradient noisiness has decreased, and yet the error still does not converge. Let us reconsider the model shown to the right of figure ~\ref{f57}: it lacks a fully connected layer, performs no pooling at the 5th convolutional layer and was trained with Bayesian cross entropy and mini-batch size 96. Indeed, the extreme amplitude of the training error suggests that the gradient is very noisy. But this and the smaller depth of the architecture do not prevent the model from rapdily fitting the data! These results may suggest something about the impact of removing pooling at the 5th convolutional layer: it leads to learning features that generalise less well, since the model overfits in less than 250 iterations and does not perform well. A likely explanation is that in fact, this model is \textit{not} less powerful than the one represented in figure ~\ref{f57}, because removing the $3 \times 3$ pooling at the 5th convolutional layer multiplies by 9 the number of edges between the layer and the one above. In other words, this introduces an additional \\$8 x (6*6) x 4096 = 1,179,648$ parameters
 
 \begin{figure}
     \centering
@@ -1988,28 +1998,24 @@ The plot on figure ~\ref{f69} shows a model trained with this learning rate betw
         \centering
         \includegraphics[scale=0.4]{images/plot_soil_contam_none_lr5_sbl.png}
         % Add \par\vspace*{20pt} here and...
-        \caption{Transfer learning}\label{fig:2a}
+        \caption{Batch size 96}\label{fig:2a}
       \end{subfigure}%
       \begin{subfigure}{.5\textwidth} 
         \centering
         \includegraphics[scale=0.4]{images/plot_soil_contam_none_bs256_lr5_sbl.png}
         % ...here to lower the subcaptions and...
-        \caption{Transfer learning and Bayesian cross entropy}\label{fig:2b}
+        \caption{Batch size 256 from 2000th iter onwards}\label{fig:2b}
       \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-      \caption{Bayesian Cross Entropy by itself}\label{fig:2}
+      \caption{Reduce gradient noisiness with mini-batch size}\label{fig:2}
     \end{minipage}%
     \label{f69}
 \end{figure}
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[scale=0.4]{images/plot_soil_contam_none_lr5_sbl.png}
-	\caption{Failure to fit the data with Bayesian Cross Entropy}
-    \label{f68}
-\end{figure}
-
+Despite how gradient noisiness decreased by raising the mini-batch size, what remains striking is that in figure ~\ref{f57}, the model represented on the right only has mini-batch size 96
 
 %Furthermore, learning is halted after 2000 iterations (this was due to time constraints), before overfitting begins, so it seems clear from the plots that more progress can be made by resuming training. \\
+
+\paragraph{Concluding Remarks}
 
 A potential explanation for why the gains from the Bayesian cross entropy are much greater for this task than for clamp detection with 98\% imbalance is that imbalance is not as stark in this task, so the variance of the modulus of the gradient is lower, i.e.\ the gradient is less noisy. Since this issue could be addressed by ensuring equal class distribution at every mini-batch, the size of gains observed here could also potentially be seen with clampdet detection 98\% and other tasks with similar imbalances. \\
 
