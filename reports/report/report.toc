@@ -4,7 +4,7 @@
 \contentsline {subsection}{\numberline {2.2}Formalising the problem}{6}
 \contentsline {paragraph}{Independent Binary Classifiers}{6}
 \contentsline {subsection}{\numberline {2.3}Challenges specific to the Pipe Weld Classification Task}{6}
-\contentsline {subsubsection}{\numberline {2.3.1}Data Overview}{7}
+\contentsline {subsubsection}{\numberline {2.3.1}Data Overview}{6}
 \contentsline {subsubsection}{\numberline {2.3.2}Semantic Complexity}{7}
 \contentsline {subsubsection}{\numberline {2.3.3}Domain Change}{8}
 \contentsline {subsubsection}{\numberline {2.3.4}Small Dataset Size}{9}
