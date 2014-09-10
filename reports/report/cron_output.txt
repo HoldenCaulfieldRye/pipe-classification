@@ -4004,3 +4004,12 @@ alex      2885  2841  2 Sep08 pts/30   00:36:28 texmaker report.tex
 To git@github.com:HoldenCaulfieldRye/pipe-classification.git
    11ec388..cc9104d  master -> master
 alex     13403  2312  5 22:04 pts/11   00:00:16 texmaker report.tex
+[master 641361b] auto-commit progress on report
+ 7 files changed, 3 insertions(+), 2 deletions(-)
+ delete mode 100644 reports/report/images/GitCommits.png
+ delete mode 100644 reports/report/images/plantclassgoalcapture.png
+ delete mode 100644 reports/report/images/release_burndown.png
+ rewrite reports/report/report.synctex.gz (85%)
+To git@github.com:HoldenCaulfieldRye/pipe-classification.git
+   0c7adb0..641361b  master -> master
+alex     13403  2312  1 22:04 pts/11   00:00:16 texmaker report.tex
