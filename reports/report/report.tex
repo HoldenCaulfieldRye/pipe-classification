@@ -2024,6 +2024,162 @@ Despite the failure of removing pooling, the experiments showed how successful B
 This section marks a failure for modifying the architecture of AlexNet, but it marks a victory for the Bayesian cross entropy, and encourages further empirical research into the benefits that this novel cost function can bring to training deep neural networks.
 
 
+\clearpage
+\section{More Bluebox Data}
+
+Now we have 187,458 Redbox images and 39,445 Bluebox images. Classification performance should significantly improve. \\
+
+\subsection{Clamp Detection}
+
+\subsubsection{Test Run}
+
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_clampdet_conv4.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{Bluebox 4,182}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_more_clampdet_conv4.png}
+        % ...here to lower the subcaptions and...
+        \caption{Bluebox 39,445}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{Clampdet, bs 128, lr $10^{-4}$, fBP conv4}\label{fig:2}
+    \end{minipage}%
+    \label{f71}
+\end{figure}
+
+\paragraph{Observations}
+\begin{enumerate}
+\item Bad: performance is lower with more data. 
+\end{enumerate}
+
+\paragraph{Potential explanations}
+\begin{enumerate}
+\item \textbf{All multi-query images are used}, so significant chunk of the additional data is mis-labelled. This is true if the first photo in a multi-query is more likely to be the most general one.
+\item \textbf{Less need to constrain expressiveness} because with more data, the model overfits less. However, this could only justify why optimal performance with more data is attained with less frozen backprop, not why performance decreases with additional data.
+\item \textbf{Recent data has more outliers}, so validation set is much harder.
+\item \textbf{A bug occurred in ControlPoint's system or operations}, so significant chunk of the additional data is mis-labelled.
+\item \textbf{Need to train more} because there's more data. Unlikely by the curvature of validation error though.
+\item \textbf{Class proportions have changed} and the class that is harder to detect is more present. \textit{No, class imbalance has changed from 88\% to 89\%, easy class is negative, and it is now more present}.
+\end{enumerate}
+
+\paragraph{Next}
+\begin{enumerate}
+\item Resume training.
+\item Use only first image from multi-queries. 
+\item Increase validation set to reduce amplitude.
+\end{enumerate}
+
+
+\subsubsection{Only 1st Image from Multi-queries}
+
+Testing hypothesis that all multi-query images are used, so significant chunk of the additional data is mis-labelled. This is true if the first photo in a multi-query is more likely to be the most general one. Training on a subset of the Blueboxes only containing first photo every time. \\
+
+
+
+\clearpage
+\subsection{Soil Contamination}
+
+\begin{figure}
+    \centering
+    \begin{minipage}[b]{\textwidth}
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_soil_contam_none_bs256_lr5_sbl.png}
+        % Add \par\vspace*{20pt} here and...
+        \caption{Bluebox 4,182, 98\% imbalance}\label{fig:2a}
+      \end{subfigure}%
+      \begin{subfigure}{.5\textwidth} 
+        \centering
+        \includegraphics[scale=0.4]{images/plot_more_soil_contam_us_none_lr5_sbl.png}
+        % ...here to lower the subcaptions and...
+        \caption{Bluebox 39,445, under-sample to 98\% imbalance}\label{fig:2b}
+      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+      \caption{Soil contam, bs 256, lr $10^{-5}$, fBP none}\label{fig:2}
+    \end{minipage}%
+    \label{f72}
+\end{figure}
+
+
+\paragraph{Observations}
+\begin{enumerate}
+\item Training stopped early because no more space on disk to save model snapshots.
+\item Validation frequency was reduced for the more data model.
+\end{enumerate}
+
+\paragraph{Potential explanations}
+\begin{enumerate}
+\item \textbf{All multi-query images are used}, so significant chunk of the additional data is mis-labelled. This is true if the first photo in a multi-query is more likely to be the most general one.
+\item \textbf{Recent data has more outliers}, so validation set is much harder.
+\item \textbf{A bug occurred in ControlPoint's system or operations}, so significant chunk of the additional data is mis-labelled.
+\end{enumerate}
+
+\paragraph{Next}
+\begin{enumerate}
+\item Increase validation set to reduce amplitude.
+\item Resume training.
+\item Use only first image from multi-queries. 
+\item Increase validation set to reduce amplitude.
+\end{enumerate}
+
+
+\clearpage
+\subsection{Scrape Zones}
+
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth]{images/plot_scrape_zone_peel-fine.png}
+                \caption{Bluebox 4,182, maybe merged classes or under sampling}
+                \label{fig:gull}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth]{images/plot_scrape_zone_peel-fine_04-08-2014.png}
+                \caption{Bluebox 4,182, maybe merged classes or under sampling}
+                \label{fig:tiger}
+        \end{subfigure}
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.3\textwidth}
+                \includegraphics[width=\textwidth]{images/plot_more_scrape_zones_none_lr5_sbl.png}
+                \caption{Bluebox 39,445, bs 128, lr $10^{-5}$, fBP none}
+                \label{fig:mouse}
+        \end{subfigure}
+        \caption{Training Plots of Best Performing Models}\label{fig:animals}
+    \label{f73}
+\end{figure}
+
+
+\paragraph{Observations}
+\begin{enumerate}
+\item Training stopped early because no more space on disk to save model snapshots.
+\item Best score on this was attained when merging classes. I think it's in one of the plots here. See plot scrape zone peel - fine png for that.
+\end{enumerate}
+
+\paragraph{Potential explanations}
+\begin{enumerate}
+\item \textbf{All multi-query images are used}, so significant chunk of the additional data is mis-labelled. This is true if the first photo in a multi-query is more likely to be the most general one.
+\item \textbf{Recent data has more outliers}, so validation set is much harder.
+\item \textbf{A bug occurred in ControlPoint's system or operations}, so significant chunk of the additional data is mis-labelled.
+\end{enumerate}
+
+\paragraph{Next}
+\begin{enumerate}
+\item Resume training.
+\item Use only first image from multi-queries. 
+\item Increase validation set to reduce amplitude.
+\end{enumerate}
+
+
+
+\clearpage
 \section{Final Results}
 
 Best results for each binary classifier are presented on figure ~\ref{f59}, and training plots are on figure ~\ref{f69}. The first three columns of figure ~\ref{f59} are indicators of the difficulty of the task: amount of available Bluebox examples, whether the task requires precise spatial information, whether the downsizing of the images to 256x256 prevented a human expert from carrying out classification. The last two columns are measures success: maximum average per class validation accuracy, and percentage of work that could be automated by setting the threshold so as to obtain 95\% accuracy on true positives. Note that validation accuracies are all in the 88-99\% range, but as is argued at length in this report, this metric is inadequate when there is class imbalance. \\
