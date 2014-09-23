@@ -45,7 +45,7 @@
 \pagestyle{fancyplain}
 \fancyhf{}
 \lhead{\fancyplain{}{M.Sc.\ Individual Project Report}}
-\rhead{\fancyplain{}{\today}}
+\rhead{\fancyplain{}{\date{19th September 2014}}}
 \cfoot{\fancyplain{}{\thepage}}
 
 \title{Classification of Pipe Weld Images with Deep Neural Networks\\\Large{--- Final Report ---}}
@@ -53,6 +53,7 @@
        ad6813@ic.ac.uk\\ \\
        \small{Supervisors: Professor Murray Shanahan and Mr Jack Kelly}\\
        \small{Course: CO541, Imperial College London}
+\date{19th September 2014}
 }
 
 \begin{document}
@@ -64,13 +65,21 @@
 {
 Automatic image classification experienced a breakthrough in 2012 with the advent of GPU implementations of deep convolutional neural networks (CNNs). These models distinguish themselves by learning features, convolving them to achieve feature equivariance, making use of max pooling operations to achieve robustness to cluttered backgrounds, and a hierarchical structure to enable the learning of complex features with high generalisation performance. This has motivated ControlPoint LLP, a gas \& water infrastructure monitoring company, to explore whether deep learning could be used to automate one of its business services: inspecting photos of polyethylene pipe weld installations to ascertain weld quality. The company reports having previously explored automation with existing businesses, but that the semantic complexity of the visual characteristics to recognise made the task technologically infeasible. \\
 
-After framing the task, this report provides an overview of supervised deep learning, followed by an in-depth explanation of the workings of a deep convolutional neural network, which despite its performance, gathers criticism for its tendency to be used as a black box. The rest of the report goes over the research that was carried out. The first is a simple mathematical analysis which proposes an explanation for the recent success of the Rectified Linear Unit as the chief activation function of CNNs\footnote{It came about as the result of seeking to understand, with limited assistance, aspects of training deep neural networks; it is uncertain whether existing research exceeds it.}. The next sections are applied and specific to the main task: understanding why learning failed during the first attempts; finding the optimal way to use transfer learning, exploring ways of tackling class imbalance -- including a novel cost function with a probabilistic interpretation which delivered up to 25 additional percentage points in classification performance; moving away from the common `AlexNet' CNN architecture to conserve spatial information; and final performance results across all tasks. \\
+After framing the task, this report provides an overview of supervised deep learning, followed by an in-depth explanation of the workings of a deep convolutional neural network, which despite its performance, gathers criticism for its tendency to be used as a black box. The rest of the report goes over the research that was carried out. The first is a simple mathematical analysis which proposes an explanation for the recent success of the Rectified Linear Unit as the chief activation function of CNNs. The next sections are applied and specific to the main task: understanding why learning failed during the first attempts; finding the optimal way to use transfer learning, exploring ways of tackling class imbalance -- including a novel cost function with a probabilistic interpretation which delivered up to 25 additional percentage points in classification performance; moving away from the common `AlexNet' CNN architecture to conserve spatial information; and final performance results across all tasks. \\
 
-The choice to focus on making more general improvements in understanding deep learning and dealing with class imbalance restricted the time spent optimising each one of the 10 tasks. As a result of severe mislabelling, the dataset was restricted to 4,182 images. For the moment, average per class classification accuracies for the tasks are: 89.2\%, 88.6\%, 78.1\%, 76.9\%, 74.8\%, 74.7\%, 67.3\%, 50\%, 50\%, 50\%. Validation accuracies are all in the 87-99\% range, but as is argued in this report, this metric is inadequate when there is class imbalance. The recent discovery of the novel cost function means that it was only implemented for 3 of these tasks; these scores are therefore likely to increase thanks to this improvement alone.
+The choice to focus on making more general improvements in understanding deep learning and dealing with class imbalance restricted the time spent optimising each one of the 10 tasks. As a result of severe mislabelling, the dataset was restricted to 4,182 images. For the moment, average per class classification accuracies for the tasks are: 89.2\%, 88.6\%, 78.1\%, 76.9\%, 74.8\%, 74.7\%, 67.3\%, 50\%, 50\%, 50\%. Validation accuracies are all in the 87-99\% range, but as is argued in this report, this metric is inadequate when there is class imbalance. The recent discovery of the novel cost function means that it was only implemented for 3 of these tasks; these scores are therefore likely to increase thanks to this improvement alone. \\
 }
 \end{abstract}
 
 \clearpage
+\section{Legal Disclaimer}
+
+ControlPoint LLP has provided data and background assistance to Alexandre Dalyac (the author), to assist him in the preparation of the attached report dated 17 September 2014 (the Report). Such data and assistance contain commercially sensitive information, and as such was provided under the terms of a Data Sharing Agreement signed by the author which gave ControlPoint the right to view the Report prior to its publication.
+ControlPoint understands that the Report is to be electronically submitted for internal marking/assessment to Imperial College, London by 19th September 2014.
+ControlPoint gives its consent to such submission on the understanding that it is acknowledged by the author and Imperial College London that such consent is given only for the purposes of marking/assessment for Imperial College London's CO541 course and not for any publication or distribution that is external to it.  ControlPoint reserves the absolute right to make reasonable amendments to the Report where ControlPoint is referenced prior to its external publication or distribution.
+
+\clearpage
+
 \tableofcontents
 
 \clearpage
@@ -79,7 +88,7 @@ The choice to focus on making more general improvements in understanding deep le
 
 Many thanks to Prof Murray Shanahan for having been the chief supervisor of this research project; it would not have been possible to pursue it otherwise. 
 
-Thanks to Jack Kelly, the second supervisor of this project, for having created it. Were it not for Jack Kelly, ControlPoint would not have heard of deep learning as a potential technological solution, and I would not have been able to carry out exciting, meaningful research for a real world problem. Jack Kelly shaped not just the research project but a significant portion of my year at Imperial College, by providing guidance towards teaching material on deep learning, encouragement to pursue it, and a group project to apply it. I owe him the discovery of a new passion.
+Thanks to Jack Kelly, the second supervisor of this project, for having created it. Were it not for him I would not have been able to carry out exciting, meaningful research for a real world problem. Jack Kelly shaped not just the research project but a significant portion of my year at Imperial College, by providing guidance towards teaching material on deep learning, encouragement to pursue it, and a group project to apply it. I owe him the discovery of a new passion.
 
 Thanks to Razvan Ranca for precious strategic advice on which experiments to choose for the exploration of hypotheses, help with C++, feedback on the report, as well as musical and caffeine tricks for staying up all night. I look excitingly forward to the times ahead cofounding a machine learning startup together.
 
@@ -122,7 +131,7 @@ The problem consists in building a classifier of pipe weld images capable of det
     \label{f1}
 \end{table} 
 
-At this point, it may help to explain the procedure through which these welds are made, and how pictures of them are taken. The situation is that of fitting two disjoint polyethylene pipes with electrofusion joints \cite{control-point}, in the context of gas or water infrastructure. Since the jointing is done by hand, in an industry affected with alleged `poor quality workmanship', and is most often followed by burial of the pipe under the ground, poor joints occur with relative frequency \cite{control-point}. Since a contamination can cost up to £100,000 \cite{control-point}, there exists a strong case for putting in place protocols to reduce the likelihood of such an event. ControlPoint currently has one in place in which, following the welding of a joint, the on-site worker sends one or more photos, at arm's length, of the completed joint. \\
+It may help to explain the procedure through which these welds are made, and how pictures of them are taken. The situation is that of fitting two disjoint polyethylene pipes with electrofusion joints \cite{control-point}, in the context of gas or water infrastructure. Since the jointing is done by hand, in an industry affected with alleged `poor quality workmanship', and is most often followed by burial of the pipe under the ground, poor joints occur with relative frequency \cite{control-point}. Since a contamination can cost up to £100,000 \cite{control-point}, there exists a strong case for putting in place protocols to reduce the likelihood of such an event. ControlPoint currently has one in place in which, following the welding of a joint, the on-site worker sends one or more photos, at arm's length, of the completed joint. \\
 
 \begin{figure}[h!]       
     \fbox{\includegraphics[scale=0.22]{images/soilcontam2.jpg}}   
@@ -2021,165 +2030,167 @@ Removing pooling from the final convolutional layer was not a good idea. Because
 
 Despite the failure of removing pooling, the experiments showed how successful Bayesian cross entropy could be. Potential explanation for why the gains from the Bayesian cross entropy are much greater for this task than for clamp detection with 98\% imbalance is that imbalance is not as stark in this task, so the variance of the modulus of the gradient is lower, i.e.\ the gradient is less noisy. Since this issue could be addressed by ensuring equal class distribution at every mini-batch, the size of gains observed here could also potentially be seen with clampdet detection 98\% and other tasks with similar imbalances. \\
 
-This section marks a failure for modifying the architecture of AlexNet, but it marks a victory for the Bayesian cross entropy, and encourages further empirical research into the benefits that this novel cost function can bring to training deep neural networks.
+This section marks a failure for modifying the architecture of AlexNet, but it bodes well for and encourages further empirical research into the benefits that Bayesian cross entropy can bring to training deep neural networks with class imbalance.
 
 
 \clearpage
-\section{More Bluebox Data}
-
-Now we have 187,458 Redbox images and 39,445 Bluebox images. Classification performance should significantly improve. \\
-
-\subsection{Clamp Detection}
-
-\subsubsection{Test Run}
-
-\begin{figure}
-    \centering
-    \begin{minipage}[b]{\textwidth}
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_clampdet_conv4.png}
-        % Add \par\vspace*{20pt} here and...
-        \caption{Bluebox 4,182}\label{fig:2a}
-      \end{subfigure}%
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_more_clampdet_conv4.png}
-        % ...here to lower the subcaptions and...
-        \caption{Bluebox 39,445}\label{fig:2b}
-      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-      \caption{Clampdet, bs 128, lr $10^{-4}$, fBP conv4}\label{fig:2}
-    \end{minipage}%
-    \label{f71}
-\end{figure}
-
-\paragraph{Observations}
-\begin{enumerate}
-\item Bad: performance is lower with more data. 
-\end{enumerate}
-
-\paragraph{Potential explanations}
-\begin{enumerate}
-\item \textbf{All multi-query images are used}, so significant chunk of the additional data is mis-labelled. This is true if the first photo in a multi-query is more likely to be the most general one.
-\item \textbf{Less need to constrain expressiveness} because with more data, the model overfits less. However, this could only justify why optimal performance with more data is attained with less frozen backprop, not why performance decreases with additional data.
-\item \textbf{Recent data has more outliers}, so validation set is much harder.
-\item \textbf{A bug occurred in ControlPoint's system or operations}, so significant chunk of the additional data is mis-labelled.
-\item \textbf{Need to train more} because there's more data. Unlikely by the curvature of validation error though.
-\item \textbf{Class proportions have changed} and the class that is harder to detect is more present. \textit{No, class imbalance has changed from 88\% to 89\%, easy class is negative, and it is now more present}.
-\end{enumerate}
-
-\paragraph{Next}
-\begin{enumerate}
-\item Resume training.
-\item Use only first image from multi-queries. 
-\item Increase validation set to reduce amplitude.
-\end{enumerate}
-
-
-\subsubsection{Only 1st Image from Multi-queries}
-
-Testing hypothesis that all multi-query images are used, so significant chunk of the additional data is mis-labelled. This is true if the first photo in a multi-query is more likely to be the most general one. Training on a subset of the Blueboxes only containing first photo every time. \\
-
-
-
-\clearpage
-\subsection{Soil Contamination}
-
-\begin{figure}
-    \centering
-    \begin{minipage}[b]{\textwidth}
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_soil_contam_none_bs256_lr5_sbl.png}
-        % Add \par\vspace*{20pt} here and...
-        \caption{Bluebox 4,182, 98\% imbalance}\label{fig:2a}
-      \end{subfigure}%
-      \begin{subfigure}{.5\textwidth} 
-        \centering
-        \includegraphics[scale=0.4]{images/plot_more_soil_contam_us_none_lr5_sbl.png}
-        % ...here to lower the subcaptions and...
-        \caption{Bluebox 39,445, under-sample to 98\% imbalance}\label{fig:2b}
-      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
-      \caption{Soil contam, bs 256, lr $10^{-5}$, fBP none}\label{fig:2}
-    \end{minipage}%
-    \label{f72}
-\end{figure}
-
-
-\paragraph{Observations}
-\begin{enumerate}
-\item Training stopped early because no more space on disk to save model snapshots.
-\item Validation frequency was reduced for the more data model.
-\end{enumerate}
-
-\paragraph{Potential explanations}
-\begin{enumerate}
-\item \textbf{All multi-query images are used}, so significant chunk of the additional data is mis-labelled. This is true if the first photo in a multi-query is more likely to be the most general one.
-\item \textbf{Recent data has more outliers}, so validation set is much harder.
-\item \textbf{A bug occurred in ControlPoint's system or operations}, so significant chunk of the additional data is mis-labelled.
-\end{enumerate}
-
-\paragraph{Next}
-\begin{enumerate}
-\item Increase validation set to reduce amplitude.
-\item Resume training.
-\item Use only first image from multi-queries. 
-\item Increase validation set to reduce amplitude.
-\end{enumerate}
-
-
-\clearpage
-\subsection{Scrape Zones}
-
-\begin{figure}
-        \centering
-        \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth]{images/plot_scrape_zone_peel-fine.png}
-                \caption{Bluebox 4,182, maybe merged classes or under sampling}
-                \label{fig:gull}
-        \end{subfigure}%
-        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth]{images/plot_scrape_zone_peel-fine_04-08-2014.png}
-                \caption{Bluebox 4,182, maybe merged classes or under sampling}
-                \label{fig:tiger}
-        \end{subfigure}
-        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
-          %(or a blank line to force the subfigure onto a new line)
-        \begin{subfigure}[b]{0.3\textwidth}
-                \includegraphics[width=\textwidth]{images/plot_more_scrape_zones_none_lr5_sbl.png}
-                \caption{Bluebox 39,445, bs 128, lr $10^{-5}$, fBP none}
-                \label{fig:mouse}
-        \end{subfigure}
-        \caption{Training Plots of Best Performing Models}\label{fig:animals}
-    \label{f73}
-\end{figure}
-
-
-\paragraph{Observations}
-\begin{enumerate}
-\item Training stopped early because no more space on disk to save model snapshots.
-\item Best score on this was attained when merging classes. I think it's in one of the plots here. See plot scrape zone peel - fine png for that.
-\end{enumerate}
-
-\paragraph{Potential explanations}
-\begin{enumerate}
-\item \textbf{All multi-query images are used}, so significant chunk of the additional data is mis-labelled. This is true if the first photo in a multi-query is more likely to be the most general one.
-\item \textbf{Recent data has more outliers}, so validation set is much harder.
-\item \textbf{A bug occurred in ControlPoint's system or operations}, so significant chunk of the additional data is mis-labelled.
-\end{enumerate}
-
-\paragraph{Next}
-\begin{enumerate}
-\item Resume training.
-\item Use only first image from multi-queries. 
-\item Increase validation set to reduce amplitude.
-\end{enumerate}
-
-
-
-\clearpage
+%\section{More Bluebox Data}
+%
+%As of 16th September we have 126,896 Redbox joints and 23,032 Bluebox joints, i.e.\ 187,458 Redbox images and 39,445 Bluebox images. Classification performance should significantly improve. Note there were 113,865 Redbox joints and 13,790 Bluebox joints on the 28th May. 200 joints per day, so if charging £5 per inspection, £30k revenue per month. \\
+%
+%Plotting this over time could inform on how the business is trending and how stable it is. \\
+%
+%\subsection{Clamp Detection}
+%
+%\subsubsection{Test Run}
+%
+%\begin{figure}
+%    \centering
+%    \begin{minipage}[b]{\textwidth}
+%      \begin{subfigure}{.5\textwidth} 
+%        \centering
+%        \includegraphics[scale=0.4]{images/plot_clampdet_conv4.png}
+%        % Add \par\vspace*{20pt} here and...
+%        \caption{Bluebox 4,182}\label{fig:2a}
+%      \end{subfigure}%
+%      \begin{subfigure}{.5\textwidth} 
+%        \centering
+%        \includegraphics[scale=0.4]{images/plot_more_clampdet_conv4.png}
+%        % ...here to lower the subcaptions and...
+%        \caption{Bluebox 39,445}\label{fig:2b}
+%      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+%      \caption{Clampdet, bs 128, lr $10^{-4}$, fBP conv4}\label{fig:2}
+%    \end{minipage}%
+%    \label{f71}
+%\end{figure}
+%
+%\paragraph{Observations}
+%\begin{enumerate}
+%\item Bad: performance is lower with more data. 
+%\end{enumerate}
+%
+%\paragraph{Potential explanations}
+%\begin{enumerate}
+%\item \textbf{All multi-query images are used}, so significant chunk of the additional data is mis-labelled. This is true if the first photo in a multi-query is more likely to be the most general one.
+%\item \textbf{Less need to constrain expressiveness} because with more data, the model overfits less. However, this could only justify why optimal performance with more data is attained with less frozen backprop, not why performance decreases with additional data.
+%\item \textbf{Recent data has more outliers}, so validation set is much harder.
+%\item \textbf{A bug occurred in ControlPoint's system or operations}, so significant chunk of the additional data is mis-labelled.
+%\item \textbf{Need to train more} because there's more data. Unlikely by the curvature of validation error though.
+%\item \textbf{Class proportions have changed} and the class that is harder to detect is more present. \textit{No, class imbalance has changed from 88\% to 89\%, easy class is negative, and it is now more present}.
+%\end{enumerate}
+%
+%\paragraph{Next}
+%\begin{enumerate}
+%\item Resume training.
+%\item Use only first image from multi-queries. 
+%\item Increase validation set to reduce amplitude.
+%\end{enumerate}
+%
+%
+%\subsubsection{Only 1st Image from Multi-queries}
+%
+%Testing hypothesis that all multi-query images are used, so significant chunk of the additional data is mis-labelled. This is true if the first photo in a multi-query is more likely to be the most general one. Training on a subset of the Blueboxes only containing first photo every time. \\
+%
+%
+%
+%\clearpage
+%\subsection{Soil Contamination}
+%
+%\begin{figure}
+%    \centering
+%    \begin{minipage}[b]{\textwidth}
+%      \begin{subfigure}{.5\textwidth} 
+%        \centering
+%        \includegraphics[scale=0.4]{images/plot_soil_contam_none_bs256_lr5_sbl.png}
+%        % Add \par\vspace*{20pt} here and...
+%        \caption{Bluebox 4,182, 98\% imbalance}\label{fig:2a}
+%      \end{subfigure}%
+%      \begin{subfigure}{.5\textwidth} 
+%        \centering
+%        \includegraphics[scale=0.4]{images/plot_more_soil_contam_us_none_lr5_sbl.png}
+%        % ...here to lower the subcaptions and...
+%        \caption{Bluebox 39,445, under-sample to 98\% imbalance}\label{fig:2b}
+%      \end{subfigure} \par \vspace*{20pt} % ...remove them from here
+%      \caption{Soil contam, bs 256, lr $10^{-5}$, fBP none}\label{fig:2}
+%    \end{minipage}%
+%    \label{f72}
+%\end{figure}
+%
+%
+%\paragraph{Observations}
+%\begin{enumerate}
+%\item Training stopped early because no more space on disk to save model snapshots.
+%\item Validation frequency was reduced for the more data model.
+%\end{enumerate}
+%
+%\paragraph{Potential explanations}
+%\begin{enumerate}
+%\item \textbf{All multi-query images are used}, so significant chunk of the additional data is mis-labelled. This is true if the first photo in a multi-query is more likely to be the most general one.
+%\item \textbf{Recent data has more outliers}, so validation set is much harder.
+%\item \textbf{A bug occurred in ControlPoint's system or operations}, so significant chunk of the additional data is mis-labelled.
+%\end{enumerate}
+%
+%\paragraph{Next}
+%\begin{enumerate}
+%\item Increase validation set to reduce amplitude.
+%\item Resume training.
+%\item Use only first image from multi-queries. 
+%\item Increase validation set to reduce amplitude.
+%\end{enumerate}
+%
+%
+%\clearpage
+%\subsection{Scrape Zones}
+%
+%\begin{figure}
+%        \centering
+%        \begin{subfigure}[b]{0.3\textwidth}
+%                \includegraphics[width=\textwidth]{images/plot_scrape_zone_peel-fine.png}
+%                \caption{Bluebox 4,182, maybe merged classes or under sampling}
+%                \label{fig:gull}
+%        \end{subfigure}%
+%        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+%          %(or a blank line to force the subfigure onto a new line)
+%        \begin{subfigure}[b]{0.3\textwidth}
+%                \includegraphics[width=\textwidth]{images/plot_scrape_zone_peel-fine_04-08-2014.png}
+%                \caption{Bluebox 4,182, maybe merged classes or under sampling}
+%                \label{fig:tiger}
+%        \end{subfigure}
+%        ~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc.
+%          %(or a blank line to force the subfigure onto a new line)
+%        \begin{subfigure}[b]{0.3\textwidth}
+%                \includegraphics[width=\textwidth]{images/plot_more_scrape_zones_none_lr5_sbl.png}
+%                \caption{Bluebox 39,445, bs 128, lr $10^{-5}$, fBP none}
+%                \label{fig:mouse}
+%        \end{subfigure}
+%        \caption{Training Plots of Best Performing Models}\label{fig:animals}
+%    \label{f73}
+%\end{figure}
+%
+%
+%\paragraph{Observations}
+%\begin{enumerate}
+%\item Training stopped early because no more space on disk to save model snapshots.
+%\item Best score on this was attained when merging classes. I think it's in one of the plots here. See plot scrape zone peel - fine png for that.
+%\end{enumerate}
+%
+%\paragraph{Potential explanations}
+%\begin{enumerate}
+%\item \textbf{All multi-query images are used}, so significant chunk of the additional data is mis-labelled. This is true if the first photo in a multi-query is more likely to be the most general one.
+%\item \textbf{Recent data has more outliers}, so validation set is much harder.
+%\item \textbf{A bug occurred in ControlPoint's system or operations}, so significant chunk of the additional data is mis-labelled.
+%\end{enumerate}
+%
+%\paragraph{Next}
+%\begin{enumerate}
+%\item Resume training.
+%\item Use only first image from multi-queries. 
+%\item Increase validation set to reduce amplitude.
+%\end{enumerate}
+%
+%
+%
+%\clearpage
 \section{Final Results}
 
 Best results for each binary classifier are presented on figure ~\ref{f59}, and training plots are on figure ~\ref{f69}. The first three columns of figure ~\ref{f59} are indicators of the difficulty of the task: amount of available Bluebox examples, whether the task requires precise spatial information, whether the downsizing of the images to 256x256 prevented a human expert from carrying out classification. The last two columns are measures success: maximum average per class validation accuracy, and percentage of work that could be automated by setting the threshold so as to obtain 95\% accuracy on true positives. Note that validation accuracies are all in the 88-99\% range, but as is argued at length in this report, this metric is inadequate when there is class imbalance. \\
