@@ -4413,3 +4413,8 @@ alex     26019  2423  0 Oct16 pts/1    00:00:03 texmaker report.tex
 To git@github.com:HoldenCaulfieldRye/pipe-classification.git
    9f2cba6..bcb1975  master -> master
 alex     26019  2423  0 Oct16 pts/1    00:00:03 texmaker report.tex
+[master 52ab1f4] auto-commit progress on report
+ 1 file changed, 5 insertions(+)
+To git@github.com:HoldenCaulfieldRye/pipe-classification.git
+   bcb1975..52ab1f4  master -> master
+alex     26019  2423  0 Oct16 pts/1    00:00:03 texmaker report.tex
