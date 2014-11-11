@@ -4673,3 +4673,10 @@ alex     26019  2423  0 Oct16 pts/1    00:00:06 texmaker report.tex
 To git@github.com:HoldenCaulfieldRye/pipe-classification.git
    b8a6303..93e0ae7  master -> master
 alex     26019  2423  0 Oct16 pts/1    00:00:06 texmaker report.tex
+[master 874f35c] auto-commit progress on report
+ 1 file changed, 5 insertions(+)
+To git@github.com:HoldenCaulfieldRye/pipe-classification.git
+   93e0ae7..874f35c  master -> master
+/home/alex/Git/pipe-classification/reports/report/autocommit.sh: fork: Cannot allocate memory
+/home/alex/Git/pipe-classification/reports/report/autocommit.sh: xmalloc: .././hashlib.c:57: cannot allocate 512 bytes (28672 bytes allocated)
+alex     19042  3329  2 02:47 pts/13   00:00:03 texmaker report.tex
